@@ -66,7 +66,7 @@ export class StudioDynamicPlaceholderPopover extends Component {
              * There is no reason as to why this wouldn't be allowed inside a report as we don't search on those fields,
              * we simply render them.
              */
-            return !["one2many", "boolean", "many2many"].includes(fieldDef.type);
+            return !["one2many", "boolean", "many2many", "properties"].includes(fieldDef.type);
         }
     }
 

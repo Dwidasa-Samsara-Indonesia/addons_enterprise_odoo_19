@@ -10,7 +10,7 @@ import { isHtmlContentSupported } from "@html_editor/core/selection_plugin";
 
 import { StudioDynamicPlaceholderPopover } from "./studio_dynamic_placeholder_popover";
 import { visitNode } from "../../utils";
-import { QWebPlugin, TablePlugin, ToolbarPlugin } from "./editor_plugins";
+import { ColorUIPlugin, QWebPlugin, TablePlugin, ToolbarPlugin } from "./editor_plugins";
 import { QWebTablePlugin } from "./qweb_table_plugin";
 
 /**
@@ -81,6 +81,8 @@ export class ReportEditorPlugin extends Plugin {
                 commandId: "insertDynamicTable",
             }),
         ],
+        selection_placeholder_container_predicates:
+            this.selection_placeholder_container_predicates.bind(this),
     };
 
     CUSTOM_BRANDING_ATTR = [
@@ -100,6 +102,25 @@ export class ReportEditorPlugin extends Plugin {
                 className: "bg-light",
             }
         );
+        this.protectedCracksParents = this.getProtectedLayoutCracksParents();
+    }
+
+    getProtectedLayoutCracksParents() {
+        const parents = new Map();
+        for (const el of this.editable.querySelectorAll(".header,.article,.footer")) {
+            parents.set(el.parentElement, true);
+        }
+        return parents;
+    }
+
+    selection_placeholder_container_predicates(container) {
+        if (this.protectedCracksParents.has(container)) {
+            return false;
+        } else if (
+            ["header", "article", "footer"].some((cls) => container.classList.contains(cls))
+        ) {
+            return true;
+        }
     }
 
     isInsertAvailable(selection) {
@@ -321,9 +342,7 @@ export class ReportEditorPlugin extends Plugin {
             resModel
         );
 
-        let defaultVar = sortedVariables.find((v) => {
-            return ["doc", "o"].includes(v.value);
-        });
+        let defaultVar = sortedVariables.find((v) => ["doc", "o"].includes(v.value));
         defaultVar ??= sortedVariables.find(
             (v) => availableQwebVariables[v.value].model === resModel
         );
@@ -531,13 +550,17 @@ export class ReportEditorPlugin extends Plugin {
     }
 }
 
-const REPORT_EDITOR_PLUGINS_MAP = Object.fromEntries(MAIN_PLUGINS.map((cls) => [cls.id, cls]));
+const EXCLUDED_PLUGIN_IDS = new Set(["powerButtons"]);
+const REPORT_EDITOR_PLUGINS_MAP = Object.fromEntries(
+    MAIN_PLUGINS.filter((cls) => !EXCLUDED_PLUGIN_IDS.has(cls.id)).map((cls) => [cls.id, cls])
+);
 Object.assign(REPORT_EDITOR_PLUGINS_MAP, {
     [QWebPlugin.id]: QWebPlugin,
     [QWebTablePlugin.id]: QWebTablePlugin,
     [TablePlugin.id]: TablePlugin,
     [ToolbarPlugin.id]: ToolbarPlugin,
     [ReportEditorPlugin.id]: ReportEditorPlugin,
+    [ColorUIPlugin.id]: ColorUIPlugin,
 });
 
 export function getReportEditorPlugins() {

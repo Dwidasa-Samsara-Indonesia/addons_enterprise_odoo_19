@@ -9,6 +9,8 @@ $map-marker-color: #2c8397;
     @include media-breakpoint-down(md) {
         height: calc(100% - #{$o-navbar-height});
     }
+    min-height: 50vh;
+
     &--popup-table {
         &-content-name {
             line-height: $map-table-row-padding;
@@ -25,7 +27,6 @@ $map-marker-color: #2c8397;
     &--pin-list {
         &-container {
             padding: 8px $o-horizontal-padding !important;
-            height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
             

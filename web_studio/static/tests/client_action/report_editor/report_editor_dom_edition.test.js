@@ -11,10 +11,17 @@ import {
     queryOne,
 } from "@odoo/hoot-dom";
 import { animationFrame } from "@odoo/hoot-mock";
-import { contains, defineModels, fields, models } from "@web/../tests/web_test_helpers";
+import {
+    contains,
+    defineModels,
+    fields,
+    models,
+    mountWithCleanup,
+} from "@web/../tests/web_test_helpers";
 import { registry } from "@web/core/registry";
 
 import { getReportEditorPlugins } from "@web_studio/client_action/report_editor/report_editor_wysiwyg/editor_plugins/report_editor_plugin";
+import { StudioDynamicPlaceholderPopover } from "@web_studio/client_action/report_editor/report_editor_wysiwyg/editor_plugins/studio_dynamic_placeholder_popover";
 
 describe.current.tags("desktop");
 
@@ -571,4 +578,55 @@ test("edit t-field and back", async () => {
     expect(getContent(el)).toBe(
         `<div oe-context='${oeContext}' ws-view-id="1" class="o-paragraph o_dirty">[]a<span t-field="doc.field" data-oe-expression-readable="human > expr" data-oe-demo="demo brol" data-oe-protected="true" contenteditable="false">demo brol</span></div>`
     );
+});
+
+test("theme colors are not available", async () => {
+    await setupEditor(`<div><span>some [text]</span></div>`, getEditorOptions());
+    await contains(".o-we-toolbar .o-select-color-foreground").click();
+    await contains(".solid-tab").click();
+    expect(".o_colorpicker_section").toHaveInnerHTML("");
+});
+
+test("/fields supported types", async () => {
+    class Dummy0 extends models.Model {}
+    class Dummy extends models.Model {
+        properties = fields.Properties({ definition_record: "", definition_record_field: "" });
+        dummy_name = fields.Text();
+        m2o = fields.Many2one({ relation: Dummy0._name });
+        o2m = fields.One2many({ relation: Dummy0._name });
+        bool = fields.Boolean();
+    }
+    defineModels([Dummy, Dummy0]);
+    await mountWithCleanup(StudioDynamicPlaceholderPopover, {
+        props: {
+            initialQwebVar: "docs",
+            availableQwebVariables: { docs: { model: Dummy._name } },
+            resModel: Dummy._name,
+            validate: () => {},
+            showOnlyX2ManyFields: false,
+            close: () => {},
+        },
+    });
+
+    await contains(".o_model_field_selector_value").click();
+
+    expect(
+        queryAll(".o_model_field_selector_popover_page .o_model_field_selector_popover_item").map(
+            (e) => e.textContent
+        )
+    ).toEqual(["Created on", "Display name", "Dummy name", "Id", "Last Modified on", "M2o"]);
+});
+
+test("prevent selection placeholders in between header article footer", async () => {
+    const { el } = await setupEditor(
+        `
+        <div class="header"><div /></div>
+        <div class="article"><div /></div>
+        <div class="footer"><div /></div>`,
+        getEditorOptions()
+    );
+    expect(getContent(el)).toBe(`
+        <div class="header"><div class="o-paragraph"><br></div></div>
+        <div class="article"><div class="o-paragraph"><br></div></div>
+        <div class="footer"><div class="o-paragraph"><br></div></div>`);
 });

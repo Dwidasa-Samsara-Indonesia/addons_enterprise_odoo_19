@@ -11,7 +11,7 @@
             <t t-if="!env.isSmall">
                 <t t-call="{{ subTemplates.PinListContainer }}"/>
             </t>
-            <div class="h-100 col col-md-10">
+            <div class="col col-md-10">
                 <t t-if="props.model.data.routingError">
                     <t t-call="{{ subTemplates.RountingUnavailable }}"/>
                 </t>

@@ -28,11 +28,11 @@
                 >
                     <div class="d-flex align-items-center gap-1">
                         <span class="o_gantt_picker o_input cursor-pointer px-1" t-ref="start-picker" t-on-click="() => this.startPicker.open()">
-                            <t t-esc="scale.from_date"/>
+                            <t t-esc="getFormattedDate(pickerValues.startDate)"/>
                         </span>
                         <i class="fa fa-long-arrow-right"/>
                         <span class="o_gantt_picker o_input cursor-pointer px-1" t-ref="stop-picker" t-on-click="() => this.stopPicker.open()">
-                            <t t-esc="scale.to_date"/>
+                            <t t-esc="getFormattedDate(pickerValues.stopDate)"/>
                         </span>
                         <button class="btn btn-sm btn-primary ms-1" t-on-click="() => this.onApply()">Apply</button>
                     </div>

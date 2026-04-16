@@ -390,6 +390,7 @@ class WhatsappMessage(models.Model):
         if channel.is_member:
             body = self.body
             message_type = "comment"
+            silent = False
         # diffrent user from any model: warn chat is about to be moved into a new conversation
         else:
             if self.mail_message_id.model and self.mail_message_id.res_id:
@@ -404,9 +405,11 @@ class WhatsappMessage(models.Model):
                   record_link=record_link
             ))
             message_type = "notification"
+            silent = True
         channel.sudo().message_post(
             body=body,
             message_type=message_type,
+            silent=silent,
             subtype_xmlid='mail.mt_comment',
         )
 

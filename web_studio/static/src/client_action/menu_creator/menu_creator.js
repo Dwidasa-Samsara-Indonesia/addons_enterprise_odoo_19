@@ -54,6 +54,7 @@ export class MenuCreator extends Component {
     get multiRecordSelectorProps() {
         return {
             resModel: "ir.model",
+            fieldString: _t("Models"),
             resId: this.state.data.modelId && this.state.data.modelId[0],
             update: (resId) => (this.state.data.modelId = [resId]),
             domain: [

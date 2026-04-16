@@ -324,6 +324,7 @@ class StudioApprovalRule(models.Model):
                 "model": "base.automation",
                 "res_id": base_auto.id,
                 "module": "web_studio",
+                "noupdate": True,
             })
             server_action = self_sudo.env.ref(get_base_action_server_xml_id(model), raise_if_not_found=False)
             if server_action:
@@ -347,6 +348,7 @@ class StudioApprovalRule(models.Model):
                     "model": "ir.actions.server",
                     "res_id": server_action.id,
                     "module": "web_studio",
+                    "noupdate": True,
                 }, {
                     "name": model_data_name,
                     "model": "ir.actions.server",
@@ -1166,7 +1168,7 @@ class StudioApprovalRule(models.Model):
     def _post_create_delete(self, operation=None):
         for model_name, method, action_id in {(r.model_name, r.method, r.action_id) for r in self}:
             if model_name == "account.move" and method == "action_post":
-                if action := self.env.ref("account.action_validate_account_move", raise_if_not_found=False):
+                if action := self.env.ref("account.action_validate_account_moves", raise_if_not_found=False):
                     if operation == "create":
                         action.binding_model_id = False
                     if operation == "unlink" and not self.search_count(self._get_remaining_rules_domain(model_name, method, action_id)):

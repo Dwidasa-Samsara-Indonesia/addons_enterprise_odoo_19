@@ -1,5 +1,6 @@
 import { Component, onWillStart, onWillUpdateProps, useState } from "@odoo/owl";
 import { CheckBox } from "@web/core/checkbox/checkbox";
+import { Domain } from "@web/core/domain";
 import { DomainSelectorDialog } from "@web/core/domain_selector_dialog/domain_selector_dialog";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
@@ -59,16 +60,19 @@ export class ButtonProperties extends Component {
             approval_group_id: {
                 type: "many2one",
                 relation: "res.groups",
+                string: _t("Access Groups"),
                 domain: [["share", "=", false]],
             },
             approver_ids: {
                 type: "many2many",
                 relation: "res.users",
+                string: _t("Users"),
                 related: { activeFields: m2mFieldsToFetch, fields: m2mFieldsToFetch },
             },
             users_to_notify: {
                 type: "many2many",
                 relation: "res.users",
+                string: _t("Users"),
                 related: { activeFields: m2mFieldsToFetch, fields: m2mFieldsToFetch },
             },
         };
@@ -213,7 +217,7 @@ export class ButtonProperties extends Component {
         const domain = rule.domain;
         this.dialog.add(DomainSelectorDialog, {
             resModel: this.env.viewEditorModel.resModel,
-            domain: JSON.stringify(domain || []),
+            domain: domain ? new Domain(domain).toString() : "[]",
             isDebugMode: !!this.env.debug,
             onConfirm: async (domain) => {
                 await this.decoratedOrmWrite("studio.approval.rule", [id], {

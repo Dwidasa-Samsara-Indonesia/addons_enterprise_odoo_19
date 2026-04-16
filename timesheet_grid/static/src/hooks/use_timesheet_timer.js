@@ -113,6 +113,7 @@ export function useTimesheetTimer(isListView = false) {
     const onKeydown = (ev) => {
         if (
             component.props.list.editedRecord ||
+            ev.target.closest(".modal") ||
             ["input", "textarea"].includes(ev.target.tagName.toLowerCase())
         ) {
             return;

@@ -166,6 +166,7 @@ function prepareRegistry(filterRegistry) {
         "ui",
         "effect",
         "web_studio.get_approval_spec_batched",
+        "datetime_picker",
     ];
     Object.keys(serviceRegistry.content).forEach((e) => {
         if (!REQUIRED_SERVICES.includes(e)) {

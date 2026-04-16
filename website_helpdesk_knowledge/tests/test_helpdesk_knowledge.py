@@ -60,4 +60,37 @@ class TestHelpdeskKnowledgeTour(HttpCase, HelpdeskCommon):
             'user_id': forum_user_ids.pop(),
         } for index, article_value in enumerate(knowledge_articles) for _ in range(index+1)])
 
+        self.test_team.write({
+            'use_website_helpdesk_knowledge': True,
+        })
+
         self.assertEqual(self.test_team.website_latest_articles, knowledge_articles[6:1:-1], 'The latest articles should be the ones with the most favourites, in this case the last 5 from last to first')
+
+    def test_helpdesk_knowledge_article_only_list_linked_articles(self):
+        """
+        Test Case:
+        ==========
+        - have multiple published articles
+        - check that only the linked article  or its children are proposed as "latest article" for the team
+        """
+        Article = self.env['knowledge.article']
+        Article.search([]).unlink()
+        help_article, _unused = Article.create([{
+            'name': 'Helpdesk Article',
+            'is_published': True,
+            'body': 'help',
+        }, {
+            'name': 'Other Article',
+            'is_published': True,
+            'body': 'other',
+        }])
+        child_article = Article.create({
+            'name': 'Child Article',
+            'is_published': True,
+            'parent_id': help_article.id,
+        })
+        self.test_team.write({
+            'use_website_helpdesk_knowledge': True,
+            'website_article_id': help_article.id,
+        })
+        self.assertEqual(self.test_team.website_latest_articles, help_article + child_article)

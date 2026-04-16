@@ -18,6 +18,7 @@
       </div>
 
       <t t-set="iframeKey" t-value="reportEditorModel.inPreview ? reportEditorModel.reportHtml : reportEditorModel.reportQweb || ''" />
+      <LocalOverlayContainer localOverlay="overlayRef" identifier="env.localOverlayContainerKey"/>
       <ReportEditorIframe iframeKey="iframeKey" iframeSource="reportEditorModel.inPreview ? reportEditorModel.reportHtml : reportQweb" onIframeLoaded.bind="onIframeLoaded" />
     </div>
 </t>

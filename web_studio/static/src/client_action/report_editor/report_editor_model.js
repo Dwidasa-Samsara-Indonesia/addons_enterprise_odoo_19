@@ -52,6 +52,7 @@ export class ReportEditorModel extends Reactive {
                 name: "group_ids",
                 type: "many2many",
                 relation: "res.groups",
+                string: _t("Access Groups"),
                 relatedFields: {
                     display_name: { type: "char" },
                 },
@@ -60,8 +61,14 @@ export class ReportEditorModel extends Reactive {
                 name: "paperformat_id",
                 type: "many2one",
                 relation: "report.paperformat",
+                string: _t("Paper format"),
             },
-            binding_model_id: { name: "binding_model_id", type: "many2one", relation: "ir.model" },
+            binding_model_id: {
+                name: "binding_model_id",
+                type: "many2one",
+                relation: "ir.model",
+                string: _t("Models"),
+            },
             attachment_use: { name: "attachment_use", type: "boolean" },
             attachment: { name: "attachment", type: "char" },
             // fake field
@@ -354,6 +361,7 @@ export class ReportEditorModel extends Reactive {
             domain: result.domain,
             ids: result.record_ids,
             currentId: result.record_ids[0] || false,
+            display_name: result.name,
         };
     }
 

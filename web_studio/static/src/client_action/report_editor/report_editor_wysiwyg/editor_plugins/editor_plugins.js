@@ -1,5 +1,6 @@
 import { leftPos, rightPos } from "@html_editor/utils/position";
 import { isContentEditable } from "@html_editor/utils/dom_info";
+import { ColorUIPlugin as _ColorUIPlugin } from "@html_editor/main/font/color_ui_plugin";
 import { TablePlugin as _TablePlugin } from "@html_editor/main/table/table_plugin";
 import { QWebPlugin as _QWebPlugin } from "@html_editor/others/qweb_plugin";
 import { closestElement } from "@html_editor/utils/dom_traversal";
@@ -50,6 +51,7 @@ export class QWebPlugin extends _QWebPlugin {
     onClick(ev) {
         if (ev.detail === 1) {
             /* simple click */ if (this.setFullSelection(ev.srcElement)) {
+                this.dependencies.selection.focusEditable();
                 return;
             }
         }
@@ -163,5 +165,13 @@ export class ToolbarPlugin extends _ToolbarPlugin {
                 el.nodeType === Node.ELEMENT_NODE &&
                 QWEB_STYLING.some((att) => el.hasAttribute(att))
         );
+    }
+}
+
+export class ColorUIPlugin extends _ColorUIPlugin {
+    getPropsForColorSelector(...args) {
+        const props = super.getPropsForColorSelector(...args);
+        props.useDefaultThemeColors = false;
+        return props;
     }
 }

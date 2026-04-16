@@ -97,3 +97,41 @@ class HelpDeskPortal(HttpCase):
         ticket = self.env['helpdesk.ticket'].browse(response.json().get('id'))
         self.assertTrue(ticket.exists())
         self.assertEqual(ticket.message_ids[2].subtype_id.name, 'Ticket Created')
+
+    def test_portal_ticket_submission_case_insensitive_email(self):
+        existing_partner = self.env['res.partner'].create({
+            'name': 'Jean Michel',
+            'email': 'jeanmichel@email.com',
+        })
+        partner_count = self.env['res.partner'].search_count([])
+        ticket_data = {
+            'name': "Case insensitive email ticket",
+            'partner_name': "Jean Michel",
+            'partner_email': "Jeanmichel@email.com",  # different case
+            'team_id': self.team_with_sla.id,
+            'description': "Help me",
+        }
+        response = self.url_open('/website/form/helpdesk.ticket', data=ticket_data)
+        ticket = self.env['helpdesk.ticket'].browse(response.json().get('id'))
+        self.assertEqual(ticket.partner_id, existing_partner)
+        self.assertEqual(partner_count, self.env['res.partner'].search_count([]), "No new partner should've been created since an existing one was used for the ticket")
+
+    def test_external_user_not_update_partner_phone(self):
+        """External user should not be able to modify partner's phone"""
+        existing_partner = self.env['res.partner'].create({
+            'name': 'Some contact',
+            'email': 'somecontact@email.com',
+            'phone': '+32485112233',
+        })
+        ticket_data = {
+            'name': "Some ticket",
+            'partner_name': "Jean Michel",
+            'partner_email': "somecontact@email.com",
+            'partner_phone': "123",
+            'team_id': self.team_with_sla.id,
+            'description': "Help me",
+        }
+        response = self.url_open('/website/form/helpdesk.ticket', data=ticket_data)
+        ticket = self.env['helpdesk.ticket'].browse(response.json().get('id'))
+        self.assertTrue(ticket.partner_phone, "A partner phone should be computed for the ticket")
+        self.assertEqual(existing_partner.phone, '+32485112233')

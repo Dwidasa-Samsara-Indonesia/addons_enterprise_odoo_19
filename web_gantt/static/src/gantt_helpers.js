@@ -50,7 +50,7 @@ export function dateAddFixedOffset(date, plusParams) {
 }
 
 export function diffColumn(col1, col2, unit) {
-    return col2.diff(col1, unit).values[`${unit}s`];
+    return Math.round(col2.diff(col1, unit).values[`${unit}s`]);
 }
 
 export function localStartOf(date, unit) {

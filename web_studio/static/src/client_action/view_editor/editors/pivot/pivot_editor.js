@@ -1,6 +1,7 @@
 import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { pivotView } from "@web/views/pivot/pivot_view";
+import { _t } from "@web/core/l10n/translation";
 
 import { Property } from "@web_studio/client_action/view_editor/property/property";
 import { InteractiveEditorSidebar } from "@web_studio/client_action/view_editor/interactive_editor/interactive_editor_sidebar";
@@ -45,6 +46,7 @@ export class PivotEditorSidebar extends Component {
     get multiRecordSelectorProps() {
         return {
             resModel: "ir.model.fields",
+            fieldString: _t("Fields"),
             update: this.changeMeasureFields.bind(this),
             resIds: this.currentMeasureFields,
             domain: [

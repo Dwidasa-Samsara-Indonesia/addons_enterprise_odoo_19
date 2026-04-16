@@ -531,7 +531,7 @@ class WebStudioController(http.Controller):
             context_cleaned = clean_context(context)
             request.update_context(**context_cleaned)
         IrModelFields = request.env['ir.model.fields']
-        view = request.env['ir.ui.view'].browse(view_id)
+        view = request.env['ir.ui.view'].browse(view_id)._get_closest_primary_view()
         operations = operations or []
         for op in operations:
             if op['type'] not in OPERATIONS_WHITELIST:

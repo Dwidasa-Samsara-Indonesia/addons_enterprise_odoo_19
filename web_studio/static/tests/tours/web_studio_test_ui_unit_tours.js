@@ -2207,6 +2207,71 @@ registry.category("web_tour.tours").add("web_studio_test_subview_multiple_occure
     ],
 });
 
+registry.category("web_tour.tours").add("web_studio_test_negated_groups_do_not_interfere_with_invisible", {
+    steps: () => [
+        {
+            trigger: "a[data-menu-xmlid='web_studio.studio_test_partner_menu']",
+            run: "click",
+        },
+        {
+            trigger: ".o_form_view",
+        },
+        {
+            trigger: ".o_web_studio_navbar_item button:enabled",
+            run: "click",
+        },
+        {
+            trigger:
+                ".o_in_studio .o_form_view:has([data-field-name=name]):not(:has([data-field-name=function])",
+        },
+        {
+            trigger: ".o_web_studio_sidebar .o_web_studio_view",
+            run: "click",
+        },
+        {
+            trigger: ".o_web_studio_sidebar input#show_invisible",
+            run: "click",
+        },
+        {
+            content: "Click on the function field",
+            trigger: ".o_web_studio_form_view_editor .o-web-studio-editor--element-clickable:eq(2)",
+            run: "click",
+        },
+        {
+            content: "The invisible checkbox should not be checked",
+            trigger: ".o_web_studio_property #invisible:not(:checked)",
+        },
+        {
+            trigger: ".o_web_studio_attrs[data-type=invisible]",
+            run: "click",
+        },
+        {
+            trigger: ".o_model_field_selector_value",
+            run: "click",
+        },
+        {
+            trigger: ".o_model_field_selector_popover_item_name:contains('Display Name')",
+            run: "click",
+        },
+        {
+            trigger: ".o_tree_editor_condition input.o_input",
+            run: "edit Robert && click body",
+        },
+        {
+            trigger: ".modal-footer .btn-primary",
+            run: "click",
+        },
+        {
+            trigger: ".o_web_studio_property #invisible:indeterminate",
+        },
+        {
+            trigger: ".o_web_studio_leave",
+            run: "click",
+        },
+        ...stepNotInStudio(".o_form_view"),
+    ],
+});
+
 registry.category("web_tour.tours").add("web_studio_test_automagically_added_fields", {
     steps: () => [
         {

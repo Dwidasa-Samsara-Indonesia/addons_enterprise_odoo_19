@@ -77,9 +77,9 @@ class SaleOrder(models.Model):
             return values
         booking_sudo = self.env['calendar.booking'].sudo().browse(calendar_booking_id)
         values['calendar_booking_ids'] = [Command.link(calendar_booking_id)]
-        # Using partner's lang, same as usual behavior in _compute_name.
+        # Using order's lang (via _get_lang()), same as usual behavior in _compute_name.
         # It is linked to partner created / linked on appointment form submission.
-        values['name'] = booking_sudo.with_context(tz=calendar_booking_tz, lang=self.partner_id.lang)._get_description()
+        values['name'] = booking_sudo.with_context(tz=calendar_booking_tz, lang=self._get_lang())._get_description()
         return values
 
     def unlink(self):

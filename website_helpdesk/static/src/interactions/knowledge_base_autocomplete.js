@@ -50,6 +50,9 @@ export class KnowledgeBaseAutocomplete extends Interaction {
                 term: this.inputEl.value,
             });
             this.searchGroupEl.dataset.bsToggle = "dropdown";
+        } else {
+            // Avoid error with empty dropdown
+            this.searchGroupEl.dataset.bsToggle = null;
         }
         if (prevMenuEl) {
             prevMenuEl.remove();

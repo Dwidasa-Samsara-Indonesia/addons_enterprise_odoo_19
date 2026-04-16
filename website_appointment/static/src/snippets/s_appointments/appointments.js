@@ -49,3 +49,9 @@ registry
     .add("website_appointment.appointments", {
         Interaction: AppointmentsListSnippet,
     });
+
+registry
+    .category("public.interactions.preview")
+    .add("website_appointment.appointments", {
+        Interaction: AppointmentsListSnippet,
+    });

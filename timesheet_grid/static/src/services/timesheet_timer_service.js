@@ -151,6 +151,9 @@ export const timesheetTimerService = {
                 return timesheetTimerFields;
             },
             async updateTimerState(timesheet) {
+                if (!timerState.data) {
+                    return;
+                }
                 timerState.data = Object.fromEntries(
                     Object.entries(timerState.data).map(([fName, value]) => {
                         if (!(fName in timesheet._values)) {

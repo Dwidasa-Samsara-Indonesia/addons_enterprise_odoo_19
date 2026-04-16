@@ -173,7 +173,8 @@ class WebsiteForm(form.WebsiteForm):
             if request.env.user.email == email:
                 partner = request.env.user.partner_id
             else:
-                partner = request.env['res.partner'].sudo().search([('email', '=', email)], limit=1)
+                team_company = request.env['helpdesk.team'].sudo().browse(int(request.params.get('team_id'))).company_id.id if request.params.get('team_id') else False
+                partner = request.env['mail.thread'].sudo()._mail_find_partner_from_emails(emails=[email], extra_domain=[('company_id', 'in', [team_company, False])])[0]
             if not partner:
                 partner = request.env['res.partner'].sudo().create({
                     'email': email,
@@ -182,7 +183,9 @@ class WebsiteForm(form.WebsiteForm):
                     'company_name': request.params.get('partner_company_name', False),
                     'lang': request.lang.code,
                 })
-            request.params['partner_id'] = partner.id
+            kwargs.update({'partner_id': partner.id})
+            if not request.env.user._is_internal():
+                kwargs.pop('partner_phone', None)  # disallow partner's phone modification via _inverse_partner_phone
 
         return super()._handle_website_form(model_name, **kwargs)
 

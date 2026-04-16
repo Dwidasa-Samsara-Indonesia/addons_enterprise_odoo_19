@@ -15,7 +15,8 @@ import werkzeug.routing
 
 from collections import defaultdict
 from lxml import etree, html
-from urllib.parse import urlparse
+from markupsafe import Markup
+from urllib.parse import urlparse, urlsplit
 from werkzeug import urls
 
 from odoo import api, fields, models, tools, release
@@ -1343,14 +1344,14 @@ class Website(models.Model):
             if model_name == 'ir.ui.view':
                 dependency_records = _handle_views_and_pages(dependency_records)
             if dependency_records:
-                model_name = self.env['ir.model']._display_name_for([model_name])[0]['display_name']
+                model_display_name = self.env['ir.model']._display_name_for([model_name])[0]['display_name']
                 field_string = Model.fields_get()[field_name]['string']
-                dependencies.setdefault(model_name, [])
-                dependencies[model_name] += [{
+                dependencies.setdefault(model_display_name, [])
+                dependencies[model_display_name] += [{
                     'field_name': field_string,
                     'record_name': rec.display_name,
                     'link': 'website_url' in rec and rec.website_url or f'/odoo/{model_name}/{rec.id}',
-                    'model_name': model_name,
+                    'model_name': model_display_name,
                 } for rec in dependency_records]
 
         return dependencies
@@ -1737,7 +1738,7 @@ class Website(models.Model):
         if len(self.env['website.rewrite'].search(redirects_domain, limit=1)) > 0:
             return True
 
-        router = request.env['ir.http'].routing_map().bind_to_environ(request.httprequest.environ)
+        router = self.env['ir.http'].routing_map().bind('')
         # If there is no rules matching this page, it does not exists
         if not router.test(path_info=page, method='GET'):
             return False
@@ -2366,3 +2367,64 @@ class Website(models.Model):
         """
         self.ensure_one()
         return not self.cookies_bar or self.env['ir.http']._is_allowed_cookie('optional')
+
+    def _control_third_party_trackers_in_html(self, html_content):
+        if not html_content or not self._should_remove_third_party_trackers():
+            return html_content
+        try:
+            root_node = html.fromstring(str(html_content))
+            els = root_node.xpath("//script | //iframe")
+        except (etree.ParserError, etree.XMLSyntaxError):
+            return html_content
+        for el in els:
+            self._remove_third_party_trackers(el.tag, el.attrib, ['domains'])
+        return Markup(html.tostring(root_node, encoding="unicode"))
+
+    def _should_remove_third_party_trackers(self):
+        return (self.cookies_bar
+            and self.block_third_party_domains
+            and not self.env['ir.http']._is_allowed_cookie('optional')
+            and not self.env.user.has_group('website.group_website_restricted_editor'))
+
+    def _remove_third_party_trackers(self, tagName, atts, cookies_watchlist):
+        # If the cookie banner is activated, 3rd-party embedded iframes and
+        # scripts should be controlled. As such:
+        # - 'domains' is a watchlist on the iframe/script's src itself,
+        # - 'classes' is a watchlist on container elements in which iframes
+        # are/could be built on the fly client-side for some reason.
+        watchlist_checker = {
+            'domains': self._is_tag_domains_watchlisted,
+            'classes': self._is_tag_classes_watchlisted,
+        }
+        remove_src = False
+        for watch in cookies_watchlist:
+            if (checker := watchlist_checker.get(watch)) and checker(tagName, atts):
+                remove_src = True
+                break
+        if remove_src:
+            atts['data-need-cookies-approval'] = 'true'
+            # Case class in watchlist: we stop here. The element could
+            # contain an iframe created on the fly client-side. It is marked
+            # now so that the iframe can be marked later when created.
+            # Case iframe/script's src in watchlist: we adapt the src.
+            if atts.get("src"):
+                atts['data-nocookie-src'] = atts['src']
+                atts['src'] = 'about:blank'
+
+    def _is_tag_domains_watchlisted(self, tagName, atts):
+        domains = self.blocked_third_party_domains.split('\n')
+        if tagName in ('iframe', 'script'):
+            src_host = urlsplit((atts.get('src') or '').lower()).hostname
+            if src_host:
+                return any(
+                    # "www.example.com" and "example.com" should block both.
+                    src_host == domain.removeprefix('www.')
+                    # "domain.com" should block "subdomain.domain.com", but
+                    # not "(subdomain.)mydomain.com".
+                    or src_host.endswith('.' + domain.removeprefix('www.'))
+                    for domain in domains
+                )
+        return False
+
+    def _is_tag_classes_watchlisted(self, tagName, atts):
+        return self._get_blocked_iframe_containers_classes().intersection((atts.get('class') or '').split(' '))

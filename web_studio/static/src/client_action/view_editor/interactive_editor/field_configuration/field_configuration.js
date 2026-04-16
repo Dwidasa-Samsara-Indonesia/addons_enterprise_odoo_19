@@ -60,6 +60,7 @@ export class RelationalFieldConfigurator extends Component {
         if (this.props.fieldType === "one2many") {
             return {
                 resModel: "ir.model.fields",
+                fieldString: _t("Fields"),
                 domain: [
                     ["relation", "=", this.props.resModel],
                     ["ttype", "=", "many2one"],
@@ -74,6 +75,7 @@ export class RelationalFieldConfigurator extends Component {
         }
         return {
             resModel: "ir.model",
+            fieldString: _t("Models"),
             domain: [
                 ["transient", "=", false],
                 ["abstract", "=", false],

@@ -66,6 +66,7 @@ class TestRecordTime(TestCommonTimesheet, HttpCase):
             'tz': 'UTC',
             'full_time_required_hours': 8.0,
             'hours_per_day': 8.0,
+            'hours_per_week': 8.0,
             'flexible_hours': True,
         })
 

@@ -11,6 +11,8 @@ import {
     FIELD_TYPE_ATTRIBUTES,
     COMPUTED_DISPLAY_OPTIONS,
 } from "@web_studio/client_action/view_editor/interactive_editor/properties/type_widget_properties/type_specific_and_computed_properties";
+import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { _t } from "@web/core/l10n/translation";
 
 export class TypeWidgetProperties extends Component {
     static template =
@@ -24,6 +26,7 @@ export class TypeWidgetProperties extends Component {
     setup() {
         this.orm = useService("orm");
         this.fieldService = useService("field");
+        this.dialog = useService("dialog");
         this.attributes = useState({
             field: [],
             selection: [],
@@ -70,9 +73,9 @@ export class TypeWidgetProperties extends Component {
             // for each attribute looking for a field, compute the choices to display in the SelectMenu
             await Promise.all(
                 fieldAttributes.map(async (attribute) => {
-                    const choices = await this.getFieldChoices(attribute, fields);
+                    const choices = await this.getFieldChoices(attribute, fields, props.node.field);
                     if (
-                        this.props.node.field?.type === "monetary" &&
+                        props.node.field?.type === "monetary" &&
                         attribute.name === "currency_field"
                     ) {
                         attribute.isRequired = true;
@@ -201,13 +204,13 @@ export class TypeWidgetProperties extends Component {
             .filter((attribute) => attribute !== undefined);
     }
 
-    async getFieldChoices(attribute, fields) {
+    async getFieldChoices(attribute, fields, currentField) {
         let availableFields = fields;
         if (
             attribute.isRelationalField &&
-            this.props.node.field.relation !== this.env.viewEditorModel.resModel
+            currentField.relation !== this.env.viewEditorModel.resModel
         ) {
-            const newFields = await this.fieldService.loadFields(this.props.node.field.relation);
+            const newFields = await this.fieldService.loadFields(currentField.relation);
             availableFields = Object.entries(newFields).map(([key, value]) => {
                 return {
                     ...value,
@@ -379,11 +382,25 @@ export class TypeWidgetProperties extends Component {
             value = ""; // the currency_field arch option will be deleted
         }
 
+        const options = { ...this.props.node.attrs.options };
+        const isDateRange = this.props.node.attrs.widget === "daterange";
+        if (
+            isDateRange &&
+            value &&
+            ((name === "start_date_field" && options["end_date_field"]) ||
+                (name === "end_date_field" && options["start_date_field"]))
+        ) {
+            return this.dialog.add(AlertDialog, {
+                body: _t(
+                    "You can't select the 'Start date field' and 'End date field' at the same time"
+                ),
+            });
+        }
+
         const currentProperty = this.getOptionObj(name);
         if (currentProperty.isAttribute) {
             return this.props.onChangeAttribute(value, name);
         }
-        const options = { ...this.props.node.attrs.options };
         if (value || currentProperty.type === "boolean") {
             if (currentProperty.type === "digits") {
                 // The digits options is composed of two integers.

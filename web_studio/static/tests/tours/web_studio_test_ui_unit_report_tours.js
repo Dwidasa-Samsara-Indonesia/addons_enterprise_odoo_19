@@ -135,7 +135,8 @@ registry
     .add("web_studio.test_disable_fields_commands_when_unavailable", {
         steps: () => [
             {
-                trigger: ".o-web-studio-report-editor-wysiwyg :iframe .odoo-editor-editable p",
+                trigger:
+                    ".o-web-studio-report-editor-wysiwyg :iframe .odoo-editor-editable p.some_p",
                 async run(helpers) {
                     const el = this.anchor;
                     openEditorPowerBox(el);

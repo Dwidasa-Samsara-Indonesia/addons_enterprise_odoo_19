@@ -714,7 +714,7 @@ class TestReportEditorUIUnit(HttpCase):
                     <t t-call="web.internal_layout">
                         <t t-set='lines' t-value='docs'/>
                         <t t-esc="lines.mapped('name')"/>
-                        <p><br/></p>
+                        <p class="some_p"><br/></p>
                     </t>
                 </t>
             </t>
@@ -855,7 +855,7 @@ class TestReportEditorUIUnit(HttpCase):
             "field_description": "New File filename",
             "name": "x_new_file_filename",
             "ttype": "char",
-            "model": "res.partner",
+            "model": "res.company",
             "model_id": self.env["ir.model"]._get('res.company').id,
             "state": "manual",
         })
@@ -1513,3 +1513,39 @@ class TestReportEditorUIUnit(HttpCase):
             </t>
             """)
         self.assertXMLEqual(studio_arch.strip(), "<data/>")
+
+    def test_xml_resource_with_empty_arch_view(self):
+        self.authenticate('admin', 'admin')
+        inherit = self.env["ir.ui.view"].create({
+            "inherit_id": self.main_view.id,
+            "type": "qweb",
+            "arch": "<data/>"
+        })
+
+        # Save inherited report with empty arch ''
+        save_report = self.url_open(
+            "/web_studio/save_report",
+            data=json.dumps({
+                "params": {
+                    "report_id": self.report.id,
+                    "context": {'allowed_company_ids': self.env.company.ids},
+                    "xml_verbatim": {str(inherit.id): ''}
+                }
+            }),
+            headers={"Content-Type": "application/json"}
+        )
+        self.assertEqual(save_report.status_code, 200)
+
+        xml_edit_resurces = self.url_open(
+            "/web_studio/get_xml_editor_resources",
+            data=json.dumps({
+                "params": {"key": self.main_view.key}
+            }),
+            headers={"Content-Type": "application/json"}
+        )
+        self.assertEqual(xml_edit_resurces.status_code, 200)
+
+        views = xml_edit_resurces.json()['result']['views']
+        view_ids = [view['id'] for view in views]
+
+        self.assertIn(inherit.id, view_ids)

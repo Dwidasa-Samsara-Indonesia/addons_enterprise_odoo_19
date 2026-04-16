@@ -795,7 +795,7 @@ class WebStudioReportController(main.WebStudioController):
     @http.route("/web_studio/reset_report_archs", type="jsonrpc", auth="user")
     def reset_report_archs(self, report_id, include_web_layout=True):
         report = request.env["ir.actions.report"].browse(report_id)
-        View = request.env["ir.ui.view"].with_context(no_primary_children=True, __views_get_original_hierarchy=[], no_cow=True, active_test=True)
+        View = request.env["ir.ui.view"].with_context(no_primary_children=True, __views_get_original_hierarchy=[], no_cow=True, active_test=True, is_customization_code=False)
         views = View.get_related_views(report.report_name, bundles=False)
         if not include_web_layout:
             views = views.filtered(lambda v: not v.key.startswith("web.") or "layout" not in v.key)

@@ -119,7 +119,7 @@ class IrUiView(models.Model):
             group_definitions = self.env['res.groups']._get_group_definitions()
 
             node_groups = {}
-            set_invisible_nodes = set()
+            set_invisible_nodes = dict()
 
             for node in tree.xpath('//*[@groups]'):
                 if node.get('groups'):
@@ -136,7 +136,7 @@ class IrUiView(models.Model):
                 if not has_access(node.attrib.pop('__groups_key__')):
                     # Make invisible nodes for which the user is not part of the group,
                     # and remove the `groups` from the node before calling super so the nodes are not deleted.
-                    set_invisible_nodes.add(node)
+                    set_invisible_nodes[node] = node.get("invisible") or node.get("column_invisible") or "False"
 
                 if node.tag == 'field' and 'model_groups' in node.attrib and not has_access(node.attrib.pop('model_groups')):
                     # fields with `groups` in the Python model cannot be read at all by users not part of the group.
@@ -150,13 +150,14 @@ class IrUiView(models.Model):
                 parent = node.getparent()
                 return parent is not None and parent.tag == "list"
 
-            for node in set_invisible_nodes:
+            for node, invisible_value in set_invisible_nodes.items():
                 if is_in_list(node):
                     column_invisible = 'True'
                     node.set('column_invisible', column_invisible)
                 else:
                     invisible = 'True'
                     node.set('invisible', invisible)
+                node.set('actual_invisible', invisible_value)
 
             model = tree.get('model_access_rights')
             res = super()._postprocess_access_rights(tree)

@@ -12,7 +12,7 @@ class SendcloudLocationsRequest(SendCloud):
         if carrier == 'sendcloud':
             carrier = ''
         params = {"country": partner_address.country_code,
-                  "address": f'{partner_address.zip} {partner_address.city}',
+                  "address": f'{partner_address.zip} {partner_address.city or ""}',
                   "radius": distance,
                   "carrier": carrier}
         return self._send_request('service-points', params=params, route=LOCATION_URL)

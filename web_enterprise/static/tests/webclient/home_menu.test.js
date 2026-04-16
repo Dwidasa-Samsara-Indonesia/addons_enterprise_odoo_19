@@ -1,27 +1,45 @@
-import { describe, expect, test } from "@odoo/hoot";
-import { click, drag, keyDown, pointerDown, press, queryFirst } from "@odoo/hoot-dom";
-import { advanceTime, animationFrame, mockDate, mockTouch } from "@odoo/hoot-mock";
+import {
+    advanceTime,
+    animationFrame,
+    click,
+    describe,
+    drag,
+    expect,
+    mockDate,
+    mockTouch,
+    pointerDown,
+    press,
+    queryFirst,
+    test,
+} from "@odoo/hoot";
 import {
     defineMenus,
     getService,
     mockService,
-    mountWithCleanup,
     mountWebClient,
+    mountWithCleanup,
     onRpc,
     patchWithCleanup,
 } from "@web/../tests/web_test_helpers";
 
 import { session } from "@web/session";
-import { HomeMenu } from "@web_enterprise/webclient/home_menu/home_menu";
 import { reorderApps } from "@web/webclient/menus/menu_helpers";
+import { HomeMenu } from "@web_enterprise/webclient/home_menu/home_menu";
 import { WebClientEnterprise } from "@web_enterprise/webclient/webclient";
 
-async function walkOn(path) {
-    for (const step of path) {
-        await keyDown(`${step.shiftKey ? "shift+" : ""}${step.key}`);
+/**
+ * @param {Iterable<{
+ *  index?: number;
+ *  key: import("@odoo/hoot").KeyStrokes;
+ *  shiftKey?: boolean;
+ * }>} steps
+ */
+async function walkOn(steps) {
+    for (const step of steps) {
+        await press(step.key);
         await animationFrame();
-        expect(`.o_menuitem:eq(${step.index})`).toHaveClass("o_focused", {
-            message: `step ${step.number}`,
+        expect(`.o_menuitem:eq(${step.index || 0})`).toHaveClass("o_focused", {
+            message: `step ${JSON.stringify(step)}`,
         });
     }
 }
@@ -73,7 +91,7 @@ test("ESC Support", async () => {
             expect.step(`toggle ${show}`);
         },
     });
-    await keyDown("escape");
+    await press("escape");
     expect.verifySteps(["toggle false"]);
 });
 
@@ -121,83 +139,75 @@ test("Navigation (only apps, only one line)", async () => {
     expect.assertions(8);
 
     const homeMenuProps = {
-        apps: new Array(3).fill().map((x, i) => {
-            return {
-                actionID: 120 + i,
-                href: "/odoo/act" + (120 + i),
-                appID: i + 1,
-                id: i + 1,
-                label: `0${i}`,
-                parents: "",
-                webIcon: false,
-                xmlid: `app.${i}`,
-            };
-        }),
+        apps: new Array(3).fill().map((x, i) => ({
+            actionID: 120 + i,
+            href: "/odoo/act" + (120 + i),
+            appID: i + 1,
+            id: i + 1,
+            label: `0${i}`,
+            parents: "",
+            webIcon: false,
+            xmlid: `app.${i}`,
+        })),
         reorderApps: (order) => reorderApps(homeMenuProps.apps, order),
     };
     await mountWithCleanup(HomeMenu, {
         props: homeMenuProps,
     });
 
-    const path = [
-        { number: 0, key: "ArrowDown", index: 0 },
-        { number: 1, key: "ArrowRight", index: 1 },
-        { number: 2, key: "Tab", index: 2 },
-        { number: 3, key: "ArrowRight", index: 0 },
-        { number: 4, key: "Tab", shiftKey: true, index: 2 },
-        { number: 5, key: "ArrowLeft", index: 1 },
-        { number: 6, key: "ArrowDown", index: 1 },
-        { number: 7, key: "ArrowUp", index: 1 },
-    ];
-
-    await walkOn(path);
+    await walkOn([
+        { key: "ArrowDown", index: 0 },
+        { key: "ArrowRight", index: 1 },
+        { key: "Tab", index: 2 },
+        { key: "ArrowRight", index: 0 },
+        { key: ["Shift", "Tab"], index: 2 },
+        { key: "ArrowLeft", index: 1 },
+        { key: "ArrowDown", index: 1 },
+        { key: "ArrowUp", index: 1 },
+    ]);
 });
 
 test("Navigation (only apps, two lines, one incomplete)", async () => {
     expect.assertions(19);
 
     const homeMenuProps = {
-        apps: new Array(8).fill().map((x, i) => {
-            return {
-                actionID: 121,
-                href: "/odoo/action-121",
-                appID: i + 1,
-                id: i + 1,
-                label: `0${i}`,
-                parents: "",
-                webIcon: false,
-                xmlid: `app.${i}`,
-            };
-        }),
+        apps: new Array(8).fill().map((x, i) => ({
+            actionID: 121,
+            href: "/odoo/action-121",
+            appID: i + 1,
+            id: i + 1,
+            label: `0${i}`,
+            parents: "",
+            webIcon: false,
+            xmlid: `app.${i}`,
+        })),
         reorderApps: (order) => reorderApps(homeMenuProps.apps, order),
     };
     await mountWithCleanup(HomeMenu, {
         props: homeMenuProps,
     });
 
-    const path = [
-        { number: 1, key: "ArrowRight", index: 0 },
-        { number: 2, key: "ArrowUp", index: 6 },
-        { number: 3, key: "ArrowUp", index: 0 },
-        { number: 4, key: "ArrowDown", index: 6 },
-        { number: 5, key: "ArrowDown", index: 0 },
-        { number: 6, key: "ArrowRight", index: 1 },
-        { number: 7, key: "ArrowRight", index: 2 },
-        { number: 8, key: "ArrowUp", index: 7 },
-        { number: 9, key: "ArrowUp", index: 1 },
-        { number: 10, key: "ArrowRight", index: 2 },
-        { number: 11, key: "ArrowDown", index: 7 },
-        { number: 12, key: "ArrowDown", index: 1 },
-        { number: 13, key: "ArrowUp", index: 7 },
-        { number: 14, key: "ArrowRight", index: 6 },
-        { number: 15, key: "ArrowLeft", index: 7 },
-        { number: 16, key: "ArrowUp", index: 1 },
-        { number: 17, key: "ArrowLeft", index: 0 },
-        { number: 18, key: "ArrowLeft", index: 5 },
-        { number: 19, key: "ArrowRight", index: 0 },
-    ];
-
-    await walkOn(path);
+    await walkOn([
+        { key: "ArrowRight", index: 0 },
+        { key: "ArrowUp", index: 6 },
+        { key: "ArrowUp", index: 0 },
+        { key: "ArrowDown", index: 6 },
+        { key: "ArrowDown", index: 0 },
+        { key: "ArrowRight", index: 1 },
+        { key: "ArrowRight", index: 2 },
+        { key: "ArrowUp", index: 7 },
+        { key: "ArrowUp", index: 1 },
+        { key: "ArrowRight", index: 2 },
+        { key: "ArrowDown", index: 7 },
+        { key: "ArrowDown", index: 1 },
+        { key: "ArrowUp", index: 7 },
+        { key: "ArrowRight", index: 6 },
+        { key: "ArrowLeft", index: 7 },
+        { key: "ArrowUp", index: 1 },
+        { key: "ArrowLeft", index: 0 },
+        { key: "ArrowLeft", index: 5 },
+        { key: "ArrowRight", index: 0 },
+    ]);
 });
 
 test("Navigation and open an app in the home menu", async () => {
@@ -212,20 +222,18 @@ test("Navigation and open an app in the home menu", async () => {
         },
     });
     // No app selected so nothing to open
-    await keyDown("enter");
+    await press("enter");
     expect.verifySteps([]);
 
-    const path = [
-        { number: 0, key: "ArrowDown", index: 0 },
-        { number: 1, key: "ArrowRight", index: 1 },
-        { number: 2, key: "Tab", index: 2 },
-        { number: 3, key: "shift+Tab", index: 1 },
-    ];
-
-    await walkOn(path);
+    await walkOn([
+        { key: "ArrowDown", index: 0 },
+        { key: "ArrowRight", index: 1 },
+        { key: "Tab", index: 2 },
+        { key: "shift+Tab", index: 1 },
+    ]);
 
     // open first app (Calendar)
-    await keyDown("enter");
+    await press("enter");
 
     expect.verifySteps(["selectMenu 2"]);
 });
@@ -290,16 +298,18 @@ test("The HomeMenu input takes the focus when you press a key only if no other e
     queryFirst(".o_home_menu").appendChild(otherInput);
     await pointerDown(otherInput);
     await pointerDown(document.body);
-    expect(".o_search_hidden").not.toBeFocused();
+    expect(document.body).toBeFocused();
+    expect(".o_command_palette_search input").not.toHaveCount();
 
-    await keyDown("a");
+    await press("a");
     await animationFrame();
-    expect(".o_search_hidden").not.toBeFocused();
+    expect(document.body).toBeFocused();
+    expect(".o_command_palette_search input").not.toHaveCount();
 
     getService("ui").deactivateElement(activeElement);
-    await keyDown("a");
+    await press("a");
     await animationFrame();
-    expect(".o_search_hidden").toBeFocused();
+    expect(".o_command_palette_search input").toBeFocused();
 });
 
 test("The HomeMenu input does not take the focus if it is already on another input", async () => {
@@ -311,14 +321,15 @@ test("The HomeMenu input does not take the focus if it is already on another inp
     const otherInput = document.createElement("input");
     queryFirst(".o_home_menu").appendChild(otherInput);
     await pointerDown(otherInput);
-    await keyDown("a");
+    await press("a");
     await animationFrame();
-    expect(".o_search_hidden").not.toBeFocused();
+    expect(otherInput).toBeFocused();
+    expect(".o_command_palette_search input").not.toHaveCount();
 
     otherInput.remove();
-    await keyDown("a");
+    await press("a");
     await animationFrame();
-    expect(".o_search_hidden").toBeFocused();
+    expect(".o_command_palette_search input").toBeFocused();
 });
 
 test("The HomeMenu input does not take the focus if it is already on a textarea", async () => {
@@ -330,14 +341,15 @@ test("The HomeMenu input does not take the focus if it is already on a textarea"
     const textarea = document.createElement("textarea");
     queryFirst(".o_home_menu").appendChild(textarea);
     await pointerDown(textarea);
-    await keyDown("a");
+    await press("a");
     await animationFrame();
-    expect(".o_search_hidden").not.toBeFocused();
+    expect(textarea).toBeFocused();
+    expect(".o_command_palette_search input").not.toHaveCount();
 
     textarea.remove();
-    await keyDown("a");
+    await press("a");
     await animationFrame();
-    expect(".o_search_hidden").toBeFocused();
+    expect(".o_command_palette_search input").toBeFocused();
 });
 
 test("home search input shouldn't be focused on touch devices", async () => {

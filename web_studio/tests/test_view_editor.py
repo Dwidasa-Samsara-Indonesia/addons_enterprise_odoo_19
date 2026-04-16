@@ -690,17 +690,30 @@ class TestEditView(TestStudioController):
             """
         })
         op = {
-            'type': 'attributes',
+            'type': 'add',
+            'node': {
+                'tag': 'field',
+                'attrs': {
+                    'name': 'name'
+                }
+            },
             'target': {
-                'tag': 'list',
+                'tag': 'field',
                 'attrs': {},
                 'xpath_info': [
                     {'tag': 'list', 'indice': 1},
+                    {'tag': 'field', 'indice': 2}
                 ],
             },
-            'position': 'attributes',
-            'new_attrs': {'create': True}
+            'position': 'after',
         }
         res = self.edit_view(inherit, "", [op])
         studio_view_id = self.env["ir.ui.view"].browse(res["studio_view_id"])
         self.assertEqual(studio_view_id.inherit_id, main)
+        self.assertViewArchEqual(studio_view_id.arch, """
+        <data>
+          <xpath expr="/list//field[@name='function']" position="after">
+            <field name="name"/>
+          </xpath>
+        </data>
+        """)

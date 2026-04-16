@@ -24,6 +24,8 @@ class Timeshift extends models.Model {
 
     start = fields.Datetime();
     stop = fields.Datetime();
+    int1 = fields.Integer({ string: "integer 1" });
+    int2 = fields.Integer();
 
     _records = [
         {
@@ -94,4 +96,29 @@ test("only show allowed scales as default scale", async () => {
     await contains(".o_web_studio_navbar_item").click();
     await contains(".o_web_studio_property_default_range .dropdown-toggle").click();
     expect(queryAllTexts(".o_select_menu_menu .dropdown-item")).toEqual(["Day", "Month"]);
+});
+
+test("all int fields up for color selection", async () => {
+    await mountWithCleanup(WebClientEnterprise);
+    await animationFrame();
+
+    await getService("action").doAction({
+        name: "Timeshift",
+        res_model: "timeshift",
+        type: "ir.actions.act_window",
+        view_mode: "gantt",
+        views: [
+            [2, "gantt"],
+            [false, "search"],
+        ],
+        group_ids: [],
+    });
+
+    await contains(".o_web_studio_navbar_item").click();
+    await contains(".o_web_studio_property_color .dropdown-toggle").click();
+    expect(queryAllTexts(".o_select_menu_menu .dropdown-item")).toEqual([
+        "Id",
+        "Int2",
+        "integer 1",
+    ]);
 });

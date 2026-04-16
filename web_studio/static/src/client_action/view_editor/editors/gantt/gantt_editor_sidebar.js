@@ -26,10 +26,13 @@ export class GanttEditorSidebar extends Component {
     }
 
     get colorChoices() {
-        return this.modelParams.decorationFields.map((value) => ({
-            label: this.modelParams.fields[value].string,
-            value,
-        }));
+        const intFields = Object.entries(this.viewEditorModel.fields)
+            .filter(([name, f]) => f.type === "integer")
+            .map(([name, f]) => ({
+                label: f.string || name,
+                value: name,
+            }));
+        return intFields.toSorted((a, b) => a.label.localeCompare(b.label));
     }
 
     get currentDayPrecision() {

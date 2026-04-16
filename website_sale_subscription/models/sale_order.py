@@ -47,7 +47,3 @@ class SaleOrder(models.Model):
             not self.plan_id
             and any(line.product_id.recurring_invoice for line in self.order_line)
         )
-
-    def _needs_customer_address(self):
-        super_res = super()._needs_customer_address()
-        return super_res or self.plan_id

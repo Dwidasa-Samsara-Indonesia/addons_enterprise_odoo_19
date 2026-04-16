@@ -1407,3 +1407,31 @@ test("aggregation with half precision", async () => {
         },
     ]);
 });
+
+test("today button always navigates to today, even when on yesterday", async () => {
+    await mountGanttView({
+        resModel: "tasks",
+        arch: `<gantt date_start="start" date_stop="stop"/>`,
+        context: {
+            default_start_date: "2018-12-20",
+            default_stop_date: "2018-12-22",
+        }
+    });
+
+    // await selectCustomRange({ startDate: "2018-12-19", stopDate: "2018-12-20" });
+    // Navigate to yesterday
+    await click(SELECTORS.previousButton);
+    await ganttControlsChanges();
+    let { range } = getGridContent();
+    expect(range).toBe("12/17/2018 -> 12/19/2018", {
+        message: "today (2018-12-20) is not part of the current range",
+    });
+
+    await focusToday();
+    await ganttControlsChanges();
+
+    ({ range } = getGridContent());
+    expect(range).toBe("12/19/2018 -> 12/20/2018", {
+        message: "today (2018-12-20) is included in the current range",
+    });
+});

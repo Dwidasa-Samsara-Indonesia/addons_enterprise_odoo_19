@@ -8,32 +8,33 @@ from odoo.addons.hr_timesheet.tests.test_timesheet import TestCommonTimesheet
 
 
 class TestTimesheetMerge(TestCommonTimesheet):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         yesterday = fields.Date.today() - timedelta(days=1)
-        self.timesheet1 = self.env['account.analytic.line'].with_user(self.user_employee).create({
+        cls.timesheet1 = cls.env['account.analytic.line'].with_user(cls.user_employee).create({
             'name': "my timesheet 1",
-            'project_id': self.project_customer.id,
-            'task_id': self.task1.id,
+            'project_id': cls.project_customer.id,
+            'task_id': cls.task1.id,
             'date': yesterday,
             'unit_amount': 1.0,
         })
-        self.timesheet2 = self.env['account.analytic.line'].with_user(self.user_employee).create({
+        cls.timesheet2 = cls.env['account.analytic.line'].with_user(cls.user_employee).create({
             'name': "my timesheet 2",
-            'project_id': self.project_customer.id,
-            'task_id': self.task2.id,
+            'project_id': cls.project_customer.id,
+            'task_id': cls.task2.id,
             'date': yesterday,
             'unit_amount': 2.0,
         })
-        self.timesheet3 = self.env['account.analytic.line'].with_user(self.user_employee).create({
+        cls.timesheet3 = cls.env['account.analytic.line'].with_user(cls.user_employee).create({
             'name': "my timesheet 2",
-            'project_id': self.project_customer.id,
-            'task_id': self.task2.id,
+            'project_id': cls.project_customer.id,
+            'task_id': cls.task2.id,
             'date': yesterday,
             'unit_amount': 3.0,
         })
-        self.timesheet3.with_user(self.user_manager).action_validate_timesheet()
+        cls.timesheet3.with_user(cls.user_manager).action_validate_timesheet()
 
     def test_action_merge_validated(self):
         action = (self.timesheet2 + self.timesheet3).action_merge_timesheets()

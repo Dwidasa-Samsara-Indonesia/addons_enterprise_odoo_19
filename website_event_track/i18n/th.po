@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 18:37+0000\n"
+"POT-Creation-Date: 2026-04-10 18:40+0000\n"
 "PO-Revision-Date: 2025-09-16 22:54+0000\n"
 "Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
 "Language-Team: Thai <https://translate.odoo.com/projects/odoo-19/"
@@ -75,13 +75,6 @@ msgstr "10 ไอเดียเฟอร์นิเจอร์ DIY สำห�
 #: model:event.track,name:website_event_track.event_7_track_18
 msgid "6 Woodworking tips and tricks for beginners"
 msgstr "6 เคล็ดลับและเทคนิคงานไม้สำหรับผู้เริ่มต้น"
-
-#. module: website_event_track
-#: model_terms:ir.ui.view,arch_db:website_event_track.pwa_offline
-msgid ""
-"<a t-att-href=\"url_for('/event')\" class=\"btn btn-primary btn-block "
-"o_translate_inline\">Home page</a>"
-msgstr ""
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_template_new
@@ -1411,11 +1404,8 @@ msgstr "กิจกรรมในอนาคต"
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
-msgid ""
-"Get prepared and\n"
-"                    <a class=\"o_translate_inline\" t-att-href=\"'/event/%s/"
-"track' % (slug(event))\">register to your favorites talks now.</a>"
-msgstr ""
+msgid "Get prepared and"
+msgstr "เตรียมตัวให้พร้อมและ"
 
 #. module: website_event_track
 #: model_terms:event.track,description:website_event_track.event_7_track_18
@@ -1466,6 +1456,11 @@ msgstr "สูง"
 #: model:ir.model.fields.selection,name:website_event_track.selection__event_track__priority__3
 msgid "Highest"
 msgstr "สูงสุด"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.pwa_offline
+msgid "Home page"
+msgstr "โฮมเพจ"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track21
@@ -3124,6 +3119,12 @@ msgid "minutes after Track start"
 msgstr "นาทีหลังจากเริ่มแทร็ก"
 
 #. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
+#: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
+msgid "register to your favorites talks now."
+msgstr "ลงทะเบียนในรายการโปรดของคุณตอนนี้"
+
+#. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_content
 msgid "starts in"
 msgstr "เริ่มใน"
@@ -3132,6 +3133,12 @@ msgstr "เริ่มใน"
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_content
 msgid "starts on"
 msgstr "เริ่มบน"
+
+#. module: website_event_track
+#. odoo-javascript
+#: code:addons/website_event_track/static/src/xml/website_event_pwa.xml:0
+msgid "x"
+msgstr ""
 
 #~ msgid "&amp;bull;"
 #~ msgstr "&amp;bull;"
@@ -3217,14 +3224,8 @@ msgstr "เริ่มบน"
 #~ msgid "Filter Tracks..."
 #~ msgstr "ตัวกรองแทร็ก..."
 
-#~ msgid "Get prepared and"
-#~ msgstr "เตรียมตัวให้พร้อมและ"
-
 #~ msgid "Group By"
 #~ msgstr "กลุ่มโดย"
-
-#~ msgid "Home page"
-#~ msgstr "โฮมเพจ"
 
 #~ msgid "No results found"
 #~ msgstr "ไม่พบผลลัพธ์"
@@ -3288,9 +3289,6 @@ msgstr "เริ่มบน"
 #~ "                            น่าสนใจและอาจเป็นประโยชน์ต่อ\n"
 #~ "                           ผู้ชม ก็จะได้รับการพิจารณาสำหรับ\n"
 #~ "                            การรวมไว้ในโปรแกรม"
-
-#~ msgid "register to your favorites talks now."
-#~ msgstr "ลงทะเบียนในรายการโปรดของคุณตอนนี้"
 
 #~ msgid "search."
 #~ msgstr "ค้นหา"

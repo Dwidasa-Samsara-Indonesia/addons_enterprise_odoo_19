@@ -213,6 +213,16 @@ test("404 page in translate mode", async () => {
     expect(".o_popover .o_edit_website_dropdown_item:contains('Create page')").toHaveCount(1);
 });
 
+test("color span is inserted in a.btn (and s_badge) with a background to show the translation state", async () => {
+    await setupSidebarBuilderForTranslation({
+        websiteContent: getTranslateEditable({
+            inWrap: `<a class="btn">Hello</a> <span class="s_badge">Badge</span>`,
+        }),
+    });
+    expect(":iframe a .o_translation_state_inner_span").toHaveCount(1);
+    expect(":iframe .s_badge .o_translation_state_inner_span").toHaveCount(1);
+});
+
 test("translate attribute", async () => {
     const resultSave = [];
     onRpc("/website/field/translation/update", async (data) => {
@@ -456,6 +466,54 @@ test("'Translate to' button should be visible in translate mode", async () => {
     await contains("button[data-action-id='translateWebpageAI']").click();
     await animationFrame();
     expect(":iframe .o_editable").toHaveText("Bonjour");
+});
+
+test("'Translate to' works with partial request failure", async () => {
+    const originalText = "a".repeat(2000);
+    await setupSidebarBuilderForTranslation({
+        websiteContent:
+            getTranslateEditable({ inWrap: `${originalText}1`, sourceSha: "1" }) +
+            getTranslateEditable({ inWrap: `${originalText}2`, sourceSha: "2" }) +
+            getTranslateEditable({ inWrap: `${originalText}3`, sourceSha: "3" }) +
+            getTranslateEditable({ inWrap: `${originalText}4`, sourceSha: "4" }) +
+            getTranslateEditable({ inWrap: `${originalText}5`, sourceSha: "5" }) +
+            getTranslateEditable({ inWrap: `${originalText}6`, sourceSha: "6" }),
+    });
+    onRpc("/html_editor/generate_text", async (data) => {
+        const { params } = await data.json();
+        const prompt = JSON.parse(params.prompt)[0];
+        const number = prompt.text.slice(-1);
+        if (["2", "4", "5"].includes(number)) {
+            throw new Error("ConnectionLostError");
+        }
+        return JSON.stringify([
+            {
+                id: prompt.id,
+                text: `${prompt.text}french`,
+            },
+        ]);
+    });
+    await contains(".modal .btn:contains(Ok, never show me this again)").click();
+    expectElementCount("button[data-action-id='translateWebpageAI']", 1);
+    patchWithCleanup(console, {
+        warn: (msg, error) => expect.step(msg),
+    });
+    await contains("button[data-action-id='translateWebpageAI']").click();
+    await animationFrame();
+    expect(":iframe .container:nth-child(1) .o_editable").toHaveText(`${originalText}1french`);
+    expect(":iframe .container:nth-child(2) .o_editable").toHaveText(`${originalText}2`);
+    expect(":iframe .container:nth-child(3) .o_editable").toHaveText(`${originalText}3french`);
+    expect(":iframe .container:nth-child(4) .o_editable").toHaveText(`${originalText}4`);
+    expect(":iframe .container:nth-child(5) .o_editable").toHaveText(`${originalText}5`);
+    expect(":iframe .container:nth-child(6) .o_editable").toHaveText(`${originalText}6french`);
+    expect(".o_notification_content").toHaveText(
+        "Translation Error. 3 text blocks were skipped during translation. Please try again."
+    );
+    expect.verifySteps([
+        "Translation chunck failed:",
+        "Translation chunck failed:",
+        "Translation chunck failed:",
+    ]);
 });
 
 test("trying to translate an element inside a .o_not_editable should add a notification", async () => {

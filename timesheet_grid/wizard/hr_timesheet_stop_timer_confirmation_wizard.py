@@ -26,8 +26,11 @@ class HrTimesheetStopTimerConfirmationWizard(models.Model):
         self.timesheet_id.action_timer_unlink()
 
     def action_save_timesheet(self):
-        self.timesheet_id.write({
+        self.timesheet_id.write(self._get_timesheet_vals())
+        self.timesheet_id.action_timer_unlink()
+
+    def _get_timesheet_vals(self):
+        return {
             'name': self.timesheet_name,
             'unit_amount': self.time_spent,
-        })
-        self.timesheet_id.action_timer_unlink()
+        }

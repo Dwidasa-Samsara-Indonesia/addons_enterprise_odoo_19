@@ -35,7 +35,7 @@ class AccountAnalyticLine(models.Model):
 
     @api.constrains('unit_amount')
     def _check_timesheet_unit_amount(self):
-        if any(t.unit_amount > 999999 for t in self if t.project_id):
+        if any(abs(t.unit_amount) > 999999 for t in self if t.project_id):
             raise UserError(_("You can't encode numbers with more than six digits."))
 
     def _is_readonly(self):
@@ -359,7 +359,7 @@ class AccountAnalyticLine(models.Model):
         non_validated_timesheets = timesheets.filtered(lambda timesheet: not timesheet.validated)
         if len(non_validated_timesheets) > 1 or (len(timesheets) == 1 and timesheets.validated):
             timesheets[0].copy({
-                'name': '/',
+                'name': self.env.context.get('default_name', '/'),
                 measure_field_name: value,
             })
         elif len(non_validated_timesheets) == 1:
@@ -379,7 +379,7 @@ class AccountAnalyticLine(models.Model):
                 raise UserError(_("You cannot adjust the time of the timesheet for a project with timesheets disabled."))
 
             self.create({
-                'name': '/',
+                'name': self.env.context.get('default_name', '/'),
                 'project_id': project_id,
                 field_name: field_value,
                 measure_field_name: value,

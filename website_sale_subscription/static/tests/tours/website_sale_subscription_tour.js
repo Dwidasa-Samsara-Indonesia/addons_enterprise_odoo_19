@@ -57,5 +57,9 @@ registry.category("web_tour.tours").add('shop_buy_subscription_product', {
             expectUnloadPage: true,
         },
         wsTourUtils.goToCart({quantity: 2}),
+        {
+            content: 'Order summary',
+            trigger: 'h4:contains("Order summary")',
+        },
     ]
 });

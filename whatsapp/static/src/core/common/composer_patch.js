@@ -118,16 +118,16 @@ patch(Composer.prototype, {
     },
 
     processFileUploading(ev, superCb) {
-        if (
-            this.thread?.channel_type === "whatsapp" &&
-            this.props.composer.attachments.length > 0
-        ) {
-            ev.preventDefault();
-            this.env.services.notification.add(
-                _t("Only one attachment is allowed for each message"),
-                { type: "warning" }
-            );
-            return;
+        if (this.thread?.channel_type === "whatsapp") {
+            const files = ev.dataTransfer?.files || ev.clipboardData?.files || [];
+            if (this.props.composer.attachments.length > 0 || files.length > 1) {
+                ev.preventDefault();
+                this.env.services.notification.add(
+                    _t("Only one attachment is allowed for each message"),
+                    { type: "warning" }
+                );
+                return;
+            }
         }
         superCb(ev);
     },

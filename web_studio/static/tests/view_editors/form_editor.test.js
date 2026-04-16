@@ -468,6 +468,37 @@ test("integer field should come with 0 as default value", async () => {
     expect.verifySteps(["edit_view"]);
 });
 
+test("daterange field should validate {start,end}_date_field", async () => {
+    Partner._fields.datetime_start = fields.Datetime({ string: "Start date" });
+    Partner._fields.datetime_end = fields.Datetime({ string: "End date" });
+    Partner._fields.datetime_other = fields.Datetime({ string: "Other date" });
+
+    const { env } = await mountViewEditor({
+        type: "form",
+        resModel: "partner",
+        arch: `
+            <form>
+                <group>
+                    <field name="datetime_start" widget="daterange" options="{'end_date_field': 'datetime_end'}"/>
+                </group>
+            </form>`,
+    });
+
+    patchWithCleanup(env.services.dialog, {
+        add(component, props) {
+            expect(props.body).toBe(
+                "You can't select the 'Start date field' and 'End date field' at the same time"
+            );
+            expect.step("error-dialog");
+        },
+    });
+
+    await contains(".o_form_label").click();
+    await contains(".o_web_studio_property_start_date_field .o_select_menu_toggler").click();
+    await contains(".o_popover .o_select_menu_item:contains('Other date')").click();
+    expect.verifySteps(["error-dialog"]);
+});
+
 test("supports multiple occurences of field", async () => {
     await mountViewEditor({
         type: "form",
@@ -4416,4 +4447,83 @@ test("New button is active after adding it", async () => {
     expect(".o_web_studio_view_renderer button:contains(New button from studio)").toHaveClass(
         "o-web-studio-editor--element-clicked"
     );
+});
+
+test("correctly serialize booleans in approval domain", async () => {
+    expect.assertions(1);
+
+    onRpc("studio.approval.rule", "create_rule", () => ({}));
+    onRpc("studio.approval.rule", "write", ({ args }) => {
+        expect(args[1].domain).toBe(`[("id", "=", False)]`);
+        return {};
+    });
+
+    onRpc("/web/domain/validate", () => true);
+
+    await mountViewEditor({
+        type: "form",
+        resModel: "coucou",
+        arch: `<form>
+            <header>
+                <button name="0" string="Test" type="action" class="o_test_action_button"/>
+            </header>
+            <sheet>
+                <field name="m2o"/>
+            </sheet>
+        </form>`,
+    });
+
+    onRpc("studio.approval.rule", "get_approval_spec", () => {
+        const rules = {
+            1: {
+                action_id: "0",
+                approval_group_id: [1, "User types / Internal User"],
+                approver_ids: [],
+                can_validate: true,
+                domain: [["id", "=", false]],
+                exclusive_user: false,
+                id: 1,
+                message: false,
+                method: false,
+                name: false,
+                notification_order: "1",
+                users_to_notify: [],
+            },
+        };
+        return {
+            all_rules: rules,
+            coucou: [[[false, false, "0"], { rules: [1], entries: [] }]],
+        };
+    });
+
+    await contains(".o_form_statusbar button[name='0']").click();
+    await contains(".o_approval_domain").click();
+    await contains(".o_dialog .btn-primary").click();
+});
+
+test("sidebar updates choices correctly when selecting m2m_tags", async () => {
+    await mountViewEditor({
+        type: "form",
+        resModel: "product",
+        arch: `<form>
+            <sheet>
+            <group>
+                <group>
+                    <field name="display_name" />
+                    <field name="m2m_employees" widget="many2many_tags"/>
+                </group>
+            </group>
+            </sheet>
+        </form>`,
+    });
+    await contains(".o_web_studio_view_renderer [data-field-name='display_name']").click();
+    await waitFor(".o_web_studio_sidebar input[name='string']:value(Display Name)");
+
+    await contains(".o_web_studio_view_renderer [data-field-name='m2m_employees']").click();
+    await waitFor(".o_web_studio_sidebar input[name='string']:value(Partners)");
+
+    await contains(".o_web_studio_sidebar input[name='placeholder_field']").click();
+    await waitFor(".o_select_menu_menu");
+
+    expect(".o_select_menu_menu").toHaveText("Display name")
 });

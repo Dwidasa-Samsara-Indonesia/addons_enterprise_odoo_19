@@ -8,6 +8,17 @@ export const patchListRendererStudio = () => ({
     setup() {
         super.setup(...arguments);
         this.studioService = useService("studio");
+        let opening = false;
+        this.openStudio = async () => {
+            if (!opening) {
+                opening = true;
+                try {
+                    await this.studioService.open();
+                } finally {
+                    opening = false;
+                }
+            }
+        };
     },
     /**
      * This function opens the studio mode with current view
@@ -15,7 +26,7 @@ export const patchListRendererStudio = () => ({
      * @override
      */
     onSelectedAddCustomField() {
-        this.studioService.open();
+        this.openStudio();
     },
 
     isStudioEditable() {

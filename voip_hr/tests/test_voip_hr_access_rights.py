@@ -7,18 +7,18 @@ from odoo.addons.voip.tests.test_voip_access_rights import TestVoipAccessRights
 
 @tagged("-at_install", "post_install")
 class TestVoipHrAccessRights(TestVoipAccessRights):
-    def test_hr_manager_access_on_subordinates_calls(self):
+    def test_manager_access_on_subordinates_calls(self):
         """
         HR managers have read access to voip.call records of their subordinates.
         """
-        manager = new_test_user(self.env, login="manager", groups="hr.group_hr_user")
+        manager = new_test_user(self.env, login="manager")
         manager_employee = self.env["hr.employee"].create(
             {
                 "name": "Manager",
                 "user_id": manager.id,
             },
         )
-        employee_user = new_test_user(self.env, login="employee", groups="hr.group_hr_user")
+        employee_user = new_test_user(self.env, login="employee")
         self.env["hr.employee"].create(
             {
                 "name": "Employee",
@@ -41,7 +41,7 @@ class TestVoipHrAccessRights(TestVoipAccessRights):
         Department managers have read access to voip.call records of their subordinates.
         """
         department = self.env["hr.department"].create({"name": "Hogwarts School of Witchcraft and Wizardry"})
-        head_of_department = new_test_user(self.env, login="antony", groups="hr.group_hr_user")
+        head_of_department = new_test_user(self.env, login="antony")
         head_of_department_employee = self.env["hr.employee"].create(
             {
                 "name": "Antony",
@@ -50,7 +50,7 @@ class TestVoipHrAccessRights(TestVoipAccessRights):
             },
         )
         department.manager_id = head_of_department_employee.id
-        employee_user = new_test_user(self.env, login="employee", groups="hr.group_hr_user")
+        employee_user = new_test_user(self.env, login="employee")
         self.env["hr.employee"].create(
             {
                 "name": "Harry Potter",
@@ -73,7 +73,7 @@ class TestVoipHrAccessRights(TestVoipAccessRights):
         Department managers do not have any access to voip.call records for users who are not their subordinates.
         """
         department = self.env["hr.department"].create({"name": "HR", "manager_id": False})
-        department_manager = new_test_user(self.env, login="manager", groups="hr.group_hr_user")
+        department_manager = new_test_user(self.env, login="manager")
         department_manager_employee = self.env["hr.employee"].create(
             {
                 "name": "Department Manager",
@@ -83,7 +83,7 @@ class TestVoipHrAccessRights(TestVoipAccessRights):
         )
         department.manager_id = department_manager_employee.id
         # Create a user and employee NOT in the manager's department
-        outsider_user = new_test_user(self.env, login="outsider", groups="hr.group_hr_user")
+        outsider_user = new_test_user(self.env, login="outsider")
         self.env["hr.employee"].create({"name": "Outsider", "user_id": outsider_user.id})
 
         with self.assertRaises(AccessError):
@@ -101,18 +101,18 @@ class TestVoipHrAccessRights(TestVoipAccessRights):
         HR managers also have read access to voip.call records of their indirect subordinates.
         """
         # Create a simple hierarchy: Root Manager -> Manager -> Subordinate
-        root_manager = new_test_user(self.env, login="root_manager", groups="hr.group_hr_user")
+        root_manager = new_test_user(self.env, login="root_manager")
         root_manager_employee = self.env["hr.employee"].create({
             "name": "Root Manager",
             "user_id": root_manager.id,
         })
-        manager = new_test_user(self.env, login="manager", groups="hr.group_hr_user")
+        manager = new_test_user(self.env, login="manager")
         manager_employee = self.env["hr.employee"].create({
             "name": "Manager",
             "user_id": manager.id,
             "parent_id": root_manager_employee.id,
         })
-        surbodinate = new_test_user(self.env, login="employee", groups="hr.group_hr_user")
+        surbodinate = new_test_user(self.env, login="employee")
         self.env["hr.employee"].create({
             "name": "Employee",
             "user_id": surbodinate.id,

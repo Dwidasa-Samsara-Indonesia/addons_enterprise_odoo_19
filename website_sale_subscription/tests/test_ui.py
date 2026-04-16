@@ -84,3 +84,12 @@ class TestWebsiteSaleSubscriptionUi(HttpCase, WebsiteSaleSubscriptionCommon):
         })
 
         self.start_tour(test_product.website_url, 'sale_subscription_add_to_cart', login='admin')
+
+    def test_website_sale_subscription_product_without_recurring_plan(self):
+        self.product.write({
+            'website_published': True,
+            'recurring_invoice': True,
+            'pricelist_rule_ids': None,
+        })
+        response = self.url_open(self.product.website_url)
+        self.assertIn('This product has no valid combination.', response.text)

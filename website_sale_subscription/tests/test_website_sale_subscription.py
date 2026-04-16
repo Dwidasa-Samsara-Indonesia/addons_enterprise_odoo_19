@@ -1,11 +1,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+from datetime import datetime
 
 from odoo.fields import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
-from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.addons.website_sale.controllers.cart import Cart
+from odoo.addons.website_sale_subscription.controllers.cart import Cart
 from odoo.addons.website_sale.tests.common import MockRequest
 
 from .common import WebsiteSaleSubscriptionCommon
@@ -203,21 +203,6 @@ class TestWebsiteSaleSubscription(WebsiteSaleSubscriptionCommon):
             so._cart_add(product_id=self.sub_product.product_variant_ids.id, quantity=1)
             self.assertEqual(so.plan_id, self.plan_week)
 
-    def test_subscription_requires_partner_country(self):
-        """ Test that a subscription product in the cart requires the partner to set its country."""
-        self.partner.country_id = False
-        with MockRequest(self.env, website=self.website) as request:
-            request.website._create_cart()
-            Cart().add_to_cart(
-                product_template_id=self.sub_product.id,
-                product_id=self.sub_product.product_variant_id.id,
-                quantity=1.0,
-            )
-            mandatory_fields = CustomerPortal()._get_mandatory_delivery_address_fields(
-                self.partner.country_id
-            )
-            self.assertTrue('country_id' in mandatory_fields)
-
     def test_combination_info_skips_archived_plan(self):
         # Archive the weekly subscription plan so the product has no active plan
         self.plan_week.action_archive()
@@ -283,3 +268,76 @@ class TestWebsiteSaleSubscription(WebsiteSaleSubscriptionCommon):
             cart.order_line.tax_ids, tax_0,
             "Tax should have been updated when reopening a subscription",
         )
+
+    def test_zero_price_subscription_with_pricelist(self):
+        """
+        Enable the `prevent_zero_price_sale` setting.
+        Create a subscription product with a price of 0, except for a specific pricelist where it is
+        priced at 20.0.
+        Add the subscription product to the cart from the website as a user using that pricelist
+        The product should be added and the sale order's monthly recurring revenue should be 20.0.
+        """
+        self.website.prevent_zero_price_sale = True
+        subscription = (
+            self.env["product.product"]
+            .with_context(website_id=self.website.id)
+            .create(
+                {
+                    "name": "subscription",
+                    "recurring_invoice": True,
+                    "lst_price": 0,
+                    "is_published": True,
+                    "subscription_rule_ids": [
+                        Command.create(
+                            {
+                                "plan_id": self.plan_month.id,
+                                "fixed_price": 20,
+                                "pricelist_id": self.pricelist.id,
+                            }
+                        )
+                    ],
+                }
+            )
+        )
+
+        website = self.website.with_user(self.public_user)
+        with MockRequest(website.env, website=website) as request:
+            Cart().add_to_cart(
+                product_template_id=subscription.product_tmpl_id.id,
+                product_id=subscription.id,
+                quantity=1,
+                plan_id=self.plan_month.id,
+            )
+            sale_order = request.cart
+        self.assertEqual(len(sale_order.order_line), 1)
+        self.assertEqual(sale_order.order_line.product_id, subscription)
+        self.assertEqual(sale_order.recurring_monthly, 20.0)
+
+    def test_discount_percentage_when_no_unit_base_plan(self):
+        """
+        Test discounted price value when not having a unit base plan.
+        (e.g. the minimum plan is 3 months)
+        """
+
+        subscription_product = self._create_product(
+            type='service',
+            subscription_rule_ids=[
+                Command.create({'plan_id': self.plan_3_month.id, 'fixed_price': 30}),
+                Command.create({'plan_id': self.plan_6_month.id, 'fixed_price': 55}),
+                Command.create({'plan_id': self.plan_year.id, 'fixed_price': 100}),
+            ],
+        )
+        with MockRequest(self.env, website=self.website):
+            info = subscription_product.product_tmpl_id._get_additionnal_combination_info(
+                subscription_product,
+                quantity=1,
+                date=datetime(2000, 1, 1),
+                uom=self.uom_unit,
+                website=self.website
+            )
+        pricing_data = info['pricings']
+        self.assertEqual(pricing_data[0]['discounted_price'], 0, "The base plan should not be discounted")
+        self.assertEqual(pricing_data[1]['discounted_price'], 8, "It should be the result of comparing this plan's unit price with\n"
+                                                                 "10 -the base plan unit price- not 30 -the fixed price of the base plan")
+        self.assertEqual(pricing_data[2]['discounted_price'], 16, "It should be the result of comparing this plan's unit price with\n"
+                                                                 "10 -the base plan unit price- not 30 -the fixed price of the base plan")

@@ -18,14 +18,15 @@ class TestAnalyticLine(TestCommonTimesheet):
                 'unit_amount': 1000000,
             },
         ])
-        with self.assertRaisesRegex(UserError, "You can't encode numbers with more than six digits."):
-            AccountAnalyticLine.create({
-                'project_id': self.project_customer.id,
-                'employee_id': self.empl_employee.id,
-                'unit_amount': 1000000,
-            })
-        with self.assertRaisesRegex(UserError, "You can't encode numbers with more than six digits."):
-            timesheet.unit_amount = 1000000
+        for value in (1000000, -1000000):
+            with self.assertRaisesRegex(UserError, "You can't encode numbers with more than six digits."):
+                AccountAnalyticLine.create({
+                    'project_id': self.project_customer.id,
+                    'employee_id': self.empl_employee.id,
+                    'unit_amount': value,
+                })
+            with self.assertRaisesRegex(UserError, "You can't encode numbers with more than six digits."):
+                timesheet.unit_amount = value
 
         self.assertEqual(analytic_line.unit_amount, 1000000, "The user can enter a number with more than 6 digits for the analytic line which is not a timesheet.")
         analytic_line.unit_amount = 1000005

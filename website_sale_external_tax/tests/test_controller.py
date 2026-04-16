@@ -57,3 +57,24 @@ class TestWebsiteSaleExternalTaxCalculation(PaymentHttpCommon, WebsiteSaleCommon
                 res = controller._order_summary_values(order)
                 self.assertIn('external_tax_error', res)
                 self.assertEqual(res['external_tax_error'], "Simulated external tax failure")
+
+    def test_external_taxes_apply_on_express_checkout(self):
+        """Ensure external taxes are computed during express checkout route call."""
+        published_product = self.env['product.product'].search(
+            [('website_published', '=', True)],
+            limit=1,
+        )
+        self.make_jsonrpc_request("/shop/cart/add", {
+            'product_template_id': published_product.product_tmpl_id.id,
+            'product_id': published_product.id,
+            'quantity': 1,
+        })
+
+        with patch.object(
+            self.env.registry['sale.order'],
+            '_get_and_set_external_taxes_on_eligible_records',
+        ) as mock:
+            self.make_jsonrpc_request(
+                WebsiteSaleDelivery._express_checkout_delivery_route + '/compute_taxes', {}
+            )
+            self.assertEqual(mock.call_count, 1)

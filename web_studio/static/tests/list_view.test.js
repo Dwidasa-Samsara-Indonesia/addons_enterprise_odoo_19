@@ -18,6 +18,9 @@ test("add custom field button with other optional columns", async () => {
     expect(".o_list_view").toHaveCount(1);
     expect(".o_list_view .o_optional_columns_dropdown_toggle").toHaveCount(1);
 
+    // Click twice on the dropdown item that opens studio
+    // it should not crash
+    contains(".o-dropdown--menu .dropdown-item-studio").click();
     await contains(".o_optional_columns_dropdown_toggle").click();
     expect(".o-dropdown--menu .dropdown-item").toHaveCount(2);
     expect(".o-dropdown--menu .dropdown-item-studio").toHaveCount(1);

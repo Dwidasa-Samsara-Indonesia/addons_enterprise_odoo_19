@@ -1,5 +1,6 @@
 import { mapView } from "@web_map/map_view/map_view";
 import { registry } from "@web/core/registry";
+import { _t } from "@web/core/l10n/translation";
 
 import { Component, useState } from "@odoo/owl";
 import { InteractiveEditorSidebar } from "@web_studio/client_action/view_editor/interactive_editor/interactive_editor_sidebar";
@@ -36,6 +37,7 @@ export class MapEditorSidebar extends Component {
     get multiRecordSelectorProps() {
         return {
             resModel: "ir.model.fields",
+            fieldString: _t("Fields"),
             update: this.changeAdditionalFields.bind(this),
             resIds: this.currentAdditionalFieldsIds,
             domain: [

@@ -15,7 +15,7 @@ from odoo.addons.website_sale.tests.common import MockRequest, WebsiteSaleCommon
 
 
 @contextmanager
-def _mock_call():
+def _mock_call(specific_check=None):
     def _mock_request(*args, **kwargs):
         method = kwargs.get('method') or args[0]
         url = kwargs.get('url') or args[1]
@@ -48,6 +48,8 @@ def _mock_call():
 
         for endpoint, content in responses[method].items():
             if endpoint in url:
+                if specific_check:
+                    specific_check(endpoint, kwargs)
                 response = requests.Response()
                 response._content = json.dumps(content).encode()
                 response.status_code = 200
@@ -155,6 +157,14 @@ class TestWebsiteDeliverySendcloudLocationsController(WebsiteSaleCommon):
         })
 
     def test_controller_pickup_location(self):
+        # Ensure the address sent to sendcloud is correct when there is no city (only zip)
+        self.eu_partner.city = False
+
+        def address_format_check(endpoint, kwargs):
+            if endpoint == 'service-points':
+                params = kwargs.get('params', {})
+                self.assertEqual(params.get('address', ''), '1367 ')
+
         order = self.env['sale.order'].create({
             'carrier_id': self.sendcloud.id,
             'partner_id': self.env.user.partner_id.id,
@@ -162,7 +172,7 @@ class TestWebsiteDeliverySendcloudLocationsController(WebsiteSaleCommon):
             'transaction_ids': [self.transaction.id],
             'website_id': self.website.id,
         })
-        with MockRequest(self.env, website=self.website, sale_order_id=order.id), _mock_call():
+        with MockRequest(self.env, website=self.website, sale_order_id=order.id), _mock_call(address_format_check):
             response = Delivery().website_sale_get_pickup_locations()
             self.assertNotEqual({},
                 Delivery().website_sale_set_pickup_location(

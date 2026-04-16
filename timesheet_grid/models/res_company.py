@@ -161,14 +161,10 @@ class ResCompany(models.Model):
             if company.timesheet_mail_interval == 'months':
                 date_start = (date.today() - timedelta(days=company.timesheet_mail_delay + 1)) + relativedelta(day=1)
                 date_stop = date_start + relativedelta(months=1, days=-1)
-
-                action_xmlid = 'timesheet_grid.action_timesheet_previous_month'
             else:
                 week_start = int(get_lang(self.env).week_start)
                 date_start = date.today() - timedelta(days=company.timesheet_mail_delay + 1) + relativedelta(weekday=rrule.weekday(week_start - 1)(-1))
                 date_stop = date_start + timedelta(days=6)
-
-                action_xmlid = 'timesheet_grid.action_timesheet_previous_week'
 
             date_start = fields.Date.to_string(date_start)
             date_stop = fields.Date.to_string(date_stop)
@@ -194,7 +190,7 @@ class ResCompany(models.Model):
                     self._cron_timesheet_send_reminder(
                         self.env['hr.employee'].search([('company_id', '=', company.id), ('user_id', '=', user.id)]),
                         'timesheet_grid.mail_template_timesheet_reminder',
-                        action_xmlid,
+                        action_xmlid='timesheet_grid.timesheet_grid_to_validate_action',
                         additionnal_values=values)
 
         # compute the next execution date

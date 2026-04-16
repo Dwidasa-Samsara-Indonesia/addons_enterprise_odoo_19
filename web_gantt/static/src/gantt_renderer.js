@@ -61,7 +61,7 @@ import { GanttTimeDisplayBadge } from "./gantt_time_display_badge";
 
 const viewRegistry = registry.category("views");
 
-const { DateTime, Interval } = luxon;
+const { DateTime } = luxon;
 
 /**
  * @typedef {`__connector__${number | "new"}`} ConnectorId
@@ -360,6 +360,9 @@ export class GanttRenderer extends Component {
             }),
             showHandles: (pillEl) => {
                 const pill = this.pills[pillEl.dataset.pillId];
+                if (!pill) {
+                    return;
+                }
                 const hideHandles = this.connectorDragState.dragging;
                 return {
                     start: !pill.disableStartResize && !hideHandles,
@@ -1527,31 +1530,39 @@ export class GanttRenderer extends Component {
                     {
                         name: "Undo",
                         icon: "fa-undo",
-                        onClick: async () => {
-                            // Undo the last drag & drop action
-                            const result = await this.model.orm.call(
-                                this.model.metaData.resModel,
-                                "gantt_undo_drag_drop",
-                                [resId, dragAction, fallbackData]
-                            );
-                            this.closeNotificationFn?.();
-                            if (result) {
-                                this.closeNotificationFn = this.notificationService.add(
-                                    markup`<i class="fa fa-fw fa-check"></i><span class="ms-1">${messages.undo}</span>`,
-                                    { type: "success" }
-                                );
-                            } else {
-                                this.closeNotificationFn = this.notificationService.add(
-                                    markup`<i class="fa fa-fw fa-check"></i><span class="ms-1">${messages.failure}</span>`,
-                                    { type: "danger" }
-                                );
-                            }
-                            this.model.fetchData();
-                        },
+                        onClick: async () => await this.undoDragDropAction(resId, dragAction, fallbackData, messages)
                     },
                 ],
             }
         );
+    }
+
+    /**
+     * @param {number} resId
+     * @param {string} dragAction
+     * @param {Object} fallbackData
+     * @param {Object} messages
+     */
+    async undoDragDropAction(resId, dragAction, fallbackData, messages) {
+        // Undo the last drag & drop action
+        const result = await this.model.orm.call(
+            this.model.metaData.resModel,
+            "gantt_undo_drag_drop",
+            [resId, dragAction, fallbackData]
+        );
+        this.closeNotificationFn?.();
+        if (result) {
+            this.closeNotificationFn = this.notificationService.add(
+                markup`<i class="fa fa-fw fa-check"></i><span class="ms-1">${messages.undo}</span>`,
+                { type: "success" }
+            );
+        } else {
+            this.closeNotificationFn = this.notificationService.add(
+                markup`<i class="fa fa-fw fa-check"></i><span class="ms-1">${messages.failure}</span>`,
+                { type: "danger" }
+            );
+        }
+        this.model.fetchData();
     }
 
     /**
@@ -1644,7 +1655,7 @@ export class GanttRenderer extends Component {
         const diff = focusedDate.diff(globalStart);
         const totalDiff = globalStop.diff(globalStart);
         const factor = diff / totalDiff;
-        if (!focusGroup && (factor < 0 || 1 < factor)) {
+        if (!focusGroup && (factor < 0 || 1 <= factor)) {
             return false;
         }
         const rtlFactor = rtl() ? -1 : 1;
@@ -1861,15 +1872,7 @@ export class GanttRenderer extends Component {
         const stopDate = record[dateStopField];
         const yearlessDateFormat = omit(DateTime.DATE_SHORT, "year");
 
-        const daysDelta = Interval.fromDateTimes(
-            startDate.startOf("day"),
-            stopDate.startOf("day")
-        ).toDuration(["day", "hour"]).days;
-        const spanAccrossDays =
-            daysDelta &&
-            (daysDelta > 2 ||
-                (startDate.endOf("day").diff(startDate, "hours").toObject().hours >= 3 &&
-                    stopDate.diff(stopDate.startOf("day"), "hours").toObject().hours >= 3));
+        const spanAccrossDays = stopDate.startOf("day") > startDate.startOf("day");
 
         /** @type {string[]} */
         const labels = [];

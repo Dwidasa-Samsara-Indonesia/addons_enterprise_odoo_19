@@ -23,7 +23,7 @@ class Webhook(http.Controller):
         for entry in data['entry']:
             account_id = entry['id']
             account = request.env['whatsapp.account'].sudo().search(
-                [('account_uid', '=', account_id)])
+                [('account_uid', '=', account_id)], limit=1)
             if not self._check_signature(account):
                 raise Forbidden()
 

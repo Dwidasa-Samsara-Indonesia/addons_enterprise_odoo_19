@@ -152,7 +152,7 @@ class StudioExportSerializer:
         if record_data.studio:
             context.update({'studio': True})
         if record._name in ('product.template', 'product.template.attribute.line'):
-            context.update({'create_product_product': False})
+            context.update({'create_product_product': False, 'update_product_template_attribute_values': False})
         if record._name == 'worksheet.template':
             context.update({'worksheet_no_generation': True})
         if exportid.startswith('website.configurator_'):
@@ -194,8 +194,10 @@ class StudioExportSerializer:
         if self.has_website and field.name == 'key' and record._name == 'ir.ui.view' and record.website_id:
             value = f"studio_customization.{value}"
 
-        if field.type in ('boolean', 'properties_definition', 'properties'):
+        if field.type in ('boolean', 'properties_definition'):
             return E.field(name=field.name, eval=str(value))
+        elif field.type == 'properties':
+            return E.field(name=field.name, eval=str(field.convert_to_export(value, record)))
         elif field.type == 'many2one_reference':
             reference_model = record[field.model_field]
             reference_value = reference_model and record.env[reference_model].browse(value) or False

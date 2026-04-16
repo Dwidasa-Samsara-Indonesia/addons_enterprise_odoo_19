@@ -23,6 +23,7 @@ export class ReportRecordNavigation extends Component {
         const currentId = this.reportEditorModel.reportEnv.currentId;
         return {
             resModel: this.reportEditorModel.reportResModel,
+            fieldString: this.reportEditorModel.reportEnv.display_name,
             update: (resId) => {
                 this.reportEditorModel.loadReportHtml({ resId });
             },

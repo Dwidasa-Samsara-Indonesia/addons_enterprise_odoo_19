@@ -132,7 +132,7 @@ class ProductTemplate(models.Model):
 
         # Compute base period price and max price for discount calculation
         base_plan_pricings = pricings.filtered(lambda pr: pr.plan_id == base_plan)
-        base_period_price = min(base_plan_pricings.mapped('fixed_price'), default=0.0)
+        base_period_price = min(base_plan_pricings.mapped('fixed_price'), default=0.0) / base_plan.billing_period_value
         max_price = max(pricings.mapped('fixed_price'), default=0.0)
 
         currency = website.currency_id
@@ -232,6 +232,7 @@ class ProductTemplate(models.Model):
             'allow_one_time_sale': not request.cart.plan_id and self.allow_one_time_sale,
             'allow_recurring': not request.cart._has_one_time_sale(),
             'product_type': product_or_template.type,  # Used to change pricing text in template based on product type
+            "temporal_unit_display": chosen_pricing.plan_id.sudo().billing_period_display_sentence if chosen_pricing else "",
         }
 
     # Search bar
@@ -280,7 +281,7 @@ class ProductTemplate(models.Model):
             )
 
             # taxes application
-            product_taxes = template.sudo().taxes_id.filtered(lambda t: t.company_id == t.env.company)
+            product_taxes = template.sudo().taxes_id._filter_taxes_by_company(self.env.company)
             if product_taxes:
                 taxes = fiscal_position_sudo.map_tax(product_taxes)
                 unit_price = self.env['product.template']._apply_taxes_to_price(
@@ -295,6 +296,14 @@ class ProductTemplate(models.Model):
             })
 
         return prices
+
+    def _get_contextual_pricelist(self):
+        pricelist = super()._get_contextual_pricelist()
+        if plan_id := self.env.context.get('plan_id'):
+            # This pricelist is used in _get_contextual_price to compute
+            # the price of a product according to the plan_id selected
+            return pricelist.with_context(plan_id=plan_id)
+        return pricelist
 
     def _website_show_quick_add(self):
         self.ensure_one()

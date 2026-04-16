@@ -47,7 +47,7 @@ const actionFieldsGet = {
     id: { type: "integer" },
     name: { type: "char" },
     help: { type: "text" },
-    group_ids: { type: "many2many", relation: "res.groups", string: "Groups" },
+    group_ids: { type: "many2many", relation: "res.groups", string: _t("Access Groups") },
 };
 
 function getActionActiveFields() {

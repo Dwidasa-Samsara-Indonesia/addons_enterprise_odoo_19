@@ -7,13 +7,15 @@ class WebStudioController(http.Controller):
 
     @http.route("/web_studio/get_xml_editor_resources", type="jsonrpc", auth="user")
     def get_xml_editor_resources(self, key):
-        View = request.env["ir.ui.view"].with_context(no_primary_children=True, __views_get_original_hierarchy=[], active_test=True)
+        View = request.env["ir.ui.view"].with_context(no_primary_children=True, __views_get_original_hierarchy=[], active_test=True, is_customization_code=False)
         views = View.get_related_views(key)
         views = views.read(['name', 'id', 'key', 'xml_id', 'arch', 'active', 'inherit_id'])
 
         main_view = None
         for view in views:
             arch = view["arch"]
+            if not arch or not arch.strip():
+                continue
             root = etree.fromstring(arch)
 
             called_xml_ids = []

@@ -110,6 +110,52 @@ test("Can not add attachment after drag dropping an attachment", async () => {
     await contains(".o-mail-AttachmentContainer:not(.o-isUploading):contains(text.txt) .fa-check");
 });
 
+test("Can not add multiple attachments simultaneously via drag and drop", async () => {
+    const pyEnv = await startServer();
+    const channelId = pyEnv["discuss.channel"].create({
+        name: "WhatsApp 1",
+        channel_type: "whatsapp",
+    });
+    await start();
+    await openDiscuss(channelId);
+    const [file1, file2, file3] = [
+        new File(["hello"], "text1.txt", { type: "text/plain" }),
+        new File(["world"], "text2.txt", { type: "text/plain" }),
+        new File(["single"], "single.txt", { type: "text/plain" }),
+    ];
+    await dragenterFiles(".o-mail-Composer-input", [file1, file2]);
+    await dropFiles(".o-Dropzone", [file1, file2]);
+    await contains(".o_notification", { text: "Only one attachment is allowed for each message" });
+    await dragenterFiles(".o-mail-Composer-input", [file3]);
+    await dropFiles(".o-Dropzone", [file3]);
+    await contains(".o-mail-AttachmentContainer", { count: 1 });
+    await contains(
+        ".o-mail-AttachmentContainer:not(.o-isUploading):contains(single.txt) .fa-check"
+    );
+});
+
+test("Can not add multiple attachments simultaneously via paste", async () => {
+    const pyEnv = await startServer();
+    const channelId = pyEnv["discuss.channel"].create({
+        name: "WhatsApp 1",
+        channel_type: "whatsapp",
+    });
+    await start();
+    await openDiscuss(channelId);
+    const [file1, file2, file3] = [
+        new File(["hello"], "text1.txt", { type: "text/plain" }),
+        new File(["world"], "text2.txt", { type: "text/plain" }),
+        new File(["single"], "single.txt", { type: "text/plain" }),
+    ];
+    await pasteFiles(".o-mail-Composer-input", [file1, file2]);
+    await contains(".o_notification", { text: "Only one attachment is allowed for each message" });
+    await pasteFiles(".o-mail-Composer-input", [file3]);
+    await contains(".o-mail-AttachmentContainer", { count: 1 });
+    await contains(
+        ".o-mail-AttachmentContainer:not(.o-isUploading):contains(single.txt) .fa-check"
+    );
+});
+
 test("Disabled composer should be enabled after message from whatsapp user", async () => {
     const pyEnv = await startServer();
     const channelId = pyEnv["discuss.channel"].create({

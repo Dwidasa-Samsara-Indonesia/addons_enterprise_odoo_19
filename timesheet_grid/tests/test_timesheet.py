@@ -1,4 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import re
+
 from datetime import date, datetime, timedelta
 from unittest.mock import patch
 
@@ -14,21 +16,21 @@ from odoo.tests import Form, freeze_time
 
 @freeze_time(datetime(2021, 4, 1) + timedelta(hours=12, minutes=21))
 class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
-
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         today = fields.Date.today()
-        self.timesheet1 = self.env['account.analytic.line'].with_user(self.user_employee).create({
+        cls.timesheet1 = cls.env['account.analytic.line'].with_user(cls.user_employee).create({
             'name': "my timesheet 1",
-            'project_id': self.project_customer.id,
-            'task_id': self.task1.id,
+            'project_id': cls.project_customer.id,
+            'task_id': cls.task1.id,
             'date': today - timedelta(days=1),
             'unit_amount': 2.0,
         })
-        self.timesheet2 = self.env['account.analytic.line'].with_user(self.user_employee).create({
+        cls.timesheet2 = cls.env['account.analytic.line'].with_user(cls.user_employee).create({
             'name': "my timesheet 2",
-            'project_id': self.project_customer.id,
-            'task_id': self.task2.id,
+            'project_id': cls.project_customer.id,
+            'task_id': cls.task2.id,
             'date': today - timedelta(days=1),
             'unit_amount': 3.11,
         })
@@ -330,9 +332,13 @@ class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
             }
             Timesheet.with_user(self.user_employee).create({**timesheet_vals})
             self.env['res.company']._cron_timesheet_reminder()
+            mails = self._new_mails.filtered(lambda x: x.res_id == self.empl_manager.id)
             self.assertEqual(
-                len(self._new_mails.filtered(lambda x: x.res_id == self.empl_manager.id)), 1,
+                len(mails), 1,
                 "An email should be sent to the 'User Empl Officer' since he has a timesheet to validate")
+            # Check that the action contained within the template
+            action = self.env.ref(re.search(r"action-([a-zA-Z_\.]+)\?", mails.body_html).group(1), raise_if_not_found=True)
+            self.assertEqual(action, self.env.ref('timesheet_grid.timesheet_grid_to_validate_action'))
 
     def test_timesheet_employee_reminder(self):
         """ Reminder mail will be sent to each Users' Employee """
@@ -414,6 +420,38 @@ class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
 
         self.assertEqual(Timesheet.search_count([('employee_id', '=', self.empl_employee.id)]), sheet_count + 1,
                          "Should create new timesheet instead of updating validated timesheet in cell")
+
+    def test_grid_update_cell_uses_default_name_from_context(self):
+        """ grid_update_cell should use the description from context (default_name)
+            so the new timesheet stays in the same group as the original one.
+        """
+        Timesheet = self.env['account.analytic.line']
+        description = "Development work"
+        today = fields.Date.today()
+
+        timesheet = Timesheet.with_user(self.user_manager).create({
+            'name': description,
+            'project_id': self.project_customer.id,
+            'task_id': self.task1.id,
+            'employee_id': self.empl_manager.id,
+            'unit_amount': 2.0,
+        })
+        timesheet.with_user(self.user_manager).action_validate_timesheet()
+
+        Timesheet.with_user(self.user_manager).with_context(
+            default_name=description,
+        ).grid_update_cell([('id', '=', timesheet.id)], 'unit_amount', 1.0)
+
+        new_timesheet = Timesheet.search([
+            ('employee_id', '=', self.empl_manager.id),
+            ('date', '=', today),
+            ('id', '!=', timesheet.id),
+        ])
+        self.assertEqual(len(new_timesheet), 1)
+        self.assertEqual(
+            new_timesheet.name, description,
+            "New timesheet should use the description from context, not '/'",
+        )
 
     def test_get_last_week(self):
         """Test the get_last_week method. It should return grid_anchor (GA), last_week (LW),

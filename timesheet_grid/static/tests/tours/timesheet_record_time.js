@@ -74,7 +74,7 @@ registry.category("web_tour.tours").add("timesheet_overtime_hour_encoding", {
         },
         {
             trigger:
-                ".o_grid_bar_chart_overtime[title='Weekly overtime']:contains('+5:00'):not(:visible)",
+                ".o_grid_bar_chart_overtime[title='Total overtime']:contains('+5:00'):not(:visible)",
             run: "hover",
         },
     ],
@@ -117,7 +117,7 @@ registry.category("web_tour.tours").add("timesheet_overtime_day_encoding", {
         },
         {
             trigger:
-                ".o_grid_bar_chart_overtime[title='Weekly overtime']:contains('-0.50'):not(:visible)",
+                ".o_grid_bar_chart_overtime[title='Total overtime']:contains('-0.50'):not(:visible)",
             run: "hover",
         },
     ],

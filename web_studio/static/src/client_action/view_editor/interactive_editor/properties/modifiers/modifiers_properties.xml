@@ -2,7 +2,7 @@
     <t t-name="web_studio.ViewEditor.InteractiveEditorProperties.Modifiers">
         <t t-if="this.isAttributeSupported('invisible')" t-call="web_studio.ViewEditor.InteractiveEditorProperties.PythonExpressionCheckbox">
             <t t-set="name" t-value="'invisible'" />
-            <t t-set="value" t-value="props.node.attrs.invisible || props.node.attrs.column_invisible" />
+            <t t-set="value" t-value="props.node.attrs.actual_invisible || props.node.attrs.invisible || props.node.attrs.column_invisible" />
             <t t-set="indeterminate" t-value="isIndeterminate(value)" />
             <t t-set="boolValue" t-value="this.valueAsBoolean(value)" />
             <t t-set="string">Invisible</t>

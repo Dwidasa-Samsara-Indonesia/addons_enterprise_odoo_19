@@ -152,7 +152,7 @@
             <span t-if="weeklyOvertime gt 0.00001 or weeklyOvertime lt -0.00001"
                    class="o_grid_bar_chart_overtime position-absolute top-50 start-50 translate-middle px-2 rounded-pill bg-white fw-bolder transition-base"
                    t-att-class="weeklyOvertime > 0 ? 'text-warning':'text-danger'"
-                   title="Weekly overtime">
+                   title="Total overtime">
                 <t t-esc="formatWeeklyOvertime(weeklyOvertime)"/>
             </span>
         </xpath>

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-14 08:57+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "web_studio/ja/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: web_studio
 #. odoo-python
@@ -214,8 +214,9 @@ msgstr "ルールは、レコードごとに1回だけ承認/拒否できます�
 #. module: web_studio
 #: model:ir.model.constraint,message:web_studio.constraint_studio_approval_rule_method_or_action_together
 msgid "A rule must apply to an action or a method (but not both)."
-msgstr "ルールは、アクションまたはメソッドに適用する必要があります(両方ではありません"
-")。"
+msgstr ""
+"ルールは、アクションまたはメソッドに適用する必要があります(両方ではありませ"
+"ん)。"
 
 #. module: web_studio
 #: model:ir.model.constraint,message:web_studio.constraint_studio_approval_rule_method_or_action_not_null
@@ -240,6 +241,11 @@ msgid "Access Control Lists"
 msgstr "アクセス制御リスト"
 
 #. module: web_studio
+#. odoo-javascript
+#: code:addons/web_studio/static/src/client_action/action_editor/action_editor.js:0
+#: code:addons/web_studio/static/src/client_action/report_editor/report_editor_model.js:0
+#: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/button_properties.js:0
+#: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/limit_group_visibility/limit_group_visibility.js:0
 #: model:ir.model,name:web_studio.model_res_groups
 msgid "Access Groups"
 msgstr "アクセスグループ"
@@ -479,7 +485,7 @@ msgstr "グループへの可視性を許可する"
 #: code:addons/web_studio/models/studio_approval.py:0
 #: code:addons/web_studio/static/src/approval/approval_hook.js:0
 msgid "An approval is missing"
-msgstr "承認が見つかりません"
+msgstr "承認が不足しています"
 
 #. module: web_studio
 #: model_terms:ir.ui.view,arch_db:web_studio.studio_approval_rule_delegate_approvers
@@ -1805,6 +1811,10 @@ msgid "Field properties: %s"
 msgstr "フィールドプロパティ: %s"
 
 #. module: web_studio
+#. odoo-javascript
+#: code:addons/web_studio/static/src/client_action/view_editor/editors/map/map_editor_sidebar.js:0
+#: code:addons/web_studio/static/src/client_action/view_editor/editors/pivot/pivot_editor.js:0
+#: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/field_configuration/field_configuration.js:0
 #: model:ir.model,name:web_studio.model_ir_model_fields
 msgid "Fields"
 msgstr "フィールド"
@@ -2227,14 +2237,16 @@ msgstr ""
 #. module: web_studio
 #: model:ir.model.fields,help:web_studio.field_studio_approval_rule__domain
 msgid "If set, the rule will only apply on records that match the domain."
-msgstr "設定されている場合、ルールはドメインに一致するレコードにのみ適用されます。"
+msgstr ""
+"設定されている場合、ルールはドメインに一致するレコードにのみ適用されます。"
 
 #. module: web_studio
 #: model:ir.model.fields,help:web_studio.field_studio_approval_rule__exclusive_user
 msgid ""
 "If set, the user who approves this rule will not be able to approve other "
 "rules for the same record"
-msgstr "設定されている場合、このルールを承認するユーザは、同じレコードの他のルールを"
+msgstr ""
+"設定されている場合、このルールを承認するユーザは、同じレコードの他のルールを"
 "承認できなくなります"
 
 #. module: web_studio
@@ -2656,6 +2668,10 @@ msgid "Model name"
 msgstr "モデル名"
 
 #. module: web_studio
+#. odoo-javascript
+#: code:addons/web_studio/static/src/client_action/menu_creator/menu_creator.js:0
+#: code:addons/web_studio/static/src/client_action/report_editor/report_editor_model.js:0
+#: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/field_configuration/field_configuration.js:0
 #: model:ir.model,name:web_studio.model_ir_model
 msgid "Models"
 msgstr "モデル"
@@ -3008,6 +3024,7 @@ msgstr "紙のフォーマット設定"
 
 #. module: web_studio
 #. odoo-javascript
+#: code:addons/web_studio/static/src/client_action/report_editor/report_editor_model.js:0
 #: code:addons/web_studio/static/src/client_action/report_editor/report_editor_wysiwyg/report_editor_wysiwyg.xml:0
 msgid "Paper format"
 msgstr "用紙"
@@ -3597,7 +3614,7 @@ msgstr "メッセージの送信、メモの記録、活動のスケジュール
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/search/search_editor.js:0
 msgid "Separator"
-msgstr "セパレータ"
+msgstr "区切り線"
 
 #. module: web_studio
 #. odoo-python
@@ -4307,6 +4324,12 @@ msgstr "ユーザーアバタープレースホルダー"
 
 #. module: web_studio
 #. odoo-javascript
+#: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/button_properties.js:0
+msgid "Users"
+msgstr ""
+
+#. module: web_studio
+#. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/button_properties.xml:0
 #: model:ir.model.fields,field_description:web_studio.field_studio_approval_rule__users_to_notify
 msgid "Users to Notify"
@@ -4490,6 +4513,13 @@ msgstr "年"
 #: code:addons/web_studio/models/studio_approval.py:0
 msgid "You can not approve this rule."
 msgstr "この規則を承認できません。"
+
+#. module: web_studio
+#. odoo-javascript
+#: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/type_widget_properties/type_widget_properties.js:0
+msgid ""
+"You can't select the 'Start date field' and 'End date field' at the same time"
+msgstr ""
 
 #. module: web_studio
 #. odoo-python

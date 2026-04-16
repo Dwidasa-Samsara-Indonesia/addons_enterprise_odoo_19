@@ -6,10 +6,11 @@ import {
     onWillUnmount,
     reactive,
     useState,
+    useSubEnv,
 } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { omit } from "@web/core/utils/objects";
-import { useOwnedDialogs, useService } from "@web/core/utils/hooks";
+import { useChildRef, useOwnedDialogs, useService } from "@web/core/utils/hooks";
 
 import { Many2ManyTagsField } from "@web/views/fields/many2many_tags/many2many_tags_field";
 import { CharField } from "@web/views/fields/char/char_field";
@@ -27,6 +28,8 @@ import { closestElement } from "@html_editor/utils/dom_traversal";
 import { ReportRecordNavigation } from "../report_editor_xml/report_record_navigation";
 import { CheckBox } from "@web/core/checkbox/checkbox";
 import { getReportEditorPlugins } from "./editor_plugins/report_editor_plugin";
+import { uniqueId } from "@web/core/utils/functions";
+import { LocalOverlayContainer } from "@html_editor/local_overlay_container";
 
 class __Record extends _Record.components._Record {
     setup() {
@@ -76,6 +79,7 @@ export class ReportEditorWysiwyg extends Component {
         ReportEditorIframe,
         ReportRecordNavigation,
         CheckBox,
+        LocalOverlayContainer,
     };
     static props = {
         paperFormatStyle: String,
@@ -83,6 +87,10 @@ export class ReportEditorWysiwyg extends Component {
     static template = "web_studio.ReportEditorWysiwyg";
 
     setup() {
+        this.overlayRef = useChildRef();
+        useSubEnv({
+            localOverlayContainerKey: uniqueId("report_editor"),
+        });
         this.action = useService("action");
         this.addDialog = useOwnedDialogs();
         this.notification = useService("notification");
@@ -170,6 +178,10 @@ export class ReportEditorWysiwyg extends Component {
                 allowVideo: false,
                 allowImageTransform: false,
                 allowImageResize: false,
+                localOverlayContainers: {
+                    key: this.env.localOverlayContainerKey,
+                    ref: this.overlayRef,
+                },
             },
             this.env.services
         );
