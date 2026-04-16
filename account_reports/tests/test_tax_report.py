@@ -2500,3 +2500,243 @@ class TestTaxReport(TestAccountReportsCommon):
             ],
             options
         )
+
+    def test_caba_negative_lines_with_multiple_accounts(self):
+        """ One invoice with 2 lines on 2 income acccounts, one with a negative total, both with a caba tax."""
+        self.company_data['company'].tax_exigibility = True
+        account_1 = self.company_data['default_account_revenue']
+        account_2 = self.company_data["default_account_assets"]
+        caba_tax_10 = self.env['account.tax'].create({
+            'name': "tax_10",
+            'amount_type': 'percent',
+            'type_tax_use': 'sale',
+            'amount': 10.0,
+            'tax_exigibility': 'on_payment',
+            'cash_basis_transition_account_id': self.cash_basis_transfer_account.id,
+        })
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_a.id,
+            'invoice_date': '2019-01-01',
+            'invoice_line_ids': [
+                Command.create({
+                    'name': 'line1',
+                    'account_id': account_1.id,
+                    'price_unit': -1000.0,
+                    'tax_ids': [Command.set(caba_tax_10.ids)],
+                }),
+                Command.create({
+                    'name': 'line2',
+                    'account_id': account_2.id,
+                    'price_unit': 2000.0,
+                    'tax_ids': [Command.set(caba_tax_10.ids)],
+                }),
+            ]
+        })
+        invoice.action_post()
+
+        payment = self.env['account.payment'].create({
+            'payment_type': 'inbound',
+            'partner_type': 'customer',
+            'partner_id': self.partner_a.id,
+            'amount': 1100,
+            'date': invoice.date,
+            'journal_id': self.company_data['default_journal_bank'].id,
+        })
+        payment.action_post()
+
+        # Reconcile the move with a payment
+        (payment.move_id + invoice).line_ids.filtered(lambda x: x.account_id == self.company_data['default_account_receivable']).reconcile()
+
+        report = self.env.ref('account.generic_tax_report_account_tax')
+        options = self._generate_options(report, invoice.date, invoice.date)
+
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                                                          Base      Tax
+            [   0,                                                                             1,        2],
+            [
+                ('Sales',                                                                     "",    100.0),
+                (account_2.display_name,                                                      "",    200.0),
+                (f'{caba_tax_10.name} ({caba_tax_10.amount}%)',                           2000.0,    200.0),
+                (f'Total {account_2.display_name}',                                           "",    200.0),
+                (account_1.display_name,                                                      "",   -100.0),
+                (f'{caba_tax_10.name} ({caba_tax_10.amount}%)',                          -1000.0,   -100.0),
+                (f'Total {account_1.display_name}',                                           "",   -100.0),
+                ('Total Sales',                                                               "",    100.0),
+            ],
+            options
+        )
+
+        report = self.env.ref("account.generic_tax_report_tax_account")
+        options['report_id'] = report.id
+
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                                                           Base      Tax
+            [   0,                                                                              1,        2],
+            [
+                ('Sales',                                                                      "",    100.0),
+                (f'{caba_tax_10.name} ({caba_tax_10.amount}%)',                                "",    100.0),
+                (account_2.display_name,                                                   2000.0,    200.0),
+                (account_1.display_name,                                                  -1000.0,   -100.0),
+                (f'Total {caba_tax_10.name} ({caba_tax_10.amount}%)',                          "",    100.0),
+                ('Total Sales',                                                                "",    100.0),
+            ],
+            options
+        )
+
+    def test_caba_not_duplicated_in_tax_report_when_in_tax_group(self):
+        """
+            Test that the CABA tax amount is not duplicated in the general tax report
+            when it is part of a tax group.
+        """
+
+        self.env.company.tax_exigibility = True
+
+        regular_tax = self.env['account.tax'].create({
+            'name': 'Regular',
+            'amount': 10,
+            'amount_type': 'percent',
+            'type_tax_use': 'sale',
+        })
+
+        caba_tax = self.env['account.tax'].create({
+            'name': 'Cash Basis',
+            'amount': 10,
+            'amount_type': 'percent',
+            'type_tax_use': 'sale',
+            'tax_exigibility': 'on_payment',
+            'cash_basis_transition_account_id': self.cash_basis_transfer_account.id,
+        })
+
+        tax_group = self.env['account.tax'].create({
+            'name': "tax_group",
+            'amount_type': 'group',
+            'children_tax_ids': [Command.set((regular_tax + caba_tax).ids)],
+        })
+
+        invoice = self.init_invoice(
+            'out_invoice',
+            invoice_date='2026-01-01',
+            post=True,
+            amounts=[100],
+            taxes=tax_group,
+            company=self.company_data['company'],
+        )
+
+        report = self.env.ref("account.generic_tax_report")
+        options = self._generate_options(report, invoice.date, invoice.date)
+
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                                                           Base      Tax
+            [0,                                                                        1,        2],
+            [
+                ('Sales',                                                                      "",       10.0),
+                (f'{regular_tax.name} ({regular_tax.amount}%)',                                100.0,    10.0),
+                ('Total Sales',                                                                "",       10.0),
+            ],
+            options
+        )
+
+        self._register_full_payment_for_invoice(invoice)
+
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                                                           Base      Tax
+            [0,                                                                        1,        2],
+            [
+                ('Sales',                                                                      "",       20.0),
+                (f'{regular_tax.name} ({regular_tax.amount}%)',                                100.0,    10.0),
+                (f'{caba_tax.name} ({caba_tax.amount}%)',                                      100.0,    10.0),
+                ('Total Sales',                                                                "",       20.0),
+            ],
+            options
+        )
+
+    def test_previous_return_period_date_scope(self):
+        self.init_invoice('in_invoice', invoice_date='2024-09-30', post=True, amounts=[60])
+        self.init_invoice('in_invoice', invoice_date='2024-12-31', post=True, amounts=[42])
+        self.init_invoice('in_invoice', invoice_date='2025-01-01', post=True, amounts=[100])
+
+        report = self.env['account.report'].create({
+            'name': 'Test report',
+            'column_ids': [Command.create({'name': 'Balance', 'sequence': 1, 'expression_label': 'balance'})],
+            'line_ids': [
+                Command.create({
+                    'name': "test",
+                    'expression_ids': [
+                        Command.create({
+                            'label': 'balance',
+                            'engine': 'domain',
+                            'formula': [('account_id.account_type', '=', 'expense')],
+                            'subformula': 'sum',
+                            'date_scope': 'previous_return_period',
+                        })
+                    ],
+                }),
+            ],
+        })
+
+        self.env['account.return.type'].create({
+            'name': "TestReturn",
+            'report_id': report.id,
+            'deadline_periodicity': 'trimester',
+            'deadline_start_date': '2020-01-01',
+        })
+
+        options = self._generate_options(report, '2025-01-01', '2025-03-31')
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                    Balance
+            [   0,                                      1],
+            [
+                ("test",                             42.0),
+            ],
+            options,
+        )
+
+        options = self._generate_options(report, '2025-01-01', '2025-01-31')
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                    Balance
+            [   0,                                      1],
+            [
+                ("test",                             42.0),
+            ],
+            options,
+        )
+
+        options = self._generate_options(report, '2025-02-01', '2025-02-28')
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                    Balance
+            [   0,                                      1],
+            [
+                ("test",                             42.0),
+            ],
+            options,
+        )
+
+        options = self._generate_options(report, '2025-03-01', '2025-03-31')
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                    Balance
+            [   0,                                      1],
+            [
+                ("test",                             42.0),
+            ],
+            options,
+        )
+
+        options = self._generate_options(report, '2025-04-01', '2025-04-01')
+        self.assertLinesValues(
+            report._get_lines(options),
+            #   Name                                    Balance
+            [   0,                                      1],
+            [
+                ("test",                            100.0),
+            ],
+            options,
+        )

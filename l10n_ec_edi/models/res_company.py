@@ -34,7 +34,9 @@ class ResCompany(models.Model):
     l10n_ec_regime = fields.Selection( # We do a selection as there is a good chance a new regime will be put in place
         selection=[
             ('regular', "Regular Regime (without additional messages in the RIDE)"),
-            ('rimpe', "RIMPE Regime"),
+            ('rimpe', "RIMPE Regime - Deprecated"),
+            ('rimpe_emprendedor', "RIMPE taxpayer - Entrepreneur"),
+            ('rimpe_negocio_popular', "RIMPE taxpayer - Popular Business"),
         ],
         string="Regime",
         default='regular',

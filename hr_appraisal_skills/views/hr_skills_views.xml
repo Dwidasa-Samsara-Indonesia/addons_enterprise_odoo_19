@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="hr_appraisal.view_hr_appraisal_form"/>
         <field name="arch" type="xml">
             <field name="job_id" position="after">
-                <field name="target_job_id" placeholder="Challenge your skills to a target" invisible="state == '1_new'"/>
+                <field name="target_job_id" placeholder="Challenge your skills to a target" invisible="state == '1_new'" readonly="not is_manager"/>
             </field>
             <xpath expr="//page[@name='appraisal']" position="after">
                 <page string="Skills" name="page_skills" invisible="state == '1_new' or (state == '2_pending' and uid == employee_user_id)">

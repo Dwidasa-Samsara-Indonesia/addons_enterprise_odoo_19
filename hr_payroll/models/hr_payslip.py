@@ -5,15 +5,16 @@ import random
 import math
 import pytz
 
-from collections import defaultdict, Counter
+from collections import defaultdict
 from datetime import date, datetime, time
 from dateutil.relativedelta import relativedelta
 from functools import reduce
+from itertools import zip_longest
 
 from odoo import api, Command, fields, models, _
 from odoo.fields import Domain
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_round, date_utils, convert_file, format_amount
+from odoo.tools import float_round, convert_file, format_amount
 from odoo.tools.float_utils import float_compare
 from odoo.tools.misc import format_date
 from odoo.tools.safe_eval import safe_eval, datetime as safe_eval_datetime, dateutil as safe_eval_dateutil
@@ -428,14 +429,15 @@ class HrPayslip(models.Model):
 
     @api.depends('line_ids.total', 'struct_id.rule_ids.appears_on_employee_cost_dashboard')
     def _compute_basic_net(self):
-        line_values = (self._origin)._get_line_values(['BASIC', 'GROSS', 'NET'])
+        to_compute_payslips = self.filtered(lambda p: p.state in ('draft', 'validated')).with_prefetch()
+        line_values = (to_compute_payslips._origin)._get_line_values(['BASIC', 'GROSS', 'NET'])
         employer_cost_codes = set(self.env['hr.salary.rule'].search([
             ('appears_on_employee_cost_dashboard', '=', True)
         ]).mapped('code'))
         employer_cost_values = {}
         if employer_cost_codes:
-            employer_cost_values = (self._origin)._get_line_values(employer_cost_codes)
-        for payslip in self:
+            employer_cost_values = (to_compute_payslips._origin)._get_line_values(employer_cost_codes)
+        for payslip in to_compute_payslips:
             employer_cost_total = 0.0
             payslip_employer_codes = payslip.struct_id.rule_ids.filtered(
                 'appears_on_employee_cost_dashboard'
@@ -783,9 +785,18 @@ class HrPayslip(models.Model):
         self.action_draft_linked_entries()
 
     def compute_sheet(self):
+        """
+        Compute payslip lines for draft payslips sequentially by employee to ensure accurate cumulative/YTD calculations.
+
+        When processing a batch, some employees may have multiple payslips in the same period (e.g., due to a
+        mid-month contract version change). To ensure cumulative salary rules evaluate correctly,
+        an employee's first payslip must be fully computed before their second payslip is evaluated.
+
+        To do so, we group payslips by employee, sort them chronologically, and evaluate them in horizontal "layers":
+            - Layer 1: Computes the 1st payslip for ALL employees simultaneously.
+            - Layer 2: Computes the 2nd payslip for the subset of employees who have one, etc
+        """
         payslips = self.filtered(lambda slip: slip.state == 'draft')
-        if payslips.filtered('error_count'):
-            raise ValidationError(self._get_error_message())
         # delete old payslip lines
         payslips.line_ids.unlink()
         # this guarantees consistent results
@@ -796,7 +807,15 @@ class HrPayslip(models.Model):
                 'state': 'draft',
                 'compute_date': today
             })
-        self.env['hr.payslip.line'].create(payslips._get_payslip_lines())
+
+        sorted_lists = [
+            sorted(v, key=lambda p: (p.version_id.date_version, p.date_from))
+            for v in payslips.grouped('employee_id').values()
+        ]
+        for batch_tuple in zip_longest(*sorted_lists):
+            batch = self.env['hr.payslip'].union(*(p for p in batch_tuple if p))
+            self.env['hr.payslip.line'].create(batch._get_payslip_lines())
+
         if any(payslips.mapped('ytd_computation')):
             self._compute_worked_days_ytd()
         return True
@@ -873,7 +892,6 @@ class HrPayslip(models.Model):
         """
         :returns: a list of dict containing the worked days values that should be applied for the given payslip
         """
-        res = []
         self.ensure_one()
         version = self.version_id
         res = self._get_worked_day_lines_values(domain=domain)
@@ -884,18 +902,26 @@ class HrPayslip(models.Model):
         # worked_days lines to adapt the wage accordingly
         out_days, out_hours = 0, 0
         reference_calendar = self._get_out_of_contract_calendar()
-        if self.date_from < version.date_start:
+        out_periods = []
+        if not version.contract_date_start:
             start = fields.Datetime.to_datetime(self.date_from)
-            stop = min(fields.Datetime.to_datetime(version.date_start) + relativedelta(days=-1, hour=23, minute=59),
-                fields.Datetime.to_datetime(self.date_to) + relativedelta(hour=23, minute=59))
-            out_time = reference_calendar.get_work_duration_data(start, stop, compute_leaves=False, domain=['|', ('work_entry_type_id', '=', False), ('work_entry_type_id.is_leave', '=', False)])
-            out_days += out_time['days']
-            out_hours += out_time['hours']
-        if version.date_end and version.date_end < self.date_to:
-            start = max(fields.Datetime.to_datetime(version.date_end) + relativedelta(days=1),
-                fields.Datetime.to_datetime(self.date_from))
             stop = fields.Datetime.to_datetime(self.date_to) + relativedelta(hour=23, minute=59)
-            out_time = reference_calendar.get_work_duration_data(start, stop, compute_leaves=False, domain=['|', ('work_entry_type_id', '=', False), ('work_entry_type_id.is_leave', '=', False)])
+            out_periods.append((start, stop))
+        else:
+            if self.date_from < version.date_start:
+                start = fields.Datetime.to_datetime(self.date_from)
+                stop = min(fields.Datetime.to_datetime(version.date_start) + relativedelta(days=-1, hour=23, minute=59),
+                           fields.Datetime.to_datetime(self.date_to) + relativedelta(hour=23, minute=59))
+                out_periods.append((start, stop))
+            if version.date_end and version.date_end < self.date_to:
+                start = max(fields.Datetime.to_datetime(version.date_end) + relativedelta(days=1),
+                            fields.Datetime.to_datetime(self.date_from))
+                stop = fields.Datetime.to_datetime(self.date_to) + relativedelta(hour=23, minute=59)
+                out_periods.append((start, stop))
+        for out_period in out_periods:
+            out_time = reference_calendar.get_work_duration_data(out_period[0], out_period[1], compute_leaves=False,
+                                                                 domain=['|', ('work_entry_type_id', '=', False),
+                                                                         ('work_entry_type_id.is_leave', '=', False)])
             out_days += out_time['days']
             out_hours += out_time['hours']
 
@@ -1028,7 +1054,8 @@ class HrPayslip(models.Model):
                 'rules': DefaultDictPayroll(lambda: dict(total=0, amount=0, quantity=0)),
                 'payslip': self,
                 'worked_days': {line.code: line for line in self.worked_days_line_ids if line.code},
-                'property_inputs': {self.env['hr.salary.rule'].browse(int(rule_id)).id: float(value) for rule_id, value in employee_properties.items()},
+                'property_inputs': {self.env['hr.salary.rule'].browse(int(rule_id)).id: float(value) for rule_id, value in employee_properties.items()
+                                    if rule_id.isdigit()},
                 'inputs': {line.code: line for line in self.input_line_ids if line.code},
                 'employee': self.employee_id,
                 'version': self.version_id,
@@ -1391,10 +1418,11 @@ class HrPayslip(models.Model):
 
     @api.depends(lambda self: self._issues_dependencies())
     def _compute_issues(self):
-        errors_by_slip = self._get_errors_by_slip()
-        warnings_by_slip = self._get_warnings_by_slip()
+        to_compute_payslips = self.filtered(lambda p: p.state in ('draft', 'validated')).with_prefetch()
+        errors_by_slip = to_compute_payslips._get_errors_by_slip()
+        warnings_by_slip = to_compute_payslips._get_warnings_by_slip()
 
-        for slip in self:
+        for slip in to_compute_payslips:
             warnings = warnings_by_slip[slip]
             errors = errors_by_slip[slip]
             slip.warning_count = len(warnings)
@@ -1438,7 +1466,7 @@ class HrPayslip(models.Model):
         # Ensure work entries are generated for all contracts
         generate_from = min(p.date_from for p in valid_slips) + relativedelta(days=-1)
         generate_to = max(p.date_to for p in valid_slips) + relativedelta(days=1)
-        self.version_id.filtered('resource_calendar_id').generate_work_entries(generate_from, generate_to)
+        self.version_id.generate_work_entries(generate_from, generate_to)
         work_entries = self.env['hr.work.entry'].search([
             ('date', '<=', generate_to),
             ('date', '>=', generate_from),
@@ -1683,7 +1711,7 @@ class HrPayslip(models.Model):
             'payslip_id': self.id,
             'line_ids': [(0, 0, {
                 'sequence': line.sequence,
-                'code': line.code,
+                'code': line.salary_rule_id.code,
                 'name': line.name,
                 'salary_rule_id': line.salary_rule_id.id,
                 'version_id': line.version_id.id,
@@ -2188,7 +2216,13 @@ class HrPayslip(models.Model):
     def action_configure_payslip_inputs(self):
         self.ensure_one()
         action = self.struct_id.action_get_structure_inputs()
-        action['domain'].append(('input_usage_payslip', '=', True))
+        existing_ids = [int(definition['name']) for definition in self.struct_id.payslip_properties_definition if definition.get('name', '').isdigit()]
+        action['domain'].extend([
+            ('input_usage_payslip', '=', True),
+            ('id', 'not in', existing_ids),
+            '|',
+                ('dependent_input_id', '=', False),
+                ('dependent_input_id', 'in', existing_ids)])
         return action
 
     def compute_salary_allocations(self, total_amount=None):

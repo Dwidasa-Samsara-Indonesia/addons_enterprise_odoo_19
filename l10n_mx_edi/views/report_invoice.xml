@@ -154,6 +154,13 @@
             </td>
         </xpath>
 
+        <xpath expr="//t/tr/t[@t-set='line_colspan']" position="attributes">
+            <attribute name="t-value">5 + (1 if display_discount else 0) + (1 if display_taxes and not line.tax_ids else 0) + (1 if has_l10n_mx_edi_predial_account else 0)</attribute>
+        </xpath>
+        <xpath expr="//t/t/t[@t-else='']/t[@t-set='line_colspan']" position="attributes">
+            <attribute name="t-value">5 + (1 if display_discount else 0) + (1 if display_taxes and not grouped_line.get('taxes') else 0) + (1 if has_l10n_mx_edi_predial_account else 0)</attribute>
+        </xpath>
+
         <xpath expr="//div[@id='payment_term']" position="after">
             <t t-set="cfdi_values" t-value="o._l10n_mx_edi_get_extra_invoice_report_values()"/>
             <div class="row col-12" id='complement'>

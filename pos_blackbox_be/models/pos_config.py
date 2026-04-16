@@ -323,3 +323,8 @@ class PosConfig(models.Model):
         if self.certified_blackbox_identifier:
             self._clock_kiosk_user(False)
         return super().action_close_kiosk_session()
+
+    @api.model
+    def _load_pos_self_data_fields(self, pos_config_id):
+        fields = super()._load_pos_self_data_fields(pos_config_id)
+        return fields + ['iface_fiscal_data_module']

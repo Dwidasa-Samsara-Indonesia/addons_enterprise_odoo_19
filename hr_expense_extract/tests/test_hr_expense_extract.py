@@ -396,3 +396,76 @@ class TestExpenseExtractProcess(TestExpenseCommon, TestExtractMixin):
         expense = self.env['hr.expense'].search([('name', '=', f"Sample Receipt: {receipt_values['name']}")], limit=1)
         self.assertTrue(expense)
         self.assertEqual(expense.total_amount, receipt_values['amount'])
+
+    def test_extract_conversion_when_currency_already_set(self):
+        """ Test that if EUR is already set on the record, the USD total still updates correctly from OCR """
+        eur_currency = self.env.ref('base.EUR')
+        eur_currency.active = True
+
+        self.expense.message_main_attachment_id = self.attachment
+        self.env['res.currency.rate'].create({
+            'name': '2022-02-22',
+            'rate': 1.0 / 3.0,
+            'currency_id': eur_currency.id,
+            'company_id': self.env.company.id,
+        })
+
+        self.expense.write({
+            'currency_id': eur_currency.id,
+            'total_amount_currency': 1.0,
+            'total_amount': 3.0,
+        })
+
+        ocr_results = self.get_result_success_response()['results'][0]
+        ocr_results['total']['selected_value']['content'] = 50.0
+        ocr_results['currency']['selected_value']['content'] = 'EUR'
+        ocr_results['date']['selected_value']['content'] = '2022-02-22'
+
+        self.expense.name = ""
+        self.expense._fill_document_with_results(ocr_results=ocr_results)
+
+        self.assertEqual(self.expense.total_amount_currency, 50.0)
+        self.assertAlmostEqual(self.expense.total_amount, 150.0)
+
+    def test_skip_extract_for_stripe_expense(self):
+        """ Test OCR should not be triggered for expense created from stripe payment. """
+        if 'hr_expense_stripe' not in self.env['ir.module.module']._installed():
+            self.skipTest("hr_expense_stripe module is not installed.")
+
+        self.company.stripe_id = 'acct_1234567890'
+        card = self.env['hr.expense.stripe.card'].with_user(self.expense_user_manager).create([{  # noqa: OLS03001
+            'employee_id': self.expense_employee.id,
+            'name': 'Test Card',
+            'company_id': self.company.id,
+        }])
+        expense_vals = {
+            'card_id': card.id,
+            'employee_id': self.expense_employee.id,
+            'product_id': self.product_c.id,
+            'total_amount_currency': 200.0,
+        }
+
+        # test skip ocr for auto ocr
+        self.company.expense_extract_show_ocr_option_selection = 'auto_send'
+        expense_1 = self.env['hr.expense'].create(expense_vals)
+        self.assertTrue(expense_1.is_card_expense)
+        with self._mock_iap_extract(extract_response=self.parse_success_response()):
+            expense_1.message_post(attachment_ids=[self.attachment.id])
+        with self._mock_iap_extract(extract_response=self.get_result_success_response()):
+            expense_1.check_all_status()
+        self.assertRecordValues(expense_1, [
+            {'total_amount_currency': 200.0, 'state': 'draft', 'extract_state': 'done'},
+        ])
+
+        # test skip ocr for ocr on demand
+        self.company.expense_extract_show_ocr_option_selection = 'manual_send'
+        expense_2 = self.env['hr.expense'].create(expense_vals)
+        self.assertTrue(expense_2.is_card_expense)
+        expense_2.message_post(attachment_ids=[self.attachment.id])
+        with self._mock_iap_extract(extract_response=self.parse_success_response()):
+            expense_2.action_send_batch_for_digitization()
+        with self._mock_iap_extract(extract_response=self.get_result_success_response()):
+            expense_2.check_all_status()
+        self.assertRecordValues(expense_2, [
+            {'total_amount_currency': 200.0, 'state': 'draft', 'extract_state': 'done'},
+        ])

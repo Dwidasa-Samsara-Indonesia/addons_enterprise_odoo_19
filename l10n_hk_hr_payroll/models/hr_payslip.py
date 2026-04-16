@@ -145,6 +145,47 @@ class HrPayslip(models.Model):
         for slip in self.filtered(lambda s: s.country_code == 'HK'):
             slip.l10n_hk_use_mpf_offsetting = slip.company_id.l10n_hk_use_mpf_offsetting
 
+    def _get_base_local_dict(self):
+        """
+        In Hong Kong, there are a few rules that are dependent on a monthly amount.
+        While it works well in most cases; there is a case where a change in contract is done in the middle of a period.
+        In this case, the payrun would contain two payslips for the same employee! To avoid counting twice the amounts,
+        we need to know at the time of calculating the rule what has already been registered in these rules.
+        """
+        res = super()._get_base_local_dict()
+        if self.struct_id.country_id.code != 'HK':
+            return res
+
+        # Initialize the dictionary to guarantee the keys exist
+        l10n_hk_payrun_totals = {
+            'MPF_GROSS': 0.0, 'BASIC': 0.0, 'EEMC': 0.0,
+            'ERMC': 0.0, 'EEVC': 0.0, 'ERVC': 0.0,
+            'ERVC2': 0.0, 'HRA': 0.0, 'ALW.INT': 0.0
+        }
+
+        if self.payslip_run_id:
+            # /!\ during the computation of multiple payslips for a same period (split for new contract) the payslips are
+            # draft while we compute the lines. So we need to make sure we do not only pick paid/confirmed payslips like usual.
+            previous_slips = self.payslip_run_id.slip_ids.filtered(
+                lambda p: p.employee_id == self.employee_id and p.version_id.date_start < self.version_id.date_start
+            )
+            if previous_slips:
+                values = previous_slips._get_line_values(list(l10n_hk_payrun_totals.keys()), compute_sum=True)
+                for (code, value) in values.items():
+                    l10n_hk_payrun_totals[code] = value['sum']['total']
+
+        worked_days_prorata_rate = 1
+        total_days = sum(wd.number_of_days for wd in self.worked_days_line_ids)
+        actual_work_days = self._get_number_of_worked_days()
+        if total_days:
+            worked_days_prorata_rate = actual_work_days / total_days
+
+        return {
+            **res,
+            'l10n_hk_payrun_totals': l10n_hk_payrun_totals,
+            'worked_days_prorata_rate': worked_days_prorata_rate,
+        }
+
     def _get_paid_amount(self):
         """
         When the paid amount is very slightly off from the wage, we assume that it is due to a rounding

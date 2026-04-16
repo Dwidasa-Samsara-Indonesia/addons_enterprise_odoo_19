@@ -105,6 +105,52 @@ class TestRoSaftReportAssets(TestRoSaftReport):
         loss_account_id = cls.company_data['default_account_expense'].id
         counterpart_account_id = cls.company_data['default_account_expense'].copy().id
 
+        cls.partner_xyz = cls.env['res.partner'].create({
+            'name': 'Romanian Partner XYZ',
+            'is_company': True,
+            'city': 'Bucharest',
+            'zip': '010001',
+            'country_id': cls.env.ref('base.ro').id,
+            'phone': '+40 987654321',
+            'vat': 'RO1234567897',
+            'company_registry': '1234567897',
+        })
+        cls.last_year_bill = cls.env['account.move'].create([
+            {
+                'move_type': 'in_invoice',
+                'invoice_date': '2022-01-01',
+                'date': '2022-01-01',
+                'partner_id': cls.partner_xyz.id,
+                'invoice_line_ids': [Command.create({
+                    'name': 'Old Truck',
+                    'account_id': asset_account_id,
+                    'quantity': 1.0,
+                    'price_unit': 500.0,
+                })],
+            },
+        ])
+        cls.last_year_bill.action_post()
+
+        # Distribute last year earnings to prevent the error on the undistributed profits and losts
+        cls.env['account.move'].create({
+            'move_type': 'entry',
+            'date': '2022-12-31',
+            'line_ids': [
+                Command.create({
+                    'name': 'Distribute earnings',
+                    'account_id': cls.env['account.chart.template'].ref('pcg_105').id,
+                    'debit': 100.0,
+                    'credit': 0.0,
+                }),
+                Command.create({
+                    'name': 'Distribute earnings',
+                    'account_id': cls.company_data['default_account_expense'].id,
+                    'debit': 0.0,
+                    'credit': 100.0,
+                }),
+            ]
+        }).action_post()
+
         cls.bill = cls.env['account.move'].create([
             {
                 'move_type': 'in_invoice',
@@ -123,6 +169,12 @@ class TestRoSaftReportAssets(TestRoSaftReport):
         cls.bill.action_post()
 
         # Purchase
+        last_year_asset_line = cls.last_year_bill.line_ids.filtered(lambda x: x.account_id.id == asset_account_id)
+        last_year_asset_form = Form(cls.env['account.asset'].with_context(default_original_move_line_ids=last_year_asset_line.ids))
+        last_year_asset_form.account_depreciation_expense_id = cls.company_data['default_account_expense']
+        last_year_asset_form.l10n_ro_saft_account_asset_category_id = cls.env.ref('l10n_ro_saft.l10n_ro_saft_1_1_2_1')
+        cls.last_year_truck = last_year_asset_form.save()
+        cls.last_year_truck.validate()
         asset_line = cls.bill.line_ids.filtered(lambda x: x.account_id.id == asset_account_id)
         asset_form = Form(cls.env['account.asset'].with_context(default_original_move_line_ids=asset_line.ids))
         asset_form.account_depreciation_expense_id = cls.company_data['default_account_expense']

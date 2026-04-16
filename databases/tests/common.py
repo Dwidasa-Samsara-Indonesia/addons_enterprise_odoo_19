@@ -6,7 +6,7 @@ from socket import AF_INET, IPPROTO_TCP, SOCK_STREAM
 from unittest.mock import MagicMock, patch
 import urllib.parse
 
-from odoo import api
+from odoo import api, http
 from odoo.fields import Domain
 from odoo.tests import new_test_user
 from odoo.tests.common import TransactionCase
@@ -48,7 +48,7 @@ class TestDatabasesCommon(TransactionCase):
             parsed_url = urllib.parse.urlparse(uri)
 
             if parsed_url.hostname not in self.json2_mocked_calls:
-                raise ConnectionError()
+                raise ConnectionError(f'Could not connect to {parsed_url.hostname}')
             hostname_calls = self.json2_mocked_calls[parsed_url.hostname]
 
             # To handle /json/version, add a line like this in your test:
@@ -56,12 +56,12 @@ class TestDatabasesCommon(TransactionCase):
             if parsed_url.path == '/json/version':
                 self.assertEqual(method, 'get')
                 if 'version' not in hostname_calls:
-                    return MagicMock(status_code=303)
+                    return MagicMock(status_code=http.HTTPStatus.SEE_OTHER)
                 value = {
                     'version': hostname_calls['version'],
                     # 'version_info': ...,  # We should not rely on this field
                 }
-                return MagicMock(status_code=200, **{'json.return_value': value})
+                return MagicMock(status_code=http.HTTPStatus.OK, **{'json.return_value': value})
             m = re.match(r'^/json/2/(?P<model>[^/]*)/(?P<method>[^/]*)$', parsed_url.path)
             self.assertTrue(m, f'{uri!r} is not a valid /json/2 route')
             self.assertEqual(method, 'post')
@@ -74,7 +74,12 @@ class TestDatabasesCommon(TransactionCase):
             self.assertIn(method_name, model)
             value = model[method_name]
 
-            return MagicMock(status_code=200, **{'json.return_value': value})
+            if isinstance(value, Exception):
+                return MagicMock(status_code=http.HTTPStatus.INTERNAL_SERVER_ERROR, **{
+                    'json.return_value': http.serialize_exception(value),
+                })
+
+            return MagicMock(status_code=http.HTTPStatus.OK, **{'json.return_value': value})
 
         self.mock_requests_request = self.startPatcher(
             patch("requests.api.request", side_effect=mock_requests_request))

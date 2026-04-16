@@ -65,6 +65,7 @@ IAP_ERROR_MESSAGE = {
     'not_active_db': _lt("Your database is not yet activated."),
     'limit_call_reached': _lt("You reached the call limit. Please try again in a moment."),
 }
+L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT = 10
 
 
 class ResCompany(models.Model):
@@ -176,6 +177,7 @@ class ResCompany(models.Model):
         response = requests.post(
             url=f"{IAP_ENDPOINT[self.l10n_be_intervat_mode]}/register_jwk",
             params=params,
+            timeout=L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT,
         )
         if not response.ok:
             if error_message := IAP_ERROR_MESSAGE.get(response.text):
@@ -244,6 +246,18 @@ class ResCompany(models.Model):
         if not self._l10n_be_intervat_is_authentication_valid():
             return False
 
+        params = {
+            'company_token': hashlib.sha256(self.l10n_be_intervat_certificate_id.sudo().l10n_be_intervat_jwk_token.encode()).hexdigest(),
+            'db_uuid': self.env['ir.config_parameter'].sudo().get_param('database.uuid'),
+        }
+        iap_response = requests.post(
+            url=f"{IAP_ENDPOINT[self.l10n_be_intervat_mode]}/register_jwk",
+            params=params,
+            timeout=L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT,
+        )
+        if not iap_response.ok:
+            raise UserError(self.env._("Error while contacting IAP."))
+
         response = requests.post(
             url=TOKEN_ENDPOINT[self.l10n_be_intervat_mode],
             data={
@@ -256,6 +270,7 @@ class ResCompany(models.Model):
                 'accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
+            timeout=L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT,
         )
         response_json, error = self._l10n_be_get_error_from_response(response)
 
@@ -281,6 +296,7 @@ class ResCompany(models.Model):
         kid = jwt_header.get('kid')
         response = requests.get(
             url=JWKS_ENDPOINT[self.l10n_be_intervat_mode],
+            timeout=L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT,
         )
         response_json, error = self._l10n_be_get_error_from_response(response)
         if error:
@@ -348,6 +364,7 @@ class ResCompany(models.Model):
                 'Authorization': f'Bearer {self.l10n_be_intervat_access_token}',
                 'Minfin-Ws-Correlation': f"{uuid.uuid4()}",
             },
+            timeout=L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT,
         )
         response_content, error = self._l10n_be_get_error_from_response(response, parse_json=False)
         if error:
@@ -378,7 +395,8 @@ class ResCompany(models.Model):
                 headers={
                     'Authorization': f'Bearer {self.l10n_be_intervat_access_token}',
                     'Content-Type': 'application/zip',
-                }
+                },
+                timeout=L10N_BE_INTERVAT_TOKEN_TIMEOUT_LIMIT,
             )
             response_json, error = self._l10n_be_get_error_from_response(response)
             if error:

@@ -25,6 +25,8 @@ class AccountLoanComputeWizard(models.TransientModel):
         string='Interest Rate',
         default=1.0,
         required=True,
+        digits=(12, 10),
+        min_display_digits=2,
     )
     loan_term = fields.Integer(
         string='Loan Term',

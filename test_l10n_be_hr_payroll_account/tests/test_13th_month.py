@@ -9,13 +9,13 @@ from odoo.addons.test_l10n_be_hr_payroll_account.tests.test_payslip import TestP
 
 @tagged('thirteen_month')
 class Test13thMonth(TestPayslipBase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.structure = cls.env.ref('l10n_be_hr_payroll.hr_payroll_structure_cp200_thirteen_month')
+        cls.payslip = cls.create_payslip(cls.structure, datetime(2019, 12, 1), datetime(2019, 12, 31))
 
-    def setUp(self):
-        super(Test13thMonth, self).setUp()
-        self.structure = self.env.ref('l10n_be_hr_payroll.hr_payroll_structure_cp200_thirteen_month')
-        self.payslip = self.create_payslip(self.structure, datetime(2019, 12, 1), datetime(2019, 12, 31))
-
-        self.calendar_40h = self.env['resource.calendar'].create({
+        cls.calendar_40h = cls.env['resource.calendar'].create({
             'name': '40h calendar',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning'}),
@@ -31,10 +31,10 @@ class Test13thMonth(TestPayslipBase):
             ]
         })
 
-        self.env.company.resource_calendar_id = self.calendar_40h
-        self.structure.type_id.default_resource_calendar_id = self.calendar_40h
+        cls.env.company.resource_calendar_id = cls.calendar_40h
+        cls.structure.type_id.default_resource_calendar_id = cls.calendar_40h
 
-        self.calendar_20h = self.env['resource.calendar'].create({
+        cls.calendar_20h = cls.env['resource.calendar'].create({
             'name': '20h calendar',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning'}),
@@ -45,7 +45,7 @@ class Test13thMonth(TestPayslipBase):
             ]
         })
 
-        self.calendar_20h_three_days = self.env['resource.calendar'].create({
+        cls.calendar_20h_three_days = cls.env['resource.calendar'].create({
             'name': '20h calendar',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning'}),
@@ -56,8 +56,8 @@ class Test13thMonth(TestPayslipBase):
             ]
         })
 
-        med_work_entry_type = self.env.ref('hr_work_entry.l10n_be_work_entry_type_partial_incapacity')
-        self.calendar_part_time_med = self.env['resource.calendar'].create({
+        med_work_entry_type = cls.env.ref('hr_work_entry.l10n_be_work_entry_type_partial_incapacity')
+        cls.calendar_part_time_med = cls.env['resource.calendar'].create({
             'name': 'Part time med 40%',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning', 'work_entry_type_id': med_work_entry_type.id}),
@@ -73,8 +73,8 @@ class Test13thMonth(TestPayslipBase):
             ]
         })
 
-        credit_time_work_entry_type = self.env.ref('hr_work_entry.l10n_be_work_entry_type_credit_time')
-        self.calendar_part_time_credit_time = self.env['resource.calendar'].create({
+        credit_time_work_entry_type = cls.env.ref('hr_work_entry.l10n_be_work_entry_type_credit_time')
+        cls.calendar_part_time_credit_time = cls.env['resource.calendar'].create({
             'name': 'Part time credit time 40%',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning', 'work_entry_type_id': credit_time_work_entry_type.id}),
@@ -90,8 +90,8 @@ class Test13thMonth(TestPayslipBase):
             ]
         })
 
-        parental_leave_work_entry_type = self.env.ref('hr_work_entry.l10n_be_work_entry_type_parental_time_off')
-        self.calendar_part_time_parental = self.env['resource.calendar'].create({
+        parental_leave_work_entry_type = cls.env.ref('hr_work_entry.l10n_be_work_entry_type_parental_time_off')
+        cls.calendar_part_time_parental = cls.env['resource.calendar'].create({
             'name': 'Part time parental 40%',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning', 'work_entry_type_id': parental_leave_work_entry_type.id}),
@@ -107,7 +107,7 @@ class Test13thMonth(TestPayslipBase):
             ]
         })
 
-        self.calendar_part_time_20_hours_per_week = self.env['resource.calendar'].create({
+        cls.calendar_part_time_20_hours_per_week = cls.env['resource.calendar'].create({
             'name': 'Part time parental 50%',
             'attendance_ids': [
                 (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning'}),

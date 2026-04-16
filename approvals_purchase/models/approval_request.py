@@ -26,7 +26,8 @@ class ApprovalRequest(models.Model):
         """ Override to unlink the products of the cancelled Approval Request from Purchase Orders """
         res = super().action_cancel()
         purchase_orders_data_per_state = self._cancel_approval_request()
-        self._log_po_cancellation_to_chatter(purchase_orders_data_per_state)
+        if any(purchase_orders_data_per_state.values()):
+            self._log_po_cancellation_to_chatter(purchase_orders_data_per_state)
         return res
 
     def _cancel_approval_request(self):

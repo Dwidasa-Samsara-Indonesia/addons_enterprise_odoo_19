@@ -14,7 +14,7 @@ class KnowledgeArticle(models.Model):
     audit_report_id = fields.One2many('audit.report', 'knowledge_article_id')
     inherited_audit_report_id = fields.One2many('audit.report',
         compute='_compute_inherited_audit_report', store=False)
-    is_audit_report_template = fields.Boolean('Audit Report Template')
+    is_audit_report_template = fields.Boolean('Annual Report Template')
 
     @api.depends('audit_report_id')
     def _compute_inherited_audit_report(self):
@@ -70,8 +70,9 @@ class KnowledgeArticle(models.Model):
                     account_report_options = embedded_props['options']
                     if 'report_id' in account_report_options:
                         account_report = self.env['account.report'].browse(account_report_options['report_id'])
+                        account_report = account_report.with_company(audit_report.company_id)
                         embedded_props['options'] = account_report.get_options({
-                            'selected_variant_id': account_report.id,
+                            'forced_companies': audit_report.company_id.ids,
                             'date': {
                                 'date_from': str(audit_report.start_date),
                                 'date_to': str(audit_report.end_date),

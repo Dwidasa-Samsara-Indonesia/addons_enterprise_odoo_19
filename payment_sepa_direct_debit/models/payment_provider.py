@@ -158,19 +158,13 @@ class PaymentProvider(models.Model):
         """
         self.ensure_one()
 
-        ResPartnerBank = self.env['res.partner.bank']
-        commercial_partner_id = self.env['res.partner'].browse(partner_id).commercial_partner_id.id
-        partner_bank = ResPartnerBank.search([
-            ('sanitized_acc_number', '=', iban),
-            ('partner_id', 'child_of', commercial_partner_id),
-        ])
-        if not partner_bank:
-            partner_bank = ResPartnerBank.create({
-                'acc_number': iban,
-                'partner_id': partner_id,
-                'company_id': self.company_id.id,
-            })
-        return partner_bank
+        commercial_partner = self.env['res.partner'].browse(partner_id).commercial_partner_id
+        return self.env['res.partner.bank']._find_or_create_bank_account(
+            account_number=iban,
+            partner=commercial_partner,
+            company=self.company_id,
+            extra_create_vals={'company_id': self.company_id.id},
+        )
 
     def _sdd_create_token_for_mandate(self, partner, mandate):
         """ Create a token linked to the mandate with the obfuscated IBAN as name and return it.

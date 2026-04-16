@@ -1,6 +1,6 @@
 from odoo import Command
 
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.addons.repair.tests.test_repair import TestRepairCommon
 
 
@@ -61,3 +61,32 @@ class TestQualityRepair(TestRepairCommon):
 
         repairs.write({'name': 'test'})
         self.assertEqual(set(repairs.mapped('name')), {'test'}, "Model should write the name on both records.")
+
+    def test_repair_qc_failure_location(self):
+        """Ensure that when a quality check measured on a product or operation
+           and in a Repair Order is marked as failed, the selected failure location is
+           correctly applied as the destination location of the final repair product move."""
+        self.env['quality.point'].create({
+            'measure_on': 'product',  # or 'operation'
+            'picking_type_ids': [Command.link(self.stock_warehouse.repair_type_id.id)],
+            'failure_location_ids': [Command.link(self.stock_location_14.id)],
+        })
+        repair = self.repair0
+        repair.action_validate()
+        repair.action_repair_start()
+        qc = repair.quality_check_ids
+        # Open the quality check wizard and fail the quality check
+        wizard = Form.from_action(self.env, qc.action_open_quality_check_wizard()).save().do_fail()
+        Form.from_action(self.env, wizard).save().confirm_fail()
+        repair.action_repair_end()
+        self.assertRecordValues(qc, [{
+            'quality_state': 'fail',
+            'product_id': self.product_product_5.id,
+            'failure_location_id': self.stock_location_14.id,
+        }])
+        failure_move_line = self.env['stock.move.line'].search([
+            ('product_id', '=', repair.product_id.id),
+            ('location_dest_id', '=', self.stock_location_14.id),
+            ('state', '=', 'done'),
+        ])
+        self.assertEqual(repair.product_qty, failure_move_line.qty_done)

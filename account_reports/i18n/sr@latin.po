@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
 "PO-Revision-Date: 2025-11-08 19:33+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Serbian (Latin script) <https://translate.odoo.com/projects/"
@@ -89,16 +89,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
-msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
 
 #. module: account_reports
@@ -395,6 +387,11 @@ msgstr ""
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
 msgstr ""
 
 #. module: account_reports
@@ -821,9 +818,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
 
 #. module: account_reports
@@ -2331,6 +2326,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2750,12 +2746,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
-msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
 msgstr ""
 
 #. module: account_reports
@@ -3284,6 +3274,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4104,9 +4095,8 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 
 #. module: account_reports
@@ -4510,12 +4500,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
-msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
 msgstr ""
 
 #. module: account_reports
@@ -5026,12 +5010,6 @@ msgstr ""
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
-msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
 msgstr ""
 
 #. module: account_reports
@@ -6002,7 +5980,7 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -6861,12 +6839,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "You can only have a unique check code for each return."
-msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
 msgstr ""
 
 #. module: account_reports

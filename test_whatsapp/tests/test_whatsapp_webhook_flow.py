@@ -323,6 +323,36 @@ class WhatsAppWebhookCase(WhatsAppFullCase, MockIncomingWhatsApp):
         self.assertNotEqual(channel_1, channel_2)
         self.assertEqual(len(channel_1.message_ids), 2)
 
+    @users('user_wa_admin')
+    def test_conversation_match_multi_account_same_waba(self):
+        """ Test receiving messages when multiple accounts share the same account_uid.
+        The signature check should pass and messages should be routed to the correct account
+        based on the phone_uid.
+        """
+        account_3 = self.whatsapp_account.sudo().copy({
+            'phone_uid': '9876543210',
+        })
+
+        accounts = self.env['whatsapp.account'].sudo().search([('account_uid', '=', self.whatsapp_account.account_uid)])
+        self.assertEqual(len(accounts), 2)
+
+        with self.mockWhatsappGateway():
+            self._receive_whatsapp_message(
+                self.whatsapp_account, "Message for Account 1", "32499123456",
+            )
+        channel_1 = self.assertWhatsAppDiscussChannel(
+            "32499123456", wa_account=self.whatsapp_account,
+        )
+
+        with self.mockWhatsappGateway():
+            self._receive_whatsapp_message(
+                account_3, "Message for Account 3", "32499123456",
+            )
+        channel_3 = self.assertWhatsAppDiscussChannel(
+            "32499123456", wa_account=account_3,
+        )
+        self.assertNotEqual(channel_1, channel_3)
+
     def test_receive_no_document(self):
         """ Receive a message that is not linked to any document. It should
         create a 'standalone' channel with the whatsapp account notified people

@@ -391,16 +391,24 @@ export const EditablePDFIframeMixin = (pdfClass) =>
             this.clearCanvas();
             const canvas = this.getCanvas();
             const ctx = canvas.getContext('2d');
-            const width = this.mousePosition.x - this.startPos.x;
-            const height = this.mousePosition.y - this.startPos.y;
+
+            // Normalize mouse coordinates to canvas space
+            const scale = this.getCanvasScale();
+            const startX = this.startPos.x / scale;
+            const startY = this.startPos.y / scale;
+            const mouseX = this.mousePosition.x / scale;
+            const mouseY = this.mousePosition.y / scale;
+            const width = mouseX - startX;
+            const height = mouseY - startY;
+
             canvas.style.position = 'absolute';
             canvas.style.zIndex = 100;
             ctx.strokeStyle = 'rgb(89, 105, 196, 0.3)';
             ctx.fillStyle = 'rgb(89, 105, 196, 0.3)';
             ctx.lineWidth = 1;
             ctx.setLineDash([]);
-            ctx.fillRect(this.startPos.x, this.startPos.y, width, height);
-            ctx.strokeRect(this.startPos.x, this.startPos.y, width, height);
+            ctx.fillRect(startX, startY, width, height);
+            ctx.strokeRect(startX, startY, width, height);
         }
 
         /**
@@ -672,7 +680,6 @@ export const EditablePDFIframeMixin = (pdfClass) =>
                 left: `${posX * 100}%`,
                 visibility: "visible",
             });
-            startResize(signItem, this.onResizeItem.bind(this));
         }
 
         setIsActive(active) {
@@ -909,6 +916,7 @@ export const EditablePDFIframeMixin = (pdfClass) =>
                 return;
             }
             e.preventDefault();
+            e.stopPropagation();
             const page = e.currentTarget;
             const textLayer = page.querySelector(".textLayer");
             if (!textLayer) return;

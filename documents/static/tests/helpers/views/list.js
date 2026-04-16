@@ -15,6 +15,7 @@ export const basicDocumentsListArch = /* xml */ `
     <field name="access_token" invisible="1"/>
     <field name="mimetype" invisible="1"/>
     <field name="tag_ids" />
+    <field name="attachment_id"/>
     <field name="alias_tag_ids"/>
     <field name="user_permission"/>
     <field name="display_name"/>

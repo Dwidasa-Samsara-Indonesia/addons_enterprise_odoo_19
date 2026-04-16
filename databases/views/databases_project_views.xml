@@ -45,7 +45,7 @@
         <field name="model">project.project</field>
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">
-            <list action="action_view_tasks" type="object" class="o_databases_list" js_class="databases_project_list">
+            <list action="action_view_tasks" multi_edit="1" type="object" class="o_databases_list" js_class="databases_project_list">
                 <header>
                     <button name="databases.action_synchronize_all_databases" type="action" string="Synchronize"
                         display="always" groups="databases.group_databases_user"/>
@@ -69,6 +69,19 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_databases_project_filter">
+        <field name="name">project.project.view.inherit.databases</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <field name="database_user_ids"
+                       filter_domain="['|', ('database_user_ids.name', 'ilike', self), ('database_user_ids.login', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_view_databases_all" model="ir.actions.act_window">
         <field name="name">Databases</field>
         <field name="path">databases</field>
@@ -76,6 +89,7 @@
         <field name="domain">[("database_hosting", "!=", False)]</field>
         <field name="view_mode">list,kanban,form,calendar,activity</field>
         <field name="view_id" ref="view_databases_list"/>
+        <field name="search_view_id" ref="view_databases_project_filter"/>
         <field name="context">{'default_privacy_visibility': 'followers', 'databases_template': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

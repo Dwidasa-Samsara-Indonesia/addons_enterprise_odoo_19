@@ -19,7 +19,7 @@
                 <page string="Fiskaly" name="fiskaly" invisible="country_code != 'AT'">
                     <group>
                         <group groups="base.group_no_one" >
-                            <field name="l10n_at_pos_test_mode" widget="boolean_toggle" help="Enable this to use fiskaly services for testing purpose"/>
+                            <field name="l10n_at_pos_test_mode" widget="boolean_toggle" help="Enable this to use fiskaly services for testing purpose" invisible="l10n_at_fiskaly_organization_id"/>
                         </group>
                     </group>
                     <group>

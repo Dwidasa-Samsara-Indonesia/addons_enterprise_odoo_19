@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-07 09:13+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/esg/fi/>"
 "\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: esg
 #. odoo-python
@@ -124,10 +124,14 @@ msgid "Activity Flow"
 msgstr "Toimenpiteiden työnkulku"
 
 #. module: esg
-#: model:ir.model,name:esg.model_esg_activity_type
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__activity_type_id
 msgid "Activity Type"
 msgstr "Toimenpidetyyppi"
+
+#. module: esg
+#: model:ir.model,name:esg.model_esg_activity_type
+msgid "Activity Type ESG"
+msgstr "Toimenpidetyyppi ESG"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__activity_type_ids
@@ -143,7 +147,7 @@ msgstr "Ylläpitäjä"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__price_subtotal
 msgid "Amount"
-msgstr "Arvo"
+msgstr "Määrä"
 
 #. module: esg
 #. odoo-python
@@ -384,8 +388,9 @@ msgid ""
 "account.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Tilityypin muuttaminen miksi tahansa muuksi kuin %(valid_account_type_names)"
-"s nollaa tähän tiliin linkitettyjen kirjausrivien päästötekijät.\n"
+"Tilityypin muuttaminen miksi tahansa muuksi kuin %"
+"(valid_account_type_names)s nollaa tähän tiliin linkitettyjen kirjausrivien "
+"päästötekijät.\n"
 "Se poistaa lisäksi kaikki kyseiseen tiliin linkitetyt ESG-rivit.\n"
 "Haluatko varmasti jatkaa?"
 
@@ -1730,7 +1735,7 @@ msgstr "Lähdetietokannat"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_factors_auto_assignment_wizard__start_date
 msgid "Start Date"
-msgstr "Alkupäivä"
+msgstr "Aloituspäivä"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_1

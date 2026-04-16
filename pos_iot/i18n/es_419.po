@@ -4,13 +4,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
+# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-12-06 10:11+0000\n"
-"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"PO-Revision-Date: 2026-03-05 18:09+0000\n"
+"Last-Translator: \"Patricia Gutiérrez (pagc)\" <pagc@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/pos_iot/es_419/>\n"
 "Language: es_419\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
@@ -362,12 +363,6 @@ msgstr "Verifique si la caja IoT sigue conectada."
 
 #. module: pos_iot
 #. odoo-javascript
-#: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
-msgid "Please check if the terminal is still connected."
-msgstr "Verifique si la terminal sigue conectada."
-
-#. module: pos_iot
-#. odoo-javascript
 #: code:addons/pos_iot/static/src/app/services/pos_store.js:0
 msgid "Please process or cancel the current transaction."
 msgstr "Procese o cancele la transacción en curso."
@@ -402,12 +397,6 @@ msgstr "Imprimir vía proxy"
 #: code:addons/pos_iot/static/src/app/utils/printer/iot_printer.js:0
 msgid "Printing failed"
 msgstr "Error en la impresión"
-
-#. module: pos_iot
-#. odoo-javascript
-#: code:addons/pos_iot/static/src/app/utils/printer/iot_printer.js:0
-msgid "Printing warning"
-msgstr "Advertencia de impresión"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_printer__proxy_ip
@@ -451,6 +440,16 @@ msgstr "Terminal de pago Six"
 msgid "The IP Address or hostname of the Printer's hardware proxy"
 msgstr ""
 "La dirección IP o el nombre de host del proxy del hardware de la impresora"
+
+#. module: pos_iot
+#. odoo-javascript
+#: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
+msgid ""
+"The IoT Box cannot detect the payment terminal. Please check if the terminal "
+"is still connected."
+msgstr ""
+"La caja IoT no puede detectar la terminal de pago. Revisa si la terminal "
+"sigue conectada."
 
 #. module: pos_iot
 #. odoo-javascript
@@ -545,3 +544,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "none"
 msgstr "none"
+
+#~ msgid "Please check if the terminal is still connected."
+#~ msgstr "Verifique si la terminal sigue conectada."
+
+#~ msgid "Printing warning"
+#~ msgstr "Advertencia de impresión"

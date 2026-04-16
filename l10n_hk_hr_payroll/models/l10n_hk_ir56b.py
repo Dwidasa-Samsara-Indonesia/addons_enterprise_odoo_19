@@ -184,7 +184,7 @@ class L10n_HkIr56b(models.Model):
 
         total_data = {
             'NoRecordBatch': '{:05}'.format(sheets_count),
-            'TotIncomeBatch': int(sum(all_line_values['MPF_GROSS'][p.id]['total'] for p in all_payslips)),
+            'TotIncomeBatch': int(sum(ed['TotalIncome'] for ed in employees_data)),
         }
 
         return {'data': report_info, 'employees_data': employees_data, 'total_data': total_data}

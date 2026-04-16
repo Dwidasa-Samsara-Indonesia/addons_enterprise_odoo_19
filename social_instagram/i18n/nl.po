@@ -3,13 +3,14 @@
 # * social_instagram
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# Bren Driesen <brdri@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:47+0000\n"
-"PO-Revision-Date: 2025-09-14 11:59+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"POT-Creation-Date: 2026-03-13 18:49+0000\n"
+"PO-Revision-Date: 2026-03-17 11:42+0000\n"
+"Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "social_instagram/nl/>\n"
 "Language: nl\n"
@@ -17,12 +18,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
 msgid "(between 1.91:1 and 4:5)."
 msgstr "(tussen 1.91:1 en 4:5)."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"- Check permissions: Your site's robots.txt might be blocking Instagram from "
+"accessing the media folder (make sure /social_instagram is not blocked)."
+msgstr ""
+"- Controleer de machtigingen: het robots.txt-bestand van je site blokkeert "
+"mogelijk de toegang van Instagram tot de mediamap (zorg ervoor dat /"
+"social_instagram niet wordt geblokkeerd)."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"- Check your connection: Your server may be offline or temporarily "
+"unreachable."
+msgstr ""
+"- Controleer je verbinding: Je server is mogelijk offline of tijdelijk "
+"onbereikbaar."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"- Check your file: Ensure it isn't corrupted and is from 320 to 1440 pixels "
+"wide, 8MB maximum, aspect ratio between 4:5 and 1.91:1."
+msgstr ""
+"- Controleer je bestand: Zorg ervoor dat het niet beschadigd is en een "
+"breedte heeft van 320 tot 1440 pixels, maximaal 8 MB groot is, met een "
+"beeldverhouding tussen 4:5 en 1,91:1."
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
@@ -439,6 +472,18 @@ msgstr ""
 
 #. module: social_instagram
 #. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "The media container expired."
+msgstr "De mediacontainer is verlopen."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "The media container failed to process."
+msgstr "De mediacontainer kon niet worden verwerkt."
+
+#. module: social_instagram
+#. odoo-python
 #: code:addons/social_instagram/controllers/main.py:0
 msgid "There was a authentication issue during your request."
 msgstr "Er is een authenticatieprobleem opgetreden tijdens je verzoek."
@@ -500,6 +545,15 @@ msgstr ""
 #: code:addons/social_instagram/models/social_post.py:0
 msgid "Your image appears to be corrupted, please try loading it again."
 msgstr "Je afbeelding lijkt beschadigd te zijn, probeer deze opnieuw te laden."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"Your media didn't go through. This is usually caused by one of the following:"
+msgstr ""
+"Je media zijn niet doorgekomen. Dit wordt meestal veroorzaakt door een van "
+"de volgende zaken:"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview

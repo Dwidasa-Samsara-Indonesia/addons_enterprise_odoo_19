@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class Wise:
     def __init__(self, company):
-        self.url = "https://api.sandbox.transferwise.tech" if company.sudo().wise_environment == 'sandbox' else "https://api.wise.com"
+        self.url = "https://api.wise-sandbox.com" if company.sudo().wise_environment == 'sandbox' else "https://api.wise.com"
         self.__session = requests.Session()
         self.token = company.sudo().wise_api_key
         self.debug_logger = company._log_external_wise_request

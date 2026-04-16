@@ -1,6 +1,10 @@
+import logging
 from odoo import api, fields, models
 
 from ..api import ApiError, OdooDatabaseApi
+
+
+_logger = logging.getLogger(__name__)
 
 
 class DatabasesInviteUsersWizard(models.TransientModel):
@@ -133,6 +137,7 @@ class DatabasesInviteUsersWizard(models.TransientModel):
             try:
                 db_api.invite_users(db_users.mapped('login'))
             except ApiError as e:
+                _logger.warning('ApiError: Error while creating user on %s: %s', db.database_name, e.args[0])
                 self.error_message += self.env._(
                     "Error while creating users on %(dbname)s: %(message)s\n",
                     dbname=db.database_name,
@@ -164,6 +169,7 @@ class DatabasesInviteUsersWizard(models.TransientModel):
             try:
                 db_api.remove_users(db_users.mapped('login'))
             except ApiError as e:
+                _logger.warning('ApiError: Error while removing users from %s: %s', db.database_name, e.args[0])
                 self.error_message += self.env._(
                     "Error while removing users from %(dbname)s: %(message)s\n",
                     dbname=db.database_name,

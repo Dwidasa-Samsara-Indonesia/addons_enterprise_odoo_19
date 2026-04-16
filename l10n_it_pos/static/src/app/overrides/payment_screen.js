@@ -7,7 +7,7 @@ patch(PaymentScreen.prototype, {
     setup() {
         super.setup(...arguments);
         onMounted(() => {
-            if (isFiscalPrinterActive(this.pos.config)) {
+            if (isFiscalPrinterActive(this.pos.config) && !this.pos.data.network.offline) {
                 const order = this.pos.getOrder();
                 const totalToPay = this.env.utils.formatCurrency(order.totalDue, false);
                 this.pos.fiscalPrinter.displayText(`To Pay: ${totalToPay}`);

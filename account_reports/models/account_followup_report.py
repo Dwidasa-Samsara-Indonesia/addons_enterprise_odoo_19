@@ -28,7 +28,7 @@ class AccountFollowupCustomHandler(models.AbstractModel):
             options['ignore_totals_below_sections'] = True
             options['hide_partner_totals'] = True
 
-        if options['report_id'] != previous_options.get('report_id'):
+        if options['report_id'] != previous_options.get('report_id') and options['export_mode'] != 'print':
             options['unreconciled'] = True
 
         if options['export_mode'] == 'print':

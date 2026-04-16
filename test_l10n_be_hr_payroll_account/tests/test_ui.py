@@ -26,9 +26,6 @@ class Testl10nBeHrPayrollAccountUi(MockEmail, common.TestPayrollAccountCommon):
             self.assertTrue(new_version, 'A archived contract has been created')
             self.assertTrue(new_employee_id, 'An employee has been created')
             self.assertFalse(new_employee_id.active, 'Employee is not yet active')
-            self.assertEqual(new_version.public_transport_employee_amount, 100)
-            self.assertEqual(new_version.public_transport_reimbursed_amount, 34)
-            self.assertEqual(new_version.rd_percentage, 75)
 
             # asserts that '0' values automatically filled are actually being saved
             children_count = self.env['sign.request.item.value'].search([

@@ -3,13 +3,13 @@
 # * l10n_nl_reports
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# Bren Driesen <brdri@odoo.com>, 2025.
+# Bren Driesen <brdri@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.2+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 19:03+0000\n"
-"PO-Revision-Date: 2025-12-20 09:32+0000\n"
+"POT-Creation-Date: 2026-03-20 19:03+0000\n"
+"PO-Revision-Date: 2026-03-02 16:05+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_nl_reports/nl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -54,7 +54,7 @@ msgstr "- Btw-nummer"
 #. odoo-python
 #: code:addons/l10n_nl_reports/models/dutch_report_custom_handler.py:0
 msgid "5e. End total"
-msgstr ""
+msgstr "5e. Eindtotaal"
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -88,6 +88,29 @@ msgid ""
 "            </div>\n"
 "        "
 msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p>\n"
+"                    Beste <t t-out=\"object.company_id.name or ''\">NL "
+"Bedrijf</t>,\n"
+"                </p>\n"
+"                <p>\n"
+"                     Op basis van de ontvangen documenten en informatie is "
+"de btw-aangifte van <t t-out=\"object.company_id.name or ''\">NL Bedrijf</"
+"t>\n"
+"                    voor de periode <t t-"
+"out=\"object.type_id._get_period_name(object.company_id, object.date_from, "
+"object.date_to)\"/> ingediend.\n"
+"                </p>\n"
+"                <p>\n"
+"                    Vastgesteld is dat een bedrag van <t t-"
+"out=\"format_amount(object.total_amount_to_pay, "
+"object.amount_to_pay_currency_id)\"/> verschuldigd blijft.\n"
+"                </p>\n"
+"                <t t-call=\"l10n_nl_reports.vat_payment_details_table\"/>\n"
+"                <p>Met vriendelijke groet,</p>\n"
+"                <p><t t-out=\"user.name\">Mitchell Admin</t></p>\n"
+"            </div>\n"
+"        "
 
 #. module: l10n_nl_reports
 #: model_terms:ir.ui.view,arch_db:l10n_nl_reports.vat_payment_details_table
@@ -122,7 +145,7 @@ msgstr "Btw-aangifte"
 #. module: l10n_nl_reports
 #: model:ir.model,name:l10n_nl_reports.model_account_return_type
 msgid "Accounting Return Type"
-msgstr ""
+msgstr "Type boekhoudkundige aangifte"
 
 #. module: l10n_nl_reports
 #: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_vat_pay_wizard__amount_to_pay
@@ -137,7 +160,7 @@ msgstr "Valuta van te betalen bedrag"
 #. module: l10n_nl_reports
 #: model_terms:ir.ui.view,arch_db:l10n_nl_reports.vat_payment_details_table
 msgid "Amount to Pay"
-msgstr ""
+msgstr "Verschuldigd bedrag"
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -323,7 +346,7 @@ msgstr "Downloaden"
 #. module: l10n_nl_reports
 #: model_terms:ir.ui.view,arch_db:l10n_nl_reports.vat_payment_details_table
 msgid "Due By"
-msgstr ""
+msgstr "Te betalen voor"
 
 #. module: l10n_nl_reports
 #: model:ir.model,name:l10n_nl_reports.model_l10n_nl_reports_ec_sales_report_handler
@@ -354,12 +377,7 @@ msgstr "ICP SBR"
 #. module: l10n_nl_reports
 #: model:account.return.type,name:l10n_nl_reports.nl_ec_sales_list_return_type
 msgid "EC Sales List"
-msgstr ""
-
-#. module: l10n_nl_reports
-#: model:ir.model,name:l10n_nl_reports.model_account_general_ledger_report_handler
-msgid "FEC Report Custom Handler"
-msgstr ""
+msgstr "ICP-aangifte"
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -491,7 +509,7 @@ msgstr "Markeer als betaald"
 #. module: l10n_nl_reports
 #: model_terms:ir.ui.view,arch_db:l10n_nl_reports.l10n_nl_vat_pay_wizard_form
 msgid "Mark as Recovered"
-msgstr ""
+msgstr "Markeren als Teruggevorderd"
 
 #. module: l10n_nl_reports
 #: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_sbr_status_service__kenmerk
@@ -499,10 +517,28 @@ msgid "Message Exchange ID"
 msgstr "Berichtuitwisselings-ID"
 
 #. module: l10n_nl_reports
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_icp_wizard__tax_consultant_order__nba
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_tax_report_wizard__tax_consultant_order__nba
+msgid "NBA - Accountants"
+msgstr ""
+
+#. module: l10n_nl_reports
 #: model:ir.actions.client,name:l10n_nl_reports.action_account_financial_report_nl_pnl
 #: model:ir.actions.client,name:l10n_nl_reports.action_account_financial_report_nl_pnl_tags
 msgid "NL Profit And Loss"
 msgstr "NL Winst-en-verliesrekening"
+
+#. module: l10n_nl_reports
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_icp_wizard__tax_consultant_order__noab
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_tax_report_wizard__tax_consultant_order__noab
+msgid "NOAB - Dutch Order of Administrative and Tax Experts"
+msgstr ""
+
+#. module: l10n_nl_reports
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_icp_wizard__tax_consultant_order__nob
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_tax_report_wizard__tax_consultant_order__nob
+msgid "NOB - Dutch Order of Tax Advisors"
+msgstr ""
 
 #. module: l10n_nl_reports
 #: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_sbr_status_service__report_name
@@ -569,6 +605,11 @@ msgstr ""
 "bedrijven wilt samenvoegen, maak dan een fiscale eenheid aan."
 
 #. module: l10n_nl_reports
+#: model:ir.model,name:l10n_nl_reports.model_account_general_ledger_report_handler
+msgid "Polish JPK KR PD Custom Handler"
+msgstr "Aangepaste handler voor Poolse KPK KR PD"
+
+#. module: l10n_nl_reports
 #: model_terms:ir.ui.view,arch_db:l10n_nl_reports.res_config_settings_view_form
 msgid "Post difference from rounding tax closing entries in:"
 msgstr "Boek verschil door afronding van belastingafsluitingen in:"
@@ -582,6 +623,12 @@ msgstr "Verwerkingsstatussen van de niet-voltooide ingediende SBR-rapporten"
 #: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_vat_pay_wizard__qr_code
 msgid "Qr Code"
 msgstr "QR-code"
+
+#. module: l10n_nl_reports
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_icp_wizard__tax_consultant_order__rb
+#: model:ir.model.fields.selection,name:l10n_nl_reports.selection__l10n_nl_reports_sbr_tax_report_wizard__tax_consultant_order__rb
+msgid "RB - Register of Tax Advisors"
+msgstr ""
 
 #. module: l10n_nl_reports
 #: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_sbr_status_service__closing_entry_id
@@ -699,6 +746,12 @@ msgid "Tax Consultant Number"
 msgstr "Beconnummer"
 
 #. module: l10n_nl_reports
+#: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_sbr_icp_wizard__tax_consultant_order
+#: model:ir.model.fields,field_description:l10n_nl_reports.field_l10n_nl_reports_sbr_tax_report_wizard__tax_consultant_order
+msgid "Tax Consultant Order"
+msgstr ""
+
+#. module: l10n_nl_reports
 #. odoo-python
 #: code:addons/l10n_nl_reports/models/dutch_report_custom_handler.py:0
 msgid "Tax Report SBR"
@@ -770,6 +823,12 @@ msgid ""
 msgstr ""
 "De afsluitboeking voor de geselecteerde periode staat nog in concept. Boek "
 "deze voordat je je aangifte verzendt."
+
+#. module: l10n_nl_reports
+#: model:ir.model.fields,help:l10n_nl_reports.field_l10n_nl_reports_sbr_icp_wizard__tax_consultant_order
+#: model:ir.model.fields,help:l10n_nl_reports.field_l10n_nl_reports_sbr_tax_report_wizard__tax_consultant_order
+msgid "The order of tax consultants the tax consultant belongs to."
+msgstr ""
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -856,7 +915,7 @@ msgstr "Btw"
 #. module: l10n_nl_reports
 #: model:account.return.type,name:l10n_nl_reports.nl_tax_correction_return_type
 msgid "VAT Correction"
-msgstr ""
+msgstr "Btw-correctie"
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -872,7 +931,7 @@ msgstr "Btw-betaling"
 #. module: l10n_nl_reports
 #: model:mail.template,subject:l10n_nl_reports.email_template_vat_payment_instructions
 msgid "VAT return payment instructions"
-msgstr ""
+msgstr "Betaalinstructies btw-aangifte"
 
 #. module: l10n_nl_reports
 #. odoo-python
@@ -946,4 +1005,4 @@ msgstr "iso4217:EUR"
 #. module: l10n_nl_reports
 #: model_terms:ir.ui.view,arch_db:l10n_nl_reports.vat_payment_details_table
 msgid "payment qr"
-msgstr ""
+msgstr "QR-code voor betaling"

@@ -33,10 +33,14 @@ Documents app in the desired format(s).
         'web.assets_backend': [
             'documents_account/static/**/*',
             ('remove', 'documents_account/static/src/views/activity/**'),
+            ('remove', 'documents_account/static/tests/**'),
         ],
         'web.assets_backend_lazy': [
             'documents_account/static/src/views/activity/**',
-        ]
+        ],
+        'web.assets_tests': [
+            'documents_account/static/tests/tours/**/*',
+        ],
     },
     'post_init_hook': '_documents_account_post_init',
 }

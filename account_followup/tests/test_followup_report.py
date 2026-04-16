@@ -140,6 +140,7 @@ class TestAccountFollowupReports(TestAccountReportsCommon, TestAccountFollowupCo
                 'name': 'some_attachment.pdf',
                 'res_id': invoice.id,
                 'res_model': 'account.move',
+                'res_field': 'invoice_pdf_report_file',  # simulates send & print
                 'datas': 'test',
                 'type': 'binary',
             })
@@ -855,14 +856,17 @@ class TestAccountFollowupReports(TestAccountReportsCommon, TestAccountFollowupCo
             'datas': 'test',
             'type': 'binary',
         })
-        invoice._message_set_main_attachment_id(invoice_attachment)
+        send_wizard = self.env['account.move.send.wizard']\
+            .with_context(active_model='account.move', active_ids=invoice.ids)\
+            .create({'sending_methods': ['manual']})
+        send_wizard.action_send_and_print()
 
         self.partner_a._compute_unpaid_invoices()
         with patch.object(self.env.registry['account.report'], 'export_to_pdf', autospec=True, side_effect=lambda *args, **kwargs: {'file_name': 'fake_partner_ledger.pdf', 'file_content': b'', 'file_type': 'pdf'}):
             self.partner_a.action_manually_process_automatic_followups()
 
         sent_attachments = self.env['mail.message'].search([('partner_ids', '=', self.partner_a.id)]).attachment_ids
-        self.assertEqual(sent_attachments.mapped('name'), [f'{self.partner_a.name} - fake_partner_ledger.pdf', 'some_attachment.pdf'])
+        self.assertEqual(sent_attachments.mapped('name'), [f'{self.partner_a.name} - fake_partner_ledger.pdf', invoice._get_invoice_report_filename()])
 
     def test_manual_followup_report_invoices_removed(self):
         followup_line = self.env['account_followup.followup.line'].create({
@@ -949,6 +953,54 @@ class TestAccountFollowupReports(TestAccountReportsCommon, TestAccountFollowupCo
 
         sent_attachments = self.env['mail.message'].search([('partner_ids', '=', self.partner_a.id)]).attachment_ids
         self.assertEqual(sent_attachments.mapped('name'), [f'{self.partner_a.name} - fake_partner_ledger.pdf'])
+
+    def _prepare_invoices_and_attachments(self):
+        invoice_1 = self.init_invoice("out_invoice", amounts=[1000], post=True)
+        invoice_2 = self.init_invoice("out_invoice", amounts=[2000], post=True)
+
+        attachment_1 = self.env['ir.attachment'].create({
+            'name': 'att_1.pdf',
+            'res_id': invoice_1.id,
+            'res_model': 'account.move',
+            'datas': 'test',
+            'type': 'binary',
+        })
+        invoice_1._message_set_main_attachment_id(attachment_1)
+
+        attachment_2 = self.env['ir.attachment'].create([{
+            'name': 'att_2.pdf',
+            'res_id': invoice_2.id,
+            'res_model': 'account.move',
+            'res_field': 'invoice_pdf_report_file',  # simulates send & print
+            'datas': 'test',
+            'type': 'binary',
+        }])
+
+        return invoice_1 + invoice_2, attachment_1 + attachment_2
+
+    def test_manual_followup_invoice_attachments_pdf_report_file(self):
+        invoices, attachments = self._prepare_invoices_and_attachments()
+        wizard = self.env['account_followup.manual_reminder'].with_context(
+            active_model='res.partner',
+            active_ids=invoices[1].partner_id.ids,
+        ).create({})
+
+        self.assertEqual(invoices[1].partner_id.unreconciled_aml_ids.move_id, invoices)
+        self.assertEqual(wizard.attachment_ids, attachments[1], "The manually uploaded PDF should not be attached to the follow-up.")
+
+    def test_auto_followup_invoice_attachments_pdf_report_file(self):
+        invoices, attachments = self._prepare_invoices_and_attachments()
+        self.env['account_followup.followup.line'].create({
+            'company_id': self.env.company.id,
+            'name': 'First Reminder',
+            'delay': 15,
+            'send_email': True,
+        })
+        with patch.object(self.env.registry['account.report'], 'export_to_pdf', autospec=True, side_effect=lambda *args, **kwargs: {'file_name': 'fake_partner_ledger.pdf', 'file_content': b'', 'file_type': 'pdf'}):
+            self.partner_a.action_manually_process_automatic_followups()
+
+        sent_attachments = self.env['mail.message'].search([('partner_ids', '=', invoices.partner_id.id)]).attachment_ids
+        self.assertEqual(sent_attachments.mapped('name'), [f'{self.partner_a.name} - fake_partner_ledger.pdf', attachments[1].name])
 
     def test_followup_report_with_entries(self):
         """
@@ -1087,6 +1139,7 @@ class TestAccountFollowupReports(TestAccountReportsCommon, TestAccountFollowupCo
             'name': 'invoice_attachment.pdf',
             'res_id': invoice.id,
             'res_model': 'account.move',
+            'res_field': 'invoice_pdf_report_file',  # simulates send & print
             'datas': 'test',
             'type': 'binary',
         })

@@ -11,9 +11,11 @@
         "sale_stock",
     ],
     "data": [
+        "data/ir_cron.xml",
         "data/l10n_latam.document.type.csv",
         "views/cfe_template.xml",
         "views/stock_picking_views.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True,
     'license': 'OEEL-1',

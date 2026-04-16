@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
 "PO-Revision-Date: 2026-02-04 02:29+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
@@ -1774,15 +1774,15 @@ msgid "Country"
 msgstr "国"
 
 #. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
+msgstr ""
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
 msgid "Country Clubs"
 msgstr "カントリークラブ"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr "許可されていない国"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
@@ -2807,8 +2807,8 @@ msgstr "MCC"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
-msgstr "MCCは許可されていません"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
@@ -3173,15 +3173,25 @@ msgstr "オフィス・業務用家具"
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
-msgstr "現在、Stripe Issuingの資金調達指示ではIBANのみがサポートされています"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
-msgstr "現在、Stripe Issuingの資金追加にはSEPAのみが対応しています"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3857,6 +3867,14 @@ msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing is not available in your country."
 msgstr "Stripe Issuingはお客様の国ではご利用いただけません。"
@@ -4210,6 +4228,13 @@ msgstr "このタイプのカードの作成上限に達しました。後ほど
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr "配送先は欧州連合(EU)域内である必要があります。"
 
@@ -4455,22 +4480,22 @@ msgstr "取引が承認されました"
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/utils.py:0
-msgid ""
-"Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr "取引額がインターバル上限を超えています"
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr "取引額が許可された最大値を超えています"
+#: code:addons/hr_expense_stripe/utils.py:0
+msgid ""
+"Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -5051,6 +5076,27 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "利用規約"
+
+#~ msgid "Country not allowed"
+#~ msgstr "許可されていない国"
+
+#~ msgid "MCC not allowed"
+#~ msgstr "MCCは許可されていません"
+
+#~ msgid ""
+#~ "Only IBAN is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "現在、Stripe Issuingの資金調達指示ではIBANのみがサポートされています"
+
+#~ msgid ""
+#~ "Only SEPA is supported for Stripe Issuing funding instructions right now"
+#~ msgstr "現在、Stripe Issuingの資金追加にはSEPAのみが対応しています"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr "取引額がインターバル上限を超えています"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "取引額が許可された最大値を超えています"
 
 #~ msgid "Stripe issuing is not supported for your localization"
 #~ msgstr ""

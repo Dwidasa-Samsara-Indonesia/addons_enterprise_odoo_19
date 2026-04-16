@@ -118,15 +118,15 @@
                 <ext:ExtensionContent>
                     <sts:DianExtensions>
                         <sts:InvoiceControl>
-                            <sts:InvoiceAuthorization t-out="record.journal_id.l10n_co_edi_dian_authorization_number"/>
+                            <sts:InvoiceAuthorization t-out="journal.l10n_co_edi_dian_authorization_number"/>
                             <sts:AuthorizationPeriod>
-                                <cbc:StartDate t-out="record.journal_id.l10n_co_edi_dian_authorization_date"/>
-                                <cbc:EndDate t-out="record.journal_id.l10n_co_edi_dian_authorization_end_date"/>
+                                <cbc:StartDate t-out="journal.l10n_co_edi_dian_authorization_date"/>
+                                <cbc:EndDate t-out="journal.l10n_co_edi_dian_authorization_end_date"/>
                             </sts:AuthorizationPeriod>
                             <sts:AuthorizedInvoices>
-                                <sts:Prefix t-out="record.journal_id.code"/>
-                                <sts:From t-out="record.journal_id.l10n_co_edi_min_range_number"/>
-                                <sts:To t-out="record.journal_id.l10n_co_edi_max_range_number"/>
+                                <sts:Prefix t-out="journal.code"/>
+                                <sts:From t-out="journal.l10n_co_edi_min_range_number"/>
+                                <sts:To t-out="journal.l10n_co_edi_max_range_number"/>
                             </sts:AuthorizedInvoices>
                         </sts:InvoiceControl>
                         <sts:InvoiceSource>

@@ -45,10 +45,12 @@ result_name = inputs['LAI'].name
 
     <record id="hr_salary_rule_houserentallowancemetro_nonmetro" model="hr.salary.rule">
         <field name="code">HRAMN</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(version.l10n_in_hra_percentage)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-nonmetro_alw = version.l10n_in_hra_percentage / 100
-result = version.wage * nonmetro_alw
+result = categories['BASIC']
+result_rate = version.l10n_in_hra_percentage * 100
         </field>
         <field name="category_id" ref="hr_payroll.ALW"/>
         <field name="name">House Rent Allowance</field>

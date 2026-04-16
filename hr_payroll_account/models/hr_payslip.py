@@ -263,13 +263,24 @@ class HrPayslip(models.Model):
                         not line.salary_rule_id.analytic_distribution and
                         not line.slip_id.version_id.analytic_distribution
                     )
-                    or line_id['analytic_distribution'] and any(acc_id in line_id['analytic_distribution'] for acc_id in line.salary_rule_id.distribution_analytic_account_ids)
-                    or line_id['analytic_distribution'] and any(acc_id in line_id['analytic_distribution'] for acc_id in line.slip_id.version_id.distribution_analytic_account_ids)
+                    or line_id['analytic_distribution'] and self._check_partially_matching_accounts(line_id, line)
 
                 )
             and self._check_debit_credit_tags(line_id, line, account_id)
         )
         return existing_lines
+
+    def _check_partially_matching_accounts(self, line_id, line):
+        keys = line_id['analytic_distribution']
+        unravelled_keys = []
+        for key in keys:
+            ids = key.split(',')
+            unravelled_keys += ids
+
+        result = any(str(acc_id.id) in unravelled_keys for acc_id in line.salary_rule_id.distribution_analytic_account_ids) \
+            or any(str(acc_id.id) in unravelled_keys for acc_id in line.slip_id.version_id.distribution_analytic_account_ids)
+
+        return result
 
     def _create_account_move(self, values):
         return self.env['account.move'].sudo().create(values)

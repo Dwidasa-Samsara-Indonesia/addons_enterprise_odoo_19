@@ -119,6 +119,7 @@ export const DocumentsSpreadsheetControllerMixin = () => ({
         );
         const model = await fetchSpreadsheetModel(this.env, "documents.document", doc.resId);
         const spreadsheetData = JSON.stringify(await freezeOdooData(model));
+        model.dispatch("LOG_DATASOURCE_EXPORT", { action: "freeze" });
         const excelFiles = model.exportXLSX().files;
 
         // Create a new <documents.document> with the frozen data

@@ -489,7 +489,7 @@ class CalendarEvent(models.Model):
 
     def _track_template(self, changes):
         res = super(CalendarEvent, self)._track_template(changes)
-        if not self.appointment_type_id or self._skip_send_mail_status_update():
+        if not self.appointment_type_id:
             return res
 
         appointment_type_sudo = self.appointment_type_id.sudo()
@@ -507,8 +507,11 @@ class CalendarEvent(models.Model):
                     'auto_delete_keep_log': False,
                     'subtype_id': self.env['ir.model.data']._xmlid_to_res_id('appointment.mt_calendar_event_booked'),
                     'email_layout_xmlid': 'mail.mail_notification_light',
-                    'partner_ids': [],  # notify followers of the subtype only, not default recipients
-                })
+                } | (
+                    {'partner_ids': []}  # notify followers of the subtype only, not default recipients
+                    if booked_template.use_default_to  # stable-compatibility, we don't want to suddenly start sending these to attendees again
+                    else {}
+                ))
         if (
             'active' in changes and not self.active and self.start > fields.Datetime.now()
             and appointment_type_sudo.canceled_mail_template_id

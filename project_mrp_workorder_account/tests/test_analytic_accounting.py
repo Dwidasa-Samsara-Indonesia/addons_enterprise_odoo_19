@@ -93,6 +93,21 @@ class TestMrpAnalyticAccountHr(TestMrpAnalyticAccount):
         self.assertEqual(employee_aa_line.amount, -100.0)
         self.assertEqual(mo_2.workorder_ids.mo_analytic_account_line_ids.amount, -10.0)
 
+    def test_mrp_private_project_linked_mo(self):
+        """Test when a MO is linked to a private project, an employee without project right
+        is able to work on the MO
+        """
+        production_worker = new_test_user(self.env, 'Bob', 'mrp.group_mrp_user')
+        self.project.privacy_visibility = 'followers'
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product.id,
+            'bom_id': self.bom.id,
+            'product_qty': 1.0,
+            'project_id': self.project.id,
+        })
+        self.project.invalidate_recordset()
+        mo.with_user(production_worker).action_confirm()
+
     def test_mrp_analytic_account_without_workorder(self):
         """
         Test adding a project with an analytic account to a confirmed manufacturing order without a work order.
@@ -317,3 +332,31 @@ class TestMrpAnalyticAccountHr(TestMrpAnalyticAccount):
         self.assertEqual(wo.state, 'done')
         mo.with_user(user).button_mark_done()
         self.assertEqual(mo.state, 'done')
+
+    def test_change_employee_update_hourly_cost(self):
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product.id,
+            'product_qty': 1,
+            'bom_id': self.bom.id,
+            'project_id': self.project.id,
+        })
+        mo.action_confirm()
+        with Form(mo.workorder_ids) as form:
+            with form.time_ids.new() as line:
+                line.duration = 60
+                line.employee_id = self.employee1
+                line.loss_id = self.env.ref('mrp.block_reason7')
+                line.workcenter_id = self.workcenter
+
+        aal = mo.workorder_ids.employee_analytic_account_line_ids.filtered(
+            lambda l: l.employee_id == self.employee1)
+        self.assertEqual(aal.amount, -100,
+                         "the workcenter productivity has a duration of 60 min so the AAL amount should be equal to employee1 hourly cost")
+        # check that changing the employee of a line should update the AAL amount and employee
+        with Form(mo.workorder_ids) as form:
+            with form.time_ids.edit(0) as line:
+                line.employee_id = self.employee2
+
+        self.assertEqual(aal.amount, -200,
+                         "the workcenter productivity has a duration of 60 min so the AAL should be equal to employee2 hourly cost")
+        self.assertEqual(aal.employee_id, self.employee2, "The employee on the AAL should change")

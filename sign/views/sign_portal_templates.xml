@@ -184,9 +184,9 @@
                     </div>
                 </div>
                 <div class="o_sign_button">
-                    <t t-set="fully_signed" t-value="my_sign_item.state  == 'completed' "/>
-                    <a t-att-href="url" class="btn btn-primary btn-block" t-att-target="'_blank' if fully_signed else ''">
-                        <div class="o_sign_button_content" t-if="fully_signed">View Document</div>
+                    <t t-set="is_read_only" t-value="my_sign_item.state  in ['completed', 'canceled']"/>
+                    <a t-att-href="url" class="btn btn-primary btn-block" t-att-target="'_blank' if is_read_only else ''">
+                        <div class="o_sign_button_content" t-if="is_read_only">View Document</div>
                         <div class="o_sign_button_content" t-else="">Sign</div>
                     </a>
                     <a t-if="my_sign_item.sign_request_id.state == 'signed'"

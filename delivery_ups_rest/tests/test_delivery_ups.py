@@ -6,6 +6,9 @@ import requests
 from odoo.tests.common import tagged
 from odoo import Command
 from odoo.addons.delivery_ups_rest.tests.common import DeliveryUPSCommon
+from odoo.tools.float_utils import float_repr
+
+from ..models.ups_request import UPSRequest
 
 
 @contextmanager
@@ -71,6 +74,16 @@ class TestDeliveryUPS(DeliveryUPSCommon):
             'city': 'Los Angelos',
             'phone': '1234567890',
             'zip': '1234',
+        })
+
+        self.hong_kong_partner = self.env['res.partner'].create({
+            'name': 'Hong Kong Customer',
+            'country_id': self.env.ref('base.hk').id,
+            'state_id': self.env.ref('base.state_hk_hk').id,
+            'street': "1 H-K Road",
+            'city': "Hong Kong",
+            'phone': '1234567890',
+            'zip': '999077',
         })
 
     def test_ups_basic_flow(self):
@@ -149,3 +162,37 @@ class TestDeliveryUPS(DeliveryUPSCommon):
                 picking._action_done()
                 _, shipment_info, _, _, _ = self.ups_delivery._prepare_shipping_data(picking)
                 self.assertEqual(shipment_info['itl_currency_code'], pricelist.currency_id.name)
+
+    def test_ups_commercial_invoice_freight_charge(self):
+        '''
+        Ensure freight charge is correctly transmitted for internatonal UPS deliveries.
+        '''
+        original_send_request = UPSRequest._send_request
+
+        def patched_send_request(self, url, method='GET', data=None, json=None, headers=None, auth=None):
+            if '/ship' in url:
+                assert json['ShipmentRequest']['Shipment']['ShipmentServiceOptions']['InternationalForms']['FreightCharges']['MonetaryValue'] == freight_charge
+            return original_send_request(self, url, method, data, json, headers, auth)
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.hong_kong_partner.id,
+            'order_line': [(0, 0, {
+                'product_id': self.product.id,
+                'name': "Fancy box",
+                'product_uom_qty': 1.0,
+                'price_unit': 20,
+            })]
+        })
+        wiz_action = sale_order.action_open_delivery_wizard()
+        choose_delivery_carrier = self.env[wiz_action['res_model']].with_context(wiz_action['context']).create({
+            'carrier_id': self.ups_delivery.id,
+            'order_id': sale_order.id
+        })
+        with patch.object(UPSRequest, '_send_request', side_effect=patched_send_request, autospec=True):
+            with _mock_request_call():
+                choose_delivery_carrier.update_price()
+                choose_delivery_carrier.button_confirm()
+                sale_order.action_confirm()
+                freight_charge = float_repr(sale_order.order_line.filtered(lambda sol: sol.is_delivery).price_total, sale_order.currency_id.decimal_places)
+                picking = sale_order.picking_ids[0]
+                picking._action_done()

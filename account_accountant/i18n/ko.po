@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:41+0000\n"
+"POT-Creation-Date: 2026-03-13 18:44+0000\n"
 "PO-Revision-Date: 2026-01-05 18:38+0000\n"
 "Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/"
@@ -279,6 +279,8 @@ msgstr ""
 "서를 미제출 상태로 재설정할 수 있습니다."
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model,name:account_accountant.model_account_account
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__account_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_list_bank_rec_widget
@@ -1878,6 +1880,8 @@ msgid "Outstanding debits"
 msgstr "미결제 차변액"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__to_partner_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget
@@ -1892,6 +1896,7 @@ msgstr "파트너"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Payable"
 msgstr "지급금"
@@ -1984,6 +1989,7 @@ msgstr "사유..."
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Receivable"
 msgstr "미수금"
@@ -2133,6 +2139,7 @@ msgstr "조정할 전표 항목 검색"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Account"
 msgstr "검색: 계정"
 
@@ -2145,6 +2152,7 @@ msgstr "검색: 매칭할 전표 항목"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Partner"
 msgstr "검색: 협력사"
 
@@ -2159,12 +2167,14 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Account"
 msgstr "계정 설정"
 
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Partner"
 msgstr "협력사 설정"
 
@@ -2230,6 +2240,13 @@ msgstr "단일 통화 모드"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
+msgid ""
+"Some lines cannot be processed because they have already been reconciled."
+msgstr ""
+
+#. module: account_accountant
+#. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
 msgid "Some lines have invalid analytic distribution"
 msgstr ""
@@ -2268,6 +2285,12 @@ msgstr "명세서 라인"
 #: code:addons/account_accountant/demo/account_accountant_demo.py:0
 msgid "Subscription 12 months"
 msgstr "구독 12개월"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+msgid "Suggestions"
+msgstr "제안"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -3116,9 +3139,6 @@ msgstr "조정하기"
 
 #~ msgid "State"
 #~ msgstr "시/도"
-
-#~ msgid "Suggestions"
-#~ msgstr "제안"
 
 #~ msgid "Tax Base Amount Currency"
 #~ msgstr "과세 기준 통화 금액"

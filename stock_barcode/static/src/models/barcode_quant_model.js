@@ -327,6 +327,7 @@ export default class BarcodeQuantModel extends BarcodeModel {
             default_inventory_quantity: 1,
             default_user_id: this.userId,
             inventory_mode: true,
+            barcode_view: true,
             display_default_code: false,
             hide_qty_to_count: !this.showQuantityCount,
         };

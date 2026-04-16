@@ -8,13 +8,14 @@
 # Alina Lisnenko <alina.lisnenko@erp.co.ua>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-08 19:47+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-09 11:22+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Ukrainian <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/uk/>\n"
 "Language: uk\n"
@@ -25,7 +26,7 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -167,11 +168,6 @@ msgid ""
 "                \n"
 "* When the user cancels a payslip, the status is 'Canceled'."
 msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
@@ -464,11 +460,6 @@ msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr ""
 
@@ -480,6 +471,11 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
+msgstr ""
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
 msgstr ""
 
 #. module: hr_payroll
@@ -2494,8 +2490,6 @@ msgid "General"
 msgstr "Загальне"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Згенерувати"
@@ -2525,6 +2519,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "Generate Payslips"
 msgstr "Згенерувати розрахункові листи"
+
+#. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
 
 #. module: hr_payroll
 #. odoo-python
@@ -3766,12 +3766,6 @@ msgstr "PDF-файл"
 #: code:addons/hr_payroll/models/hr_payroll_employee_declaration.py:0
 msgid "PDF generation started. It will be available shortly."
 msgstr "Почалося створення PDF. Скоро буде доступно."
-
-#. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr ""
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
@@ -6438,6 +6432,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr ""
+
+#~ msgid "100"
+#~ msgstr "100"
 
 #~ msgid "Other Input Types"
 #~ msgstr "Інші типи введення"

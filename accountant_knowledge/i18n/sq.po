@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
 "PO-Revision-Date: 2025-12-30 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -255,8 +256,21 @@ msgid "Annexes"
 msgstr ""
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -303,26 +317,8 @@ msgid "Attestation"
 msgstr ""
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -444,7 +440,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
+msgid "Create an Annual Report"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -559,8 +555,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
 msgid ""
-"Directly attributable costs incurred to bring the asset to working condition"
-" for its intended use;"
+"Directly attributable costs incurred to bring the asset to working condition "
+"for its intended use;"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -615,8 +611,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
 msgid ""
-"During this fiscal period, the company generated a net accounting result of"
-"  {{ net accounting result }}, broken down as follows between domestic and "
+"During this fiscal period, the company generated a net accounting result of  "
+"{{ net accounting result }}, broken down as follows between domestic and "
 "international operations."
 msgstr ""
 
@@ -630,7 +626,7 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
+msgid "Edit Annual Report"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -762,8 +758,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
 msgid ""
-"For cash held in foreign currencies, amounts are converted into euros at the"
-" exchange rate prevailing on the last business day before the fiscal year-"
+"For cash held in foreign currencies, amounts are converted into euros at the "
+"exchange rate prevailing on the last business day before the fiscal year-"
 "end. Any resulting exchange differences are recognized immediately in the "
 "income statement as foreign exchange gains or losses."
 msgstr ""
@@ -843,16 +839,16 @@ msgstr ""
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid ""
 "If applicable, specify the impact of the new accounting regulation as "
-"determined at the opening of the period, including which financial statement"
-" items are affected."
+"determined at the opening of the period, including which financial statement "
+"items are affected."
 msgstr ""
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid ""
 "If the change has been applied prospectively, explain the reasons for "
-"prospective application and indicate the impact on key items for the period,"
-" unless impracticable to determine."
+"prospective application and indicate the impact on key items for the period, "
+"unless impracticable to determine."
 msgstr ""
 
 #. module: accountant_knowledge
@@ -889,8 +885,8 @@ msgstr ""
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
 msgid ""
 "In accordance with the terms of our mission, we have prepared a summary of "
-"work performed for {{ company name }} for the period from {{ start of period"
-" }} to {{ end of period }}"
+"work performed for {{ company name }} for the period from {{ start of "
+"period }} to {{ end of period }}"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -929,8 +925,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
 msgid ""
-"Indicate the number and value of shares held by the company during the year."
-" Include acquisitions, disposals, cancellations, and the reason for holding "
+"Indicate the number and value of shares held by the company during the year. "
+"Include acquisitions, disposals, cancellations, and the reason for holding "
 "these shares (e.g. employee plans, market operations)."
 msgstr ""
 
@@ -1138,8 +1134,7 @@ msgstr ""
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_subventions
-msgid ""
-"Operating subsidies are recorded as income as soon as they are granted."
+msgid "Operating subsidies are recorded as income as soon as they are granted."
 msgstr ""
 
 #. module: accountant_knowledge
@@ -1176,9 +1171,9 @@ msgstr ""
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
 msgid ""
 "Our work was conducted in accordance with the professional standard "
-"applicable to compilation engagements, as issued by the professional body of"
-" chartered accountants. This engagement is however not an audit or a limited"
-" review."
+"applicable to compilation engagements, as issued by the professional body of "
+"chartered accountants. This engagement is however not an audit or a limited "
+"review."
 msgstr ""
 
 #. module: accountant_knowledge
@@ -1227,8 +1222,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid ""
-"Present the main items of prior period's financial statements that have been"
-" restated to correct the error."
+"Present the main items of prior period's financial statements that have been "
+"restated to correct the error."
 msgstr ""
 
 #. module: accountant_knowledge
@@ -1460,8 +1455,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid ""
-"Specify the impact of the change as determined at the opening of the period,"
-" identifying the affected financial statement items."
+"Specify the impact of the change as determined at the opening of the period, "
+"identifying the affected financial statement items."
 msgstr ""
 
 #. module: accountant_knowledge
@@ -1552,6 +1547,11 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_commitments_and_guarantees
 msgid "Technical installations, equipment, and tools<br>"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -1665,8 +1665,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
 msgid ""
-"The purchase price (including customs duties and non-recoverable taxes, less"
-" any trade discounts, rebates, or settlement discounts);"
+"The purchase price (including customs duties and non-recoverable taxes, less "
+"any trade discounts, rebates, or settlement discounts);"
 msgstr ""
 
 #. module: accountant_knowledge

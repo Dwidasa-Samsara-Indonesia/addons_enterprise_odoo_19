@@ -161,6 +161,7 @@ class TestPeReportsLib(TestAccountReportsCommon):
             'partner_id': self.env.company.partner_id.id,
             'bank_id': bank.id,
             'currency_id': self.env.ref('base.PEN').id,
+            'allow_out_payment': True,
         })
         account = self.env['account.account'].search([("code", "=like", "1051000")], limit=1)
         move = self.create_move_on_account_product(account)

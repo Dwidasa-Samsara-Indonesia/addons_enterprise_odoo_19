@@ -105,6 +105,8 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
         for record in self.env['account.report.line'].browse(report_line_ids):
             codes_context[record.id] = record.code
 
+        to_insert = []
+
         for line in report_lines:
             line_code = codes_context[line['columns'][0]['report_line_id']]
             if not (line_code and line_code.startswith('DE') and not line_code.endswith('TAX')):
@@ -117,11 +119,13 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
                 base_value = line['columns'][colname_to_idx['base']]['no_format']
 
                 if tax_code := BASE_CODE_TO_TAX_CODE.get(line_code):
-                    insert_line(tax_code, tax_value)
+                    to_insert.append((tax_code, tax_value))
 
                 line_value = base_value or tax_value
+            to_insert.append((line_code, line_value))
 
-            insert_line(line_code, line_value)
+        for code, value in sorted(to_insert):
+            insert_line(code, value)
 
         return {
             'file_name': report.get_default_report_filename(options, 'xml'),

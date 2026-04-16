@@ -119,10 +119,18 @@ class AccountJournal(models.Model):
         """
             Creates the body of the XML file for the ISO20022 document.
         """
+        if self.sepa_pain_version not in self._fields['sepa_pain_version'].get_values(self.env):
+            # Might happen because of a migration issue (fixed in https://github.com/odoo/upgrade/pull/9771).
+            self.sepa_pain_version = 'pain.001.001.09'
+
         Document = etree.Element("Document", nsmap={
             None: self.get_document_namespace(payment_method_code),
             'xsi': "http://www.w3.org/2001/XMLSchema-instance"
         })
+
+        if schema_location := self._get_schema_location(payment_method_code):
+            Document.set(schema_location[0], schema_location[1])
+
         CstmrCdtTrfInitn = etree.SubElement(Document, "CstmrCdtTrfInitn")
 
         # Create the GrpHdr XML block
@@ -262,7 +270,7 @@ class AccountJournal(models.Model):
             raise UserError(_("This journal does not have a bank account defined."))
         DbtrAcct = etree.Element("DbtrAcct")
         Id = etree.SubElement(DbtrAcct, "Id")
-        if self.bank_account_id.acc_type != 'iban':
+        if self.bank_account_id.acc_type != 'iban' or self._is_bank_account_qr_iban(self.bank_account_id):
             Id.append(self._get_DbtrAcctOthr(payment_method_code))
         else:
             IBAN = etree.SubElement(Id, "IBAN")
@@ -346,11 +354,17 @@ class AccountJournal(models.Model):
             Othr = etree.SubElement(FinInstnId, "Othr")
             Id = etree.SubElement(Othr, "Id")
             Id.text = "NOTPROVIDED"
+        ClrSysMmbId = self._get_ClrSysMmbId(bank_account, payment_method_code)
+        if ClrSysMmbId is not None:
+            FinInstnId.append(ClrSysMmbId)
+        return FinInstnId
+
+    def _get_ClrSysMmbId(self, bank_account, payment_method_code):
         if bank_account.clearing_number:
-            ClrSysMmbId = etree.SubElement(FinInstnId, "ClrSysMmbId")
+            ClrSysMmbId = etree.Element("ClrSysMmbId")
             MmbId = etree.SubElement(ClrSysMmbId, "MmbId")
             MmbId.text = bank_account.clearing_number
-        return FinInstnId
+            return ClrSysMmbId
 
     def _get_CdtrAcct(self, bank_account, payment_method_code=None):
         CdtrAcct = etree.Element("CdtrAcct")
@@ -365,7 +379,7 @@ class AccountJournal(models.Model):
     def _get_CdtrAcctIdOthr(self, bank_account, payment_method_code=None):
         Othr = etree.Element("Othr")
         Id = etree.SubElement(Othr, "Id")
-        acc_number = bank_account.acc_number
+        acc_number = bank_account.sanitized_acc_number
 
         # CH case when we have non-unique account numbers
         if " " in bank_account.sanitized_acc_number and " " in bank_account.acc_number:
@@ -379,6 +393,8 @@ class AccountJournal(models.Model):
                 return 'be'
             elif self._is_qr_iban(payment):
                 return 'ch'
+            elif partner_country_code == 'DK' and sr.is_valid_structured_reference_dk(reference):
+                return 'dk'
             elif partner_country_code == 'FI' and sr.is_valid_structured_reference_fi(reference):
                 return 'fi'
             elif partner_country_code == 'NO' and sr.is_valid_structured_reference_no_se(reference):
@@ -449,6 +465,15 @@ class AccountJournal(models.Model):
         if self.sepa_pain_version == 'pain.001.001.09':
             namespace = 'pain.001.001.09'
         return "urn:iso:std:iso:20022:tech:xsd:%s" % namespace
+
+    def _get_schema_location(self, payment_method_code):
+        # To override
+        """
+        Retrieve the XML Schema Location attributes for the payment file for validators.
+        :return: A tuple containing the schemaInstance attribute and the location string
+        or None if we don't need a schema location.
+        """
+        return None
 
     def _get_bic_tag(self, payment_method_code):
         # To override per pain version
@@ -534,13 +559,13 @@ class AccountJournal(models.Model):
         """
         partner_bank = self.env['res.partner.bank'].browse(payment_dict['partner_bank_id'])
         company = self.env['account.journal'].browse(payment_dict['journal_id']).company_id
-        iban = partner_bank.sanitized_acc_number
-        if (
-            partner_bank.acc_type != 'iban'
-            or (partner_bank.sanitized_acc_number or '')[:2] not in ('CH', 'LI')
-            or partner_bank.company_id.id not in (False, company.id)
-            or len(iban) < 9
-        ):
+        if partner_bank.company_id.id not in (False, company.id):
+            return False
+        return self._is_bank_account_qr_iban(partner_bank)
+
+    def _is_bank_account_qr_iban(self, bank_account):
+        iban = bank_account.sanitized_acc_number
+        if iban[:2] not in ('CH', 'LI') or len(iban) < 9:
             return False
         iid = get_iban_part(iban, 'bank')
         return re.match(r'\d+', iid) \

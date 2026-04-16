@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:54+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:19+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/de/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -95,21 +95,9 @@ msgstr "%s ausgewählt"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"Der Datumsbereich „%s“ kann nicht für einen Bericht ausgewertet werden, der "
-"von mehr als einer Erklärungsart verwendet wird."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"Der Datumsbereich „%s“ kann nicht für einen Bericht ausgewertet werden, der "
-"von keiner Erklärungsart verwendet wird."
 
 #. module: account_reports
 #. odoo-python
@@ -206,10 +194,10 @@ msgstr ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "                <p style=\"margin: 0px; padding: 0px;\">\n"
 "                    <t t-if=\"object.id != "
-"object.commercial_partner_id.id\">Hallo <t t-out=\"object.name or ''\"/> (<t "
-"t-out=\"object.commercial_partner_id.name or ''\"/>),</t>\n"
-"                    <t t-else=\"\">Hallo <t t-out=\"object.name or ''\"/>,</"
-"t>\n"
+"object.commercial_partner_id.id\">Guten Tag <t t-out=\"object.name or ''\"/> "
+"(<t t-out=\"object.commercial_partner_id.name or ''\"/>),</t>\n"
+"                    <t t-else=\"\">Guten Tag <t t-out=\"object.name or ''\"/"
+">,</t>\n"
 "                    <br/>\n"
 "                    Anbei finden Sie die Liste Ihrer offenen Rechnungen.\n"
 "                    <br/>\n"
@@ -252,10 +240,10 @@ msgstr ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "                <p style=\"margin: 0px; padding: 0px;\">\n"
 "                    <t t-if=\"object.id != "
-"object.commercial_partner_id.id\">Hallo <t t-out=\"object.name or ''\"/> (<t "
-"t-out=\"object.commercial_partner_id.name or ''\"/>),</t>\n"
-"                    <t t-else=\"\">Hallo <t t-out=\"object.name or ''\"/>,</"
-"t>\n"
+"object.commercial_partner_id.id\">Guten Tag <t t-out=\"object.name or ''\"/> "
+"(<t t-out=\"object.commercial_partner_id.name or ''\"/>),</t>\n"
+"                    <t t-else=\"\">Guten Tag <t t-out=\"object.name or ''\"/"
+">,</t>\n"
 "                    <br/>\n"
 "                    Im Anhang finden Sie eine Übersicht Ihres Kundenkontos.\n"
 "                    <br/>\n"
@@ -311,12 +299,12 @@ msgid ""
 msgstr ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "                <p>\n"
-"                    Hallo <t t-"
+"                    Guten Tag <t t-"
 "out=\"object.company_id.name\">IhrUnternehmen</t>,\n"
 "                </p>\n"
 "                <p>\n"
 "                    auf Grundlage der erhaltenen Unterlagen und "
-"Informationen wurde die Umsatzsteuerklärung von <t t-"
+"Informationen wurde die Umsatzsteuererklärung von <t t-"
 "out=\"object.company_id.name\">IhrUnternehmen</t>\n"
 "                    für den Zeitraum <t t-"
 "out=\"object.type_id._get_period_name(object.company_id, object.date_from, "
@@ -430,7 +418,7 @@ msgid ""
 msgstr ""
 "<span invisible=\"not show_warning_existing_return\" class=\"fa fa-"
 "exclamation-triangle text-danger pb-2\" title=\"Für den ausgewählten "
-"Zeitraum gibt es bereits eine Erklärung\"/>\n"
+"Zeitraum gibt es bereits eine Erklärung.\"/>\n"
 "                            <span invisible=\"not show_warning_overlap\" "
 "class=\"fa fa-exclamation-triangle text-danger pb-2\" title=\"Ein Teil "
 "dieser Erklärung wird bereits von einer anderen Erklärung abgedeckt.\"/>"
@@ -514,6 +502,11 @@ msgstr "Kontostatus bei Kontoprüfung"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "Status der Kontoprüfung"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Kontenplanvorlage"
 
 #. module: account_reports
 #. odoo-python
@@ -939,12 +932,8 @@ msgstr "Alle Prüfungen und Genehmiger wurden zurückgesetzt"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"Die USt.-IdNr. aller Kunden sind im <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">MIAS</a> gültig."
 
 #. module: account_reports
 #. odoo-python
@@ -1195,7 +1184,7 @@ msgstr "Zum Datum:"
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Attach a file"
-msgstr "Eine Datei anhängen"
+msgstr "Datei anhängen"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__attachment_ids
@@ -1579,7 +1568,7 @@ msgstr "Cashflow-Rechnung"
 #. odoo-python
 #: code:addons/account_reports/models/account_cash_flow_report.py:0
 msgid "Cash and cash equivalents, beginning of period"
-msgstr "Flüssige und gleichwertige Mittel, Anfang der Periode"
+msgstr "Flüssige und gleichwertige Mittel, Beginn des Zeitraums"
 
 #. module: account_reports
 #. odoo-python
@@ -2501,6 +2490,7 @@ msgstr "E-Mail-Editor anzeigen"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2583,6 +2573,8 @@ msgid ""
 "Division by zero occurred while evaluating Expression: %(line_name)s > %"
 "(label)s."
 msgstr ""
+"Bei der Auswertung des Ausdrucks kam es zu einer Division durch Null: %"
+"(line_name)s > %(label)s."
 
 #. module: account_reports
 #. odoo-python
@@ -2953,12 +2945,6 @@ msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr ""
 "Schließen Sie alle Inlandsverkäufe oder Verkäufe außerhalb der EU aus der "
 "Zusammenfassenden Meldung aus."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Privatkunden ausschließen."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3506,6 +3492,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -3825,7 +3812,7 @@ msgid ""
 "Invalid subformula in expression \"%(expression)s\" of line \"%(line)s\": %"
 "(subformula)s"
 msgstr ""
-"Ungültige Unterformel in Ausdruck „%(expression)s“ der Zeile „%(line)s“: %"
+"Ungültige Unterformel im Ausdruck „%(expression)s“ der Zeile „%(line)s“: %"
 "(subformula)s"
 
 #. module: account_reports
@@ -3930,7 +3917,7 @@ msgstr "Probleme"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_budget__item_ids
 msgid "Items"
-msgstr "Elemente"
+msgstr "Posten"
 
 #. module: account_reports
 #: model:account.report.column,name:account_reports.partner_ledger_report_journal_code
@@ -4358,15 +4345,9 @@ msgstr "Nicht vorhanden"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
-"Fehlende Unternehmensdaten (wie USt-IdNr. oder Land) können solche Fehler in "
-"Ihren Berichten verursachen,\n"
-"wie z. B. die Verwendung des falschen Steuersatzes oder fälschlicherweise "
-"steuerbefreite Transaktionen.\n"
-"                "
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4493,7 +4474,6 @@ msgstr "Nettogewinn"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_net_profit_after_allocations0
-#, fuzzy
 msgid "Net Profit Left After Allocations and Withdrawals"
 msgstr "Nach Zuweisungen und Entnahmen verbleibender Nettogewinn"
 
@@ -4599,7 +4579,7 @@ msgstr "Keine Berichtigung erforderlich"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/account_report.xml:0
 msgid "No data to display !"
-msgstr "Kein anzuzeigenden Daten!"
+msgstr "Keine anzuzeigenden Daten!"
 
 #. module: account_reports
 #. odoo-python
@@ -4671,7 +4651,7 @@ msgstr "Nicht gestartet"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__message_needaction_counter
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__message_has_error_counter
@@ -4785,12 +4765,6 @@ msgstr ""
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
 "Nur ein Buchhaltungsadministrator kann einen Prüfer festlegen oder entfernen."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Nur Geschäftskunden"
 
 #. module: account_reports
 #. odoo-python
@@ -5309,12 +5283,6 @@ msgstr "Nicht zugewiesene Gewinne aus früheren Jahren"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "Drucken & senden"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Privatkunden"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6319,7 +6287,7 @@ msgstr "Steuererklärung/Prüfung"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -7266,14 +7234,6 @@ msgstr "Sie können nur einen eindeutigen Prüfcode für jede Meldung haben."
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Sie können eine abgeschlossene Meldung nur rückgängig machen, wenn der "
-"vorherige Status „Neu“ war."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr ""
 "Sie können eine Archivierung nur für eine abgeschlossene Steuererklärung "
@@ -7482,7 +7442,7 @@ msgstr "Partner"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
 msgid "prior or included in this period."
-msgstr "vor oder innerhalb dieser Periode."
+msgstr "vor oder innerhalb dieses Zeitraums."
 
 #. module: account_reports
 #. odoo-python
@@ -7601,6 +7561,35 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Zurücksetzen auf Odoos Kurs"
+
+#~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "Der Datumsbereich „%s“ kann nicht für einen Bericht ausgewertet werden, "
+#~ "der von keiner Erklärungsart verwendet wird."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Die USt.-IdNr. aller Kunden sind im <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">MIAS</a> gültig."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Sie können eine abgeschlossene Meldung nur rückgängig machen, wenn der "
+#~ "vorherige Status „Neu“ war."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Privatkunden ausschließen."
+
+#~ msgid "Only business customers"
+#~ msgstr "Nur Geschäftskunden"
+
+#~ msgid "Private Customers"
+#~ msgstr "Privatkunden"
 
 #~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
@@ -7736,9 +7725,6 @@ msgstr "⇒ Zurücksetzen auf Odoos Kurs"
 
 #~ msgid "=&gt; Audit"
 #~ msgstr "=&gt; Audit"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Kontenplanvorlage"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "Finanzbericht Fußnote"

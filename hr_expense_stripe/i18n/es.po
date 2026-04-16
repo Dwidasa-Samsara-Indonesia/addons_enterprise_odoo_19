@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-01-23 18:09+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
+"PO-Revision-Date: 2026-03-23 10:46+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense_stripe/es/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -33,6 +33,9 @@ msgid ""
 "                                <span class=\"text-warning\"> Stripe issuing "
 "is not yet supported for your localization.</span>"
 msgstr ""
+"<i class=\"fa fa-warning ms-1 text-warning\"/>\n"
+"                                <span class=\"text-warning\"> Stripe Issuing "
+"aún no es compatible con tu localización.</span>"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.account_journal_form_inherit_expense_stripe
@@ -56,6 +59,9 @@ msgid ""
 "triangle text-danger pb-2\" title=\"Entered digits don't match the last 4 "
 "digits of the card.\"/>"
 msgstr ""
+"<span invisible=\"not show_warning_wrong_last_4\" class=\"fa fa-exclamation-"
+"triangle text-danger pb-2\" title=\"Los dígitos introducidos no coinciden "
+"con los últimos 4 dígitos de la tarjeta.\"/>"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.account_journal_dashboard_kanban_view_inherit_expense_stripe
@@ -83,6 +89,8 @@ msgid ""
 "<strong>Top up your Stripe Issuing account to ensure your balance covers "
 "upcoming expenses.</strong>"
 msgstr ""
+"<strong>Recarga tu cuenta de Stripe Issuing para asegurarte de que tu saldo "
+"cubra los próximos gastos.</strong>"
 
 #. module: hr_expense_stripe
 #: model:mail.template,body_html:hr_expense_stripe.email_template_hr_expense_stripe_card_assigned
@@ -985,29 +993,29 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/res_company.py:0
 msgid "A Webhook URL already exists for this company."
-msgstr ""
+msgstr "Esta empresa ya tiene una URL de Webhook."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/controllers/main.py:0
 #: code:addons/hr_expense_stripe/models/account_bank_statement_line.py:0
 msgid "A card that doesn't exist on the database was used"
-msgstr ""
+msgstr "Se ha utilizado una tarjeta que no existe en la base de datos"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_hr_expense_stripe_card_block_wizard
 msgid "A wizard used to block a card"
-msgstr ""
+msgstr "Un asistente utilizado para bloquear una tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_hr_expense_stripe_card_receive_wizard
 msgid "A wizard used to first active a card when received"
-msgstr ""
+msgstr "Un asistente para activar una tarjeta al recibirla"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.ac_refrigeration_repair
 msgid "AC Refrigeration Repair"
-msgstr ""
+msgstr "Reparación de aire acondicionado"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_chart_template
@@ -1018,7 +1026,7 @@ msgstr "Plantilla de plan contable"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_expense_issuing_terms.xml:0
 msgid "Account Closure"
-msgstr ""
+msgstr "Cierre de cuenta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__account_number
@@ -1028,7 +1036,7 @@ msgstr "Número de cuenta"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.accounting_bookkeeping_services
 msgid "Accounting Bookkeeping Services"
-msgstr ""
+msgstr "Servicios de contabilidad y teneduría de libros"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_needaction
@@ -1051,22 +1059,22 @@ msgstr "Activo"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.advertising_services
 msgid "Advertising Services"
-msgstr ""
+msgstr "Servicios de publicidad"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Agricultural services"
-msgstr ""
+msgstr "Servicios agrícolas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.airlines_air_carriers
 msgid "Airlines Air Carriers"
-msgstr ""
+msgstr "Aerolíneas y transportistas aéreos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.airports_flying_fields
 msgid "Airports Flying Fields"
-msgstr ""
+msgstr "Aeropuertos y campos de aviación"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__spending_policy_interval__all_time
@@ -1081,28 +1089,28 @@ msgstr "Todos los países"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_list
 msgid "All valid MCCs"
-msgstr ""
+msgstr "Todos los códigos de categoría de comerciante válidos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Allow All"
-msgstr ""
+msgstr "Permitir todo"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Allowed codes"
-msgstr ""
+msgstr "Códigos permitidos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_form
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_list
 msgid "Always refuse transactions"
-msgstr ""
+msgstr "Rechazar siempre las transacciones"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.ambulance_services
 msgid "Ambulance Services"
-msgstr ""
+msgstr "Servicios de ambulancia"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__amount
@@ -1112,49 +1120,50 @@ msgstr "Importe"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.amusement_parks_carnivals
 msgid "Amusement Parks Carnivals"
-msgstr ""
+msgstr "Parques de atracciones y ferias"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 msgid "An Expense card that doesn't exist on the database was used"
 msgstr ""
+"Se ha utilizado una tarjeta de gastos que no existe en la base de datos"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "An insecure authorization method was used"
-msgstr ""
+msgstr "Se ha utilizado un método de autorización no seguro"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.antique_reproductions
 msgid "Antique Reproductions"
-msgstr ""
+msgstr "Reproducciones de antigüedades"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.antique_shops
 msgid "Antique Shops"
-msgstr ""
+msgstr "Tiendas de antigüedades"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.aquariums
 msgid "Aquariums"
-msgstr ""
+msgstr "Acuarios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.architectural_surveying_services
 msgid "Architectural Surveying Services"
-msgstr ""
+msgstr "Servicios de topografía arquitectónica"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.art_dealers_and_galleries
 msgid "Art Dealers and Galleries"
-msgstr ""
+msgstr "Comerciantes de arte y galerías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.artists_supply_and_craft_shops
 msgid "Artists Supply and Craft Shops"
-msgstr ""
+msgstr "Tiendas de suministros para artistas y manualidades"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_attachment_count
@@ -1165,42 +1174,42 @@ msgstr "Número de archivos adjuntos"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.auto_body_repair_shops
 msgid "Auto Body Repair Shops"
-msgstr ""
+msgstr "Talleres de reparación de carrocerías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.auto_paint_shops
 msgid "Auto Paint Shops"
-msgstr ""
+msgstr "Talleres de pintura automóbiles"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.auto_service_shops
 msgid "Auto Service Shops"
-msgstr ""
+msgstr "Talleres de reparación de automóbiles"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.auto_and_home_supply_stores
 msgid "Auto and Home Supply Stores"
-msgstr ""
+msgstr "Tiendas de suministros para automóviles y para el hogar"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.automated_fuel_dispensers
 msgid "Automated Fuel Dispensers"
-msgstr ""
+msgstr "Dispensadores automáticos de combustible"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.automobile_associations
 msgid "Automobile Associations"
-msgstr ""
+msgstr "Asociaciones automovilísticas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.automotive_parts_and_accessories_stores
 msgid "Automotive Parts and Accessories Stores"
-msgstr ""
+msgstr "Tiendas de repuestos y accesorios para automóviles"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.automotive_tire_stores
 msgid "Automotive Tire Stores"
-msgstr ""
+msgstr "Tiendas de neumáticos para automóviles"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__bic
@@ -1210,17 +1219,17 @@ msgstr "BIC"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bail_and_bond_payments
 msgid "Bail and Bond Payments"
-msgstr ""
+msgstr "Pagos de fianzas y bonos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bakeries
 msgid "Bakeries"
-msgstr ""
+msgstr "Panaderías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bands_orchestras
 msgid "Bands Orchestras"
-msgstr ""
+msgstr "Grupos y orquestas"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_bank_statement_line
@@ -1230,32 +1239,32 @@ msgstr "Línea de extracto bancario"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__statement_description
 msgid "Bank statement description"
-msgstr ""
+msgstr "Descripción del extracto bancario"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.barber_and_beauty_shops
 msgid "Barber and Beauty Shops"
-msgstr ""
+msgstr "Peluquerías y salones de belleza"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.betting_casino_gambling
 msgid "Betting Casino Gambling"
-msgstr ""
+msgstr "Apuestas, casinos y juegos de azar"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bicycle_shops
 msgid "Bicycle Shops"
-msgstr ""
+msgstr "Tiendas de bicicletas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.billiard_pool_establishments
 msgid "Billiard Pool Establishments"
-msgstr ""
+msgstr "Salas de billar"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__billing_country_code
 msgid "Billing Country Code"
-msgstr ""
+msgstr "Código de país de facturación"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__birthday
@@ -1272,7 +1281,7 @@ msgstr "Bloquear"
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Block a Card"
-msgstr ""
+msgstr "Bloquear una tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__state__canceled
@@ -1284,22 +1293,22 @@ msgstr "Bloqueado"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.boat_dealers
 msgid "Boat Dealers"
-msgstr ""
+msgstr "Concesionarios de embarcaciones"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.boat_rentals_and_leases
 msgid "Boat Rentals and Leases"
-msgstr ""
+msgstr "Alquiler y arrendamiento de embarcaciones"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.book_stores
 msgid "Book Stores"
-msgstr ""
+msgstr "Librerías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.books_periodicals_and_newspapers
 msgid "Books Periodicals and Newspapers"
-msgstr ""
+msgstr "Libros, revistas y periódicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bowling_alleys
@@ -1309,38 +1318,38 @@ msgstr "Boleras"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bus_lines
 msgid "Bus Lines"
-msgstr ""
+msgstr "Líneas de autobús"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.business_secretarial_schools
 msgid "Business Secretarial Schools"
-msgstr ""
+msgstr "Escuelas de secretariado empresarial"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Business services"
-msgstr ""
+msgstr "Servicios empresariales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.buying_shopping_services
 msgid "Buying Shopping Services"
-msgstr ""
+msgstr "Servicios de compra"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_card_receive_terms.xml:0
 msgid "By ticking the box, you agree:"
-msgstr ""
+msgstr "Al marcar la casilla, aceptas lo siguiente:"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.cable_satellite_and_other_pay_television_and_radio
 msgid "Cable Satellite and Other Pay Television and Radio"
-msgstr ""
+msgstr "Televisión y radio por cable, satélite y otros servicios de pago"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.camera_and_photographic_supply_stores
 msgid "Camera and Photographic Supply Stores"
-msgstr ""
+msgstr "Tiendas de cámaras y material fotográfico"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_block_wizard_form
@@ -1356,22 +1365,22 @@ msgstr "Cancelado"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__cancellation_reason
 msgid "Cancellation Reason"
-msgstr ""
+msgstr "Motivo de la cancelación"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.candy_nut_and_confectionery_stores
 msgid "Candy Nut and Confectionery Stores"
-msgstr ""
+msgstr "Tiendas de dulces y confitería"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.car_and_truck_dealers_new_used
 msgid "Car and Truck Dealers New Used"
-msgstr ""
+msgstr "Concesionarios de automóviles y camiones (nuevos y de ocasión)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.car_and_truck_dealers_used_only
 msgid "Car and Truck Dealers Used Only"
-msgstr ""
+msgstr "Concesionarios de automóviles y camiones de ocasión"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense__card_id
@@ -1383,33 +1392,33 @@ msgstr "Tarjeta"
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Card Activation"
-msgstr ""
+msgstr "Activación de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Card Details"
-msgstr ""
+msgstr "Detalles de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__last_4_challenge
 msgid "Card Last 4 digits"
-msgstr ""
+msgstr "Últimos 4 dígitos de la tarjeta"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_card_receive_terms.xml:0
 msgid "Card Liability"
-msgstr ""
+msgstr "Responsabilidad de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_interval_amount
 msgid "Card Limit"
-msgstr ""
+msgstr "Límite de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__card_name
 msgid "Card Name"
-msgstr ""
+msgstr "Nombre de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__card_number_public
@@ -1420,29 +1429,30 @@ msgstr "Número de tarjeta"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_card_receive_terms.xml:0
 msgid "Card Reception"
-msgstr ""
+msgstr "Recepción de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_block_wizard__card_id
 msgid "Card To Block"
-msgstr ""
+msgstr "Tarjeta para bloquear"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
 msgid "Card cvc copied to the clipboard."
-msgstr ""
+msgstr "El código CVC de la tarjeta se ha copiado al portapapeles."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/account_bank_statement_line.py:0
 msgid "Card ending in %(last_4)s payment to %(merchant_name)s"
 msgstr ""
+"Pago efectuado a %(merchant_name)s con la tarjeta que termina en %(last_4)s"
 
 #. module: hr_expense_stripe
 #: model:mail.message.subtype,description:hr_expense_stripe.mt_stripe_card_received
 msgid "Card marked as received."
-msgstr ""
+msgstr "Tarjeta marcada como recibida."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1453,7 +1463,7 @@ msgstr "Número de tarjeta copiado en el portapapeles."
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__card_id
 msgid "Card to activate"
-msgstr ""
+msgstr "Tarjeta pendiente de activar"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -1485,18 +1495,18 @@ msgstr "Nombre del titular de la tarjeta"
 #. module: hr_expense_stripe
 #: model:mail.message.subtype,name:hr_expense_stripe.mt_stripe_card_received
 msgid "Cardholder Received"
-msgstr ""
+msgstr "Se ha recibido el titular de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:mail.message.subtype,name:hr_expense_stripe.mt_stripe_cardholder_updated
 msgid "Cardholder updated"
-msgstr ""
+msgstr "Se ha actualizado el titular de la tarjeta"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Cardholders"
-msgstr ""
+msgstr "Titulares de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.actions.act_window,name:hr_expense_stripe.action_hr_expense_stripe_card
@@ -1509,7 +1519,7 @@ msgstr "Tarjetas"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_view_search
 msgid "Cards of Your Team Member"
-msgstr ""
+msgstr "Tarjetas de los miembros de tu equipo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.carpentry_services
@@ -1519,7 +1529,7 @@ msgstr "Servicios de carpintería"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.carpet_upholstery_cleaning
 msgid "Carpet Upholstery Cleaning"
-msgstr ""
+msgstr "Limpieza de alfombras y tapicerías"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
@@ -1535,41 +1545,43 @@ msgstr "Catering"
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.charitable_and_social_service_organizations_fundraising
 msgid "Charitable and Social Service Organizations Fundraising"
 msgstr ""
+"Organizaciones benéficas y de servicios sociales (recaudación de fondos)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.chemicals_and_allied_products
 msgid "Chemicals and Allied Products"
-msgstr ""
+msgstr "Productos químicos y derivados"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.child_care_services
 msgid "Child Care Services"
-msgstr ""
+msgstr "Servicios de cuidado infantil"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.childrens_and_infants_wear_stores
 msgid "Children and Infant's Wear Stores"
-msgstr ""
+msgstr "Tiendas de ropa para niños y bebés"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.chiropodists_podiatrists
 msgid "Chiropodists Podiatrists"
-msgstr ""
+msgstr "Podólogos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.chiropractors
 msgid "Chiropractors"
-msgstr ""
+msgstr "Quiroprácticos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
 msgid "Choose any amount — the QR code updates automatically"
 msgstr ""
+"Selecciona cualquier importe: el código QR se actualiza automáticamente"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.cigar_stores_and_stands
 msgid "Cigar Stores and Stands"
-msgstr ""
+msgstr "Estancos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__billing_city
@@ -1579,12 +1591,12 @@ msgstr "Ciudad"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.civic_social_fraternal_associations
 msgid "Civic Social Fraternal Associations"
-msgstr ""
+msgstr "Asociaciones cívicas, sociales y fraternales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.cleaning_and_maintenance
 msgid "Cleaning and Maintenance"
-msgstr ""
+msgstr "Limpieza y mantenimiento"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1598,12 +1610,12 @@ msgstr "Cerrar"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.clothing_rental
 msgid "Clothing Rental"
-msgstr ""
+msgstr "Alquiler de ropa"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Clothing shops"
-msgstr ""
+msgstr "Tiendas de ropa"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__code
@@ -1614,7 +1626,7 @@ msgstr "Código"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.colleges_universities
 msgid "Colleges Universities"
-msgstr ""
+msgstr "Universidades"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__color
@@ -1624,22 +1636,22 @@ msgstr "Índice de Colores"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.commercial_equipment
 msgid "Commercial Equipment"
-msgstr ""
+msgstr "Equipamiento comercial"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.commercial_footwear
 msgid "Commercial Footwear"
-msgstr ""
+msgstr "Calzado de trabajo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.commercial_photography_art_and_graphics
 msgid "Commercial Photography Art and Graphics"
-msgstr ""
+msgstr "Fotografía comercial, arte y diseño gráfico"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.commuter_transport_and_ferries
 msgid "Commuter Transport and Ferries"
-msgstr ""
+msgstr "Transporte público y ferris"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_res_company
@@ -1668,37 +1680,37 @@ msgstr "Contacto de la compañía"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_expense_issuing_terms.xml:0
 msgid "Compliance Obligation"
-msgstr ""
+msgstr "Obligación de cumplimiento"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.computer_network_services
 msgid "Computer Network Services"
-msgstr ""
+msgstr "Servicios de redes informáticas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.computer_programming
 msgid "Computer Programming"
-msgstr ""
+msgstr "Programación informática"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.computer_repair
 msgid "Computer Repair"
-msgstr ""
+msgstr "Reparación de ordenadores"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.computer_software_stores
 msgid "Computer Software Stores"
-msgstr ""
+msgstr "Tiendas de software"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.computers_peripherals_and_software
 msgid "Computers Peripherals and Software"
-msgstr ""
+msgstr "Periféricos y software para ordenadores"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.concrete_work_services
 msgid "Concrete Work Services"
-msgstr ""
+msgstr "Servicios de trabajos en hormigón"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_res_config_settings
@@ -1729,27 +1741,27 @@ msgstr "Materiales de construcción"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.consulting_public_relations
 msgid "Consulting Public Relations"
-msgstr ""
+msgstr "Consultoría de relaciones públicas"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Contracted services"
-msgstr ""
+msgstr "Servicios contratados"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.correspondence_schools
 msgid "Correspondence Schools"
-msgstr ""
+msgstr "Educación a distancia"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.cosmetic_stores
 msgid "Cosmetic Stores"
-msgstr ""
+msgstr "Tiendas de cosméticos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.counseling_services
 msgid "Counseling Services"
-msgstr ""
+msgstr "Servicios de asesoramiento"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_country_tag_ids
@@ -1762,25 +1774,25 @@ msgid "Country"
 msgstr "País"
 
 #. module: hr_expense_stripe
-#: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
-msgid "Country Clubs"
-msgstr ""
-
-#. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr ""
+msgid "Country %(country_name)s not allowed"
+msgstr "El país %(country_name)s no está permitido"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
+msgid "Country Clubs"
+msgstr "Clubes de campo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
 msgid "Courier Services"
-msgstr ""
+msgstr "Servicios de mensajería"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.court_costs
 msgid "Court Costs"
-msgstr ""
+msgstr "Gastos judiciales"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
@@ -1788,6 +1800,8 @@ msgid ""
 "Create prepaid virtual and physical cards for both one-time and recurring "
 "expenses, integrated into Odoo through Stripe Issuing."
 msgstr ""
+"Crea tarjetas virtuales y físicas de prepago para gastos puntuales y "
+"recurrentes, integradas en Odoo a través de Stripe Issuing."
 
 #. module: hr_expense_stripe
 #: model_terms:ir.actions.act_window,help:hr_expense_stripe.action_hr_expense_stripe_card
@@ -1795,6 +1809,8 @@ msgid ""
 "Create virtual and physical cards for smooth team spending, whether for "
 "single purchases or ongoing expenses."
 msgstr ""
+"Crea tarjetas virtuales y físicas para que tu equipo pueda pagar sin "
+"complicaciones, ya sea para compras puntuales o gastos recurrentes."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__create_uid
@@ -1819,12 +1835,12 @@ msgstr "Creado el"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.credit_reporting_agencies
 msgid "Credit Reporting Agencies"
-msgstr ""
+msgstr "Agencias de información crediticia"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.cruise_lines
 msgid "Cruise Lines"
-msgstr ""
+msgstr "Compañías de cruceros"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__currency_id
@@ -1836,16 +1852,17 @@ msgstr "Moneda"
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "Currency %(name)s is not available in the system. Please activate it"
 msgstr ""
+"La moneda « %(name)s » no está disponible en el sistema. Por favor, actívala"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.dairy_products_stores
 msgid "Dairy Products Stores"
-msgstr ""
+msgstr "Tiendas de productos lácteos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.dance_hall_studios_schools
 msgid "Dance Hall Studios Schools"
-msgstr ""
+msgstr "Academias y escuelas de baile"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__spending_policy_interval__daily
@@ -1865,12 +1882,12 @@ msgstr "Dirección de entrega"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.dentists_orthodontists
 msgid "Dentists Orthodontists"
-msgstr ""
+msgstr "Dentistas y ortodoncistas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.department_stores
 msgid "Department Stores"
-msgstr ""
+msgstr "Grandes almacenes"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_block_wizard__other_reason_text
@@ -1880,82 +1897,82 @@ msgstr "Descripción"
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__cancellation_reason__design_rejected
 msgid "Design Rejected"
-msgstr ""
+msgstr "Diseño rechazado"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.detective_agencies
 msgid "Detective Agencies"
-msgstr ""
+msgstr "Agencias de detectives"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.digital_goods_applications
 msgid "Digital Goods Applications"
-msgstr ""
+msgstr "Aplicaciones de productos digitales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.digital_goods_games
 msgid "Digital Goods Games"
-msgstr ""
+msgstr "Juegos digitales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.digital_goods_large_volume
 msgid "Digital Goods Large Volume"
-msgstr ""
+msgstr "Productos digitales de gran volumen"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.digital_goods_media
 msgid "Digital Goods Media"
-msgstr ""
+msgstr "Medios de comunicación digitales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_catalog_merchant
 msgid "Direct Marketing Catalog Merchant"
-msgstr ""
+msgstr "Marketing directo por catálogo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_combination_catalog_and_retail_merchant
 msgid "Direct Marketing Combination Catalog and Retail Merchant"
-msgstr ""
+msgstr "Comercio directo y ventas por catálogo y tienda"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_inbound_telemarketing
 msgid "Direct Marketing Inbound Telemarketing"
-msgstr ""
+msgstr "Telemarketing entrante (marketing directo)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_insurance_services
 msgid "Direct Marketing Insurance Services"
-msgstr ""
+msgstr "Servicios de seguros por marketing directo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_other
 msgid "Direct Marketing Other"
-msgstr ""
+msgstr "Marketing directo y otros"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_outbound_telemarketing
 msgid "Direct Marketing Outbound Telemarketing"
-msgstr ""
+msgstr "Telemarketing saliente (marketing directo)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_subscription
 msgid "Direct Marketing Subscription"
-msgstr ""
+msgstr "Servicios por suscripción (marketing directo)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_travel
 msgid "Direct Marketing Travel"
-msgstr ""
+msgstr "Comercialización directa de viajes"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_topup_wizard__pull_push_funds__pull
 msgid "Directly pull funds from the company bank account"
-msgstr ""
+msgstr "Retira fondos directamente de la cuenta bancaria de la empresa"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Disallowed codes"
-msgstr ""
+msgstr "Códigos no permitidos"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1967,7 +1984,7 @@ msgstr "Descartar"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.discount_stores
 msgid "Discount Stores"
-msgstr ""
+msgstr "Tiendas de descuento"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_bank_statement_line__display_name
@@ -2005,7 +2022,7 @@ msgstr "Hecho"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.door_to_door_sales
 msgid "Door To Door Sales"
-msgstr ""
+msgstr "Venta a puerta fría"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__state__draft
@@ -2018,82 +2035,82 @@ msgstr "Borrador"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.drapery_window_covering_and_upholstery_stores
 msgid "Drapery Window Covering and Upholstery Stores"
-msgstr ""
+msgstr "Tiendas de cortinas, estores y tapicería"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.drinking_places
 msgid "Drinking Places"
-msgstr ""
+msgstr "Establecimientos de bebidas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.drug_stores_and_pharmacies
 msgid "Drug Stores and Pharmacies"
-msgstr ""
+msgstr "Farmacias y parafarmacias"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.drugs_drug_proprietaries_and_druggist_sundries
 msgid "Drugs Drug Proprietaries and Druggist Sundries"
-msgstr ""
+msgstr "Medicamentos y productos farmacéuticos varios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.dry_cleaners
 msgid "Dry Cleaners"
-msgstr ""
+msgstr "Tintorerías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.durable_goods
 msgid "Durable Goods"
-msgstr ""
+msgstr "Bienes duraderos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.duty_free_stores
 msgid "Duty Free Stores"
-msgstr ""
+msgstr "Tiendas libres de impuestos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.eating_places_restaurants
 msgid "Eating Places Restaurants"
-msgstr ""
+msgstr "Restaurantes y establecimientos de comida"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.educational_services
 msgid "Educational Services"
-msgstr ""
+msgstr "Servicios educativos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.electric_razor_stores
 msgid "Electric Razor Stores"
-msgstr ""
+msgstr "Tiendas de máquinas de afeitar eléctricas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.electric_vehicle_charging
 msgid "Electric Vehicle Charging"
-msgstr ""
+msgstr "Recarga de vehículos eléctricos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.electrical_parts_and_equipment
 msgid "Electrical Parts and Equipment"
-msgstr ""
+msgstr "Componentes y equipos eléctricos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.electrical_services
 msgid "Electrical Services"
-msgstr ""
+msgstr "Servicios eléctricos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.electronics_repair_shops
 msgid "Electronics Repair Shops"
-msgstr ""
+msgstr "Talleres de reparación de aparatos electrónicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.electronics_stores
 msgid "Electronics Stores"
-msgstr ""
+msgstr "Tiendas de electrónica"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.elementary_secondary_schools
 msgid "Elementary Secondary Schools"
-msgstr ""
+msgstr "Escuelas primarias y secundarias"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__email
@@ -2103,7 +2120,7 @@ msgstr "Correo electrónico"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.emergency_services_gcas_visa_use_only
 msgid "Emergency Services GCAS Visa Use Only"
-msgstr ""
+msgstr "Servicios de emergencia (uso exclusivo GCAS visa)"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_hr_employee
@@ -2124,18 +2141,20 @@ msgstr "Nombre del empleado"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.employment_temp_agencies
 msgid "Employment Temp Agencies"
-msgstr ""
+msgstr "Empresas de trabajo temporal (ETT)"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.xml:0
 msgid "Enter the code we sent to the cardholder's phone number ending in"
 msgstr ""
+"Introduce el código que hemos enviado al número de teléfono del titular de "
+"la tarjeta que termina en"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.equipment_rental
 msgid "Equipment Rental"
-msgstr ""
+msgstr "Alquiler de equipos"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -2146,7 +2165,7 @@ msgstr "Error"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__shipping_estimated_delivery
 msgid "Estimated Delivery"
-msgstr ""
+msgstr "Entrega estimada"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -2159,23 +2178,23 @@ msgstr "Gasto"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_payment_method_line__card_id
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "Expense Card"
-msgstr ""
+msgstr "Tarjeta de gastos"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_expense_issuing_terms.xml:0
 msgid "Expense Cards Terms and Conditions"
-msgstr ""
+msgstr "Términos y condiciones de las tarjetas de gastos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Expense Category to Use"
-msgstr ""
+msgstr "Categoría de gasto a utilizar"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__product_id
 msgid "Expense Category to use"
-msgstr ""
+msgstr "Categoría de gasto a utilizar"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_hr_expense_split
@@ -2185,19 +2204,19 @@ msgstr "División de gasto"
 #. module: hr_expense_stripe
 #: model:ir.actions.server,name:hr_expense_stripe.hr_expense_stripe_issuing_status_cron_ir_actions_server
 msgid "Expense Stripe issuing: Update account status"
-msgstr ""
+msgstr "Stripe Issuing: actualizar el estado de la cuenta"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 msgid "Expense was refunded by vendor"
-msgstr ""
+msgstr "El proveedor ha reembolsado el gasto"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 msgid "Expense was refused by Stripe, or an error occurred"
-msgstr ""
+msgstr "Stripe ha rechazado el gasto o se ha producido un error"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -2215,7 +2234,7 @@ msgstr "Número de gastos"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Expenses Stripe Card"
-msgstr ""
+msgstr "Tarjeta de gastos de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__expiration
@@ -2225,13 +2244,13 @@ msgstr "Fecha de expiración"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.exterminating_services
 msgid "Exterminating Services"
-msgstr ""
+msgstr "Servicios de exterminación (control de plagas)"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
 msgid "Failed to fetch StripeJS initialization params."
-msgstr ""
+msgstr "No se han podido obtener los parámetros de inicialización de StripeJS."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -2239,6 +2258,8 @@ msgstr ""
 msgid ""
 "Failed to update card from Stripe. You are trying to update the wrong card."
 msgstr ""
+"No se ha podido actualizar la tarjeta de Stripe. Estás intentando actualizar "
+"la tarjeta incorrecta."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__shipping_status__failure
@@ -2248,27 +2269,27 @@ msgstr "Fallo"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.family_clothing_stores
 msgid "Family Clothing Stores"
-msgstr ""
+msgstr "Tiendas de ropa para toda la familia"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.fast_food_restaurants
 msgid "Fast Food Restaurants"
-msgstr ""
+msgstr "Restaurantes de comida rápida"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.financial_institutions
 msgid "Financial Institutions"
-msgstr ""
+msgstr "Instituciones financieras"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.fines_government_administrative_entities
 msgid "Fines Government Administrative Entities"
-msgstr ""
+msgstr "Multas a organismos administrativos públicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.fireplace_fireplace_screens_and_accessories_stores
 msgid "Fireplace Fireplace Screens and Accessories Stores"
-msgstr ""
+msgstr "Tiendas de chimeneas y accesorios para chimeneas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__firstname
@@ -2278,17 +2299,17 @@ msgstr "Nombre"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.floor_covering_stores
 msgid "Floor Covering Stores"
-msgstr ""
+msgstr "Tiendas de revestimientos para suelos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.florists
 msgid "Florists"
-msgstr ""
+msgstr "Floristas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.florists_supplies_nursery_stock_and_flowers
 msgid "Florists Supplies Nursery Stock and Flowers"
-msgstr ""
+msgstr "Suministros para floristerías, viveros y flores"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_follower_ids
@@ -2310,142 +2331,150 @@ msgid ""
 "code occurs.\n"
 " Each MCC code can be linked to only one Expense Category."
 msgstr ""
+"En los gastos creados mediante tarjetas de gastos de Stripe, esta categoría "
+"de gasto se asignará automáticamente cuando se produzca una transacción que "
+"coincida con el siguiente código de categoría de comerciante (MCC).\n"
+" Cada código MCC solo se puede vincular a una categoría de gastos."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Forbidden access to the IAP proxy server"
-msgstr ""
+msgstr "Acceso prohibido al servidor proxy IAP"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.freezer_and_locker_meat_provisioners
 msgid "Freezer and Locker Meat Provisioners"
-msgstr ""
+msgstr "Proveedores de carne para congeladores y cámaras frigoríficas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.fuel_dealers_non_automotive
 msgid "Fuel Dealers Non Automotive"
-msgstr ""
+msgstr "Distribuidores de combustible no automovilístico"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
 msgid "Funds go to a prepaid balance used by your expense cards"
 msgstr ""
+"Los fondos se destinan a un saldo prepago usado por tus tarjetas de gastos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.funeral_services_crematories
 msgid "Funeral Services Crematories"
-msgstr ""
+msgstr "Servicios funerarios y crematorios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.furniture_home_furnishings_and_equipment_stores_except_appliances
 msgid "Furniture Home Furnishings and Equipment Stores Except Appliances"
 msgstr ""
+"Tiendas de muebles, artículos para el hogar y equipamiento, excepto "
+"electrodomésticos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.furniture_repairs_refinishing
 msgid "Furniture Repairs Refinishing"
-msgstr ""
+msgstr "Reparación y restauración de muebles"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.furriers_and_fur_shops
 msgid "Furriers and Fur Shops"
-msgstr ""
+msgstr "Pelleteros y tiendas de pieles"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.general_services
 msgid "General Services"
-msgstr ""
+msgstr "Servicios generales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.gift_card_novelty_and_souvenir_shops
 msgid "Gift Card Novelty and Souvenir Shops"
-msgstr ""
+msgstr "Tiendas de tarjetas regalo, artículos originales y souvenirs"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.glass_paint_and_wallpaper_stores
 msgid "Glass Paint and Wallpaper Stores"
-msgstr ""
+msgstr "Tiendas de pintura para vidrio y papel pintado"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.glassware_crystal_stores
 msgid "Glassware Crystal Stores"
-msgstr ""
+msgstr "Cristalería"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.golf_courses_public
 msgid "Golf Courses Public"
-msgstr ""
+msgstr "Campos de golf públicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.government_licensed_horse_dog_racing_us_region_only
 msgid "Government Licensed Horse Dog Racing US Region Only"
 msgstr ""
+"Carreras de caballos y galgos con licencia gubernamental (solo en EE. UU.)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.government_licensed_online_casinos_online_gambling_us_region_only
 msgid "Government Licensed Online Casinos Online Gambling US Region Only"
-msgstr ""
+msgstr "Casinos y apuestas online con licencia gubernamental (solo en EE. UU.)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.government_owned_lotteries_non_us_region
 msgid "Government Owned Lotteries Non US Region"
-msgstr ""
+msgstr "Loterías estatales fuera de EE. UU."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.government_owned_lotteries_us_region_only
 msgid "Government Owned Lotteries US Region Only"
-msgstr ""
+msgstr "Loterías estatales (solo en EE. UU.)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.government_services
 msgid "Government Services"
-msgstr ""
+msgstr "Servicios gubernamentales"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Government services"
-msgstr ""
+msgstr "Servicios gubernamentales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.grocery_stores_supermarkets
 msgid "Grocery Stores Supermarkets"
-msgstr ""
+msgstr "Tiendas de comestibles y supermercados"
 
 #. module: hr_expense_stripe
 #: model:mail.template,name:hr_expense_stripe.email_template_hr_expense_stripe_card_assigned
 msgid "HR Expense Stripe Card Assigned"
-msgstr ""
+msgstr "Tarjeta Stripe para gastos de RR. HH. asignada"
 
 #. module: hr_expense_stripe
 #: model:mail.template,name:hr_expense_stripe.email_template_hr_expense_stripe_card_ordered
 msgid "HR Expense Stripe Card Ordered"
-msgstr ""
+msgstr "Tarjeta Stripe para gastos de RR. HH. solicitada"
 
 #. module: hr_expense_stripe
 #: model:mail.template,name:hr_expense_stripe.email_template_hr_expense_stripe_card_canceled
 msgid "HR Expense Stripe Card Shipment has been Cancelled"
-msgstr ""
+msgstr "Se ha cancelado el envío de la tarjeta Stripe de gastos de RR. HH."
 
 #. module: hr_expense_stripe
 #: model:mail.template,name:hr_expense_stripe.email_template_hr_expense_stripe_card_shipped
 msgid "HR Expense Stripe Card Shipped"
-msgstr ""
+msgstr "Tarjeta Stripe para gastos de RR. HH. enviada"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hardware_equipment_and_supplies
 msgid "Hardware Equipment and Supplies"
-msgstr ""
+msgstr "Equipos y suministros de ferretería"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hardware_stores
 msgid "Hardware Stores"
-msgstr ""
+msgstr "Ferreterías"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__has_employee
 msgid "Has Employee"
-msgstr ""
+msgstr "Tiene empleado"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__has_message
@@ -2456,54 +2485,56 @@ msgstr "Tiene un mensaje"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.health_and_beauty_spas
 msgid "Health and Beauty Spas"
-msgstr ""
+msgstr "Spa de salud y belleza"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hearing_aids_sales_and_supplies
 msgid "Hearing Aids Sales and Supplies"
-msgstr ""
+msgstr "Venta y suministro de audífonos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.heating_plumbing_a_c
 msgid "Heating Plumbing A C"
-msgstr ""
+msgstr "Calefacción, fontanería y aire acondicionado"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hobby_toy_and_game_shops
 msgid "Hobby Toy and Game Shops"
-msgstr ""
+msgstr "Tiendas de juguetes y juegos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.home_supply_warehouse_stores
 msgid "Home Supply Warehouse Stores"
-msgstr ""
+msgstr "Tiendas de suministros para el hogar"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hospitals
 msgid "Hospitals"
-msgstr ""
+msgstr "Hospitales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hotels_motels_and_resorts
 msgid "Hotels Motels and Resorts"
-msgstr ""
+msgstr "Hoteles, moteles y complejos turísticos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.household_appliance_stores
 msgid "Household Appliance Stores"
-msgstr ""
+msgstr "Tiendas de electrodomésticos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_receive_wizard_form
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "I confirm agreeing to the"
-msgstr ""
+msgstr "Confirmo que acepto los"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/res_company.py:0
 msgid "IAP Public key used for Stripe Issuing"
 msgstr ""
+"Clave pública de compras dentro de la aplicación (IAP) utilizada para Stripe "
+"Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__partner_bank_id
@@ -2550,7 +2581,7 @@ msgstr "Si está marcada, algunos mensajes tienen error de envío."
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
 msgid "If the balance is too low, card payments will be declined"
-msgstr ""
+msgstr "Si el saldo es demasiado bajo, los pagos con tarjeta se rechazarán"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -2562,6 +2593,12 @@ msgid ""
 "fully settled. Odoo and Stripe are not responsible\n"
 "                    for any unwithdrawn funds."
 msgstr ""
+"Si cierras tu cuenta Stripe Issuing, tendrás que transferir todos los fondos "
+"restantes antes de cerrarla,\n"
+"                    resolver cualquier transacción pendiente y asegurarte de "
+"que la cuenta esté totalmente liquidada. Odoo y Stripe no se hacen "
+"responsables\n"
+"                    de los fondos que no hayas retirado."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -2571,6 +2608,9 @@ msgid ""
 "card.\n"
 "                    You remain liable for any outstanding charges."
 msgstr ""
+"Si tu cuenta se cierra o la tarjeta está bloqueada, tendrás que dejar de "
+"utilizarla y destruir la tarjeta.\n"
+"                    Seguirás siendo responsable de cualquier cargo pendiente."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__state__inactive
@@ -2581,33 +2621,33 @@ msgstr "Inactivo"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_expense_issuing_terms.xml:0
 msgid "Indemnification"
-msgstr ""
+msgstr "Indemnización"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.industrial_supplies
 msgid "Industrial Supplies"
-msgstr ""
+msgstr "Suministros industriales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.information_retrieval_services
 msgid "Information Retrieval Services"
-msgstr ""
+msgstr "Servicios de recuperación de información"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.insurance_underwriting_premiums
 msgid "Insurance Underwriting Premiums"
-msgstr ""
+msgstr "Primas de suscripción de seguros"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.intra_company_purchases
 msgid "Intra Company Purchases"
-msgstr ""
+msgstr "Compras dentro de la empresa"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Invalid Employee"
-msgstr ""
+msgstr "Empleado no válido"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -2615,12 +2655,14 @@ msgstr ""
 msgid ""
 "Invalid email type, must be 'canceled', 'ordered', 'assigned' or 'shipped'."
 msgstr ""
+"Tipo de correo electrónico no válido; debe ser «cancelado», «solicitado», "
+"«asignado» o «enviado»."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/controllers/main.py:0
 msgid "Invalid event type '%(invalid_event)s'"
-msgstr ""
+msgstr "Tipo de evento no válido «%(invalid_event)s »"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -2629,22 +2671,24 @@ msgid ""
 "Invalid or expired signature found in the request. Please check your "
 "configuration"
 msgstr ""
+"Se ha encontrado una firma no válida o caducada en la solicitud. Comprueba "
+"tu configuración"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Invalid request sent to the Odoo IAP proxy server: %(reason)s"
-msgstr ""
+msgstr "Solicitud no válida enviada al servidor proxy IAP de Odoo: %(reason)s"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense__is_card_expense
 msgid "Is Card Expense"
-msgstr ""
+msgstr "Es un gasto con tarjeta"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__is_confirmed
 msgid "Is Confirmed"
-msgstr ""
+msgstr "Está confirmado"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_is_follower
@@ -2655,7 +2699,7 @@ msgstr "Es un seguidor"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.jewelry_stores_watches_clocks_and_silverware_stores
 msgid "Jewelry Stores Watches Clocks and Silverware Stores"
-msgstr ""
+msgstr "Joyerías, relojerías y tiendas de platería"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_journal
@@ -2666,23 +2710,23 @@ msgstr "Diario"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "Journal where stripe transactions are recorded"
-msgstr ""
+msgstr "Diario donde se registran las transacciones de Stripe"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.landscaping_services
 msgid "Landscaping Services"
-msgstr ""
+msgstr "Servicios de paisajismo"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_view_search
 msgid "Last 4"
-msgstr ""
+msgstr "Últimos 4"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__last_4
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__card_last_4
 msgid "Last 4 digits"
-msgstr ""
+msgstr "Últimos 4 dígitos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__lastname
@@ -2712,17 +2756,17 @@ msgstr "Última actualización el"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.laundries
 msgid "Laundries"
-msgstr ""
+msgstr "Lavanderías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.laundry_cleaning_services
 msgid "Laundry Cleaning Services"
-msgstr ""
+msgstr "Servicios de lavandería y tintorería"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.legal_services_attorneys
 msgid "Legal Services Attorneys"
-msgstr ""
+msgstr "Servicios legales y de abogacía"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
@@ -2732,13 +2776,13 @@ msgstr "Límite"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_interval
 msgid "Limit Frequency"
-msgstr ""
+msgstr "Frecuencia límite"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_expense_issuing_terms.xml:0
 msgid "Limitation of Liability"
-msgstr ""
+msgstr "Limitación de responsabilidad"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__is_live_mode
@@ -2755,38 +2799,38 @@ msgstr "Perdidos"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_card_receive_terms.xml:0
 msgid "Lost or Stolen Cards"
-msgstr ""
+msgstr "Tarjetas perdidas o robadas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.luggage_and_leather_goods_stores
 msgid "Luggage and Leather Goods Stores"
-msgstr ""
+msgstr "Tiendas de equipaje y artículos de cuero"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.lumber_building_materials_stores
 msgid "Lumber Building Materials Stores"
-msgstr ""
+msgstr "Tiendas de materiales de construcción y madera"
 
 #. module: hr_expense_stripe
 #: model:ir.ui.menu,name:hr_expense_stripe.menu_product_mcc_stripe_tag
 msgid "MCC"
-msgstr ""
+msgstr "Código de categoría del comerciante (MCC)"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "MCCs"
-msgstr ""
+msgstr "Códigos MCC"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.marinas_service_and_supplies
 msgid "Marinas Service and Supplies"
-msgstr ""
+msgstr "Servicios y suministros para puertos deportivos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.marketplaces
@@ -2796,67 +2840,72 @@ msgstr "Mercados"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.masonry_stonework_and_plaster
 msgid "Masonry Stonework and Plaster"
-msgstr ""
+msgstr "Albañilería, mampostería y enlucido"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.massage_parlors
 msgid "Massage Parlors"
-msgstr ""
+msgstr "Centros de masaje"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense__mcc_tag_id
 msgid "Mcc Tag"
-msgstr ""
+msgstr "Etiqueta MCC"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.medical_dental_ophthalmic_and_hospital_equipment_and_supplies
 msgid "Medical Dental Ophthalmic and Hospital Equipment and Supplies"
 msgstr ""
+"Equipos y suministros médicos, dentales, oftalmológicos y hospitalarios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.medical_services
 msgid "Medical Services"
-msgstr ""
+msgstr "Servicios médicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.medical_and_dental_labs
 msgid "Medical and Dental Labs"
-msgstr ""
+msgstr "Laboratorios médicos y dentales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.membership_organizations
 msgid "Membership Organizations"
-msgstr ""
+msgstr "Asociaciones de miembros"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.mens_womens_clothing_stores
 msgid "Men and Women's Clothing Stores"
-msgstr ""
+msgstr "Tiendas de ropa para hombre y mujer"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.mens_and_boys_clothing_and_accessories_stores
 msgid "Men and boys' Clothing and Accessories Stores"
-msgstr ""
+msgstr "Tiendas de ropa y accesorios para hombres y niños"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_product__stripe_mcc_ids
 msgid "Merchant Category Code (MCC)"
-msgstr ""
+msgstr "Código de categoría de comerciante (MCC)"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_category_tag_ids
 msgid "Merchant Category Codes"
-msgstr ""
+msgstr "Códigos de categoría de comerciante"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Merchant codes that will always be refused when used by a vendor"
 msgstr ""
+"Códigos de comerciante (MCC) que se rechazarán automáticamente cuando los "
+"utilice un proveedor"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Merchant codes that will be accepted when used by a vendor"
 msgstr ""
+"Códigos de comerciante (MCC) que se aceptarán automáticamente cuando los "
+"utilice un proveedor"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_has_error
@@ -2873,73 +2922,73 @@ msgstr "Mensajes"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.metal_service_centers
 msgid "Metal Service Centers"
-msgstr ""
+msgstr "Centros de servicios metalúrgicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_apparel_and_accessory_shops
 msgid "Miscellaneous Apparel and Accessory Shops"
-msgstr ""
+msgstr "Tiendas de ropa y accesorios varios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_auto_dealers
 msgid "Miscellaneous Auto Dealers"
-msgstr ""
+msgstr "Concesionarios de automóviles varios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_business_services
 msgid "Miscellaneous Business Services"
-msgstr ""
+msgstr "Servicios empresariales varios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_food_stores
 msgid "Miscellaneous Food Stores"
-msgstr ""
+msgstr "Tiendas de alimentación variada"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_general_merchandise
 msgid "Miscellaneous General Merchandise"
-msgstr ""
+msgstr "Artículos varios y mercancías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_general_services
 msgid "Miscellaneous General Services"
-msgstr ""
+msgstr "Servicios generales varios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_home_furnishing_specialty_stores
 msgid "Miscellaneous Home Furnishing Specialty Stores"
-msgstr ""
+msgstr "Tiendas especializadas en artículos para el hogar"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_publishing_and_printing
 msgid "Miscellaneous Publishing and Printing"
-msgstr ""
+msgstr "Servicios varios de edición e impresión"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_recreation_services
 msgid "Miscellaneous Recreation Services"
-msgstr ""
+msgstr "Servicios recreativos varios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_specialty_retail
 msgid "Miscellaneous Specialty Retail"
-msgstr ""
+msgstr "Venta minorista especializada en artículos varios"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Miscellaneous shops"
-msgstr ""
+msgstr "Tiendas varias"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Missing Cardholder on IAP proxy server"
-msgstr ""
+msgstr "Falta el titular de la tarjeta en el servidor proxy IAP"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.mobile_home_dealers
 msgid "Mobile Home Dealers"
-msgstr ""
+msgstr "Distribuidores de casas móviles"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__spending_policy_interval__monthly
@@ -2949,48 +2998,48 @@ msgstr "Mes"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.motion_picture_theaters_cinema
 msgid "Motion Picture Theaters Cinema"
-msgstr ""
+msgstr "Salas de cine"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.motor_freight_carriers_and_trucking
 msgid "Motor Freight Carriers and Trucking"
-msgstr ""
+msgstr "Transporte de mercancías por carretera"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.motor_homes_dealers
 msgid "Motor Homes Dealers"
-msgstr ""
+msgstr "Distribuidores de autocaravanas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.motor_vehicle_supplies_and_new_parts
 msgid "Motor Vehicle Supplies and New Parts"
-msgstr ""
+msgstr "Recambios y accesorios nuevos para vehículos motorizados"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.motorcycle_shops_dealers
 msgid "Motorcycle Shops Dealers"
-msgstr ""
+msgstr "Tiendas y concesionarios de motocicletas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.motorcycle_shops_and_dealers
 msgid "Motorcycle Shops and Dealers"
-msgstr ""
+msgstr "Tiendas y concesionarios de motocicletas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.music_stores_musical_instruments_pianos_and_sheet_music
 msgid "Music Stores Musical Instruments Pianos and Sheet Music"
-msgstr ""
+msgstr "Tiendas de música, instrumentos musicales, pianos y partituras"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.xml:0
 msgid "My Card"
-msgstr ""
+msgstr "Mi tarjeta"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_view_search
 msgid "My Cards"
-msgstr ""
+msgstr "Mis tarjetas"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_view_search
@@ -3000,7 +3049,7 @@ msgstr "Mi equipo"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_view_search
 msgid "My own Cards"
-msgstr ""
+msgstr "Mis propias tarjetas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__name
@@ -3013,53 +3062,54 @@ msgstr "Nombre"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_journal__nb_stripe_card
 msgid "Nb Stripe Card"
-msgstr ""
+msgstr "Número de tarjeta de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_expense_issuing_terms.xml:0
 msgid "Negative Balances"
-msgstr ""
+msgstr "Saldos negativos"
 
 #. module: hr_expense_stripe
 #: model:mail.activity.type,name:hr_expense_stripe.mail_act_expense_add_receipt
 msgid "New card payment expense"
-msgstr ""
+msgstr "Nuevo gasto por pago con tarjeta"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.news_dealers_and_newsstands
 msgid "News Dealers and Newsstands"
-msgstr ""
+msgstr "Quioscos"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "No MCC found"
-msgstr ""
+msgstr "No se ha encontrado ningún código MCC"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "No MCC is properly set"
-msgstr ""
+msgstr "No hay ningún MCC configurado correctamente"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "No country found"
-msgstr ""
+msgstr "No se ha encontrado ningún país"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_card_block_wizard.py:0
 msgid "No reason provided"
-msgstr ""
+msgstr "No se ha proporcionado ningún motivo"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "No signature found in the request. Please check your configuration"
 msgstr ""
+"No se ha encontrado ninguna firma en la solicitud. Comprueba tu configuración"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3068,21 +3118,23 @@ msgid ""
 "No valid employee selected, please set an employee to be able to update its "
 "cardholder data"
 msgstr ""
+"No se ha seleccionado ningún empleado válido. Asigna un empleado para poder "
+"actualizar los datos del titular de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.non_fi_money_orders
 msgid "Non-Fi Money Orders"
-msgstr ""
+msgstr "Giros postales no financieros"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.non_fi_stored_value_card_purchase_load
 msgid "Non-Fi Stored Value Card Purchase Load"
-msgstr ""
+msgstr "Recarga de compra de tarjeta de valor almacenado no financiera"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.nondurable_goods
 msgid "Nondurable Goods"
-msgstr ""
+msgstr "Bienes no duraderos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_needaction_counter
@@ -3111,12 +3163,12 @@ msgstr "Número de mensajes con error de envío"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.nurseries_lawn_and_garden_supply_stores
 msgid "Nurseries Lawn and Garden Supply Stores"
-msgstr ""
+msgstr "Viveros y tiendas de suministros para jardines y césped"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.nursing_personal_care
 msgid "Nursing Personal Care"
-msgstr ""
+msgstr "Enfermería y cuidado personal"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -3126,25 +3178,45 @@ msgid ""
 "                    your Stripe Issuing account, including lost funds, "
 "business interruption, or indirect damages."
 msgstr ""
+"Odoo no se hace responsable de las consecuencias derivadas del uso de tu "
+"cuenta\n"
+"                    Stripe Issuing, incluyendo la pérdida de fondos, "
+"interrupción del negocio o daños indirectos."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.office_and_commercial_furniture
 msgid "Office and Commercial Furniture"
-msgstr ""
+msgstr "Mobiliario de oficina y comercial"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
 msgstr ""
+"Por ahora, solo BACS es compatible con las instrucciones de financiación de "
+"Stripe Issuing en el Reino Unido"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
 msgstr ""
+"Por el momento, solo IBAN o BACS son compatibles con las instrucciones de "
+"financiación de Stripe Issuing"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
+msgstr ""
+"Por ahora, solo SEPA es compatible con las instrucciones de financiación de "
+"Stripe Issuing en la UE"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3153,33 +3225,39 @@ msgid ""
 "Only administrators can change the code or the stripe technical name of a "
 "MCC."
 msgstr ""
+"Solo los administradores pueden cambiar el código o el nombre técnico de "
+"Stripe de un MCC."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Only licenses databases can use Odoo Stripe Issuing services."
 msgstr ""
+"Solo las bases de datos con licencia pueden utilizar los servicios de Stripe "
+"Issuing en Odoo."
 
 #. module: hr_expense_stripe
 #: model:ir.model.constraint,message:hr_expense_stripe.constraint_account_bank_statement_line_check_unique_stripe_id
 msgid "Only one bank statement can be created from a single stripe transaction"
 msgstr ""
+"Solo se puede crear un extracto bancario a partir de una única transacción "
+"de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Operation only allowed for expense administrators."
-msgstr ""
+msgstr "Operación permitida solo para administradores de gastos."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.opticians_eyeglasses
 msgid "Opticians Eyeglasses"
-msgstr ""
+msgstr "Ópticas y gafas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.optometrists_ophthalmologist
 msgid "Optometrists Ophthalmologist"
-msgstr ""
+msgstr "Optometristas y oftalmólogos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
@@ -3189,22 +3267,22 @@ msgstr "Pedir"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__ordered_by
 msgid "Ordered By"
-msgstr ""
+msgstr "Solicitado por"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__original_phone_number
 msgid "Original Phone Number"
-msgstr ""
+msgstr "Número de teléfono original"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.orthopedic_goods_prosthetic_devices
 msgid "Orthopedic Goods Prosthetic Devices"
-msgstr ""
+msgstr "Productos ortopédicos y prótesis"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.osteopaths
 msgid "Osteopaths"
-msgstr ""
+msgstr "Osteópatas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__cancellation_reason__none
@@ -3216,27 +3294,27 @@ msgstr "Otro"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.xml:0
 msgid "PIN Number:"
-msgstr ""
+msgstr "Número PIN:"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.package_stores_beer_wine_and_liquor
 msgid "Package Stores Beer Wine and Liquor"
-msgstr ""
+msgstr "Tiendas de bebidas alcohólicas (cerveza, vino y licores)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.paints_varnishes_and_supplies
 msgid "Paints Varnishes and Supplies"
-msgstr ""
+msgstr "Pinturas, barnices y suministros"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.parking_lots_garages
 msgid "Parking Lots Garages"
-msgstr ""
+msgstr "Parkings y garajes"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.passenger_railways
 msgid "Passenger Railways"
-msgstr ""
+msgstr "Transporte ferroviario de pasajeros"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -3249,7 +3327,7 @@ msgstr "Detener"
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/pause_card_warning_action.xml:0
 msgid "Pause Card"
-msgstr ""
+msgstr "Pausar tarjeta"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_view_search
@@ -3264,11 +3342,13 @@ msgid ""
 "Pausing your card will disable it. Only Expense Administrators can "
 "reactivate it."
 msgstr ""
+"Si pausas tu tarjeta, esta quedará desactivada. Solo los administradores de "
+"gastos pueden reactivarla."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.pawn_shops
 msgid "Pawn Shops"
-msgstr ""
+msgstr "Casas de empeño"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_payment_register
@@ -3300,12 +3380,12 @@ msgstr "Pendiente"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.pet_shops_pet_food_and_supplies
 msgid "Pet Shops Pet Food and Supplies"
-msgstr ""
+msgstr "Tiendas de mascotas, alimentos y suministros para mascotas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.petroleum_and_petroleum_products
 msgid "Petroleum and Petroleum Products"
-msgstr ""
+msgstr "Petróleo y productos derivados"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__phone_number
@@ -3315,72 +3395,72 @@ msgstr "Número de teléfono"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.photo_developing
 msgid "Photo Developing"
-msgstr ""
+msgstr "Revelado de fotografías"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.photographic_photocopy_microfilm_equipment_and_supplies
 msgid "Photographic Photocopy Microfilm Equipment and Supplies"
-msgstr ""
+msgstr "Equipos y suministros fotográficos, fotocopiadoras y microfilm"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.photographic_studios
 msgid "Photographic Studios"
-msgstr ""
+msgstr "Estudios fotográficos"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__card_type__physical
 msgid "Physical"
-msgstr ""
+msgstr "Física"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.picture_video_production
 msgid "Picture Video Production"
-msgstr ""
+msgstr "Producción de vídeos y fotografía"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.piece_goods_notions_and_other_dry_goods
 msgid "Piece Goods Notions and Other Dry Goods"
-msgstr ""
+msgstr "Artículos por piezas, artículos de mercería y otros productos"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/pause_card_warning_action.xml:0
 msgid "Please make sure it is what you want to do."
-msgstr ""
+msgstr "Por favor, asegúrate de que es lo que quieres hacer."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 msgid "Please upload the receipt."
-msgstr ""
+msgstr "Por favor, sube el recibo."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.plumbing_heating_equipment_and_supplies
 msgid "Plumbing Heating Equipment and Supplies"
-msgstr ""
+msgstr "Equipos y suministros de fontanería y calefacción"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.political_organizations
 msgid "Political Organizations"
-msgstr ""
+msgstr "Organizaciones políticas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.postal_services_government_only
 msgid "Postal Services Government Only"
-msgstr ""
+msgstr "Servicios postales (solo gubernamentales)"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.precious_stones_and_metals_watches_and_jewelry
 msgid "Precious Stones and Metals Watches and Jewelry"
-msgstr ""
+msgstr "Piedras preciosas y metales, relojes y joyería"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/res_company.py:0
 msgid "Private key used for Stripe Issuing"
-msgstr ""
+msgstr "Clave privada utilizada para Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__product_name
@@ -3400,22 +3480,22 @@ msgstr "Servicios profesionales"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Professional services and membership organisations"
-msgstr ""
+msgstr "Servicios profesionales y organizaciones"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.public_warehousing_and_storage
 msgid "Public Warehousing and Storage"
-msgstr ""
+msgstr "Almacenamiento y depósitos públicos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__pull_push_funds
 msgid "Pull Push Funds"
-msgstr ""
+msgstr "Obtener y enviar fondos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_topup_wizard__pull_push_funds__push
 msgid "Push Funds to a Funding Instruction"
-msgstr ""
+msgstr "Enviar fondos a una instrucción de financiación"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__qr_code
@@ -3425,12 +3505,12 @@ msgstr "URL del Código QR"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.quick_copy_repro_and_blueprint
 msgid "Quick Copy Repro and Blueprint"
-msgstr ""
+msgstr "Copistería, reprografía y planos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.railroads
 msgid "Railroads"
-msgstr ""
+msgstr "Ferrocarriles"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__rating_ids
@@ -3441,7 +3521,7 @@ msgstr "Calificaciones"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.real_estate_agents_and_managers_rentals
 msgid "Real Estate Agents and Managers Rentals"
-msgstr ""
+msgstr "Agentes inmobiliarios y gestores de alquileres"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_block_wizard__cancellation_reason
@@ -3451,12 +3531,12 @@ msgstr "Motivo"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.record_stores
 msgid "Record Stores"
-msgstr ""
+msgstr "Tiendas de discos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.recreational_vehicle_rentals
 msgid "Recreational Vehicle Rentals"
-msgstr ""
+msgstr "Alquiler de vehículos recreativos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
@@ -3471,24 +3551,25 @@ msgstr "Usuario relacionado con el recurso para gestionar su acceso."
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.religious_goods_stores
 msgid "Religious Goods Stores"
-msgstr ""
+msgstr "Tiendas de artículos religiosos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.religious_organizations
 msgid "Religious Organizations"
-msgstr ""
+msgstr "Organizaciones religiosas"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Request only allowed for the cardholder or the managers."
 msgstr ""
+"Solicitud permitida solo para el titular de la tarjeta o los administradores."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Request only allowed for the cardholder."
-msgstr ""
+msgstr "Solicitud solo permitida para el titular de la tarjeta."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -3509,7 +3590,7 @@ msgstr "Restringido"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Retail outlet services"
-msgstr ""
+msgstr "Servicios de venta minorista"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__shipping_status__returned
@@ -3524,7 +3605,7 @@ msgstr "Revelar"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.roofing_siding_sheet_metal
 msgid "Roofing Siding Sheet Metal"
-msgstr ""
+msgstr "Techos, revestimientos y chapas metálicas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_has_sms_error
@@ -3546,34 +3627,34 @@ msgstr "Escanéeme con su aplicación bancaria."
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.secretarial_support_services
 msgid "Secretarial Support Services"
-msgstr ""
+msgstr "Servicios de apoyo administrativo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.security_brokers_dealers
 msgid "Security Brokers Dealers"
-msgstr ""
+msgstr "Corredores y agentes de valores"
 
 #. module: hr_expense_stripe
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_canceled
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_ordered
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_shipped
 msgid "Sent to the person that will handle the reception of the card"
-msgstr ""
+msgstr "Enviado a la persona que se encargará de la recepción de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_assigned
 msgid "Sent to the person that will use the card"
-msgstr ""
+msgstr "Enviado a la persona que utilizará la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.service_stations
 msgid "Service Stations"
-msgstr ""
+msgstr "Estaciones de servicio"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.sewing_needlework_fabric_and_piece_goods_stores
 msgid "Sewing Needlework Fabric and Piece Goods Stores"
-msgstr ""
+msgstr "Tiendas de costura, bordado, telas y tejidos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__shipping_status__shipped
@@ -3588,72 +3669,72 @@ msgstr "Estado del envío"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.shoe_repair_hat_cleaning
 msgid "Shoe Repair Hat Cleaning"
-msgstr ""
+msgstr "Reparación de calzado y limpieza de sombreros"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.shoe_stores
 msgid "Shoe Stores"
-msgstr ""
+msgstr "Tiendas de calzado"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__show_warning_wrong_last_4
 msgid "Show Warning Wrong Last 4"
-msgstr ""
+msgstr "Mostrar advertencia de últimos 4 dígitos incorrectos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.small_appliance_repair
 msgid "Small Appliance Repair"
-msgstr ""
+msgstr "Reparación de electrodomésticos pequeños"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.snowmobile_dealers
 msgid "Snowmobile Dealers"
-msgstr ""
+msgstr "Distribuidores de motos de nieve"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__bic
 msgid "Sometimes called BIC or Swift."
-msgstr "Algunas veces llamado BIC o Swift"
+msgstr "Algunas veces llamado BIC o Swift."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.special_trade_services
 msgid "Special Trade Services"
-msgstr ""
+msgstr "Servicios comerciales especiales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.specialty_cleaning
 msgid "Specialty Cleaning"
-msgstr ""
+msgstr "Limpieza especializada"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Spending Policy"
-msgstr ""
+msgstr "Política de gastos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.sporting_goods_stores
 msgid "Sporting Goods Stores"
-msgstr ""
+msgstr "Tiendas de artículos deportivos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.sporting_recreation_camps
 msgid "Sporting Recreation Camps"
-msgstr ""
+msgstr "Campamentos deportivos y recreativos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.sports_clubs_fields
 msgid "Sports Clubs Fields"
-msgstr ""
+msgstr "Clubes deportivos y campos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.sports_and_riding_apparel_stores
 msgid "Sports and Riding Apparel Stores"
-msgstr ""
+msgstr "Tiendas de ropa deportiva y de equitación"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.stamp_and_coin_stores
 msgid "Stamp and Coin Stores"
-msgstr ""
+msgstr "Tiendas de sellos y monedas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__billing_state_id
@@ -3663,7 +3744,7 @@ msgstr "Estado"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.stationery_stores_office_and_school_supply_stores
 msgid "Stationery Stores Office and School Supply Stores"
-msgstr ""
+msgstr "Papelerías y tiendas de material de oficina y escolar"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__state
@@ -3677,7 +3758,7 @@ msgstr "Estado"
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__cancellation_reason__stolen
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card_block_wizard__cancellation_reason__stolen
 msgid "Stolen"
-msgstr ""
+msgstr "Robada"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__billing_street
@@ -3693,59 +3774,59 @@ msgstr "Calle 2"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_id
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_config_settings__stripe_id
 msgid "Stripe Account ID"
-msgstr ""
+msgstr "ID de la cuenta de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_account_issuing_tos_acceptance_date
 msgid "Stripe Account Issuing Tos Acceptance Date"
-msgstr ""
+msgstr "Fecha de aceptación de los términos y condiciones de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_account_issuing_tos_accepted
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_config_settings__stripe_account_issuing_tos_accepted
 msgid "Stripe Account Issuing Tos Accepted"
-msgstr ""
+msgstr "Términos y condiciones de Stripe Issuing aceptados"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense__stripe_authorization_id
 msgid "Stripe Authorization ID"
-msgstr ""
+msgstr "ID de autorización de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_journal__stripe_issuing_balance
 msgid "Stripe Balance Available"
-msgstr ""
+msgstr "Saldo disponible en Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_users__stripe_card_ids
 msgid "Stripe Card"
-msgstr ""
+msgstr "Tarjeta de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__stripe_id
 msgid "Stripe Card ID"
-msgstr ""
+msgstr "ID de la tarjeta de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Stripe Card ending with %(last_4)s"
-msgstr ""
+msgstr "Tarjeta de Stripe que termina en %(last_4)s"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_journal__stripe_card_ids
 msgid "Stripe Cards"
-msgstr ""
+msgstr "Tarjetas Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense.py:0
 msgid "Stripe Credit transfers are not implemented"
-msgstr ""
+msgstr "Las transferencias de crédito de Stripe no están implementadas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_journal__stripe_currency_id
@@ -3758,47 +3839,49 @@ msgstr "Moneda de Stripe"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_employee__private_stripe_id
 msgid "Stripe ID"
-msgstr ""
+msgstr "ID de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/account_chart_template.py:0
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing"
-msgstr ""
+msgstr "Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_product__stripe_issuing_activated
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_issuing_activated
 msgid "Stripe Issuing Activated"
-msgstr ""
+msgstr "Stripe Issuing activado"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_issuing_db_private_key_id
 msgid "Stripe Issuing Db Private Key"
-msgstr ""
+msgstr "Clave privada de la base de datos de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_issuing_iap_public_key_id
 msgid "Stripe Issuing Iap Public Key"
 msgstr ""
+"Clave pública de compras dentro de la aplicación (IAP) de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_issuing_iap_webhook_uuid
 msgid "Stripe Issuing Iap Webhook Uuid"
 msgstr ""
+"UUID del webhook de compras dentro de la aplicación (IAP) de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__stripe_journal_id
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_res_config_settings__stripe_journal_id
 msgid "Stripe Issuing Journal"
-msgstr ""
+msgstr "Diario de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_form
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_list
 msgid "Stripe Issuing Merchant Category Codes"
-msgstr ""
+msgstr "Códigos de categoría de comerciante de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_hr_expense_stripe_topup_wizard
@@ -3812,71 +3895,84 @@ msgid ""
 "Stripe Issuing configuration invalid, please set it as 'live' or 'test' in "
 "the configurations."
 msgstr ""
+"La configuración de Stripe Issuing no es válida. Por favor, configúrala como "
+"«live» o «test» en la configuración."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+"Por ahora, las instrucciones de financiación de Stripe Issuing con moneda "
+"USD no son compatibles"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing is not available in your country."
-msgstr ""
+msgstr "Stripe Issuing no está disponible en tu país."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Stripe Issuing with Odoo is not yet implemented for the US customers."
 msgstr ""
+"Stripe Issuing con Odoo aún no está implementado para los clientes de EE. UU."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__journal_id
 msgid "Stripe Journal"
-msgstr ""
+msgstr "Diario de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_product_mcc_stripe_tag
 msgid "Stripe MCC Tag"
-msgstr ""
+msgstr "Etiqueta MCC de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.actions.act_window,name:hr_expense_stripe.product_mcc_stripe_tag
 msgid "Stripe Merchant Category Codes"
-msgstr ""
+msgstr "Códigos de categoría de comerciante de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__stripe_name
 msgid "Stripe Name"
-msgstr ""
+msgstr "Nombre de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "Stripe Partner Bank"
-msgstr ""
+msgstr "Banco asociado de Stripe"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_form
 msgid "Stripe Technical Name"
-msgstr ""
+msgstr "Nombre técnico de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "Stripe Top-Up"
-msgstr ""
+msgstr "Recarga de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/account_bank_statement_line.py:0
 msgid "Stripe Top-up"
-msgstr ""
+msgstr "Recarga de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense__stripe_transaction_id
 msgid "Stripe Transaction ID"
-msgstr ""
+msgstr "ID de transacción de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__stripe_values
 msgid "Stripe Values"
-msgstr ""
+msgstr "Valores de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_account_journal__stripe_card_ids
@@ -3884,6 +3980,8 @@ msgid ""
 "Stripe cards associated with this journal. They can be used to pay for "
 "expenses, or to top up the Stripe Issuing balance."
 msgstr ""
+"Tarjetas Stripe asociadas a este diario. Se pueden utilizar para pagar "
+"gastos o para recargar el saldo de Stripe Issuing."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3892,11 +3990,13 @@ msgid ""
 "Stripe timed-out or encountered an error when communicating with the card "
 "network"
 msgstr ""
+"Stripe ha agotado el tiempo de espera o ha encontrado un error al "
+"comunicarse con la red de tarjetas"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_bank_statement_line__stripe_id
 msgid "Stripe transaction ID"
-msgstr ""
+msgstr "ID de transacción de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__shipping_status__submitted
@@ -3906,7 +4006,7 @@ msgstr "Enviado"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.swimming_pools_sales
 msgid "Swimming Pools Sales"
-msgstr ""
+msgstr "Venta de piscinas"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3915,36 +4015,38 @@ msgid ""
 "System parameter '%(name)s' value is incorrect, expecting 'live', 'test' or "
 "no value"
 msgstr ""
+"El valor del parámetro del sistema «%(name)s » es incorrecto; se espera "
+"«live», «test» o ningún valor"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.t_ui_travel_germany
 msgid "TUI Travel Germany"
-msgstr ""
+msgstr "TUI Travel Alemania"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tailors_alterations
 msgid "Tailors Alterations"
-msgstr ""
+msgstr "Sastrería y arreglos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tax_payments_government_agencies
 msgid "Tax Payments Government Agencies"
-msgstr ""
+msgstr "Pagos de impuestos a organismos gubernamentales"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tax_preparation_services
 msgid "Tax Preparation Services"
-msgstr ""
+msgstr "Servicios de preparación de impuestos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.taxicabs_limousines
 msgid "Taxicabs Limousines"
-msgstr ""
+msgstr "Taxis y limusinas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.telecommunication_equipment_and_telephone_sales
 msgid "Telecommunication Equipment and Telephone Sales"
-msgstr ""
+msgstr "Equipos de telecomunicaciones y venta de teléfonos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.telecommunication_services
@@ -3954,40 +4056,40 @@ msgstr "Servicios de telecomunicaciones"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.telegraph_services
 msgid "Telegraph Services"
-msgstr ""
+msgstr "Servicios telegráficos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tent_and_awning_shops
 msgid "Tent and Awning Shops"
-msgstr ""
+msgstr "Tiendas de tiendas de campaña y toldos"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_card_receive_terms.xml:0
 msgid "Termination"
-msgstr ""
+msgstr "Rescisión"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__is_delivered
 msgid "Terms and Conditions acceptance"
-msgstr ""
+msgstr "Aceptación de los términos y condiciones"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.testing_laboratories
 msgid "Testing Laboratories"
-msgstr ""
+msgstr "Laboratorios de pruebas"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_cardholder_wizard.py:0
 msgid "The Cardholder had been successfully created."
-msgstr ""
+msgstr "El titular de la tarjeta se ha creado correctamente."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_cardholder_wizard.py:0
 msgid "The Cardholder had been successfully updated."
-msgstr ""
+msgstr "El titular de la tarjeta se ha actualizado correctamente."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3996,6 +4098,8 @@ msgid ""
 "The Stripe account specified in the request wasn't found. Please check your "
 "configuration"
 msgstr ""
+"No se ha encontrado la cuenta Stripe especificada en la solicitud. Comprueba "
+"tu configuración"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4004,47 +4108,53 @@ msgid ""
 "The Stripe issuing account isn't properly set. Please connect to Stripe in "
 "the settings"
 msgstr ""
+"La cuenta de Stripe Issuing no está configurada correctamente. Conéctate a "
+"Stripe Issuing desde la configuración"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The Stripe public key is missing"
-msgstr ""
+msgstr "Falta la clave pública de Stripe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__delivery_address_id
 msgid "The address where the card will be delivered."
-msgstr ""
+msgstr "La dirección donde se entregará la tarjeta."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The authorization failed required verification checks"
 msgstr ""
+"La autorización ha fallado porque no ha pasado las comprobaciones de "
+"verificación"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The authorization was approved by your Odoo database"
-msgstr ""
+msgstr "Tu base de datos Odoo ha aprobado la autorización"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The authorization was refused by your Odoo database"
-msgstr ""
+msgstr "Tu base de datos Odoo ha rechazado la autorización"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The authorization was suspected as fraudulent by Stripe's risk controls"
 msgstr ""
+"Los controles de riesgo de Stripe tienen sospecha de que la autorización era "
+"fraudulenta"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The card has expired"
-msgstr ""
+msgstr "La tarjeta ha caducado"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4052,30 +4162,33 @@ msgstr ""
 msgid ""
 "The card is active, and there was no control setup on your Stripe account"
 msgstr ""
+"La tarjeta está activa y no se ha configurado ningún control en tu cuenta de "
+"Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The card is currently inactive, please activate it first"
-msgstr ""
+msgstr "La tarjeta está inactiva, por favor, actívala primero"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The card must be ordered by a user."
-msgstr ""
+msgstr "La tarjeta la debe solicitar un usuario."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The card must have a delivery date if it is marked as delivered."
 msgstr ""
+"La tarjeta debe tener una fecha de entrega si está marcada como entregada."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The card used was blocked"
-msgstr ""
+msgstr "La tarjeta utilizada ha sido bloqueada"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4084,41 +4197,43 @@ msgid ""
 "The card was blocked for the following reason:\n"
 "%(reason)s"
 msgstr ""
+"Se ha bloqueado la tarjeta debido a:\n"
+"%(reason)s"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The card was declined because of the Stripe spending controls"
-msgstr ""
+msgstr "Se ha rechazado la tarjeta debido a los controles de gasto de Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The card's PIN is blocked"
-msgstr ""
+msgstr "El PIN de la tarjeta está bloqueado"
 
 #. module: hr_expense_stripe
 #: model:mail.message.subtype,description:hr_expense_stripe.mt_stripe_cardholder_updated
 msgid "The cardholder data was updated on Stripe"
-msgstr ""
+msgstr "Los datos del titular de la tarjeta se han actualizado en Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The cardholder is currently inactive"
-msgstr ""
+msgstr "El titular de la tarjeta está inactivo actualmente"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The cardholder is still under verification"
-msgstr ""
+msgstr "El titular de la tarjeta aún está en proceso de verificación"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "The cardholder was blocked"
-msgstr ""
+msgstr "Se ha bloqueado al titular de la tarjeta"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4127,17 +4242,19 @@ msgid ""
 "The charge is not allowed on the Stripe network, possibly because it is an "
 "ATM withdrawal or cash advance."
 msgstr ""
+"El cargo no está permitido en la red de Stripe, posiblemente porque se trata "
+"de una retirada en cajero automático o un anticipo en efectivo."
 
 #. module: hr_expense_stripe
 #: model:ir.model.constraint,message:hr_expense_stripe.constraint_product_mcc_stripe_tag_constraint_code_unique
 msgid "The code of the MCC tag must be unique!"
-msgstr ""
+msgstr "¡El código de la etiqueta MCC debe ser único!"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The code to access your Odoo Expense Card is: %(code)s"
-msgstr ""
+msgstr "El código para acceder a tu tarjeta de gastos de Odoo es: %(code)s"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4146,18 +4263,28 @@ msgid ""
 "The creation rate limit for this type of cards has been reached. Please try "
 "again later."
 msgstr ""
+"Se ha alcanzado el límite de creación de este tipo de tarjetas. Inténtalo de "
+"nuevo más tarde."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+"La dirección de entrega debe estar en la Unión Europea o en el Reino Unido."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
-msgstr ""
+msgstr "La dirección de entrega debe estar dentro de la Unión Europea."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be set before activating the card."
-msgstr ""
+msgstr "La dirección de entrega debe configurarse antes de activar la tarjeta."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4165,18 +4292,22 @@ msgstr ""
 msgid ""
 "The delivery address must have a street, city, zip code and country set."
 msgstr ""
+"La dirección de entrega debe incluir la calle, la ciudad, el código postal y "
+"el país."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "The direct top-up isn't available outside of the US."
-msgstr ""
+msgstr "La recarga directa no está disponible fuera de los Estados Unidos."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The employee must have a user to be able to access safely their card."
 msgstr ""
+"El empleado debe tener un usuario para poder acceder de forma segura a su "
+"tarjeta."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card_receive_wizard__last_4_challenge
@@ -4184,6 +4315,8 @@ msgid ""
 "The last 4 digits of the card you received. This is used to confirm that you "
 "have received the correct card."
 msgstr ""
+"Los últimos 4 dígitos de la tarjeta que has recibido. Esto se utiliza para "
+"confirmar que has recibido la tarjeta correcta."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4192,11 +4325,13 @@ msgid ""
 "The last 4 digits you entered do not match the card you received. Please "
 "check and try again."
 msgstr ""
+"Los últimos 4 dígitos introducidos no coinciden con los de la tarjeta que "
+"has recibido. Compruébalos y vuelve a intentarlo."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__card_name
 msgid "The name displayed on the card"
-msgstr ""
+msgstr "El nombre que aparece en la tarjeta"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4205,6 +4340,9 @@ msgid ""
 "The phone number associated with your Odoo Expense card(s) has been updated. "
 "If it was not requested by you, please contact your administrator."
 msgstr ""
+"Se ha actualizado el número de teléfono asociado a tu tarjeta o tarjetas de "
+"gastos de Odoo. Si no lo has solicitado tú, ponte en contacto con tu "
+"administrador."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4219,6 +4357,8 @@ msgid ""
 "The route '%(route)s' is not allowed to be called from the Stripe IAP proxy "
 "server."
 msgstr ""
+"No se permite llamar a la ruta «%(route)s » desde el servidor proxy IAP de "
+"Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4227,6 +4367,8 @@ msgid ""
 "The sms service is currently experiencing a lot of request. Please try again "
 "in a few minutes."
 msgstr ""
+"El servicio de SMS está recibiendo muchas solicitudes en este momento. "
+"Vuelve a intentarlo en unos minutos."
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
@@ -4234,17 +4376,19 @@ msgid ""
 "The spending limits set on this card are higher than the limits set by "
 "Stripe of 50.000 per day and per transaction."
 msgstr ""
+"Los límites de gasto establecidos para esta tarjeta son superiores a los "
+"límites establecidos por Stripe, que son de 50.000 por día y por transacción."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "The statement description can only contain 15 ASCII characters"
-msgstr ""
+msgstr "La descripción del extracto solo puede contener 15 caracteres ASCII"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.theatrical_ticket_agencies
 msgid "Theatrical Ticket Agencies"
-msgstr ""
+msgstr "Agencias de venta de entradas para espectáculos teatrales"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4253,6 +4397,8 @@ msgid ""
 "There is insufficient funds on your Stripe account, please top-up your "
 "account first."
 msgstr ""
+"No hay fondos suficientes en tu cuenta de Stripe. Por favor, recarga tu "
+"cuenta."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4261,6 +4407,8 @@ msgid ""
 "There is no product available for this expense. Please contact your "
 "administrator."
 msgstr ""
+"No hay ningún producto disponible para este gasto. Ponte en contacto con tu "
+"administrador."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4269,27 +4417,30 @@ msgid ""
 "There was an error in your Odoo database and Stripe received an invalid "
 "response"
 msgstr ""
+"Se ha producido un error en tu base de datos de Odoo y Stripe ha recibido "
+"una respuesta que no es válida"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "There was an unexpected error on Odoo IAP proxy server"
-msgstr ""
+msgstr "Se ha producido un error en el servidor proxy IAP de Odoo"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.timeshares
 msgid "Timeshares"
-msgstr ""
+msgstr "Tiempo compartido"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_journal__stripe_issuing_balance_timestamp
 msgid "Timestamp of the most recent Stripe Issuing Balance update"
 msgstr ""
+"Marca de tiempo de la actualización más reciente del saldo de Stripe Issuing"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tire_retreading_and_repair
 msgid "Tire Retreading and Repair"
-msgstr ""
+msgstr "Recauchutado y reparación de neumáticos"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4297,24 +4448,26 @@ msgstr ""
 msgid ""
 "To be used by Expense cards, the product '%(name)s' must have a cost of 0.00"
 msgstr ""
+"Para poder utilizar tarjetas de gastos, el producto «%(name)s » debe tener "
+"un coste de 0,00"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tolls_bridge_fees
 msgid "Tolls Bridge Fees"
-msgstr ""
+msgstr "Tasas de peajes"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "Top up payment"
-msgstr ""
+msgstr "Pago de recarga"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.account_journal_dashboard_kanban_view_inherit_expense_stripe
 msgid "Top-up"
-msgstr ""
+msgstr "Recarga"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4323,6 +4476,9 @@ msgid ""
 "Top-up request failed with the following error sent by Stripe:\n"
 "%(stripe_error)s"
 msgstr ""
+"La solicitud de recarga ha fallado y este es el error que ha enviado "
+"Stripe:\n"
+"%(stripe_error)s"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4331,21 +4487,23 @@ msgid ""
 "Top-up request successfully sent to Stripe, this can take a few days before "
 "being available"
 msgstr ""
+"Solicitud de recarga enviada correctamente a Stripe. Puede tardar unos días "
+"en estar disponible"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
 msgid "Topup"
-msgstr ""
+msgstr "Recarga"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.tourist_attractions_and_exhibits
 msgid "Tourist Attractions and Exhibits"
-msgstr ""
+msgstr "Atracciones turísticas y exposiciones"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.towing_services
 msgid "Towing Services"
-msgstr ""
+msgstr "Servicios de remolque"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__tracking_number
@@ -4360,18 +4518,31 @@ msgstr "URL de rastreo"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.trailer_parks_campgrounds
 msgid "Trailer Parks Campgrounds"
-msgstr ""
+msgstr "Áreas para caravanas y campings"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_transaction_amount
 msgid "Transaction Limit"
-msgstr ""
+msgstr "Límite de transacción"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Transaction accepted"
+msgstr "Transacción aceptada"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
+msgstr "El importe de la transacción (%(amount)s) supera el máximo permitido"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
 msgstr ""
+"El importe de la transacción (%(total_spent)s) supera el límite del intervalo"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4379,60 +4550,51 @@ msgstr ""
 msgid ""
 "Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
 msgstr ""
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr ""
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr ""
+"El importe de la transacción superó el límite diario/por transacción de la "
+"tarjeta, que es de 50.000 €"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/account_bank_statement_line.py:0
 msgid "Transaction created from %(expense)s"
-msgstr ""
+msgstr "Transacción creada a partir de %(expense)s"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
 msgid "Transfer funds using the IBAN and BIC below"
 msgstr ""
+"Transfiere fondos utilizando el IBAN y el BIC que se indican a continuación"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
 msgid "Transfers usually take 2–3 business days"
-msgstr ""
+msgstr "Las transferencias suelen tardar entre 2 y 3 días hábiles"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.transportation_services
 msgid "Transportation Services"
-msgstr ""
+msgstr "Servicios de transporte"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Transportation services"
-msgstr ""
+msgstr "Servicios de transporte"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.travel_agencies_tour_operators
 msgid "Travel Agencies Tour Operators"
-msgstr ""
+msgstr "Agencias de viajes y operadores turísticos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.truck_utility_trailer_rentals
 msgid "Truck Utility Trailer Rentals"
-msgstr ""
+msgstr "Alquiler de remolques, camiones y utilitarios"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.xml:0
 msgid "Two-Factor Authentification"
-msgstr ""
+msgstr "Autenticación de dos factores"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__card_type
@@ -4443,27 +4605,28 @@ msgstr "Tipo"
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.typesetting_plate_making_and_related_services
 msgid "Typesetting Plate Making and Related Services"
 msgstr ""
+"Composición tipográfica, fabricación de planchas y servicios relacionados"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.typewriter_stores
 msgid "Typewriter Stores"
-msgstr ""
+msgstr "Tiendas de máquinas de escribir"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.u_s_federal_government_agencies_or_departments
 msgid "U S Federal Government Agencies or Departments"
-msgstr ""
+msgstr "Agencias o departamentos del Gobierno Federal de los Estados Unidos"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Unexpected error"
-msgstr ""
+msgstr "Error inesperado"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.uniforms_commercial_clothing
 msgid "Uniforms Commercial Clothing"
-msgstr ""
+msgstr "Uniformes y ropa comercial"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4476,7 +4639,7 @@ msgstr "Desconocido"
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Unknown Error Code"
-msgstr ""
+msgstr "Código de error desconocido"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -4487,12 +4650,12 @@ msgstr "Sin límite"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Update info"
-msgstr ""
+msgstr "Actualizar información"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.used_merchandise_and_secondhand_stores
 msgid "Used Merchandise and Secondhand Stores"
-msgstr ""
+msgstr "Tiendas de artículos usados y de segunda mano"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_res_users
@@ -4503,42 +4666,42 @@ msgstr "Usuario"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.utilities
 msgid "Utilities"
-msgstr ""
+msgstr "Servicios públicos"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Utility services"
-msgstr ""
+msgstr "Servicios públicos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.variety_stores
 msgid "Variety Stores"
-msgstr ""
+msgstr "Tiendas de producto diversos"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__res_company__stripe_account_issuing_status__verified
 msgid "Verified"
-msgstr ""
+msgstr "Verificada"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.veterinary_services
 msgid "Veterinary Services"
-msgstr ""
+msgstr "Servicios veterinarios"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.video_amusement_game_supplies
 msgid "Video Amusement Game Supplies"
-msgstr ""
+msgstr "Suministros para juegos de entretenimiento y videojuegos"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.video_game_arcades
 msgid "Video Game Arcades"
-msgstr ""
+msgstr "Salas recreativas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.video_tape_rental_stores
 msgid "Video Tape Rental Stores"
-msgstr ""
+msgstr "Tiendas de alquiler de cintas de vídeo"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
@@ -4551,6 +4714,9 @@ msgid ""
 "Viewing confidential card details requires 2FA authentication. Make sure the "
 "cardholder mobile number is correct."
 msgstr ""
+"Para ver los datos confidenciales de la tarjeta es necesario realizar una "
+"autenticación 2FA. Asegúrate de que el número de teléfono móvil del titular "
+"de la tarjeta es correcto."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -4562,7 +4728,7 @@ msgstr "Virtual"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.vocational_trade_schools
 msgid "Vocational Trade Schools"
-msgstr ""
+msgstr "Escuelas de formación profesional"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__has_limit_higher_than_stripe_warning
@@ -4572,12 +4738,12 @@ msgstr "Advertencia"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__has_limit_higher_than_stripe_warning
 msgid "Warning if the limit is higher than the Stripe limit"
-msgstr ""
+msgstr "Advertencia si el límite es superior al límite de Stripe"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.watch_jewelry_repair
 msgid "Watch Jewelry Repair"
-msgstr ""
+msgstr "Reparación de relojes y joyas"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4586,6 +4752,8 @@ msgid ""
 "We received the following error from Odoo IAP proxy server:\n"
 "- Missing account secret"
 msgstr ""
+"Hemos recibido el siguiente error del servidor proxy IAP de Odoo:\n"
+"- Falta la clave secreta de la cuenta"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4594,6 +4762,8 @@ msgid ""
 "We received the following error from Odoo IAP proxy server:\n"
 "- Missing account webhook"
 msgstr ""
+"Hemos recibido el siguiente error del servidor proxy IAP de Odoo:\n"
+"- Falta el webhook de la cuenta"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4602,18 +4772,20 @@ msgid ""
 "We received the following error from Odoo IAP proxy server:\n"
 "- Wrong platform setup/route is restricted"
 msgstr ""
+"Hemos recibido el siguiente error del servidor proxy IAP de Odoo:\n"
+"- Configuración incorrecta de la plataforma/ruta restringida"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "We received the following error from Stripe: %(reason)s"
-msgstr ""
+msgstr "Hemos recibido el siguiente error de Stripe: %(reason)s"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "We were unable to reach Odoo IAP proxy server"
-msgstr ""
+msgstr "No hemos podido conectarnos al servidor proxy IAP de Odoo"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__website_message_ids
@@ -4635,12 +4807,12 @@ msgstr "Semana"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.welding_repair
 msgid "Welding Repair"
-msgstr ""
+msgstr "Reparación de soldadura"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_country_tag_ids
 msgid "Whitelist of countries where payments could be authorized from."
-msgstr ""
+msgstr "Lista autorizada de países desde los que se pueden autorizar pagos."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__spending_policy_category_tag_ids
@@ -4648,47 +4820,49 @@ msgid ""
 "Whitelist of merchant codes, to define which type of goods or services would "
 "be authorized."
 msgstr ""
+"Lista autorizada de códigos de comerciantes para definir qué tipo de bienes "
+"o servicios estarían autorizados."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.wholesale_clubs
 msgid "Wholesale Clubs"
-msgstr ""
+msgstr "Clubes mayoristas"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.wig_and_toupee_stores
 msgid "Wig and Toupee Stores"
-msgstr ""
+msgstr "Tiendas de pelucas y peluquines"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.wires_money_orders
 msgid "Wires Money Orders"
-msgstr ""
+msgstr "Giros postales y transferencias"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_hr_expense_stripe_cardholder_wizard
 msgid "Wizard to configure the cardholder"
-msgstr ""
+msgstr "Asistente para configurar el titular de la tarjeta"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.womens_accessory_and_specialty_shops
 msgid "Women's Accessory and Specialty Shops"
-msgstr ""
+msgstr "Tiendas de accesorios y artículos para mujeres"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.womens_ready_to_wear_stores
 msgid "Women's Ready to Wear Stores"
-msgstr ""
+msgstr "Tiendas de prêt-à-porter femenino"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.wrecking_and_salvage_yards
 msgid "Wrecking and Salvage Yards"
-msgstr ""
+msgstr "Desguaces y depósitos de chatarra"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Wrong or Expired validation code"
-msgstr ""
+msgstr "Código de validación incorrecto o caducado"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__spending_policy_interval__yearly
@@ -4704,6 +4878,11 @@ msgid ""
 "                    from any losses, claims, or liabilities related to your "
 "use of Stripe Issuing services, including misuse or violations."
 msgstr ""
+"Aceptas indemnizar y eximir a Odoo, sus directivos, administradores y "
+"afiliados\n"
+"                    por cualquier pérdida, reclamación o responsabilidad "
+"relacionada con tu uso de los servicios de Stripe Issuing, incluido el uso "
+"indebido o las infracciones."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -4713,6 +4892,10 @@ msgid ""
 "account.\n"
 "                    Repayment is due immediately upon notice."
 msgstr ""
+"Eres totalmente responsable de cualquier saldo negativo en tu cuenta de "
+"Stripe Issuing.\n"
+"                    El reembolso deberá efectuarse inmediatamente tras la "
+"notificación."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -4722,18 +4905,23 @@ msgid ""
 "                    including unauthorized charges unless covered by law or "
 "Stripe’s policy."
 msgstr ""
+"Eres responsable de todas las transacciones realizadas con tu tarjeta,\n"
+"                    incluidos los cargos no autorizados, salvo que estén "
+"cubiertos por la ley o por la política de Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "You can't change the card type once the card has been created."
-msgstr ""
+msgstr "No se puede cambiar el tipo de tarjeta una vez que se ha creado."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "You can't change the delivery address once the card has been shipped."
 msgstr ""
+"No se puede cambiar la dirección de entrega una vez que la tarjeta ha sido "
+"enviada."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4742,6 +4930,8 @@ msgid ""
 "You can't change the employee of an active card. Please create a new card "
 "instead."
 msgstr ""
+"No se puede cambiar el empleado de una tarjeta activa; crea una nueva "
+"tarjeta."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4750,12 +4940,13 @@ msgid ""
 "You can't delete a card that already exists for Stripe, please block it "
 "instead"
 msgstr ""
+"No puedes eliminar una tarjeta que ya existe en Stripe, por favor, bloquéala"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "You can't set the card state back to draft."
-msgstr ""
+msgstr "No se puede volver a poner la tarjeta en estado de borrador."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4764,6 +4955,8 @@ msgid ""
 "You cannot delete a payment method line that is used by an active/paused "
 "card."
 msgstr ""
+"No se puede eliminar una línea de método de pago que esté siendo utilizada "
+"por una tarjeta activa/en pausa."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4771,6 +4964,8 @@ msgstr ""
 msgid ""
 "You cannot delete an expense that was created from a Stripe card transaction."
 msgstr ""
+"No se puede eliminar un gasto creado a partir de una transacción con tarjeta "
+"Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4779,6 +4974,8 @@ msgid ""
 "You cannot duplicate an expense that was created from a Stripe card "
 "transaction."
 msgstr ""
+"No se puede duplicar un gasto creado a partir de una transacción con tarjeta "
+"Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4791,6 +4988,8 @@ msgstr "No puede editar manualmente los campos de seguridad de un gasto"
 msgid ""
 "You cannot remove the journal used by Stripe Issuing when it is activated"
 msgstr ""
+"No se puede eliminar el diario utilizado por Stripe Issuing cuando está "
+"activado"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4799,6 +4998,8 @@ msgid ""
 "You cannot set a cost on a product that is used as an Expense card category. "
 "Please duplicate it instead."
 msgstr ""
+"No se puede establecer un coste en un producto que se utiliza como categoría "
+"de tarjeta de gastos. Lo que puedes hacer es duplicarlo."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4807,6 +5008,8 @@ msgid ""
 "You cannot split an expense that is reserved. Please wait for the "
 "transaction to be captured."
 msgstr ""
+"No se puede dividir un gasto que está en estado reservado. Espera a que se "
+"registre la transacción."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4815,6 +5018,8 @@ msgid ""
 "You cannot submit an expense that is reserved. Please wait for the "
 "transaction to be captured."
 msgstr ""
+"No se puede enviar un gasto que está en estado reservado. Espera a que se "
+"registre la transacción."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4824,12 +5029,15 @@ msgid ""
 "inactive Stripe cards. Please manually block all cards before uninstalling "
 "the module."
 msgstr ""
+"No se puede desinstalar el módulo «Tarjetas de gastos» mientras haya "
+"tarjetas Stripe activas o inactivas. Bloquea manualmente todas las tarjetas "
+"antes de desinstalar el módulo."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
 #: code:addons/hr_expense_stripe/static/src/components/open_card_receive_terms.xml:0
 msgid "You confirm you have received the physical expense card."
-msgstr ""
+msgstr "Confirmas que has recibido la tarjeta física de gastos."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -4840,18 +5048,22 @@ msgid ""
 "                    for ensuring lawful use of funds and expense cards in "
 "your jurisdiction."
 msgstr ""
+"Debes cumplir con todas las leyes y normativas aplicables y eres "
+"responsable\n"
+"                     de garantizar el uso legal de los fondos y de las "
+"tarjetas de gastos en tu jurisdicción."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_card_receive_wizard.py:0
 msgid "You must confirm that you have received the card before activating it."
-msgstr ""
+msgstr "Debes confirmar que has recibido la tarjeta antes de activarla."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "You must create a Stripe account in order to use Stripe"
-msgstr ""
+msgstr "Para poder utilizar Stripe, tienes que crear una cuenta Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -4861,12 +5073,15 @@ msgid ""
 "                    You are responsible for monitoring usage and disputing "
 "unauthorized charges promptly."
 msgstr ""
+"Debes informar inmediatamente de la pérdida o el robo de la tarjeta.\n"
+"                    Eres responsable de supervisar el uso y de reclamar "
+"rápidamente los cargos no autorizados."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/res_company.py:0
 msgid "You need to be connected to stripe in order to configure your account."
-msgstr ""
+msgstr "Debes estar conectado a Stripe para configurar tu cuenta."
 
 #. module: hr_expense_stripe
 #: model:mail.template,subject:hr_expense_stripe.email_template_hr_expense_stripe_card_canceled
@@ -4881,7 +5096,7 @@ msgstr "Su tarjeta de gastos ha sido enviada"
 #. module: hr_expense_stripe
 #: model:mail.template,subject:hr_expense_stripe.email_template_hr_expense_stripe_card_assigned
 msgid "Your Expense Card has been Assigned"
-msgstr ""
+msgstr "Se te ha asignado tu tarjeta de gastos"
 
 #. module: hr_expense_stripe
 #: model:mail.template,subject:hr_expense_stripe.email_template_hr_expense_stripe_card_ordered
@@ -4895,12 +5110,14 @@ msgid ""
 "Your Odoo database failed to respond to Stripe in time, and the "
 "authorization was refused by default"
 msgstr ""
+"Tu base de datos de Odoo no ha respondido a Stripe a tiempo, por lo que la "
+"autorización se ha rechazado automáticamente"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Your Stripe account is disabled"
-msgstr ""
+msgstr "Tu cuenta de Stripe está desactivada"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4909,6 +5126,8 @@ msgid ""
 "Your account balance isn't zero, please use any remaining funds or contact "
 "support to close your account."
 msgstr ""
+"El saldo de tu cuenta no es cero, utiliza los fondos restantes o ponte en "
+"contacto con el servicio de asistencia para cerrar tu cuenta."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__billing_zip
@@ -4926,4 +5145,30 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_receive_wizard_form
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
-msgstr ""
+msgstr "términos y condiciones"
+
+#~ msgid "MCC %(mcc_name)s not allowed"
+#~ msgstr "El MCC %(mcc_name)s no está permitido"
+
+#~ msgid "Country not allowed"
+#~ msgstr "País no permitido"
+
+#~ msgid "MCC not allowed"
+#~ msgstr "Código MCC no permitido"
+
+#~ msgid ""
+#~ "Only IBAN is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Por ahora, solo se admite el IBAN para las instrucciones de financiación "
+#~ "de Stripe Issuing"
+
+#~ msgid ""
+#~ "Only SEPA is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Por el momento, únicamente se acepta SEPA para financiar Stripe Issuing"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr "El importe de la transacción supera el límite del intervalo"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "El importe de la transacción supera el máximo permitido"

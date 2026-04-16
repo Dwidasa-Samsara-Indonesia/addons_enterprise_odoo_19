@@ -17,13 +17,14 @@
 # Martin Trigaux, 2022
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 13:49+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-10 14:44+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/quality/"
 "sv/>\n"
 "Language: sv\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alert_count
@@ -81,13 +82,13 @@ msgstr "Aktiviteter"
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_exception_decoration
 #: model:ir.model.fields,field_description:quality.field_quality_check__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Aktivitet undantaget dekoration"
+msgstr "Undantagsaktiviteter dekoration"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_state
 #: model:ir.model.fields,field_description:quality.field_quality_check__activity_state
 msgid "Activity State"
-msgstr "Aktivitetsläge"
+msgstr "Aktivitetsstatus"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_type_icon
@@ -264,7 +265,7 @@ msgstr "Skapad den"
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Creation Date"
-msgstr "Skapad datum"
+msgstr "Skapad den"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_bounced_content
@@ -372,7 +373,7 @@ msgstr "Följare"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_partner_ids
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__activity_type_icon
@@ -437,7 +438,7 @@ msgstr "Ikon för att indikera en undantagsaktivitet."
 #: model:ir.model.fields,help:quality.field_quality_check__message_needaction
 #: model:ir.model.fields,help:quality.field_quality_point__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
+msgstr "Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__message_has_error
@@ -449,7 +450,7 @@ msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
 #: model:ir.model.fields,help:quality.field_quality_point__message_has_error
 #: model:ir.model.fields,help:quality.field_quality_point__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad, några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_point__failure_location_ids
@@ -515,7 +516,7 @@ msgstr "Senast uppdaterad den"
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Late Activities"
-msgstr "Sena aktiviteter"
+msgstr "Försenade aktiviteter"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_incoming_local
@@ -543,7 +544,7 @@ msgstr "Låg"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_has_error
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_ids
@@ -589,7 +590,7 @@ msgstr "Ny"
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_calendar_event_id
 #: model:ir.model.fields,field_description:quality.field_quality_check__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "Nästa Kalenderhändelse för aktivitet"
+msgstr "Nästa aktivitetshändelse i kalendern"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_date_deadline
@@ -632,7 +633,7 @@ msgstr "Anteckning"
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_point_view_form
 msgid "Notes"
-msgstr "Noter"
+msgstr "Anteckningar"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_needaction_counter
@@ -656,7 +657,7 @@ msgstr "Antal fel"
 #: model:ir.model.fields,help:quality.field_quality_check__message_needaction_counter
 #: model:ir.model.fields,help:quality.field_quality_point__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__message_has_error_counter
@@ -853,7 +854,7 @@ msgstr "Kvalitetsteam"
 #: model:ir.model.fields,field_description:quality.field_quality_check__rating_ids
 #: model:ir.model.fields,field_description:quality.field_quality_point__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_force_thread_id
@@ -897,7 +898,7 @@ msgstr "Grundorsak till kvalitetsfel"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_has_sms_error
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_stage__sequence
@@ -1025,7 +1026,7 @@ msgstr "Titel"
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_check__quality_state__none
 msgid "To do"
-msgstr "Att göra"
+msgstr "Att-göra"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
@@ -1070,7 +1071,7 @@ msgstr "Mycket hög"
 #: model:ir.model.fields,field_description:quality.field_quality_check__website_message_ids
 #: model:ir.model.fields,field_description:quality.field_quality_point__website_message_ids
 msgid "Website Messages"
-msgstr "Webbplatsmeddelanden"
+msgstr "Hemsidesmeddelanden"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__website_message_ids

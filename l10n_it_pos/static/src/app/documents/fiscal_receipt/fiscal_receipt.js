@@ -15,5 +15,22 @@ export class FiscalReceipt extends Component {
             type: Object,
             optional: true, // To keep backward compatibility
         },
+        isFiscal: {
+            type: Boolean,
+            optional: true,
+        },
+        isBasicPrint: {
+            type: Boolean,
+            optional: true,
+        },
+        isEarlyPrint: {
+            type: Boolean,
+            optional: true,
+        },
+    };
+    static defaultProps = {
+        isFiscal: true,
+        isBasicPrint: false,
+        isEarlyPrint: false,
     };
 }

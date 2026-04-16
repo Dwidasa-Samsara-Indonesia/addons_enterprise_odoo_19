@@ -499,6 +499,40 @@ class TestStudioExports(StudioExportCase):
             </odoo>""",
         )
 
+    def test_export_property_field(self):
+        model1_record = self.TestModel.create({"name": "Record 1"})
+        model3_record = self.TestModel3.create({
+            "name": "Some record",
+            "model1_id": model1_record.id,
+            "properties": [{'name': 'test', 'type': 'char', 'value': 'TEST', 'definition_changed': True}],
+        })
+        self.create_export_model(self.TestModel._name)
+        self.create_export_model(self.TestModel3._name)
+        self.studio_export()
+        self.assertFileList(
+            "data/test_studio_export_model1.xml",
+            "data/test_studio_export_model3.xml",
+        )
+        self.assertXML(
+            "data/test_studio_export_model1.xml",
+            f"""<odoo noupdate="1">
+            <record id="{self.get_xmlid(model1_record)}" model="test.studio_export.model1">
+                <field name="name">Record 1</field>
+                <field name="properties_definition" eval="[{{'name': 'test', 'type': 'char'}}]"/>
+            </record>
+            </odoo>""",
+        )
+        self.assertXML(
+            "data/test_studio_export_model3.xml",
+            f"""<odoo noupdate="1">
+            <record id="{self.get_xmlid(model3_record)}" model="test.studio_export.model3">
+                <field name="name">Some record</field>
+                <field name="model1_id" ref="{self.get_xmlid(model1_record)}"/>
+                <field name="properties" eval="{{'test': 'TEST'}}"/>
+            </record>
+            </odoo>""",
+        )
+
     def test_export_data_related_to_demo(self):
         # Test that master data (non demo) does not export fields related
         # to demo records, but data records related to demo are also exported

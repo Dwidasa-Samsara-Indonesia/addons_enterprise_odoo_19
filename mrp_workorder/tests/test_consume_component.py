@@ -64,6 +64,9 @@ class TestConsumeTrackedComponent(TestConsumeComponentCommon):
         for mov in mo_serial.move_raw_ids:
             self.assertEqual(mov.product_qty, mov.quantity, "Done quantity shall be equal to To Consume quantity.")
 
+        mo_serial.button_mark_done()
+        self.assertEqual(mo_serial.state, 'done')
+
     def test_option_enabled_and_operation_id(self):
         """
         Auto-consume is enabled

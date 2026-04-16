@@ -5,6 +5,7 @@ from ..api.swissdec_declarations import SwissdecDeclaration, SwissdecInstitution
 import re
 import base64
 import math
+import time
 
 
 class L10nCHInsuranceReport(models.Model):
@@ -40,7 +41,7 @@ class L10nCHInsuranceReport(models.Model):
                                         "default_year": declaration.year,
                                         "default_income_to_split": avs_salary
                                     }),
-                                    'blocking': "all",
+                                    'level': "warning",
                                     "action_text": _("Split AVS Salary"),
                                 }
                                 i += 1
@@ -287,7 +288,7 @@ class L10nCHInsuranceReport(models.Model):
                     'employee_id': employee.id,
                     'res_model': self._name,
                     'res_id': self.id,
-                    'pdf_filename': _("Wage_statement_%(year)s_%(name)s", year=self.year, name=employee.name),
+                    'pdf_filename': _("Wage_statement_%(year)s_%(name)s_%(timestamp)s", year=self.year, name=employee.name, timestamp=time.time_ns()),
                     'pdf_to_generate': False,
                     'state': 'pdf_generated',
                     'pdf_file': pdf_b64
@@ -331,3 +332,9 @@ class L10nCHInsuranceReport(models.Model):
                 'res_model': self._name,
             })
             self.message_post(attachment_ids=[attachment.id], body=_('EIV File Successfully Generated'))
+
+    def _get_posted_mail_template(self):
+        return self.env.ref('documents_hr_payroll.mail_template_new_declaration', raise_if_not_found=False)
+
+    def _get_posted_document_owner(self, employee):
+        return employee.user_id

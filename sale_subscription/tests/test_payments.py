@@ -882,6 +882,44 @@ class TestSubscriptionPayments(PaymentCommon, TestSubscriptionCommon, MockEmail)
                 "Churned subscription must be re-opened after paying the invoice."
             )
 
+    def test_credit_note_payment_not_reopen_churned_subscription(self):
+        """
+        Ensure that a churned subscription is NOT reopened when a credit note
+        is paid. Only invoice payments should reopen churned subscriptions.
+        """
+        with freeze_time("2025-08-08"):
+            subscription = self.subscription
+            subscription.action_confirm()
+            invoice = subscription._create_recurring_invoice()
+            self.env['account.payment.register'].with_context(active_model='account.move', active_ids=invoice.ids).create({
+                'payment_date': invoice.date,
+            })._create_payments()
+            subscription.set_close()
+            self.assertEqual(
+                subscription.subscription_state,
+                "6_churn",
+                "The subscription must be churned after closing it."
+            )
+
+            refund_wizard = self.env['account.move.reversal'].with_context(active_model="account.move", active_ids=invoice.ids).create({
+                'reason': 'Test credit note',
+                'journal_id': invoice.journal_id.id,
+            })
+            res = refund_wizard.refund_moves()
+            credit_note = self.env['account.move'].browse(res['res_id'])
+            self.assertEqual(credit_note.move_type, 'out_refund', "Must be a credit note")
+            credit_note.action_post()
+            self.env['account.payment.register'].with_context(active_model='account.move', active_ids=credit_note.ids).create({
+                'payment_date': credit_note.date,
+            })._create_payments()
+
+            self.assertEqual(credit_note.payment_state, credit_note._get_invoice_in_payment_state())
+            self.assertEqual(
+                subscription.subscription_state,
+                "6_churn",
+                "Churned subscription must NOT be re-opened after paying a credit note."
+            )
+
     def test_unsuccessful_reopen_churned_subscription(self):
         """
         Ensure that a churned subscription is not re-opened when

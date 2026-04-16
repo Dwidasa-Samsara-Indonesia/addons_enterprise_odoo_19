@@ -1285,6 +1285,49 @@ class TestUi(TestPointOfSaleHttpCommon):
             'product_id': product.id,
             'uom_id': pack_of_10.id,
         })
+        # product has no barcode, it's variant's packaging has it
+        product_templ_2 = self.env['product.template'].create({
+            'name': 'Packaging Product2',
+            'available_in_pos': True,
+            'list_price': 10,
+            'taxes_id': False,
+        })
+        color_attribute = self.env['product.attribute'].create({
+            'name': 'Color always',
+            'create_variant': 'always',
+            'value_ids': [(0, 0, {
+                'name': 'Red',
+                'sequence': 1,
+            }), (0, 0, {
+                'name': 'Blue',
+                'sequence': 2,
+            })],
+        })
+
+        self.env['product.template.attribute.line'].create([
+            {
+                'product_tmpl_id': product_templ_2.id,
+                'attribute_id': color_attribute.id,
+                'value_ids': [(6, 0, color_attribute.value_ids.ids)]
+            },
+            {
+                'product_tmpl_id': product_templ_2.id,
+                'attribute_id': self.chair_addons_attribute.id,
+                'value_ids': [(6, 0, [self.chair_addon_cushion.id, self.chair_addon_cupholder.id])]
+            }
+        ])
+        self.env['product.uom'].create([
+            {
+                'barcode': '12345618',
+                'product_id': product_templ_2.product_variant_ids[0].id,
+                'uom_id': pack_of_10.id,
+            },
+            {
+                'barcode': '12345619',
+                'product_id': product_templ_2.product_variant_ids[1].id,
+                'uom_id': pack_of_10.id,
+            }
+        ])
 
         self.main_pos_config.with_user(self.pos_user).open_ui()
         self.start_tour("/pos/ui/%d" % self.main_pos_config.id, 'BarcodeScanningProductPackagingTour', login="pos_user")
@@ -1323,6 +1366,28 @@ class TestUi(TestPointOfSaleHttpCommon):
             'barcode': '3760171283370',
         })
 
+        size_attribute = self.env['product.attribute'].create({
+            'name': 'Size',
+            'create_variant': 'always',
+            'value_ids': [
+                Command.create({'name': 'S', 'sequence': 1}),
+                Command.create({'name': 'L', 'sequence': 2}),
+            ],
+        })
+        product_tmpl = self.env['product.template'].create({
+            'name': 'GS1 Variant Product',
+            'available_in_pos': True,
+            'tracking': 'lot',
+            'is_storable': True,
+            'attribute_line_ids': [Command.create({
+                'attribute_id': size_attribute.id,
+                'value_ids': [Command.set(size_attribute.value_ids.ids)],
+            })],
+        })
+        pos_categ = self.env['pos.category'].create({'name': 'GS1 Test'})
+        product_tmpl.pos_categ_ids = [Command.set([pos_categ.id])]
+        variant = product_tmpl.product_variant_ids[0]
+        variant.write({'barcode': '5123648695416'})
         self.main_pos_config.with_user(self.pos_user).open_ui()
         self.start_tour("/pos/ui/%d" % self.main_pos_config.id, 'GS1BarcodeScanningTour', login="pos_user")
 
@@ -2424,22 +2489,28 @@ class TestUi(TestPointOfSaleHttpCommon):
         tax_1 = self.env['account.tax'].create({
             'name': 'Tax 15%',
             'amount': 15,
-            'price_include_override': 'tax_included',
             'amount_type': 'percent',
             'type_tax_use': 'sale',
+            'tax_group_id': self.env['account.tax.group'].create({
+                'name': 'Tax Group 15%',
+                'company_id': self.env.company.id,
+                'pos_receipt_label': 'Tax Group 1',
+            }).id,
         })
-        tax_1.tax_group_id.pos_receipt_label = 'Tax Group 1'
 
         tax_2 = self.env['account.tax'].create({
             'name': 'Tax 5%',
             'amount': 5,
-            'price_include_override': 'tax_included',
             'amount_type': 'percent',
             'type_tax_use': 'sale',
+            'tax_group_id': self.env['account.tax.group'].create({
+                'name': 'Tax Group 5%',
+                'company_id': self.env.company.id,
+                'pos_receipt_label': 'Tax Group 2',
+            }).id,
             'fiscal_position_ids': [Command.link(fiscal_position.id)],
             'original_tax_ids': [Command.link(tax_1.id)],
         })
-        tax_2.tax_group_id.pos_receipt_label = 'Tax Group 2'
 
         self.product = self.env['product.product'].create({
             'name': 'Test Product',
@@ -2453,7 +2524,15 @@ class TestUi(TestPointOfSaleHttpCommon):
             'fiscal_position_ids': [(6, 0, [fiscal_position.id])],
         })
         self.main_pos_config.with_user(self.pos_user).open_ui()
-        self.start_tour("/pos/ui/%d" % self.main_pos_config.id, 'test_fiscal_position_tax_group_labels', login="pos_user")
+        self.start_pos_tour('test_fiscal_position_tax_group_labels')
+        orders = self.main_pos_config.current_session_id.order_ids
+
+        self.assertEqual(orders[0].fiscal_position_id.id, fiscal_position.id)
+        self.assertEqual(orders[0].lines.tax_ids_after_fiscal_position.id, tax_2.id)
+        self.assertEqual(orders[0].amount_total, 105)
+        self.assertFalse(orders[1].fiscal_position_id)
+        self.assertEqual(orders[1].lines.tax_ids_after_fiscal_position.id, tax_1.id)
+        self.assertEqual(orders[1].amount_total, 115)
 
     def test_draft_orders_not_syncing(self):
         self.main_pos_config.with_user(self.pos_user).open_ui()
@@ -2464,6 +2543,7 @@ class TestUi(TestPointOfSaleHttpCommon):
     def test_product_long_press(self):
         """ Test the long press on product to open the product info """
         archive_products(self.env)
+        self.main_pos_config.company_id.country_id.vat_label = 'Should stay VAT even after editing vat_label'
         group_tax = self.env['account.tax'].create({
             'name': 'Parent Tax',
             'amount_type': 'group',
@@ -3079,15 +3159,16 @@ class TestUi(TestPointOfSaleHttpCommon):
             ('session_id', '=', self.main_pos_config.current_session_id.id)
         ])
         self.assertEqual(len(orders), 2, "Expected two orders: original and refund.")
-        order, refund_order = orders[0], orders[1]
+        original_order = next(o for o in orders if o.amount_total > 0)
+        frontend_refund_order = next(o for o in orders if o.amount_total < 0)
         self.assertEqual(
-            refund_order.pricelist_id.id,
-            order.pricelist_id.id,
+            frontend_refund_order.pricelist_id.id,
+            original_order.pricelist_id.id,
             "Refund order pricelist should be the original order's pricelist."
         )
 
         # Perform refund on order and retrieve the resulting draft refund order
-        refund_action = orders[1].refund()
+        refund_action = original_order.refund()
         refund_order = self.env['pos.order'].browse(refund_action['res_id'])
 
         # Validate the refund order is in draft and has correct negative total
@@ -3353,13 +3434,6 @@ class TestUi(TestPointOfSaleHttpCommon):
             'name': 'Delivery',
             'identification': 'address',
         })
-        self.env['res.partner'].create({
-            'name': 'Test Partner',
-            'street': '123 Test Street',
-            'city': 'Test City',
-            'zip': '12345',
-            'country_id': self.env['res.country'].search([], limit=1).id,
-        })
         self.main_pos_config.write({
             'use_presets': True,
             'default_preset_id': self.preset_delivery.id,
@@ -3523,6 +3597,14 @@ class TestUi(TestPointOfSaleHttpCommon):
         })
         self.start_pos_tour("test_refund_line_keep_attributes")
 
+    def test_set_opening_note_without_cash_method(self):
+        cash_method = self.main_pos_config.payment_method_ids.filtered(lambda pm: pm.is_cash_count)
+        self.main_pos_config.payment_method_ids -= cash_method
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        current_session = self.main_pos_config.current_session_id
+        self.start_pos_tour('test_set_opening_note_without_cash_method')
+        self.assertEqual(current_session.opening_notes, 'Opening Notes')
+
     def test_orderline_merge_with_higher_price_precision(self):
         """ Test that orderline merging works correctly when product price has a higher precision than the currency. """
         self.env['decimal.precision'].search([('name', '=', 'Product Price')]).digits = 3
@@ -3633,6 +3715,90 @@ class TestUi(TestPointOfSaleHttpCommon):
         self.main_pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour('test_combo_no_free_item')
 
+    def test_not_available_pricelist_not_set_on_order(self):
+        """ Test that when the pricelist is not available, it is not set on the order """
+        not_available_pricelist, available_pricelist = self.env['product.pricelist'].create([{
+            'name': 'Not Available Pricelist',
+        }, {
+            'name': 'Available Pricelist',
+        }])
+
+        self.main_pos_config.write({
+            'available_pricelist_ids': [(4, available_pricelist.id)],
+            'pricelist_id': available_pricelist.id,
+        })
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        pos_session = self.main_pos_config.current_session_id
+
+        partner = self.env['res.partner'].create({
+            'name': 'AA Customer',
+            'property_product_pricelist': not_available_pricelist.id,
+        })
+
+        order = self.env['pos.order'].create({
+            'company_id': self.env.company.id,
+            'session_id': pos_session.id,
+            'partner_id': partner.id,
+            'config_id': self.main_pos_config.id,
+            'lines': [(0, 0, {
+                'name': 'OL/0001',
+                'product_id': self.wall_shelf.product_variant_ids[0].id,
+                'price_unit': 10.00,
+                'discount': 0,
+                'qty': 1,
+                'tax_ids': False,
+                'price_subtotal': 10.00,
+                'price_subtotal_incl': 10.00,
+            })],
+            'pricelist_id': not_available_pricelist.id,
+            'amount_paid': 10.00,
+            'amount_total': 10.00,
+            'amount_tax': 0.0,
+            'amount_return': 0.0,
+            'to_invoice': False,
+            'pos_reference': 'Test/0001',
+        })
+        order.action_pos_order_paid()
+
+        self.start_tour(f"/pos/ui?config_id={self.main_pos_config.id}", 'test_not_available_pricelist_not_set_on_order', login="pos_user")
+
+        created_order = self.env['pos.order'].search([('partner_id', '=', partner.id)], limit=1)
+        self.assertNotEqual(created_order.pricelist_id, not_available_pricelist)
+
+    def test_payment_screen_tip_scenario(self):
+        self.main_pos_config.write({
+            'iface_tipproduct': True,
+            'tip_product_id': self.tip.id,
+        })
+        self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_payment_screen_tip_scenario', login="pos_user")
+
+    def test_combo_price_unchanged_with_lot_tracked_product(self):
+        """Test that assigning a lot to a combo item does not affect the combo price."""
+        lot_product = self.env['product.product'].create({
+            'name': 'Product A',
+            'is_storable': True,
+            'tracking': 'lot',
+            'available_in_pos': True,
+        })
+        combo = self.env["product.combo"].create({
+            "name": lot_product.name + " combo",
+            "combo_item_ids": [Command.create({"product_id": lot_product.id, "extra_price": 0})]
+        })
+        self.env["product.product"].create(
+            {
+                "available_in_pos": True,
+                "list_price": 7,
+                "name": "Test Combo",
+                "type": "combo",
+                "taxes_id": False,
+                "combo_ids": [
+                    (6, 0, [combo.id])
+                ],
+            }
+        )
+        self.main_pos_config.with_user(self.pos_admin).open_ui()
+        self.start_pos_tour('test_combo_price_unchanged_with_lot_tracked_product', login="pos_admin")
+
 
 # This class just runs the same tests as above but with mobile emulation
 class MobileTestUi(TestUi):
@@ -3668,10 +3834,17 @@ class TestTaxCommonPOS(TestPointOfSaleHttpCommon, TestTaxCommon):
             expected_amounts['amount_total'] = expected_values['total_amount_currency']
         self.assertRecordValues(order, [expected_amounts])
 
+    def _close_pos_session(self):
+        session = self.main_pos_config.current_session_id
+        if session and session.state != 'closed':
+            draft_orders = session.order_ids.filtered(lambda o: o.state == 'draft')
+            if draft_orders:
+                draft_orders.action_pos_order_cancel()
+            session.post_closing_cash_details(0)
+            session.close_session_from_ui()
+
     def assert_pos_orders_and_invoices(self, tour, tests_with_orders):
-        if self.main_pos_config.current_session_id:
-            self.main_pos_config.current_session_id.post_closing_cash_details(0)
-            self.main_pos_config.current_session_id.close_session_from_ui()
+        self._close_pos_session()
 
         self.start_pos_tour(tour)
         orders = self.env['pos.order'].search([('session_id', '=', self.main_pos_config.current_session_id.id)], limit=len(tests_with_orders))
@@ -3680,3 +3853,5 @@ class TestTaxCommonPOS(TestPointOfSaleHttpCommon, TestTaxCommon):
                 self.assert_pos_order_totals(order, expected_values)
                 if order.account_move:
                     self.assert_invoice_totals(order.account_move, expected_values)
+
+        self._close_pos_session()

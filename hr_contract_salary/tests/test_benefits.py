@@ -27,7 +27,7 @@ class TestBenefits(TransactionCase):
         model = self.env.ref('hr.model_hr_version')
         field = self.env['ir.model.fields'].create({
             'name': fieldname,
-            'model': model.name,
+            'model': model.model,
             'ttype': 'float',
             'model_id': model.id,
         })

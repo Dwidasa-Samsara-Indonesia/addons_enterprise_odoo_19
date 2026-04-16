@@ -5,13 +5,15 @@
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # "Chloe Wang (chwa)" <chwa@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# 张飞虎 <feihu.zhang@live.com>, 2026.
+# colgrave34 <colgrave.idir@simplelogin.co>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2025-11-20 08:15+0000\n"
-"Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
+"PO-Revision-Date: 2026-04-09 09:09+0000\n"
+"Last-Translator: colgrave34 <colgrave.idir@simplelogin.co>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
 "projects/odoo-19/ai/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -19,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
@@ -494,7 +496,7 @@ msgstr "%s（副本）"
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "%s is no longer available. Please select a newer model."
-msgstr ""
+msgstr "%s 不再可用。请选择更新的模型。"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
@@ -512,11 +514,13 @@ msgid ""
 "ai_tool_show_warning\" aria-hidden=\"true\" title=\"The AI will not be "
 "limited by the groups defined on tools\"/>"
 msgstr ""
+"<i class=\"fa fa-warning text-warning me-2\" invisible=\"not "
+"ai_tool_show_warning\" aria-hidden=\"true\" title=\"AI 不受工具组权限限制\"/>"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "<span>with arguments</span>"
-msgstr ""
+msgstr "<span>带参数</span>"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__topic_ids
@@ -989,7 +993,7 @@ msgstr "听写文本或记录会议"
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 #: code:addons/ai/static/src/records_selector_popover/records_selector_popover.xml:0
 msgid "Discard"
-msgstr "丢弃"
+msgstr "取消"
 
 #. module: ai
 #: model:ir.model,name:ai.model_discuss_channel
@@ -1085,13 +1089,13 @@ msgstr "失败的"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "Failed to fetch URL: %s"
-msgstr ""
+msgstr "获取 URL 失败：%s"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Failed to fetch the content of the source."
-msgstr ""
+msgstr "获取来源内容失败。"
 
 #. module: ai
 #. odoo-python
@@ -1108,12 +1112,12 @@ msgstr "字段选择"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
 msgid "Field Type"
-msgstr ""
+msgstr "字段类型"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_model_fields
 msgid "Fields"
-msgstr ""
+msgstr "字段"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
@@ -1154,7 +1158,7 @@ msgstr "HTTP 路由"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__has_embedding_generation_failed
 msgid "Has Embedding Generation Failed"
-msgstr ""
+msgstr "向量生成是否失败"
 
 #. module: ai
 #. odoo-javascript
@@ -1280,7 +1284,7 @@ msgstr "规则是系统默认还是用户创建"
 msgid ""
 "JSON containing the values that can be returned by the LLM along with their "
 "properties (type, length, ...)"
-msgstr "JSON 文件，包含 LLM 可以返回的值及其属性（类型、长度......）。"
+msgstr "JSON 文件，包含 LLM 可以返回的值及其属性（类型、长度......）"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
@@ -1386,7 +1390,7 @@ msgstr "未配置询问 AI 代理。请联系您的管理员。"
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No embedding configuration found for the provider"
-msgstr ""
+msgstr "未找到该服务商的向量配置"
 
 #. module: ai
 #. odoo-python
@@ -1450,7 +1454,7 @@ msgstr "只有管理员才能从 URL 创建来源。"
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Oops, it looks like our AI is unreachable"
-msgstr ""
+msgstr "糟糕，AI 服务似乎无法访问"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__text-embedding-3-small
@@ -1471,13 +1475,13 @@ msgstr "合作伙伴"
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Paste your links, one per line"
-msgstr ""
+msgstr "粘贴您的链接，每行一个"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Pretty Edit"
-msgstr ""
+msgstr "美化编辑"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__processing
@@ -1508,12 +1512,12 @@ msgstr "可附加到人工智能用户界面规则的提示，以便用户快速
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_action_prompt
 #: model:ir.model.fields,help:ai.field_ir_cron__ai_action_prompt
 msgid "Prompt used by \"AI\" action"
-msgstr ""
+msgstr "\"AI\" 动作使用的提示词"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Provide your API key to connect with your account"
-msgstr ""
+msgstr "提供您的 API 密钥以连接账户"
 
 #. module: ai
 #. odoo-javascript
@@ -1740,7 +1744,7 @@ msgstr "点击时向人工智能发送的提示信息"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "The site's rules (robots.txt) prevent reading this page."
-msgstr ""
+msgstr "网站规则 (robots.txt) 禁止读取此页面。"
 
 #. module: ai
 #. odoo-python
@@ -1800,7 +1804,7 @@ msgstr "标题"
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "To return a result to the AI agent, do <code>ai['result'] = ...</code>"
-msgstr "要向人工智能代理返回结果，请执行 <code>ai[‘result’] = ...</code>。"
+msgstr "要向人工智能代理返回结果，请执行 <code>ai[‘result’] = ...</code>"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_ids
@@ -1873,13 +1877,13 @@ msgstr "网址"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %(url)s returned non-HTML content: %(content_type)s"
-msgstr ""
+msgstr "URL %(url)s 返回了非 HTML 内容：%(content_type)s"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %s returned empty content"
-msgstr ""
+msgstr "URL %s 返回了空内容"
 
 #. module: ai
 #. odoo-javascript
@@ -2019,7 +2023,7 @@ msgstr "fa-hashtag"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
-msgstr ""
+msgstr "向量"
 
 #~ msgid "An error occurred while generating the AI response."
 #~ msgstr "生成 AI 响应时发生错误。"

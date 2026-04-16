@@ -282,6 +282,11 @@ class TestBarcodeClientAction(HttpCase):
 
         action = self.env['stock.picking'].with_context(active_id=warehouse.out_type_id.id).filter_on_barcode(lot.name)
         self.assertEqual(action['action']['context']['search_default_lot_id'], lot.id)
+        # filter on the product with the GS1 nomenclature active to check the search is well done on the product barcode and not the GS1 one
+        self.env.company.nomenclature_id = self.env.ref('barcodes_gs1_nomenclature.default_gs1_nomenclature')
+        product.barcode = '15099590225866'
+        action = self.env['stock.picking'].with_context(active_id=warehouse.out_type_id.id).filter_on_barcode('15099590225866')
+        self.assertEqual(action['action']['context']['search_default_product_id'], product.id)
 
     def test_filter_on_packaging_barcode(self):
         self.env.user.write({'group_ids': [Command.link(self.env.ref('uom.group_uom').id)]})

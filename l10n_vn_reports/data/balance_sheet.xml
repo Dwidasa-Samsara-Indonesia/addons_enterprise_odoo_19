@@ -2,6 +2,7 @@
 <odoo auto_sequence="1">
     <record id="balance_sheet_l10n_vn" model="account.report">
         <field name="name">Balance Sheet</field>
+        <field name="name@vi">Bảng cân đối kế toán</field>
         <field name="root_report_id" ref="account_reports.balance_sheet"/>
         <field name="filter_date_range" eval="False"/>
         <field name="filter_analytic_groupby" eval="True"/>
@@ -13,17 +14,20 @@
         <field name="column_ids">
             <record id="account_financial_report_l10n_vn_bs_code" model="account.report.column">
                 <field name="name">Code</field>
+                <field name="name@vi">Mã</field>
                 <field name="expression_label">code</field>
                 <field name="figure_type">string</field>
             </record>
             <record id="account_financial_report_l10n_vn_bs_balance" model="account.report.column">
                 <field name="name">Balance</field>
+                <field name="name@vi">Số cuối năm</field>
                 <field name="expression_label">balance</field>
             </record>
         </field>
         <field name="line_ids">
             <record id="account_financial_report_l10n_vn_bs_sta" model="account.report.line">
                 <field name="name">A – SHORT-TERM ASSETS</field>
+                <field name="name@vi">A - TÀI SẢN NGẮN HẠN</field>
                 <field name="code">STA</field>
                 <field name="hierarchy_level" eval="0"/>
                 <field name="expression_ids">
@@ -42,6 +46,7 @@
                 <field name="children_ids">
                     <record id="account_financial_report_l10n_vn_bs_cce" model="account.report.line">
                         <field name="name">I. Cash and cash equivalents</field>
+                        <field name="name@vi">I. Tiền và các khoản tương đương tiền</field>
                         <field name="code">CCE</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_cce_code" model="account.report.expression">
@@ -59,6 +64,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_cash" model="account.report.line">
                                 <field name="name">1. Cash</field>
+                                <field name="name@vi">1. Tiền</field>
                                 <field name="code">CASH</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_cash_code" model="account.report.expression">
@@ -80,6 +86,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ce" model="account.report.line">
                                 <field name="name">2. Cash equivalents</field>
+                                <field name="name@vi">2. Các khoản tương đương tiền</field>
                                 <field name="code">CE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ce_code" model="account.report.expression">
@@ -99,6 +106,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_sti" model="account.report.line">
                         <field name="name">II. Short-term investments</field>
+                        <field name="name@vi">II. Đầu tư tài chính ngắn hạn</field>
                         <field name="code">STI</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_sti_code" model="account.report.expression">
@@ -116,6 +124,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_ts" model="account.report.line">
                                 <field name="name">1. Trading securities</field>
+                                <field name="name@vi">1. Chứng khoán kinh doanh</field>
                                 <field name="code">TS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ts_code" model="account.report.expression">
@@ -133,6 +142,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_adts" model="account.report.line">
                                 <field name="name">2. Allowances for decline in value of trading securities (*)</field>
+                                <field name="name@vi">2. Dự phòng giảm giá chứng khoán kinh doanh (*)</field>
                                 <field name="code">ADTS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_adts_code" model="account.report.expression">
@@ -150,6 +160,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_hmi" model="account.report.line">
                                 <field name="name">3. Held to maturity investments</field>
+                                <field name="name@vi">3. Đầu tư nắm giữ đến ngày đáo hạn</field>
                                 <field name="code">HMI</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_hmi_code" model="account.report.expression">
@@ -167,6 +178,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_iahm" model="account.report.line">
                                 <field name="name">4. Investment Allowances held to maturity</field>
+                                <field name="name@vi">4. Dự phòng đầu tư nắm giữ đến ngày đáo hạn ngắn hạn</field>
                                 <field name="code">IAHM</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_iahm_code" model="account.report.expression">
@@ -184,6 +196,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_osti" model="account.report.line">
                                 <field name="name">5. Other short term inventment</field>
+                                <field name="name@vi">5. Đầu tư ngắn hạn khác</field>
                                 <field name="code">OSTI</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_osti_code" model="account.report.expression">
@@ -201,6 +214,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_alosti" model="account.report.line">
                                 <field name="name">6. Allowances for loss of other short term investment</field>
+                                <field name="name@vi">6. Dự phòng tổn thất các khoản đầu tư ngắn hạn khác</field>
                                 <field name="code">ALOSTI</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_alosti_code" model="account.report.expression">
@@ -220,6 +234,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_str" model="account.report.line">
                         <field name="name">III. Short-term receivables</field>
+                        <field name="name@vi">III. Các khoản phải thu ngắn hạn</field>
                         <field name="code">STR</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_str_code" model="account.report.expression">
@@ -237,6 +252,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_sttr" model="account.report.line">
                                 <field name="name">1. Short-term trade receivables</field>
+                                <field name="name@vi">1. Phải thu ngắn hạn của khách hàng</field>
                                 <field name="code">STTR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_sttr_code" model="account.report.expression">
@@ -255,6 +271,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stps" model="account.report.line">
                                 <field name="name">2. Short-term prepayments to suppliers</field>
+                                <field name="name@vi">2. Trả trước cho người bán ngắn hạn</field>
                                 <field name="code">STPS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stps_code" model="account.report.expression">
@@ -273,6 +290,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stir" model="account.report.line">
                                 <field name="name">3. Short-term intercompany receivables</field>
+                                <field name="name@vi">3. Phải thu nội bộ ngắn hạn</field>
                                 <field name="code">STIR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stir_code" model="account.report.expression">
@@ -290,6 +308,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_rscc" model="account.report.line">
                                 <field name="name">4. Receivables under schedule of construction contract</field>
+                                <field name="name@vi">4. Phải thu theo tiến độ kế hoạch hợp đồng xây dựng</field>
                                 <field name="code">RSCC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_rscc_code" model="account.report.expression">
@@ -308,6 +327,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ostr" model="account.report.line">
                                 <field name="name">5. Other short-term receivables</field>
+                                <field name="name@vi">5. Phải thu ngắn hạn khác</field>
                                 <field name="code">OSTR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ostr_code" model="account.report.expression">
@@ -391,6 +411,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stadd" model="account.report.line">
                                 <field name="name">6. Short-term allowances for doubtful debts (*)</field>
+                                <field name="name@vi">6. Dự phòng phải thu ngắn hạn khó đòi (*)</field>
                                 <field name="code">STADD</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stadd_code" model="account.report.expression">
@@ -409,6 +430,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_saar" model="account.report.line">
                                 <field name="name">7. Shortage of assets awaiting resolution</field>
+                                <field name="name@vi">7. Tài sản thiếu chờ xử lý</field>
                                 <field name="code">SAAR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_saar_code" model="account.report.expression">
@@ -429,6 +451,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_inv" model="account.report.line">
                         <field name="name">IV. Inventories</field>
+                        <field name="name@vi">IV. Hàng tồn kho</field>
                         <field name="code">INV</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_inv_code" model="account.report.expression">
@@ -446,6 +469,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_invt" model="account.report.line">
                                 <field name="name">1. Inventories</field>
+                                <field name="name@vi">1. Hàng tồn kho</field>
                                 <field name="code">INVT</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_invt_code" model="account.report.expression">
@@ -468,6 +492,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_advi" model="account.report.line">
                                 <field name="name">2. Allowances for decline in value of inventories (*)</field>
+                                <field name="name@vi">2. Dự phòng giảm giá hàng tồn kho (*)</field>
                                 <field name="code">ADVI</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_advi_code" model="account.report.expression">
@@ -487,6 +512,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_bio" model="account.report.line">
                         <field name="name">V. Biological assets</field>
+                        <field name="name@vi">V. Tài sản sinh học ngắn hạn</field>
                         <field name="code">BIO</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_bio_code" model="account.report.expression">
@@ -504,6 +530,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_liveotpst" model="account.report.line">
                                 <field name="name">1. Livestock that produces one-time products - Short term</field>
+                                <field name="name@vi">1. Súc vật nuôi lấy sản phẩm một lần ngắn hạn</field>
                                 <field name="code">LIVEOTPST</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_liveotpst_code" model="account.report.expression">
@@ -521,6 +548,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_seaotp" model="account.report.line">
                                 <field name="name">2. Seasonal or one-time crop - Short term</field>
+                                <field name="name@vi">2. Cây trồng theo mùa vụ hoặc lấy sản phẩm một lần ngắn hạn</field>
                                 <field name="code">SEAOTP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_seaotp_code" model="account.report.expression">
@@ -538,6 +566,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_astba" model="account.report.line">
                                 <field name="name">3. Allowances for short term biological assets</field>
+                                <field name="name@vi">3. Dự phòng tổn thất tài sản sinh học ngắn hạn</field>
                                 <field name="code">ASTBA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_astba_code" model="account.report.expression">
@@ -557,6 +586,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_oca" model="account.report.line">
                         <field name="name">VI. Other current assets</field>
+                        <field name="name@vi">VI. Tài sản ngắn hạn khác</field>
                         <field name="code">OCA</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_oca_code" model="account.report.expression">
@@ -574,6 +604,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_stpe" model="account.report.line">
                                 <field name="name">1. Short-term prepaid expenses</field>
+                                <field name="name@vi">1. Chi phí trả trước ngắn hạn</field>
                                 <field name="code">STPE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stpe_code" model="account.report.expression">
@@ -591,6 +622,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ddv" model="account.report.line">
                                 <field name="name">2. Deductible VAT</field>
+                                <field name="name@vi">2. Thuế GTGT được khấu trừ</field>
                                 <field name="code">DDV</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ddv_code" model="account.report.expression">
@@ -608,6 +640,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_torg" model="account.report.line">
                                 <field name="name">3. Taxes and other receivables from government budget</field>
+                                <field name="name@vi">3. Thuế và các khoản khác phải thu Nhà nước</field>
                                 <field name="code">TORG</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_torg_code" model="account.report.expression">
@@ -638,6 +671,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_gbpr" model="account.report.line">
                                 <field name="name">4. Government bonds purchased for resale</field>
+                                <field name="name@vi">4. Giao dịch mua bán lại trái phiếu Chính phủ</field>
                                 <field name="code">GBPR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_gbpr_code" model="account.report.expression">
@@ -656,6 +690,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ocra" model="account.report.line">
                                 <field name="name">5. Other current assets</field>
+                                <field name="name@vi">5. Tài sản ngắn hạn khác</field>
                                 <field name="code">OCRA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ocra_code" model="account.report.expression">
@@ -677,6 +712,7 @@
             </record>
             <record id="account_financial_report_l10n_vn_bs_lta" model="account.report.line">
                 <field name="name">B – LONG-TERM ASSETS</field>
+                <field name="name@vi">B - TÀI SẢN DÀI HẠN</field>
                 <field name="code">LTA</field>
                 <field name="hierarchy_level" eval="0"/>
                 <field name="expression_ids">
@@ -695,6 +731,7 @@
                 <field name="children_ids">
                     <record id="account_financial_report_l10n_vn_bs_ltr" model="account.report.line">
                         <field name="name">I. Long-term receivables</field>
+                        <field name="name@vi">I. Các khoản phải thu dài hạn</field>
                         <field name="code">LTR</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltr_code" model="account.report.expression">
@@ -712,6 +749,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltrr" model="account.report.line">
                                 <field name="name">1. Long-term trade receivables</field>
+                                <field name="name@vi">1. Phải thu dài hạn của khách hàng</field>
                                 <field name="code">LTRR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltrr_code" model="account.report.expression">
@@ -730,6 +768,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltrs" model="account.report.line">
                                 <field name="name">2. Long-term prepayments to suppliers</field>
+                                <field name="name@vi">2. Trả trước cho người bán dài hạn</field>
                                 <field name="code">LTRS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltrs_code" model="account.report.expression">
@@ -748,6 +787,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_wcps" model="account.report.line">
                                 <field name="name">3. Working capital provided to sub-units</field>
+                                <field name="name@vi">3. Vốn kinh doanh ở đơn vị trực thuộc</field>
                                 <field name="code">WCPS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_wcps_code" model="account.report.expression">
@@ -765,6 +805,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltir" model="account.report.line">
                                 <field name="name">4. Long-term intra-company receivables</field>
+                                <field name="name@vi">4. Phải thu nội bộ dài hạn</field>
                                 <field name="code">LTIR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltir_code" model="account.report.expression">
@@ -782,6 +823,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltor" model="account.report.line">
                                 <field name="name">5. Other long-term receivables</field>
+                                <field name="name@vi">5. Phải thu dài hạn khác</field>
                                 <field name="code">LTOR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltor_code" model="account.report.expression">
@@ -865,6 +907,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltadd" model="account.report.line">
                                 <field name="name">6. Long-term allowances for doubtful debts (*)</field>
+                                <field name="name@vi">6. Dự phòng phải thu dài hạn khó đòi (*)</field>
                                 <field name="code">LTADD</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltadd_code" model="account.report.expression">
@@ -884,6 +927,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_fa" model="account.report.line">
                         <field name="name">II. Fixed assets</field>
+                        <field name="name@vi">II. Tài sản cố định</field>
                         <field name="code">FA</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_fa_code" model="account.report.expression">
@@ -901,6 +945,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_tfa" model="account.report.line">
                                 <field name="name">1. Tangible fixed assets</field>
+                                <field name="name@vi">1. Tài sản cố định hữu hình</field>
                                 <field name="code">TFA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_tfa_code" model="account.report.expression">
@@ -918,6 +963,7 @@
                                 <field name="children_ids">
                                     <record id="account_financial_report_l10n_vn_bs_tfahc" model="account.report.line">
                                         <field name="name">- Historical costs</field>
+                                        <field name="name@vi">- Nguyên giá</field>
                                         <field name="code">TFAHC</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_tfahc_code" model="account.report.expression">
@@ -935,6 +981,7 @@
                                     </record>
                                     <record id="account_financial_report_l10n_vn_bs_tfaad" model="account.report.line">
                                         <field name="name">- Accumulated depreciation (*)</field>
+                                        <field name="name@vi">- Giá trị hao mòn luỹ kế (*)</field>
                                         <field name="code">TFAAD</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_tfaad_code" model="account.report.expression">
@@ -954,6 +1001,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_flfa" model="account.report.line">
                                 <field name="name">2. Finance lease fixed assets</field>
+                                <field name="name@vi">2. Tài sản cố định thuê tài chính</field>
                                 <field name="code">FLFA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_flfa_code" model="account.report.expression">
@@ -971,6 +1019,7 @@
                                 <field name="children_ids">
                                     <record id="account_financial_report_l10n_vn_bs_flfahc" model="account.report.line">
                                         <field name="name">- Historical costs</field>
+                                        <field name="name@vi">- Nguyên giá</field>
                                         <field name="code">FLFAHC</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_flfahc_code" model="account.report.expression">
@@ -988,6 +1037,7 @@
                                     </record>
                                     <record id="account_financial_report_l10n_vn_bs_flfaad" model="account.report.line">
                                         <field name="name">- Accumulated depreciation (*)</field>
+                                        <field name="name@vi">- Giá trị hao mòn luỹ kế (*)</field>
                                         <field name="code">FLFAAD</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_flfaad_code" model="account.report.expression">
@@ -1007,6 +1057,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ifa" model="account.report.line">
                                 <field name="name">3. Intangible fixed assets</field>
+                                <field name="name@vi">3. Tài sản cố định vô hình</field>
                                 <field name="code">IFA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ifa_code" model="account.report.expression">
@@ -1024,6 +1075,7 @@
                                 <field name="children_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ifahc" model="account.report.line">
                                         <field name="name">- Historical costs</field>
+                                        <field name="name@vi">- Nguyên giá</field>
                                         <field name="code">IFAHC</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_ifahc_code" model="account.report.expression">
@@ -1041,6 +1093,7 @@
                                     </record>
                                     <record id="account_financial_report_l10n_vn_bs_ifaad" model="account.report.line">
                                         <field name="name">- Accumulated depreciation (*)</field>
+                                        <field name="name@vi">- Giá trị hao mòn luỹ kế (*)</field>
                                         <field name="code">IFAAD</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_ifaad_code" model="account.report.expression">
@@ -1062,6 +1115,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_ltba" model="account.report.line">
                         <field name="name">III. Long term Biological asset</field>
+                        <field name="name@vi">III. Tài sản sinh học dài hạn</field>
                         <field name="code">LTBA</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltba_code" model="account.report.expression">
@@ -1079,6 +1133,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_lpp" model="account.report.line">
                                 <field name="name">1. Livestock for periodic production</field>
+                                <field name="name@vi">1. Súc vật nuôi cho sản phẩm định kỳ</field>
                                 <field name="code">LPP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_lpp_code" model="account.report.expression">
@@ -1096,6 +1151,7 @@
                                 <field name="children_ids">
                                     <record id="account_financial_report_l10n_vn_bs_lfppnm" model="account.report.line">
                                         <field name="name">a) Livestock for periodic production that have not yet reached maturity</field>
+                                        <field name="name@vi">a) Súc vật nuôi cho sản phẩm định kỳ chưa đến giai đoạn trưởng thành</field>
                                         <field name="code">LFPPNM</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_lfppnm_code" model="account.report.expression">
@@ -1113,6 +1169,7 @@
                                     </record>
                                     <record id="account_financial_report_l10n_vn_bs_lfppm" model="account.report.line">
                                         <field name="name">b) Livestock for periodic production that have reached maturity</field>
+                                        <field name="name@vi">b) Súc vật nuôi cho sản phẩm định kỳ đến giai đoạn trưởng thành</field>
                                         <field name="code">LFPPM</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_lfppm_code" model="account.report.expression">
@@ -1130,6 +1187,7 @@
                                         <field name="children_ids">
                                             <record id="account_financial_report_l10n_vn_bs_lfppmhc" model="account.report.line">
                                                 <field name="name">- Historical costs</field>
+                                                <field name="name@vi">- Nguyên giá</field>
                                                 <field name="code">LFPPMHC</field>
                                                 <field name="expression_ids">
                                                     <record id="account_financial_report_l10n_vn_bs_lfppmhc_code" model="account.report.expression">
@@ -1147,6 +1205,7 @@
                                             </record>
                                             <record id="account_financial_report_l10n_vn_bs_lfppmad" model="account.report.line">
                                                 <field name="name">- Accumulated depreciation (*)</field>
+                                                <field name="name@vi">- Giá trị hao mòn luỹ kế (*)</field>
                                                 <field name="code">LFPPMAD</field>
                                                 <field name="expression_ids">
                                                     <record id="account_financial_report_l10n_vn_bs_lfppmad_code" model="account.report.expression">
@@ -1168,6 +1227,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_lpotplt" model="account.report.line">
                                 <field name="name">2. Livestock that produces one-time products - Long term</field>
+                                <field name="name@vi">2. Súc vật nuôi lấy sản phẩm một lần dài hạn</field>
                                 <field name="code">LPOTPLT</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltpotplt_code" model="account.report.expression">
@@ -1185,6 +1245,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_sotclt" model="account.report.line">
                                 <field name="name">3. Seasonal or one-time crop - Long term</field>
+                                <field name="name@vi">3. Cây trồng theo mùa vụ hoặc lấy sản phẩm một lần dài hạn</field>
                                 <field name="code">SOTCLT</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_sotclt_code" model="account.report.expression">
@@ -1202,6 +1263,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_altba" model="account.report.line">
                                 <field name="name">4. Allowances for long term biological assets</field>
+                                <field name="name@vi">4. Dự phòng tổn thất tài sản sinh học dài hạn</field>
                                 <field name="code">ALTBA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_altba_code" model="account.report.expression">
@@ -1221,6 +1283,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_ip" model="account.report.line">
                         <field name="name">IV. Investment properties</field>
+                        <field name="name@vi">IV. Bất động sản đầu tư</field>
                         <field name="code">IP</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_ip_code" model="account.report.expression">
@@ -1238,6 +1301,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_iphc" model="account.report.line">
                                 <field name="name">- Historical costs</field>
+                                <field name="name@vi">- Nguyên giá</field>
                                 <field name="code">IPHC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_iphc_code" model="account.report.expression">
@@ -1255,6 +1319,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ipad" model="account.report.line">
                                 <field name="name">- Accumulated depreciation (*)</field>
+                                <field name="name@vi">- Giá trị hao mòn luỹ kế (*)</field>
                                 <field name="code">IPAD</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ipad_code" model="account.report.expression">
@@ -1274,6 +1339,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_ltap" model="account.report.line">
                         <field name="name">V. Long-term assets in progress</field>
+                        <field name="name@vi">V. Tài sản dở dang dài hạn</field>
                         <field name="code">LTAP</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltap_code" model="account.report.expression">
@@ -1291,6 +1357,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltwip" model="account.report.line">
                                 <field name="name">1. Long-term work in progress</field>
+                                <field name="name@vi">1. Chi phí sản xuất, kinh doanh dở dang dài hạn</field>
                                 <field name="code">LTWIP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltwip_code" model="account.report.expression">
@@ -1308,6 +1375,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_cip" model="account.report.line">
                                 <field name="name">2. Construction in progress</field>
+                                <field name="name@vi">2. Chi phí xây dựng cơ bản dở dang</field>
                                 <field name="code">CIP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_cip_code" model="account.report.expression">
@@ -1327,6 +1395,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_lti" model="account.report.line">
                         <field name="name">VI. Long-term investments</field>
+                        <field name="name@vi">VI. Đầu tư tài chính dài hạn</field>
                         <field name="code">LTI</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_lti_code" model="account.report.expression">
@@ -1344,6 +1413,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_iis" model="account.report.line">
                                 <field name="name">1. Investments in subsidiaries</field>
+                                <field name="name@vi">1. Đầu tư vào công ty con</field>
                                 <field name="code">IIS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_iis_code" model="account.report.expression">
@@ -1361,6 +1431,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ijva" model="account.report.line">
                                 <field name="name">2. Investments in joint ventures and associates</field>
+                                <field name="name@vi">2. Đầu tư vào công ty liên doanh, liên kết</field>
                                 <field name="code">IJVA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ijva_code" model="account.report.expression">
@@ -1378,6 +1449,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ieoe" model="account.report.line">
                                 <field name="name">3. Investments in equity of other entities</field>
+                                <field name="name@vi">3. Đầu tư góp vốn vào đơn vị khác</field>
                                 <field name="code">IEOE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ieoe_code" model="account.report.expression">
@@ -1395,6 +1467,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_alti" model="account.report.line">
                                 <field name="name">4. Allowances for long-term investments (*)</field>
+                                <field name="name@vi">4. Dự phòng đầu tư tài chính dài hạn (*)</field>
                                 <field name="code">ALTI</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_alti_code" model="account.report.expression">
@@ -1412,6 +1485,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_htmi" model="account.report.line">
                                 <field name="name">5. Held to maturity investments</field>
+                                <field name="name@vi">5. Đầu tư nắm giữ đến ngày đáo hạn</field>
                                 <field name="code">HTMI</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_htmi_code" model="account.report.expression">
@@ -1429,6 +1503,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_altihm" model="account.report.line">
                                 <field name="name">6. Allowances for long term investments held to maturity</field>
+                                <field name="name@vi">6. Dự phòng đầu tư nắm giữ đến ngày đáo hạn dài hạn</field>
                                 <field name="code">ALTIHM</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_altihm_code" model="account.report.expression">
@@ -1448,6 +1523,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_olti" model="account.report.line">
                         <field name="name">VII. Other long-term assets</field>
+                        <field name="name@vi">VII. Tài sản dài hạn khác</field>
                         <field name="code">OLTI</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_olti_code" model="account.report.expression">
@@ -1465,6 +1541,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltpe" model="account.report.line">
                                 <field name="name">1. Long-term prepaid expenses</field>
+                                <field name="name@vi">1. Chi phí trả trước dài hạn</field>
                                 <field name="code">LTPE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltpe_code" model="account.report.expression">
@@ -1482,6 +1559,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_dita" model="account.report.line">
                                 <field name="name">2. Deferred income tax assets</field>
+                                <field name="name@vi">2. Tài sản thuế thu nhập hoãn lại</field>
                                 <field name="code">DITA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_dita_code" model="account.report.expression">
@@ -1499,6 +1577,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltespr" model="account.report.line">
                                 <field name="name">3. Long-term equipment and spare parts for replacement</field>
+                                <field name="name@vi">3. Thiết bị, vật tư, phụ tùng thay thế dài hạn</field>
                                 <field name="code">LTESPR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltespr_code" model="account.report.expression">
@@ -1516,6 +1595,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_olta" model="account.report.line">
                                 <field name="name">4. Other long-term assets</field>
+                                <field name="name@vi">4. Tài sản dài hạn khác</field>
                                 <field name="code">OLTA</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_olta_code" model="account.report.expression">
@@ -1537,6 +1617,7 @@
             </record>
             <record id="account_financial_report_l10n_vn_bs_ta" model="account.report.line">
                 <field name="name">TOTAL ASSETS (270 = 100 + 200)</field>
+                <field name="name@vi">TỔNG CỘNG TÀI SẢN (270 = 100 + 200)</field>
                 <field name="code">TA</field>
                 <field name="hierarchy_level" eval="0"/>
                 <field name="expression_ids">
@@ -1555,6 +1636,7 @@
             </record>
             <record id="account_financial_report_l10n_vn_bs_lb" model="account.report.line">
                 <field name="name">C - LIABILITIES</field>
+                <field name="name@vi">C - NỢ PHẢI TRẢ</field>
                 <field name="code">LB</field>
                 <field name="hierarchy_level" eval="0"/>
                 <field name="expression_ids">
@@ -1573,6 +1655,7 @@
                 <field name="children_ids">
                     <record id="account_financial_report_l10n_vn_bs_stl" model="account.report.line">
                         <field name="name">I. Short-term liabilities</field>
+                        <field name="name@vi">I. Nợ ngắn hạn</field>
                         <field name="code">STL</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_stl_code" model="account.report.expression">
@@ -1590,6 +1673,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_sttp" model="account.report.line">
                                 <field name="name">1. Short-term trade payables</field>
+                                <field name="name@vi">1. Phải trả người bán ngắn hạn</field>
                                 <field name="code">STTP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_sttp_code" model="account.report.expression">
@@ -1608,6 +1692,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stpc" model="account.report.line">
                                 <field name="name">2. Short-term prepayments from customers</field>
+                                <field name="name@vi">2. Người mua trả tiền trước ngắn hạn</field>
                                 <field name="code">STPC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stpc_code" model="account.report.expression">
@@ -1626,6 +1711,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_dp" model="account.report.line">
                                 <field name="name">3. Dividend payable</field>
+                                <field name="name@vi">3. Phải trả cổ tức, lợi nhuận</field>
                                 <field name="code">DP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_dp_code" model="account.report.expression">
@@ -1643,7 +1729,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_topgb" model="account.report.line">
-                                <field name="name">3. Taxes and other payables to government budget</field>
+                                <field name="name">4. Taxes and other payables to government budget</field>
+                                <field name="name@vi">4. Thuế và các khoản phải nộp Nhà nước</field>
                                 <field name="code">TOPGB</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_topgb_code" model="account.report.expression">
@@ -1671,7 +1758,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_pte" model="account.report.line">
-                                <field name="name">4. Payables to employees</field>
+                                <field name="name">5. Payables to employees</field>
+                                <field name="name@vi">5. Phải trả người lao động</field>
                                 <field name="code">PTE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_pte_code" model="account.report.expression">
@@ -1689,7 +1777,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stae" model="account.report.line">
-                                <field name="name">5. Short-term accrued expenses</field>
+                                <field name="name">6. Short-term accrued expenses</field>
+                                <field name="name@vi">6. Chi phí phải trả ngắn hạn</field>
                                 <field name="code">STAE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stae_code" model="account.report.expression">
@@ -1706,7 +1795,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_sticp" model="account.report.line">
-                                <field name="name">6. Short-term intra-company payables</field>
+                                <field name="name">7. Short-term intra-company payables</field>
+                                <field name="name@vi">7. Phải trả nội bộ ngắn hạn</field>
                                 <field name="code">STICP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_sticp_code" model="account.report.expression">
@@ -1723,7 +1813,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_puscc" model="account.report.line">
-                                <field name="name">7. Payables under schedule of construction contract</field>
+                                <field name="name">8. Payables under schedule of construction contract</field>
+                                <field name="name@vi">8. Phải trả theo tiến độ kế hoạch hợp đồng xây dựng</field>
                                 <field name="code">PUSCC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_puscc_code" model="account.report.expression">
@@ -1741,7 +1832,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stur" model="account.report.line">
-                                <field name="name">8. Short-term unearned revenues</field>
+                                <field name="name">9. Short-term unearned revenues</field>
+                                <field name="name@vi">9. Doanh thu chưa thực hiện ngắn hạn</field>
                                 <field name="code">STUR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stur_code" model="account.report.expression">
@@ -1759,7 +1851,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ostp" model="account.report.line">
-                                <field name="name">9. Other short-term payments</field>
+                                <field name="name">10. Other short-term payments</field>
+                                <field name="name@vi">10. Phải trả ngắn hạn khác</field>
                                 <field name="code">OSTP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ostp_code" model="account.report.expression">
@@ -1830,7 +1923,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stbfll" model="account.report.line">
-                                <field name="name">10. Short-term borrowings and finance lease liabilities</field>
+                                <field name="name">11. Short-term borrowings and finance lease liabilities</field>
+                                <field name="name@vi">11. Vay và nợ thuê tài chính ngắn hạn</field>
                                 <field name="code">STBFLL</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stbfll_code" model="account.report.expression">
@@ -1847,7 +1941,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stp" model="account.report.line">
-                                <field name="name">11. Short-term provisions</field>
+                                <field name="name">12. Short-term provisions</field>
+                                <field name="name@vi">12. Dự phòng phải trả ngắn hạn</field>
                                 <field name="code">STP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stp_code" model="account.report.expression">
@@ -1869,7 +1964,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_bfd" model="account.report.line">
-                                <field name="name">12. Bonus and welfare fund</field>
+                                <field name="name">13. Bonus and welfare fund</field>
+                                <field name="name@vi">13. Quỹ khen thưởng, phúc lợi</field>
                                 <field name="code">BFD</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_bfd_code" model="account.report.expression">
@@ -1887,7 +1983,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_psf" model="account.report.line">
-                                <field name="name">13. Price stabilization fund</field>
+                                <field name="name">14. Price stabilization fund</field>
+                                <field name="name@vi">14. Quỹ bình ổn giá</field>
                                 <field name="code">PSF</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_psf_code" model="account.report.expression">
@@ -1905,7 +2002,8 @@
                                 </field>
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_gbpfr" model="account.report.line">
-                                <field name="name">14. Government bonds purchased for resale</field>
+                                <field name="name">15. Government bonds purchased for resale</field>
+                                <field name="name@vi">15. Giao dịch mua bán lại trái phiếu Chính phủ</field>
                                 <field name="code">GBPFR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_gbpfr_code" model="account.report.expression">
@@ -1926,6 +2024,7 @@
                     </record>
                     <record id="account_financial_report_l10n_vn_bs_ltl" model="account.report.line">
                         <field name="name">II. Long-term liabilities</field>
+                        <field name="name@vi">II. Nợ dài hạn</field>
                         <field name="code">LTL</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_ltl_code" model="account.report.expression">
@@ -1943,6 +2042,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_lttp" model="account.report.line">
                                 <field name="name">1. Long-term trade payables</field>
+                                <field name="name@vi">1. Phải trả người bán dài hạn</field>
                                 <field name="code">LTTP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_lttp_code" model="account.report.expression">
@@ -1961,6 +2061,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltrc" model="account.report.line">
                                 <field name="name">2. Long-term prepayments from customers</field>
+                                <field name="name@vi">2. Người mua trả tiền trước dài hạn</field>
                                 <field name="code">LTRC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltrc_code" model="account.report.expression">
@@ -1979,6 +2080,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_topgblt" model="account.report.line">
                                 <field name="name">3. Taxes and other payables to government budget - Long term</field>
+                                <field name="name@vi">3. Thuế và các khoản phải nộp Nhà nước dài hạn</field>
                                 <field name="code">TOPGBLT</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_topgblt_code" model="account.report.expression">
@@ -2044,6 +2146,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltae" model="account.report.line">
                                 <field name="name">4. Long-term accrued expenses</field>
+                                <field name="name@vi">4. Chi phí phải trả dài hạn</field>
                                 <field name="code">LTAE</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltae_code" model="account.report.expression">
@@ -2061,6 +2164,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_icpocr" model="account.report.line">
                                 <field name="name">5. Intra-company payables for operating capital received</field>
+                                <field name="name@vi">5. Phải trả nội bộ về vốn kinh doanh</field>
                                 <field name="code">ICPOCR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_icpocr_code" model="account.report.expression">
@@ -2078,6 +2182,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_lticp" model="account.report.line">
                                 <field name="name">6. Long-term intra-company payables</field>
+                                <field name="name@vi">6. Phải trả nội bộ dài hạn</field>
                                 <field name="code">LTICP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_lticp_code" model="account.report.expression">
@@ -2095,6 +2200,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltur" model="account.report.line">
                                 <field name="name">7. Long-term unearned revenues</field>
+                                <field name="name@vi">7. Doanh thu chưa thực hiện dài hạn</field>
                                 <field name="code">LTUR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltur_code" model="account.report.expression">
@@ -2113,6 +2219,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_oltp" model="account.report.line">
                                 <field name="name">8. Other long-term payables</field>
+                                <field name="name@vi">8. Phải trả dài hạn khác</field>
                                 <field name="code">OLTP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_oltp_code" model="account.report.expression">
@@ -2172,6 +2279,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltbfll" model="account.report.line">
                                 <field name="name">9. Long-term borrowings and finance lease liabilities</field>
+                                <field name="name@vi">9. Vay và nợ thuê tài chính dài hạn</field>
                                 <field name="code">LTBFLL</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltbfll_code" model="account.report.expression">
@@ -2193,6 +2301,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_cb" model="account.report.line">
                                 <field name="name">10. Convertible bonds</field>
+                                <field name="name@vi">10. Trái phiếu chuyển đổi</field>
                                 <field name="code">CB</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_cb_code" model="account.report.expression">
@@ -2210,6 +2319,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ps" model="account.report.line">
                                 <field name="name">11. Preference shares</field>
+                                <field name="name@vi">11. Cổ phiếu ưu đãi</field>
                                 <field name="code">PS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ps_code" model="account.report.expression">
@@ -2227,6 +2337,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ditp" model="account.report.line">
                                 <field name="name">12. Deferred income tax payables</field>
+                                <field name="name@vi">12. Thuế thu nhập hoãn lại phải trả</field>
                                 <field name="code">DITP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ditp_code" model="account.report.expression">
@@ -2244,6 +2355,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_ltp" model="account.report.line">
                                 <field name="name">13. Long-term provisions</field>
+                                <field name="name@vi">13. Dự phòng phải trả dài hạn</field>
                                 <field name="code">LTP</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ltp_code" model="account.report.expression">
@@ -2261,6 +2373,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_stdf" model="account.report.line">
                                 <field name="name">14. Science and technology development fund</field>
+                                <field name="name@vi">14. Quỹ phát triển khoa học và công nghệ</field>
                                 <field name="code">STDF</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_stdf_code" model="account.report.expression">
@@ -2282,6 +2395,7 @@
             </record>
             <record id="account_financial_report_l10n_vn_bs_oe" model="account.report.line">
                 <field name="name">D - OWNER’S EQUITY</field>
+                <field name="name@vi">D - VỐN CHỦ SỞ HỮU</field>
                 <field name="code">OE</field>
                 <field name="hierarchy_level" eval="0"/>
                 <field name="expression_ids">
@@ -2300,6 +2414,7 @@
                 <field name="children_ids">
                     <record id="account_financial_report_l10n_vn_bs_oeoe" model="account.report.line">
                         <field name="name">I. Owner’s equity</field>
+                        <field name="name@vi">I. Vốn chủ sở hữu</field>
                         <field name="code">OEOE</field>
                         <field name="expression_ids">
                             <record id="account_financial_report_l10n_vn_bs_oeoe_code" model="account.report.expression">
@@ -2317,6 +2432,7 @@
                         <field name="children_ids">
                             <record id="account_financial_report_l10n_vn_bs_cc" model="account.report.line">
                                 <field name="name">1. Contributed capital</field>
+                                <field name="name@vi">1. Vốn góp của chủ sở hữu</field>
                                 <field name="code">CC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_cc_code" model="account.report.expression">
@@ -2334,6 +2450,7 @@
                                 <field name="children_ids">
                                     <record id="account_financial_report_l10n_vn_bs_ccosvr" model="account.report.line">
                                         <field name="name">- Ordinary shares with voting rights</field>
+                                        <field name="name@vi">- Cổ phiếu phổ thông có quyền biểu quyết</field>
                                         <field name="code">CCOSVR</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_ccosvr_code" model="account.report.expression">
@@ -2351,6 +2468,7 @@
                                     </record>
                                     <record id="account_financial_report_l10n_vn_bs_ccps" model="account.report.line">
                                         <field name="name">- Preference shares</field>
+                                        <field name="name@vi">- Cổ phiếu ưu đãi</field>
                                         <field name="code">CCPS</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_ccps_code" model="account.report.expression">
@@ -2370,6 +2488,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_cs" model="account.report.line">
                                 <field name="name">2. Capital surplus</field>
+                                <field name="name@vi">2. Thặng dư vốn cổ phần</field>
                                 <field name="code">CS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_cs_code" model="account.report.expression">
@@ -2387,6 +2506,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_cocb" model="account.report.line">
                                 <field name="name">3. Conversion options on convertible bonds</field>
+                                <field name="name@vi">3. Quyền chọn chuyển đổi trái phiếu</field>
                                 <field name="code">COCB</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_cocb_code" model="account.report.expression">
@@ -2404,6 +2524,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_oc" model="account.report.line">
                                 <field name="name">4. Other capital</field>
+                                <field name="name@vi">4. Vốn khác của chủ sở hữu</field>
                                 <field name="code">OC</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_oc_code" model="account.report.expression">
@@ -2421,6 +2542,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_trs" model="account.report.line">
                                 <field name="name">5. Treasury shares (*)</field>
+                                <field name="name@vi">5. Cổ phiếu quỹ (*)</field>
                                 <field name="code">TRS</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_trs_code" model="account.report.expression">
@@ -2438,6 +2560,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_duar" model="account.report.line">
                                 <field name="name">6. Differences upon asset revaluation</field>
+                                <field name="name@vi">6. Chênh lệch đánh giá lại tài sản</field>
                                 <field name="code">DUAR</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_duar_code" model="account.report.expression">
@@ -2455,6 +2578,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_erd" model="account.report.line">
                                 <field name="name">7. Exchange rate differences</field>
+                                <field name="name@vi">7. Chênh lệch tỷ giá hối đoái</field>
                                 <field name="code">ERD</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_erd_code" model="account.report.expression">
@@ -2472,6 +2596,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_dif" model="account.report.line">
                                 <field name="name">8. Development and investment funds</field>
+                                <field name="name@vi">8. Quỹ đầu tư phát triển</field>
                                 <field name="code">DIF</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_dif_code" model="account.report.expression">
@@ -2489,6 +2614,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_oef" model="account.report.line">
                                 <field name="name">9. Other equity funds</field>
+                                <field name="name@vi">9. Quỹ khác thuộc vốn chủ sở hữu</field>
                                 <field name="code">OEF</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_oef_code" model="account.report.expression">
@@ -2506,6 +2632,7 @@
                             </record>
                             <record id="account_financial_report_l10n_vn_bs_upat" model="account.report.line">
                                 <field name="name">10. Undistributed profit after tax</field>
+                                <field name="name@vi">10. Lợi nhuận sau thuế chưa phân phối</field>
                                 <field name="code">UPAT</field>
                                 <field name="expression_ids">
                                     <record id="account_financial_report_l10n_vn_bs_upat_code" model="account.report.expression">
@@ -2523,6 +2650,7 @@
                                 <field name="children_ids">
                                     <record id="account_financial_report_l10n_vn_bs_upatbf" model="account.report.line">
                                         <field name="name">- Undistributed profit after tax brought forward</field>
+                                        <field name="name@vi">- LNST chưa phân phối lũy kế đến cuối kỳ trước</field>
                                         <field name="code">UPATBF</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_upatbf_code" model="account.report.expression">
@@ -2559,6 +2687,7 @@
                                     </record>
                                     <record id="account_financial_report_l10n_vn_bs_upatcy" model="account.report.line">
                                         <field name="name">- Undistributed profit after tax for the current year</field>
+                                        <field name="name@vi">- LNST chưa phân phối kỳ này</field>
                                         <field name="code">UPATCY</field>
                                         <field name="expression_ids">
                                             <record id="account_financial_report_l10n_vn_bs_upatcy_code" model="account.report.expression">
@@ -2601,6 +2730,7 @@
             </record>
             <record id="account_financial_report_l10n_vn_bs_tos" model="account.report.line">
                 <field name="name">TOTAL SOURCES (440 = 300 + 400)</field>
+                <field name="name@vi">TỔNG CỘNG NGUỒN VỐN (440 = 300 + 400)</field>
                 <field name="code">TOS</field>
                 <field name="hierarchy_level" eval="0"/>
                 <field name="expression_ids">

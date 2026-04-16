@@ -1,9 +1,17 @@
-from odoo import models
+from odoo import api, models
 from odoo.tools.float_utils import float_compare
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        moves = super().create(vals_list)
+        for move, vals in zip(moves, vals_list):
+            if not vals.get('product_uom') and move.bom_line_id:
+                move.product_uom = move.bom_line_id.product_uom_id
+        return moves
 
     def _get_fields_stock_barcode(self):
         return super()._get_fields_stock_barcode() + ['product_uom', 'bom_line_id']

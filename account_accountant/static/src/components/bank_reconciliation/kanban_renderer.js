@@ -12,6 +12,7 @@ import { useState, onWillStart, onWillDestroy } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { useBankReconciliation } from "./bank_reconciliation_service";
+import { BankRecKanbanControlPanel } from "./control_action/control_action";
 
 export class BankRecKanbanRenderer extends KanbanRenderer {
     static template = "account_accountant.BankRecKanbanRenderer";
@@ -73,11 +74,12 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
      * @param {Array<Object>} records - Bank statement line records
      * @returns {Promise<void>} Resolves when all computations are done
      */
-    async prepareInitialState(records){
+    async prepareInitialState(records) {
         await Promise.all([
             this.getJournalTotalAmount(),
             this.bankReconciliation.computeReconcileLineCountPerPartnerId(records),
             this.bankReconciliation.computeAvailableReconcileModels(records),
+            this.bankReconciliation.computeAvailableReconcileLines(records),
         ]);
         const statementLineId =
             parseInt(browser.sessionStorage.getItem("bankReconciliationStatementLineId")) ||
@@ -130,7 +132,7 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
             [
                 this.env.model.config.context.default_journal_id ||
                     this.env.model.config.context.active_id,
-            ],
+            ]
         );
         this.action.doAction(actionData);
     }
@@ -222,6 +224,7 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
 
 export const BankRecKanbanView = {
     ...kanbanView,
+    ControlPanel: BankRecKanbanControlPanel,
     Controller: BankRecKanbanController,
     Renderer: BankRecKanbanRenderer,
     searchMenuTypes: ["filter", "favorite"],

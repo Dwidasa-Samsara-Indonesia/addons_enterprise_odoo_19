@@ -22,9 +22,17 @@ class LibroDiarioReportCustomHandler(models.AbstractModel):
         for key, value in processed_results.items():
             line_id = report._get_generic_line_id('account.move', key)
             columns = self._get_column_values(report, options, value)
+            columns_data = next(iter(value.values()))
+            parts = [
+                columns_data.get('move_name'),
+                columns_data.get('partner_name'),
+                columns_data.get('account_name'),
+                columns_data.get('line_label')
+            ]
+            line_name = " ".join(str(p) for p in parts if p).strip()
             lines.append((0, {
                 'id': line_id,
-                'name': '',
+                'name': line_name,
                 'level': 1,
                 'unfoldable': False,
                 'columns': columns
@@ -74,7 +82,7 @@ class LibroDiarioReportCustomHandler(models.AbstractModel):
 
     def _get_domain(self, report, options, line_dict_id=None):
         domain = super()._get_domain(report, options, line_dict_id=line_dict_id)
-        domain = [('company_id', '=', self.env.company.id)]
+        domain += [('company_id', '=', self.env.company.id)]
         return domain
 
     def print_pdf(self, options, action_param):

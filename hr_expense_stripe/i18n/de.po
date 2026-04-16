@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:06+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
+"PO-Revision-Date: 2026-04-04 10:51+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense_stripe/de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -244,7 +244,7 @@ msgstr ""
 "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
 "0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                    <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
-"                    Hallo <t t-out=\"ctx.get('recipient_name', "
+"                    Guten Tag <t t-out=\"ctx.get('recipient_name', "
 "object.user_id.name)\">[Name des Empfängers]</t>,<br/><br/>\n"
 "                    Ihnen wurde eine Spesenkarte zugewiesen.\n"
 "                    Sie können diese jederzeit einsehen und verwalten, indem "
@@ -463,10 +463,10 @@ msgstr ""
 "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
 "0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                    <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
-"                    Hallo <t t-out=\"ctx.get('recipient_name', "
+"                    Guten Tag <t t-out=\"ctx.get('recipient_name', "
 "object.user_id.name)\">[Karteninhaber]</t>,<br/><br/>\n"
-"                    Wir möchten Sie darüber informieren, dass der Versand "
-"Ihrer Karte abgebrochen wurde.<br/>\n"
+"                    wir möchten Sie darüber informieren, dass Ihre Karte "
+"nicht versendet wurde.<br/>\n"
 "                    Sollten Sie die Karte dennoch erhalten wollen, geben Sie "
 "eine neue Bestellung auf.<br/><br/>\n"
 "                    Sollten Sie Fragen haben oder Unterstützung benötigen, "
@@ -679,7 +679,7 @@ msgstr ""
 "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
 "0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                    <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
-"                    Hallo <t t-out=\"ctx.get('recipient_name', "
+"                    Guten Tag <t t-out=\"ctx.get('recipient_name', "
 "object.user_id.name)\">[Name des Empfängers]</t>,<br/><br/>\n"
 "                    Ihre Spesenkarte wurde bestellt.\n"
 "                    Wir werden Sie benachrichtigen, sobald sie versandt "
@@ -911,7 +911,7 @@ msgstr ""
 "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
 "0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                    <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
-"                    Hallo <t t-out=\"ctx.get('recipient_name', "
+"                    Guten Tag <t t-out=\"ctx.get('recipient_name', "
 "object.user_id.name)\">[Karteninhaber]</t>,<br/><br/>\n"
 "                    Ihre Spesenkarte ist unterwegs!<br/><br/>\n"
 "                    <t t-if=\"object.tracking_number\">\n"
@@ -932,7 +932,7 @@ msgstr ""
 "                    Aktivieren Sie sie nach Erhalt:<br/><br/>\n"
 "                    1) Gehen Sie zu <a t-attf-href=\"{{ website_url }}/odoo/"
 "cards\">Karte</a><br/>\n"
-"                    2) Kicken Sie auf die Karte und befolgen Sie die "
+"                    2) Klicken Sie auf die Karte und befolgen Sie die "
 "Anweisungen.<br/><br/>\n"
 "                    Mit freundlichen Grüßen<br/>\n"
 "                    <t t-out=\"company.name or ''\">[Name des Unternehmens]</"
@@ -1777,15 +1777,15 @@ msgid "Country"
 msgstr "Land"
 
 #. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
+msgstr "Land %(country_name)s nicht zulässig"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
 msgid "Country Clubs"
 msgstr "Sport- und Gesellschaftsklub auf dem Land"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr "Land nicht zulässig"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
@@ -2823,8 +2823,8 @@ msgstr "MCC"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
-msgstr "MCC nicht zulässig"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
@@ -3143,7 +3143,7 @@ msgstr "Kurzlebige Güter"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_needaction_counter
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_has_error_counter
@@ -3194,18 +3194,30 @@ msgstr "Büro- und Gewerbemöbel"
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
 msgstr ""
-"Derzeit wird für Stripe-Issuing-Finanzierungsanweisungen ausschließlich IBAN "
+"Derzeit wird für Stripe-Issuing-Zahlungsanweisungen im Vereinigten "
+"Königreich nur BACS unterstützt"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
+msgstr ""
+"Derzeit werden für Stripe-Issuing-Zahlungsanweisungen nur IBAN oder BACS "
 "unterstützt"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
 msgstr ""
-"Derzeit wird für Stripe-Issuing-Finanzierungsanweisungen ausschließlich SEPA "
+"Derzeit wird für Stripe-Issuing-Zahlungsanweisungen nur SEPA in der EU "
 "unterstützt"
 
 #. module: hr_expense_stripe
@@ -3889,6 +3901,15 @@ msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+"Stripe-Issuing-Zahlungsanweisungen in USD werden derzeit nicht unterstützt"
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing is not available in your country."
 msgstr "Stripe Issuing ist in Ihrem Land nicht verfügbar."
@@ -3928,7 +3949,7 @@ msgstr "Partnerbank von Stripe"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_form
 msgid "Stripe Technical Name"
-msgstr "Technischer Name von Stripe"
+msgstr "Technische Bezeichnung von Stripe"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4246,6 +4267,15 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+"Die Lieferadresse muss in der Europäischen Union oder im Vereinigten "
+"Königreich liegen."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr "Die Lieferadresse muss sich innerhalb der Europäischen Union befinden."
 
@@ -4504,24 +4534,26 @@ msgstr "Transaktion akzeptiert"
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
+msgstr ""
+"Der Transaktionsbetrag (%(amount)s) überschreitet das zulässige Maximum"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr ""
+"Der Transaktionsbetrag (%(total_spent)s) überschreitet das Intervalllimit"
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
 msgstr ""
 "Der Transaktionsbetrag hat das Tages-/Transaktionslimit der Karte von 50 000 "
 "€ überschritten."
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr "Der Transaktionsbetrag überschreitet die Intervallgrenze"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr "Der Transaktionsbetrag übersteigt den maximal zulässigen Betrag"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -5121,6 +5153,33 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "Allgemeinen Geschäftsbedingungen"
+
+#~ msgid "MCC %(mcc_name)s not allowed"
+#~ msgstr "MCC %(mcc_name)s nicht zulässig"
+
+#~ msgid "Country not allowed"
+#~ msgstr "Land nicht zulässig"
+
+#~ msgid "MCC not allowed"
+#~ msgstr "MCC nicht zulässig"
+
+#~ msgid ""
+#~ "Only IBAN is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Derzeit wird für Stripe-Issuing-Finanzierungsanweisungen ausschließlich "
+#~ "IBAN unterstützt"
+
+#~ msgid ""
+#~ "Only SEPA is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Derzeit wird für Stripe-Issuing-Finanzierungsanweisungen ausschließlich "
+#~ "SEPA unterstützt"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr "Der Transaktionsbetrag überschreitet die Intervallgrenze"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "Der Transaktionsbetrag übersteigt den maximal zulässigen Betrag"
 
 #~ msgid "Stripe issuing is not supported for your localization"
 #~ msgstr "Stripe Issuing wird für Ihre Lokalisierung nicht unterstützt"

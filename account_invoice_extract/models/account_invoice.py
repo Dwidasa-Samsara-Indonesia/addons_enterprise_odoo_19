@@ -702,17 +702,12 @@ class AccountMove(models.Model):
                 if partner_id:
                     move_form.partner_id = partner_id
                     if created and iban_ocr and not move_form.partner_bank_id and self.is_purchase_document(include_receipts=True):
-                        bank_account = self.env['res.partner.bank'].search([
-                            *self.env['res.partner.bank']._check_company_domain(self.company_id),
-                            ('acc_number', '=ilike', iban_ocr),
-                        ])
-                        if bank_account:
-                            if bank_account.partner_id == move_form.partner_id.id:
-                                move_form.partner_bank_id = bank_account
-                        else:
-                            bank_vals = self._get_bank_account_vals(iban_ocr, SWIFT_code_ocr)
-                            bank_vals['partner_id'] = move_form.partner_id.id
-                            move_form.partner_bank_id = self.with_context(clean_context(self.env.context)).env['res.partner.bank'].create(bank_vals)
+                        move_form.partner_bank_id = self.env['res.partner.bank']._find_or_create_bank_account(
+                            account_number=iban_ocr,
+                            partner=move_form.partner_id,
+                            company=self.company_id,
+                            extra_create_vals=self._get_bank_account_vals(iban_ocr, SWIFT_code_ocr),
+                        )
 
             if qr_bill_ocr:
                 qr_content_list = qr_bill_ocr.splitlines()
@@ -744,13 +739,16 @@ class AccountMove(models.Model):
 
                     if self.is_purchase_document(include_receipts=True):
                         iban = qr_content_list[3]
-                        if iban and not self.env['res.partner.bank'].search_count([('acc_number', '=ilike', iban)], limit=1):
-                            move_form.partner_bank_id = self.with_context(clean_context(self.env.context)).env['res.partner.bank'].create({
-                                'acc_number': iban,
-                                'company_id': move_form.company_id.id,
-                                'currency_id': move_form.currency_id.id,
-                                'partner_id': move_form.partner_id.id,
-                            })
+                        if iban:
+                            move_form.partner_bank_id = self.env['res.partner.bank']._find_or_create_bank_account(
+                                account_number=iban,
+                                partner=move_form.partner_id,
+                                company=move_form.company_id,
+                                extra_create_vals={
+                                    'company_id': move_form.company_id.id,
+                                    'currency_id': move_form.currency_id.id,
+                                },
+                            )
 
             due_date_move_form = move_form.invoice_date_due  # remember the due_date, as it could be modified by the onchange() of invoice_date
             context_create_date = fields.Date.context_today(self, self.create_date)

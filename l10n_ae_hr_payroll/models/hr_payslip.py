@@ -51,16 +51,29 @@ class HrPayslip(models.Model):
             if record.version_id.wage_type == 'hourly':
                 record.l10n_ae_hourly_wage = record.version_id.hourly_wage
             else:
-                hours = sum(self.worked_days_line_ids.mapped('number_of_days')) * record.version_id.resource_calendar_id.hours_per_day
+                hours = sum(record.worked_days_line_ids.mapped('number_of_days')) * record.version_id.resource_calendar_id.hours_per_day
                 gross = record.version_id.wage + record.version_id.l10n_ae_housing_allowance + record.version_id.l10n_ae_transportation_allowance + record.version_id.l10n_ae_other_allowances
                 record.l10n_ae_hourly_wage = gross / hours if hours > 0 else 0
 
+    def _get_l10n_ae_total_work_hours(self):
+        self.ensure_one()
+
+        calendar = self.version_id.resource_calendar_id
+        if calendar:
+            date_from = fields.Datetime.to_datetime(self.date_from)
+            date_to = fields.Datetime.to_datetime(self.date_to) + relativedelta(days=1) - relativedelta(microseconds=1)
+            hours = calendar.get_work_duration_data(date_from, date_to).get('hours', 0)
+            return hours
+
+        return self.sum_worked_hours
+
     def _get_l10n_ae_hourly_allowance_value(self, allowance_type):
         self.ensure_one()
-        if allowance_type not in ('housing', 'transportation', 'other') or self.sum_worked_hours <= 0:
+        total_hours = self._get_l10n_ae_total_work_hours()
+        if allowance_type not in ('housing', 'transportation', 'other') or total_hours <= 0:
             return 0
         field = f'l10n_ae_{allowance_type}_allowance{"s" if allowance_type == "other" else ""}'
-        return self.version_id[field] / self.sum_worked_hours
+        return self.version_id[field] / total_hours
 
     @api.depends(
         'sum_worked_hours',
@@ -73,7 +86,11 @@ class HrPayslip(models.Model):
             if record.version_id.work_entry_source == 'calendar':
                 record.l10n_ae_basic_salary = record.version_id.wage
             else:
-                record.l10n_ae_basic_salary = record.l10n_ae_hours_worked * (record.version_id.wage / record.sum_worked_hours) if record.sum_worked_hours > 0 else 0
+                total_hours = record._get_l10n_ae_total_work_hours()
+                record.l10n_ae_basic_salary = (
+                    record.l10n_ae_hours_worked * (record.version_id.wage / total_hours)
+                    if total_hours > 0 else 0
+                )
 
     def _l10n_ae_get_eos_daily_salary(self):
         years = relativedelta(self.date_to, self.employee_id._get_first_version_date()).years
@@ -114,10 +131,12 @@ class HrPayslip(models.Model):
             evp_inputs = [inputs_dict[code][payslip.id]['total'] for code in input_codes]
             total_evp = sum(evp_inputs)
 
+            bank_account = employee.primary_bank_account_id
+            l10n_ae_routing_code = bank_account.bank_id.l10n_ae_routing_code
             rows.append([
                 "EDR",
                 (employee.identification_id or '').zfill(14),
-                employee.primary_bank_account_id.bank_id.l10n_ae_routing_code or '',
+                (l10n_ae_routing_code or '').zfill(9),
                 employee.primary_bank_account_id.acc_number or '',
                 payslip.date_from.strftime('%Y-%m-%d'),
                 payslip.date_to.strftime('%Y-%m-%d'),
@@ -131,8 +150,8 @@ class HrPayslip(models.Model):
                 rows.append([
                     "EVP",
                     (employee.identification_id or '').zfill(14),
-                    employee.primary_bank_account_id.bank_id.l10n_ae_routing_code or '',
-                    *map(self._l10n_ae_get_wps_formatted_amount, evp_inputs)
+                    (l10n_ae_routing_code or '').zfill(9),
+                    *map(self._l10n_ae_get_wps_formatted_amount, (max(0, v) for v in evp_inputs))
                 ])
 
         return rows

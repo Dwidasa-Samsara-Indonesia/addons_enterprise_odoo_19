@@ -83,11 +83,20 @@ class PosPrepDisplay(models.Model):
     def _get_open_orderlines_in_display(self):
         self.ensure_one()
         last_stage_id = self.stage_ids.ids[-1] if self.stage_ids.ids else 0
-        pdis_orderlines = self.env['pos.prep.state'].search([
+        # Step-by-step lookups to avoid deep relational JOINs
+        open_orders = self.env['pos.order'].search([
+            '|', ('session_id.state', 'in', ['opened', 'closing_control']),
+            '&', ('preset_time', '!=', False),
+            ('preset_time', '>', fields.Datetime.now()),
+        ])
+        prep_order_ids = self.env['pos.prep.order'].search([
+            ('pos_order_id', 'in', open_orders.ids),
+        ])
+        return self.env['pos.prep.state'].search([
+            ('prep_line_id', 'in', prep_order_ids.prep_line_ids.ids),
             ('stage_id', 'in', self.stage_ids.ids),
-            '!', '&', ('todo', '=', False), ('stage_id', '=', last_stage_id)])
-        pdis_orderlines = pdis_orderlines.filtered(lambda s: s.prep_line_id.prep_order_id.pos_order_id.session_id.state not in ['closed', 'closing_control'] or (s.prep_line_id.prep_order_id.pos_order_id.preset_time and s.prep_line_id.prep_order_id.pos_order_id.preset_time.date() > fields.Date.today()))
-        return pdis_orderlines
+            '!', '&', ('todo', '=', False), ('stage_id', '=', last_stage_id)
+        ])
 
     @api.model
     def _load_pos_data_domain(self, data, config):

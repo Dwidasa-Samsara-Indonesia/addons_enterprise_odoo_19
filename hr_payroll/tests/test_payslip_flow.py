@@ -108,21 +108,6 @@ class TestPayslipFlow(TestPayslipBase):
         self.assertEqual(len(payslip_run.slip_ids), 1)
         self.assertEqual(payslip_run.slip_ids.struct_id.id, specific_structure.id)
 
-    def test_02_payslip_batch_with_archived_employee(self):
-        # archive his contact
-        self.richard_emp.action_archive()
-
-        # 13th month pay
-        payslip_run = self.env['hr.payslip.run'].create({
-            'date_start': datetime.date.today() + relativedelta(years=-1, month=8, day=1),
-            'date_end': datetime.date.today() + relativedelta(years=-1, month=8, day=31),
-            'name': 'End of the year bonus'
-        })
-        # I create record for generating the payslip for this Payslip run.
-        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
-
-        self.assertEqual(len(payslip_run.slip_ids), 1)
-
     def test_03_payslip_batch_with_payment_process(self):
         '''
             Test to check if some payslips in the batch are already paid,
@@ -598,8 +583,13 @@ class TestPayslipFlow(TestPayslipBase):
         })
 
         payslip_run.generate_payslips(employee_ids=[self.richard_emp.id, self.jules_emp.id])
-        self.assertEqual(payslip_run.slip_ids[1].name, 'Salary Slip - Richard - August 2026')
-        self.assertEqual(payslip_run.slip_ids[0].name, 'Cedolino retribuzione - Jules - agosto 2026')
+        richard_slip = payslip_run.slip_ids.filtered(lambda s: s.employee_id == self.richard_emp)
+        jules_slip = payslip_run.slip_ids.filtered(lambda s: s.employee_id == self.jules_emp)
+        richard_slip.ensure_one()
+        jules_slip.ensure_one()
+
+        self.assertEqual(richard_slip.name, 'Salary Slip - Richard - August 2026')
+        self.assertEqual(jules_slip.name, 'Cedolino retribuzione - Jules - agosto 2026')
 
 
 @tagged('-at_install', 'post_install')

@@ -194,19 +194,34 @@ class AppointmentCommon(MailCase, common.HttpCase):
         url += ('?' not in url and '?' or '&') + 'nocache'
         return self.url_open(url)
 
-    def _create_meetings(self, user, time_info, appointment_type_id=None, show_as='busy'):
-        return self.env['calendar.event'].with_context(self._test_context).create([
+    def _create_meetings(
+        self, user, time_info, appointment_type_id=None, show_as='busy',
+        meeting_values=None, organizer_is_attendee=True, partners=None,
+        suppress_mail=True,
+    ):
+        partners = partners or self.env['res.partner']
+        if organizer_is_attendee:
+            partners += user.partner_id
+        if isinstance(meeting_values, dict):
+            meeting_values = [meeting_values] * len(time_info)
+        elif meeting_values is None:
+            meeting_values = [{}] * len(time_info)
+        CalendarEvent = self.env['calendar.event']
+        if suppress_mail:
+            CalendarEvent = CalendarEvent.with_context(self._test_context)
+        return CalendarEvent.create([
             {'allday': allday,
-             'attendee_ids': [(0, 0, {'partner_id': user.partner_id.id})],
+             'attendee_ids': [(0, 0, {'partner_id': partner.id}) for partner in partners],
              'name': 'Event for %s (%s / %s - %s)' % (user.name, allday, start, stop),
-             'partner_ids': [(4, user.partner_id.id)],
+             'partner_ids': [(4, partner.id) for partner in partners],
              'start': start,
              'stop': stop,
              'user_id': user.id,
              'appointment_type_id': appointment_type_id,
              'show_as': show_as
-            }
-            for start, stop, allday in time_info
+            } | meeting_vals
+            for (start, stop, allday), meeting_vals
+            in zip(time_info, meeting_values, strict=True)
         ])
 
     def _create_invite_test_data(self):

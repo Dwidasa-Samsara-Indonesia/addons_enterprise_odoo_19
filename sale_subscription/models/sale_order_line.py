@@ -64,7 +64,7 @@ class SaleOrderLine(models.Model):
             currency_id = line.order_id.currency_id or self.env.company.currency_id
             next_invoice_date = line.order_id.next_invoice_date
             last_invoiced_date = line.last_invoiced_date
-            if not line.order_id.is_subscription or not line.recurring_invoice:
+            if (not line.order_id.is_subscription and line.order_id.subscription_state != '7_upsell') or not line.recurring_invoice:
                 continue
             # Subscriptions and upsells
             recurring_free = currency_id.compare_amounts(line.order_id.recurring_monthly, 0) < 1
@@ -80,7 +80,7 @@ class SaleOrderLine(models.Model):
                 future_line = line.order_id.start_date and line.order_id.start_date > today or (currency_id.is_zero(line.price_subtotal))
                 if future_line:
                     line.invoice_status = 'no'
-                elif last_invoiced_date and last_invoiced_date <= today and next_invoice_date:
+                elif last_invoiced_date and next_invoice_date and next_invoice_date > today:
                     line.invoice_status = 'invoiced'
 
     @api.depends(
@@ -695,6 +695,12 @@ class SaleOrderLine(models.Model):
         return res
 
     # === UTILS === #
+
+    def _is_collapsed(self):
+        if not self:
+            return False
+        self.ensure_one()
+        return self.display_type in ('line_section', 'line_subsection') and self.collapse_composition
 
     def _is_postpaid_line(self):
         self.ensure_one()

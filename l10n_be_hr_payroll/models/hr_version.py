@@ -320,6 +320,14 @@ Source: Opinion on the indexation of the amounts set in Article 1, paragraph 4, 
             ("separated", self.env._("Judicially Separated"))
         ]
 
+    def write(self, vals):
+        res = super().write(vals)
+        if vals.get('contract_date_start'):
+            self.employee_id.current_version_id.sudo().filtered(
+                lambda v: v._is_struct_from_country('BE') and v.contract_date_start
+            )._trigger_l10n_be_next_activities()
+        return res
+
     @api.depends('disabled_children_bool', 'disabled_children_number', 'children')
     def _compute_dependent_children(self):
         for version in self:
@@ -876,19 +884,20 @@ Source: Opinion on the indexation of the amounts set in Article 1, paragraph 4, 
         self.ensure_one()
         part_time_link = "https://www.socialsecurity.be/site_fr/employer/applics/elo/index.htm"
         part_time_link = '<a href="%s" target="_blank">%s</a>' % (part_time_link, part_time_link)
-        self.activity_schedule(
+        self.employee_id.activity_schedule(
             'mail.mail_activity_data_todo',
             note=_('Part Time of %(employee)s must be stated at %(link)s.',
                    employee=self.employee_id.name,
                    link=part_time_link),
             user_id=self.hr_responsible_id.id or self.env.user.id,
+            summary='Part Time'
         )
 
     def _create_dimona_next_activity(self):
         self.ensure_one()
         dimona_link = "https://www.socialsecurity.be/site_fr/employer/applics/dimona/index.htm"
         dimona_link = '<a href="%s" target="_blank">%s</a>' % (dimona_link, dimona_link)
-        self.activity_schedule(
+        self.employee_id.activity_schedule(
             'mail.mail_activity_data_todo',
             note=_('State the Dimona at %(link)s to declare the arrival of %(employee)s.',
                    link=dimona_link,
@@ -898,17 +907,31 @@ Source: Opinion on the indexation of the amounts set in Article 1, paragraph 4, 
             )
 
     def _trigger_l10n_be_next_activities(self):
-        employees_with_contract_domain = [
-            ('employee_id', 'in', self.employee_id.ids),
-            ('id', 'not in', self.ids),
-        ]
-        employees_already_started = self.env['hr.version'].search(employees_with_contract_domain).employee_id
+        if self.env.context.get('pending_employee_creation'):
+            return
+        activities_by_summary = dict(
+            self.env['mail.activity']._read_group(
+                domain=[
+                    ('res_model', '=', 'hr.employee'),
+                    ('summary', 'in', ['Part Time', 'Dimona']),
+                    ('res_id', 'in', self.employee_id.ids),
+                ],
+                groupby=['summary'],
+                aggregates=['id:recordset'],
+            )
+        )
+        dimona_activities = activities_by_summary.get('Dimona', self.env['mail.activity'])
+        part_time_activities = activities_by_summary.get('Part Time', self.env['mail.activity'])
         for version in self:
-            if not version._is_struct_from_country('BE'):
+            if not version.employee_id.id:
                 continue
-            if version.l10n_be_time_credit:
+            has_part_time_activity = any(activity.res_id == version.employee_id.id
+                and activity.date_deadline >= version.contract_date_start
+                for activity in part_time_activities)
+            has_dimona_activity = version.employee_id.id in dimona_activities.mapped('res_id')
+            if version.l10n_be_time_credit and not has_part_time_activity:
                 version._create_credit_time_next_activity()
-            if version.employee_id not in employees_already_started:
+            if version.employee_id and not has_dimona_activity:
                 version._create_dimona_next_activity()
 
     def _get_contract_insurance_amount(self, name):

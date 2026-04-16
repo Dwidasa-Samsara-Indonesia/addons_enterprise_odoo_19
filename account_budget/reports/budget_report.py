@@ -94,6 +94,7 @@ class BudgetReport(models.Model):
              WHERE CASE
                        WHEN ba.budget_type = 'expense' THEN (
                            SPLIT_PART(aa.account_type, '_', 1) = 'expense'
+                           OR aa.account_type IN ('asset_current', 'asset_non_current', 'asset_fixed')
                            OR (aa.account_type IS NULL AND aal.category NOT IN ('invoice', 'other'))
                            OR (aa.account_type IS NULL AND aal.category = 'other' AND aal.amount < 0)
                        )
@@ -103,7 +104,11 @@ class BudgetReport(models.Model):
                        )
                        ELSE TRUE
                    END
-                   AND (SPLIT_PART(aa.account_type, '_', 1) IN ('income', 'expense') OR aa.account_type IS NULL)
+                   AND (
+                       SPLIT_PART(aa.account_type, '_', 1) IN ('income', 'expense')
+                       OR aa.account_type IN ('asset_current', 'asset_non_current', 'asset_fixed')
+                       OR aa.account_type IS NULL
+                   )
                    %(budget_line_ids_condition)s
                 """,
                 company_condition=company_condition,

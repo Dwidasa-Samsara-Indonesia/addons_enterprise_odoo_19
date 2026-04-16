@@ -65,21 +65,24 @@
                                     <strong class="me-2">Contract Wage (<span class="text-capitalize" t-out="o.version_id.schedule_pay if o.version_id.wage_type == 'monthly' else o.version_id.wage_type"/>):</strong>
                                     <span t-out="o.version_id._get_contract_wage()" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}" class="fw-bold"/>
                                 </div>
+                                <div invisible="1">
+                                    <t t-if="o.version_id.contract_date_end and o.date_to &gt; o.version_id.contract_date_end" t-set="end_date" t-value="o.version_id.contract_date_end"/>
+                                    <t t-else="" t-set="end_date" t-value="o.date_to"/>
+                                </div>
                                 <div id="pay_period">
                                     <strong class="me-2">Pay Period:</strong>
                                     <span t-if="o.date_from &lt; o.version_id.contract_date_start" t-field="o.version_id.contract_date_start"/>
                                     <span t-else="" t-field="o.date_from"/>
                                     -
-                                    <span t-if="o.version_id.contract_date_end and o.date_to &gt; o.version_id.contract_date_end" t-field="o.version_id.contract_date_end"/>
-                                    <span t-else="" t-field="o.date_to"/>
+                                    <span t-out="end_date"/>
                                 </div>
                                 <div id="computed_on">
                                     <strong class="me-2">Computed On:</strong>
                                     <span t-field="o.compute_date"/>
                                 </div>
                                 <div id="contract_start">
-                                    <strong class="me-2">Contract Start Date:</strong>
-                                    <span t-field="o.version_id.contract_date_start"/>
+                                    <strong class="me-2">Entry Date:</strong>
+                                    <span t-out="o.version_id.employee_id.with_context(before_date=end_date)._get_first_contract_date()"/>
                                 </div>
                                 <div id="contract_type" t-if="o.version_id.contract_type_id">
                                     <strong class="me-2">Contract Type:</strong>
@@ -205,7 +208,7 @@
                         <t t-set="bank" t-value="o.employee_id.bank_account_ids.filtered(lambda b: str(b.id) == alloc[0])[0]"/>
                         To pay on 
                         <span class="fw-bold" t-esc="bank.acc_number or 'N/A'"/>
-                        of <span class="fst-italic" t-field="o.employee_id.legal_name"/>: 
+                        of <span class="fst-italic" t-field="bank.acc_holder_name"/>:
 
                         <span t-esc="alloc[1]" class="fw-bold" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                     </p>

@@ -31,16 +31,12 @@ class SaleOrder(models.Model):
         rental_start_date = vals.get('rental_start_date')
         rental_return_date = vals.get('rental_return_date')
         rental_orders = self.env['sale.order']
-        dates_per_rental_order = {}
         if not self.env.context.get('slots_rescheduled') and (rental_start_date or rental_return_date):
             rental_orders = self.filtered('is_rental_order')
-            dates_per_rental_order = {ro: (ro.rental_start_date, ro.rental_return_date) for ro in rental_orders}
         res = super().write(vals)
         if rental_orders:
-
             def is_slot_to_update(slot):
-                start_datetime, end_datetime = dates_per_rental_order[slot.sale_order_id]
-                return slot.start_datetime == start_datetime and slot.end_datetime == end_datetime
+                return slot.role_sync_shift_rental and (slot.start_datetime != rental_start_date or slot.end_datetime != rental_return_date)
 
             if slots := rental_orders.order_line.planning_slot_ids.filtered(is_slot_to_update):
                 slots_vals = {}
@@ -50,3 +46,10 @@ class SaleOrder(models.Model):
                     slots_vals['end_datetime'] = rental_return_date
                 slots.with_context(rental_order_updated=True).write(slots_vals)
         return res
+
+    def action_confirm(self):
+        result = super().action_confirm()
+        rental_slots = self.filtered('is_rental_order').order_line.filtered('is_rental').planning_slot_ids.filtered(lambda slot: slot.start_datetime and slot.end_datetime and slot.state == 'draft')
+        if rental_slots:
+            rental_slots.write({'state': 'published'})
+        return result

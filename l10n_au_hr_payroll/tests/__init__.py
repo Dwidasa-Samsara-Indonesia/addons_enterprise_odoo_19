@@ -12,3 +12,4 @@ from . import test_seasonal_worker_payslip
 from . import test_seniors_payslip
 from . import test_misc_payslip
 from . import test_contract_template_whitelist
+from . import test_version

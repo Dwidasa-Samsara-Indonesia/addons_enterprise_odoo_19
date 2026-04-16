@@ -54,22 +54,15 @@ patch(FloorScreen.prototype, {
         if (!appointments) {
             return false;
         }
-        const startOfToday = DateTime.now().set({ hours: 0, minutes: 0, seconds: 0 });
-        appointments.map((appointment) => {
-            if (appointment.start < startOfToday) {
-                appointment.start = startOfToday;
-            }
-        });
-        const dt_now = DateTime.now();
-        const dt_tomorrow_ts = dt_now
-            .plus({ days: 1 })
-            .set({ hours: 0, minutes: 0, seconds: 0 }).ts;
+        const startOfToday = DateTime.now().startOf("day");
+        const dtNow = DateTime.now();
+        const dtTomorrowTs = dtNow.plus({ days: 1 }).startOf("day").ts;
         const possible_appointments = appointments.filter((a) => {
-            const ts_now = dt_now - (a.duration / 2) * 3600000;
-            const dt_ts = a.start.ts;
+            const effectiveStart = a.start < startOfToday ? startOfToday : a.start;
+            const tsNow = dtNow.ts - (a.duration / 2) * 3600000;
             return (
-                dt_ts > ts_now &&
-                dt_ts < dt_tomorrow_ts &&
+                effectiveStart.ts > tsNow &&
+                effectiveStart.ts < dtTomorrowTs &&
                 a.appointment_status !== "no_show" &&
                 a.appointment_status !== "attended"
             );

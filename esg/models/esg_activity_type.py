@@ -3,7 +3,7 @@ from odoo import fields, models
 
 class EsgActivityType(models.Model):
     _name = 'esg.activity.type'
-    _description = 'Activity Type'
+    _description = 'Activity Type ESG'
 
     name = fields.Char(required=True, translate=True)
 

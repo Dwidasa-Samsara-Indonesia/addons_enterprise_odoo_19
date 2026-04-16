@@ -78,9 +78,13 @@ class AccountMove(models.Model):
                       JOIN account_journal j
                         ON m.journal_id = j.id
                       JOIN res_company c
-                        ON c.currency_exchange_journal_id = j.id
+                        ON m.company_id = c.id
                      WHERE j.type='general'
-                       AND l.account_id = j.default_account_id
+                       AND j.id = c.currency_exchange_journal_id
+                       AND l.account_id IN (
+                           c.income_currency_exchange_account_id,
+                           c.expense_currency_exchange_account_id
+                       )
                        AND m.company_id IN %(dach_company_ids)s
                      GROUP BY l.move_id,
                               l.account_id
@@ -115,7 +119,7 @@ class AccountMove(models.Model):
 
         return super()._auto_init()
 
-    @api.depends('journal_id', 'line_ids', 'journal_id.default_account_id')
+    @api.depends('journal_id', 'line_ids', 'line_ids.account_id', 'journal_id.default_account_id')
     def _get_datev_account(self):
         for move in self:
             move.l10n_de_datev_main_account_id = value = False
@@ -134,7 +138,12 @@ class AccountMove(models.Model):
                 continue
             # If the move is an automatic exchange rate entry, take the gain/loss account set on the exchange journal
             elif move.journal_id.type == 'general' and move.journal_id == self.env.company.currency_exchange_journal_id:
-                lines = move.line_ids.filtered(lambda r: r.account_id == move.journal_id.default_account_id)
+                lines = move.line_ids.filtered(
+                    lambda r: r.account_id in (
+                        self.env.company.income_currency_exchange_account_id,
+                        self.env.company.expense_currency_exchange_account_id
+                    )
+                )
 
                 if len(lines) == 1:
                     move.l10n_de_datev_main_account_id = lines.account_id

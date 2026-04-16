@@ -4,7 +4,7 @@ from ast import literal_eval
 from collections import defaultdict
 from random import shuffle
 
-from odoo import Command, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import float_compare
 from odoo.tools.intervals import Intervals
@@ -27,32 +27,29 @@ class PlanningSlot(models.Model):
             rental_orders = rental_slots.sale_order_id.filtered('is_rental_order')
             if not rental_orders:
                 return res
-            shifts_per_sale_order = self.env['planning.slot']._read_group(
-                [
-                    ('sale_order_id', 'in', rental_orders.ids),
-                ],
-                ['sale_order_id'],
-                ['id:recordset'],
+            order_vals = dict()
+            if start_datetime := vals.get('start_datetime'):
+                order_vals['rental_start_date'] = start_datetime
+            if end_datetime := vals.get('end_datetime'):
+                order_vals['rental_return_date'] = end_datetime
+            update_sale_orders = rental_orders.filtered(lambda so:
+                start_datetime and so.rental_start_date != start_datetime
+                or end_datetime and so.rental_return_date != end_datetime
             )
-            updated_sale_order_ids = []
-            for sale_order, shifts in shifts_per_sale_order:
-                min_start_datetime = min(shifts.mapped('start_datetime'))
-                max_end_datetime = max(shifts.mapped('end_datetime'))
-                rental_order_vals = {}
-                if sale_order.rental_start_date != min_start_datetime:
-                    rental_order_vals['rental_start_date'] = min_start_datetime
-                if sale_order.rental_return_date != max_end_datetime:
-                    rental_order_vals['rental_return_date'] = max_end_datetime
-                if rental_order_vals:
-                    sale_order.sudo().with_context(slots_rescheduled=True).write(rental_order_vals)
-                    updated_sale_order_ids.append(sale_order.id)
-            if updated_sale_order_ids:
+            if update_sale_orders:
+                update_sale_orders.write(order_vals)
                 SaleOrderLine = self.env['sale.order.line']
                 self.env.add_to_compute(
                     SaleOrderLine._fields['name'],
-                    SaleOrderLine.sudo().search([('order_id', 'in', updated_sale_order_ids), ('is_rental', '=', True)])
+                    update_sale_orders.order_line.filtered('is_rental')
                 )
         return res
+
+    @api.ondelete(at_uninstall=False)
+    def _update_order_line_count(self):
+        for line, slots in self.grouped('sale_line_id').items():
+            if line:
+                line.update_product_uom_qty(line.planning_slot_ids - slots)
 
     def action_create_order(self):
         self.ensure_one()
@@ -99,18 +96,20 @@ class PlanningSlot(models.Model):
             if sol.product_template_id in products and float_compare(sol.planning_hours_to_plan, 0, precision_rounding=sol.product_uom_id.rounding) == 0:
                 self.sale_line_id = sol
                 break
+        if self.role_sync_shift_rental:
+            if order.rental_start_date != self.start_datetime or order.rental_return_date != self.end_datetime:
+                self.write({
+                    'start_datetime': order.rental_start_date,
+                    'end_datetime': order.rental_return_date,
+                })
         if not self.sale_line_id:
-            uom_hour = self.env.ref('uom.product_uom_hour')
             sale_line = order.order_line.filtered(
                 lambda l: l.is_rental and l.product_template_id in products
             )[:1]
             if sale_line:
                 self.sale_line_id = sale_line
-                sale_line.product_uom_qty = (
-                    sum(slot.allocated_hours for slot in sale_line.planning_slot_ids)
-                    if sale_line.product_uom_id == uom_hour else len(sale_line.planning_slot_ids)
-                )
             else:
+                uom_hour = self.env.ref('uom.product_uom_hour')
                 product = products[:1]
                 self.sale_line_id = self.env['sale.order.line'].with_context(planning_slot_generation=False).create({
                     'product_id': product.product_variant_id.id,
@@ -122,6 +121,7 @@ class PlanningSlot(models.Model):
         self.state = 'published'
         if not self.resource_id:
             self._set_slot_resource()
+        self.sale_line_id.update_product_uom_qty(self.sale_line_id.planning_slot_ids)
         if not (order.rental_start_date == self.start_datetime and order.rental_return_date == self.end_datetime):
             min_start_datetime, max_end_datetime = self.env['planning.slot']._read_group(
                 [('sale_order_id', '=', order.id)],
@@ -148,6 +148,9 @@ class PlanningSlot(models.Model):
         for slot in self:
             if not slot.role_id and slot.sale_line_id:
                 slot.role_id = slot.sale_line_id.sudo().product_id.planning_role_id
+        available_resources = self.role_id.resource_ids
+        if not available_resources:
+            return
         resources_per_role = dict(
             self.env['resource.resource']._read_group(
                 [('role_ids', 'in', self.role_id.ids)],
@@ -155,9 +158,6 @@ class PlanningSlot(models.Model):
                 ['id:recordset'],
             )
         )
-        available_resources = self.role_id.resource_ids
-        if not available_resources:
-            return
 
         def get_utc_timezone(utc_datetime):
             return pytz.utc.localize(utc_datetime)
@@ -177,19 +177,17 @@ class PlanningSlot(models.Model):
         for slot in self:
             slot_interval = Intervals([(get_utc_timezone(slot.start_datetime), get_utc_timezone(slot.end_datetime), slot)])
             resources = resources_per_role.get(slot.role_id, self.env['resource.resource'])
-            free_resources = []
-            for resource in resources:
+            shuffle(order := list(range(len(resources))))
+            for i in order:
+                resource = resources[i]
                 work_intervals = work_intervals_per_resource[resource.id]
                 unavailable_intervals = unavailable_intervals_per_resource.get(resource.id, Intervals())
                 if not (unavailable_intervals & slot_interval) and (work_intervals & slot_interval):
-                    free_resources.append(resource)
+                    slot.resource_id = resource
+                    unavailable_intervals_per_resource[resource.id] |= slot_interval
+                    break
 
-            shuffle(free_resources)
-
-            resource = self.env['resource.resource']
-            if free_resources:
-                slot.resource_id = free_resources[0]
-            else:
+            if not slot.resource_id:
                 problematic_shifts += slot
         if problematic_shifts:
             raise ValidationError(

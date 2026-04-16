@@ -179,3 +179,27 @@ class TestCodaFile(AccountTestInvoicingCommon):
             'balance_end': 10722.44,
             'balance_end_real': 10722.44,
         }])
+
+    def test_coda_parsing_ignore_statements(self):
+        """
+        In some cases, we do not need the returning statements but only the currency and account_number
+        """
+        coda_attachment = self.env['ir.attachment'].create({
+            'mimetype': 'application/text',
+            'name': 'test_coda_globalisation.coda',
+            'raw': self.coda_globalisation_file,
+        })
+        journal_eur = self.company_data['default_journal_bank']
+        journal_eur.currency_id = self.env.ref('base.EUR').id
+        journal_usd = self.company_data['default_journal_bank'].copy({
+            "name": "J2",
+            "code": "J2",
+            "currency_id": self.env.ref('base.USD').id,
+        })
+        journals = journal_eur | journal_usd
+
+        with self.assertRaisesRegex(ValueError, r"Expected singleton"):
+            journals._parse_bank_statement_file(coda_attachment.raw)
+
+        currency, __, __ = journals.with_context(ignore_statements=True)._parse_bank_statement_file(coda_attachment.raw)[0]
+        self.assertEqual(currency, "EUR")

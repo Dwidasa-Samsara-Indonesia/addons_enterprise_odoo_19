@@ -505,15 +505,17 @@ class SignRequest(models.Model):
                 self.env["ir.attachment"].create(attachment_values)
 
     def cancel(self):
-        for sign_request in self:
+        # Exclude sign requests that are in 'signed' state as they mustn't be canceled.
+        sign_requests = self.filtered(lambda request: request.state != 'signed')
+        for sign_request in sign_requests:
             sign_request.write({'access_token': self._default_access_token(), 'state': 'canceled'})
-        self.request_item_ids._cancel()
+        sign_requests.request_item_ids._cancel()
 
         # cancel activities for signers
-        for user in self.request_item_ids.sudo().partner_id.user_ids.filtered(lambda u: u.has_group('sign.group_sign_user')):
-            self.activity_unlink(['sign.mail_activity_data_signature_request'], user_id=user.id)
+        for user in sign_requests.request_item_ids.sudo().partner_id.user_ids.filtered(lambda u: u.has_group('sign.group_sign_user')):
+            sign_requests.activity_unlink(['sign.mail_activity_data_signature_request'], user_id=user.id)
 
-        self.env['sign.log'].sudo().create([{'sign_request_id': sign_request.id, 'action': 'cancel'} for sign_request in self])
+        self.env['sign.log'].sudo().create([{'sign_request_id': sign_request.id, 'action': 'cancel'} for sign_request in sign_requests])
 
     def _send_completed_documents(self):
         """ Send the completed document to signers and Contacts in copy with emails
@@ -689,7 +691,7 @@ class SignRequest(models.Model):
             mail_values['email_to'] = partner.email_formatted
 
         if partner and len(partner.user_ids) == 1 and partner.user_ids.notification_type == "inbox":
-            return self.message_notify(
+            self.message_notify(
                 attachment_ids=mail_values.get("attachment_ids"),
                 author_id=self.create_uid.partner_id.id,
                 body=body,

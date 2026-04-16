@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
 "PO-Revision-Date: 2025-12-30 18:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -67,16 +68,6 @@ msgid "2 Weeks"
 msgstr ""
 
 #. module: sale_renting
-#: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
-msgid "2023-08-01"
-msgstr ""
-
-#. module: sale_renting
-#: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
-msgid "2023-08-10"
-msgstr ""
-
-#. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_3_hours
 msgid "3 Hours"
 msgstr ""
@@ -111,15 +102,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid ""
 "<span invisible=\"duration_days != 1\"> day </span>\n"
-"                    <span invisible=\"duration_days in [0,1]\"> days </span>\n"
-"                    <span invisible=\"duration_days == 0 or remaining_hours == 0\">and </span>"
+"                    <span invisible=\"duration_days in [0,1]\"> days </"
+"span>\n"
+"                    <span invisible=\"duration_days == 0 or remaining_hours "
+"== 0\">and </span>"
 msgstr ""
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid ""
 "<span invisible=\"remaining_hours != 1\"> hour </span>\n"
-"                    <span invisible=\"remaining_hours in [0,1]\"> hours </span>"
+"                    <span invisible=\"remaining_hours in [0,1]\"> hours </"
+"span>"
 msgstr ""
 
 #. module: sale_renting
@@ -1396,8 +1390,8 @@ msgstr ""
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_res_config_settings__extra_day
 msgid ""
-"This is the default extra cost per day set on newly created products.You can"
-" change this value for existing products directly on the product itself."
+"This is the default extra cost per day set on newly created products.You can "
+"change this value for existing products directly on the product itself."
 msgstr ""
 
 #. module: sale_renting
@@ -1533,8 +1527,8 @@ msgstr ""
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_product_template_action
 msgid ""
-"You can also create additional products or services to sell by checking *Can"
-" be Sold* in the product form (e.g. insurance)."
+"You can also create additional products or services to sell by checking *Can "
+"be Sold* in the product form (e.g. insurance)."
 msgstr ""
 
 #. module: sale_renting

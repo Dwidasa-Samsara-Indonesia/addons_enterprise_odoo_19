@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+import datetime
 from dateutil.relativedelta import relativedelta
 from unittest.mock import patch
 
@@ -193,3 +194,30 @@ class TestCaseDocumentsBridgeHR(TestPayslipBase, TransactionCaseDocumentsHr):
         # Check if the documents are created
         documents = self.env['documents.document'].search([('res_model', '=', payslips._name), ('res_id', 'in', payslips.ids)])
         self.assertEqual(len(documents), 2)
+
+    def test_payslip_document_unlink_delete_document(self):
+        payslip_run = self.env['hr.payslip.run'].create({
+            'date_start': datetime.date.today() + relativedelta(years=-1, month=8, day=1),
+            'date_end': datetime.date.today() + relativedelta(years=-1, month=8, day=31),
+            'name': 'Payment Test'
+        })
+
+        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
+        payslip_run.with_context(payslip_generate_pdf=True).action_validate()
+
+        self.env['hr.payslip']._cron_generate_pdf()
+
+        payslip = payslip_run.slip_ids[0]
+
+        # Check if the document are created
+        documents = self.env['documents.document'].search([('res_model', '=', payslip._name), ('res_id', 'in', payslip.ids)])
+        self.assertEqual(len(documents), 1)
+
+        payslip_ids = payslip.ids
+
+        payslip.action_payslip_draft()
+        payslip_run.action_draft()
+        payslip_run.unlink()
+
+        documents = self.env['documents.document'].search([('res_model', '=', 'hr.payslip'), ('res_id', 'in', payslip_ids)])
+        self.assertEqual(len(documents), 0)

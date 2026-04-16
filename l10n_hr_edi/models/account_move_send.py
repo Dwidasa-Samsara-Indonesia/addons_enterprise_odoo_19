@@ -13,7 +13,7 @@ class AccountMoveSend(models.AbstractModel):
     _inherit = 'account.move.send'
 
     @api.model
-    def _check_move_constrains(self, moves):
+    def _check_move_constraints(self, moves):
         # HR-BR-37: Invoice must contain HR-BT-4: Operator code in accordance with the Fiscalization Act.
         if any((move.country_code == 'HR' and not move.l10n_hr_operator_name) for move in moves):
             raise UserError(self.env._("Operator label is required for sending invoices in Croatia."))
@@ -33,7 +33,7 @@ class AccountMoveSend(models.AbstractModel):
             any(any((tax.tax_exigibility == 'on_payment' and not tax.invoice_legal_notes) for tax in line.tax_ids
              ) for line in move.line_ids if line.display_type == 'product') for move in moves):
             raise ValidationError(self.env._('For Croatia, Legal Notes should be provided for all cash basis taxes.'))
-        super()._check_move_constrains(moves)
+        super()._check_move_constraints(moves)
 
     # -------------------------------------------------------------------------
     # SENDING METHODS
@@ -77,8 +77,9 @@ class AccountMoveSend(models.AbstractModel):
     def _generate_and_send_invoices(self, moves, from_cron=False, allow_raising=True, allow_fallback_pdf=False, **custom_settings):
         for move in moves:
             if move.country_code == 'HR' and move.is_sale_document():
-                move.l10n_hr_edi_addendum_id = self.env['l10n_hr_edi.addendum'].create({
-                    'move_id': move.id,
+                if not move.l10n_hr_edi_addendum_id:
+                    move.l10n_hr_edi_addendum_id = self.env['l10n_hr_edi.addendum'].create({'move_id': move.id})
+                move.l10n_hr_edi_addendum_id.write({
                     'fiscalization_number': move._get_l10n_hr_fiscalization_number(move.name),
                     'invoice_sending_time': fields.Datetime.now(pytz.timezone('Europe/Zagreb')),
                 })

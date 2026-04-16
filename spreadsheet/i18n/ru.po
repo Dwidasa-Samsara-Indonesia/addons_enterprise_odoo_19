@@ -5,13 +5,14 @@
 # Translators:
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:36+0000\n"
-"PO-Revision-Date: 2025-11-08 18:01+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:39+0000\n"
+"PO-Revision-Date: 2026-04-09 15:36+0000\n"
+"Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "spreadsheet/ru/>\n"
 "Language: ru\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -351,6 +352,12 @@ msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.xml:0
+msgid "A"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid ""
 "A boolean indicating whether to use A1 style notation (TRUE) or R1C1 style "
@@ -526,6 +533,12 @@ msgstr ""
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "A reference to a cell."
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "A segment of a string."
 msgstr "Участок строки."
 
@@ -613,6 +626,12 @@ msgstr "Абсолютное значение"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "Absolute value of a number."
 msgstr "Абсолютное значение числа."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/actions/spreadsheet_download_action.js:0
+msgid "Access Error"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -1373,7 +1392,9 @@ msgstr "Массив или диапазон, содержащий набор д
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid "Array result was not expanded because it would overwrite data in %s."
+#, fuzzy
+#| msgid "Array result was not expanded because it would overwrite data in %s."
+msgid "Array result was not expanded because it would overwrite data."
 msgstr ""
 "Результат массива не был расширен, так как это привело бы к перезаписи "
 "данных в %s."
@@ -2057,6 +2078,14 @@ msgstr "Тип диаграммы"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "Checkbox"
 msgstr "Чекбокс"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid ""
+"Checks whether there is a reference to a cell that contains a formula, and "
+"returns TRUE or FALSE."
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -6433,6 +6462,12 @@ msgstr "Функция OFFSET выходит за границы допусти�
 
 #. module: spreadsheet
 #. odoo-javascript
+#: code:addons/spreadsheet/static/src/helpers/geo_json_service.js:0
+msgid "Oceania"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "October"
 msgstr "Октябрь"
@@ -6442,6 +6477,24 @@ msgstr "Октябрь"
 #: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
 msgid "Odoo Bar Chart"
 msgstr "Горизонтальная гистограмма Odoo"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Combo Chart"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Funnel Chart"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Geo Chart"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -6458,7 +6511,19 @@ msgstr "Круговая диаграмма Odoo"
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Pyramid Chart"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
 msgid "Odoo Radar Chart"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Scatter Chart"
 msgstr ""
 
 #. module: spreadsheet
@@ -6466,6 +6531,24 @@ msgstr ""
 #: code:addons/spreadsheet/static/src/hooks.js:0
 msgid "Odoo Spreadsheet"
 msgstr "Электронная таблица Odoo"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Sunburst Chart"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Treemap Chart"
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/chart/plugins/odoo_chart_core_plugin.js:0
+msgid "Odoo Waterfall Chart"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -7422,6 +7505,10 @@ msgid ""
 "plain text, and \"v\" (for value) if the cell contains any other type of "
 "data."
 msgstr ""
+"Возвращает тип данных в ячейке, на которую ссылается. Возвращаются следующие "
+"значения: «b» для пустой ячейки, «l» (для метки), если ячейка содержит "
+"обычный текст, и «v» (для значения), если ячейка содержит любой другой тип "
+"данных."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -9396,6 +9483,9 @@ msgid ""
 "It will not be added to your OS clipboard.\n"
 "You can download it directly instead."
 msgstr ""
+"Файл, который вы пытаетесь скопировать, слишком велик (>%sМБ).\n"
+"Он не будет добавлен в буфер обмена вашей ОС.\n"
+"Вместо этого вы можете скачать его напрямую."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11159,6 +11249,12 @@ msgid ""
 "-1 finds the smallest value greater than or equal to search_key when range "
 "is sorted in descending order."
 msgstr ""
+"Метод search принимает число 1, 0 или -1, указывающее, какое значение "
+"следует вернуть. 1 находит наибольшее значение, меньшее или равное "
+"search_key, когда диапазон отсортирован в порядке возрастания. 0 находит "
+"точное значение, когда диапазон не отсортирован. -1 находит наименьшее "
+"значение, большее или равное search_key, когда диапазон отсортирован в "
+"порядке убывания."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -12394,6 +12490,10 @@ msgid ""
 "inconsistencies. Irregularities may indicate potential errors in formula "
 "structures, references, or arguments. (Click to turn off)"
 msgstr ""
+"Этот инструмент анализирует формулы в таблицах на наличие шаблонов и "
+"выделяет несоответствия. Несоответствия могут указывать на потенциальные "
+"ошибки в структурах формул, ссылках или аргументах. (Нажмите, чтобы "
+"отключить)"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -13512,6 +13612,13 @@ msgstr "Невозможно создать таблицы, которые пе�
 
 #. module: spreadsheet
 #. odoo-javascript
+#: code:addons/spreadsheet/static/src/actions/spreadsheet_download_action.js:0
+msgid ""
+"You don't have the rights to export data. Please contact an Administrator."
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.xml:0
 msgid "Zoom"
 msgstr "Масштаб"
@@ -13901,6 +14008,12 @@ msgstr "сегодня"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "tomorrow"
 msgstr "завтра"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/public_readonly_app/public_readonly.xml:0
+msgid "x"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript

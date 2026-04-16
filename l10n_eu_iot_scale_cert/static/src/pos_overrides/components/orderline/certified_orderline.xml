@@ -25,9 +25,19 @@
                         />
                         <div t-if="vals.taxGroup" t-esc="vals.taxGroup" class="text-end" style="width: 2rem"/>
                     </div>
+                    <!-- Units of measure and price per uom required for the LNE certification -->
+                    <div class="qty d-inline-block" t-att-class="{ 'align-items-center' : vals.isReceipt }">
+                        <div class="product-name d-flex flex-grow-1 pe-2 text-truncate" t-att-class="{ 'align-items-center' : vals.isReceipt }">
+                            <span class="qty d-inline-block" t-attf-class="{{ vals.isReceipt ? 'pe-2' : 'px-1' }}">
+                                <t t-if="line.getUnit().id !== 1" t-out="line.getUnit().name"/>
+                            </span>
+                            <span class="text-wrap d-inline">
+                                <small t-if="vals.displayPriceUnit" t-out="vals.displayPriceUnit" class="attribute-line fst-italic price-per-unit" />
+                            </span>
+                        </div>
+                    </div>
                     <ul class="info-list d-flex flex-column mb-0 ms-2" t-att-style="vals.isReceipt and 'font-size: 75%;'" t-att-class="infoListClasses">
-                        <li class="price-per-unit" t-if="vals.displayPriceUnit" t-out="vals.displayPriceUnit" />
-                        <li t-if="vals.discount" class="price-per-unit">
+                        <li t-if="vals.discount">
                             <i class="fa fa-tag pe-1"/><em><t t-esc="vals.discount" />% </em> discount off on <t t-esc="vals.noDiscountPrice"/>
                         </li>
                         <li t-if="line.customer_note" class="customer-note w-100 rounded text-break bg-opacity-25" t-att-class="{'bg-warning text-warning p-2': vals.isDisplay}">

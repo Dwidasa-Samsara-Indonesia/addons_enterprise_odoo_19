@@ -37,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 10:01+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-07 09:11+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/fi/>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -199,11 +199,6 @@ msgstr ""
 "* Jos palkkalaskelma vahvistetaan, tilaksi asetetaan 'Valmis'.\n"
 "\n"
 "* Kun käyttäjä peruuttaa palkkalaskelman, tila on 'Peruutettu'."
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
@@ -524,11 +519,6 @@ msgstr "<strong class=\"me-2\">Laskettu:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr "<strong class=\"me-2\">Sopimuksen alkamispäivä:</strong>"
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr "<strong class=\"me-2\">Sopimustyyppi:</strong>"
 
@@ -541,6 +531,11 @@ msgstr "<strong class=\"me-2\">Osasto:</strong>"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
 msgstr "<strong class=\"me-2\">Sähköposti:</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr "<strong class=\"me-2\">Aloituspäivä:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -654,8 +649,8 @@ msgstr ""
 "Palkantarkistus on toistuva summa rahaa, joka on määritetty\n"
 "                työntekijälle ja jota käytetään jokaisessa palkkalaskelmassa "
 "tietyn ajan.<br>\n"
-"                Esim. rahojen takaisinperintä, elatusapu, palkan arviointi, "
-"...<br><br>"
+"                Esim. rahojen takaisinperintä, elatusapu, palkan "
+"arviointi, ...<br><br>"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_work_entry_type_is_unforeseen_is_leave
@@ -836,7 +831,7 @@ msgstr "Aina tosi"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_tree
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "Amount"
-msgstr "Arvo"
+msgstr "Määrä"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__amount_other_input_id
@@ -2584,8 +2579,6 @@ msgid "General"
 msgstr "Yleinen"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Luo"
@@ -2615,6 +2608,12 @@ msgstr "Luo palkanmaksuerä"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "Generate Payslips"
 msgstr "Luo palkkalaskelmat"
+
+#. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr "Luo raportteja ("
 
 #. module: hr_payroll
 #. odoo-python
@@ -3873,12 +3872,6 @@ msgid "PDF generation started. It will be available shortly."
 msgstr "PDF-tiedostojen tuottaminen on aloitettu. Se on pian saatavilla."
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr "PDF:t"
-
-#. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state_display__paid
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_run__state__03_paid
@@ -4580,7 +4573,7 @@ msgstr "Tietueet"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 msgid "Reference"
-msgstr "Numero"
+msgstr "Viite"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__reference_month
@@ -5179,7 +5172,7 @@ msgstr "Aloitus"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__date_start
 msgid "Start Date"
-msgstr "Alkupäivä"
+msgstr "Aloituspäivä"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__state
@@ -5539,8 +5532,8 @@ msgstr "Ajanjaksolta ei ole laadittavaa ilmoitusta"
 msgid ""
 "There is no valid payslip (validated and net wage > 0) to generate the file."
 msgstr ""
-"Tiedoston luomiseksi ei ole voimassa olevaa palkkalaskelmaa "
-"(vahvistettu ja nettopalkka > 0)."
+"Tiedoston luomiseksi ei ole voimassa olevaa palkkalaskelmaa (vahvistettu ja "
+"nettopalkka > 0)."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6582,6 +6575,15 @@ msgstr "{{ object.employee_id.name }}, uusi palkkalaskelma on saatavilla"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆Näetkö tuon yllä olevan valikon?"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "PDFs"
+#~ msgstr "PDF:t"
+
+#~ msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
+#~ msgstr "<strong class=\"me-2\">Sopimuksen alkamispäivä:</strong>"
 
 #~ msgid "Other Input Types"
 #~ msgstr "Muut syöttötyypit"

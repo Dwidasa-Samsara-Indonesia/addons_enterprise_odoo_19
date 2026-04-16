@@ -88,6 +88,10 @@
                 <TpoDocRef t-out="referencia['TpoDocRef']"/>
                 <Serie t-out="referencia['Serie']"/>
                 <NroCFERef t-out="referencia['NroCFERef']"/>
+                <FechaCFEref t-out="referencia.get('FechaCFEref')"/>
+                <MntCFEref t-out="format_float(referencia.get('MntCFEref'), 2)"/>
+                <TpoMonedaRef t-out="referencia.get('TpoMonedaRef')"/>
+                <TpoCambioRef t-out="format_float(referencia.get('TpoCambioRef'), 3)"/>
             </Referencia>
         </Referencia>
     </template>

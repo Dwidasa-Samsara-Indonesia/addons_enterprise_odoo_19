@@ -113,6 +113,7 @@ test("Action action_download_spreadsheet is correctly fired with topbar menu", a
     expect(actionParam).toEqual({
         xlsxData: model.exportXLSX(),
         name: UNTITLED_SPREADSHEET_NAME.toString(),
+        sources: [],
     });
 });
 

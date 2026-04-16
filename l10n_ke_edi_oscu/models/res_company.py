@@ -7,7 +7,6 @@ import json
 from json.decoder import JSONDecodeError
 from markupsafe import Markup
 import contextlib
-from datetime import datetime
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError, RedirectWarning
@@ -81,9 +80,10 @@ class ResCompany(models.Model):
         compute_sudo=True,
     )
 
-    l10n_ke_oscu_last_fetch_purchase_date = fields.Datetime(default=datetime(2018, 1, 1))
+    l10n_ke_oscu_last_fetch_purchase_date = fields.Datetime()
 
     # === Computes === #
+
     @api.depends('l10n_ke_oscu_cmc_key', 'l10n_ke_branch_code', 'l10n_ke_server_mode')
     def _compute_l10n_ke_oscu_is_active(self):
         for company in self:

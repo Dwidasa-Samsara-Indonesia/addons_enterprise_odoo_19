@@ -86,7 +86,6 @@ class QualityCheck(models.Model):
         self.ensure_one()
         if self.production_id and failure_location_id:
             self.production_id.move_finished_ids.location_dest_id = failure_location_id
-            self.failure_location_id = failure_location_id
         return super()._move_to_failure_location_operation(failure_location_id)
 
     def _move_to_failure_location_product(self, failure_location_id):
@@ -95,7 +94,6 @@ class QualityCheck(models.Model):
             self.production_id.move_finished_ids.filtered(
                 lambda m: m.product_id == self.product_id
             ).location_dest_id = failure_location_id
-        self.failure_location_id = failure_location_id
         return super()._move_to_failure_location_product(failure_location_id)
 
     def _should_hide_production_id(self):

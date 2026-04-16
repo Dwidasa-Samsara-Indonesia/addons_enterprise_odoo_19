@@ -55,6 +55,11 @@ class HrEmployee(models.Model):
             employee.l10n_ae_total_unpaid_days = employee_duration_sums.get(employee, 0) / (employee._get_hours_per_day(employee.version_id.date_start) or 8)
 
     def _compute_l10n_ae_annual_leave_days(self):
+        if not self.ids:
+            for record in self:
+                record.l10n_ae_annual_leave_days_taken = 0
+                record.l10n_ae_annual_leave_days_total = 0
+            return
         self.env.cr.execute("""
             SELECT
                 sum(h.number_of_days) AS days,

@@ -145,7 +145,7 @@ class L10n_Be281_10(models.Model):
     @api.model
     def _get_atn_nature(self, payslips):
         result = ''
-        if any(payslip.vehicle_id or payslip.version_id.car_id for payslip in payslips):
+        if payslips._get_line_values(['ATN.CAR'], compute_sum=True)['ATN.CAR']['sum']['total']:
             result += 'F'
         if any(payslip.version_id.has_laptop for payslip in payslips):
             result += 'H'
@@ -299,7 +299,7 @@ class L10n_Be281_10(models.Model):
 
             cycle_days_amount = sum(all_line_values['CYCLE'][p.id]['total'] for p in payslips)
             if cycle_days_amount:
-                cycle_km = sum(all_line_values['CYCLE'][p.id]['quantity'] * p.version_id.km_home_work for p in payslips)
+                cycle_km = sum(all_line_values['CYCLE'][p.id]['quantity'] * p.version_id.km_home_work * 2 for p in payslips)
             else:
                 cycle_km = 0
 

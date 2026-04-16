@@ -9,7 +9,12 @@
         <field name="condition_select">python</field>
         <field name="condition_python">result = version.l10n_hk_rental_id and version._get_contract_wage() &gt;= 10000 and 'SKIP_RENT_ALLOWANCE' not in inputs</field>
         <field name="amount_select">code</field>
-        <field name="amount_python_compute">result = min(version._get_contract_wage() - 10000, version.l10n_hk_rental_id.amount, payslip.paid_amount)</field>
+        <field name="amount_python_compute">
+target_rent = min(version._get_contract_wage() - 10000, version.l10n_hk_rental_id.amount)
+remaining_budget = max(target_rent - l10n_hk_payrun_totals['HRA'], 0.0)
+
+result = min(remaining_budget, payslip.paid_amount)
+        </field>
         <field name="struct_id" ref="l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary"/>
     </record>
 
@@ -61,12 +66,10 @@ result = payslip.paid_amount - result_rules['HRA']['total']
         <field name="condition_python">result = bool(not payslip.is_outside_contract and version.l10n_hk_internet)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-prorata_rate = 1
-total_days = sum([wd.number_of_days for wd in payslip.worked_days_line_ids])
-actual_work_days = payslip._get_number_of_worked_days()
-if total_days:
-    prorata_rate = actual_work_days / total_days
-result = version.l10n_hk_internet * prorata_rate
+target_amount = version.l10n_hk_internet * worked_days_prorata_rate
+remaining_budget = max(version.l10n_hk_internet - l10n_hk_payrun_totals['ALW.INT'], 0.0)
+
+result = min(target_amount, remaining_budget)
         </field>
         <field name="struct_id" ref="l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary"/>
     </record>
@@ -199,14 +202,19 @@ else:
         <field name="sequence">111</field>
         <field name="condition_select">python</field>
         <field name="condition_python">
+cumulative_gross = l10n_hk_payrun_totals['MPF_GROSS'] + result_rules['MPF_GROSS']['total']
 first_mpf_date = employee._get_first_version_date() + relativedelta(days=30)
-is_above_mpf_threshold = result_rules['MPF_GROSS']['total'] &gt;= payslip._rule_parameter('l10n_hk_mpf_threshold')
-is_allowed_to_contribute = not employee.birthday or employee.birthday &gt; date.today() - relativedelta(years=65)
+is_above_mpf_threshold = cumulative_gross &gt;= payslip._rule_parameter('l10n_hk_mpf_threshold')
+is_allowed_to_contribute = not employee.birthday or employee.birthday &gt; payslip.date_from - relativedelta(years=65)
+
 result = is_above_mpf_threshold and first_mpf_date &lt;= payslip.date_from and is_allowed_to_contribute
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -min(0.05 * result_rules['MPF_GROSS']['total'], payslip._rule_parameter('l10n_hk_mpf_maximum'))
+cumulative_gross = l10n_hk_payrun_totals['MPF_GROSS'] + result_rules['MPF_GROSS']['total']
+target_monthly_mpf = min(0.05 * cumulative_gross, payslip._rule_parameter('l10n_hk_mpf_maximum'))
+
+result = -(target_monthly_mpf - abs(l10n_hk_payrun_totals['EEMC']))
         </field>
         <field name="struct_id" ref="l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary" />
         <field name="appears_on_payslip">True</field>
@@ -219,11 +227,14 @@ result = -min(0.05 * result_rules['MPF_GROSS']['total'], payslip._rule_parameter
         <field name="sequence">111</field>
         <field name="condition_select">python</field>
         <field name="condition_python">
-result = not employee.birthday or employee.birthday &gt; date.today() - relativedelta(years=65)
+result = not employee.birthday or employee.birthday &gt; payslip.date_to - relativedelta(years=65)
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -min(0.05 * result_rules['MPF_GROSS']['total'], payslip._rule_parameter('l10n_hk_mpf_maximum'))
+cumulative_gross = l10n_hk_payrun_totals['MPF_GROSS'] + result_rules['MPF_GROSS']['total']
+target_monthly_mpf = min(0.05 * cumulative_gross, payslip._rule_parameter('l10n_hk_mpf_maximum'))
+
+result = -(target_monthly_mpf - abs(l10n_hk_payrun_totals['ERMC']))
         </field>
         <field name="struct_id" ref="l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary" />
         <field name="appears_on_payslip" eval="False"/>
@@ -238,10 +249,16 @@ result = -min(0.05 * result_rules['MPF_GROSS']['total'], payslip._rule_parameter
         <field name="condition_python">result = version.l10n_hk_mpf_vc_option in ['custom', 'max']</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+cumulative_gross = l10n_hk_payrun_totals['MPF_GROSS'] + result_rules['MPF_GROSS']['total']
+
 if version.l10n_hk_mpf_vc_option == 'custom':
-    result = -version.l10n_hk_mpf_vc_percentage * result_rules['MPF_GROSS']['total']
+    target_monthly_eevc = version.l10n_hk_mpf_vc_percentage * cumulative_gross
 else:
-    result = -max(0.05 * result_rules['MPF_GROSS']['total'] - payslip._rule_parameter('l10n_hk_mpf_maximum') , 0)
+    target_total = 0.05 * cumulative_gross
+    statutory_max = payslip._rule_parameter('l10n_hk_mpf_maximum')
+    target_monthly_eevc = max(target_total - statutory_max, 0.0)
+
+result = -(target_monthly_eevc - abs(l10n_hk_payrun_totals['EEVC']))
         </field>
         <field name="struct_id" ref="l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary" />
         <field name="appears_on_payslip">True</field>

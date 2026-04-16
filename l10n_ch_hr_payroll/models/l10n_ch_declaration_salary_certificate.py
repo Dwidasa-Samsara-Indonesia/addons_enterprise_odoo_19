@@ -4,6 +4,7 @@ import re
 from odoo import fields, models, _
 from ..api.swissdec_declarations import SwissdecDeclaration, SwissdecInstitution
 import math
+import time
 
 
 class L10nChSalaryCertificate(models.Model):
@@ -112,7 +113,7 @@ class L10nChSalaryCertificate(models.Model):
                     'employee_id': employee.id,
                     'res_model': self._name,
                     'res_id': self.id,
-                    'pdf_filename': _("Wage_statement_%(year)s_%(name)s", year=self.year, name=employee.name),
+                    'pdf_filename': _("Wage_statement_correction_%(year)s_%(name)s_%(timestamp)s", year=self.year, name=employee.name, timestamp=time.time_ns()),
                     'pdf_to_generate': False,
                     'state': 'pdf_generated',
                     'pdf_file': pdf_b64
@@ -159,3 +160,9 @@ class L10nChSalaryCertificate(models.Model):
             substitution_declaration_id=self.substituted_declaration_id.swissdec_declaration_id,
             CurrentMonth=(self.year, int(self.month), False)
         )
+
+    def _get_posted_mail_template(self):
+        return self.env.ref('documents_hr_payroll.mail_template_new_declaration', raise_if_not_found=False)
+
+    def _get_posted_document_owner(self, employee):
+        return employee.user_id

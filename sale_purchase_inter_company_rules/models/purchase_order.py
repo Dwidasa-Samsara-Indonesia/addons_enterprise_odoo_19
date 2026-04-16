@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import api, Command, fields, models, _
 from odoo.exceptions import UserError
 
 
@@ -121,6 +121,7 @@ class PurchaseOrder(models.Model):
         price = line.price_unit or 0.0
         quantity = line.product_id and line.product_uom_id._compute_quantity(line.product_qty, line.product_id.uom_id) or line.product_qty
         price = line.product_id and line.product_uom_id._compute_price(price, line.product_id.uom_id) or price
+        product_no_variant_attribute_value_ids = line.product_no_variant_attribute_value_ids
         return {
             'name': line.name,
             'product_uom_qty': quantity,
@@ -130,4 +131,5 @@ class PurchaseOrder(models.Model):
             'discount': line.discount or 0.0,
             'company_id': company.id,
             'display_type': line.display_type,
+            'product_no_variant_attribute_value_ids': [Command.set(product_no_variant_attribute_value_ids.ids)]
         }

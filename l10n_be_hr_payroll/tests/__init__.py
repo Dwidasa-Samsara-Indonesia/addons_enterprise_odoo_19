@@ -13,3 +13,7 @@ from . import test_payroll_withholding_taxes_with_child_allowances
 from . import test_hr_payroll_employee_departure_notice
 from . import test_hr_change_schedule_wizard
 from . import test_contract_template_whitelist
+from . import test_hr_employee_first_contract_date
+from . import test_payroll_eco_vouchers_export
+from . import test_payroll_employee_activities
+from . import test_hr_employee

@@ -109,3 +109,41 @@ class TestL10AccountMoveReversal(TestL10nClEdiCommon):
             ('debit_origin_id', '=', invoice.id),
         ])
         self.assertRecordValues(debit_note, [{'amount_total': 800.0}])
+
+    def test_l10n_cl_invoice_reversal_sequence(self):
+        """After having FAC 000001 posted, posting a second invoice must have the expected sequence number (FAC 000002)
+        even if no CAF is available """
+
+        company = self.company_data['company']
+        doc_type_33 = self.env.ref('l10n_cl.dc_a_f_dte')
+        prefix = doc_type_33.doc_code_prefix
+        inv1 = self.env['account.move'].with_company(company).create({
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_sii.id,
+            'company_id': company.id,
+            'date': fields.Date.from_string('2019-10-23'),
+            'invoice_date': fields.Date.from_string('2019-10-23'),
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'quantity': 1,
+            })],
+        })
+        inv1.action_post()
+        self.assertEqual(inv1.name, f"{prefix} 000001")
+        self.env['l10n_cl.dte.caf'].sudo().search([
+            ('l10n_latam_document_type_id', '=', doc_type_33.id),
+            ('status', '=', 'in_use'),
+        ]).write({'status': 'spent'})
+        inv2 = self.env['account.move'].with_company(company).create({
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_sii.id,
+            'company_id': company.id,
+            'date': fields.Date.from_string('2019-10-23'),
+            'invoice_date': fields.Date.from_string('2019-10-23'),
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'quantity': 1,
+            })],
+        })
+        inv2.action_post()
+        self.assertEqual(inv2.name, f"{prefix} 000002")

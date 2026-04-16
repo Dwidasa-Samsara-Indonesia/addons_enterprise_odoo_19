@@ -12,7 +12,7 @@ from odoo.tools.urls import urljoin as url_join
 class FrontdeskVisitor(models.Model):
     _name = 'frontdesk.visitor'
     _description = 'Frontdesk Visitors'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'hr.mixin']
     _order = 'check_in'
 
     active = fields.Boolean(default=True)

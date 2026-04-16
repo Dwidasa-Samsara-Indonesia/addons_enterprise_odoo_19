@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
 "PO-Revision-Date: 2025-12-06 10:00+0000\n"
 "Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Romanian <https://translate.odoo.com/projects/odoo-19/"
@@ -3478,8 +3478,6 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log_report__state__draft
@@ -4481,6 +4479,16 @@ msgid "The start date indicate when the subscription periods begin."
 msgstr "Data de început indică când încep perioadele de abonament."
 
 #. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/sale_order.py:0
+msgid ""
+"The start date of an upsell cannot be greater or equal to the next invoice "
+"date of the subscription %s.\n"
+"You should first invoice the original subscription, use an earlier start "
+"date for the upsell or create a renewal quotation."
+msgstr ""
+
+#. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
 msgid "The subscription was renewed with a new plan"
 msgstr "Abonamentul a fost reînnoit cu un nou program"
@@ -5068,17 +5076,6 @@ msgstr "Nu puteți vinde suplimentar un abonament folosind o monedă diferită."
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid ""
-"You cannot upsell a subscription whose next invoice date is in the past.\n"
-"Please, invoice directly the %s contract."
-msgstr ""
-"Nu puteți revinde un abonament a cărui dată a următoarei facturi este în "
-"trecut.\n"
-"Vă rugăm să facturați direct %s contractul."
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
 "You cannot validate a renewal quotation starting before the next invoice "
 "date of the parent contract. Please update the start date after the %s."
 msgstr ""
@@ -5325,6 +5322,14 @@ msgstr ""
 "{{ object.company_id.name }}: Abonamentul dvs. {{ object.name }} are nevoie "
 "de atenția dvs. Dacă aveți vreo problemă cu el, vă rugăm să contactați "
 "{{ object.user_id.name }}, persoana de contact."
+
+#~ msgid ""
+#~ "You cannot upsell a subscription whose next invoice date is in the past.\n"
+#~ "Please, invoice directly the %s contract."
+#~ msgstr ""
+#~ "Nu puteți revinde un abonament a cărui dată a următoarei facturi este în "
+#~ "trecut.\n"
+#~ "Vă rugăm să facturați direct %s contractul."
 
 #~ msgid "Applied On"
 #~ msgstr "Aplicat în"

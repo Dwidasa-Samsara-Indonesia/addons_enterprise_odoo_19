@@ -1,11 +1,18 @@
 from lxml import etree
 
-from odoo import api, models
+from odoo import api, fields, models
 from odoo.tools import float_repr
 
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
+
+    has_iso_se_payment_method = fields.Boolean(compute='_compute_has_iso_se_payment_method')
+
+    @api.depends('outbound_payment_method_line_ids.payment_method_id.code')
+    def _compute_has_iso_se_payment_method(self):
+        for journal in self:
+            journal.has_iso_se_payment_method = 'iso20022_se' in journal.outbound_payment_method_line_ids.payment_method_id.mapped('code')
 
     @api.depends('bank_acc_number', 'company_id.account_fiscal_country_id', 'company_id.country_id')
     def _compute_sepa_pain_version(self):
@@ -74,7 +81,7 @@ class AccountJournal(models.Model):
 
         FinInstnId = etree.Element("FinInstnId")
         bic_code = self._get_cleaned_bic_code(bank_account, payment_method_code)
-        if mode == 'DbtrAgt' and bank_account.bank_bic == 'SWEDSESS':
+        if mode == 'DbtrAgt':
             BIC = etree.SubElement(FinInstnId, self._get_bic_tag(payment_method_code))
             BIC.text = bic_code
             return FinInstnId
@@ -87,7 +94,8 @@ class AccountJournal(models.Model):
         if bank_account.acc_type == 'bankgiro':
             MmbId.text = '9900'
         elif bank_account.acc_type == 'plusgiro':
-            MmbId.text = '9500'
+            bank_code, _acc_num, _checksum = bank_account._se_get_acc_number_data(bank_account.acc_number)
+            MmbId.text = '9960' if bank_code and bank_code.startswith('996') else '9500'
         else:
             if not bank_account.acc_number.isdigit():
                 _bban, bank_code = bank_account._se_get_bban_from_iban()
@@ -124,28 +132,6 @@ class AccountJournal(models.Model):
                             RmtdAmt.text = float_repr(ccy.round(payment['amount']), 2)
                         strd.insert(0, RfrdDocAmt)
         return RmtInf
-
-    def _get_cleaned_bic_code(self, bank_account, payment_method_code):
-        """
-        Return the cleaned or hardcoded BIC code for the given bank account.
-
-        This override handles Swedish-specific account types for SEPA payments:
-        - Bankgiro accounts return 'SE:Bankgiro'
-        - Plusgiro accounts return 'SE:Plusgiro'
-
-        For all other account types and countries, the method falls back to the
-        standard implementation.
-
-        :param bank_account: The bank account record to retrieve the BIC for.
-        :type bank_account: res.partner.bank
-        :param payment_method_code: The payment method code, e.g., 'iso20022_se'.
-        :type payment_method_code: str
-        :return: The cleaned BIC code or a hardcoded SE-specific BIC.
-        :rtype: str
-        """
-        if payment_method_code == 'iso20022_se' and bank_account.acc_type in ('plusgiro', 'bankgiro'):
-            return 'SE:Bankgiro' if bank_account.acc_type == 'bankgiro' else 'SE:Plusgiro'
-        return super()._get_cleaned_bic_code(bank_account, payment_method_code)
 
     def _skip_CdtrAgt(self, partner_bank, payment_method_code):
         """

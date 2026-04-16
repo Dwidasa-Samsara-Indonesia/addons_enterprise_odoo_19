@@ -274,6 +274,7 @@ class HrPayslip(models.Model):
         overtime_work_entry = self.env.ref('hr_work_entry.l10n_ch_swissdec_overtime_wt', raise_if_not_found=False)
         overtime_125_work_entry = self.env.ref('hr_work_entry.l10n_ch_swissdec_overtime_125_wt', raise_if_not_found=False)
         overtime_150_work_entry = self.env.ref('l10n_ch_hr_payroll.l10n_ch_swissdec_overtime_150_wt', raise_if_not_found=False)
+        overtime_200_work_entry = self.env.ref('l10n_ch_hr_payroll.l10n_ch_swissdec_overtime_200_wt', raise_if_not_found=False)
         on_call_duty_125_work_entry = self.env.ref('l10n_ch_hr_payroll.l10n_ch_swissdec_oncall_125_wt', raise_if_not_found=False)
         night_shift_110_work_entry = self.env.ref('l10n_ch_hr_payroll.l10n_ch_swissdec_night_110_wt', raise_if_not_found=False)
         
@@ -455,6 +456,23 @@ class HrPayslip(models.Model):
                     'rate': sum(grouped_one_time_by_input_wage_types.get("WT_Overtime_150").mapped('amount')),
                 })]
 
+            if grouped_recurring_by_input_wage_types.get("WT_Overtime_200", False):
+                worked_day_vals += [(0, 0, {
+                    'sequence': 15,
+                    'work_entry_type_id': overtime_200_work_entry.id,
+                    'salary_base': hourly_wage * 2.0,
+                    'rate': sum(grouped_recurring_by_input_wage_types.get("WT_Overtime_200").mapped(
+                        'amount')) * base_days / total_days,
+                })]
+
+            if grouped_one_time_by_input_wage_types.get("WT_Overtime_200", False):
+                worked_day_vals += [(0, 0, {
+                    'sequence': 15,
+                    'work_entry_type_id': overtime_200_work_entry.id,
+                    'salary_base': hourly_wage * 2.0,
+                    'rate': sum(grouped_one_time_by_input_wage_types.get("WT_Overtime_200").mapped('amount')),
+                })]
+
             if grouped_recurring_by_input_wage_types.get("WT_on_call_125", False):
                 worked_day_vals += [(0, 0, {
                     'sequence': 15,
@@ -576,10 +594,25 @@ class HrPayslip(models.Model):
         if not elm_slips:
             return super()._compute_basic_net()
         line_values = (self._origin)._get_line_values(["WT_1000", "BASICHOURLY", "BASICLESSON", "GROSS_SALARY", 'NET', 'Net_Paid'])
+        employer_cost_codes = set(self.env['hr.salary.rule'].search([
+            ('appears_on_employee_cost_dashboard', '=', True),
+            ('struct_id.code', '=', 'CHMONTHLYELM')
+        ]).mapped('code'))
+        employer_cost_values = {}
+        if employer_cost_codes:
+            employer_cost_values = (self._origin)._get_line_values(employer_cost_codes)
         for payslip in elm_slips:
+            employer_cost_total = 0.0
+            payslip_employer_codes = payslip.struct_id.rule_ids.filtered(
+                'appears_on_employee_cost_dashboard'
+            ).mapped('code')
+            for code in payslip_employer_codes:
+                employer_cost_total += employer_cost_values[code][payslip._origin.id]['total']
+
             payslip.basic_wage = line_values['WT_1000'][payslip._origin.id]['total'] + line_values['BASICHOURLY'][payslip._origin.id]['total'] + line_values['BASICLESSON'][payslip._origin.id]['total']
             payslip.gross_wage = line_values['GROSS_SALARY'][payslip._origin.id]['total']
             payslip.net_wage = line_values['NET'][payslip._origin.id]['total'] + line_values['Net_Paid'][payslip._origin.id]['total']
+            payslip.employer_cost = employer_cost_total
         super(HrPayslip, self - elm_slips)._compute_basic_net()
 
     def _get_base_local_dict(self):
@@ -615,6 +648,8 @@ class HrPayslip(models.Model):
                     ('struct_id.code', '=', 'CHMONTHLYELM'),
                     ('l10n_ch_after_departure_payment', '=', False),
                 ], order="date_from DESC", limit=1)
+                if not reference_payslip:
+                    raise ValidationError(_("A previous payslip in the system is required for after departure payement to work."))
                 if reference_payslip.date_from.year != self.date_from.year:
                     date_from = date(reference_payslip.date_from.year, 1, 1)
                     date_to = self.date_from
@@ -1152,3 +1187,21 @@ class HrPayslip(models.Model):
             ])
 
         return res
+
+    def _get_third_party_payment_wage_types(self):
+        return {
+            'WT_2000',
+            'WT_2005',
+            'WT_2010',
+            'WT_2020',
+            'WT_2021',
+            'WT_2022',
+            'WT_2025',
+            'WT_2026',
+            'WT_2027',
+            'WT_2030',
+            'WT_2031',
+            'WT_2032',
+            'WT_2035',
+            "WT_2040",
+        }

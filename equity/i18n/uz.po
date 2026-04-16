@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
 "PO-Revision-Date: 2025-10-08 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -341,6 +341,12 @@ msgstr ""
 "davlatlarning tartibga solinadigan bozorida muomalada bo‘lgan kompaniya; yoki"
 
 #. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid "A partner cannot have transactions in different currencies."
+msgstr ""
+
+#. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
 #, fuzzy
 msgid ""
@@ -480,6 +486,11 @@ msgstr "Xaridor"
 #, fuzzy
 msgid "CEO"
 msgstr "Bosh direktor"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__can_change_currency
+msgid "Can Change Currency"
+msgstr ""
 
 #. module: equity
 #. odoo-python
@@ -2242,6 +2253,17 @@ msgid ""
 msgstr ""
 "Siz 25% dan kam aksiyaga yoki ovoz berish huquqiga ega bo‘lgan har qanday "
 "aksiyadorni olib tashlashingiz mumkin."
+
+#. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+#, fuzzy
+msgid ""
+"You cannot change the equity currency because this partner already has "
+"existing transactions."
+msgstr ""
+"Bog‘langan tranzaksiyalar mavjudligi sababli xavfsizlik sinfi turini "
+"o‘zgartirib bo‘lmaydi"
 
 #. module: equity
 #. odoo-javascript

@@ -820,3 +820,72 @@ class TestDeliverySendCloud(TransactionCase):
                 picking.action_assign()
 
                 picking._action_done()
+
+    def test_sendcloud_small_weight(self):
+        """ Test that a weight smaller than 1g is does not raise an error"""
+        small_product = self.env["product.product"].create({
+            'name': 'Small product',
+            'type': 'consu',
+            'weight': 0.00005,
+        })
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.eu_partner.id,
+            'order_line': [
+                Command.create({
+                    'product_id': small_product.id,
+                    'product_uom_qty': 1.0,
+                }),
+                Command.create({
+                    'product_id': self.product_to_ship1.id,
+                    'product_uom_qty': 1.0,
+                }),
+            ]
+        })
+        wiz_action = sale_order.action_open_delivery_wizard()
+        choose_delivery_carrier = self.env[wiz_action['res_model']].with_context(wiz_action['context']).create({
+            'carrier_id': self.sendcloud.id,
+            'order_id': sale_order.id,
+        })
+        with _mock_sendcloud_call(self.warehouse_id):
+            api = self.sendcloud._get_sendcloud()
+            choose_delivery_carrier.update_price()
+            choose_delivery_carrier.button_confirm()
+            sale_order.action_confirm()
+            picking = sale_order.picking_ids[0]
+            for move in picking.move_ids:
+                move.quantity = move.product_uom_qty
+                move.picked = True
+            picking.button_validate()
+            sender_id = api._get_pick_sender_address(picking)
+            parcels = api._prepare_parcel(picking, sender_id, is_return=False)
+        items = parcels[0].get('parcel_items', [])
+        self.assertEqual(items[0]['weight'], '0.001')
+        self.assertEqual(items[1]['weight'], '6.000')
+
+    def test_get_shipping_prices_no_sendcloud_response(self):
+        '''
+        Ensure no traceback when sendcloud doesn't return any price for 'shipping-price' requests
+        '''
+        original_send_request = SendCloud._send_request
+
+        def patched_send_request(self, endpoint, method='get', data=None, params=None, route="https://panel.sendcloud.sc/api/v2/"):
+            if endpoint == 'shipping-price':
+                return []
+            return original_send_request(self, endpoint, method, data, params, route)
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.us_partner.id,
+            'order_line': [
+                Command.create({
+                    'product_id': self.product_to_ship1.id
+                }),
+            ]
+        })
+        wiz_action = sale_order.action_open_delivery_wizard()
+        choose_delivery_carrier = self.env[wiz_action['res_model']].with_context(wiz_action['context']).create({
+            'carrier_id': self.sendcloud.id,
+            'order_id': sale_order.id
+        })
+        with patch.object(SendCloud, '_send_request', side_effect=patched_send_request, autospec=True):
+            with _mock_sendcloud_call(self.warehouse_id):
+                choose_delivery_carrier.update_price()

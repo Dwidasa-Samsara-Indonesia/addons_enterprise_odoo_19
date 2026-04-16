@@ -28,7 +28,7 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
                     'name': str(payslip.id),
                     'amount': amount,
                     'bank_account': ba,
-                    'account_holder': employee,
+                    'account_holder': ba.partner_id or employee,
                     'transaction_code': "53",  # PAYROLL
                     'reference': str(payslip.id),
                 })

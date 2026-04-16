@@ -80,7 +80,7 @@
                         <t t-set="bank" t-value="o.employee_id.bank_account_ids.filtered(lambda b: str(b.id) == alloc[0])[0]"/>
                         To pay on 
                         <span class="fw-bold" t-esc="bank.acc_number or 'N/A'"/> 
-                        of <span class="fst-italic" t-field="o.employee_id.legal_name"/>: 
+                        of <span class="fst-italic" t-field="bank.acc_holder_name"/>: 
                         <span t-esc="alloc[1]" class="fw-bold" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                     </p>
                     <t t-if="not allocations">

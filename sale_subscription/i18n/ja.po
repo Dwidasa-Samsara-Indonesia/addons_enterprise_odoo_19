@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-05 10:56+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-03-25 05:58+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "sale_subscription/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_subscription
 #. odoo-python
@@ -3441,8 +3441,6 @@ msgid "Quantity"
 msgstr "数量"
 
 #. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log_report__state__draft
@@ -4241,7 +4239,8 @@ msgid ""
 "Subscriptions late in renewing (e.g., automatic payment is failing "
 "continuously,customer didn't pay, etc.) will be automatically closed after "
 "this period."
-msgstr "更新が遅れているサブスクリプション(例：自動支払いが継続的に失敗している、顧客"
+msgstr ""
+"更新が遅れているサブスクリプション(例：自動支払いが継続的に失敗している、顧客"
 "が支払っていないなど)は、この期間後に自動的に終了します。"
 
 #. module: sale_subscription
@@ -4437,6 +4436,16 @@ msgid "The start date indicate when the subscription periods begin."
 msgstr "開始日は、サブスクリプション期間の開始日を示します。"
 
 #. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/sale_order.py:0
+msgid ""
+"The start date of an upsell cannot be greater or equal to the next invoice "
+"date of the subscription %s.\n"
+"You should first invoice the original subscription, use an earlier start "
+"date for the upsell or create a renewal quotation."
+msgstr ""
+
+#. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
 msgid "The subscription was renewed with a new plan"
 msgstr "サブスクリプションが新規プランで更新されました。"
@@ -4514,7 +4523,8 @@ msgstr ""
 msgid ""
 "This subscription is overdue and exceeds the auto-close limit of the "
 "recurring plan. It will be closed soon by the system."
-msgstr "このサブスクリプションは支払期限を過ぎており、定期プランの自動クローズ上限を"
+msgstr ""
+"このサブスクリプションは支払期限を過ぎており、定期プランの自動クローズ上限を"
 "超えています。システムにより、まもなくクローズされます。"
 
 #. module: sale_subscription
@@ -4541,7 +4551,7 @@ msgstr "終了予定"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
 msgid "To Invoice"
-msgstr "未請求"
+msgstr "請求対象"
 
 #. module: sale_subscription
 #. odoo-python
@@ -5016,16 +5026,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid ""
-"You cannot upsell a subscription whose next invoice date is in the past.\n"
-"Please, invoice directly the %s contract."
-msgstr ""
-"次の請求日が過去のサブスクリプションをアップセルすることはできません。直接%s"
-"契約に請求して下さい。"
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
 "You cannot validate a renewal quotation starting before the next invoice "
 "date of the parent contract. Please update the start date after the %s."
 msgstr ""
@@ -5269,6 +5269,13 @@ msgstr ""
 "{{ object.company_id.name }}:お客様のサブスクリプション {{ object.name }} に"
 "ついてご確認下さい。もしご不明な点がございましたら、担当 "
 "{{ object.user_id.name }}宛にご連絡下さい。"
+
+#~ msgid ""
+#~ "You cannot upsell a subscription whose next invoice date is in the past.\n"
+#~ "Please, invoice directly the %s contract."
+#~ msgstr ""
+#~ "次の請求日が過去のサブスクリプションをアップセルすることはできません。直"
+#~ "接%s契約に請求して下さい。"
 
 #~ msgid "Applied On"
 #~ msgstr "適用対象"

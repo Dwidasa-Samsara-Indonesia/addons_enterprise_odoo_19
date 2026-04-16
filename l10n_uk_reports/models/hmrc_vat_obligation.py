@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import RedirectWarning, UserError
 import json
 import requests
 import logging
@@ -106,6 +106,13 @@ class L10n_UkVatObligation(models.Model):
             foreign_vat = self.env.company.fiscal_position_ids.filtered(lambda fp: fp.country_id.code == 'GB').foreign_vat
 
         vat = foreign_vat or self.env.company.vat
+
+        if not vat:
+            raise RedirectWarning(
+                self.env._("No VAT number associated with %(company_name)s. Please define one", company_name=self.env.company.name),
+                self.env.company._get_records_action(),
+                self.env._("Company Settings")
+            )
 
         # The VAT sent to HMRC should not include the GB or XI prefix.
         if vat.startswith(('GB', 'XI')):

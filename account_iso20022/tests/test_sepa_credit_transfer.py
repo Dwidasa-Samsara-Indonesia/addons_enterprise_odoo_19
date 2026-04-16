@@ -1,7 +1,7 @@
 import base64
 from lxml import etree
 
-from odoo import Command
+from odoo import Command, fields
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.account_batch_payment.models.sepa_mapping import sanitize_communication
 from odoo.tests.common import test_xsd
@@ -110,10 +110,12 @@ class TestSEPACreditTransfer(TestSEPACreditTransferCommon):
         self.assertEqual(self.bank_journal.sepa_pain_version, 'pain.001.001.09')
 
         # Change IBAN prefix to Germany and check that the pain version is updated accordingly
+        self.bank_journal.bank_account_id.allow_out_payment = False
         self.bank_journal.bank_acc_number = 'DE89370400440532013000'
         self.assertEqual(self.bank_journal.sepa_pain_version, 'pain.001.001.03.de')
 
         # Provide an invalid IBAN to see if the pain version falls back to the company's fiscal country
+        self.bank_journal.bank_account_id.allow_out_payment = False
         self.bank_journal.bank_acc_number = 'DEL48363523682327'
         self.env.company.account_fiscal_country_id = self.env.company.country_id = self.env.ref('base.at')
         self.assertEqual(self.bank_journal.sepa_pain_version, 'pain.001.001.03.austrian.004')
@@ -161,7 +163,7 @@ class TestSEPACreditTransfer(TestSEPACreditTransferCommon):
         InstrId = ct_doc.findtext('.//ns:InstrId', namespaces=namespaces)
         self.assertEqual(name, "AIN.N")
         self.assertEqual(street, "icekthN")
-        self.assertEqual(len(InstrId), 31, "InstrId should be trimmed to 31 characters: `35 - len('amp;')`")
+        self.assertIn("Wynand + Olivier", InstrId, "'&' should be replaced with '+' in InstrId")
 
     def test_sepa_with_no_end_to_end_id(self):
         """
@@ -230,6 +232,11 @@ class TestSEPACreditTransfer(TestSEPACreditTransferCommon):
         payment = self.createPayment(self.partner_a, 500, '020343057642')
         self._check_structured_reference('be', payment)
 
+    def test_structured_reference_dk(self):
+        self.partner_a.country_id = self.env.ref('base.dk')
+        payment = self.createPayment(self.partner_a, 500, '+71<000000001234566+88655702<')
+        self._check_structured_reference('dk', payment)
+
     def test_structured_reference_ch(self):
         self.partner_a.country_id = self.env.ref('base.ch')
         payment = self.createPayment(self.partner_a, 500, '000000000000000000000012371')
@@ -266,6 +273,41 @@ class TestSEPACreditTransfer(TestSEPACreditTransferCommon):
             # Selected untrusted account - show warnings
             wizard_form.partner_bank_id = untrusted_bank
             self.assertEqual(wizard_form.untrusted_payments_count, 1)
+
+        # Set up a second bill with the same supplier
+        second_vendor_bill = self.init_invoice('in_invoice', partner=self.partner_a, post=True, amounts=[2000], products=[self.product_a])
+        # Set same untrusted bank account on payments (to check untrusted_payments_count later)
+        (vendor_bill + second_vendor_bill).partner_bank_id = untrusted_bank
+
+        # Set up a third bill to pay them both in 1 wizard
+        vendor_bill_installements = self.env['account.move'].create({
+            # This bill has 2 installments
+            'move_type': 'in_invoice',
+            'partner_id': self.partner_b.id,
+            'invoice_date': fields.Date.today(),
+            'invoice_payment_term_id': self.env.ref('account.account_payment_term_advance_60days').id,
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'quantity': 1.0,
+                'name': 'test product',
+                'price_unit': 100,
+            })]
+        })
+        self.partner_b.bank_ids.allow_out_payment = False
+        vendor_bill_installements.action_post()
+
+        with Form(self.env['account.payment.register'].with_context(
+                active_model='account.move', active_ids=[vendor_bill.id, second_vendor_bill.id, vendor_bill_installements.id]
+        )) as wizard_form:
+            wizard_form.payment_method_line_id = self.sepa_ct
+            # There are 4 payments as the third bill has 2 installments but we only want to count 3 as we only pay the first installment
+            self.assertEqual(wizard_form.total_payments_amount, 3)
+            self.assertEqual(wizard_form.untrusted_payments_count, 3)
+            self.assertTrue(wizard_form.can_group_payments)
+            wizard_form.group_payment = True
+            # 1 payment per supplier
+            self.assertEqual(wizard_form.total_payments_amount, 2)
+            self.assertEqual(wizard_form.untrusted_payments_count, 2)
 
 
 @tagged('external_l10n', 'post_install', '-at_install', '-standard')

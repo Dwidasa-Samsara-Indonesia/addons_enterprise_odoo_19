@@ -7,7 +7,7 @@ class PlanningCalendarResource(models.Model):
     _name = 'planning.calendar.resource'
     _description = 'planning calendar resource'
 
-    user_id = fields.Many2one('res.users', 'Me', required=True, default=lambda self: self.env.user, ondelete='cascade', export_string_translation=False)
+    user_id = fields.Many2one('res.users', 'Me', required=True, index=True, default=lambda self: self.env.user, ondelete='cascade', export_string_translation=False)
     resource_id = fields.Many2one('resource.resource', 'resource', export_string_translation=False)
     active = fields.Boolean('Active', default=True, export_string_translation=False)
     resource_type = fields.Selection(related='resource_id.resource_type', export_string_translation=False)

@@ -32,18 +32,20 @@ class AECGenerator(models.TransientModel):
             'move_type': 'entry',
             'l10n_cl_dte_status': 'not_sent'
         })
-        lines_data = [{
-            'name': _('Yield of invoice %(invoice_name)s for partner %(partner_name)s') % {
-                'invoice_name': move.name, 'partner_name': move.partner_id.name},
-            'credit': line.debit,
-            'debit': line.credit,
-            'partner_id': line.partner_id.id,
-            'account_id': line.account_id.id,
-        } for line in move.line_ids.filtered(lambda x: x.account_id.account_type == 'asset_receivable')]
+        lines_data = []
+        for line in move.line_ids.filtered(lambda x: x.account_id.account_type == 'asset_receivable'):
+            lines_data.append({
+                'name': _('Yield of invoice %(invoice_name)s for partner %(partner_name)s',
+                    invoice_name=move.name, partner_name=move.partner_id.name),
+                'credit': line.debit,
+                'debit': line.credit,
+                'partner_id': line.partner_id.id,
+                'account_id': line.account_id.id,
+            })
         total_credit = sum(line['credit'] - line['debit'] for line in lines_data)
         counterpart_line = {
-            'name': _('Yield of invoice %(invoice_name)s for partner %(partner_name)s') % {
-                'invoice_name': move.name, 'partner_name': move.partner_id.name},
+            'name': _('Yield of invoice %(invoice_name)s for partner %(partner_name)s',
+                invoice_name=move.name, partner_name=move.partner_id.name),
             'account_id': move.company_id.l10n_cl_factoring_counterpart_account_id.id,
             'partner_id': factoring_partner.id,
             'date_maturity': invoice_date_due,

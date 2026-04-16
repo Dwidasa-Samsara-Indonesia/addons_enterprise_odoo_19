@@ -4,17 +4,17 @@
     <menuitem id="menu_action_account_report_aged_receivable" name="Aged Receivable" action="action_account_report_ar" groups="account.group_account_readonly,account.group_account_basic" parent="account.account_reports_partners_reports_menu"/>
     <menuitem id="menu_action_account_report_aged_payable" name="Aged Payable" action="action_account_report_ap" groups="account.group_account_readonly,account.group_account_basic" parent="account.account_reports_partners_reports_menu"/>
     <menuitem id="account_reports_audit_menu" name="Ledgers" parent="account.menu_finance_reports" sequence="2">
-        <menuitem id="menu_action_account_report_coa" name="Trial Balance" action="action_account_report_coa" groups="account.group_account_readonly"/>
-        <menuitem id="menu_action_account_report_general_ledger" name="General Ledger" action="action_account_report_general_ledger" groups="account.group_account_readonly"/>
+        <menuitem id="menu_action_account_report_coa" name="Trial Balance" action="action_account_report_coa" groups="account.group_account_readonly,account.group_account_basic"/>
+        <menuitem id="menu_action_account_report_general_ledger" name="General Ledger" action="action_account_report_general_ledger" groups="account.group_account_readonly,account.group_account_basic"/>
     </menuitem>
 
     <menuitem id="menu_action_account_report_gt" name="Tax Report" action="action_account_report_gt" parent="account.account_reports_taxes_and_fiscal_menu" groups="account.group_account_readonly,account.group_account_basic"/>
-    <menuitem id="menu_action_account_report_sales" action="action_account_report_sales" parent="account.account_reports_taxes_and_fiscal_menu" sequence="20" groups="account.group_account_readonly" active="False"/>
+    <menuitem id="menu_action_account_report_sales" action="action_account_report_sales" parent="account.account_reports_taxes_and_fiscal_menu" sequence="20" groups="account.group_account_readonly,account.group_account_basic" active="False"/>
 
-    <menuitem id="menu_action_account_report_balance_sheet" name="Balance Sheet" action="action_account_report_bs" parent="account.account_reports_legal_statements_menu" groups="account.group_account_readonly"/>
-    <menuitem id="menu_action_account_report_profit_and_loss" name="Profit and Loss" action="action_account_report_pl" parent="account.account_reports_legal_statements_menu" groups="account.group_account_readonly"/>
-    <menuitem id="menu_action_account_report_cash_flow" name="Cash Flow Statement" action="action_account_report_cs" parent="account.account_reports_legal_statements_menu" groups="account.group_account_readonly"/>
-    <menuitem id="menu_action_account_report_exec_summary" name="Executive Summary" action="action_account_report_exec_summary" parent="account.account_reports_management_menu" groups="account.group_account_readonly"/>
+    <menuitem id="menu_action_account_report_balance_sheet" name="Balance Sheet" action="action_account_report_bs" parent="account.account_reports_legal_statements_menu" groups="account.group_account_readonly,account.group_account_basic"/>
+    <menuitem id="menu_action_account_report_profit_and_loss" name="Profit and Loss" action="action_account_report_pl" parent="account.account_reports_legal_statements_menu" groups="account.group_account_readonly,account.group_account_basic"/>
+    <menuitem id="menu_action_account_report_cash_flow" name="Cash Flow Statement" action="action_account_report_cs" parent="account.account_reports_legal_statements_menu" groups="account.group_account_readonly,account.group_account_basic"/>
+    <menuitem id="menu_action_account_report_exec_summary" name="Executive Summary" action="action_account_report_exec_summary" parent="account.account_reports_management_menu" groups="account.group_account_readonly,account.group_account_basic"/>
     <menuitem id="menu_action_account_report_tree" name="Accounting Reports" parent="account.account_account_menu" action="action_account_report_tree" groups="base.group_no_one"/>
     <menuitem id="menu_action_account_report_horizontal_groups" name="Horizontal Groups" action="action_account_report_horizontal_groups" parent="account.account_account_menu" sequence="10" groups="base.group_no_one"/>
     <menuitem id="menu_action_return_types" name="Return Types" action="action_view_account_return_types" parent="account.account_account_menu" sequence="11" groups="base.group_no_one"/>

@@ -357,8 +357,9 @@ class HrPayslip(models.Model):
         total_other_payments = 0
 
         rules = self.line_ids.salary_rule_id
+        entitled_subsidy = next((line.amount for line in self.line_ids if line.code == 'SUBSIDY'), 0.0)
         if 'SUBSIDY' not in rules.mapped('code'):
-            rules |= self.env.ref('l10n_mx_hr_payroll.l10n_mx_regular_pay_subsidy', raise_if_not_found=False)
+            rules |= subsidy_rule
         for rule in rules:
             concept = rule.l10n_mx_concept
             if not concept:
@@ -408,7 +409,7 @@ class HrPayslip(models.Model):
                     'clave': concept.payroll_code,
                     'concepto': concept.name,
                     'importe': amount,
-                    'subsidio_causado': amount if concept.sat_code == '002' else 0,
+                    'subsidio_causado': entitled_subsidy if concept.sat_code == '002' else 0,
                     'saldo_a_favor': amount if concept.sat_code == '001' else 0,
                     'año': self.date_from.year,
                     'remanente_sal_fav': 0.0,
@@ -428,7 +429,7 @@ class HrPayslip(models.Model):
         nomina['total_deducciones'] = total_deductions or None
         cfdi_values['nomina_deducciones'] = {
             'total_otras_deducciones': total_other_deductions,
-            'total_impuestos_retenidos': total_taxes_withheld,
+            'total_impuestos_retenidos': total_taxes_withheld or None,
         }
 
         nomina['total_otros_pagos'] = total_other_payments

@@ -20,6 +20,7 @@ PLANNED_VISITOR_TIME = 45
 class FrontdeskFrontdesk(models.Model):
     _name = 'frontdesk.frontdesk'
     _description = 'Frontdesk'
+    _inherit = ['hr.mixin']
     _order = 'is_favorite desc'
 
     name = fields.Char('Frontdesk Name', required=True)

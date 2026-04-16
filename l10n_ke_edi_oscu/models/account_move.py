@@ -636,7 +636,7 @@ class AccountMove(models.Model):
         for company in companies:
             error, data, _date = company._l10n_ke_call_etims(
                 'selectTrnsPurchaseSalesList',
-                {'lastReqDt': format_etims_datetime(company.l10n_ke_oscu_last_fetch_purchase_date or datetime.datetime(2018, 1, 1))}
+                {'lastReqDt': format_etims_datetime(company.l10n_ke_oscu_last_fetch_purchase_date or datetime(2018, 1, 1))}
             )
             if error:
                 if error['code'] == '001':

@@ -3,12 +3,14 @@
 import base64
 from odoo import Command
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
-from odoo.tools import mute_logger
+from odoo.tools import file_open
 
 TEXT = base64.b64encode(bytes("workflow bridge project", 'utf-8'))
 
 
+@tagged('post_install', '-at_install')
 class TestCaseDocumentsBridgeExpense(TransactionCase):
 
     @classmethod
@@ -26,14 +28,15 @@ class TestCaseDocumentsBridgeExpense(TransactionCase):
         })
 
     def _create_txt_attachment_for_documents_user(self):
+        with file_open('base/tests/minimal.pdf', 'rb') as f:
+            pdf_file = f.read()
         return self.env['documents.document'].with_user(self.documents_user).create({
-            'datas': 'JVBERi0gRmFrZSBQREYgY29udGVudA==',
+            'raw': pdf_file,
             'name': 'file.pdf',
             'mimetype': 'application/pdf',
             'folder_id': self.folder_internal.id,
         })
 
-    @mute_logger('odoo.addons.documents.models.documents_document', 'pypdf._reader')
     def test_create_document_to_expense(self):
         """
         Makes sure the hr expense is created from the document.
@@ -58,7 +61,6 @@ class TestCaseDocumentsBridgeExpense(TransactionCase):
         self.assertTrue(expense.exists(), 'expense sholud be created.')
         self.assertEqual(document_txt.res_id, expense.id, "Expense should be linked to document")
 
-    @mute_logger('odoo.addons.documents.models.documents_document', 'pypdf._reader')
     def test_create_document_to_expense_without_employee(self):
         """
         Make sure UserError is raised when creating expense from document

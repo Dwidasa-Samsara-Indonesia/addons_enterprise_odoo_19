@@ -144,27 +144,25 @@ class PrivateCardViewDialog extends Component {
         cardCvcElement.focus = () => {};
         cardCvcElement.mount(this.cvcPlaceholder.el);
 
-        if (this.state.card.card_type === "physical") {
-            let cardPinElement = elements.create(
-                "issuingCardPinDisplay",
-                {
-                    issuingCard: this.stripe_id,
-                    nonce: this.state.nonce,
-                    ephemeralKeySecret: this.state.ephemeralKey,
-                    style: {
-                        base: {
-                            color: cookie.get("color_scheme") === "dark" ? '#fff' : '#000',
-                            fontWeight: 400,
-                            fontSize: '14px',
-                            alignSelf: 'center'
-                        },
-                    }
+        let cardPinElement = elements.create(
+            "issuingCardPinDisplay",
+            {
+                issuingCard: this.stripe_id,
+                nonce: this.state.nonce,
+                ephemeralKeySecret: this.state.ephemeralKey,
+                style: {
+                    base: {
+                        color: cookie.get("color_scheme") === "dark" ? '#fff' : '#000',
+                        fontWeight: 400,
+                        fontSize: '14px',
+                        alignSelf: 'center'
+                    },
                 }
-            );
-            // Small Fix as sometimes when we click on the numbers it calls focus which is not available for issuing elements
-            cardPinElement.focus = () => {};
-            cardPinElement.mount(this.pinPlaceholder.el);
-        }
+            }
+        );
+        // Small Fix as sometimes when we click on the numbers it calls focus which is not available for issuing elements
+        cardPinElement.focus = () => {};
+        cardPinElement.mount(this.pinPlaceholder.el);
 
         //Copy buttons
         let cardNumberCopyElement = elements.create(

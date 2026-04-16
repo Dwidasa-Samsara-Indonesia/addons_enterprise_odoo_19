@@ -7,166 +7,143 @@ from odoo.addons.stock_barcode.tests.test_barcode_client_action import TestBarco
 
 @tagged('post_install', '-at_install')
 class TestBarcodeBatchClientAction(TestBarcodeClientAction):
-    def setUp(self):
-        super().setUp()
-
-        self.env.ref('base.user_admin').write({
-            'email': 'mitchell.admin@example.com',
-        })
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         # Create some products
-        self.product3 = self.env['product.product'].create({
-            'name': 'product3',
+        cls.product3, cls.product4, cls.product5 = cls.env['product.product'].create([{
+            'name': name,
             'is_storable': True,
-            'barcode': 'product3',
-        })
-        self.product4 = self.env['product.product'].create({
-            'name': 'product4',
-            'is_storable': True,
-            'barcode': 'product4',
-        })
-        self.product5 = self.env['product.product'].create({
-            'name': 'product5',
-            'is_storable': True,
-            'barcode': 'product5',
-        })
+            'barcode': name,
+        } for name in ('product3', 'product4', 'product5')])
 
         # Create locations dedicated to package
-        self.shelf5 = self.env['stock.location'].create({
+        cls.shelf5 = cls.env['stock.location'].create({
             'name': 'Section 5',
-            'location_id': self.stock_location.id,
+            'location_id': cls.stock_location.id,
             'barcode': 'shelf5',
         })
 
         # Create some packages
-        self.package1 = self.env['stock.package'].create({'name': 'p5pack01'})
-        self.package2 = self.env['stock.package'].create({'name': 'p5pack02'})
+        cls.package1, cls.package2 = cls.env['stock.package'].create([{'name': f'p5pack0{i}'} for i in (1, 2)])
 
         # Create some quants (for deliveries)
-        Quant = self.env['stock.quant']
-        quants = Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product1.id,
-            'location_id': self.shelf1.id,
+        cls.env['stock.quant'].with_context(inventory_mode=True).create([{
+            'product_id': cls.product1.id,
+            'location_id': cls.shelf1.id,
             'inventory_quantity': 2
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product2.id,
-            'location_id': self.shelf2.id,
+        }, {
+            'product_id': cls.product2.id,
+            'location_id': cls.shelf2.id,
             'inventory_quantity': 1
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product2.id,
-            'location_id': self.shelf3.id,
+        }, {
+            'product_id': cls.product2.id,
+            'location_id': cls.shelf3.id,
             'inventory_quantity': 1
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product3.id,
-            'location_id': self.shelf3.id,
+        }, {
+            'product_id': cls.product3.id,
+            'location_id': cls.shelf3.id,
             'inventory_quantity': 2
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product4.id,
-            'location_id': self.shelf1.id,
+        }, {
+            'product_id': cls.product4.id,
+            'location_id': cls.shelf1.id,
             'inventory_quantity': 1
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product4.id,
-            'location_id': self.shelf4.id,
+        }, {
+            'product_id': cls.product4.id,
+            'location_id': cls.shelf4.id,
             'inventory_quantity': 1
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product5.id,
-            'location_id': self.shelf5.id,
-            'package_id': self.package1.id,
+        }, {
+            'product_id': cls.product5.id,
+            'location_id': cls.shelf5.id,
+            'package_id': cls.package1.id,
             'inventory_quantity': 4,
-        })
-        quants |= Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product5.id,
-            'location_id': self.shelf5.id,
+        }, {
+            'product_id': cls.product5.id,
+            'location_id': cls.shelf5.id,
             'inventory_quantity': 4,
-        })
-        quants.action_apply_inventory()
+        }]).action_apply_inventory()
 
         # Create a first receipt for 2 products.
-        picking_form = Form(self.env['stock.picking'])
-        picking_form.picking_type_id = self.picking_type_in
+        picking_form = Form(cls.env['stock.picking'])
+        picking_form.picking_type_id = cls.picking_type_in
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product1
+            move.product_id = cls.product1
             move.product_uom_qty = 1
         with picking_form.move_ids.new() as move:
-            move.product_id = self.productserial1
+            move.product_id = cls.productserial1
             move.product_uom_qty = 2
-        self.picking_receipt_1 = picking_form.save()
-        self.picking_receipt_1.action_confirm()
+        cls.picking_receipt_1 = picking_form.save()
+        cls.picking_receipt_1.action_confirm()
 
         # Create a second receipt for 2 products.
-        picking_form = Form(self.env['stock.picking'])
-        picking_form.picking_type_id = self.picking_type_in
+        picking_form = Form(cls.env['stock.picking'])
+        picking_form.picking_type_id = cls.picking_type_in
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product1
+            move.product_id = cls.product1
             move.product_uom_qty = 3
         with picking_form.move_ids.new() as move:
-            move.product_id = self.productlot1
+            move.product_id = cls.productlot1
             move.product_uom_qty = 8
-        self.picking_receipt_2 = picking_form.save()
-        self.picking_receipt_2.action_confirm()
+        cls.picking_receipt_2 = picking_form.save()
+        cls.picking_receipt_2.action_confirm()
 
         # Changes name of pickings to be able to track them on the tour
-        self.picking_receipt_1.name = 'picking_receipt_1'
-        self.picking_receipt_2.name = 'picking_receipt_2'
+        cls.picking_receipt_1.name = 'picking_receipt_1'
+        cls.picking_receipt_2.name = 'picking_receipt_2'
 
         # Create a first delivery for 2 products.
-        picking_form = Form(self.env['stock.picking'])
-        picking_form.picking_type_id = self.picking_type_out
+        picking_form = Form(cls.env['stock.picking'])
+        picking_form.picking_type_id = cls.picking_type_out
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product1
+            move.product_id = cls.product1
             move.product_uom_qty = 1
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product2
+            move.product_id = cls.product2
             move.product_uom_qty = 2
-        self.picking_delivery_1 = picking_form.save()
-        self.picking_delivery_1.action_confirm()
-        self.picking_delivery_1.action_assign()
+        cls.picking_delivery_1 = picking_form.save()
+        cls.picking_delivery_1.action_confirm()
+        cls.picking_delivery_1.action_assign()
 
         # Create a second delivery for 3 products.
-        picking_form = Form(self.env['stock.picking'])
-        picking_form.picking_type_id = self.picking_type_out
+        picking_form = Form(cls.env['stock.picking'])
+        picking_form.picking_type_id = cls.picking_type_out
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product1
+            move.product_id = cls.product1
             move.product_uom_qty = 1
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product3
+            move.product_id = cls.product3
             move.product_uom_qty = 2
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product4
+            move.product_id = cls.product4
             move.product_uom_qty = 2
-        self.picking_delivery_2 = picking_form.save()
-        self.picking_delivery_2.action_confirm()
-        self.picking_delivery_2.action_assign()
+        cls.picking_delivery_2 = picking_form.save()
+        cls.picking_delivery_2.action_confirm()
+        cls.picking_delivery_2.action_assign()
 
         # Create a delivery dedicated to package testing.
-        picking_form = Form(self.env['stock.picking'])
-        picking_form.picking_type_id = self.picking_type_out
+        picking_form = Form(cls.env['stock.picking'])
+        picking_form.picking_type_id = cls.picking_type_out
         with picking_form.move_ids.new() as move:
-            move.product_id = self.product5
+            move.product_id = cls.product5
             move.product_uom_qty = 8
-        self.picking_delivery_package = picking_form.save()
-        self.picking_delivery_package.action_confirm()
-        self.picking_delivery_package.action_assign()
+        cls.picking_delivery_package = picking_form.save()
+        cls.picking_delivery_package.action_confirm()
+        cls.picking_delivery_package.action_assign()
 
         # Create another quant with package after reservation to test scan
         # unexpected package in the Barcode App.
-        Quant.with_context(inventory_mode=True).create({
-            'product_id': self.product5.id,
-            'location_id': self.shelf5.id,
-            'package_id': self.package2.id,
+        cls.env['stock.quant'].with_context(inventory_mode=True).create({
+            'product_id': cls.product5.id,
+            'location_id': cls.shelf5.id,
+            'package_id': cls.package2.id,
             'inventory_quantity': 4,
         }).action_apply_inventory()
 
         # Changes name of pickings to be able to track them on the tour
-        self.picking_delivery_1.name = 'picking_delivery_1'
-        self.picking_delivery_2.name = 'picking_delivery_2'
-        self.picking_delivery_package.name = 'picking_delivery_package'
+        cls.picking_delivery_1.name = 'picking_delivery_1'
+        cls.picking_delivery_2.name = 'picking_delivery_2'
+        cls.picking_delivery_package.name = 'picking_delivery_package'
 
     def _get_batch_client_action_url(self, batch_id):
         return f'/odoo/{batch_id}/action-stock_barcode_picking_batch.stock_barcode_picking_batch_client_action'
@@ -1072,3 +1049,61 @@ class TestBarcodeBatchClientAction(TestBarcodeClientAction):
             {'picking_id': receipts.ids[1], 'result_package_id': packages.ids[0], 'product_id': products.ids[0], 'quantity': 3.0},
             {'picking_id': receipts.ids[1], 'result_package_id': packages.ids[1], 'product_id': products.ids[1], 'quantity': 3.0},
         ])
+
+    def test_barcode_batch_GS1_scan_barcode_with_new_serial(self):
+        """
+        Ensure scanning a GS1 barcode with a wrong serial updates the serial of the existing line.
+        """
+        self.env.user.write({'group_ids': [
+            Command.link(self.env.ref('stock.group_tracking_lot').id),
+            Command.link(self.env.ref('stock.group_production_lot').id)
+        ]})
+        self.env.company.nomenclature_id = self.env.ref('barcodes_gs1_nomenclature.default_gs1_nomenclature')
+        self.picking_type_out.use_create_lots = True
+
+        self.productserial1.barcode = '23456789012344'
+        sn1 = self.env['stock.lot'].create({
+            'name': 'sn1',
+            'product_id': self.productserial1.id,
+            'company_id': self.env.company.id,
+        })
+        self.env['stock.quant']._update_available_quantity(self.productserial1, self.stock_location, 1, lot_id=sn1)
+        self.env['stock.quant']._update_available_quantity(self.product2, self.stock_location, 10)
+        picking_delivery_serial_1, picking_delivery_product_2 = self.env['stock.picking'].create([
+            {
+                'name': 'Delivery for product serial 1',
+                'location_id': self.stock_location.id,
+                'location_dest_id': self.customer_location.id,
+                'picking_type_id': self.picking_type_out.id,
+                'move_ids': [Command.create({
+                    'location_id': self.stock_location.id,
+                    'location_dest_id': self.customer_location.id,
+                    'product_id': self.productserial1.id,
+                    'product_uom': self.uom_unit.id,
+                    'product_uom_qty': 1,
+                })],
+            }, {
+                'name': 'Delivery for product 2',
+                'location_id': self.stock_location.id,
+                'location_dest_id': self.customer_location.id,
+                'picking_type_id': self.picking_type_out.id,
+                'move_ids': [Command.create({
+                    'location_id': self.stock_location.id,
+                    'location_dest_id': self.customer_location.id,
+                    'product_id': self.product2.id,
+                    'product_uom': self.uom_unit.id,
+                    'product_uom_qty': 1,
+                })],
+            },
+        ])
+        batch = self.env['stock.picking.batch'].create({
+            'picking_ids': [
+                Command.link(picking_delivery_serial_1.id),
+                Command.link(picking_delivery_product_2.id)
+            ],
+        })
+        batch.action_confirm()
+        self.assertEqual(picking_delivery_serial_1.lot_id.id, sn1.id)
+        url = self._get_batch_client_action_url(batch.id)
+        self.start_tour(url, 'test_barcode_batch_GS1_scan_barcode_with_new_serial', login='admin', timeout=180)
+        self.assertEqual(picking_delivery_serial_1.lot_id.name, 'BATCHSN1')

@@ -224,7 +224,7 @@ class TestJournalReport(TestAccountReportsCommon):
         tax_tag = self.tax_report.line_ids.expression_ids._get_matching_tags()
         self.assertDictEqual(
             tax_summary_lines_2017[0]['tax_grid_summary_lines'],
-            {'United States': {'c10': {
+            {'US': {'c10': {
                 'tag_ids': tax_tag.ids,
                 'balance': '$\xa0150.00',
                 'balance_no_format': 150.0,
@@ -238,7 +238,7 @@ class TestJournalReport(TestAccountReportsCommon):
         self.assertEqual(tax_summary_lines_2017[1]['name'], "Global Tax Summary")
         self.assertDictEqual(
             tax_summary_lines_2017[2]['tax_grid_summary_lines'],
-            {'United States': {'c10': {
+            {'US': {'c10': {
                 'tag_ids': tax_tag.ids,
                 'balance': '$\xa0150.00',
                 'balance_no_format': 150.0,
@@ -269,7 +269,7 @@ class TestJournalReport(TestAccountReportsCommon):
         tax_summary_lines_global = self._filter_tax_section_lines(lines_global, False)
         self.assertDictEqual(
             tax_summary_lines_global[0]['tax_grid_summary_lines'],
-            {'United States': {'c10': {
+            {'US': {'c10': {
                 'tag_ids': tax_tag.ids,
                 'balance': '$\xa0150.00',
                 'balance_no_format': 150.0,
@@ -283,7 +283,7 @@ class TestJournalReport(TestAccountReportsCommon):
         self.assertEqual(tax_summary_lines_global[1]['name'], "Global Tax Summary")
         self.assertDictEqual(
             tax_summary_lines_global[2]['tax_grid_summary_lines'],
-            {'United States': {'c10': {
+            {'US': {'c10': {
                 'tag_ids': tax_tag.ids,
                 'balance': '$\xa0150.00',
                 'balance_no_format': 150.0,
@@ -539,12 +539,12 @@ class TestJournalReport(TestAccountReportsCommon):
         lines = report._get_lines(options)
         tax_lines = list(filter(lambda line: line.get('is_tax_section_line'), lines))
 
-        default_balance = tax_lines[0]['tax_grid_summary_lines']['United States']['c10']['+']
+        default_balance = tax_lines[0]['tax_grid_summary_lines']['US']['c10']['+']
         self.assertEqual(default_balance, '$\xa0150.00')  # Default: $150.00
 
         # Test with thousands rounding unit, call via dispatch_report_action like the frontend does
         options['rounding_unit'] = 'thousands'
         report.dispatch_report_action(options, 'format_column_values_from_client', lines)
 
-        thousands_balance = tax_lines[0]['tax_grid_summary_lines']['United States']['c10']['+']
+        thousands_balance = tax_lines[0]['tax_grid_summary_lines']['US']['c10']['+']
         self.assertEqual(thousands_balance, '$\xa00')  # Thousands: $0 (150/1000 = 0.15 rounded to 0)

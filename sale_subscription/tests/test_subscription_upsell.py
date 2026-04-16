@@ -129,7 +129,9 @@ class TestSubscriptionUpsell(TestSubscriptionCommon):
                 'product_uom_qty': 1,
                 'price_unit': self.product3.list_price,
             })]
+            self.assertEqual(upsell_so.type_name, "Quotation")
             upsell_so.action_confirm()
+            self.assertEqual(upsell_so.type_name, "Sales Order")
             self.subscription._create_recurring_invoice()
             self.subscription.invoice_ids.filtered(lambda am: am.state == 'draft')._post()
             discounts = [round(v, 2) for v in upsell_so.order_line.sorted('discount').mapped('discount')]
@@ -525,7 +527,11 @@ class TestSubscriptionUpsell(TestSubscriptionCommon):
         invoice._post()
         self.assertEqual(self.subscription.next_invoice_date, next_invoice_date, "The next Invoice date should not be updated by an upsell")
 
+    @freeze_time('2026-01-28')
     def test_sale_subscription_upsell_does_not_copy_non_recurring_products(self):
+        """Ensure non recurring product of upsells are not copied in the parent order
+        This test also make sure that the discount of the parent order is untouched
+        """
         nr_product = self.env['product.template'].create({
             'name': 'Non recurring product',
             'type': 'service',
@@ -533,23 +539,31 @@ class TestSubscriptionUpsell(TestSubscriptionCommon):
             'list_price': 25,
             'invoice_policy': 'order',
         })
+        self.assertEqual(self.subscription.order_line.mapped('price_subtotal'), [1, 20], "Undiscounted prices should be 1, 20")
+        self.subscription.order_line.discount = 20
         self.subscription.action_confirm()
         self.subscription._create_recurring_invoice()
+        self.assertEqual(self.subscription.order_line.mapped('discount'), [20, 20], "Discount should be applied")
+        self.assertEqual(self.subscription.order_line.mapped('price_subtotal'), [0.8, 16], "Discount should be applied")
 
         action = self.subscription.prepare_upsell_order()
         upsell_so = self.env['sale.order'].browse(action['res_id'])
-        upsell_so.order_line = [(6, 0, self.env['sale.order.line'].create({
+        # add non recurring product
+        self.env['sale.order.line'].create({
             'name': nr_product.name,
             'order_id': upsell_so.id,
             'product_id': nr_product.product_variant_id.id,
             'product_uom_qty': 1,
-        }).ids)]
-
-        upsell_so._confirm_upsell()
-        self.assertEqual(len(upsell_so.order_line), 1)
-        self.assertEqual(len(self.subscription.order_line), 2)
-        self.assertEqual(upsell_so.order_line.name, nr_product.name)
+        })
+        # upsell the start date to trigger discount recomputation bug
+        upsell_so.start_date += relativedelta(days=10)
+        upsell_so.order_line.filtered(lambda l: not l.display_type).product_uom_qty = 1
+        self.assertEqual(upsell_so.order_line.mapped('discount'), [40, 40, 0.0, 0.0], "Upsell discount should be adapted")
+        upsell_so.action_confirm()
         self.assertFalse(nr_product in self.subscription.order_line.product_template_id)
+        self.subscription.order_line.invalidate_recordset(['discount', 'price_subtotal'])
+        self.assertEqual(self.subscription.order_line.mapped('discount'), [20, 20], "Discount of parent sub should remains")
+        self.assertEqual(self.subscription.order_line.mapped('price_subtotal'), [1.6, 32], "Discount of parent sub should remains (with new quantity)")
 
     def test_upsell_descriptions(self):
         """ On invoicing upsells, only subscription-based items should display a duration. """

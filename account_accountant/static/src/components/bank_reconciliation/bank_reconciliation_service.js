@@ -2,6 +2,7 @@ import { EventBus, reactive, useState } from "@odoo/owl";
 import { browser } from "@web/core/browser/browser";
 import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
+import { Domain } from "@web/core/domain";
 
 export class BankReconciliationService {
     constructor(env, services) {
@@ -22,6 +23,7 @@ export class BankReconciliationService {
         });
         this.reconcileCountPerPartnerId = reactive({});
         this.reconcileModelPerStatementLineId = reactive({});
+        this.availableReconcileLines = reactive({});
     }
 
     toggleChatter() {
@@ -53,27 +55,38 @@ export class BankReconciliationService {
         });
     }
 
+    async computeAvailableReconcileLines(records) {
+        this.availableReconcileLines = await this.orm.searchRead(
+            "account.move.line",
+            this.getAvailableReconciledLinesDomain(records),
+            ["id", "amount_currency", "date"],
+            { limit: 100, order: "date desc" }
+        );
+    }
+
+    getAvailableReconciledLinesDomain(records) {
+        return [
+            ["parent_state", "in", ["draft", "posted"]],
+            ["company_id", "child_of", records.map((record) => record.data.company_id.id)],
+            ["search_account_id.reconcile", "=", true],
+            ["display_type", "not in", ["line_section", "line_note"]],
+            ["reconciled", "=", false],
+            "|",
+            ["search_account_id.account_type", "not in", ["asset_receivable", "liability_payable"]],
+            ["payment_id", "=", false],
+            ["statement_line_id", "not in", records.map((record) => record.data.id)],
+        ];
+    }
+
     async computeReconcileLineCountPerPartnerId(records) {
+        const domain = this.getAvailableReconciledLinesDomain(records);
+        const partnerIds = records
+            .filter((record) => !!record.data.partner_id?.id)
+            .map((record) => record.data.partner_id.id);
+        const finalDomain = Domain.and([[["partner_id", "in", partnerIds]], domain]).toList();
         const groups = await this.orm.formattedReadGroup(
             "account.move.line",
-            [
-                ["parent_state", "in", ["draft", "posted"]],
-                [
-                    "partner_id",
-                    "in",
-                    records
-                        .filter((record) => !!record.data.partner_id.id)
-                        .map((record) => record.data.partner_id.id),
-                ],
-                ["company_id", "child_of", records.map((record) => record.data.company_id.id)],
-                ["search_account_id.reconcile", "=", true],
-                ["display_type", "not in", ["line_section", "line_note"]],
-                ["reconciled", "=", false],
-                "|",
-                ["search_account_id.account_type", "not in", ["asset_receivable", "liability_payable"]],
-                ["payment_id", "=", false],
-                ["statement_line_id", "not in", records.map((record) => record.data.id)],
-            ],
+            finalDomain,
             ["partner_id"],
             ["id:count"]
         );

@@ -8,15 +8,15 @@
 # Wil Odoo, 2025
 # Tony Ng, 2025
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Tony Ng (ngto)" <ngto@odoo.com>, 2025.
+# "Tony Ng (ngto)" <ngto@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 19:34+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:20+0000\n"
+"Last-Translator: \"Tony Ng (ngto)\" <ngto@odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19/account_reports/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -91,17 +91,9 @@ msgstr "已選取 %s 個項目"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
-msgstr "未能為多於一種申報類型所使用的報表，計算「%s」日期範圍。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr "未能為未被任何申報類型使用的報表，計算「%s」日期範圍。"
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -422,6 +414,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr ""
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "賬目總表範本"
 
 #. module: account_reports
 #. odoo-python
@@ -845,12 +842,8 @@ msgstr ""
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"所有客戶的增值稅稅務編號，在 <a href=\"https://ec.europa.eu/taxation_customs/"
-"vies\" target=\"_blank\">VIES</a> 規定下均有效。"
 
 #. module: account_reports
 #. odoo-python
@@ -2352,6 +2345,7 @@ msgstr "顯示郵件編輯器"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2773,12 +2767,6 @@ msgstr "不包括準備金貨幣"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "將任何國內或歐盟以外的銷售，排除在歐盟銷售清單之外。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "排除任何私人客戶。"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3308,6 +3296,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4134,9 +4123,8 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 
 #. module: account_reports
@@ -4542,12 +4530,6 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "只限商業客戶"
 
 #. module: account_reports
 #. odoo-python
@@ -5054,12 +5036,6 @@ msgstr "前幾年未分配的利潤"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "列印並傳送"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "私人客戶"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6027,7 +6003,7 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -6899,12 +6875,6 @@ msgstr "每項申報只可有一個獨一無二的檢查代碼。"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr "若之前的狀態是新增，你只可恢復已完成的申報。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr ""
 
@@ -7210,6 +7180,31 @@ msgstr ""
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ 重設至 Odoo 匯率"
 
+#~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr "未能為未被任何申報類型使用的報表，計算「%s」日期範圍。"
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "所有客戶的增值稅稅務編號，在 <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a> 規定下均有效。"
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr "若之前的狀態是新增，你只可恢復已完成的申報。"
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "排除任何私人客戶。"
+
+#~ msgid "Only business customers"
+#~ msgstr "只限商業客戶"
+
+#~ msgid "Private Customers"
+#~ msgstr "私人客戶"
+
 #~ msgid "Currencies"
 #~ msgstr "幣別"
 
@@ -7217,20 +7212,6 @@ msgstr "⇒ 重設至 Odoo 匯率"
 #~ "'Open General Ledger' caret option is only available form report lines "
 #~ "targetting accounts."
 #~ msgstr "“開啟總分類賬”的插入符號選項,僅適用於針對賬戶的報表資料行。"
-
-#~ msgid ""
-#~ "\n"
-#~ "                    Missing company details (like VAT number or country) "
-#~ "can cause errors in your report,\n"
-#~ "                    such as using the wrong VAT rate, wrongly exempting "
-#~ "transactions.\n"
-#~ "                "
-#~ msgstr ""
-#~ "\n"
-#~ "                    公司詳情缺漏（例如增值稅稅務編號、國家/地區等）可致報"
-#~ "告出現錯誤，\n"
-#~ "                    例如使用錯誤的增值稅稅率、錯誤地將交易豁免徵稅等。\n"
-#~ "                "
 
 #~ msgid "%(count)s Bills"
 #~ msgstr "%(count)s 張賬單"
@@ -7300,9 +7281,6 @@ msgstr "⇒ 重設至 Odoo 匯率"
 #~ msgstr ""
 #~ "<span invisible=\"unresolved_check_count &lt;= 0\" class=\"oe_stat_text "
 #~ "ps-0 text-danger\">待處理</span>"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "賬目總表範本"
 
 #~ msgid "Annotate"
 #~ msgstr "註釋"

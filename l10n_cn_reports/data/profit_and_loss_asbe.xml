@@ -23,20 +23,20 @@
         <field name="line_ids">
             <record id="l10n_cn_asbe_pl_cn_oi" model="account.report.line">
                 <field name="name">1. Operating Income</field>
-                <field name="name@zh_CN">1. 营业收入</field>
+                <field name="name@zh_CN">一、营业收入</field>
                 <field name="code">CN_OI</field>
                 <field name="hierarchy_level">0</field>
                 <field name="foldable" eval="False"/>
                 <field name="account_codes_formula">- 600</field>
                 <field name="children_ids">
                     <record id="l10n_cn_asbe_pl_cn_oc" model="account.report.line">
-                        <field name="name">Operating Costs</field>
-                        <field name="name@zh_CN">营业成本</field>
+                        <field name="name">Less: Operating Costs</field>
+                        <field name="name@zh_CN">减：营业成本</field>
                         <field name="code">CN_OC</field>
                         <field name="hierarchy_level">2</field>
                         <field name="groupby">account_id</field>
                         <field name="foldable" eval="True"/>
-                        <field name="account_codes_formula">64\(6403, 641) + 5\(53)</field>
+                        <field name="account_codes_formula">64\(6403) + 5\(53)</field>
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_ts" model="account.report.line">
                         <field name="name">Taxes And Surcharges</field>
@@ -79,18 +79,39 @@
                         <field name="name@zh_CN">财务费用</field>
                         <field name="code">CN_FC</field>
                         <field name="hierarchy_level">2</field>
-                        <field name="groupby">account_id</field>
-                        <field name="foldable" eval="True"/>
-                        <field name="account_codes_formula">6603 - 601 + 641</field>
+                        <field name="groupby" eval="False"/>
+                        <field name="user_groupby" eval="False"/>
+                        <field name="foldable" eval="False"/>
+                        <field name="account_codes_formula">6603</field>
+                        <field name="children_ids">
+                            <record id="l10n_cn_asbe_pl_cn_inp" model="account.report.line">
+                                <field name="name">Interest Payment</field>
+                                <field name="name@zh_CN">利息费用</field>
+                                <field name="code">CN_INP</field>
+                                <field name="hierarchy_level">4</field>
+                                <field name="groupby">account_id</field>
+                                <field name="foldable" eval="True"/>
+                                <field name="account_codes_formula">6603.01</field>
+                            </record>
+                            <record id="l10n_cn_asbe_pl_cn_ini" model="account.report.line">
+                                <field name="name">Interest Income</field>
+                                <field name="name@zh_CN">利息收入</field>
+                                <field name="code">CN_INI</field>
+                                <field name="hierarchy_level">4</field>
+                                <field name="groupby">account_id</field>
+                                <field name="foldable" eval="True"/>
+                                <field name="account_codes_formula">6603.02</field>
+                            </record>
+                        </field>
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_oti" model="account.report.line">
-                        <field name="name">Other Income</field>
-                        <field name="name@zh_CN">其他收益</field>
+                        <field name="name">Add: Other Income</field>
+                        <field name="name@zh_CN">加：其他收益</field>
                         <field name="code">CN_OTI</field>
                         <field name="hierarchy_level">2</field>
                         <field name="groupby">account_id</field>
                         <field name="foldable" eval="True"/>
-                        <field name="account_codes_formula">- 60\(600, 601, 606, 607) - 61\(610, 6111, 6115)</field>
+                        <field name="account_codes_formula">- 60\(600, 606, 607) - 61\(610, 6111, 6115)</field>
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_ii" model="account.report.line">
                         <field name="name">Investment Income</field>
@@ -150,15 +171,15 @@
             </record>
             <record id="l10n_cn_asbe_pl_cn_op" model="account.report.line">
                 <field name="name">2. Operating Profit</field>
-                <field name="name@zh_CN">2. 营业利润</field>
+                <field name="name@zh_CN">二、营业利润</field>
                 <field name="code">CN_OP</field>
                 <field name="hierarchy_level">0</field>
                 <field name="foldable" eval="False"/>
-                <field name="aggregation_formula">CN_OI.balance - CN_OC.balance - CN_TS.balance - CN_SE.balance - CN_AE.balance - CN_RDE.balance - CN_FC.balance + CN_OTI.balance + CN_II.balance + CN_HI.balance + CN_FVI.balance - CN_DI.balance + CN_ADI.balance</field>
+                <field name="aggregation_formula">CN_OI.balance - CN_OC.balance - CN_TS.balance - CN_SE.balance - CN_AE.balance - CN_RDE.balance - CN_FC.balance + CN_OTI.balance + CN_II.balance + CN_HI.balance + CN_FVI.balance - CN_CIL.balance - CN_DI.balance + CN_ADI.balance</field>
                 <field name="children_ids">
                     <record id="l10n_cn_asbe_pl_cn_noi" model="account.report.line">
-                        <field name="name">Non-Operating Income</field>
-                        <field name="name@zh_CN">营业外收入</field>
+                        <field name="name">Add: Non-Operating Income</field>
+                        <field name="name@zh_CN">加：营业外收入</field>
                         <field name="code">CN_NOI</field>
                         <field name="hierarchy_level">2</field>
                         <field name="groupby">account_id</field>
@@ -166,8 +187,8 @@
                         <field name="account_codes_formula">- 606 - 63</field>
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_noe" model="account.report.line">
-                        <field name="name">Non-Operating Expenses</field>
-                        <field name="name@zh_CN">营业外支出</field>
+                        <field name="name">Less: Non-Operating Expenses</field>
+                        <field name="name@zh_CN">减：营业外支出</field>
                         <field name="code">CN_NOE</field>
                         <field name="hierarchy_level">2</field>
                         <field name="groupby">account_id</field>
@@ -178,15 +199,15 @@
             </record>
             <record id="l10n_cn_asbe_pl_cn_tp" model="account.report.line">
                 <field name="name">3. Total Profits</field>
-                <field name="name@zh_CN">3. 利润总额</field>
+                <field name="name@zh_CN">三、利润总额</field>
                 <field name="code">CN_TP</field>
                 <field name="hierarchy_level">0</field>
                 <field name="foldable" eval="False"/>
                 <field name="aggregation_formula">CN_OP.balance + CN_NOI.balance - CN_NOE.balance</field>
                 <field name="children_ids">
                     <record id="l10n_cn_asbe_pl_cn_ite" model="account.report.line">
-                        <field name="name">Income Tax Expense</field>
-                        <field name="name@zh_CN">所得税费用</field>
+                        <field name="name">Less: Income Tax Expense</field>
+                        <field name="name@zh_CN">减：所得税费用</field>
                         <field name="code">CN_ITE</field>
                         <field name="hierarchy_level">2</field>
                         <field name="groupby">account_id</field>
@@ -194,8 +215,8 @@
                         <field name="account_codes_formula">68</field>
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_pyia" model="account.report.line">
-                        <field name="name">Prior Year Income Adjustment</field>
-                        <field name="name@zh_CN">上年度收入调整</field>
+                        <field name="name">Adjustment of Prior Year Profits and Losses</field>
+                        <field name="name@zh_CN">以前年度损益调整</field>
                         <field name="code">CN_PYIA</field>
                         <field name="hierarchy_level">2</field>
                         <field name="groupby">account_id</field>
@@ -206,7 +227,7 @@
             </record>
             <record id="l10n_cn_asbe_pl_cn_nep" model="account.report.line">
                 <field name="name">4. Net Profit</field>
-                <field name="name@zh_CN">4. 净利润</field>
+                <field name="name@zh_CN">四、净利润</field>
                 <field name="code">CN_NEP</field>
                 <field name="hierarchy_level">0</field>
                 <field name="foldable" eval="False"/>
@@ -214,7 +235,7 @@
                 <field name="children_ids">
                     <record id="l10n_cn_asbe_pl_cn_nepco" model="account.report.line">
                         <field name="name">(1) Net Profit From Continuing Operations</field>
-                        <field name="name@zh_CN">(1) 持续经营净利润</field>
+                        <field name="name@zh_CN">（一）持续经营净利润</field>
                         <field name="code">CN_NEPCO</field>
                         <field name="hierarchy_level">2</field>
                         <field name="foldable" eval="True"/>
@@ -222,7 +243,7 @@
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_nepdo" model="account.report.line">
                         <field name="name">(2) Net Profit From Discontinued Operations</field>
-                        <field name="name@zh_CN">(2) 终止经营净利润</field>
+                        <field name="name@zh_CN">（二）终止经营净利润</field>
                         <field name="code">CN_NEPDO</field>
                         <field name="hierarchy_level">2</field>
                         <field name="foldable" eval="False"/>
@@ -239,7 +260,7 @@
             </record>
             <record id="l10n_cn_asbe_pl_cn_nepoiat" model="account.report.line">
                 <field name="name">5. Other Comprehensive Income, net of tax</field>
-                <field name="name@zh_CN">5. 其他综合收益税后净额</field>
+                <field name="name@zh_CN">五、其他综合收益的税后净额</field>
                 <field name="code">CN_NEPOIAT</field>
                 <field name="hierarchy_level">0</field>
                 <field name="foldable" eval="False"/>
@@ -247,7 +268,7 @@
                 <field name="children_ids">
                     <record id="l10n_cn_asbe_pl_cn_ocinr" model="account.report.line">
                         <field name="name">(1) Other Comprehensive Income That Cannot Be Reclassified Into Profit Or Loss</field>
-                        <field name="name@zh_CN">(1) 不能重分类进损益的其他综合收益</field>
+                        <field name="name@zh_CN">（一）不能重分类进损益的其他综合收益</field>
                         <field name="code">CN_OCINR</field>
                         <field name="hierarchy_level">2</field>
                         <field name="foldable" eval="False"/>
@@ -262,7 +283,7 @@
                     </record>
                     <record id="l10n_cn_asbe_pl_cn_ocir" model="account.report.line">
                         <field name="name">(2) Other Comprehensive Income That Will Be Reclassified Into Profit And Loss</field>
-                        <field name="name@zh_CN">(2) 将重分类进损益的其他综合收益</field>
+                        <field name="name@zh_CN">（二）将重分类进损益的其他综合收益</field>
                         <field name="code">CN_OCIR</field>
                         <field name="hierarchy_level">2</field>
                         <field name="foldable" eval="False"/>
@@ -279,7 +300,7 @@
             </record>
             <record id="l10n_cn_asbe_pl_cn_tci" model="account.report.line">
                 <field name="name">6. Total Comprehensive Income</field>
-                <field name="name@zh_CN">6. 综合收益总额</field>
+                <field name="name@zh_CN">六、综合收益总额</field>
                 <field name="code">CN_TCI</field>
                 <field name="hierarchy_level">0</field>
                 <field name="foldable" eval="False"/>

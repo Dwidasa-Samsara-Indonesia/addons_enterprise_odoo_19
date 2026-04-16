@@ -2105,3 +2105,127 @@ class TestReportEngines(TestAccountReportsCommon):
             ],
             options,
         )
+
+    def test_consolidated_report_includes_unmapped_accounts_from_other_companies(self):
+        company_a = self.env['res.company'].sudo().create({
+            'name': "Company A",
+        })
+        company_b = self.env['res.company'].sudo().create({
+            'name': "Company B",
+        })
+
+        context = {
+            **self.env.context,
+            'allowed_company_ids': [company_a.id, company_b.id],
+        }
+        journal_vals = {
+            'name': "Misc",
+            'type': 'general',
+            'code': "MSC",
+        }
+        AccountJournal = self.env['account.journal'].with_context(context)
+        AccountJournal.create(journal_vals | {'company_id': company_a.id})
+        AccountJournal.with_company(company_b).create(journal_vals | {'company_id': company_b.id})
+
+        AccountAccount = self.env['account.account'].with_context(context)
+        account_tag = self.env['account.account.tag']._load_records([
+            {
+                'xml_id': 'account_reports.account_codes_engine_test_tag1',
+                'noupdate': True,
+                'values': {
+                    'name': "account_codes test tag 1",
+                    'applicability': 'accounts',
+                },
+            }
+        ])
+        account_a = AccountAccount.create({
+            'name': "Account A",
+            'code': "100000",
+            'company_ids': company_a.ids,
+            'tag_ids': [(4, account_tag.id)],
+        })
+        counterpart_account_a = AccountAccount.create({
+            'name': "Counterpart A",
+            'code': "200000",
+            'company_ids': company_a.ids,
+            'tag_ids': [(4, account_tag.id)],
+        })
+        account_b = AccountAccount.create({
+            'name': "Account B",
+            'code': "500000",
+            'company_ids': company_b.ids,
+            'tag_ids': [(4, account_tag.id)],
+        })
+        counterpart_account_b = AccountAccount.create({
+            'name': "Counterpart B",
+            'code': "600000",
+            'company_ids': company_b.ids,
+            'tag_ids': [(4, account_tag.id)],
+        })
+
+        date = '2026-01-01'
+
+        AccountMove = self.env['account.move'].with_context(context)
+        AccountMove.create({
+            'move_type': 'entry',
+            'date': date,
+            'line_ids': [
+                Command.create({
+                    'account_id': account_a.id,
+                    'balance': 100,
+                }),
+                Command.create({
+                    'account_id': counterpart_account_a.id,
+                    'balance': -100,
+                }),
+            ],
+            'company_id': company_a.id,
+        }).action_post()
+        AccountMove.create({
+            'move_type': 'entry',
+            'date': date,
+            'line_ids': [
+                Command.create({
+                    'account_id': account_b.id,
+                    'balance': 1000,
+                }),
+                Command.create({
+                    'account_id': counterpart_account_b.id,
+                    'balance': -1000,
+                }),
+            ],
+            'company_id': company_b.id,
+        }).action_post()
+
+        report = self.env['account.report'].with_context(context).create({
+            'name': "Simple Report",
+            'filter_multi_company': 'selector',
+            'column_ids': [Command.create({
+                'name': "Balance",
+                'expression_label': 'balance',
+            })],
+            'line_ids': [Command.create({
+                'name': "The line",
+                'groupby': 'account_id',
+                'expression_ids': [Command.create({
+                    'label': 'balance',
+                    'engine': 'account_codes',
+                    'formula': "tag(account_reports.account_codes_engine_test_tag1)",
+                })],
+            })],
+        })
+        options = self._generate_options(report, date, date)
+        lines = report._get_lines(options)
+        self.assertLinesValues(
+            # pylint: disable=bad-whitespace
+            lines,
+            [   0,                                                                       1],
+            [
+                (report.line_ids.name,                                                   0),
+                (f'{account_a.code} {account_a.name}',                                  100),
+                (f'{counterpart_account_a.code} {counterpart_account_a.name}',         -100),
+                (f'{account_b.name}',                                                  1000),
+                (f'{counterpart_account_b.name}',                                     -1000),
+            ],
+            options,
+        )

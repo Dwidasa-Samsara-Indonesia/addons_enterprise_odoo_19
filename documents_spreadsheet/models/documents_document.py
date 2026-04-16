@@ -344,6 +344,14 @@ class DocumentsDocument(models.Model):
             for acc in self.access_ids.filtered("role")
         ]
 
+        # Keep the linked record: copy() does not include these computed fields.
+        linked_record_values = {}
+        if self.res_model and self.res_id:
+            linked_record_values = {
+                "res_model": self.res_model,
+                "res_id": self.res_id,
+            }
+
         doc = self.copy({
             "access_ids": access_ids,
             "attachment_id": False,
@@ -351,6 +359,7 @@ class DocumentsDocument(models.Model):
             "mimetype": "application/o-spreadsheet",
             "name": self.name.removesuffix(".xlsx"),
             "spreadsheet_data": json.dumps(unzipped),
+            **linked_record_values,
         })
 
         for attachment in attachments:
@@ -362,12 +371,21 @@ class DocumentsDocument(models.Model):
         csv_data = self._read_csv()
         spreadsheet_data = self._convert_csv_to_spreadsheet_data(csv_data)
 
+        # Keep the linked record: copy() does not include these computed fields.
+        linked_record_values = {}
+        if self.res_model and self.res_id:
+            linked_record_values = {
+                "res_model": self.res_model,
+                "res_id": self.res_id,
+            }
+
         doc = self.copy({
             'attachment_id': False,
             'handler': 'spreadsheet',
             'mimetype': 'application/o-spreadsheet',
             'name': self.name.removesuffix('.csv'),
             'spreadsheet_data': json.dumps(spreadsheet_data),
+            **linked_record_values,
         })
 
         return doc.id

@@ -71,6 +71,11 @@ export default class BarcodeModel extends EventBus {
         this.commands = this._getCommands();
     }
 
+    _parseFloat(value) {
+        const params = { digits: [false, this.precision], thousandsSep: "", decimalPoint: "." };
+        return parseFloat(formatFloat(value, params));
+    }
+
     // GETTER
 
     getQtyDone(line) {
@@ -102,8 +107,7 @@ export default class BarcodeModel extends EventBus {
 
     getIncrementQuantity(line) {
         const remainingQty = this.getLineRemainingQuantity(line);
-        const params = { digits: [false, this.precision], thousandsSep: "", decimalPoint: "." };
-        return parseFloat(formatFloat(remainingQty, params));
+        return this._parseFloat(remainingQty);
     }
 
     getLineRemainingQuantity(line) {
@@ -574,6 +578,9 @@ export default class BarcodeModel extends EventBus {
         }
         if (args.lot_name && line.product_id.tracking !== "none") {
             await this.updateLotName(line, args.lot_name);
+            if (line.lot_id?.name != line.lot_name) {
+                line.lot_id = false;
+            }
         }
         if (reserved_uom_qty) {
             line.reserved_uom_qty = reserved_uom_qty;
@@ -1103,6 +1110,9 @@ export default class BarcodeModel extends EventBus {
                 result.weight = parsedBarcode;
                 result.match = true;
                 barcode = parsedBarcode.base_code;
+            } else if (parsedBarcode.type === "price") {
+                result.match = true;
+                barcode = parsedBarcode.base_code;
             } else if (parsedBarcode.type === "product" && parsedBarcode.code !== barcode) {
                 // The scanned barcode should match a product but was either an
                 // alias, either converted from UPC-A to EAN-13 (or vice versa.)
@@ -1517,7 +1527,11 @@ export default class BarcodeModel extends EventBus {
         const expressedInPackagingUom =
             currentLine && barcodeDataUom && barcodeDataUom.id !== currentLine.product_uom_id.id;
         if (expressedInPackagingUom) {
-            if (!this._lineIsNotComplete(currentLine)) {
+            const lotName = barcodeData.lotName || barcodeData.lot?.name;
+            if (
+                !this._lineIsNotComplete(currentLine) &&
+                (currentLine.product_id.tracking != "lot" || !lotName)
+            ) {
                 currentLine = false;
             } else {
                 barcodeData.quantity =
@@ -1525,6 +1539,17 @@ export default class BarcodeModel extends EventBus {
                     currentLine.product_uom_id.factor;
                 barcodeData.uom = currentLine.product_uom_id;
             }
+        }
+        const expressedInDifferentUom =
+            currentLine && barcodeDataUom && barcodeDataUom.id !== currentLine.product_id.uom_id;
+        if (
+            expressedInDifferentUom &&
+            currentLine.product_id.tracking === "lot" &&
+            !this._lineIsNotComplete(currentLine) &&
+            (currentLine.lot_name || currentLine.lot_id?.name)
+        ) {
+            // force a new line creation because of different UoM
+            currentLine = false;
         }
 
         // Updates or creates a line based on barcode data.
@@ -1540,11 +1565,7 @@ export default class BarcodeModel extends EventBus {
                 ) {
                     // In this case, lowers the increment quantity and keeps
                     // the excess quantity to create a new line.
-                    exceedingQuantity = parseFloat(
-                        formatFloat(barcodeData.quantity - remainingQty, {
-                            digits: [false, this.precision],
-                        })
-                    );
+                    exceedingQuantity = this._parseFloat(barcodeData.quantity - remainingQty);
                     barcodeData.quantity = remainingQty;
                 }
             }

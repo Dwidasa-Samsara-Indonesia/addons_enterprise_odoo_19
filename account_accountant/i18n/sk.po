@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:41+0000\n"
-"PO-Revision-Date: 2026-02-14 10:13+0000\n"
+"POT-Creation-Date: 2026-03-13 18:44+0000\n"
+"PO-Revision-Date: 2026-03-17 22:06+0000\n"
 "Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/sk/>\n"
@@ -25,9 +25,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
+"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -298,6 +298,8 @@ msgstr ""
 "budete chcieť príslušné daňové priznanie obnoviť na stav neodoslané."
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model,name:account_accountant.model_account_account
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__account_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_list_bank_rec_widget
@@ -320,7 +322,7 @@ msgstr "Skupiny účtov"
 #: model:ir.actions.act_window,name:account_accountant.account_tag_action
 #: model:ir.ui.menu,name:account_accountant.account_tag_menu
 msgid "Account Tags"
-msgstr "Tagy účtov"
+msgstr "Štítky účtov"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__transfer_from_account_id
@@ -379,7 +381,7 @@ msgstr "Pridať a nové"
 #. module: account_accountant
 #: model_terms:ir.actions.act_window,help:account_accountant.account_tag_action
 msgid "Add a new tag"
-msgstr "Pridať nový tag"
+msgstr "Pridať nový štítok"
 
 #. module: account_accountant
 #. odoo-javascript
@@ -603,7 +605,7 @@ msgstr "na základe"
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_form_bank_rec_widget
 msgid "Cancel"
-msgstr "Zrušené"
+msgstr "Zrušiť"
 
 #. module: account_accountant
 #. odoo-python
@@ -1913,6 +1915,8 @@ msgid "Outstanding debits"
 msgstr "Nevyrovnaný debet"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__to_partner_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget
@@ -1927,6 +1931,7 @@ msgstr "Partneri"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Payable"
 msgstr "Záväzok"
@@ -2021,6 +2026,7 @@ msgstr "Dôvod..."
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Receivable"
 msgstr "Pohľadávka"
@@ -2172,6 +2178,7 @@ msgstr "Vyhľadať položky denníka na párovanie"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Account"
 msgstr "Hľadať: Účet"
 
@@ -2184,6 +2191,7 @@ msgstr "Hľadať: Položky denníka, ktoré zodpovedajú"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Partner"
 msgstr "Hľadať: Partner"
 
@@ -2199,12 +2207,14 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Account"
 msgstr "Nastaviť účet"
 
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Partner"
 msgstr "Nastaviť partnera"
 
@@ -2270,6 +2280,13 @@ msgstr "Režim jednej meny"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
+msgid ""
+"Some lines cannot be processed because they have already been reconciled."
+msgstr "Niektoré riadky nie je možné spracovať, pretože už boli spárované."
+
+#. module: account_accountant
+#. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
 msgid "Some lines have invalid analytic distribution"
 msgstr "Niektoré riadky majú neplatné analytické rozdelenie"
@@ -2308,6 +2325,12 @@ msgstr "Riadky výpisu"
 #: code:addons/account_accountant/demo/account_accountant_demo.py:0
 msgid "Subscription 12 months"
 msgstr "Predplatné 12 mesiacov"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+msgid "Suggestions"
+msgstr "Návrhy"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax

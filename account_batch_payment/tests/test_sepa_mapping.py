@@ -13,3 +13,4 @@ class TestSepaMapping(TransactionCase):
         self.assertEqual(sanitize_communication("\u1F9E/Hello"), "Hello")
         self.assertEqual(sanitize_communication("Hello/\u1F9E"), "Hello")
         self.assertEqual(sanitize_communication("Hello/\u1F9E/ World"), "Hello/ World")
+        self.assertEqual(sanitize_communication("Net & Cost"), "Net + Cost")

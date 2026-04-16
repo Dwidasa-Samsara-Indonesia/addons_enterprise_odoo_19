@@ -74,10 +74,10 @@ class ResCompany(models.Model):
             company_country = company.account_fiscal_country_id
             if 'EU' in (company_country.country_group_codes or []):
                 company_currency_code = STRIPE_VALID_JOURNAL_CURRENCIES['EU']
-            elif company_country.code == 'gb':
+            elif company_country.code == 'GB':
                 company_currency_code = STRIPE_VALID_JOURNAL_CURRENCIES['UK']
             else:
-                company_currency_code = STRIPE_VALID_JOURNAL_CURRENCIES.get(company_country.code) or 'USD'
+                company_currency_code = STRIPE_VALID_JOURNAL_CURRENCIES.get(company_country.code) or 'EUR'
             currency = self.env['res.currency'].search([('name', '=ilike', company_currency_code)], limit=1)
             company.stripe_currency_id = currency and currency.id
 

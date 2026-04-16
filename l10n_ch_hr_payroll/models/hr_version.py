@@ -472,7 +472,7 @@ class HrVersion(models.Model):
 
     def action_view_wages(self):
         self.ensure_one()
-        action = self.env.ref('l10n_ch_hr_payroll.action_l10n_ch_hr_contract_wage').read()[0]
+        action = self.env['ir.actions.act_window']._for_xml_id('l10n_ch_hr_payroll.action_l10n_ch_hr_contract_wage')
         action['domain'] = [('version_id', '=', self.id),
                             ('date_start', '!=', False)]
         action['context'] = {

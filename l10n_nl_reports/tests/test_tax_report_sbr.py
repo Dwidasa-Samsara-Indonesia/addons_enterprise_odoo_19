@@ -25,8 +25,8 @@ class TestNlTaxReportSBR(TestAccountReportsCommon):
         })
 
         products = [cls.product_a, cls.product_b]
-        cls.init_invoice('out_invoice', products=products).action_post()
-        cls.init_invoice('in_invoice', products=products).action_post()
+        cls.init_invoice('out_invoice', products=products, invoice_date='2026-02-01').action_post()
+        cls.init_invoice('in_invoice', products=products, invoice_date='2026-02-01').action_post()
 
     @classmethod
     def _get_move_create_data(cls, move_data, line_data):
@@ -44,7 +44,7 @@ class TestNlTaxReportSBR(TestAccountReportsCommon):
             **move_data,
         }
 
-    @freeze_time('2019-02-23 18:45')
+    @freeze_time('2026-02-23 18:45')
     def test_xbrl_export(self):
         # Create a new partner for the representative and link it to the company.
         representative = self.env['res.partner'].create({
@@ -61,8 +61,8 @@ class TestNlTaxReportSBR(TestAccountReportsCommon):
         self.env.company.account_representative_id = representative.id
         self.env.user.phone = '+31432112345'
         report = self.env.ref('l10n_nl.tax_report')
-        date_from = fields.Date.from_string('2019-01-01')
-        date_to = fields.Date.from_string('2019-12-31')
+        date_from = fields.Date.from_string('2026-01-01')
+        date_to = fields.Date.from_string('2026-12-31')
         options = self._generate_options(report, date_from, date_to)
         wizard = self.env['l10n_nl_reports.sbr.tax.report.wizard']\
             .with_context(default_date_from=date_from, default_date_to=date_to, options=options)\
@@ -72,16 +72,30 @@ class TestNlTaxReportSBR(TestAccountReportsCommon):
         wizard.action_download_xbrl_file()
         generated_xbrl = self.get_xml_tree_from_string(self.env['l10n_nl_reports.tax.report.handler'].export_tax_report_to_xbrl(options).get('file_content'))
         expected_xbrl = self.get_xml_tree_from_string('''
-            <xbrli:xbrl xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210.a/dictionary/bd-data" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:bd-t="http://www.nltaxonomie.nl/nt20/bd/20251210.a/dictionary/bd-tuples" xml:lang="nl">
-                <link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210.a/entrypoints/bd-rpt-ob-aangifte-2026.xsd"/>
+            <xbrli:xbrl xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-data" xmlns:bd-t="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-tuples" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:bd-axes="http://www.nltaxonomie.nl/nt20/bd/20251210/validation/bd-axes" xmlns:bd-domains="http://www.nltaxonomie.nl/nt20/bd/20251210/validation/bd-domains" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:xbrli="http://www.xbrl.org/2003/instance" xml:lang="nl">
+                <link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210/entrypoints/bd-rpt-ob-aangifte-2026.xsd"/>
                 <xbrli:context id="Msg">
                     <xbrli:entity>
                         <xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer">987654321B09</xbrli:identifier>
                     </xbrli:entity>
                     <xbrli:period>
-                        <xbrli:startDate>2019-01-01</xbrli:startDate>
-                        <xbrli:endDate>2019-12-31</xbrli:endDate>
+                        <xbrli:startDate>2026-01-01</xbrli:startDate>
+                        <xbrli:endDate>2026-12-31</xbrli:endDate>
                     </xbrli:period>
+                </xbrli:context>
+                <xbrli:context id="Msg_PASN1">
+                    <xbrli:entity>
+                        <xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer">987654321B09</xbrli:identifier>
+                    </xbrli:entity>
+                    <xbrli:period>
+                        <xbrli:startDate>2026-01-01</xbrli:startDate>
+                        <xbrli:endDate>2026-12-31</xbrli:endDate>
+                    </xbrli:period>
+                    <xbrli:scenario>
+                        <xbrldi:typedMember dimension="bd-axes:ProfessionalAssociationSerialNumberDimension">
+                            <bd-domains:ProfessionalAssociationSerialNumberDomain>1</bd-domains:ProfessionalAssociationSerialNumberDomain>
+                        </xbrldi:typedMember>
+                    </xbrli:scenario>
                 </xbrli:context>
                 <xbrli:unit id="EUR">
                     <xbrli:measure>iso4217:EUR</xbrli:measure>
@@ -91,19 +105,17 @@ class TestNlTaxReportSBR(TestAccountReportsCommon):
                 <bd-i:ContactSurname contextRef="Msg">accountman!</bd-i:ContactSurname>
                 <bd-i:ContactTelephoneNumber contextRef="Msg">+31432112345</bd-i:ContactTelephoneNumber>
                 <bd-i:ContactType contextRef="Msg">BPL</bd-i:ContactType>
-                <bd-i:DateTimeCreation contextRef="Msg">201902231845</bd-i:DateTimeCreation>
-                <bd-i:InstallationDistanceSalesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:InstallationDistanceSalesWithinTheEC>
+                <bd-i:DateTimeCreation contextRef="Msg">202602231845</bd-i:DateTimeCreation>
                 <bd-i:MessageReferenceSupplierVAT contextRef="Msg">___ignore___</bd-i:MessageReferenceSupplierVAT>
-                <bd-t:ProfessionalAssociationForTaxServiceProvidersSpecification>
-                    <bd-i:ProfessionalAssociationForTaxServiceProvidersName contextRef="Msg">Fidu NL</bd-i:ProfessionalAssociationForTaxServiceProvidersName>
-                </bd-t:ProfessionalAssociationForTaxServiceProvidersSpecification>
+                <bd-i:ProfessionalAssociationForTaxServiceProvidersName contextRef="Msg_PASN1">NBA</bd-i:ProfessionalAssociationForTaxServiceProvidersName>
                 <bd-i:SoftwarePackageName contextRef="Msg">Odoo</bd-i:SoftwarePackageName>
                 <bd-i:SoftwarePackageVersion contextRef="Msg">___ignore___</bd-i:SoftwarePackageVersion>
                 <bd-i:SoftwareVendorAccountNumber contextRef="Msg">swo02770</bd-i:SoftwareVendorAccountNumber>
+                <bd-i:TaxConsultantNumber contextRef="Msg">123456</bd-i:TaxConsultantNumber>
+                <bd-i:InstallationDistanceSalesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:InstallationDistanceSalesWithinTheEC>
                 <bd-i:SuppliesServicesNotTaxed decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:SuppliesServicesNotTaxed>
                 <bd-i:SuppliesToCountriesOutsideTheEC decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:SuppliesToCountriesOutsideTheEC>
                 <bd-i:SuppliesToCountriesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:SuppliesToCountriesWithinTheEC>
-                <bd-i:TaxConsultantNumber contextRef="Msg">123456</bd-i:TaxConsultantNumber>
                 <bd-i:TaxedTurnoverPrivateUse decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:TaxedTurnoverPrivateUse>
                 <bd-i:TaxedTurnoverSuppliesServicesGeneralTariff decimals="INF" contextRef="Msg" unitRef="EUR">1200</bd-i:TaxedTurnoverSuppliesServicesGeneralTariff>
                 <bd-i:TaxedTurnoverSuppliesServicesOtherRates decimals="INF" contextRef="Msg" unitRef="EUR">0</bd-i:TaxedTurnoverSuppliesServicesOtherRates>

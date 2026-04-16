@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-06 13:05+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:19+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/ar/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -93,17 +93,9 @@ msgstr "تم تحديد %s"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
-msgstr "لا يمكن تقييم نطاق التاريخ '%s' لتقرير يستخدمه أكثر من نوع إقرار واحد."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr "لا يمكن تقييم نطاق التاريخ '%s' لتقرير لا يستخدمه أي نوع إقرار."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -422,6 +414,12 @@ msgid ""
 "class=\"fa fa-exclamation-triangle text-danger pb-2\" title=\"Another return "
 "already covers part of this period.\"/>"
 msgstr ""
+"<span invisible=\"not show_warning_existing_return\" class=\"fa fa-"
+"exclamation-triangle text-danger pb-2\" title=\"هناك إقرار ضريبي للفترة "
+"المحددة بالفعل.\"/>\n"
+"                            <span invisible=\"not show_warning_overlap\" "
+"class=\"fa fa-exclamation-triangle text-danger pb-2\" title=\"هناك إقرار "
+"ضريبي آخر يغطي بالفعل جزءًا من هذه الفترة.\"/>"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_type_form_view
@@ -495,6 +493,11 @@ msgstr "حالة حساب التدقيق"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "حالة التدقيق"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "قالب مخطط الحساب"
 
 #. module: account_reports
 #. odoo-python
@@ -919,12 +922,8 @@ msgstr "تمت إعادة تعيين جميع عمليات الفحص والمو
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
 
 #. module: account_reports
 #. odoo-python
@@ -1014,7 +1013,7 @@ msgstr "المبالغ بالآلاف"
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "An active return already exists for the same period."
-msgstr ""
+msgstr "يوجد بالفعل إقؤار نشط لنفس الفترة."
 
 #. module: account_reports
 #. odoo-javascript
@@ -2454,6 +2453,7 @@ msgstr "عرض أداة إنشاء البريد الإلكتروني"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2885,12 +2885,6 @@ msgstr "استثناء عملة الحكم"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "Exclude any domestic or extra-EU sales from the EC Sales List."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "استثناء العملاء من القطاع الخاص"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3429,6 +3423,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -3826,7 +3821,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_ec_sales_list_return
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_ec_sales_list_return_type
 msgid "Is an EC Sales List Return Type"
-msgstr ""
+msgstr "Is an EC Sales List Return Type"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__unresolved_check_count
@@ -4258,14 +4253,9 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
-"يمكن أن تتسبب تفاصيل الشركة المفقودة (مثل رقم ضريبة القيمة المضافة أو "
-"الدولة) في حدوث أخطاء في تقريرك، \n"
-"مثل استخدام معدل خاطئ لضريبة القيمة المضافة، وإعفاء المعاملات بشكل خاطئ.\n"
-"                "
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4671,12 +4661,6 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "العملاء التجاريون فقط"
 
 #. module: account_reports
 #. odoo-python
@@ -5107,7 +5091,7 @@ msgstr "بالإضافة إلى دخل آخر"
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_executivesummary_position0
 msgid "Position"
-msgstr "المنصب الوظيفي"
+msgstr "الموضع"
 
 #. module: account_reports
 #. odoo-javascript
@@ -5185,12 +5169,6 @@ msgstr "أرباح السنين الماضية غير المخصصة"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "طباعة وإرسال"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "العملاء من القطاع الخاص"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6177,7 +6155,7 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -6870,6 +6848,13 @@ msgid ""
 "exchange for immediate cash.\n"
 "            "
 msgstr ""
+"تأكد من أن الإيرادات النقدية وإيرادات البطاقات المسجلة في نهاية الفترة قد "
+"تمت تسويتها فعليًا في الفترة التالية. وتحقق أيضًا من صحة المعالجة المحاسبية "
+"لعمليات الخصم وعقود التخصيم*.\n"
+"\n"
+"*تتضمن عقود التخصيم قيام شركة ببيع فواتيرها غير المسددة (ذمم المدينة) إلى "
+"شركة طرف ثالث، تُعرف باسم \"المخصم\"، مقابل الحصول على نقد فوري.\n"
+"            "
 
 #. module: account_reports
 #: model:account.return.check.template,description:account_reports.account_return_check_template_minimum_share_capital_compliance
@@ -7060,12 +7045,6 @@ msgstr "أنت تستخدم أسعار صرف مخصصة"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "You can only have a unique check code for each return."
 msgstr "يمكن أن يكون لديك رمز تحقق فريد فقط لكل إقرار."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr "لا يمكنك إرجاع إقرار مكتمل إلا إذا كانت الحالة السابقة \"جديد\"."
 
 #. module: account_reports
 #. odoo-python
@@ -7382,6 +7361,31 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "-> إعادة التعيين لأسعار أودو"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr "لا يمكن تقييم نطاق التاريخ '%s' لتقرير لا يستخدمه أي نوع إقرار."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr "لا يمكنك إرجاع إقرار مكتمل إلا إذا كانت الحالة السابقة \"جديد\"."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "استثناء العملاء من القطاع الخاص"
+
+#~ msgid "Only business customers"
+#~ msgstr "العملاء التجاريون فقط"
+
+#~ msgid "Private Customers"
+#~ msgstr "العملاء من القطاع الخاص"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7495,9 +7499,6 @@ msgstr "-> إعادة التعيين لأسعار أودو"
 
 #~ msgid "=&gt; Audit"
 #~ msgstr "=&gt; تدقيق "
-
-#~ msgid "Account Chart Template"
-#~ msgstr "قالب مخطط الحساب"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "تذييل تقرير الحساب"

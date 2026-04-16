@@ -4,7 +4,7 @@ from odoo.exceptions import UserError
 from odoo.addons.hr_expense_stripe.utils import format_amount_from_stripe, format_amount_to_stripe, make_request_stripe_proxy
 
 
-class HrExpenseStripeTestPurchaseWizard(models.Model):
+class HrExpenseStripeTestPurchaseWizard(models.TransientModel):
     _name = 'hr.expense.stripe.test.purchase.wizard'
     _description = 'Test Purchase Wizard for Stripe'
 

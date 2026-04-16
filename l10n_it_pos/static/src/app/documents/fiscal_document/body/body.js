@@ -11,6 +11,7 @@ import {
     PrintRecRefund,
     PrintRecItemAdjustment,
     PrintRecSubtotalAdjustment,
+    PrintNormal,
 } from "@l10n_it_pos/app/fiscal_printer/commands";
 
 export class Body extends Component {
@@ -23,6 +24,7 @@ export class Body extends Component {
         PrintRecRefund,
         PrintRecItemAdjustment,
         PrintRecSubtotalAdjustment,
+        PrintNormal,
     };
 
     static props = {
@@ -30,6 +32,18 @@ export class Body extends Component {
             type: Object,
             optional: true, // To keep backward compatibility
         },
+        isBasicPrint: {
+            type: Boolean,
+            optional: true,
+        },
+        isEarlyPrint: {
+            type: Boolean,
+            optional: true,
+        },
+    };
+    static defaultProps = {
+        isBasicPrint: false,
+        isEarlyPrint: false,
     };
 
     setup() {
@@ -43,7 +57,8 @@ export class Body extends Component {
     }
 
     _itFormatCurrency(amount) {
-        const decPlaces = this.order.currency_id.decimal_places;
+        const currency = this.order.currency_id || this.pos.config.currency_id;
+        const decPlaces = currency.decimal_places;
         return formatFloat(amount, {
             thousandsSep: "",
             digits: [0, decPlaces],
@@ -84,6 +99,8 @@ export class Body extends Component {
             const unitPriceFormatted = this._itFormatCurrency(
                 isGlobalDiscount ? -unitPrice : unitPrice
             );
+            const description = isRefund ? _t("%s (refund)", productName) : productName;
+            const totalPriceFormatted = this._itFormatCurrency(quantity * unitPrice);
 
             return {
                 isRefund,
@@ -107,6 +124,8 @@ export class Body extends Component {
                             : calculateDiscountAmount(line)
                     ),
                 },
+                message: this._itFormatQty(quantity) + " x " + description,
+                priceTotal: totalPriceFormatted,
             };
         });
     }
@@ -121,5 +140,9 @@ export class Body extends Component {
                 index: payment.payment_method_id.it_payment_index,
                 id: payment.id,
             }));
+    }
+
+    get subtotal() {
+        return _t("Subtotal: ") + this._itFormatCurrency(this.order.totalDue);
     }
 }

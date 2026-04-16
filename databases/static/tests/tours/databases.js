@@ -174,5 +174,53 @@ registry.category("web_tour.tours").add("databases_tour", {
             trigger: 'a[role="tab"][name="database"]',
             run: 'click',
         },
+        {
+            content: 'open the invite users wizard',
+            trigger: 'button[name="action_invite_users"]',
+            run: 'click',
+        },
+        {
+            content: 'open the users dropdown',
+            trigger: '.modal-body .o_field_widget[name="user_ids"] input',
+            run: 'click',
+        },
+        {
+            content: 'add user Joel Barish',
+            trigger: '.modal-body .ui-menu-item:contains("Joel Barish")',
+            run: 'click',
+        },
+        {
+            content: 'confirm invitation',
+            trigger: '.modal-footer button[name="action_invite_users"]',
+            run: 'click',
+        },
+        {
+            content: 'check confirmation message',
+            trigger: '.modal-body:contains("These users were successfully invited to 1 databases.")',
+        },
+        {
+            content: 'close the modal',
+            trigger: '.modal-footer button[special="cancel"]',
+            run: 'click',
+        },
+        {
+            content: 'go back to the list',
+            trigger: 'ol.breadcrumb a[href="/odoo/databases"]',
+            run: 'click',
+        },
+        {
+            content: 'search for Joel in the search bar',
+            trigger: '.o_searchview_input',
+            run: 'edit barish',
+        },
+        {
+            content: 'search for databases by user',
+            trigger: '.o_searchview_autocomplete a:contains(Search Database Users for: barish)',
+            run: 'click',
+        },
+        {
+            content: 'check that there is only one result',
+            trigger: '.o_pager_counter:contains("1-1 / 1")',
+        },
     ],
 });

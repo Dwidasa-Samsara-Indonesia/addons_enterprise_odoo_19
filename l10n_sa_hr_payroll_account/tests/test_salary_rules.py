@@ -91,6 +91,7 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             'ANNUALP': 799.17,
             'GROSS': 13700.0,
             'NET': 12432.5,
+            'NETCOST': 14027.5,
         }
         self._validate_payslip(payslip, payslip_results)
 
@@ -119,8 +120,9 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             'MEDICAL': 400.0,
             'IQAMA': 500.0,
             'WORKPER': 300.0,
-            'GROSS': 54800.0,
-            'NET': 53532.5,
+            'GROSS': 57197.5,
+            'NET': 55930.0,
+            'NETCOST': 57525.0,
         }
         self._validate_payslip(payslip, payslip_results)
 
@@ -146,7 +148,8 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             'EOSP': 895.83,
             'ANNUALP': 597.22,
             'GROSS': 10750.0,
-            'NET': 9736.0
+            'NET': 9736.0,
+            'NETCOST': 11972.0,
         }
         self._validate_payslip(payslip, payslip_results)
 

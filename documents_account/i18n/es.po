@@ -8,13 +8,13 @@
 # Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# "Noemi Pla Garcia (nopl)" <nopl@odoo.com>, 2025.
+# "Noemi Pla Garcia (nopl)" <nopl@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
-"PO-Revision-Date: 2025-12-31 12:57+0000\n"
+"POT-Creation-Date: 2026-03-06 18:44+0000\n"
+"PO-Revision-Date: 2026-03-14 09:33+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/es/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: documents_account
 #. odoo-python
@@ -270,9 +270,21 @@ msgid "Credit Note"
 msgstr "Factura rectificativa"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Credit Notes"
+msgstr "Facturas rectificativas de clientes"
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_invoice
 msgid "Customer Invoice"
 msgstr "Factura de cliente"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Invoices"
+msgstr "Facturas de cliente"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
@@ -397,12 +409,6 @@ msgstr "ID"
 #: model:ir.actions.server,name:documents_account.ir_actions_server_bank_statement_code
 msgid "Import Bank Statement"
 msgstr "Importar extracto bancario"
-
-#. module: documents_account
-#. odoo-python
-#: code:addons/documents_account/models/documents_document.py:0
-msgid "Invoices"
-msgstr "Facturas"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_account_journal
@@ -606,9 +612,27 @@ msgid "Vendor Bill"
 msgstr "Factura de proveedor"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Bills"
+msgstr "Facturas de proveedor"
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
 msgstr "Factura rectificativa de proveedor"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Receipts"
+msgstr "Recibos de proveedor"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Refunds"
+msgstr "Reembolsos de proveedor"
 
 #. module: documents_account
 #. odoo-javascript
@@ -643,6 +667,63 @@ msgstr "carpeta de cuenta por defecto"
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account
 msgid "to mark this invoice as paid."
 msgstr "para marcar esta factura como pagada."
+
+#~ msgid "Invoices"
+#~ msgstr "Facturas"
+
+#~ msgid "+++000/0000/00000+++"
+#~ msgstr "+++000/0000/00000+++"
+
+#~ msgid "0000000097"
+#~ msgstr "0000000097"
+
+#~ msgid "2025-09-10"
+#~ msgstr "10-09-2025"
+
+#~ msgid "BE"
+#~ msgstr "BE"
+
+#~ msgid "BE0123456749"
+#~ msgstr "BE0123456749"
+
+#~ msgid "Bruxelles"
+#~ msgstr "Bruselas"
+
+#~ msgid "EUR"
+#~ msgstr "EUR"
+
+#~ msgid "INV/2025/00017"
+#~ msgstr "INV/2025/00017"
+
+#~ msgid "INV_2025_00017.pdf"
+#~ msgstr "INV_2025_00017.pdf"
+
+#~ msgid "My Belgian Company"
+#~ msgstr "Mi empresa belga"
+
+#~ msgid "Rue du Paradis"
+#~ msgstr "Rue du Paradis"
+
+#~ msgid "Terms & Conditions: https://example.com/terms"
+#~ msgstr "Términos y condiciones: https://ejemplo.com/términos"
+
+#~ msgid "Tintin"
+#~ msgstr "Tintín"
+
+#~ msgid "VAT"
+#~ msgstr "IVA"
+
+#~ msgid "ZZZ"
+#~ msgstr "ZZZ"
+
+#~ msgid "example@tintin.example.com"
+#~ msgstr "ejemplo@tintín.ejemplo.com"
+
+#~ msgid "urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0"
+#~ msgstr "urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0"
+
+#~ msgid "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
+#~ msgstr "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
 
 #~ msgid ""
 #~ "A set of condition and actions which will be available to all attachments "

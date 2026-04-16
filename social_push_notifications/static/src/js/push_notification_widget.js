@@ -41,6 +41,13 @@ publicWidget.registry.NotificationWidget =  publicWidget.Widget.extend({
         };
         try {
             this.firebase = await loadFirebaseAssets();
+            // Unregister the service worker with the incorrect scope:
+            for (const registration of await navigator.serviceWorker.getRegistrations()) {
+                if (registration.scope.endsWith("/social_push_notifications/static/src/js/")) {
+                    await registration.unregister();
+                    localStorage.removeItem("social_push_notifications.notification_request_config");
+                }
+            }
         } catch {};
     },
 
@@ -190,13 +197,16 @@ publicWidget.registry.NotificationWidget =  publicWidget.Widget.extend({
             return;
         }
 
-        const url = new URL(window.location.origin + "/social_push_notifications/static/src/js/push_service_worker.js");
+        const url = new URL(window.location.origin + "/social_push_notifications/service_worker.js");
         url.searchParams.append("appId", config.firebase_web_app_id);
         url.searchParams.append("apiKey", config.firebase_web_api_key);
         url.searchParams.append("projectId", config.firebase_project_id);
         url.searchParams.append("messagingSenderId", config.firebase_sender_id);
 
-        navigator.serviceWorker.register(url, { type: "module" })
+        navigator.serviceWorker.register(url, { scope: "/" })
+            .then(function () {
+                return navigator.serviceWorker.ready;
+            })
             .then(function (registration) {
                 self.firebase.getToken(messaging, {
                     vapidKey: config.firebase_push_certificate_key,

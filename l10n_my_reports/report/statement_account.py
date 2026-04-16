@@ -8,8 +8,10 @@ class ReportL10n_My_ReportsReport_Statement_Account(models.AbstractModel):
     _description = "Statement of Account Report"
 
     def _get_report_values(self, docids, data=None):
-        ids = docids or data['context']['active_ids']
+        data = data or {}
+        ids = docids or data.get('context', {}).get('active_ids', [])
         data['date_to'] = fields.Date.to_date(data.get("date_to", fields.Date.today()))
+        data.setdefault('domain', [])
         return {
             'doc_ids': ids,
             'doc_model': 'res.partner',

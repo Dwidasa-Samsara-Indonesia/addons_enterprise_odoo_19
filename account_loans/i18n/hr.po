@@ -3,13 +3,14 @@
 # * account_loans
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-11 23:46+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-10 20:20+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "account_loans/hr/>\n"
 "Language: hr\n"
@@ -18,32 +19,32 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
 msgid "1st amortization schedule"
-msgstr ""
+msgstr "1. plan otplate"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__30a/360
 msgid "30A/360"
-msgstr ""
+msgstr "30A/360"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__30e/360
 msgid "30E/360"
-msgstr ""
+msgstr "30E/360"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__30e/360_isda
 msgid "30E/360 ISDA"
-msgstr ""
+msgstr "30E/360 ISDA"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__30u/360
 msgid "30U/360"
-msgstr ""
+msgstr "30U/360"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
@@ -52,6 +53,9 @@ msgid ""
 "                                        <span class=\"oe_inline\" "
 "invisible=\"duration != 1\">month</span>"
 msgstr ""
+"<span class=\"oe_inline\" invisible=\"duration == 1\">mjeseci</span>\n"
+"                                        <span class=\"oe_inline\" "
+"invisible=\"duration != 1\">mjesec</span>"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_compute_wizard
@@ -60,36 +64,39 @@ msgid ""
 "                                    <span class=\"oe_inline\" "
 "invisible=\"loan_term != 1\">year</span>"
 msgstr ""
+"<span class=\"oe_inline\" invisible=\"loan_term == 1\">godina</span>\n"
+"                                    <span class=\"oe_inline\" "
+"invisible=\"loan_term != 1\">godina</span>"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_compute_wizard
 msgid "<span class=\"oe_inline\">%</span>"
-msgstr ""
+msgstr "<span class=\"oe_inline\">%</span>"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__a/360
 msgid "A/360"
-msgstr ""
+msgstr "A/360"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__a/365f
 msgid "A/365F"
-msgstr ""
+msgstr "A/365F"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__a/a_afb
 msgid "A/A AFB"
-msgstr ""
+msgstr "A/A AFB"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__compounding_method__a/a_isda
 msgid "A/A ISDA"
-msgstr ""
+msgstr "A/A ISDA"
 
 #. module: account_loans
 #: model:ir.model,name:account_loans.model_account_return
 msgid "Accounting Return"
-msgstr ""
+msgstr "Računovodstveni prinos"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__message_needaction
@@ -105,12 +112,12 @@ msgstr "Aktivan"
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_close_wizard
 msgid "All draft entries after the"
-msgstr ""
+msgstr "Svi nacrti unosa nakon"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
 msgid "Amortization schedule"
-msgstr ""
+msgstr "Plan otplate"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__amount_borrowed
@@ -120,7 +127,7 @@ msgstr "Iznos pozajmice"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__amount_borrowed_difference
 msgid "Amount Borrowed Difference"
-msgstr ""
+msgstr "Razlika posuđenog iznosa"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_close_wizard
@@ -145,7 +152,7 @@ msgstr "Imovina/Priznavanje prihoda"
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan_compute_wizard__payment_end_of_month__at_anniversary
 msgid "At Anniversary"
-msgstr ""
+msgstr "Na godišnjicu"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__message_attachment_count
@@ -184,7 +191,7 @@ msgstr "Datum zatvaranja"
 #: model:ir.actions.act_window,name:account_loans.action_view_account_loan_close_wizard
 #: model:ir.model,name:account_loans.model_account_loan_close_wizard
 msgid "Close Loan Wizard"
-msgstr ""
+msgstr "Čarobnjak za zatvaranje kredita"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan__state__closed
@@ -197,13 +204,13 @@ msgstr "Zatvoreno"
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_search_view
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_search_view
 msgid "Closed Loans"
-msgstr ""
+msgstr "Zatvoreni krediti"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/wizard/account_loan_close_wizard.py:0
 msgid "Closed on the %(date)s"
-msgstr ""
+msgstr "Zatvoreno dana %(date)s"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__company_id
@@ -214,7 +221,7 @@ msgstr "Tvrtka"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_compute_wizard__compounding_method
 msgid "Compounding Method"
-msgstr ""
+msgstr "Metoda ukamaćivanja"
 
 #. module: account_loans
 #. odoo-javascript
@@ -226,7 +233,7 @@ msgstr "Izračunaj"
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Compute New Loan"
-msgstr ""
+msgstr "Izračunaj novi kredit"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
@@ -239,17 +246,19 @@ msgid ""
 "Confirm that all loans recorded in the accounts actually exist and match the "
 "loan agreements."
 msgstr ""
+"Potvrdite da svi krediti evidentirani na kontima stvarno postoje i "
+"odgovaraju kreditnim ugovorima."
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__count_linked_assets
 msgid "Count Linked Assets"
-msgstr ""
+msgstr "Broj povezanih osnovnih sredstava"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_asset__count_linked_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_asset_group__count_linked_loans
 msgid "Count Linked Loans"
-msgstr ""
+msgstr "Broj povezanih kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__create_uid
@@ -304,7 +313,7 @@ msgstr "Odbaci"
 #: model:ir.model.fields,field_description:account_loans.field_account_move__display_name
 #: model:ir.model.fields,field_description:account_loans.field_account_return__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan__state__draft
@@ -315,7 +324,7 @@ msgstr "Nacrt"
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_search_view
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_search_view
 msgid "Draft & Running Loans"
-msgstr ""
+msgstr "Nacrti i aktivni krediti"
 
 #. module: account_loans
 #. odoo-python
@@ -332,7 +341,7 @@ msgstr "Trajanje"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__duration_difference
 msgid "Duration Difference"
-msgstr ""
+msgstr "Razlika trajanja"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__end_date
@@ -352,11 +361,15 @@ msgid ""
 "Loans payable within 1 year → Account 42\n"
 "Loans > 1 year → Account 17"
 msgstr ""
+"Osigurajte da su krediti pravilno klasificirani kao kratkoročni ili "
+"dugoročni te objavljeni u skladu s belgijskim GAAP. \n"
+"Krediti s dospijećem do 1 godine → Konto 42\n"
+"Krediti > 1 godine → Konto 17"
 
 #. module: account_loans
 #: model:ir.model.fields,help:account_loans.field_account_loan_line__generated_move_ids
 msgid "Entries that we generated from this loan line"
-msgstr ""
+msgstr "Unosi koje smo generirali iz ove stavke kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__expense_account_id
@@ -366,7 +379,7 @@ msgstr "Konto troška"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_compute_wizard__first_payment_date
 msgid "First Payment"
-msgstr ""
+msgstr "Prvo plaćanje"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__message_follower_ids
@@ -425,29 +438,29 @@ msgstr "Ako je označeno neke poruke mogu imati grešku u dostavi."
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__interest
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_line__interest
 msgid "Interest"
-msgstr ""
+msgstr "Kamata"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__interest_difference
 msgid "Interest Difference"
-msgstr ""
+msgstr "Razlika kamate"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_compute_wizard__interest_rate
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_compute_wizard
 msgid "Interest Rate"
-msgstr ""
+msgstr "Kamatna stopa"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/wizard/account_loan_compute_wizard.py:0
 msgid "Interest Rate must be between 0 and 100"
-msgstr ""
+msgstr "Kamatna stopa mora biti između 0 i 100"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_list_view
 msgid "Interests"
-msgstr ""
+msgstr "Kamate"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__message_is_follower
@@ -463,12 +476,12 @@ msgstr "Je knjiženje otplate kredita"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_line__is_payment_move_posted
 msgid "Is Payment Move Posted"
-msgstr ""
+msgstr "Je li knjigovodstvena stavka plaćanja proknjižena"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__is_wrong_date
 msgid "Is Wrong Date"
-msgstr ""
+msgstr "Je neispravan datum"
 
 #. module: account_loans
 #: model:ir.model,name:account_loans.model_account_journal
@@ -484,7 +497,7 @@ msgstr "Temeljnica"
 #. module: account_loans
 #: model:account.journal,name:account_loans.account_loans_journal_loan
 msgid "Journal Loan Demo"
-msgstr ""
+msgstr "Journal Loan Demo"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__write_uid
@@ -506,20 +519,20 @@ msgstr "Vrijeme promjene"
 #: model:ir.model.fields,help:account_loans.field_account_bank_statement_line__generating_loan_line_id
 #: model:ir.model.fields,help:account_loans.field_account_move__generating_loan_line_id
 msgid "Line of the loan that generated this entry"
-msgstr ""
+msgstr "Stavka kredita koja je generirala ovaj unos"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__linked_assets_ids
 msgid "Linked Assets"
-msgstr ""
+msgstr "Povezana osnovna sredstva"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_asset.py:0
 msgid "Linked loans"
-msgstr ""
+msgstr "Povezani krediti"
 
 #. module: account_loans
 #: model:ir.model,name:account_loans.model_account_loan
@@ -537,19 +550,19 @@ msgstr "Pozajmica"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_compute_wizard__loan_amount
 msgid "Loan Amount"
-msgstr ""
+msgstr "Iznos kredita"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/wizard/account_loan_compute_wizard.py:0
 msgid "Loan Amount must be positive"
-msgstr ""
+msgstr "Iznos kredita mora biti pozitivan"
 
 #. module: account_loans
 #: model:ir.actions.act_window,name:account_loans.action_view_account_loan_compute_wizard
 #: model:ir.model,name:account_loans.model_account_loan_compute_wizard
 msgid "Loan Compute Wizard"
-msgstr ""
+msgstr "Čarobnjak za izračun kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__date
@@ -562,50 +575,50 @@ msgstr "Datum pozajmice"
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Loan Entries"
-msgstr ""
+msgstr "Unosi kredita"
 
 #. module: account_loans
 #: model:ir.model,name:account_loans.model_account_loan_line
 msgid "Loan Line"
-msgstr ""
+msgstr "Stavka kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__line_ids
 msgid "Loan Lines"
-msgstr ""
+msgstr "Stavke kredita"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
 msgid "Loan Settings"
-msgstr ""
+msgstr "Postavke kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_compute_wizard__loan_term
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_compute_wizard
 msgid "Loan Term"
-msgstr ""
+msgstr "Rok kredita"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/wizard/account_loan_compute_wizard.py:0
 msgid "Loan Term must be positive"
-msgstr ""
+msgstr "Rok kredita mora biti pozitivan"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_list_view
 msgid "Loan lines"
-msgstr ""
+msgstr "Stavke kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__display_name
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
 msgid "Loan name"
-msgstr ""
+msgstr "Naziv kredita"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.asset_group_form_view_inherit_loan
 msgid "Loan(s)"
-msgstr ""
+msgstr "Kredit(i)"
 
 #. module: account_loans
 #. odoo-python
@@ -627,22 +640,22 @@ msgstr "Analiza pozajmice"
 #. module: account_loans
 #: model:account.return.check.template,name:account_loans.account_return_check_template_loans_classification
 msgid "Loans classification"
-msgstr ""
+msgstr "Klasifikacija kredita"
 
 #. module: account_loans
 #: model:account.return.check.template,name:account_loans.account_return_check_template_loans_recording
 msgid "Loans recording"
-msgstr ""
+msgstr "Evidencija kredita"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__long_term_account_id
 msgid "Long Term Account"
-msgstr ""
+msgstr "Konto dugoročnog razdoblja"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_line__long_term_theoretical_balance
 msgid "Long-Term"
-msgstr ""
+msgstr "Dugoročno"
 
 #. module: account_loans
 #: model_terms:ir.actions.act_window,help:account_loans.action_view_account_loans
@@ -662,7 +675,7 @@ msgstr "Poruke"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_journal__loan_properties_definition
 msgid "Model Properties"
-msgstr ""
+msgstr "Svojstva modela"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__name
@@ -673,7 +686,7 @@ msgstr "Naziv"
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__nb_posted_entries
 msgid "Nb Posted Entries"
-msgstr ""
+msgstr "Broj proknjiženih unosa"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__message_needaction_counter
@@ -703,12 +716,15 @@ msgid ""
 "period. Ensure your loans are properly registered for automatic "
 "amortizations calculation."
 msgstr ""
+"Odoo automatski upravlja vašim amortizacijama. Nisu pronađeni krediti za ovo "
+"razdoblje. Osigurajte da su vaši krediti pravilno evidentirani za automatski "
+"izračun amortizacije."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_move.py:0
 msgid "Original Loan"
-msgstr ""
+msgstr "Izvorni kredit"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__outstanding_balance
@@ -733,7 +749,7 @@ msgstr "Plaćanja"
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Please add a name before computing the loan"
-msgstr ""
+msgstr "Molimo dodajte naziv prije izračuna kredita"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
@@ -752,18 +768,18 @@ msgstr "Pregled"
 #: code:addons/account_loans/wizard/account_loan_compute_wizard.py:0
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_line__principal
 msgid "Principal"
-msgstr ""
+msgstr "Glavnica"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Principal & Interest"
-msgstr ""
+msgstr "Glavnica i kamata"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_list_view
 msgid "Principals"
-msgstr ""
+msgstr "Glavnice"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__loan_properties
@@ -780,28 +796,28 @@ msgstr "Ocjene"
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Reclassification LT - ST"
-msgstr ""
+msgstr "Reklasifikacija DUG - KRAT"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
 msgid "Related Asset(s)"
-msgstr ""
+msgstr "Povezano osnovno sredstvo"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_move_form_inherit_loan
 msgid "Related Loan"
-msgstr ""
+msgstr "Povezani kredit"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_asset_form_inherit_loan
 msgid "Related Loan(s)"
-msgstr ""
+msgstr "Povezani kredit(i)"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_asset__linked_loans_ids
 #: model:ir.model.fields,field_description:account_loans.field_account_asset_group__linked_loan_ids
 msgid "Related Loans"
-msgstr ""
+msgstr "Povezani krediti"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
@@ -812,7 +828,7 @@ msgstr "Poništi"
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Reversal reclassification LT - ST"
-msgstr ""
+msgstr "Storno reklasifikacije DUG - KRAT"
 
 #. module: account_loans
 #: model:ir.model.fields.selection,name:account_loans.selection__account_loan__state__running
@@ -828,7 +844,7 @@ msgstr "Greška u slanju SMSa"
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_search_view
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_search_view
 msgid "Search Loan"
-msgstr ""
+msgstr "Pretraži kredit"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_form_view
@@ -847,17 +863,17 @@ msgstr ""
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__short_term_account_id
 msgid "Short Term Account"
-msgstr ""
+msgstr "Konto kratkoročnog razdoblja"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan_line__short_term_theoretical_balance
 msgid "Short-Term"
-msgstr ""
+msgstr "Kratkoročno"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__skip_until_date
 msgid "Skip until"
-msgstr ""
+msgstr "Preskoči do"
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__start_date
@@ -876,31 +892,31 @@ msgstr "Status"
 #. odoo-python
 #: code:addons/account_loans/wizard/account_loan_compute_wizard.py:0
 msgid "The First Payment Date must be before the end of the loan."
-msgstr ""
+msgstr "Datum prvog plaćanja mora biti prije kraja kredita."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The amount borrowed must be positive"
-msgstr ""
+msgstr "Posuđeni iznos mora biti pozitivan"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The duration must be positive"
-msgstr ""
+msgstr "Trajanje mora biti pozitivno"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The interest must be positive"
-msgstr ""
+msgstr "Kamata mora biti pozitivna"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The loan accounts should be set."
-msgstr ""
+msgstr "Konta kredita moraju biti postavljena."
 
 #. module: account_loans
 #. odoo-python
@@ -909,74 +925,76 @@ msgid ""
 "The loan amount %(loan_amount)s should be equal to the sum of the "
 "principals: %(principal_sum)s (difference %(principal_difference)s)"
 msgstr ""
+"Iznos kredita %(loan_amount)s trebao bi biti jednak zbroju glavnica: %"
+"(principal_sum)s (razlika %(principal_difference)s)"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The loan date should be earlier than the loan lines date."
-msgstr ""
+msgstr "Datum kredita treba biti raniji od datuma stavki kredita."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The loan duration should be equal to the number of loan lines."
-msgstr ""
+msgstr "Trajanje kredita treba biti jednako broju stavki kredita."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid ""
 "The loan interest should be equal to the sum of the loan lines interest."
-msgstr ""
+msgstr "Kamata kredita treba biti jednaka zbroju kamata stavki kredita."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The loan journal should be set."
-msgstr ""
+msgstr "Dnevnik kredita mora biti postavljen."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "The loan name should be set."
-msgstr ""
+msgstr "Naziv kredita mora biti postavljen."
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "This entry has been %s"
-msgstr ""
+msgstr "Ovaj unos je %s"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "This entry has been reversed from %s"
-msgstr ""
+msgstr "Ovaj unos je storniran iz %s"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_list_view
 msgid "Total Amounts Borrowed"
-msgstr ""
+msgstr "Ukupno posuđeni iznosi"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_list_view
 msgid "Total Outstanding Balance"
-msgstr ""
+msgstr "Ukupno nepodmireno stanje"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_list_view
 msgid "Total interests"
-msgstr ""
+msgstr "Ukupno kamate"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_list_view
 msgid "Total payments"
-msgstr ""
+msgstr "Ukupno plaćanja"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.account_loan_line_list_view
 msgid "Total principals"
-msgstr ""
+msgstr "Ukupno glavnice"
 
 #. module: account_loans
 #. odoo-javascript
@@ -988,7 +1006,7 @@ msgstr "Učitaj"
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "Uploaded file"
-msgstr ""
+msgstr "Učitana datoteka"
 
 #. module: account_loans
 #: model:ir.model.fields,help:account_loans.field_account_loan__skip_until_date
@@ -997,6 +1015,9 @@ msgid ""
 "to this date (included) and not create entries for them. This is useful if "
 "you have already manually created entries prior to the creation of this loan."
 msgstr ""
+"Po potvrdi kredita, Odoo će zanemariti stavke kredita do ovog datuma "
+"(uključivo) i neće kreirati unose za njih. Ovo je korisno ako ste već ručno "
+"kreirali unose prije kreiranja ovog kredita."
 
 #. module: account_loans
 #: model:ir.model.fields,field_description:account_loans.field_account_loan__website_message_ids
@@ -1013,15 +1034,15 @@ msgstr "Povijest komunikacije Web stranice"
 #: code:addons/account_loans/models/account_asset.py:0
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "id"
-msgstr ""
+msgstr "id"
 
 #. module: account_loans
 #. odoo-python
 #: code:addons/account_loans/models/account_loan.py:0
 msgid "reversed"
-msgstr ""
+msgstr "stornirano"
 
 #. module: account_loans
 #: model_terms:ir.ui.view,arch_db:account_loans.view_account_loan_close_wizard
 msgid "will be deleted and the loan will be marked as closed."
-msgstr ""
+msgstr "bit će obrisan i kredit će biti označen kao zatvoren."

@@ -5,7 +5,7 @@ from odoo import _, api, Command, fields, models
 
 class AuditReport(models.Model):
     _name = 'audit.report'
-    _description = 'Audit Report'
+    _description = 'Annual Report'
 
     knowledge_article_id = fields.Many2one(
         'knowledge.article', string='Article', required=True, index=True)
@@ -25,7 +25,7 @@ class AuditReport(models.Model):
     responsible_user_ids = fields.Many2many('res.users', string='Responsibles',
         default=lambda self: self.env.user)
     knowledge_template_article_id = fields.Many2one(
-        'knowledge.article', string='Audit Report Template', required=True,
+        'knowledge.article', string='Annual Report Template', required=True,
         domain="[('is_audit_report_template', '=', True)]",
         default=lambda self: self.env['knowledge.article'].search([('is_audit_report_template', '=', True)], limit=1))
 
@@ -62,6 +62,11 @@ class AuditReport(models.Model):
                 article.invite_members(users.mapped('partner_id'), 'write')
         return super().write(vals)
 
+    @api.ondelete(at_uninstall=False)
+    def _unlink_cascade_articles(self):
+        if knowledge_articles := self.knowledge_article_id._filtered_access('write'):
+            knowledge_articles.action_send_to_trash()
+
     def action_set_to_draft(self):
         self.status = 'draft'
 
@@ -71,7 +76,7 @@ class AuditReport(models.Model):
     def action_edit_audit_report(self):
         action = self.env['ir.actions.act_window']._for_xml_id(
             'accountant_knowledge.action_audit_report_quick_create')
-        action['name'] = _('Edit Audit Report')
+        action['name'] = _('Edit Annual Report')
         action['res_id'] = self.id
         return action
 

@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:56+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-14 13:01+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/pl/>\n"
@@ -46,7 +46,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -113,21 +113,11 @@ msgstr "%s wybrano"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"'%s' zakres daty nie może być oceniony dla raportu używanego przez więcej "
-"niż jeden typ zwrotu."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"'%s' zakres daty nie może być oceniony dla raportu używanego przez "
-"jakikolwiek typ zwrotu."
+"'%s' zakres daty nie może być oceniony dla raportu używanego przez wiele "
+"typów zwrotów przy użyciu różnych częstotliwości."
 
 #. module: account_reports
 #. odoo-python
@@ -530,6 +520,11 @@ msgstr "Status konta podczas audytu konta"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "Status audytu konta"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Szablon planów kont"
 
 #. module: account_reports
 #. odoo-python
@@ -954,12 +949,8 @@ msgstr "Wszystkie kontrole i osoby zatwierdzające zostały zresetowane"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
-msgstr ""
-"Wszystkie numery VAT klienta są ważne w świetle <a href=\"https://"
-"ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
+msgstr "Wszystkie numery VAT klientów są ważne w systemie VIES."
 
 #. module: account_reports
 #. odoo-python
@@ -1986,7 +1977,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ustawienia konfiguracji"
+msgstr "Konfiguracja ustawień"
 
 #. module: account_reports
 #. odoo-python
@@ -2505,6 +2496,7 @@ msgstr "Wyświetl program Kompozytor poczty"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2586,6 +2578,8 @@ msgid ""
 "Division by zero occurred while evaluating Expression: %(line_name)s > %"
 "(label)s."
 msgstr ""
+"Podczas obliczania wyrażenia wystąpiło dzielenie przez zero: %(line_name)s > "
+"%(label)s."
 
 #. module: account_reports
 #. odoo-python
@@ -2951,12 +2945,6 @@ msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "Wyklucz z listy sprzedaży WE wszelką sprzedaż krajową lub spoza UE."
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Wyklucz wszelkich prywatnych klientów."
-
-#. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
 msgid "Excluded Accounts"
 msgstr "Wykluczone konta"
@@ -3174,13 +3162,13 @@ msgstr "Raporty z monitowania"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__message_follower_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__message_follower_ids
 msgid "Followers"
-msgstr "Obserwatorzy"
+msgstr "Obserwujący"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__message_partner_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Obserwatorzy (partnerzy)"
+msgstr "Obserwujący (partnerzy)"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_return__activity_type_icon
@@ -3497,6 +3485,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4345,15 +4334,13 @@ msgstr "Brakujące"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 "Brak danych firmy (takich jak numer VAT lub kraj) może powodować błędy w "
 "raporcie,\n"
 "np. stosowanie niewłaściwej stawki VAT lub błędne zwolnienie transakcji z "
-"podatku.\n"
-"                "
+"podatku."
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4512,17 +4499,17 @@ msgstr "Następna Czynność wydarzenia w kalendarzu"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Termin kolejnej czynności"
+msgstr "Termin kolejnej aktywności"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_summary
 msgid "Next Activity Summary"
-msgstr "Podsumowanie kolejnej czynności"
+msgstr "Podsumowanie kolejnej aktywności"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_type_id
 msgid "Next Activity Type"
-msgstr "Typ następnej czynności"
+msgstr "Typ następnej aktywności"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__next_state
@@ -4740,7 +4727,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return__audit_status__ongoing
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_search_view
 msgid "Ongoing"
-msgstr "Na bieżąco"
+msgstr "Bieżące"
 
 #. module: account_reports
 #. odoo-python
@@ -4765,12 +4752,6 @@ msgstr "Tylko administrator księgowości może zresetować zamknięcie roczne"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr "Tylko administrator księgowości może wyznaczyć/odwołać przełożonego."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Tylko klienci biznesowi"
 
 #. module: account_reports
 #. odoo-python
@@ -5282,12 +5263,6 @@ msgstr "Nieprzydzielone zarobki z lat poprzednich"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "Drukuj i wyślij"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Prywatni klienci"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6042,7 +6017,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/tax_report/warnings.xml:0
 msgid "Some journal items appear to point to obsolete report lines."
 msgstr ""
-"Niektóre pozycje dziennika wydają się wskazywać na nieaktualne linie "
+"Niektóre pozycje dziennika wydają się wskazywać na nieaktualne pozycje "
 "raportów."
 
 #. module: account_reports
@@ -6289,7 +6264,7 @@ msgstr "Zeznanie podatkowe/audyt"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -6619,7 +6594,7 @@ msgid ""
 "This report contains inconsistencies. The affected lines are marked with a "
 "warning."
 msgstr ""
-"Ten raport zawiera niespójności. Dotknięte linie oznaczone są ostrzeżeniem."
+"Ten raport zawiera niespójności. Dotknięte pozycje oznaczone są ostrzeżeniem."
 
 #. module: account_reports
 #. odoo-javascript
@@ -6691,7 +6666,7 @@ msgstr "Do sprawdzenia"
 #: code:addons/account_reports/static/src/components/account_report/filters/filter_date.xml:0
 #: code:addons/account_reports/static/src/components/account_return/widgets/account_return_dashboard_list.js:0
 msgid "Today"
-msgstr "Na dzisiaj"
+msgstr "Dzisiaj"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_search_view
@@ -6812,7 +6787,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Trying to expand a line without an expansion function."
-msgstr "Próba rozwinięcia linii bez funkcji rozwijania."
+msgstr "Próba rozwinięcia pozycji bez funkcji rozwijania."
 
 #. module: account_reports
 #. odoo-python
@@ -7057,7 +7032,7 @@ msgstr "Wyświetl wyciąg bankowy"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/line_cell/popover/carryover_popover.xml:0
 msgid "View Carryover Lines"
-msgstr "Wyświetl linie przeniesienia"
+msgstr "Wyświetl pozycje przeniesienia"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
@@ -7155,7 +7130,7 @@ msgstr "Pliki robocze"
 #. odoo-python
 #: code:addons/account_reports/models/account_partner_ledger.py:0
 msgid "Wrong ID for partner ledger line to expand: %s"
-msgstr "Nieprawidłowy identyfikator linii księgi partnera do rozwinięcia: %s"
+msgstr "Nieprawidłowy identyfikator pozycji księgi partnera do rozwinięcia: %s"
 
 #. module: account_reports
 #. odoo-python
@@ -7216,13 +7191,6 @@ msgstr "Używasz niestandardowych kursów wymiany."
 #: code:addons/account_reports/models/account_return.py:0
 msgid "You can only have a unique check code for each return."
 msgstr "Każdy zwrot może mieć tylko jeden unikalny kod kontrolny."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Możesz cofnąć ukończony zwrot tylko wtedy, gdy poprzedni stan był nowy."
 
 #. module: account_reports
 #. odoo-python
@@ -7324,7 +7292,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
 msgid "[Draft]"
-msgstr "[Projekt]"
+msgstr "[Wersja robocza]"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7491,7 +7459,7 @@ msgstr "nieopublikowane wpisy do dziennika"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/line_cell/popover/carryover_popover.xml:0
 msgid "were carried over to this line from previous period."
-msgstr "zostały przeniesione do tej linii z poprzedniego okresu."
+msgstr "zostały przeniesione do tej pozycji z poprzedniego okresu."
 
 #. module: account_reports
 #. odoo-javascript
@@ -7515,7 +7483,7 @@ msgstr "zostaną przeniesione do"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/line_cell/popover/carryover_popover.xml:0
 msgid "will be carried over to this line in the next period."
-msgstr "zostaną przeniesione do tej linii w następnym okresie."
+msgstr "zostaną przeniesione do tej pozycji w następnym okresie."
 
 #. module: account_reports
 #. odoo-javascript
@@ -7550,6 +7518,34 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Zresetuj do stawki Odoo"
+
+#~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "'%s' zakres daty nie może być oceniony dla raportu używanego przez "
+#~ "jakikolwiek typ zwrotu."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Wszystkie numery VAT klienta są ważne w świetle <a href=\"https://"
+#~ "ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</a>."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Możesz cofnąć ukończony zwrot tylko wtedy, gdy poprzedni stan był nowy."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Wyklucz wszelkich prywatnych klientów."
+
+#~ msgid "Only business customers"
+#~ msgstr "Tylko klienci biznesowi"
+
+#~ msgid "Private Customers"
+#~ msgstr "Prywatni klienci"
 
 #~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
@@ -7604,9 +7600,6 @@ msgstr "⇒ Zresetuj do stawki Odoo"
 #~ msgstr ""
 #~ "Opcja znacznika \"Otwórz księgę główną\" jest dostępna tylko w wierszach "
 #~ "raportów dotyczących kont."
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Szablon planów kont"
 
 #~ msgid ""
 #~ "Actions may trigger specific behavior like opening calendar view or "

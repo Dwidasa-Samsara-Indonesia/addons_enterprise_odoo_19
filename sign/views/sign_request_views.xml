@@ -126,7 +126,7 @@
                     <div class="d-flex justify-content-between align-items-center gap-1">
                         <button string="Preview" type="object" name="go_to_document" class="oe_highlight" invisible="state == 'expired'"/>
                         <field name="completed_document_ids" widget="sign_request_documents_dropdown"/>
-                        <button string="Cancel" type="object" invisible="state not in ('sent', 'signed')" name="cancel" confirm="This will keep all the already completed signature of this request and disable every sent access, are you sure?"/>
+                        <button string="Cancel" type="object" invisible="state not in ('sent')" name="cancel" confirm="This will keep all the already completed signature of this request and disable every sent access, are you sure?"/>
                     </div>
                     <field name="state" widget="statusbar" statusbar_visible="sent,signed"/>
                 </header>

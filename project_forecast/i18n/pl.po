@@ -9,13 +9,14 @@
 # Łukasz Grzenkowicz <lukasz.grzenkowicz@gmail.com>, 2022
 # Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Marta (wacm)" <wacm@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-10-17 13:22+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"PO-Revision-Date: 2026-03-14 09:35+0000\n"
+"Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "project_forecast/pl/>\n"
 "Language: pl\n"
@@ -25,18 +26,18 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: project_forecast
 #. odoo-python
 #: code:addons/project_forecast/models/project_project.py:0
 msgid "%s Hours"
-msgstr ""
+msgstr "%s godzin"
 
 #. module: project_forecast
 #: model_terms:ir.ui.view,arch_db:project_forecast.planning_shift_ics_description_inherit
 msgid "<b>Project:</b>"
-msgstr ""
+msgstr "<b>Projekt:</b>"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.planning_menu_schedule_by_project
@@ -121,7 +122,7 @@ msgstr "Projekt"
 #. module: project_forecast
 #: model_terms:ir.ui.view,arch_db:project_forecast.planning_shift_ics_description_inherit
 msgid "Project:"
-msgstr ""
+msgstr "Projekt:"
 
 #. module: project_forecast
 #: model:ir.actions.act_window,name:project_forecast.planning_action_schedule_by_project
@@ -163,6 +164,10 @@ msgid ""
 "To change it, first clear the company field for the project. Then move the "
 "shifts to the new company, and update the project's company."
 msgstr ""
+"Nie można zaktualizować firmy dla projektu %(project_name)s, ponieważ jest "
+"on powiązany z zmianami w innej firmie.\n"
+"Aby to zmienić, należy najpierw wyczyścić pole firmy dla projektu. Następnie "
+"przenieść zmiany do nowej firmy i zaktualizować firmę projektu."
 
 #~ msgid "Plan your resources for this project"
 #~ msgstr "Zaplanuj zasoby dla tego projektu"

@@ -22,6 +22,7 @@ class TestSmartSchedule(TestSmartScheduleCommon):
             'tz': 'UTC',
             'full_time_required_hours': 40.0,
             'hours_per_day': 8.0,
+            'hours_per_week': 40.0,
             'flexible_hours': True,
         })
 

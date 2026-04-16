@@ -14,7 +14,7 @@ import re
 import os
 from textwrap import shorten
 
-from odoo import api, fields, models, _, modules
+from odoo import api, fields, models, _, SUPERUSER_ID, modules
 from odoo.tools.sql import column_exists, create_column
 from odoo.addons.account.tools import format_structured_reference_iso
 from odoo.exceptions import UserError, ValidationError, AccessError, RedirectWarning
@@ -751,7 +751,9 @@ class AccountMove(models.Model):
         groups="account.group_account_invoice,account.group_account_readonly",
     )
     duplicated_ref_ids = fields.Many2many(comodel_name='account.move', compute='_compute_duplicated_ref_ids')
+    # used to check if any moves in duplicated_ref_ids are in the 'Draft' state.
     is_draft_duplicated_ref_ids = fields.Boolean(compute="_compute_is_draft_duplicated_ref_ids")
+    is_exact_move_duplicate = fields.Boolean(compute='_compute_is_draft_duplicated_ref_ids')
     need_cancel_request = fields.Boolean(compute='_compute_need_cancel_request')
 
     show_update_fpos = fields.Boolean(string="Has Fiscal Position Changed", store=False)  # True if the fiscal position was changed
@@ -1054,7 +1056,7 @@ class AccountMove(models.Model):
                 currency_priority = 0
             else:
                 currency_priority = 1
-            return currency_priority
+            return (currency_priority, not bank.allow_out_payment)
 
         for move in self:
             if move.is_inbound() and (
@@ -1062,22 +1064,22 @@ class AccountMove(models.Model):
                     move.preferred_payment_method_line_id
                     or move.bank_partner_id.property_inbound_payment_method_line_id
                 )
-            ) and payment_method.journal_id and payment_method.journal_id.bank_account_id.allow_out_payment:
+            ) and payment_method.journal_id:
                 move.partner_bank_id = payment_method.journal_id.bank_account_id
                 continue
 
             move.partner_bank_id = move.bank_partner_id.bank_ids.filtered(
-                lambda bank: (not bank.company_id or bank.company_id == move.company_id) and bank.allow_out_payment
+                lambda bank: not bank.company_id or bank.company_id == move.company_id
             ).sorted(key=_bank_selection_key)[:1]
 
     @api.depends('partner_id')
     def _compute_invoice_payment_term_id(self):
         for move in self:
             move = move.with_company(move.company_id)
-            if move.is_sale_document(include_receipts=True) and move.partner_id.property_payment_term_id:
-                move.invoice_payment_term_id = move.partner_id.property_payment_term_id
-            elif move.is_purchase_document(include_receipts=True) and move.partner_id.property_supplier_payment_term_id:
-                move.invoice_payment_term_id = move.partner_id.property_supplier_payment_term_id
+            if move.is_sale_document(include_receipts=True):
+                move.invoice_payment_term_id = move.partner_id.property_payment_term_id or move.invoice_payment_term_id
+            elif move.is_purchase_document(include_receipts=True):
+                move.invoice_payment_term_id = move.partner_id.property_supplier_payment_term_id or move.invoice_payment_term_id
             else:
                 move.invoice_payment_term_id = False
 
@@ -2054,7 +2056,7 @@ class AccountMove(models.Model):
         for move in self:
             move.quick_encoding_vals = move._get_quick_edit_suggestions()
 
-    @api.depends('ref', 'move_type', 'partner_id', 'invoice_date', 'tax_totals')
+    @api.depends('ref', 'move_type', 'partner_id', 'invoice_date', 'tax_totals', 'currency_id')
     def _compute_duplicated_ref_ids(self):
         move_to_duplicate_move = self._fetch_duplicate_reference()
         for move in self:
@@ -2067,7 +2069,7 @@ class AccountMove(models.Model):
         if not moves:
             return {}
 
-        used_fields = ("company_id", "partner_id", "commercial_partner_id", "ref", "move_type", "invoice_date", "state", "amount_total")
+        used_fields = ("company_id", "partner_id", "commercial_partner_id", "ref", "move_type", "invoice_date", "state", "amount_total", "currency_id")
 
         self.env["account.move"].flush_model(used_fields)
 
@@ -2144,6 +2146,7 @@ class AccountMove(models.Model):
                    AND move.id != duplicate_move.id
                    AND duplicate_move.state IN %(matching_states)s
                    AND move.move_type = duplicate_move.move_type
+                   AND move.currency_id = duplicate_move.currency_id
                    AND (
                            move.commercial_partner_id = duplicate_move.commercial_partner_id
                            OR (move.commercial_partner_id IS NULL AND duplicate_move.state = 'draft')
@@ -2166,6 +2169,15 @@ class AccountMove(models.Model):
     def _compute_is_draft_duplicated_ref_ids(self):
         for move in self:
             move.is_draft_duplicated_ref_ids = any(duplicate_move.state == 'draft' for duplicate_move in move.duplicated_ref_ids)
+            move.is_exact_move_duplicate = any(
+                move.ref and move.ref == dup.ref
+                and move.move_type == dup.move_type
+                and move.partner_id == dup.partner_id
+                and move.invoice_date == dup.invoice_date
+                and move.amount_total == dup.amount_total
+                and move.is_purchase_document()
+                for dup in move.duplicated_ref_ids
+            )
 
     @api.depends('company_id')
     def _compute_display_qr_code(self):
@@ -4800,7 +4812,12 @@ class AccountMove(models.Model):
                 except (UserError, ValueError):
                     _logger.exception("Failed to link bill to purchase order")
 
-        if new and res:
+        if new:
+            # we force an early access token write to prevent edge-cases where the notification
+            # email will fail because the OCR/IAP (async) callback triggers a concurrent update on the same
+            # account move
+            self._portal_ensure_token()
+            self.flush_recordset(['access_token'])
             try:
                 attachments = set(self.attachment_ids + self._from_files_data(files_data + self._unwrap_attachments(files_data)))
                 self.journal_id._notify_invoice_subscribers(
@@ -4817,6 +4834,8 @@ class AccountMove(models.Model):
                 )
             except Exception:
                 _logger.exception("Failed to notify invoice subscribers after EDI import.")
+
+        self._post_process_link_to_purchase_order(self)
 
         return res
 
@@ -4851,6 +4870,11 @@ class AccountMove(models.Model):
         """ Helper to get a reason why an invoice cannot be decoded if it has invoice lines. """
         if self.invoice_line_ids:
             return self.env._("The invoice already contains lines.")
+
+    @api.model
+    def _post_process_link_to_purchase_order(self, invoice):
+        # To be implemented in modules needing to process the invoice after it was linked (or not) to a PO
+        pass
 
     # -------------------------------------------------------------------------
     # BUSINESS METHODS
@@ -5233,13 +5257,16 @@ class AccountMove(models.Model):
         self.ensure_one()
         if self.env.context.get('name_as_amount_total'):
             currency_amount = self.currency_id.format(self.amount_total)
-            if self.state == 'posted':
+            if self.is_sale_document(include_receipts=True) and self.state == "posted":
                 ref = f" - {self.ref}" if self.ref else ""
                 return _("%(name)s%(ref)s at %(currency_amount)s", name=(self.name), ref=ref, currency_amount=currency_amount)
-            if self.name:
-                return _("%(name)s - Draft at (%(currency_amount)s)", name=(self.name), currency_amount=currency_amount)
-            else:
-                return _("Draft (%(currency_amount)s)", currency_amount=currency_amount)
+            label = (self.ref or self.name or "") if self.is_purchase_document(include_receipts=True) else (self.name or "")
+            if label:
+                if self.state == 'draft':
+                    return _("%(label)s at %(currency_amount)s (Draft)", label=label, currency_amount=currency_amount)
+                return _("%(label)s at %(currency_amount)s", label=label, currency_amount=currency_amount)
+            return _("Draft (%(currency_amount)s)", currency_amount=currency_amount)
+
         name = ''
         if self.state == 'draft':
             name += {
@@ -5513,9 +5540,21 @@ class AccountMove(models.Model):
                     "So you cannot confirm the invoice."
                 ))
             if invoice.partner_bank_id and invoice.is_inbound() and not invoice.partner_bank_id.allow_out_payment:
-                raise UserError(_(
-                    "The company bank account linked to this invoice is not trusted, please double-check and trust it before confirming, or remove it"
-                ))
+                if self.env.user.id == SUPERUSER_ID or self.env.user.has_groups('base.group_public') or self.env.user.has_groups('base.group_portal'):
+                    # Do not block in case of automated flows, simply remove the information
+                    invoice.partner_bank_id = False
+                elif invoice.partner_bank_id._user_can_trust():
+                    raise RedirectWarning(
+                        _(
+                            "The company bank account (%(account_number)s) linked to this invoice is not trusted. "
+                            "Go to the Bank Settings, double-check that it is yours or correct the number, and click on Send Money to trust it.",
+                            account_number=invoice.partner_bank_id.display_name,
+                        ),
+                        invoice.partner_bank_id._get_records_action(),
+                        _("Bank settings")
+                    )
+                else:
+                    raise UserError(_("The bank account of your company is not trusted. Please ask an admin or someone with approval rights to check it."))
             if float_compare(invoice.amount_total, 0.0, precision_rounding=invoice.currency_id.rounding) < 0:
                 validation_msgs.add(_(
                     "You cannot validate an invoice with a negative total amount. "
@@ -5576,6 +5615,12 @@ class AccountMove(models.Model):
         if validation_msgs:
             msg = "\n".join([line for line in validation_msgs])
             raise UserError(msg)
+
+        if inactive_analytic_ids := self.line_ids.sudo().with_context(active_test=False).distribution_analytic_account_ids.filtered(lambda a: not a.active):
+            raise UserError(_(
+                "You cannot post an entry with an archived analytic account: %s",
+                ', '.join(inactive_analytic_ids.mapped('name')),
+            ))
 
         if soft:
             future_moves = self.filtered(lambda move: move.date > fields.Date.context_today(self))
@@ -5712,7 +5757,7 @@ class AccountMove(models.Model):
 
     def _link_bill_origin_to_purchase_orders(self, timeout=10):
         for move in self.filtered(lambda m: m.move_type in self.get_purchase_types()):
-            references = [ref.strip() for ref in re.split(r"[ ,]+", move.invoice_origin)] if move.invoice_origin else []
+            references = re.findall(r"[^,\s]+", move.invoice_origin or "")
             move._find_and_set_purchase_orders(references, move.partner_id.id, move.amount_total, timeout=timeout)
         return self
 
@@ -6860,24 +6905,20 @@ class AccountMove(models.Model):
                     or (partner.user_ids and all(user._is_internal() for user in partner.user_ids))
             )
 
-        def is_right_company(partner):
-            if company:
-                return partner.company_id.id in [False, company.id]
-            return True
+        def filter_found(partner):
+            return not company or partner.company_id.id in [False, company.id] or partner.partner_share
 
         # Search for partner that sent the mail.
         from_mail_addresses = email_split(msg_dict.get('from', ''))
-        partners = self._partner_find_from_emails_single(
-            from_mail_addresses, filter_found=lambda p: is_right_company(p) or not p.partner_share, no_create=True,
-        )
+        partners = self._partner_find_from_emails_single(from_mail_addresses, filter_found=filter_found, no_create=True)
         # if we are in the case when an internal user forwarded the mail manually
         # search for partners in mail's body
-        if partners and is_internal_partner(partners[0]):
+        if partners and is_internal_partner(partners[0]) and (body_mail_addresses := set(email_re.findall(msg_dict.get('body') or ''))):
             # Search for partners in the mail's body.
-            body_mail_addresses = set(email_re.findall(msg_dict.get('body')))
-            partners = self._partner_find_from_emails_single(
-                body_mail_addresses, filter_found=lambda p: is_right_company(p) or p.partner_share, no_create=True,
-            ) if body_mail_addresses else self.env['res.partner']
+            partners = self._partner_find_from_emails_single(body_mail_addresses, filter_found=filter_found, no_create=True)
+
+        # Never return an internal partner
+        partners = partners.filtered(lambda p: not is_internal_partner(p))
 
         # Little hack: Inject the mail's subject in the body.
         if msg_dict.get('subject') and msg_dict.get('body'):
@@ -6899,6 +6940,9 @@ class AccountMove(models.Model):
         move._compute_name()  # because the name is given, we need to recompute in case it is the first invoice of the journal
 
         return move
+
+    def _attachment_fields_to_clear(self):
+        return super()._attachment_fields_to_clear() + ['message_main_attachment_id']
 
     def _message_post_after_hook(self, new_message, message_values):
         """ This method processes the attachments of a new mail.message. It handles the 3 following situations:
@@ -7026,17 +7070,17 @@ class AccountMove(models.Model):
             force_record_name=force_record_name,
         )
         record = render_context['record']
-        subtitles = [f"{record.name} - {record.partner_id.name}" if record.partner_id.name else record.name]
+        subtitles = [f"{record.display_name} - {record.partner_id.name}" if record.partner_id.name else record.display_name]
         if self.is_invoice(include_receipts=True):
             # Only show the amount in emails for non-miscellaneous moves. It might confuse recipients otherwise.
             if self.invoice_date_due and self.payment_state not in ('in_payment', 'paid'):
                 subtitles.append(_(
                     '%(amount)s due\N{NO-BREAK SPACE}%(date)s',
-                    amount=format_amount(self.env, self.amount_total, self.currency_id, lang_code=render_context.get('lang')),
+                    amount=format_amount(self.env, self.amount_total or self.tax_totals.get('total_amount_currency', 0), self.currency_id, lang_code=render_context.get('lang')),
                     date=format_date(self.env, self.invoice_date_due, lang_code=render_context.get('lang')),
                 ))
             else:
-                subtitles.append(format_amount(self.env, self.amount_total, self.currency_id, lang_code=render_context.get('lang')))
+                subtitles.append(format_amount(self.env, self.amount_total or self.tax_totals.get('total_amount_currency', 0), self.currency_id, lang_code=render_context.get('lang')))
         render_context['subtitles'] = subtitles
         return render_context
 

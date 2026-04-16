@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-01-14 15:11+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-03-14 09:36+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "stock_barcode/nl/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -32,6 +32,12 @@ msgstr ""
 msgid "%s can't be inventoried. Only storable products can be inventoried."
 msgstr ""
 "%s kan niet worden geteld. Alleen voorraadproducten kunnen worden geteld."
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/count_screen_rfid.xml:0
+msgid "/s"
+msgstr ""
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.scrap_product_selector
@@ -139,7 +145,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
 msgid "Add extra product?"
 msgstr "Extra product toevoegen?"
 
@@ -245,8 +251,8 @@ msgid ""
 "An unexisting package type was scanned. This part of the barcode can't be "
 "processed."
 msgstr ""
-"Er is een niet-bestaand verpakkingsssoort gescand. Dit deel van de barcode "
-"kan niet worden verwerkt."
+"Er is een niet-bestaand pakkettype gescand. Dit deel van de barcode kan niet "
+"worden verwerkt."
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -499,7 +505,7 @@ msgstr "Bestemmingslocatie"
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.stock_move_line_product_selector
 msgid "Destination Package"
-msgstr "Bestemmingsverpakking"
+msgstr "Bestemmingspakket"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -683,6 +689,16 @@ msgstr "Volgende backorder werd aangemaakt:"
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Following backorders were created:"
 msgstr "Volgende backorders werden aangemaakt:"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
+msgid ""
+"Following scanned products are not reserved for this transfer. Are you sure "
+"you want to add them?"
+msgstr ""
+"De volgende gescande producten zijn niet gereserveerd voor deze "
+"verplaatsing. Weet je zeker dat je ze wilt toevoegen?"
 
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_picking_type__barcode_allow_extra_product
@@ -1006,7 +1022,7 @@ msgstr "Geen product of partij gevonden voor barcode %s"
 #. odoo-python
 #: code:addons/stock_barcode/models/stock_picking.py:0
 msgid "No product or package found for barcode %s"
-msgstr "Geen product of verpakking gevonden voor streepjescode %s"
+msgstr "Geen product of pakket gevonden voor streepjescode %s"
 
 #. module: stock_barcode
 #. odoo-python
@@ -1106,14 +1122,14 @@ msgstr "Eigenaar"
 #: model:ir.model,name:stock_barcode.model_stock_package
 #: model_terms:ir.ui.view,arch_db:stock_barcode.stock_quant_barcode
 msgid "Package"
-msgstr "Verpakking"
+msgstr "Pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 #: code:addons/stock_barcode/static/src/models/barcode_quant_model.js:0
 msgid "Package type %(type)s applied to the package %(package)s"
-msgstr "Type verpakking %(type)s van pakket %(package)s"
+msgstr "Pakkettype %(type)s van pakket %(package)s"
 
 #. module: stock_barcode
 #: model:ir.model.fields,field_description:stock_barcode.field_stock_move_line__packaging_uom_qty
@@ -1223,7 +1239,7 @@ msgstr "Tellijst afdrukken"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Print Packages"
-msgstr "Verpakkingen afdrukken"
+msgstr "Pakketten afdrukken"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1316,7 +1332,7 @@ msgstr "Aantal gedaan"
 #: model_terms:ir.ui.view,arch_db:stock_barcode.scrap_product_selector
 #: model_terms:ir.ui.view,arch_db:stock_barcode.stock_move_line_product_selector
 msgid "Quantity"
-msgstr "Aantal"
+msgstr "Hoeveelheid"
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.stock_quant_barcode_kanban
@@ -1511,7 +1527,7 @@ msgstr "Scan een partijnummer"
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a lot number or a packages then the destination location"
 msgstr ""
-"Scan een partijnummer of een verpakking en vervolgens de bestemmingslocatie"
+"Scan een partijnummer of een pakket en vervolgens de bestemmingslocatie"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1523,25 +1539,25 @@ msgstr "Scan een partijnummer en vervolgens de bestemmingslocatie"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a package"
-msgstr "Scan een verpakking"
+msgstr "Scan een pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a package or put in pack"
-msgstr "Een verpakking scannen of inpakken"
+msgstr "Een pakket scannen of inpakken"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a package or the destination location"
-msgstr "Scan een verpakking of de bestemmingslocatie"
+msgstr "Scan een pakket of de bestemmingslocatie"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a package, the destination location or another product"
-msgstr "Scan een verpakking, de bestemmingslocatie of een ander product"
+msgstr "Scan een pakket, de bestemmingslocatie of een ander product"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1571,7 +1587,7 @@ msgstr "Scan een product of een partij om de overdrachten te filteren."
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a product or a package"
-msgstr "Scan een product of een verpakking"
+msgstr "Scan een product of een pakket"
 
 #. module: stock_barcode
 #. odoo-python
@@ -1589,7 +1605,7 @@ msgstr "Scan een product of verpakking om de overdrachten te filteren."
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a product or another package"
-msgstr "Scan een product of een ander verpakking"
+msgstr "Scan een product of een ander pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1634,13 +1650,13 @@ msgstr "Scan een product, partij of verpakking om de overdrachten te filteren."
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a product, a package or the destination location"
-msgstr "Scan een product, een verpakking of de bestemmingslocatie"
+msgstr "Scan een product, een pakket of de bestemmingslocatie"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a product, a package or the destination location."
-msgstr "Scan een product, een verpakking of de bestemmingslocatie."
+msgstr "Scan een product, een pakket of de bestemmingslocatie."
 
 #. module: stock_barcode
 #. odoo-python
@@ -1658,14 +1674,13 @@ msgstr "Een serienummer scannen"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a serial number or a package"
-msgstr "Scan een serienummer of een verpakking"
+msgstr "Scan een serienummer of een pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan a serial number or a package then the destination location"
-msgstr ""
-"Scan een serienummer of een verpakking en vervolgens de bestemmingslocatie"
+msgstr "Scan een serienummer of een pakket en vervolgens de bestemmingslocatie"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1695,13 +1710,13 @@ msgstr "Scan meer partijnummers"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan more lot numbers or a package"
-msgstr "Scan meer partijnummers of een verpakking"
+msgstr "Scan meer partijnummers of een pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan more products or a package"
-msgstr "Scan meer producten of een verpakking"
+msgstr "Scan meer producten of een pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1725,7 +1740,7 @@ msgstr "Scan de bestemmingslocatie"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan the package %s"
-msgstr "Scan het verpakking %s"
+msgstr "Scan het pakket %s"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1737,23 +1752,13 @@ msgstr "Scan de bronlocatie"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scan the source location or a package"
-msgstr "Scan de bronlocatie of een verpakking"
-
-#. module: stock_barcode
-#. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
-msgid ""
-"Scanned product %s is not reserved for this transfer. Are you sure you want "
-"to add it?"
-msgstr ""
-"Gescand product %s is niet gereserveerd voor deze overdracht. Weet je zeker "
-"dat je het wilt toevoegen?"
+msgstr "Scan de bronlocatie of een pakket"
 
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scanning package"
-msgstr "Scan de verpakking"
+msgstr "Pakket scannen"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1828,7 +1833,7 @@ msgstr "Bronlocatie"
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.stock_move_line_product_selector
 msgid "Source Package"
-msgstr "Bronverpakking"
+msgstr "Bronpakket"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1844,7 +1849,7 @@ msgstr "Voorraadverplaatsing"
 #. module: stock_barcode
 #: model:ir.model,name:stock_barcode.model_stock_package_type
 msgid "Stock package type"
-msgstr "Verpakkingssoort"
+msgstr "Pakkettype"
 
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_picking_type__is_barcode_picking_type
@@ -1898,6 +1903,12 @@ msgstr "De gescande locatie behoort niet tot de locatie van deze bewerking"
 
 #. module: stock_barcode
 #. odoo-javascript
+#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+msgid "The scanned serial number %(lotName)s is already awaiting confirmation."
+msgstr "Het gescande serienummer %(lotName)s wacht al op bevestiging."
+
+#. module: stock_barcode
+#. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_model.js:0
 msgid "The scanned serial number %s is already used."
 msgstr "De gescande serienummer %s is al in gebruik."
@@ -1941,7 +1952,7 @@ msgstr ""
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 #: code:addons/stock_barcode/static/src/models/barcode_quant_model.js:0
 msgid "This package is already scanned."
-msgstr "Dit verpakking is al gescand."
+msgstr "Dit pakket is al gescand."
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -1993,7 +2004,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "To use packages, enable 'Packages' in the settings"
-msgstr "Om verpakking te gebruiken, activeer 'Verpakking' in de instellingen"
+msgstr "Om pakketten te gebruiken, activeer 'Pakketten' in de instellingen"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2120,8 +2131,8 @@ msgid ""
 "You are expected to scan one or more products or a package available at the "
 "picking location"
 msgstr ""
-"Er wordt van je verwacht dat je één of meerdere producten of een verpakking "
-"op de picklocatie scant"
+"Er wordt van je verwacht dat je één of meerdere producten of een pakket op "
+"de picklocatie scant"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2134,8 +2145,8 @@ msgstr "Het is de bedoeling dat je %s of een andere bronlocatie scant"
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "You can't apply a package type. First, scan product or select a line"
 msgstr ""
-"Je kunt geen verpakkingssoort gebruiken. Scan eerst het product of selecteer "
-"een regel"
+"Je kunt geen pakkettype gebruiken. Scan eerst het product of selecteer een "
+"regel"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2150,8 +2161,8 @@ msgid ""
 "You have already scanned %s items of this package. Do you want to scan the "
 "whole package?"
 msgstr ""
-"Je hebt reeds %s items van deze verpakking gescand. Wil je de hele "
-"verpakking scannen?"
+"Je hebt reeds %s items van dit pakket gescand. Wil je het hele pakket "
+"scannen?"
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.view_backorder_confirmation
@@ -2162,7 +2173,7 @@ msgstr "Je hebt minder producten verwerkt dan de initiële vraag:"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "You must scan a package or put in pack"
-msgstr "Je moet een verpakking scannen of inpakken"
+msgstr "Je moet een pakket scannen of inpakken"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2179,6 +2190,13 @@ msgstr "producten werden helemaal niet verwerkt."
 #: model_terms:ir.ui.view,arch_db:stock_barcode.view_backorder_confirmation
 msgid "products were partially processed."
 msgstr "producten werden gedeeltelijk verwerkt."
+
+#~ msgid ""
+#~ "Scanned product %s is not reserved for this transfer. Are you sure you "
+#~ "want to add it?"
+#~ msgstr ""
+#~ "Gescand product %s is niet gereserveerd voor deze overdracht. Weet je "
+#~ "zeker dat je het wilt toevoegen?"
 
 #~ msgid "<i class=\"fa fa-fw fa-lg fa-archive me-3\" title=\"Package\"/>"
 #~ msgstr "<i class=\"fa fa-fw fa-lg fa-archive me-3\" title=\"Vrepakking\"/>"

@@ -3,13 +3,15 @@
 # * appointment
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# noa eldar <noaeldar@laylinetech.com>, 2026.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2025-11-10 08:22+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"PO-Revision-Date: 2026-04-09 11:25+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Hebrew <https://translate.odoo.com/projects/odoo-19/"
 "appointment/he/>\n"
 "Language: he\n"
@@ -18,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -232,22 +234,6 @@ msgid ""
 "        </t>\n"
 "    </p>\n"
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
-"        <t t-if=\"object.state != 'accepted'\">\n"
-"            <a t-attf-href=\"/calendar/meeting/accept?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Accept</a>\n"
-"            <a t-attf-href=\"/calendar/meeting/decline?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Decline</a>\n"
-"        </t>\n"
 "        <a t-if=\"not target_responsible and not target_customer\" t-attf-"
 "href=\"/calendar/meeting/view?token={{object.access_token}}"
 "&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-left: "
@@ -1067,6 +1053,11 @@ msgstr ""
 msgid ""
 "A punctual appointment type should be limited between a start and end "
 "datetime."
+msgstr ""
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Accept"
 msgstr ""
 
 #. module: appointment
@@ -2070,6 +2061,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Dates"
 msgstr "תאריכים"
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Decline"
+msgstr ""
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -3226,12 +3222,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form_gantt_booking
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_gantt_booking_resource
 msgid "Resources"
-msgstr "עובדים"
+msgstr "משאבים"
 
 #. module: appointment
 #: model:ir.ui.menu,name:appointment.menu_appointment_schedule_resource_booking
 msgid "Resources Bookings"
-msgstr ""
+msgstr "הזמנות משאבים"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__resources_resource_choice
@@ -3262,7 +3258,7 @@ msgstr "הגבל לעובד"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_slot__restrict_to_resource_ids
 msgid "Restrict to Resources"
-msgstr "הגבל לעובדים"
+msgstr "הגבל למשאבים"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_tree
@@ -3380,12 +3376,12 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Select Resources"
-msgstr ""
+msgstr "בחר משאבים"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Select Resources..."
-msgstr ""
+msgstr "בחר משאבים..."
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
@@ -3584,7 +3580,7 @@ msgstr ""
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_invite__resources_resource_choice__specific_resources
 msgid "Specific Resources"
-msgstr "עובדים ספציפיים"
+msgstr "משאבים ספציפיים"
 
 #. module: appointment
 #. odoo-javascript
@@ -3892,7 +3888,7 @@ msgstr ""
 msgid ""
 "This field is used in order to define in which timezone the resources will "
 "work."
-msgstr "שדה זה משמש כדי להגדיר באיזה אזור זמן המשאבים יעבדו,"
+msgstr "שדה זה משמש כדי להגדיר באיזה אזור זמן המשאבים יעבדו"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_edit_in_backend

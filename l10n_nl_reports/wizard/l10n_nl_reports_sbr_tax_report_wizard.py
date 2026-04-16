@@ -276,6 +276,15 @@ class L10n_Nl_ReportsSbrTaxReportWizard(models.TransientModel):
     contact_type = fields.Selection([('BPL', 'Taxpayer (BPL)'), ('INT', 'Intermediary (INT)')], string="Contact Type", default='BPL', required=True,
         help="BPL: if the taxpayer files a turnover tax return as an individual entrepreneur."
         "INT: if the turnover tax return is made by an intermediary.")
+    tax_consultant_order = fields.Selection([
+            ('NBA', 'NBA - Accountants'),
+            ('RB', 'RB - Register of Tax Advisors'),
+            ('NOB', 'NOB - Dutch Order of Tax Advisors'),
+            ('NOAB', 'NOAB - Dutch Order of Administrative and Tax Experts'),
+        ], default='NBA', required=True, string="Tax Consultant Order",
+        compute="_compute_tax_consultant_order", readonly=False,
+        help="The order of tax consultants the tax consultant belongs to."
+    )
     tax_consultant_number = fields.Char(string="Tax Consultant Number", help="The tax consultant number of the office aware of the content of this report.")
     is_test = fields.Boolean(string="Is Test", help="Check this if you want the system to use the pre-production environment with test certificates.")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
@@ -292,18 +301,21 @@ class L10n_Nl_ReportsSbrTaxReportWizard(models.TransientModel):
                 )
             )
 
+    def _compute_tax_consultant_order(self):
+        self.tax_consultant_order = self.tax_consultant_order or 'NBA'
+
     def _check_values(self):
         if self.env.company.account_representative_id:
             if not self.env.company.account_representative_id.vat:
                 raise RedirectWarning(
                     _("Your accounting firm does not have a VAT number set. Please set it up before trying to send the report."),
-                    self.env.ref('base.action_res_company_form'),
+                    self.env.ref('base.action_res_company_form').id,
                     _("Company Settings")
                 )
         elif not self.env.company.vat:
             raise RedirectWarning(
                 _("Your company does not have a VAT number set. Please set it up before trying to send the report."),
-                self.env.ref('base.action_res_company_form'),
+                self.env.ref('base.action_res_company_form').id,
                 _("Company Settings")
             )
 
@@ -352,6 +364,7 @@ class L10n_Nl_ReportsSbrTaxReportWizard(models.TransientModel):
         options = self.env.context['options']
         report_handler = self.env['l10n_nl_reports.tax.report.handler']
         account_return = self.env['account.return']._get_return_from_report_options(options)
+        account_return._proceed_with_submission()
         closing_move = account_return.closing_move_ids if account_return else None
         if not self.is_test:
             if not closing_move:
@@ -432,7 +445,7 @@ class L10n_Nl_ReportsSbrTaxReportWizard(models.TransientModel):
             )
             filename = f'tax_report_{self.date_to.year}_{self.date_to.month}.xbrl'
             closing_move.message_post(subject=subject, body=body, attachments=[(filename, report_file)])
-            closing_move.message_subscribe(partner_ids=[self.env.user.id])
+            closing_move.message_subscribe(partner_ids=[self.env.user.partner_id.id])
 
         self._additional_processing(options, kenmerk, closing_move)
 
@@ -451,6 +464,9 @@ class L10n_Nl_ReportsSbrTaxReportWizard(models.TransientModel):
         self._check_values()
         report = self.env['account.report'].browse(options['report_id'])
         vat = report.get_vat_for_export(options)
+        message_reference_supplier_vat = (self.env.company.account_representative_id.vat or vat)
+        if message_reference_supplier_vat.startswith('NL'):
+            message_reference_supplier_vat = message_reference_supplier_vat[2:]
         return {
             'identifier': self._get_sbr_identifier(),
             'startDate': fields.Date.to_string(self.date_from),
@@ -461,8 +477,9 @@ class L10n_Nl_ReportsSbrTaxReportWizard(models.TransientModel):
             'ContactTelephoneNumber': re.sub(r"[^\+\d]", "", self.contact_phone or ''),
             'ContactType': self.contact_type,
             'DateTimeCreation': fields.Datetime.now().strftime("%Y%m%d%H%M"),
-            'MessageReferenceSupplierVAT': ((self.env.company.account_representative_id.vat or vat) + '-' + str(uuid.uuid4()))[:20],
+            'MessageReferenceSupplierVAT': (message_reference_supplier_vat + '-' + str(uuid.uuid4()))[:20],
             'ProfessionalAssociationForTaxServiceProvidersName': (self.env.company.account_representative_id.name or '')[:20],
+            'ProfessionalAssociationForTaxServiceProvidersOrder': self.tax_consultant_order,
             'SoftwarePackageName': 'Odoo',
             'SoftwarePackageVersion': '.'.join(self.sudo().env.ref('base.module_base').latest_version.split('.')[0:3]),
             'SoftwareVendorAccountNumber': 'swo02770',

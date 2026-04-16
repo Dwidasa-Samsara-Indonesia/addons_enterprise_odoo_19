@@ -17,12 +17,11 @@ patch(PosStore.prototype, {
     isEcuadorianCompany() {
         return this.company.country_id?.code == "EC";
     },
-    createNewOrder() {
-        const order = super.createNewOrder(...arguments);
-        if (!order.partner_id && this.isEcuadorianCompany()) {
-            order.partner_id = this.config._final_consumer_id;
+    getDefaultPartnerId() {
+        if (this.isEcuadorianCompany()) {
+            return this.config._final_consumer_id;
         }
-        return order;
+        return super.getDefaultPartnerId();
     },
     // @Override
     // For EC, if the partner on the refund was End Consumer we need to allow the user to change it.

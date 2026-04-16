@@ -153,8 +153,44 @@ class AccountReturn(models.Model):
     def _run_checks(self, check_codes_to_ignore):
         checks = super()._run_checks(check_codes_to_ignore)
 
+        if self.type_external_id == 'l10n_be_reports.be_vat_return_type':
+            checks += self._check_suite_be_tax_report_vat(check_codes_to_ignore)
+
         if self.type_external_id == 'l10n_be_reports.be_vat_listing_return_type':
             checks += self._check_suite_be_partner_vat_listing(check_codes_to_ignore)
+
+        return checks
+
+    def _check_suite_be_tax_report_vat(self, check_codes_to_ignore):
+        checks = []
+        report = self.type_id.report_id
+        if 'be_vat_compliance' not in check_codes_to_ignore:
+
+            options = self._get_closing_report_options()
+            warnings = {}
+
+            report._get_lines(options, all_column_groups_expression_totals=None, warnings=warnings)
+            submission_warnings = 'l10n_be_reports.tax_report_warning_checks' in warnings
+
+            if submission_warnings:
+                action = {
+                    'type': 'ir.actions.client',
+                    'name': _("VAT Report (BE)"),
+                    'tag': 'account_report',
+                    'context': {'report_id': self.type_id.report_id.id},
+                    'params': {
+                        'options': options,
+                        'ignore_session': True,
+                    }
+                }
+
+                checks.append({
+                    'name': _lt("Intervat Validation"),
+                    'message': _lt("A validation rule failed. Intervat may reject your VAT report. Open the report to view the warning."),
+                    'code': 'be_vat_compliance',
+                    'action': action,
+                    'result': 'anomaly',
+                })
 
         return checks
 

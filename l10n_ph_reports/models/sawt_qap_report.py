@@ -20,6 +20,7 @@ class L10n_PhSawt_QapReportHandler(models.AbstractModel):
                 'sequence': 5,
                 'action': 'print_report_to_dat',
                 'file_export_type': _('DAT'),
+                'branch_allowed': True,
             }
         )
 

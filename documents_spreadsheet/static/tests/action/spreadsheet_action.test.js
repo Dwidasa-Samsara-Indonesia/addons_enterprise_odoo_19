@@ -380,3 +380,15 @@ test("sheetName should not be left empty", async function () {
     await contains(".modal-dialog .btn-primary").click();
     expect(".o-sheet-name-editable").toHaveCount(1);
 });
+
+test("Frozen spreadsheet should restrict copy", async function () {
+    onRpc("/spreadsheet/data/documents.document/*", () => ({
+        data: {},
+        name: "name",
+        revisions: [],
+        handler: "frozen_spreadsheet",
+        isReadonly: false,
+    }));
+    const { model } = await createSpreadsheet();
+    expect(model.canDispatch("COPY", {}).isSuccessful).toBe(false);
+});

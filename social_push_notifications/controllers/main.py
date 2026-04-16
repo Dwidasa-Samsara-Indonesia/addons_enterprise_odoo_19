@@ -8,6 +8,16 @@ from odoo.http import request
 
 
 class SocialPushNotificationsController(http.Controller):
+    @http.route('/social_push_notifications/service_worker.js', type='http', auth='public', methods=['GET'], readonly=True)
+    def social_push_get_service_worker(self):
+        path = 'social_push_notifications/static/src/js/push_service_worker.js'
+        with tools.file_open(path) as f:
+            body = f.read()
+        return request.make_response(body, [
+            ('Content-Type', 'text/javascript'),
+            ('Service-Worker-Allowed', '/')
+        ])
+
     @http.route('/social_push_notifications/fetch_push_configuration', type='jsonrpc', auth='public', website=True)
     def fetch_push_configuration(self):
         """ Fetches the firebase push configuration for the current website (if any). """

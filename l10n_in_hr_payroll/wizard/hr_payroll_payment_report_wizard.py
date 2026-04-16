@@ -31,7 +31,6 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
         for record in self:
             record.l10n_in_valid_bank_accounts_ids = record.company_id.partner_id.bank_ids
 
-    # TODO: adapt for multiple bank accounts
     def _get_report_data(self, payslip):
         employee = payslip.employee_id
         result = []
@@ -45,7 +44,7 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
             result.append({
                 'company_name': self.company_id.name or '',
                 'company_account': self.l10n_in_company_bank_id.acc_number or '',
-                'name': employee.name,
+                'name': bank_account.acc_holder_name or employee.name,
                 'acc_no': bank_account.acc_number or '',
                 'ifsc_code': bank_account.bank_bic or '',
                 'bysal': amount,
@@ -108,7 +107,6 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
 
         return self._get_wizard()
 
-    # TODO: adapt for multiple bank accounts
     def generate_payment_report_xls(self):
         self.ensure_one()
         self._perform_checks()
@@ -175,6 +173,6 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
             invalid_ifsc_employee_ids = payslip_ids.employee_id._get_employees_with_invalid_ifsc()
             if invalid_ifsc_employee_ids:
                 raise UserError(_(
-                    'The file cannot be generated, the employees listed below have a bank account with no bank\'s identification number.\n%s',
+                    'The file cannot be generated, the employees listed below have a bank account with invalid or no bank\'s identification number.\n%s',
                     '\n'.join(invalid_ifsc_employee_ids.mapped('name'))
                 ))

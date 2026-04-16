@@ -278,10 +278,12 @@ class AccountReconcileModel(models.Model):
             )
 
     def trigger_reconciliation_model(self, statement_line_id):
+        # statement_line_id could have multiple statement lines, the name is incorrect due to stable changes
         self.ensure_one()
 
-        statement_line = self.env['account.bank.statement.line'].browse(statement_line_id).exists()
-        self._trigger_reconciliation_model(statement_line)
+        statement_lines = self.env['account.bank.statement.line'].browse(statement_line_id).exists()
+        for statement_line in statement_lines:
+            self._trigger_reconciliation_model(statement_line)
 
     def write(self, vals):
         res = super().write(vals)

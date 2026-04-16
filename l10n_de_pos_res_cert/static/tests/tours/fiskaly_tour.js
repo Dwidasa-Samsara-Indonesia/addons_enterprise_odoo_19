@@ -49,8 +49,8 @@ registry.category("web_tour.tours").add("FiskalyTour", {
                 trigger: ".pos-receipt",
                 run: () => {
                     const tssInfoCount = document.querySelectorAll(".tss-info").length;
-                    if (tssInfoCount !== 10) {
-                        throw new Error("Expected 10 TSS info, found " + tssInfoCount);
+                    if (tssInfoCount !== 11) {
+                        throw new Error("Expected 11 TSS info, found " + tssInfoCount);
                     }
                 },
             },

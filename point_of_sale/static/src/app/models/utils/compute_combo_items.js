@@ -21,13 +21,23 @@ export const computeComboItems = (
 
     let remainingTotal = parentLstPrice;
     const ProductPrice = currency_id || decimalPrecision.find((dp) => dp.name === "Product Price");
+    if (
+        childLineConf[childLineConf.length - 1]?.qty > 1 &&
+        (childLineConf[childLineConf.length - 1]?.parentQty ?? 1) === 1
+    ) {
+        childLineConf[childLineConf.length - 1].qty -= 1;
+        childLineConf.push({ ...childLineConf[childLineConf.length - 1], qty: 1 });
+    }
     for (const conf of childLineConf) {
         const comboItem = conf.combo_item_id;
         const combo = comboItem.combo_id;
-        let priceUnit = ProductPrice.round((combo.base_price * parentLstPrice) / originalTotal);
-        remainingTotal -= priceUnit * conf.qty;
+        const parentCoef = conf.parentQty || 1;
+        let priceUnit = ProductPrice.round(
+            (combo.base_price * parentLstPrice * parentCoef) / originalTotal
+        );
+        remainingTotal -= (priceUnit * conf.qty) / parentCoef;
 
-        if (comboItem.id == childLineConf[childLineConf.length - 1].combo_item_id.id) {
+        if (conf === childLineConf[childLineConf.length - 1]) {
             priceUnit += remainingTotal;
             remainingTotal = 0;
         }

@@ -18,7 +18,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_bank_id'][last()]" position="after">
                 <field name="end_to_end_uuid" invisible="payment_method_code not in ('iso20022','sepa_ct', 'iso20022_se', 'iso20022_ch', 'iso20022_us')" groups="base.group_no_one"/>
-                <field name="iso20022_uetr" invisible="payment_method_code not in ('iso20022','sepa_ct') or (payment_method_code == 'sepa_ct' and sepa_pain_version != 'pain.001.001.09')" groups="base.group_no_one"/>
+                <field name="iso20022_uetr" invisible="payment_method_code != 'iso20022'" groups="base.group_no_one"/>
                 <field name="iso20022_charge_bearer" invisible="payment_method_code not in ['iso20022', 'iso20022_se', 'iso20022_ch']" required="1"/>
                 <field name="iso20022_priority" invisible="not payment_method_is_iso20022" required="payment_method_is_iso20022"/>
             </xpath>

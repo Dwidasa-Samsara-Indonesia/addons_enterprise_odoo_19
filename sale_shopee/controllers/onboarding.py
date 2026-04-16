@@ -56,8 +56,8 @@ class ShopeeController(http.Controller):
                 'shop_identifier': 1,
                 'account_id': account_id,
             })
-            shop_identifiers = utils.with_context(authorization_code=code).request_access_token(
-                temp_shop, main_account_id=main_account_id
+            shop_identifiers = utils.request_access_token(
+                temp_shop.with_context(authorization_code=code), main_account_id=main_account_id
             )
             shop_vals.update({
                 'access_token': temp_shop.access_token,

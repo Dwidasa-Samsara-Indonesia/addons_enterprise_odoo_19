@@ -11,7 +11,7 @@ from odoo.fields import Domain
 from odoo.exceptions import UserError
 from odoo.tools import _, format_list, topological_sort, get_lang, babel_locale_parse
 from odoo.tools.intervals import Intervals
-from odoo.tools.date_utils import sum_intervals, get_timedelta, weeknumber, weekstart, weekend
+from odoo.tools.date_utils import sum_intervals, get_timedelta, weeknumber, weekstart, weekend, parse_date
 from odoo.tools.sql import SQL
 from odoo.addons.resource.models.utils import filter_domain_leaf
 
@@ -572,7 +572,8 @@ class ProjectTask(models.Model):
                 ('date_deadline', '<', start_date + delta)
             ])) & domain
         )
-        return self.search(domain_expand).user_ids.filtered(lambda user: user.active) | self.env.user
+        users = self.env['res.users'].search([('task_ids', 'any', domain_expand), ('share', '=', False), ('active', '=', True)])
+        return users | self.env.user
 
     def _group_expand_user_ids_domain(self, domain_expand):
         project_id = self.env.context.get('default_project_id')
@@ -623,7 +624,7 @@ class ProjectTask(models.Model):
         filters = []
         for dom in domain:
             if len(dom) == 3 and dom[0] == 'date_deadline' and dom[1] == '>=':
-                min_date = dom[2] if isinstance(dom[2], datetime) else datetime.strptime(dom[2], '%Y-%m-%d %H:%M:%S')
+                min_date = dom[2] if isinstance(dom[2], datetime) else parse_date(dom[2], self.env)
                 min_date = min_date - get_timedelta(1, self.env.context.get('gantt_scale'))
                 filters.append((dom[0], dom[1], min_date))
             else:

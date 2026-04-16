@@ -14,8 +14,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_input_housing_allowance" model="hr.salary.rule">
-            <field name="name">Housing Allowance Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Housing Allowance</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">HOUALLOWINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -26,8 +26,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_conveyance_allowance" model="hr.salary.rule">
-            <field name="name">Conveyance Allowance Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Conveyance Allowance</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">CONVALLOWINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -38,8 +38,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_medical_allowance" model="hr.salary.rule">
-            <field name="name">Medical Allowance Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Medical Allowance</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">MEDALLOWINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -50,8 +50,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_annual_passage_allowance" model="hr.salary.rule">
-            <field name="name">Annual Passage Allowance Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Annual Passage Allowance</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">ANNUALPASSALLOWINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -62,8 +62,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_overtime_allowance" model="hr.salary.rule">
-            <field name="name">Overtime Allowance Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Overtime Allowance</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">OVERTIMEALLOWINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -74,8 +74,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_other_allowance" model="hr.salary.rule">
-            <field name="name">Other Allowance Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Other Allowance</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">OTALLOWINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -86,8 +86,8 @@ result = payslip.l10n_ae_basic_salary
         </record>
 
         <record id="uae_salary_rule_leave_encashment" model="hr.salary.rule">
-            <field name="name">Leave Encashment Input</field>
-            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">EVP Leave Encashment</field>
+            <field name="category_id" ref="l10n_ae_hr_payroll.rule_category_evp_allowances"/>
             <field name="code">LEAVEENCASHINP</field>
             <field name="sequence">1</field>
             <field name="condition_select">input</field>
@@ -258,7 +258,7 @@ else:
 
         <record id="uae_end_of_service_provision_salary_rule" model="hr.salary.rule">
             <field name="name">End of Service Provision</field>
-            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="category_id" ref="l10n_ae_hr_payroll.l10n_ae_category_provision"/>
             <field name="code">EOSP</field>
             <field name="appears_on_payslip" eval="False"/>
             <field name="sequence">25</field>
@@ -297,7 +297,7 @@ else:
 
         <record id="uae_annual_leave_provision_salary_rule" model="hr.salary.rule">
             <field name="name">Annual Leave Provision</field>
-            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="category_id" ref="l10n_ae_hr_payroll.l10n_ae_category_provision"/>
             <field name="code">ALP</field>
             <field name="sequence">30</field>
             <field name="amount_select">code</field>
@@ -649,11 +649,25 @@ result_name = inputs['EXPENSES'].name
             <field name="name">Net Salary</field>
             <field name="sequence">200</field>
             <field name="code">NET</field>
-            <field name="appears_on_employee_cost_dashboard" eval="True"/>
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 result = categories['BASIC'] + categories['ALW'] + categories['DED']
+            </field>
+            <field name="struct_id" ref="uae_employee_payroll_structure"/>
+        </record>
+
+        <record id="l10n_ae_hr_payroll_uae_employee_payroll_structure_net_cost" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_ae_hr_payroll.l10n_ae_category_net_cost"/>
+            <field name="name">Net Cost</field>
+            <field name="sequence">300</field>
+            <field name="code">NETCOST</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="appears_on_employee_cost_dashboard" eval="True"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = abs(categories['COMP']) + result_rules['NET']['total'] + abs(result_rules['SIEC']['total']) + abs(result_rules['DEWS']['total'])
             </field>
             <field name="struct_id" ref="uae_employee_payroll_structure"/>
         </record>

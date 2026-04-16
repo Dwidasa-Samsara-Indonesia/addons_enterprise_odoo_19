@@ -164,3 +164,23 @@ registry.category("web_tour.tours").add("test_to_check_attribute", {
             UrbanPiper.orderHasText("001", "Food Ready"),
         ].flat(),
 });
+
+registry.category("web_tour.tours").add("test_product_level_discount", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            UrbanPiper.fetchDeliveryData(),
+            {
+                content: "Check 20% discount applied on orderline",
+                trigger: ".orderline .info-list li.price-per-unit em:contains(20%)",
+            },
+            UrbanPiper.checkNewOrderCount(1),
+            UrbanPiper.onDropdownStatus("New"),
+            UrbanPiper.orderButtonClick("Accept"),
+            TicketScreen.selectOrder("001"),
+            UrbanPiper.orderButtonClick("Mark as ready"),
+            UrbanPiper.fetchDeliveryData(),
+            UrbanPiper.orderHasText("001", "Food Ready"),
+        ].flat(),
+});

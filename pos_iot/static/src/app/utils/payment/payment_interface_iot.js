@@ -123,10 +123,12 @@ export class PaymentInterfaceIot extends PaymentInterface {
         }
         this.transactionInProgress = false;
         this._resolvePayment?.(false);
-        if (data?.Disconnected === "disconnected") {
+        if (data?.Disconnected === "disconnected" || data.status === "disconnected") {
             this.env.services.dialog.add(AlertDialog, {
                 title: _t("Connection to terminal failed"),
-                body: _t("Please check if the terminal is still connected."),
+                body: _t(
+                    "The IoT Box cannot detect the payment terminal. Please check if the terminal is still connected."
+                ),
             });
         }
     }
@@ -141,7 +143,7 @@ export class PaymentInterfaceIot extends PaymentInterface {
     _onValueChange(order, data) {
         this._keepListening();
         const line = this.getPaymentLineForMessage(order, data);
-        if (line) {
+        if (line && this.transactionInProgress) {
             this.onTerminalMessageReceived(data, line);
         }
     }

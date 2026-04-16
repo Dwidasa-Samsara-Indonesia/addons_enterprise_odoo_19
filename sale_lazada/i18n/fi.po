@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-15 18:41+0000\n"
-"PO-Revision-Date: 2026-02-14 10:14+0000\n"
+"PO-Revision-Date: 2026-04-04 10:54+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "sale_lazada/fi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_lazada
 #: model:mail.template,body_html:sale_lazada.order_sync_failure
@@ -68,6 +68,9 @@ msgid ""
 "<strong>Authorization Failed: </strong>\n"
 "                    An unexpected error occurred during authorization. Please try again."
 msgstr ""
+"<strong>Valtuutus epäonnistui: </strong>\n"
+"                    Valtuutuksen aikana tapahtui odottamaton virhe. Yritä "
+"uudelleen."
 
 #. module: sale_lazada
 #: model:mail.template,body_html:sale_lazada.inventory_sync_failure
@@ -157,11 +160,12 @@ msgstr ""
 "                }\n"
 "            </style>\n"
 "            <body><div>\n"
-"                <p>Lazada Shop -varastoinnin synkronointi\n"
-"                    <b><t t-out=\"ctx.get('lazada_shop') or ''\""
-">VIITE</t></b>\n"
-"                    kohtasi virheitä eikä sitä suoritettu loppuun.</p>\n"
-"                <p>Tässä Lazadan lähettämät virheet: </p>\n"
+"                <p>Varastoinnin synkronoinnissa Lazada-kaupan\n"
+"                    <b><t t-out=\"ctx.get('lazada_shop') or ''\">VIITE</t></"
+"b>\n"
+"                    kanssa tapahtui virhe, eikä sitä suoritettu loppuun.</p>"
+"\n"
+"                <p>Tässä Lazadan lähettämät virheilmoitukset: </p>\n"
 "                <table class=\"lazada_table\">\n"
 "                    <thead>\n"
 "                        <tr>\n"
@@ -170,19 +174,19 @@ msgstr ""
 "                        </tr>\n"
 "                    </thead>\n"
 "                    <tbody>\n"
-"                        <tr t-foreach=\"ctx.get('error_messages')\" t-as="
-"\"error\">\n"
-"                            <th><t t-out="
-"\"', '.join(error['default_codes'])\"/></th>\n"
+"                        <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th><t t-out=\"', '.join(error['default_codes'])"
+"\"/></th>\n"
 "                            <td>\n"
-"                                <t t-if=\"error['message']\" t-out="
-"\"error['message']\"/>\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/>\n"
 "                                <t t-else=\"\">Lazada-synkronoinnin aikana "
 "tapahtui tuntematon virhe.\n"
-"                                    Sinun on valitettavasti tarkistettava "
-"manuaalisesti, onko tuotteen saatavilla oleva määrä oikein vai ei.\n"
-"                                    Jos ongelma jatkuu, ota yhteyttä <a href="
-"\"https://www.odoo.com/help/\">Odoon tukipalveluun </a>.\n"
+"                                    Sinun on tarkastettava manuaalisesti, "
+"onko tuotteen saatavilla oleva määrä oikea vai ei.\n"
+"                                    Jos ongelma jatkuu, ota yhteyttä <a "
+"href=\"https://www.odoo.com/help/\">Odoon tukipalveluun </a>.\n"
 "                                </t>\n"
 "                            </td>\n"
 "                        </tr>\n"
@@ -197,153 +201,155 @@ msgid ""
 "A shop with this external identifier already exists in this company. The "
 "same Lazada shop cannot be linked twice to the same company."
 msgstr ""
+"Kauppa tällä ulkoisella tunnisteella on jo olemassa tässä yrityksessä. Samaa "
+"Lazada-kauppaa ei voi linkittää kahdesti samaan yritykseen."
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "API Credentials"
-msgstr ""
+msgstr "API-tunnistetiedot"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "API Credentials & Tokens"
-msgstr ""
+msgstr "API-tunnistetiedot & tunnisteet"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__api_endpoint
 msgid "API Endpoint"
-msgstr ""
+msgstr "API-päätepiste"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__access_token
 msgid "Access Token"
-msgstr ""
+msgstr "Pääsytunniste"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__access_token_expiration_date
 msgid "Access Token Expiration Date"
-msgstr ""
+msgstr "Pääsytunnisteen vanhentumispäivä"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Access Tokens"
-msgstr ""
+msgstr "Pääsytunnisteet"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__active
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_search
 msgid "Active"
-msgstr ""
+msgstr "Aktiivinen"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__synchronize_inventory
 msgid "Allow inventory synchronization"
-msgstr ""
+msgstr "Salli varastoinnin synkronointi"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/controllers/onboarding.py:0
 msgid "An unexpected error occurred during authorization."
-msgstr ""
+msgstr "Valtuutuksen aikana tapahtui odottamaton virhe."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__app_key
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__app_key
 msgid "App Key"
-msgstr ""
+msgstr "Sovellusavain"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "App Key and App Secret are required for authorization."
-msgstr ""
+msgstr "Sovellusavain ja sovelluksen salaus vaaditaan valtuutusta varten."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__app_secret
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__app_secret
 msgid "App Secret"
-msgstr ""
+msgstr "Sovelluksen salaus"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Archived"
-msgstr ""
+msgstr "Arkistoitu"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_create_wizard_form
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__canceled
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__canceled
 msgid "Canceled"
-msgstr ""
+msgstr "Peruttu"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__canceled
 msgid "Canceled on Lazada"
-msgstr ""
+msgstr "Peruttu Lazadassa"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/utils.py:0
 msgid "Cannot determine the API endpoint for the operation."
-msgstr ""
+msgstr "Toiminnon API-päätteen määrittäminen ei onnistu."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__company_id
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__company_id
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__company_id
 msgid "Company"
-msgstr ""
+msgstr "Yritys"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__confirmed
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__confirmed
 msgid "Confirmed"
-msgstr ""
+msgstr "Vahvistettu"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_list
 msgid "Connect New Shop"
-msgstr ""
+msgstr "Yhdistä uusi kauppa"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_create_wizard_form
 msgid "Connect Shop"
-msgstr ""
+msgstr "Yhdistä kauppa"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Yhteystieto"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "Could not allocate the shop identifier"
-msgstr ""
+msgstr "Kauppatunnuksen allokointi ei onnistunut"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "Could not find country with code %(code)s"
-msgstr ""
+msgstr "Maata ei löytynyt koodilla %(code)s"
 
 #. module: sale_lazada
 #: model:ir.actions.act_window,name:sale_lazada.action_lazada_shop_create_wizard
 msgid "Create Lazada Shop"
-msgstr ""
+msgstr "Luo Lazada-kauppa"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_create_wizard_form
 msgid "Create New Lazada Shop"
-msgstr ""
+msgstr "Luo uusi Lazada-kauppa"
 
 #. module: sale_lazada
 #: model:ir.model,website_form_label:sale_lazada.model_res_partner
 msgid "Create a Customer"
-msgstr ""
+msgstr "Luo asiakas"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__create_uid
@@ -351,7 +357,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__create_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Luonut"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__create_date
@@ -359,28 +365,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__create_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Luotu"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__team_id
 msgid "Default Sales Team"
-msgstr ""
+msgstr "Oletusmyyntitiimi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__user_id
 msgid "Default Salesperson"
-msgstr ""
+msgstr "Oletusmyyjä"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__delivered
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__delivered
 msgid "Delivered"
-msgstr ""
+msgstr "Toimitettu"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__delivered
 msgid "Delivered on Lazada"
-msgstr ""
+msgstr "Toimitettu Lazadalla"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__display_name
@@ -394,18 +400,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_move__display_name
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Näyttönimi"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.stock_picking_form
 msgid "Download Shipping Label (Lazada)"
-msgstr ""
+msgstr "Lataa lähetystarra (Lazada)"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__draft
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__draft
 msgid "Draft"
-msgstr ""
+msgstr "Luonnos"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__sync_lazada_inventory
@@ -413,6 +419,8 @@ msgid ""
 "Enable this to allow pushing the product inventory quantities from Odoo to "
 "Lazada."
 msgstr ""
+"Ota tämä käyttöön salliaksesi tuotevarastoinnin määrien siirron Odoosta "
+"Lazadaan."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__synchronize_inventory
@@ -422,6 +430,10 @@ msgid ""
 "(Fulfilled by Merchant) items. This ensures your Lazada listings show "
 "accurate stock availability."
 msgstr ""
+"Ota tämä käyttöön synkronoidaksesi Odoo-varastoinnin määrät automaattisesti "
+"Lazadaan. Kun tämä on käytössä, Odoon tuotevarastomäärät siirtyvät Lazadaan "
+"kauppiaan toteuttamille (FBM) kohteille. Näin varmistat, että Lazada-"
+"listauksesi näyttävät tarkan varastotilanteen."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__manage_fbl_inventory
@@ -431,16 +443,20 @@ msgid ""
 " FBM stock. The FBL location is automatically created when you set up the "
 "shop."
 msgstr ""
+"Ota tämä käyttöön seurataksesi Lazadan toteuttamien (FBL) kohteiden "
+"varastointia Odoossa. Kun tämä on käytössä, FBL-sijainnin varasto "
+"vähennetään käytettävissä olevasta kauppiaan toteuttamasta (FBM) varastosta. "
+"FBL-sijainti luodaan automaattisesti kaupan käyttöönoton yhteydessä."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__fbl_location_id
 msgid "FBL Stock Location"
-msgstr ""
+msgstr "FBL-varastosijainti"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__fbm_warehouse_id
 msgid "FBM Warehouse"
-msgstr ""
+msgstr "Kauppiaan täyttämä (FBM) varasto"
 
 #. module: sale_lazada
 #. odoo-python
@@ -449,6 +465,8 @@ msgid ""
 "Failed to download shipping label for picking %(picking_id)s: HTTP Status "
 "Code %(error_code)s"
 msgstr ""
+"Lähetystarran lataaminen keräilyä %(picking_id)s varten epäonnistui: HTTP-"
+"tilakoodi %(error_code)s"
 
 #. module: sale_lazada
 #. odoo-python
@@ -456,19 +474,19 @@ msgstr ""
 msgid ""
 "Failed to get shipment provider for order: %(order_id)s. Error: "
 "%(error_msg)s"
-msgstr ""
+msgstr "Tilauksen toimittajaa ei löytynyt: %(order_id)s. Virhe: %(error_msg)s"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "Failed to get shipment provider."
-msgstr ""
+msgstr "Lähetyspalveluntarjoajaa ei löytynyt."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "Failed to get token from Lazada."
-msgstr ""
+msgstr "Tunnisteen saaminen Lazadasta ei onnistunut."
 
 #. module: sale_lazada
 #. odoo-python
@@ -477,6 +495,8 @@ msgid ""
 "Failed to set Ready to Ship status for pickings:\n"
 "%(error_msg)s"
 msgstr ""
+"Valmiina lähetettäväksi -tilan määrittäminen keräilylle epäonnistui:\n"
+"%(error_msg)s"
 
 #. module: sale_lazada
 #. odoo-python
@@ -485,29 +505,32 @@ msgid ""
 "Failed to synchronize Lazada product catalog for shop: %(shop)d.\n"
 "The total number of products in Lazada changed during synchronization. Please re-run the synchronization."
 msgstr ""
+"Lazada-tuotekuvaston synkronointi kaupalle %(shop)d epäonnistui.\n"
+"Tuotteiden kokonaismäärä Lazadassa muuttui synkronoinnin aikana. Suorita "
+"synkronointi uudelleen."
 
 #. module: sale_lazada
 #: model:ir.actions.server,name:sale_lazada.action_fetch_shipping_label
 msgid "Fetch Shipping Label (Lazada)"
-msgstr ""
+msgstr "Hae lähetystarra (Lazada)"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__fulfillment_type
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_item_search
 msgid "Fulfillment Type"
-msgstr ""
+msgstr "Toteutustyyppi"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_item__fulfillment_type__fbl
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_fulfillment_type__fbl
 msgid "Fulfillment by Lazada"
-msgstr ""
+msgstr "Lazadan toteuttama"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_item__fulfillment_type__fbm
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_fulfillment_type__fbm
 msgid "Fulfillment by Merchant"
-msgstr ""
+msgstr "Kauppiaan toteuttama"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__id
@@ -521,7 +544,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_move__id
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__id
 msgid "ID"
-msgstr ""
+msgstr "Tunnus"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.view_order_form
@@ -529,6 +552,8 @@ msgid ""
 "If the sale is locked, you can not modify it anymore. However, you will "
 "still be able to invoice or deliver."
 msgstr ""
+"Jos myynti on lukittu, et voi enää muokata sitä. Voit kuitenkin yhä "
+"laskuttaa tai toimittaa."
 
 #. module: sale_lazada
 #. odoo-python
@@ -537,63 +562,67 @@ msgid ""
 "In Lazada Shop '%(shop_name)s', an error %(error_code)s occurred during the Lazada API operation '%(operation)s' with request ID '%(request_id)s':\n"
 "%(error_message)s"
 msgstr ""
+"Lazada-kaupassa '%(shop_name)s' tapahtui virhe %(error_code)s Lazadan API-"
+"toiminnon '%(operation)s' aikana pyyntötunnuksella '%(request_id)s':\n"
+"%(error_message)s"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_search
 msgid "Inactive"
-msgstr ""
+msgstr "Epäaktiivinen"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "Invalid Lazada document URL"
-msgstr ""
+msgstr "Virheellinen Lazada-asiakirjan URL-osoite"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/controllers/onboarding.py:0
 msgid "Invalid OAuth state"
-msgstr ""
+msgstr "Virheellinen OAuth-tila"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Inventory Synchronization"
-msgstr ""
+msgstr "Varastoinnin synkronointi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__lazada_item_count
 msgid "Item Count"
-msgstr ""
+msgstr "Kohteiden lukumäärä"
 
 #. module: sale_lazada
 #: model:ir.model.constraint,message:sale_lazada.constraint_lazada_item_unique_lazada_item_extern_id
 msgid "Item External IDs must be unique for a given shop."
 msgstr ""
+"Kohteiden ulkoisten tunnisteiden on oltava yksilöllisiä kussakin kaupassa."
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Items"
-msgstr ""
+msgstr "Kohteet"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__last_product_catalog_sync_date
 msgid "Last Catalog Synchronization"
-msgstr ""
+msgstr "Viimeisin katalogin synkronointi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__last_inventory_sync_date
 msgid "Last Inventory Sync Date"
-msgstr ""
+msgstr "Viimeinen varastoinnin synkronointipäivä"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__last_lazada_picking_sync_date
 msgid "Last Lazada Picking Sync Date"
-msgstr ""
+msgstr "Viimeisin Lazada-keräilyn synkronointipäivä"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__last_orders_sync_date
 msgid "Last Order Synchronization Date"
-msgstr ""
+msgstr "Viimeisin tilauksen synkronointipäivä"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__write_uid
@@ -601,7 +630,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__write_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Viimeksi päivittänyt"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__write_date
@@ -609,136 +638,136 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__write_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Viimeksi päivitetty"
 
 #. module: sale_lazada
 #: model:ir.ui.menu,name:sale_lazada.root_menu
 msgid "Lazada"
-msgstr ""
+msgstr "Lazada"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_create_wizard_form
 msgid "Lazada API Credentials"
-msgstr ""
+msgstr "Lazada API-tunnistetiedot"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "Lazada API rate limit reached. Please try again later."
-msgstr ""
+msgstr "Lazada API-käyttöraja saavutettu. Yritä myöhemmin uudelleen."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_res_partner__lazada_buyer_extern_id
 #: model:ir.model.fields,field_description:sale_lazada.field_res_users__lazada_buyer_extern_id
 msgid "Lazada Buyer ID"
-msgstr ""
+msgstr "Lazada-ostajatunnus"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "Lazada FBL Stock - %(shop)s"
-msgstr ""
+msgstr "Lazada FBL-varasto - %(shop)s"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_sale_order__lazada_fulfillment_type
 msgid "Lazada Fulfillment Type"
-msgstr ""
+msgstr "Lazadan toteutustyyppi"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_lazada_item
 msgid "Lazada Item"
-msgstr ""
+msgstr "Lazada-kohde"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__lazada_item_extern_id
 msgid "Lazada Item ID"
-msgstr ""
+msgstr "Lazada-kohteen tunnus"
 
 #. module: sale_lazada
 #: model:ir.actions.act_window,name:sale_lazada.action_lazada_item_list
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__lazada_item_ids
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_item_list
 msgid "Lazada Items"
-msgstr ""
+msgstr "Lazada-kohteet"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "Lazada Label"
-msgstr ""
+msgstr "Lazada-nimike"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__lazada_label_attachment_ids
 msgid "Lazada Label Attachment"
-msgstr ""
+msgstr "Lazada-nimikkeen liite"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__lazada_oauth_state
 msgid "Lazada OAuth State"
-msgstr ""
+msgstr "Lazada OAuth-tila"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "Lazada Order %(lazada_order_ref)s at %(name)s"
-msgstr ""
+msgstr "Lazada-tilaus %(lazada_order_ref)s - %(name)s"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_lazada_order_item
 msgid "Lazada Order Item"
-msgstr ""
+msgstr "Lazada-tilauskohde"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__order_item_extern_id
 msgid "Lazada Order Item ID"
-msgstr ""
+msgstr "Lazada-tilauskohteen tunnus"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_sale_order_line__lazada_order_item_ids
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_move__lazada_order_item_ids
 msgid "Lazada Order Items"
-msgstr ""
+msgstr "Lazada-tilauskohteet"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__package_extern_id
 msgid "Lazada Package ID"
-msgstr ""
+msgstr "Lazada-paketin tunnus"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__lazada_package_status
 msgid "Lazada Package Status"
-msgstr ""
+msgstr "Lazada-paketin tila"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_sale_order__lazada_order_ref
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__lazada_order_ref
 msgid "Lazada Reference"
-msgstr ""
+msgstr "Lazada-viite"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__lazada_sku
 msgid "Lazada SKU"
-msgstr ""
+msgstr "Lazada SKU"
 
 #. module: sale_lazada
 #: model:product.template,name:sale_lazada.default_sale_product_product_template
 msgid "Lazada Sale"
-msgstr ""
+msgstr "Lazada-myynti"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__shop_extern_id
 msgid "Lazada Seller ID"
-msgstr ""
+msgstr "Lazada-myyjän tunnus"
 
 #. module: sale_lazada
 #: model:product.template,name:sale_lazada.default_shipping_product_product_template
 msgid "Lazada Shipping"
-msgstr ""
+msgstr "Lazada-lähetys"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__lazada_shipping_allocate_type
 msgid "Lazada Shipping Allocate Type"
-msgstr ""
+msgstr "Lazada-lähetyksen allokointityyppi"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_lazada_shop
@@ -746,59 +775,59 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_item_search
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Lazada Shop"
-msgstr ""
+msgstr "Lazada-kauppa"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/controllers/onboarding.py:0
 msgid "Lazada Shop - %(name)s"
-msgstr ""
+msgstr "Lazada-kauppa - %(name)s"
 
 #. module: sale_lazada
 #: model:ir.actions.act_window,name:sale_lazada.action_lazada_shop_authorization_error
 msgid "Lazada Shop Authorization Error"
-msgstr ""
+msgstr "Lazada-kaupan valtuutusvirhe"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_lazada_shop_create_wizard
 msgid "Lazada Shop Creation Wizard"
-msgstr ""
+msgstr "Ohjattu Lazada-kaupan luomistoiminto"
 
 #. module: sale_lazada
 #: model:ir.actions.act_window,name:sale_lazada.action_lazada_shop_list
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_list
 msgid "Lazada Shops"
-msgstr ""
+msgstr "Lazada-kaupat"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_sale_order__lazada_order_status
 msgid "Lazada Status"
-msgstr ""
+msgstr "Lazada-tila"
 
 #. module: sale_lazada
 #: model:mail.template,name:sale_lazada.inventory_sync_failure
 msgid "Lazada: Inventory Synchronization Failure"
-msgstr ""
+msgstr "Lazada: Varastoinnin syknkronointivirhe"
 
 #. module: sale_lazada
 #: model:mail.template,name:sale_lazada.order_sync_failure
 msgid "Lazada: Order Synchronization Failure"
-msgstr ""
+msgstr "Lazada: Tilauksen synkronointivirhe"
 
 #. module: sale_lazada
 #: model:ir.actions.server,name:sale_lazada.ir_cron_sync_lazada_inventory_ir_actions_server
 msgid "Lazada: sync inventory"
-msgstr ""
+msgstr "Lazada: synkronoi varastointi"
 
 #. module: sale_lazada
 #: model:ir.actions.server,name:sale_lazada.ir_cron_sync_lazada_orders_ir_actions_server
 msgid "Lazada: sync orders"
-msgstr ""
+msgstr "Lazada: synkronoi tilaukset"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.view_order_form
 msgid "Lock"
-msgstr ""
+msgstr "Lukitse"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__refresh_token
@@ -807,171 +836,176 @@ msgid ""
 " token expires after 30 days. If it expires, you'll need to re-authorize the"
 " connection by clicking the authorization button in the Lazada shop view."
 msgstr ""
+"Pitkäaikainen päivitystunniste uusien pääsytunnisteiden automaattiseen "
+"hankkimiseen. Tämä tunniste vanhenee 30 päivän kuluttua. Jos se vanhenee, "
+"sinun on valtuutettava yhteys uudelleen klikkaamalla valtuutuspainiketta "
+"Lazada-kaupan näkymässä."
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__manual
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__manual
 msgid "Manual"
-msgstr ""
+msgstr "Manuaalinen"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__manual
 msgid "Manual handling required"
-msgstr ""
+msgstr "Vaatii manuaalisen käsittelyn"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__name
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/wizard/lazada_shop_create_wizard.py:0
 msgid "New Lazada Shop"
-msgstr ""
+msgstr "Uusi Lazada-kauppa"
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "No Lazada order item found to pack."
-msgstr ""
+msgstr "Pakattavia Lazada-tilauskohteita ei löytynyt."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "No Lazada order reference found."
-msgstr ""
+msgstr "Lazada-tilausviitettä ei löytynyt."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/utils.py:0
 msgid "No authorization code or refresh token found for shop %(shop_name)s."
 msgstr ""
+"Kaupalle %(shop_name)s ei löytynyt valtuutuskoodia tai päivitystunnistetta."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_item.py:0
 msgid "Only FBM items can be synced to Lazada."
-msgstr ""
+msgstr "Vain kauppiaan täyttämät (FBM) kohteet voi synkronoida Lazadaan."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__order_count
 msgid "Order Count"
-msgstr ""
+msgstr "Tilausmäärä"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Order Synchronization"
-msgstr ""
+msgstr "Tilausten synkronointi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__order_ids
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Orders"
-msgstr ""
+msgstr "Tilaukset"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.stock_picking_form
 msgid "Pack Lazada Package"
-msgstr ""
+msgstr "Pakkaa Lazada-paketti"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__confirmed
 msgid "Package Confirmed on Lazada"
-msgstr ""
+msgstr "Paketti vahvistettu Lazadassa"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__draft
 msgid "Package Pending on Lazada"
-msgstr ""
+msgstr "Paketti odottaa Lazadalla"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__processing
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__processing
 msgid "Processing"
-msgstr ""
+msgstr "Käsittelyssä"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__product_id
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_item_search
 msgid "Product"
-msgstr ""
+msgstr "Tuote"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__product_tmpl_id
 msgid "Product Template"
-msgstr ""
+msgstr "Tuotepohja"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Tuotevariaatio"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Re-authorize Shop"
-msgstr ""
+msgstr "Valtuuta kauppa uudelleen"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__processing
 msgid "Ready to Ship on Lazada"
-msgstr ""
+msgstr "Valmis lähetettäväksi Lazadassa"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__refresh_token
 msgid "Refresh Token"
-msgstr ""
+msgstr "Päivitä tunniste"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__refresh_token_expiration_date
 msgid "Refresh Token Expiration Date"
-msgstr ""
+msgstr "Päivitä tunnisteen voimassaolo"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__sale_order_line_id
 msgid "Sale Order Line"
-msgstr ""
+msgstr "Myyntitilauksen rivi"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Myyntitilaus"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_sale_order_line
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Myyntitilauksen rivi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__shop_id
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_search
 msgid "Shop"
-msgstr ""
+msgstr "Kauppa"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Shop Information"
-msgstr ""
+msgstr "Kaupan tiedot"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Shop Name"
-msgstr ""
+msgstr "Kaupan nimi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__country_id
 msgid "Shop Region"
-msgstr ""
+msgstr "Kaupan alue"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Shop Settings"
-msgstr ""
+msgstr "Kaupan asetukset"
 
 #. module: sale_lazada
 #: model:ir.ui.menu,name:sale_lazada.shops_menu
 msgid "Shops"
-msgstr ""
+msgstr "Kaupat"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__last_orders_sync_date
@@ -979,6 +1013,8 @@ msgid ""
 "Shows when orders were last synchronized from Lazada. Only orders that have "
 "changed since this date will be imported or updated in Odoo."
 msgstr ""
+"Näyttää, milloin tilaukset synkronoitiin viimeksi Lazadasta. Vain tämän "
+"päivämäärän jälkeen muuttuneet tilaukset tuodaan tai päivitetään Odoossa."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__last_product_catalog_sync_date
@@ -988,53 +1024,59 @@ msgid ""
 "synchronization. This is automatically updated after each sync. To re-"
 "initialize the full catalog, clear this value."
 msgstr ""
+"Näyttää, milloin tuotekuvasto on viimeksi synkronoitu Lazadasta Odooseen. "
+"Vain tämän päivämäärän jälkeen Lazadassa päivitetyt tuotteet haetaan "
+"seuraavassa synkronoinnissa. Tämä päivitetään automaattisesti jokaisen "
+"synkronoinnin jälkeen. Voit alustaa koko katalogin uudelleen tyhjentämällä "
+"tämän arvon."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__status
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_stock_move
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__stock_move_id
 msgid "Stock Move"
-msgstr ""
+msgstr "Varastosiirto"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Sync Catalog"
-msgstr ""
+msgstr "Synkronoi katalogi"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Sync Inventory"
-msgstr ""
+msgstr "Synkronoi varastointi"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Sync Orders"
-msgstr ""
+msgstr "Synkronoi tilaukset"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "Synchronization Information"
-msgstr ""
+msgstr "Synkronointitiedot"
 
 #. module: sale_lazada
 #: model:mail.template,subject:sale_lazada.inventory_sync_failure
 msgid "Synchronization of Lazada inventory has failed"
-msgstr ""
+msgstr "Lazada-varastoinnin synkronointi epäonnistui"
 
 #. module: sale_lazada
 #: model:mail.template,subject:sale_lazada.order_sync_failure
 msgid ""
 "Synchronization of Lazada order {{ ctx.get('lazada_order_ref') }} has failed"
 msgstr ""
+"Lazada-tilauksen {{ ctx.get('lazada_order_ref') }} synkronointi epäonnistui"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__sync_lazada_inventory
 msgid "Synchronize Inventory to Lazada"
-msgstr ""
+msgstr "Synkronoi varastointi Lazadaan"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__access_token
@@ -1043,29 +1085,33 @@ msgid ""
 " expires after 4 hours and is automatically refreshed using the refresh "
 "token. You don't need to manage this manually."
 msgstr ""
+"Lazadan myöntämä väliaikainen pääsytunniste API-varmennusta varten. Tämä "
+"tunniste vanhenee 4 tunnin kuluttua ja päivittyy automaattisesti "
+"päivitystunnistetta käyttämällä. Sinun ei tarvitse hallita tätä "
+"manuaalisesti."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "The API Endpoint for the country %(country)s is not supported."
-msgstr ""
+msgstr "API-päätepiste maalle %(country)s ei ole tuettu."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid "The Lazada order reference is required to get the shipment provider."
-msgstr ""
+msgstr "Lazada-tilausviite on pakollinen kuljetuspalvelun saamiseksi."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_sale_order__lazada_shop_id
 msgid "The Lazada shop from which the order was placed."
-msgstr ""
+msgstr "Lazada-kauppa, josta tilaus tehtiin."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_sale_order__lazada_order_ref
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__lazada_order_ref
 msgid "The Lazada-defined order reference."
-msgstr ""
+msgstr "Lazada-määritetty tilausnumero."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__lazada_sku
@@ -1073,11 +1119,13 @@ msgid ""
 "The SKU of the item in Lazada. Odoo can match the product when the Lazada "
 "SKU is equivalent to the default code of the product."
 msgstr ""
+"Kohteen SKU Lazadassa. Odoo osaa yhdistää tuotteen, kun Lazadan SKU vastaa "
+"tuotteen oletuskoodia."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__lazada_label_attachment_ids
 msgid "The attachments that are related to the Lazada label."
-msgstr ""
+msgstr "Lazada-nimikkeeseen liittyvät liitteet."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__access_token_expiration_date
@@ -1086,6 +1134,9 @@ msgid ""
 "automatically refreshes the token before expiration, so no action is "
 "required."
 msgstr ""
+"Nykyisen pääsytunnisteen voimassaolon päättymispäivä ja -aika. Järjestelmä "
+"päivittää tunnisteen automaattisesti ennen sen vanhentumista, joten "
+"toimenpiteitä ei tarvita."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__refresh_token_expiration_date
@@ -1094,50 +1145,56 @@ msgid ""
 "you'll need to re-authorize the connection to continue synchronizing with "
 "Lazada."
 msgstr ""
+"Päivämäärä ja kellonaika, jolloin päivitystunniste vanhenee. Jos tämä "
+"päivämäärä umpeutuu, sinun on valtuutettava yhteys uudelleen Lazada-"
+"synkronoinnin jatkamiseksi."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__team_id
 msgid ""
 "The default Sales Team assigned to orders imported from this Lazada shop"
 msgstr ""
+"Tästä Lazada-kaupasta tuotaville tilauksille oletuksena määritettävä "
+"myyntitiimi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__user_id
 msgid ""
 "The default Salesperson assigned to orders imported from this Lazada shop"
 msgstr ""
+"Tästä Lazada-kaupasta tuotaville tilauksille oletuksena määritettävä myyjä"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__last_lazada_picking_sync_date
 msgid "The last time the picking was synchronized with Lazada."
-msgstr ""
+msgstr "Edellinen kerta, kun keräily synkronoitiin Lazadan kanssa."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__package_extern_id
 msgid "The package identifier for the picking."
-msgstr ""
+msgstr "Paketin tunnus keräilyä varten."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/controllers/onboarding.py:0
 msgid "The request is expired."
-msgstr ""
+msgstr "Pyyntö on vanhentunut."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/controllers/onboarding.py:0
 msgid "The request signature is not valid."
-msgstr ""
+msgstr "Pyydetty allekirjoitus ei ole kelvollinen."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__lazada_shipping_allocate_type
 msgid "The shipping allocate type for the picking."
-msgstr ""
+msgstr "Lähetyksen allokointityyppi keräilylle."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__lazada_oauth_state
 msgid "The state of the OAuth flow for this shop."
-msgstr ""
+msgstr "Tämän kaupan OAuth-kulun tila."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_order_item__status
@@ -1150,6 +1207,13 @@ msgid ""
 "- Canceled: The order item has been canceled.\n"
 "- Manual: The order item has to be processed manually on Lazada."
 msgstr ""
+"Tilauskohteen tila Lazadassa:\n"
+"- Luonnos: Tilauskohde on oletuksena luonnostilassa.\n"
+"- Vahvistettu: Tilauskohde on pakattu.\n"
+"- Käsittelyssä: Tilauskohde on valmis lähetettäväksi.\n"
+"- Toimitettu: Tilauskohde on lähetetty tai toimitettu.\n"
+"- Peruutettu: Tilauskohde on peruutettu.\n"
+"- Manuaalinen: Tilauskohde on käsiteltävä manuaalisesti Lazadassa."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__fbl_location_id
@@ -1159,6 +1223,10 @@ msgid ""
 "you set up the shop. Stock moves to this location represent items sent to "
 "Lazada warehouses for fulfillment."
 msgstr ""
+"Varastosijainti, joka edustaa Lazadan hallinnoimaa varastointia Lazadan "
+"toteuttamassa (FBL) ohjelmassa. Tämä sijainti luodaan automaattisesti kaupan "
+"käyttöönoton yhteydessä. Tähän sijaintiin siirtyvä varasto edustaa "
+"tuotteita, jotka on lähetetty Lazadan varastoihin toteutettavaksi."
 
 #. module: sale_lazada
 #. odoo-python
@@ -1167,6 +1235,8 @@ msgid ""
 "The stock move must be related to the same sale order line as the Lazada "
 "order item."
 msgstr ""
+"Varastosiirron on liityttävä samaan myyntitilausriviin Lazada-tilauskohteen "
+"kanssa."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__lazada_item_extern_id
@@ -1174,6 +1244,8 @@ msgid ""
 "The unique identifier for an item in Lazada. An item in Lazada is equivalent"
 " to a product variant in Odoo."
 msgstr ""
+"Lazada-kohteen yksilöllinen tunnus. Lazadan kohde vastaa Odoon "
+"tuotevariaatiota."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__fbm_warehouse_id
@@ -1183,6 +1255,10 @@ msgid ""
 "products that you ship directly to customers. If not set, your company's "
 "default warehouse will be used."
 msgstr ""
+"Varasto, joka sisältää Lazadaan synkronoitavan kauppiaan toteuttaman (FBM) "
+"varaston tilaukset. Valitse varasto, jossa säilytät asiakkaille suoraan "
+"lähetettäviä tuotteita. Jos asetusta ei ole määritetty, käytetään yrityksesi "
+"oletusvarastoa."
 
 #. module: sale_lazada
 #: model:ir.model.constraint,message:sale_lazada.constraint_sale_order_unique_lazada_order_ref_lazada_shop_id
@@ -1190,6 +1266,7 @@ msgid ""
 "There can only exist one sale order for a given Lazada Order Reference per "
 "Shop."
 msgstr ""
+"Kaupalla voi olla vain yksi myyntitilaus tiettyä Lazada-tilausviitettä kohti."
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.view_order_form
@@ -1197,6 +1274,8 @@ msgid ""
 "This order contains unsupported Lazada order status.\n"
 "                    Please process the order manually on Lazada."
 msgstr ""
+"Tämä tilaus sisältää ei-tuetun Lazada-tilauksen tilan.\n"
+"                    Käsittele tilaus manuaalisesti Lazadassa."
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.stock_picking_form
@@ -1204,16 +1283,18 @@ msgid ""
 "This order contains unsupported order status.\n"
 "                    Please process the order manually on Lazada."
 msgstr ""
+"Tämä tilaus sisältää ei-tuetun tilauksen tilan.\n"
+"                    Käsittele tilaus manuaalisesti Lazadassa."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__manage_fbl_inventory
 msgid "Track FBL Inventory"
-msgstr ""
+msgstr "Seuraa FBL-varastointia"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Siirto"
 
 #. module: sale_lazada
 #. odoo-python
@@ -1222,6 +1303,8 @@ msgid ""
 "We do not support syncing services or combo products to Lazada. Only "
 "storable products are supported."
 msgstr ""
+"Emme tue palveluiden tai yhdistelmätuotteiden synkronointia Lazadaan. Vain "
+"varastoitavat tuotteet ovat tuettuja."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__app_key
@@ -1231,6 +1314,9 @@ msgid ""
 "Service Provider Center after creating an application. Enter this before "
 "authorizing the connection."
 msgstr ""
+"Lazada-sovelluksen avain (sovellusavain). Löydät tämän Lazada -"
+"palveluntarjoajan keskuksesta sovelluksen luotuasi. Syötä tämä ennen "
+"yhteyden valtuuttamista."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__app_secret
@@ -1240,6 +1326,9 @@ msgid ""
 " App Key in the Lazada Service Provider Center. Keep this confidential and "
 "enter it before authorizing the connection."
 msgstr ""
+"Lazada-sovelluksen salaus. Tämä myönnetään yhdessä sovellusavaimen kanssa "
+"Lazada -palveluntarjoajan keskuksessa. Säilytä luottamuksellisena ja syötä "
+"se ennen yhteyden valtuuttamista."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__shop_extern_id
@@ -1248,12 +1337,15 @@ msgid ""
 "authorization and ensures the same Lazada shop cannot be linked twice to the"
 " same company."
 msgstr ""
+"Lazadan sinulle myöntämä yksilöllinen myyjän tunnus. Se määritetään "
+"automaattisesti valtuutuksen yhteydessä ja varmistaa, ettei samaa Lazada-"
+"kauppaa voi linkittää kahdesti samaan yritykseen."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid "[%(sku)s] %(product_name)s"
-msgstr ""
+msgstr "[%(sku)s] %(product_name)s"
 
 #. module: sale_lazada
 #. odoo-python
@@ -1262,8 +1354,10 @@ msgid ""
 "[%(sku)s] %(product_title)s\n"
 "Voucher id: %(promotion_id)s"
 msgstr ""
+"[%(sku)s] %(product_title)s\n"
+"Kupongin tunnus: %(promotion_id)s"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid "e.g. Indonesian Shop"
-msgstr ""
+msgstr "esim. indonesialainen kauppa"

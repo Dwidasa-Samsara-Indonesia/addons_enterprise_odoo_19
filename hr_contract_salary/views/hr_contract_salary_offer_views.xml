@@ -139,6 +139,9 @@
                     <div role="alert" class="alert alert-danger" invisible="sign_template_id">
                         Please define a signature template on the contract before generating the offer.
                     </div>
+                    <div class="alert alert-warning" role="alert" invisible="not future_version_date">
+                        At least one contract is scheduled to start on <field name="future_version_date" readonly="1"/>. Signing this offer will archive it.
+                    </div>
                     <div class="oe_title pe-0">
                         <label for="display_name"/>
                         <h1>
@@ -152,13 +155,19 @@
                             <label for="sign_template_id" string="PDF Template"/>
                             <div class="o_row">
                                 <field name="sign_template_id" options="{'no_create': True}"
-                                    readonly="contract_template_id" placeholder="Select the PDF that the employee will sign"/>
+                                    readonly="has_sign_template" placeholder="Select the PDF that the employee will sign"/>
                                 <button name="action_edit_offer_signatories" type="object" class="btn btn-secondary"
                                     string="Edit Signatories" invisible="sign_template_id" disabled="1"/>
                                 <button name="action_edit_offer_signatories" type="object" class="btn btn-secondary"
                                     string="Edit Signatories" invisible="not sign_template_id"/>
                             </div>
                             <field name="final_yearly_costs" readonly="state in ['cancelled', 'full_signed']"/>
+                            <field name="contract_type_id" groups="hr.group_hr_user"
+                                readonly="state in ['cancelled', 'full_signed']"
+                                placeholder="e.g. Permanent, Replacement, Short term" />
+                            <field name="contract_type_id" readonly="1" options="{'no_open': True}"
+                                groups="!hr.group_hr_user"
+                                placeholder="e.g. Permanent, Replacement, Short term" />
                             <field name="job_title" readonly="state == 'cancelled'"
                                 placeholder="e.g. Lead Dev, Junior Consultant"/>
                             <field name="employee_job_id" readonly="state in ['cancelled', 'full_signed']"
@@ -167,9 +176,13 @@
                                 placeholder="e.g. Human Resources, Research &amp; Development, Marketing"/>
                             <label for="contract_start_date" string="Contract Date"/>
                             <div class="o_row">
-                                <field name="contract_start_date" readonly="state in ['cancelled', 'full_signed']"/>
+                                <field name="contract_start_date" class="o_hr_narrow_field" readonly="state in ['cancelled', 'full_signed']"/>
                                 <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                                <field name="contract_end_date" readonly="state in ['cancelled', 'full_signed']" placeholder="No limit"/>
+                                <field name="contract_end_date" class="o_hr_narrow_field" force_save="1" placeholder="No limit"
+                                    invisible="state in ['cancelled', 'full_signed'] or is_contract_amendment"/>
+                                <field name="contract_end_date" class="o_hr_narrow_field text-muted" readonly="1" force_save="1"
+                                    invisible="not (state in ['cancelled', 'full_signed'] or is_contract_amendment) or (not contract_end_date and is_contract_amendment)"/>
+                                <span class="text-muted" invisible="contract_end_date or not is_contract_amendment">No limit</span>
                             </div>
                             <field name="offer_create_date" readonly="1"/>
                             <field name="offer_end_date" readonly="state in ['cancelled', 'full_signed']" placeholder="Always valid"/>

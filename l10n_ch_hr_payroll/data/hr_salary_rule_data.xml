@@ -129,6 +129,7 @@ else:
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_1001" model="hr.salary.rule">
@@ -159,6 +160,7 @@ result_name = inputs['WT_1001'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_1005" model="hr.salary.rule">
@@ -195,6 +197,7 @@ else:
         <field name="l10n_ch_13th_month_hourly_included" eval="True"/>
         <field name="l10n_ch_vacation_pay_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_1006" model="hr.salary.rule">
@@ -232,6 +235,7 @@ else:
         <field name="l10n_ch_13th_month_hourly_included" eval="True"/>
         <field name="l10n_ch_vacation_pay_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
 
@@ -370,6 +374,42 @@ result_name = inputs['WT_1067'].name
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
     </record>
+    
+    <record id="l10n_ch_elm_rule_1068" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="name">Overtime 200%</field>
+        <field name="code">WT_1068</field>
+        <field name="l10n_ch_code">1068</field>
+        <field name="sequence">20</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = ch_wage_components['CH_1068']['total'] > 0 or 'WT_1068' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+if 'WT_1068' in inputs:
+    result = inputs['WT_1068'].amount
+    result_name = inputs['WT_1068'].name
+else:
+    if ch_wage_components['CH_1068']['base'] and ch_wage_components['CH_1068']['rate']:
+        result = ch_wage_components['CH_1068']['base']
+        result_rate = ch_wage_components['CH_1068']['rate']
+    else:
+        result = ch_wage_components['CH_1068']['total']
+        </field>
+        <field name="l10n_ch_gross_included" eval="True"/>
+        <field name="l10n_ch_aanp_included" eval="True"/>
+        <field name="l10n_ch_laac_included" eval="True"/>
+        <field name="l10n_ch_ac_included" eval="True"/>
+        <field name="l10n_ch_ijm_included" eval="True"/>
+        <field name="l10n_ch_lpp_forecast" eval="False"/>
+        <field name="l10n_ch_lpp_factor" eval="0"/>
+        <field name="l10n_ch_lpp_retroactive" eval="True"/>
+        <field name="l10n_ch_source_tax_included" eval="True"/>
+        <field name="l10n_ch_salary_certificate">1</field>
+        <field name="l10n_ch_is_periodic" eval="False"/>
+        <field name="l10n_ch_yearly_statement">P</field>
+        <field name="l10n_ch_13th_month_included" eval="False"/>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+    </record>
 
     <record id="l10n_ch_elm_rule_hol_alw_base" model="hr.salary.rule">
         <field name="category_id" ref="l10n_ch_hr_payroll.l10n_ch_elm_technical_category"/>
@@ -473,6 +513,7 @@ result_name = inputs['WT_1010'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1015" model="hr.salary.rule">
@@ -502,6 +543,7 @@ result_name = inputs['WT_1015'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1016" model="hr.salary.rule">
@@ -531,6 +573,7 @@ result_name = inputs['WT_1016'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1017" model="hr.salary.rule">
@@ -560,6 +603,7 @@ result_name = inputs['WT_1017'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1018" model="hr.salary.rule">
@@ -589,6 +633,7 @@ result_name = inputs['WT_1018'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1020" model="hr.salary.rule">
@@ -618,6 +663,7 @@ result_name = inputs['WT_1020'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1021" model="hr.salary.rule">
@@ -647,6 +693,7 @@ result_name = inputs['WT_1021'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1030" model="hr.salary.rule">
@@ -676,6 +723,7 @@ result_name = inputs['WT_1030'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1031" model="hr.salary.rule">
@@ -705,6 +753,7 @@ result_name = inputs['WT_1031'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1032" model="hr.salary.rule">
@@ -734,6 +783,7 @@ result_name = inputs['WT_1032'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1033" model="hr.salary.rule">
@@ -763,6 +813,7 @@ result_name = inputs['WT_1033'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1034" model="hr.salary.rule">
@@ -792,6 +843,7 @@ result_name = inputs['WT_1034'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1040" model="hr.salary.rule">
@@ -821,6 +873,7 @@ result_name = inputs['WT_1040'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1050" model="hr.salary.rule">
@@ -850,6 +903,7 @@ result_name = inputs['WT_1050'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1055" model="hr.salary.rule">
@@ -879,6 +933,7 @@ result_name = inputs['WT_1055'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1056" model="hr.salary.rule">
@@ -908,6 +963,7 @@ result_name = inputs['WT_1056'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1060" model="hr.salary.rule">
@@ -937,6 +993,7 @@ result_name = inputs['WT_1060'].name
         <field name="l10n_ch_yearly_statement">P</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1070" model="hr.salary.rule">
@@ -966,6 +1023,7 @@ result_name = inputs['WT_1070'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1071" model="hr.salary.rule">
@@ -1002,6 +1060,7 @@ else:
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1072" model="hr.salary.rule">
@@ -1031,6 +1090,7 @@ result_name = inputs['WT_1072'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1073" model="hr.salary.rule">
@@ -1060,6 +1120,7 @@ result_name = inputs['WT_1073'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1074" model="hr.salary.rule">
@@ -1089,6 +1150,7 @@ result_name = inputs['WT_1074'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1075" model="hr.salary.rule">
@@ -1125,6 +1187,7 @@ else:
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1076" model="hr.salary.rule">
@@ -1154,6 +1217,7 @@ result_name = inputs['WT_1076'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1100" model="hr.salary.rule">
@@ -1183,6 +1247,7 @@ result_name = inputs['WT_1100'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1101" model="hr.salary.rule">
@@ -1212,6 +1277,7 @@ result_name = inputs['WT_1101'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1102" model="hr.salary.rule">
@@ -1241,6 +1307,7 @@ result_name = inputs['WT_1102'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1103" model="hr.salary.rule">
@@ -1270,6 +1337,7 @@ result_name = inputs['WT_1103'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1104" model="hr.salary.rule">
@@ -1299,6 +1367,7 @@ result_name = inputs['WT_1104'].name
         <field name="l10n_ch_wage_statement">J</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1110" model="hr.salary.rule">
@@ -1327,6 +1396,7 @@ result_name = inputs['WT_1110'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1111" model="hr.salary.rule">
@@ -1355,6 +1425,7 @@ result_name = inputs['WT_1111'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1112" model="hr.salary.rule">
@@ -1383,6 +1454,7 @@ result_name = inputs['WT_1112'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1130" model="hr.salary.rule">
@@ -1411,6 +1483,7 @@ result_name = inputs['WT_1130'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1131" model="hr.salary.rule">
@@ -1439,6 +1512,7 @@ result_name = inputs['WT_1131'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1162" model="hr.salary.rule">
@@ -1468,6 +1542,7 @@ result_name = inputs['WT_1162'].name
         <field name="l10n_ch_yearly_statement">P</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1163" model="hr.salary.rule">
@@ -1496,6 +1571,7 @@ result_name = inputs['WT_1163'].name
         <field name="l10n_ch_yearly_statement">P</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1202" model="hr.salary.rule">
@@ -1524,6 +1600,7 @@ result_name = inputs['WT_1202'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1204" model="hr.salary.rule">
@@ -1552,6 +1629,7 @@ result_name = inputs['WT_1204'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1209" model="hr.salary.rule">
@@ -1580,6 +1658,7 @@ result_name = inputs['WT_1209'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1210" model="hr.salary.rule">
@@ -1608,6 +1687,7 @@ result_name = inputs['WT_1210'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1211" model="hr.salary.rule">
@@ -1636,6 +1716,7 @@ result_name = inputs['WT_1211'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1212" model="hr.salary.rule">
@@ -1664,6 +1745,7 @@ result_name = inputs['WT_1212'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1213" model="hr.salary.rule">
@@ -1692,6 +1774,7 @@ result_name = inputs['WT_1213'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1214" model="hr.salary.rule">
@@ -1720,6 +1803,7 @@ result_name = inputs['WT_1214'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1215" model="hr.salary.rule">
@@ -1748,6 +1832,7 @@ result_name = inputs['WT_1215'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1216" model="hr.salary.rule">
@@ -1776,6 +1861,7 @@ result_name = inputs['WT_1216'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1217" model="hr.salary.rule">
@@ -1804,6 +1890,7 @@ result_name = inputs['WT_1217'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1218" model="hr.salary.rule">
@@ -1833,6 +1920,7 @@ result_name = inputs['WT_1218'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1219" model="hr.salary.rule">
@@ -1861,6 +1949,7 @@ result_name = inputs['WT_1219'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1230" model="hr.salary.rule">
@@ -1889,6 +1978,7 @@ result_name = inputs['WT_1230'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1231" model="hr.salary.rule">
@@ -1917,6 +2007,7 @@ result_name = inputs['WT_1231'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1232" model="hr.salary.rule">
@@ -1945,6 +2036,7 @@ result_name = inputs['WT_1232'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1250" model="hr.salary.rule">
@@ -1973,6 +2065,7 @@ result_name = inputs['WT_1250'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1299" model="hr.salary.rule">
@@ -2009,6 +2102,7 @@ else:
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1300" model="hr.salary.rule">
@@ -2045,6 +2139,7 @@ else:
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1301" model="hr.salary.rule">
@@ -2081,6 +2176,7 @@ else:
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1302" model="hr.salary.rule">
@@ -2117,6 +2213,7 @@ else:
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1303" model="hr.salary.rule">
@@ -2146,6 +2243,7 @@ result_name = inputs['WT_1303'].name
         <field name="l10n_ch_wage_statement">I</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1304" model="hr.salary.rule">
@@ -2183,6 +2281,7 @@ else:
         <field name="l10n_ch_13th_month_hourly_included" eval="True"/>
         <field name="l10n_ch_vacation_pay_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1305" model="hr.salary.rule">
@@ -2220,6 +2319,7 @@ else:
         <field name="l10n_ch_13th_month_hourly_included" eval="True"/>
         <field name="l10n_ch_vacation_pay_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1306" model="hr.salary.rule">
@@ -2257,6 +2357,7 @@ else:
         <field name="l10n_ch_13th_month_hourly_included" eval="True"/>
         <field name="l10n_ch_vacation_pay_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1307" model="hr.salary.rule">
@@ -2294,6 +2395,7 @@ else:
         <field name="l10n_ch_13th_month_hourly_included" eval="True"/>
         <field name="l10n_ch_vacation_pay_included" eval="True"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
 
@@ -2323,6 +2425,7 @@ result_name = inputs['WT_1400'].name
         <field name="l10n_ch_yearly_statement">S</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1401" model="hr.salary.rule">
@@ -2351,6 +2454,7 @@ result_name = inputs['WT_1401'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1410" model="hr.salary.rule">
@@ -2379,6 +2483,7 @@ result_name = inputs['WT_1410'].name
         <field name="l10n_ch_yearly_statement">S</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1411" model="hr.salary.rule">
@@ -2407,6 +2512,7 @@ result_name = inputs['WT_1411'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1420" model="hr.salary.rule">
@@ -2435,6 +2541,7 @@ result_name = inputs['WT_1420'].name
         <field name="l10n_ch_yearly_statement">S</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1500" model="hr.salary.rule">
@@ -2463,6 +2570,7 @@ result_name = inputs['WT_1500'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1501" model="hr.salary.rule">
@@ -2491,6 +2599,7 @@ result_name = inputs['WT_1501'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1503" model="hr.salary.rule">
@@ -2519,6 +2628,7 @@ result_name = inputs['WT_1503'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1510" model="hr.salary.rule">
@@ -2547,6 +2657,7 @@ result_name = inputs['WT_1510'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1900" model="hr.salary.rule">
@@ -2576,6 +2687,7 @@ result_name = inputs['WT_1900'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1901" model="hr.salary.rule">
@@ -2605,6 +2717,7 @@ result_name = inputs['WT_1901'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1902" model="hr.salary.rule">
@@ -2634,6 +2747,7 @@ result_name = inputs['WT_1902'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1910" model="hr.salary.rule">
@@ -2663,6 +2777,7 @@ result_name = inputs['WT_1910'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1920" model="hr.salary.rule">
@@ -2721,6 +2836,7 @@ result_name = inputs['WT_1950'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1953" model="hr.salary.rule">
@@ -2750,6 +2866,7 @@ result_name = inputs['WT_1953'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1955" model="hr.salary.rule">
@@ -2779,6 +2896,7 @@ result_name = inputs['WT_1955'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1960" model="hr.salary.rule">
@@ -2808,6 +2926,7 @@ result_name = inputs['WT_1960'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1961" model="hr.salary.rule">
@@ -2836,6 +2955,7 @@ result_name = inputs['WT_1961'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1962" model="hr.salary.rule">
@@ -2864,6 +2984,7 @@ result_name = inputs['WT_1962'].name
         <field name="l10n_ch_yearly_statement">R</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1971" model="hr.salary.rule">
@@ -2893,6 +3014,7 @@ result_name = inputs['WT_1971'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1972" model="hr.salary.rule">
@@ -2922,6 +3044,7 @@ result_name = inputs['WT_1972'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1973" model="hr.salary.rule">
@@ -2951,6 +3074,7 @@ result_name = inputs['WT_1973'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1974" model="hr.salary.rule">
@@ -2980,6 +3104,7 @@ result_name = inputs['WT_1974'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1975" model="hr.salary.rule">
@@ -3009,6 +3134,7 @@ result_name = inputs['WT_1975'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1976" model="hr.salary.rule">
@@ -3038,6 +3164,7 @@ result_name = inputs['WT_1976'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1977" model="hr.salary.rule">
@@ -3067,6 +3194,7 @@ result_name = inputs['WT_1977'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1978" model="hr.salary.rule">
@@ -3096,6 +3224,7 @@ result_name = inputs['WT_1978'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1979" model="hr.salary.rule">
@@ -3125,6 +3254,7 @@ result_name = inputs['WT_1979'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_1980" model="hr.salary.rule">
@@ -3152,6 +3282,7 @@ result_name = inputs['WT_1980'].name
         <field name="l10n_ch_salary_certificate">13.3</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2000" model="hr.salary.rule">
@@ -3181,6 +3312,7 @@ result_name = inputs['WT_2000'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2005" model="hr.salary.rule">
@@ -3210,6 +3342,7 @@ result_name = inputs['WT_2005'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2010" model="hr.salary.rule">
@@ -3239,6 +3372,7 @@ result_name = inputs['WT_2010'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2015" model="hr.salary.rule">
@@ -3268,6 +3402,7 @@ result_name = inputs['WT_2015'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2020" model="hr.salary.rule">
@@ -3297,6 +3432,7 @@ result_name = inputs['WT_2020'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2021" model="hr.salary.rule">
@@ -3325,6 +3461,7 @@ result_name = inputs['WT_2021'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2022" model="hr.salary.rule">
@@ -3353,6 +3490,7 @@ result_name = inputs['WT_2022'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2025" model="hr.salary.rule">
@@ -3382,6 +3520,7 @@ result_name = inputs['WT_2025'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2026" model="hr.salary.rule">
@@ -3410,6 +3549,7 @@ result_name = inputs['WT_2026'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2027" model="hr.salary.rule">
@@ -3438,6 +3578,7 @@ result_name = inputs['WT_2027'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2030" model="hr.salary.rule">
@@ -3466,6 +3607,7 @@ result_name = inputs['WT_2030'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2031" model="hr.salary.rule">
@@ -3494,6 +3636,7 @@ result_name = inputs['WT_2031'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2032" model="hr.salary.rule">
@@ -3522,6 +3665,7 @@ result_name = inputs['WT_2032'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2035" model="hr.salary.rule">
@@ -3550,6 +3694,7 @@ result_name = inputs['WT_2035'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2040" model="hr.salary.rule">
@@ -3579,6 +3724,7 @@ result_name = inputs['WT_2040'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2050" model="hr.salary.rule">
@@ -3588,11 +3734,16 @@ result_name = inputs['WT_2040'].name
         <field name="l10n_ch_code">2050</field>
         <field name="sequence">20</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = 'WT_2050' in inputs</field>
-        <field name="amount_select">code</field>
+        <field name="condition_python">result = 'WT_2050' in inputs or any(wt in inputs for wt in payslip._get_third_party_payment_wage_types())</field>        <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs['WT_2050'].amount
-result_name = inputs['WT_2050'].name
+if 'WT_2050' in inputs:
+    result = -inputs['WT_2050'].amount
+    result_name = inputs['WT_2050'].name
+else:
+    result = 0
+    for wage_type in payslip._get_third_party_payment_wage_types():
+        if wage_type in inputs:
+            result -= inputs[wage_type].amount
         </field>
         <field name="l10n_ch_gross_included" eval="True"/>
         <field name="l10n_ch_ac_included" eval="True"/>
@@ -3608,6 +3759,7 @@ result_name = inputs['WT_2050'].name
         <field name="l10n_ch_wage_statement">Y</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2060" model="hr.salary.rule">
@@ -3636,6 +3788,7 @@ result_name = inputs['WT_2060'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2065" model="hr.salary.rule">
@@ -3691,6 +3844,7 @@ result_name = inputs['WT_2070'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_2075" model="hr.salary.rule">
@@ -3719,6 +3873,7 @@ result_name = inputs['WT_2075'].name
         <field name="l10n_ch_is_periodic" eval="True"/>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3000" model="hr.salary.rule">
@@ -3749,6 +3904,7 @@ result_name = inputs['WT_3000'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
 
@@ -3779,6 +3935,7 @@ result_name = inputs['WT_3001'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3004_fcf" model="hr.salary.rule">
@@ -3848,6 +4005,7 @@ result_name = inputs['WT_3010'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3011" model="hr.salary.rule">
@@ -3877,6 +4035,7 @@ result_name = inputs['WT_3011'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
 
@@ -3947,6 +4106,7 @@ result_name = inputs['WT_3030'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3031" model="hr.salary.rule">
@@ -3976,6 +4136,7 @@ result_name = inputs['WT_3031'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3032" model="hr.salary.rule">
@@ -4006,6 +4167,7 @@ result_name = inputs['WT_3032'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3033" model="hr.salary.rule">
@@ -4035,6 +4197,7 @@ result_name = inputs['WT_3033'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3034" model="hr.salary.rule">
@@ -4064,6 +4227,7 @@ result_name = inputs['WT_3034'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3038" model="hr.salary.rule">
@@ -4120,6 +4284,7 @@ result_name = inputs['WT_3035'].name
         <field name="l10n_ch_yearly_statement">Q</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3036" model="hr.salary.rule">
@@ -4149,6 +4314,7 @@ result_name = inputs['WT_3036'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_3037" model="hr.salary.rule">
@@ -4177,6 +4343,7 @@ result_name = inputs['WT_3037'].name
         <field name="l10n_ch_wage_statement">K</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_4900" model="hr.salary.rule">
@@ -4206,6 +4373,7 @@ result_name = inputs['WT_4900'].name
         <field name="l10n_ch_yearly_statement">T</field>
         <field name="l10n_ch_13th_month_included" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_13_prov" model="hr.salary.rule">
@@ -4570,6 +4738,7 @@ result_rate = inputs['AVS.GENERIC.COMP'].amount
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
         <record id="l10n_ch_elm_rule_5401" model="hr.salary.rule">
@@ -4605,6 +4774,7 @@ result_rate = inputs['AVS.GENERIC.COMP.2'].amount
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_5402" model="hr.salary.rule">
@@ -4640,6 +4810,7 @@ result_rate = inputs['AVS.GENERIC.COMP.3'].amount
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_5403" model="hr.salary.rule">
@@ -4675,6 +4846,187 @@ result_rate = inputs['AVS.GENERIC.COMP.4'].amount
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
+    </record>
+
+        <record id="l10n_ch_elm_rule_5404" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="name">General AVS Deduction in % (5)</field>
+        <field name="code">AVS.GENERIC.5</field>
+        <field name="l10n_ch_code">5404</field>
+        <field name="sequence">131</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.5' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.5'].name
+result_rate = -inputs['AVS.GENERIC.5'].amount
+        </field>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_7404" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_ch_hr_payroll.l10n_ch_elm_company_contributions"/>
+        <field name="name">General AVS Deduction in % Employer (5)</field>
+        <field name="code">AVS.GENERIC.COMP.5</field>
+        <field name="l10n_ch_code">7404</field>
+        <field name="sequence">132</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.COMP.5' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.COMP.5'].name
+result_rate = inputs['AVS.GENERIC.COMP.5'].amount
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_5405" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="name">General AVS Deduction in % (6)</field>
+        <field name="code">AVS.GENERIC.6</field>
+        <field name="l10n_ch_code">5405</field>
+        <field name="sequence">131</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.6' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.6'].name
+result_rate = -inputs['AVS.GENERIC.6'].amount
+        </field>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_7405" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_ch_hr_payroll.l10n_ch_elm_company_contributions"/>
+        <field name="name">General AVS Deduction in % Employer (6)</field>
+        <field name="code">AVS.GENERIC.COMP.6</field>
+        <field name="l10n_ch_code">7405</field>
+        <field name="sequence">132</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.COMP.6' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.COMP.6'].name
+result_rate = inputs['AVS.GENERIC.COMP.6'].amount
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
+    </record>
+
+     <record id="l10n_ch_elm_rule_5406" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="name">General AVS Deduction in % (7)</field>
+        <field name="code">AVS.GENERIC.7</field>
+        <field name="l10n_ch_code">5406</field>
+        <field name="sequence">131</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.7' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.7'].name
+result_rate = -inputs['AVS.GENERIC.7'].amount
+        </field>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_7406" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_ch_hr_payroll.l10n_ch_elm_company_contributions"/>
+        <field name="name">General AVS Deduction in % Employer (7)</field>
+        <field name="code">AVS.GENERIC.COMP.7</field>
+        <field name="l10n_ch_code">7406</field>
+        <field name="sequence">132</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.COMP.7' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.COMP.7'].name
+result_rate = inputs['AVS.GENERIC.COMP.7'].amount
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_5407" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="name">General AVS Deduction in % (8)</field>
+        <field name="code">AVS.GENERIC.8</field>
+        <field name="l10n_ch_code">5407</field>
+        <field name="sequence">131</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.8' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.8'].name
+result_rate = -inputs['AVS.GENERIC.8'].amount
+        </field>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_7407" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_ch_hr_payroll.l10n_ch_elm_company_contributions"/>
+        <field name="name">General AVS Deduction in % Employer (8)</field>
+        <field name="code">AVS.GENERIC.COMP.8</field>
+        <field name="l10n_ch_code">7407</field>
+        <field name="sequence">132</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.COMP.8' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.COMP.8'].name
+result_rate = inputs['AVS.GENERIC.COMP.8'].amount
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_5408" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="name">General AVS Deduction in % (9)</field>
+        <field name="code">AVS.GENERIC.9</field>
+        <field name="l10n_ch_code">5408</field>
+        <field name="sequence">131</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.9' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.9'].name
+result_rate = -inputs['AVS.GENERIC.9'].amount
+        </field>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+    </record>
+
+    <record id="l10n_ch_elm_rule_7408" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_ch_hr_payroll.l10n_ch_elm_company_contributions"/>
+        <field name="name">General AVS Deduction in % Employer (9)</field>
+        <field name="code">AVS.GENERIC.COMP.9</field>
+        <field name="l10n_ch_code">7408</field>
+        <field name="sequence">132</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_ch_social_insurance_id and 'AVS.GENERIC.COMP.9' in inputs</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['AVSSALARY']['total']
+result_name = inputs['AVS.GENERIC.COMP.9'].name
+result_rate = inputs['AVS.GENERIC.COMP.9'].amount
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_7010" model="hr.salary.rule">
@@ -4697,6 +5049,7 @@ result_rate = payslip.l10n_ch_social_insurance_id._get_avs_rates(rate_date)[1]
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_7011" model="hr.salary.rule">
@@ -4720,6 +5073,7 @@ result_rate = payslip.l10n_ch_social_insurance_id._get_avs_rates(rate_date)[2]
         <field name="note">Old Age &amp; Survivor's Insurance, Disability Insurance &amp; Loss of Earnings</field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
         <record id="l10n_ch_elm_rule_9020" model="hr.salary.rule">
@@ -4826,6 +5180,7 @@ Unemployment Insurance
 Source: https://www.cvcicaisseavs.ch/en/employer/unemployment-insurance-ac.html
         </field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_acc_salary_max" model="hr.salary.rule">
@@ -4933,6 +5288,7 @@ result_rate = payslip.l10n_ch_social_insurance_id._get_additional_ac_rates(rate_
         <field name="appears_on_payslip" eval="False"/>
         <field name="note">Additional Unemployment Insurance</field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
 
@@ -5058,6 +5414,7 @@ result = result_rules['LAASALARY']['total']
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_laac_base" model="hr.salary.rule">
@@ -5316,6 +5673,7 @@ result_rate = rate * (employer_rate) / 100
         <field name="appears_on_payslip" eval="False"/>
         <field name="note">Additional Accident Insurance (LAAC)</field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_laac_comp_2" model="hr.salary.rule">
@@ -5337,6 +5695,7 @@ result_rate = rate * (employer_rate) / 100
         <field name="appears_on_payslip" eval="False"/>
         <field name="note">Additional Accident Insurance (LAAC)</field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_ijm_base" model="hr.salary.rule">
@@ -5601,6 +5960,7 @@ result_rate = rate * (employer_part / 100)
         <field name="appears_on_payslip" eval="False"/>
         <field name="note">Daily Sickness Insurance</field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_ijm_comp_2" model="hr.salary.rule">
@@ -5622,6 +5982,7 @@ result_rate = rate * (employer_part / 100)
         <field name="appears_on_payslip" eval="False"/>
         <field name="note">Daily Sickness Insurance</field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_hr_elm_5050" model="hr.salary.rule">
@@ -5725,6 +6086,7 @@ result_name = inputs['LPP.COMP'].name
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_hr_elm_7052" model="hr.salary.rule">
@@ -5741,6 +6103,7 @@ result = inputs['LPP.COMP.COMPL'].amount
 result_name = inputs['LPP.COMP.COMPL'].name
         </field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_hr_elm_7051" model="hr.salary.rule">
@@ -5758,6 +6121,7 @@ result_name = inputs['LPP.RACHAT.COMP'].name
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <!-- Tax At Source -->
@@ -6194,6 +6558,7 @@ result = result_rules['AVSSALARY']['total']
 result_rate = - payslip.l10n_ch_compensation_fund_id._get_caf_rates(payslip.date_from, 'company_rate')
         </field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_5080" model="hr.salary.rule">
@@ -6306,6 +6671,7 @@ result = -inputs['WT_7310'].amount
 result_name = inputs['WT_7310'].name
         </field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <record id="l10n_ch_elm_rule_5300" model="hr.salary.rule">
@@ -6338,6 +6704,7 @@ result = -inputs['WT_7300'].amount
 result_name = inputs['WT_7300'].name
         </field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>
+        <field name="appears_on_employee_cost_dashboard" eval="True"/>
     </record>
 
     <!-- Expenses -->

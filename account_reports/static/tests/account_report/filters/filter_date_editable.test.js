@@ -62,15 +62,21 @@ test("can change the date filter by editing textually", async () => {
     // Click the Month input when selected
     await contains(".date_filter_month.selected .input_current_date").click();
     // Edit the month by changing the text (+14 months)
-    await contains(".date_filter_month .input_current_date:not([readonly])").edit("May 2020");
+    await contains(".date_filter_month .input_current_date:not([readonly])").edit("May 2020", {
+        confirm: "tab",
+    });
     // Click the Month input when selected
     await contains(".date_filter_month.selected .input_current_date").click();
     // Edit the month by changing the text (-10 months)
-    await contains(".date_filter_month .input_current_date:not([readonly])").edit("May 2018");
+    await contains(".date_filter_month .input_current_date:not([readonly])").edit("May 2018", {
+        confirm: "tab",
+    });
     // Click the Month input when selected
     await contains(".date_filter_month.selected .input_current_date").click();
     // Edit the month by changing the text to something invalid
-    await contains(".date_filter_month .input_current_date:not([readonly])").edit("Invalid Month");
+    await contains(".date_filter_month .input_current_date:not([readonly])").edit("Invalid Month", {
+        confirm: "tab",
+    });
 
     // Select the Quarter filter
     await contains(".date_filter_quarter").click();
@@ -80,19 +86,31 @@ test("can change the date filter by editing textually", async () => {
     // Click the Quarter input when selected
     await contains(".date_filter_quarter.selected .input_current_date").click();
     // Edit the quarter by changing the text (+5 quarters)
-    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit("Apr - Jun 2020");
+    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit(
+        "Apr - Jun 2020",
+        { confirm: "tab" }
+    );
     // Click the Quarter input when selected
     await contains(".date_filter_quarter.selected .input_current_date").click();
     // Edit the quarter by changing the text (-3 quarters)
-    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit("Apr - Jun 2018");
+    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit(
+        "Apr - Jun 2018",
+        { confirm: "tab" }
+    );
     // Click the Quarter input when selected
     await contains(".date_filter_quarter.selected .input_current_date").click();
     // Edit the quarter by changing the text (invalid quarter, -4 quarters)
-    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit("Random - Feb 2018");
+    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit(
+        "Random - Feb 2018",
+        { confirm: "tab" }
+    );
     // Click the Quarter input when selected
     await contains(".date_filter_quarter.selected .input_current_date").click();
     // Edit the quarter by changing the text to something invalid
-    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit("Invalid Quarter");
+    await contains(".date_filter_quarter .input_current_date:not([readonly])").edit(
+        "Invalid Quarter",
+        { confirm: "tab" }
+    );
 
     // Select the Year filter
     await contains(".date_filter_year").click();
@@ -102,15 +120,21 @@ test("can change the date filter by editing textually", async () => {
     // Click the Year input when selected
     await contains(".date_filter_year.selected .input_current_date").click();
     // Edit the year by changing the text (+2 years)
-    await contains(".date_filter_year .input_current_date:not([readonly])").edit("2021");
+    await contains(".date_filter_year .input_current_date:not([readonly])").edit("2021", {
+        confirm: "tab",
+    });
     // Click the Year input when selected
     await contains(".date_filter_year.selected .input_current_date").click();
     // Edit the year by changing the text (-1 year)
-    await contains(".date_filter_year .input_current_date:not([readonly])").edit("2018");
+    await contains(".date_filter_year .input_current_date:not([readonly])").edit("2018", {
+        confirm: "tab",
+    });
     // Click the Year input when selected
     await contains(".date_filter_year.selected .input_current_date").click();
     // Edit the year by changing the text to something invalid
-    await contains(".date_filter_year .input_current_date:not([readonly])").edit("Invalid Year");
+    await contains(".date_filter_year .input_current_date:not([readonly])").edit("Invalid Year", {
+        confirm: "tab",
+    });
 
     expect.verifySteps([
         // Set the month to +14 months

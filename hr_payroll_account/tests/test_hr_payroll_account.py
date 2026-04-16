@@ -558,6 +558,7 @@ class TestHrPayrollAccount(TestHrPayrollAccountCommon):
                 'acc_number': 'IT77H400725028682A0R202P050',
                 'partner_id': tax_partner.id,
                 'bank_id': tax_bank.id,
+                'allow_out_payment': True,
             })
         tax_debit_account = self.env['account.account'].create({
             'name': "Professional tax",

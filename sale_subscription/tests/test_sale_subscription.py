@@ -1158,8 +1158,14 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
             # You cannot cancel a subscription that has been invoiced
             sub_paused._action_cancel()
         sub_paused.subscription_state = '6_churn'
+        with self.assertRaises(ValidationError):
+            sub_paused._action_cancel()
+        sub_paused.invoice_ids.button_cancel()
         self.assertEqual(sub_paused.state, 'sale')
         sub_progress.subscription_state = '6_churn'
+        with self.assertRaises(ValidationError):
+            sub_progress._action_cancel()
+        sub_progress.invoice_ids.button_cancel()
         sub_progress._action_cancel()
         sub_progress.set_open()
         action = sub_progress.prepare_renewal_order()
@@ -2306,6 +2312,54 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
             details = renewal_so._next_billing_details()
             self.assertAlmostEqual(details["next_invoice_amount"], 666.6, 2, "Only the recurring product is invoiced")
 
+    def test_next_billing_details_hide_composition(self):
+        """ Test that lines in a collapsed section/subsection are hidden in next billing details """
+        p_consu = self.product_a
+        p_service = self.product_b
+
+        sub = self.env['sale.order'].create({
+            'name': 'Complex Subscription Layout',
+            'is_subscription': True,
+            'partner_id': self.user_portal.partner_id.id,
+            'plan_id': self.plan_month.id,
+            'order_line': [
+                # Section 1: Visible
+                Command.create({'name': 'Section 1', 'display_type': 'line_section'}),
+                Command.create({'product_id': p_consu.id, 'name': 'P1'}),
+                # Section 2: Collapsed
+                Command.create({'name': 'Section 2 (Collapsed)', 'display_type': 'line_section', 'collapse_composition': True}),
+                Command.create({'product_id': p_service.id, 'name': 'P2'}),
+                Command.create({'name': 'Subsection 2.1', 'display_type': 'line_subsection'}),
+                Command.create({'product_id': p_service.id, 'name': 'P2.1.1'}),
+                # Section 3: Visible
+                Command.create({'name': 'Section 3', 'display_type': 'line_section'}),
+                Command.create({'name': 'Subsection 3.1 (Collapsed)', 'display_type': 'line_subsection', 'collapse_composition': True}),
+                Command.create({'product_id': p_service.id, 'name': 'P3.1.1'}),
+                Command.create({'name': 'Subsection 3.2', 'display_type': 'line_subsection'}),
+                Command.create({'product_id': p_service.id, 'name': 'P3.2.1'}),
+            ],
+        })
+        sub.action_confirm()
+
+        details = sub._next_billing_details()
+        display_lines = details['display_lines']
+
+        lines = {l.name: l for l in sub.order_line}
+
+        self.assertIn(lines['Section 1'], display_lines, "Section header should be visible")
+        self.assertIn(lines['P1'], display_lines, "Product in section should be visible")
+
+        self.assertIn(lines['Section 2 (Collapsed)'], display_lines, "Section header should be visible")
+        self.assertNotIn(lines['P2'], display_lines, "Product in collapsed section should be hidden")
+        self.assertNotIn(lines['Subsection 2.1'], display_lines, "Subsection in collapsed section should be hidden")
+        self.assertNotIn(lines['P2.1.1'], display_lines, "Product in subsection of collapsed section should be hidden")
+
+        self.assertIn(lines['Section 3'], display_lines, "Section header should be visible")
+        self.assertIn(lines['Subsection 3.1 (Collapsed)'], display_lines, "Subsection header should be visible")
+        self.assertNotIn(lines['P3.1.1'], display_lines, "Product in collapsed subsection should be hidden")
+        self.assertIn(lines['Subsection 3.2'], display_lines, "Visible subsection should be visible")
+        self.assertIn(lines['P3.2.1'], display_lines, "Product in visible subsection should be visible")
+
     def test_postpaid_next_invoice_date(self):
         """" Ensure the next invoice date is correctly updated for postpaid orders
         This test fix a bug where a new invoice was created every day if postpaid line were mixed with non recurring lines
@@ -2395,7 +2449,7 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
         subscription.action_confirm()
         move = subscription._create_invoices()
         move.action_post()
-        # Create two upsells.
+        # Create two upsells and confirm them later.
         action = subscription.prepare_upsell_order()
         upsell = self.env['sale.order'].browse(action['res_id'])
         upsell.name = "UPSELL 1"
@@ -2410,9 +2464,10 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
         self.assertEqual(upsell.order_line.parent_line_id, subscription.order_line, "The parent_line_id should be correctly set")
         self.assertEqual(upsell2.order_line.price_unit, 10, "The unit price should be the same as the original subscription")
         self.assertEqual(upsell2.order_line.parent_line_id, subscription.order_line, "The unit price should be the same as the original subscription")
-        # Verify the other one is cancelled
-        self.assertEqual(upsell2.state, 'cancel',
-                         "The second upsell should be cancelled after confirming the first one")
+        upsell2.action_confirm()
+        self.assertEqual(upsell2.order_line.price_unit, 10, "The unit price should be the same as the original subscription")
+        self.assertEqual(upsell.order_line.parent_line_id, subscription.order_line, "The parent_line_id of first upsell should not be reset")
+        self.assertEqual(upsell.order_line.price_unit, 10, "The unit price shouldn't get updated")
 
     def test_not_override_end_date_in_expiration_cron(self):
         """Ensure the expiration cron does not override an existing past end_date."""
@@ -2489,6 +2544,81 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
         alternative_upsell_so.action_confirm()
         alternative_upsell_so._create_invoices()
         self.assertTrue(len(alternative_upsell_so.invoice_ids), "An invoice should have been created for the alternative upsell sale order.")
+
+    def test_invoice_status_on_manual_invoices(self):
+        postpaid_product = self.product.copy({
+            'invoice_policy': 'delivery',
+        })
+        with freeze_time("2025-02-15"):
+            # Subscription for a product invoiced based on delivered quantities
+            subscription = self.env['sale.order'].create({
+                'name': 'Subscription',
+                'partner_id': self.partner.id,
+                'plan_id': self.plan_month.id,
+                'order_line': [
+                    Command.create({
+                        'name': postpaid_product.name,
+                        'product_id': postpaid_product.id,
+                        'product_uom_qty': 1.0,
+                        'product_uom_id': postpaid_product.uom_id.id,
+                        'price_unit': 10,
+                    }),
+                ]
+            })
+            subscription.action_confirm()
+            self.assertEqual(subscription.order_line.invoice_status, 'no')
+            subscription.order_line.qty_delivered = 1
+            self.assertEqual(subscription.order_line.invoice_status, 'to invoice')
+            subscription._create_invoices().action_post()
+            self.assertEqual(subscription.order_line.invoice_status, 'invoiced')
+
+            # Upsell
+            action = subscription.prepare_upsell_order()
+            upsell_subscription = self.env['sale.order'].browse(action['res_id'])
+            upsell_subscription.order_line = [Command.create({
+                'product_id': postpaid_product.id,
+                'product_uom_qty': 1.0,
+                'product_uom_id': postpaid_product.uom_id.id,
+                'price_unit': 10,
+            })]
+            upsell_subscription_line = upsell_subscription.order_line.filtered(lambda l: not l.display_type)
+            self.assertEqual(upsell_subscription_line.invoice_status, 'no')
+            upsell_subscription_line.qty_delivered = 1
+            upsell_subscription.action_confirm()
+            self.assertEqual(upsell_subscription_line.invoice_status, 'to invoice')
+            upsell_subscription._create_invoices().action_post()
+            self.assertEqual(upsell_subscription_line.invoice_status, 'invoiced')
+
+            # Subscription for a product invoiced based on ordered quantities
+            subscription = self.env['sale.order'].create({
+                'name': 'Subscription',
+                'partner_id': self.partner.id,
+                'plan_id': self.plan_month.id,
+                'order_line': [
+                    Command.create({
+                        'name': self.product.name,
+                        'product_id': self.product.id,
+                        'product_uom_qty': 1.0,
+                        'product_uom_id': self.product.uom_id.id,
+                        'price_unit': 10,
+                    }),
+                ]
+            })
+            subscription.action_confirm()
+            self.assertEqual(subscription.order_line.invoice_status, 'to invoice')
+            subscription._create_invoices().action_post()
+            self.assertEqual(subscription.order_line.invoice_status, 'invoiced')
+
+            # Upsell
+            action = subscription.prepare_upsell_order()
+            upsell_subscription = self.env['sale.order'].browse(action['res_id'])
+            upsell_subscription_line = upsell_subscription.order_line.filtered(lambda l: not l.display_type)
+            upsell_subscription_line.product_uom_qty = 1.0
+            self.assertEqual(upsell_subscription_line.invoice_status, 'no')
+            upsell_subscription.action_confirm()
+            self.assertEqual(upsell_subscription_line.invoice_status, 'to invoice')
+            upsell_subscription._create_invoices().action_post()
+            self.assertEqual(upsell_subscription_line.invoice_status, 'invoiced')
 
     def test_churn_discount_removal(self):
         """ Test the following flow:
@@ -3082,3 +3212,27 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
 
             subscription._create_recurring_invoice()
             self.assertEqual(subscription.next_invoice_date, datetime.date(2024, 10, 1))
+
+    def test_subscription_salesperson_propagates_to_company_child_contacts(self):
+        """ Changing salesperson on a subscription linked to a company should propagate to all child contacts. """
+        company_partner = self.env['res.partner'].create({'name': 'Test Company', 'is_company': True})
+        contact_1 = self.env['res.partner'].create({'name': 'Contact 1', 'parent_id': company_partner.id})
+        contact_2 = self.env['res.partner'].create({'name': 'Contact 2', 'parent_id': company_partner.id})
+        subscription = self.env['sale.order'].create({
+            'partner_id': company_partner.id,
+            'plan_id': self.plan_month.id,
+            'order_line': [Command.create({'product_id': self.product.id, 'product_uom_qty': 1})]
+        })
+        subscription.action_confirm()
+
+        new_user = self.env['res.users'].create({'name': 'new user', 'login': 'new', 'email': 'new@test.com'})
+        subscription.write({'user_id': new_user.id})
+        self.assertEqual(new_user, company_partner.user_id, "Salesperson should be updated on the company partner.")
+        self.assertEqual(new_user, contact_1.user_id, "Salesperson should be propagated to child contact 1.")
+        self.assertEqual(new_user, contact_2.user_id, "Salesperson should be propagated to child contact 2.")
+
+        new_user_2 = self.env['res.users'].create({'name': 'new user 2', 'login': 'new2', 'email': 'new2@test.com'})
+        subscription.write({'user_id': new_user_2.id})
+        self.assertEqual(new_user_2, company_partner.user_id, "Salesperson should be updated on the company partner after second change")
+        self.assertEqual(new_user_2, contact_1.user_id, "Salesperson should be propagated to child contact 1 after second change")
+        self.assertEqual(new_user_2, contact_2.user_id, "Salesperson should be propagated to child contact 2 after second change")

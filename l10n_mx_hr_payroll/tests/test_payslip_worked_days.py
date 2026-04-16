@@ -1,4 +1,5 @@
 from datetime import datetime
+from freezegun import freeze_time
 
 from odoo.addons.hr_payroll.tests.common import TestPayslipBase
 from odoo.tests.common import tagged
@@ -83,3 +84,51 @@ class TestPayrollWorkedDays(TestPayslipBase):
         self.payslip._compute_worked_days_line_ids()
         amount_to_be_paid = sum(line.amount for line in self.payslip.worked_days_line_ids)
         self.assertEqual(amount_to_be_paid, 1920)
+
+    def test_partial_payslip_new_hire(self):
+        self.richard_emp.contract_date_start = '2026-01-10'
+        payslip_run = self.env['hr.payslip.run'].create({
+            'date_start': '2026-01-01',
+            'date_end': '2026-01-31',
+        })
+        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
+
+        out_of_contract_type = self.env.ref('hr_work_entry.hr_work_entry_type_out_of_contract')
+        attendance_type = self.env.ref('hr_work_entry.work_entry_type_attendance')
+        payslip_work_entry_types = payslip_run.slip_ids.worked_days_line_ids.mapped('work_entry_type_id')
+
+        self.assertIn(out_of_contract_type, payslip_work_entry_types)
+        self.assertIn(attendance_type, payslip_work_entry_types)
+
+    @freeze_time('2026-03-10')
+    def test_years_worked(self):
+        """
+        Test the number of years worked by an employee taking gaps between contracts into consideration
+        """
+        self.richard_contract.contract_date_end = datetime(2025, 1, 31)
+        new_contract_1 = self.richard_emp.create_version({
+            'date_version': datetime(2025, 2, 1),
+            'contract_date_start': datetime(2025, 2, 1),
+            'contract_date_end': datetime(2026, 1, 31),
+        })
+        new_contract_2 = self.richard_emp.create_version({
+            'date_version': datetime(2026, 3, 1),
+            'contract_date_start': datetime(2026, 3, 1),
+        })
+        payslip_run = self.env['hr.payslip.run'].create({
+            'date_start': '2026-01-01',
+            'date_end': '2026-01-15',
+        })
+
+        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
+        self.assertEqual(payslip_run.slip_ids.version_id.id, new_contract_1.id)
+        self.assertEqual(payslip_run.slip_ids.l10n_mx_years_worked, 9)
+
+        payslip_run = self.env['hr.payslip.run'].create({
+            'date_start': '2026-03-01',
+            'date_end': '2026-03-15',
+        })
+
+        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
+        self.assertEqual(payslip_run.slip_ids.version_id.id, new_contract_2.id)
+        self.assertEqual(payslip_run.slip_ids.l10n_mx_years_worked, 1)

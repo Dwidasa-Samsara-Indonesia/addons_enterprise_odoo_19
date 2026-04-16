@@ -532,7 +532,7 @@ class AIAgent(models.Model):
             system_messages,
             [],
             inputs=(chat_history or []) + [{'role': 'user', 'content': prompt}],
-            tools=self.topic_ids.tool_ids._get_ai_tools(),
+            tools=self.sudo().topic_ids.tool_ids._get_ai_tools(),  # sudo => internal users without admin access should be able to access tools
             temperature=TEMPERATURE_MAP[self.response_style],
         )
         if rag_context:
@@ -678,6 +678,12 @@ class AIAgent(models.Model):
         root = lxml.html.fromstring(rendered_html)
 
         prompt_containers = root.xpath("//div[hasclass('o_editor_prompt')]")
+
+        root_is_prompt = root in prompt_containers
+
+        if root_is_prompt:
+            root = lxml.html.fromstring(f'<div>{rendered_html}</div>')
+            prompt_containers = root.xpath("//div[hasclass('o_editor_prompt')]")
 
         if not prompt_containers:
             return Wrapper(rendered_html)

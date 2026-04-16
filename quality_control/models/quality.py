@@ -548,7 +548,8 @@ class QualityCheck(models.Model):
                         check.failure_location_id = dest_location
                         return
                     move.with_context(do_not_unreserve=True).product_uom_qty -= min(failed_qty, move_line.quantity)
-                    move_line.quantity -= min(failed_qty, move_line.quantity)
+                    failed_demand_qty = min(failed_qty, move_line.quantity)
+                    move_line.quantity -= failed_demand_qty
                     failed_move_line = move_line.with_context(default_check_ids=None, no_checks=True).copy({
                         'location_dest_id': dest_location,
                         'quantity': failed_qty,
@@ -556,7 +557,7 @@ class QualityCheck(models.Model):
                     move.copy({
                         'location_dest_id': dest_location,
                         'move_orig_ids': move.move_orig_ids,
-                        'product_uom_qty': min(failed_qty, move_line.quantity),
+                        'product_uom_qty': failed_demand_qty,
                         'state': 'assigned',
                         'move_line_ids': [Command.link(failed_move_line.id)],
                     })
@@ -575,7 +576,7 @@ class QualityCheck(models.Model):
         self.ensure_one()
         if self.picking_id and failure_location_id:
             self.picking_id.move_ids.location_dest_id = failure_location_id
-            self.failure_location_id = failure_location_id
+        self.failure_location_id = failure_location_id
 
     def _move_to_failure_location_product(self, failure_location_id):
         self.ensure_one()
@@ -609,13 +610,7 @@ class QualityCheck(models.Model):
             if self.product_id not in checkable_products:
                 return False
             if self.move_line_id:
-                if not self.move_line_id._is_checkable(check_picked):
-                    return False
-        # Only process qc related to tracked product if its lot is set
-        if self.move_line_id and self.product_id.tracking in ["serial", "lot"]:
-            if self.move_line_id.picking_type_use_create_lots or self.move_line_id.picking_type_use_existing_lots:
-                if not self.move_line_id.lot_id and not self.move_line_id.lot_name:
-                    return False
+                return self.move_line_id._is_checkable(check_picked)
         return True
 
 

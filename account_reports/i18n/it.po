@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:55+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-14 08:57+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/it/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -92,21 +92,11 @@ msgstr "%s selezionato"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"L'ambito data '%s' non può essere valutato per un resoconto utilizzato da "
-"più di un tipo di dichiarazione."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"L'ambito data '%s' non può essere valutato per un resoconto che non è "
-"utilizzato da alcun tipo di dichiarazione."
+"Non è possibile valutare l'ambito della data '%s' per un resoconto "
+"utilizzato da più tipi di dichiarazione con periodicità diverse."
 
 #. module: account_reports
 #. odoo-python
@@ -509,6 +499,11 @@ msgstr "Stato conti di verifica"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "Stato verifica conto"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Modello piano dei conti"
 
 #. module: account_reports
 #. odoo-python
@@ -934,13 +929,9 @@ msgstr "Sono stati ripristinati tutte le revisioni e gli approvatori"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"Tutti i numeri di partita IVA dei clienti sono validi ai sensi del <a "
-"href=\"https://ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</"
-"a>."
+"Tutti i numeri di partita IVA dei clienti sono validi ai sensi del VIES."
 
 #. module: account_reports
 #. odoo-python
@@ -2492,6 +2483,7 @@ msgstr "Visualizza compositore e-mail"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2573,6 +2565,8 @@ msgid ""
 "Division by zero occurred while evaluating Expression: %(line_name)s > %"
 "(label)s."
 msgstr ""
+"Si è verificata una divisione per zero durante la valutazione "
+"dell'espressione: %(line_name)s > %(label)s."
 
 #. module: account_reports
 #. odoo-python
@@ -2939,12 +2933,6 @@ msgstr "Esclusione accantonamento valuta"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "Escludi qualsiasi vendita nazionale o extra UE dall'elenco vendita CE."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Escludi qualsiasi cliente privato."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3490,6 +3478,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4346,15 +4335,12 @@ msgstr "Mancante"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 "La mancanza di dettagli aziendali (come numero di partita IVA o Paese) può "
-"causare errori nel resoconto,\n"
-"come l'utilizzo dell'aliquota IVA errata causando un'esenzione errata delle "
-"operazioni.\n"
-"                "
+"causare errori nel resoconto, come l'utilizzo dell'aliquota IVA errata "
+"causando un'esenzione errata delle operazioni."
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4770,12 +4756,6 @@ msgstr "Solo un amministratore contabile può reimpostare una chiusura annuale"
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
 "Solo un amministratore contabile può impostare/disattivare un supervisore."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Solo clienti aziendali"
 
 #. module: account_reports
 #. odoo-python
@@ -5291,12 +5271,6 @@ msgstr "Utili non assegnati esercizi precedenti"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "Stampa e invia"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Clienti privati"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6300,7 +6274,7 @@ msgstr "Dichiarazione IVA/Audit"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -7246,14 +7220,6 @@ msgstr ""
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Puoi ripristinare una dichiarazione completata solo se lo stato precedente "
-"era nuovo."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr "È possibile ripristinare solo una dichiarazione completata."
 
@@ -7581,6 +7547,36 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Ripristina tasso di Odoo"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "L'ambito data '%s' non può essere valutato per un resoconto che non è "
+#~ "utilizzato da alcun tipo di dichiarazione."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Tutti i numeri di partita IVA dei clienti sono validi ai sensi del <a "
+#~ "href=\"https://ec.europa.eu/taxation_customs/vies\" "
+#~ "target=\"_blank\">VIES</a>."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Puoi ripristinare una dichiarazione completata solo se lo stato "
+#~ "precedente era nuovo."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Escludi qualsiasi cliente privato."
+
+#~ msgid "Only business customers"
+#~ msgstr "Solo clienti aziendali"
+
+#~ msgid "Private Customers"
+#~ msgstr "Clienti privati"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7674,9 +7670,6 @@ msgstr "⇒ Ripristina tasso di Odoo"
 #~ msgstr ""
 #~ "<span class=\"o_account_reports_footnote_icons\"><i class=\"fa fa-fw fa-"
 #~ "trash-o\" role=\"img\" aria-label=\"Elimina\" title=\"Elimina\"/></span>"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Modello piano dei conti"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "Nota a piè pagina rendiconto contabile"

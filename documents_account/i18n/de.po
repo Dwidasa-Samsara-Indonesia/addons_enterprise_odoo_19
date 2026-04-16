@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
-"PO-Revision-Date: 2026-02-14 09:55+0000\n"
+"POT-Creation-Date: 2026-03-06 18:44+0000\n"
+"PO-Revision-Date: 2026-03-17 11:42+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/de/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: documents_account
 #. odoo-python
@@ -269,9 +269,21 @@ msgid "Credit Note"
 msgstr "Gutschrift"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Credit Notes"
+msgstr "Kundengutschriften"
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_invoice
 msgid "Customer Invoice"
 msgstr "Kundenrechnung"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Invoices"
+msgstr "Kundenrechnungen"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
@@ -398,12 +410,6 @@ msgid "Import Bank Statement"
 msgstr "Bankauszug importieren"
 
 #. module: documents_account
-#. odoo-python
-#: code:addons/documents_account/models/documents_document.py:0
-msgid "Invoices"
-msgstr "Rechnungen"
-
-#. module: documents_account
 #: model:ir.model,name:documents_account.model_account_journal
 #: model:ir.model.fields,field_description:documents_account.field_documents_account_folder_setting__journal_id
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
@@ -477,7 +483,7 @@ msgstr ""
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry
 msgid "Miscellaneous Operations"
-msgstr "Sonstiges"
+msgstr "Sonstige Geschäftsvorfälle"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note_move
@@ -610,9 +616,27 @@ msgid "Vendor Bill"
 msgstr "Lieferantenrechnung"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Bills"
+msgstr "Lieferantenrechnungen"
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
 msgstr "Lieferanten-Gutschrift"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Receipts"
+msgstr "Lieferantenbelege"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Refunds"
+msgstr "Lieferantenrückerstattungen"
 
 #. module: documents_account
 #. odoo-javascript
@@ -647,6 +671,9 @@ msgstr "Standard-Benutzerordner"
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account
 msgid "to mark this invoice as paid."
 msgstr ", um diese Rechnung als bezahlt zu kennzeichnen."
+
+#~ msgid "Invoices"
+#~ msgstr "Rechnungen"
 
 #~ msgid ""
 #~ "A set of condition and actions which will be available to all attachments "

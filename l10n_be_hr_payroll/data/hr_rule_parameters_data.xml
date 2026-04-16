@@ -901,6 +901,11 @@
             <field name="rule_parameter_id" ref="rule_parameter_work_bonus_reference_wage_low"/>
             <field name="date_from" eval="datetime(2026, 3, 1).date()"/>
         </record>
+        <record id="rule_parameter_value_work_bonus_reference_wage_low_apr_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">2255.50</field>
+            <field name="rule_parameter_id" ref="rule_parameter_work_bonus_reference_wage_low"/>
+            <field name="date_from" eval="datetime(2026, 4, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_work_bonus_reference_wage_high" model="hr.rule.parameter">
             <field name="name">Work Bonus: High Reference Wage</field>
@@ -977,6 +982,11 @@
             <field name="rule_parameter_id" ref="rule_parameter_work_bonus_reference_wage_high"/>
             <field name="date_from" eval="datetime(2026, 3, 1).date()"/>
         </record>
+        <record id="rule_parameter_value_work_bonus_reference_wage_high_apr_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">3336.98</field>
+            <field name="rule_parameter_id" ref="rule_parameter_work_bonus_reference_wage_high"/>
+            <field name="date_from" eval="datetime(2026, 4, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_work_bonus_reference_wage_middle" model="hr.rule.parameter">
             <field name="name">BE: Work Bonus: Middle Reference Wage</field>
@@ -1012,6 +1022,11 @@
             <field name="parameter_value">2833.36</field>
             <field name="rule_parameter_id" ref="rule_parameter_work_bonus_reference_wage_middle"/>
             <field name="date_from" eval="datetime(2026, 3, 1).date()"/>
+        </record>
+        <record id="rule_parameter_work_bonus_reference_wage_middle_apr_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">2880.32</field>
+            <field name="rule_parameter_id" ref="rule_parameter_work_bonus_reference_wage_middle"/>
+            <field name="date_from" eval="datetime(2026, 4, 1).date()"/>
         </record>
 
         <record id="rule_parameter_work_bonus_basic_amount" model="hr.rule.parameter">
@@ -1094,6 +1109,11 @@
             <field name="rule_parameter_id" ref="rule_parameter_work_bonus_basic_amount"/>
             <field name="date_from" eval="datetime(2026, 3, 1).date()"/>
         </record>
+        <record id="rule_parameter_value_work_bonus_basic_amount_apr_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">168.62</field>
+            <field name="rule_parameter_id" ref="rule_parameter_work_bonus_basic_amount"/>
+            <field name="date_from" eval="datetime(2026, 4, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_work_bonus_basic_amount_volet_A" model="hr.rule.parameter">
             <field name="name">Work Bonus: Basic Amount (Volet A)</field>
@@ -1124,6 +1144,11 @@
             <field name="parameter_value">123.00</field>
             <field name="rule_parameter_id" ref="rule_parameter_work_bonus_basic_amount_volet_A"/>
             <field name="date_from" eval="datetime(2026, 3, 1).date()"/>
+        </record>
+        <record id="rule_parameter_work_bonus_basic_amount_volet_A_apr_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">125.04</field>
+            <field name="rule_parameter_id" ref="rule_parameter_work_bonus_basic_amount_volet_A"/>
+            <field name="date_from" eval="datetime(2026, 4, 1).date()"/>
         </record>
 
         <record id="rule_parameter_work_bonus_coeff" model="hr.rule.parameter">
@@ -1165,6 +1190,11 @@
             <field name="parameter_value">0.2442</field>
             <field name="rule_parameter_id" ref="rule_parameter_work_bonus_coeff"/>
             <field name="date_from" eval="datetime(2026, 3, 1).date()"/>
+        </record>
+        <record id="rule_parameter_value_work_bonus_coeff_apr_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">0.2738</field>
+            <field name="rule_parameter_id" ref="rule_parameter_work_bonus_coeff"/>
+            <field name="date_from" eval="datetime(2026, 4, 1).date()"/>
         </record>
 
         <record id="rule_parameter_work_bonus_coeff_low" model="hr.rule.parameter">
@@ -1917,6 +1947,39 @@
             <field name="rule_parameter_id" ref="rule_parameter_cp200_salary_scale_first_year"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
         </record>
+        <record id="rule_parameter_cp200_salary_scale_first_year_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">{
+    0: (2242.81, 2336.25, 2369.31, 2555.73),
+    1: (2249.57, 2349.64, 2369.31, 2572.63),
+    2: (2256.28, 2363.09, 2422.73, 2589.26),
+    3: (2263.06, 2376.61, 2469.70, 2606.19),
+    4: (2269.90, 2394.83, 2516.65, 2671.93),
+    5: (2276.51, 2413.37, 2563.76, 2730.41),
+    6: (2283.27, 2427.38, 2610.73, 2788.83),
+    7: (2289.96, 2462.42, 2657.89, 2847.10),
+    8: (2297.16, 2497.56, 2705.05, 2905.53),
+    9: (2315.80, 2532.54, 2752.17, 2963.62),
+    10: (2334.52, 2567.80, 2799.16, 3022.34),
+    11: (2350.42, 2597.46, 2846.25, 3080.46),
+    12: (2366.19, 2626.81, 2893.29, 3139.00),
+    13: (2382.16, 2656.48, 2930.46, 3197.29),
+    14: (2397.80, 2685.87, 2967.49, 3255.71),
+    15: (2413.37, 2715.45, 3004.68, 3304.78),
+    16: (2428.84, 2725.03, 3041.73, 3353.79),
+    17: (2444.35, 2734.55, 3078.85, 3402.80),
+    18: (2459.89, 2744.25, 3089.44, 3451.91),
+    19: (2459.89, 2753.78, 3100.07, 3500.99),
+    20: (2459.89, 2763.42, 3110.73, 3518.35),
+    21: (2459.89, 2773.18, 3121.59, 3535.83),
+    22: (2459.89, 2782.63, 3132.28, 3553.29),
+    23: (2459.89, 2792.25, 3143.19, 3570.59),
+    24: (2459.89, 2801.86, 3153.91, 3587.83),
+    25: (2459.89, 2811.39, 3164.86, 3605.11),
+    26: (2459.89, 2820.99, 3175.61, 3622.42),
+}</field>
+            <field name="rule_parameter_id" ref="rule_parameter_cp200_salary_scale_first_year"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_cp200_salary_scale" model="hr.rule.parameter">
             <field name="name">CP200: Salary Scale</field>
@@ -2018,6 +2081,38 @@
 }</field>
             <field name="rule_parameter_id" ref="rule_parameter_cp200_salary_scale"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        </record>
+        <record id="rule_parameter_cp200_salary_scale_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">{
+    1: (2310.30, 2413.09, 2433.25, 2642.08),
+    2: (2317.19, 2426.87, 2488.16, 2659.13),
+    3: (2324.14, 2440.76, 2536.36, 2676.55),
+    4: (2330.81, 2459.32, 2584.73, 2744.52),
+    5: (2337.66, 2478.44, 2633.22, 2804.72),
+    6: (2344.46, 2492.88, 2681.48, 2864.69),
+    7: (2351.35, 2528.90, 2730.03, 2924.79),
+    8: (2358.93, 2565.14, 2778.60, 2984.80),
+    9: (2378.04, 2601.10, 2827.03, 3044.74),
+    10: (2397.33, 2637.36, 2875.48, 3105.00),
+    11: (2413.71, 2667.84, 2923.83, 3164.92),
+    12: (2429.89, 2698.00, 2972.20, 3225.06),
+    13: (2446.31, 2728.54, 3010.43, 3285.11),
+    14: (2462.42, 2758.86, 3048.53, 3345.24),
+    15: (2478.44, 2789.20, 3086.76, 3395.69),
+    16: (2494.33, 2799.07, 3124.96, 3446.06),
+    17: (2510.24, 2808.85, 3163.20, 3496.57),
+    18: (2526.16, 2818.89, 3174.02, 3547.01),
+    19: (2526.16, 2828.76, 3184.94, 3597.56),
+    20: (2526.16, 2838.66, 3195.97, 3615.45),
+    21: (2526.16, 2848.50, 3207.12, 3633.38),
+    22: (2526.16, 2858.33, 3218.09, 3651.35),
+    23: (2526.16, 2868.34, 3229.43, 3669.27),
+    24: (2526.16, 2878.15, 3240.49, 3686.98),
+    25: (2526.16, 2887.96, 3251.76, 3704.65),
+    26: (2526.16, 2897.83, 3262.72, 3722.55),
+}</field>
+            <field name="rule_parameter_id" ref="rule_parameter_cp200_salary_scale"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
         </record>
 
         <record id="rule_parameter_cp200_seizable_amount_percentages" model="hr.rule.parameter">
@@ -2212,6 +2307,11 @@
             <field name="rule_parameter_id" ref="rule_parameter_cp200_special_ffe_rate"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
         </record>
+        <record id="rule_parameter_cp200_special_ffe_rate_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">0.10</field>
+            <field name="rule_parameter_id" ref="rule_parameter_cp200_special_ffe_rate"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_cp200_cpae_rate" model="hr.rule.parameter">
             <field name="name">CP200: CPAE Rate</field>
@@ -2266,6 +2366,11 @@
             <field name="rule_parameter_id" ref="rule_parameter_cp200_ffe_commercial_rate_low"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
         </record>
+        <record id="rule_parameter_cp200_ffe_commercial_rate_low_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">0.0034</field>
+            <field name="rule_parameter_id" ref="rule_parameter_cp200_ffe_commercial_rate_low"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_cp200_ffe_commercial_rate_high" model="hr.rule.parameter">
             <field name="name">CP200: FFE commercial rate (high)</field>
@@ -2291,6 +2396,11 @@
             <field name="parameter_value">0.0023</field>
             <field name="rule_parameter_id" ref="rule_parameter_cp200_ffe_commercial_rate_high"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        </record>
+        <record id="rule_parameter_cp200_ffe_commercial_rate_high_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">0.0039</field>
+            <field name="rule_parameter_id" ref="rule_parameter_cp200_ffe_commercial_rate_high"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
         </record>
 
         <record id="rule_parameter_cp200_ffe_noncommercial_rate" model="hr.rule.parameter">
@@ -2592,6 +2702,11 @@ covered for the company (teleworking costs, mobile phone, internet, etc., namely
             <field name="rule_parameter_id" ref="rule_parameter_l10n_be_mobility_budget_max_amount"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
         </record>
+        <record id="rule_parameter_l10n_be_mobility_budget_max_amount_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">17244</field>
+            <field name="rule_parameter_id" ref="rule_parameter_l10n_be_mobility_budget_max_amount"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        </record>
 
         <record id="rule_parameter_l10n_be_mobility_budget_min_amount" model="hr.rule.parameter">
             <field name="name">Mobility Budget Minimum Amount</field>
@@ -2602,6 +2717,11 @@ covered for the company (teleworking costs, mobile phone, internet, etc., namely
             <field name="parameter_value">3164</field>
             <field name="rule_parameter_id" ref="rule_parameter_l10n_be_mobility_budget_min_amount"/>
             <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        </record>
+        <record id="rule_parameter_l10n_be_mobility_budget_min_amount_2026" model="hr.rule.parameter.value">
+            <field name="parameter_value">3233</field>
+            <field name="rule_parameter_id" ref="rule_parameter_l10n_be_mobility_budget_min_amount"/>
+            <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
         </record>
 
         <record id="rule_parameter_l10n_be_mobility_budget_withholding_tax" model="hr.rule.parameter">

@@ -48,5 +48,5 @@ class ProductReplenish(models.TransientModel):
         company = product_tmpl_id.company_id or self.env.company
         manufacture_route = self.env['stock.rule'].search([('action', '=', 'manufacture'), ('company_id', '=', company.id)]).route_id
         if manufacture_route and product_tmpl_id.bom_ids:
-            domain = Domain.OR([domain, Domain('id', '=', manufacture_route.id)])
+            domain = Domain.OR([domain, Domain('id', 'in', manufacture_route.ids)])
         return domain

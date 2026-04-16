@@ -1,6 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import Command
+from odoo.tools import mute_logger
 from odoo.tests import tagged
 from odoo.addons.stock_barcode.tests.test_barcode_client_action import TestBarcodeClientAction
 
@@ -128,7 +129,8 @@ class TestBarcodeClientActionPicking(TestBarcodeClientAction):
             {'product_id': self.productserial1.id, 'measure_on': 'move_line'},
             {'product_id': self.productserial1.id, 'measure_on': 'move_line'},
         ])
-        self.start_tour("/odoo/barcode", "test_quality_check_partial_reception_barcode", login="admin")
+        with mute_logger('odoo.http'):  # ignore the intended UserError in the test
+            self.start_tour("/odoo/barcode", "test_quality_check_partial_reception_barcode", login="admin")
         self.assertEqual(picking_in.state, 'done')
         self.assertRecordValues(picking_in.check_ids, [
             {'product_id': self.productserial1.id, 'measure_on': 'move_line', 'quality_state': 'pass', 'lot_name': 'SN001'},

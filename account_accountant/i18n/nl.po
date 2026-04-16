@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:41+0000\n"
-"PO-Revision-Date: 2026-02-02 13:39+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
+"POT-Creation-Date: 2026-03-13 18:44+0000\n"
+"PO-Revision-Date: 2026-04-10 08:34+0000\n"
+"Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/nl/>\n"
 "Language: nl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -300,6 +300,8 @@ msgstr ""
 "'niet-ingediend'."
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model,name:account_accountant.model_account_account
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__account_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_list_bank_rec_widget
@@ -1925,6 +1927,8 @@ msgid "Outstanding debits"
 msgstr "Openstaande debetbedragen"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__to_partner_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget
@@ -1939,6 +1943,7 @@ msgstr "Partners"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Payable"
 msgstr "Te betalen"
@@ -2035,6 +2040,7 @@ msgstr "Reden..."
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Receivable"
 msgstr "Te ontvangen"
@@ -2186,6 +2192,7 @@ msgstr "Zoek boekingsregels om af te letteren"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Account"
 msgstr "Zoek: Rekening"
 
@@ -2198,6 +2205,7 @@ msgstr "Zoek: Zoek af te letteren boekingsregels"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Partner"
 msgstr "Zoek: Partner"
 
@@ -2213,12 +2221,14 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Account"
 msgstr "Rekening instellen"
 
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Partner"
 msgstr "Partner instellen"
 
@@ -2284,6 +2294,14 @@ msgstr "Modus voor één valuta"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
+msgid ""
+"Some lines cannot be processed because they have already been reconciled."
+msgstr ""
+"Sommige regels kunnen niet worden verwerkt, omdat ze al zijn afgeletterd."
+
+#. module: account_accountant
+#. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
 msgid "Some lines have invalid analytic distribution"
 msgstr "Sommige regels hebben een ongeldige analytische verdeling"
@@ -2322,6 +2340,12 @@ msgstr "Afschriftregels"
 #: code:addons/account_accountant/demo/account_accountant_demo.py:0
 msgid "Subscription 12 months"
 msgstr "Abonnement 12 maanden"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+msgid "Suggestions"
+msgstr "Suggesties"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -2659,7 +2683,7 @@ msgstr "Afschrijving"
 #. odoo-python
 #: code:addons/account_accountant/wizard/account_reconcile_wizard.py:0
 msgid "Write-Off Entry"
-msgstr "Afschrijving"
+msgstr "Afboeking"
 
 #. module: account_accountant
 #. odoo-python
@@ -3303,9 +3327,6 @@ msgstr "af te letteren"
 
 #~ msgid "State"
 #~ msgstr "Provincie / Staat"
-
-#~ msgid "Suggestions"
-#~ msgstr "Suggesties"
 
 #~ msgid "Tax Base Amount Currency"
 #~ msgstr "BTW grondslag in valuta"

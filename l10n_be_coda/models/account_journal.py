@@ -829,7 +829,9 @@ class AccountJournal(models.Model):
         result = []
         for acc_number, statements in itertools.groupby(sorted(file_statements, key=lambda k: k['acc_number']), key=lambda k: k['acc_number']):
             statements = list(statements)
-            ret_statements = self._get_coda_final_statements(statements)
+            ret_statements = []
+            if not self.env.context.get("ignore_statements"):
+                ret_statements = self._get_coda_final_statements(statements)
 
             # Order the transactions according the newly created statements to ensure valid balances.
             line_sequence = 1

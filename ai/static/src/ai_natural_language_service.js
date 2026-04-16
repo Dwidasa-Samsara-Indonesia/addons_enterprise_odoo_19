@@ -30,6 +30,10 @@ export const aiNaturalLanguageService = {
                 await actionService.doAction(menu.actionID, {
                     props: { ai: aiProps },
                     viewType: "list",
+                    clearBreadcrumbs: true,
+                    onActionReady: () => {
+                        menuService.setCurrentMenu(menu);
+                    },
                 });
             }
         );
@@ -57,6 +61,10 @@ export const aiNaturalLanguageService = {
                 await actionService.doAction(menu.actionID, {
                     props: { ai: aiProps },
                     viewType: "kanban",
+                    clearBreadcrumbs: true,
+                    onActionReady: () => {
+                        menuService.setCurrentMenu(menu);
+                    },
                 });
             }
         );
@@ -96,6 +104,10 @@ export const aiNaturalLanguageService = {
                 await actionService.doAction(menu.actionID, {
                     props: { ai: aiProps },
                     viewType: "pivot",
+                    clearBreadcrumbs: true,
+                    onActionReady: () => {
+                        menuService.setCurrentMenu(menu);
+                    },
                 });
             }
         );
@@ -137,6 +149,10 @@ export const aiNaturalLanguageService = {
                 await actionService.doAction(menu.actionID, {
                     props: { ai: aiProps },
                     viewType: "graph",
+                    clearBreadcrumbs: true,
+                    onActionReady: () => {
+                        menuService.setCurrentMenu(menu);
+                    },
                 });
             }
         );

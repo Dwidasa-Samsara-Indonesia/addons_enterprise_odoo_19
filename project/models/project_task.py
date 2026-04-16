@@ -427,6 +427,8 @@ class ProjectTask(models.Model):
     def _onchange_project_id(self):
         if self.state != '04_waiting_normal':
             self.state = '01_in_progress'
+        if not self.project_id and not self.user_ids:
+            self.user_ids = self.env.user
 
     def is_blocked_by_dependences(self):
         return any(blocking_task.state not in CLOSED_STATES for blocking_task in self.depend_on_ids)
@@ -655,8 +657,8 @@ class ProjectTask(models.Model):
 
     def _inverse_partner_phone(self):
         for task in self:
-            if task.partner_id:
-                task.partner_id.phone = task.partner_phone
+            if task.partner_id and task.partner_phone != task.partner_id.phone:
+                task.partner_id.sudo().phone = task.partner_phone
 
     @api.onchange('company_id')
     def _onchange_task_company(self):
@@ -863,14 +865,14 @@ class ProjectTask(models.Model):
             if task.allow_milestones:
                 vals['milestone_id'] = milestone_mapping.get(vals['milestone_id'], vals['milestone_id'])
             if not default.get('child_ids') and task.child_ids:
-                default = {
-                    'parent_id': False,
-                }
+                whitelisted_fields = self._get_template_default_context_whitelist() if self.env.context.get('copy_from_template') else []
+                default = {key: value for key, value in default.items() if key in whitelisted_fields}
+                default['parent_id'] = False
                 current_task = task
                 if self.env.context.get('copy_from_template'):
                     current_task = current_task.with_context(active_test=True)
                 child_ids = current_task.child_ids
-                vals['child_ids'] = [Command.create(child_id.copy_data(default)[0]) for child_id in child_ids]
+                vals['child_ids'] = [Command.create(child_id.copy_data(default)[0]) for child_id in child_ids.filtered(lambda c: c.active)]
             if not has_default_users and vals['user_ids']:
                 task_active_users = task.user_ids & active_users
                 vals['user_ids'] = [Command.set(task_active_users.ids)]
@@ -925,12 +927,13 @@ class ProjectTask(models.Model):
         copied_tasks = super(ProjectTask, self.with_context(
             mail_auto_subscribe_no_notify=True,
             mail_create_nosubscribe=True,
-            mail_create_nolog=True,
+            mail_create_nolog=bool(not self.env.context.get('copy_from_template')),
         )).copy(default=default)
 
         self._resolve_copied_dependencies(copied_tasks)
-        log_message = _("Task Created")
-        copied_tasks._message_log_batch(bodies={task.id: log_message for task in copied_tasks})
+        if not self.env.context.get('copy_from_template'):
+            log_message = _("Task Created")
+            copied_tasks._message_log_batch(bodies={task.id: log_message for task in copied_tasks})
 
         return copied_tasks
 
@@ -1076,7 +1079,8 @@ class ProjectTask(models.Model):
     def _load_records_create(self, vals_list):
         for vals in vals_list:
             if vals.get('recurring_task'):
-                if not vals.get('recurrence_id'):
+                rec_fields = vals.keys() & self._get_recurrence_fields()
+                if not vals.get('recurrence_id') and not rec_fields:
                     default_val = self.default_get(self._get_recurrence_fields())
                     vals.update(**default_val)
             project_id = vals.get('project_id')
@@ -1558,7 +1562,7 @@ class ProjectTask(models.Model):
                     partner_ids=user.partner_id.ids,
                     email_layout_xmlid='mail.mail_notification_layout',
                     model_description=task_model_description,
-                    mail_auto_delete=False,
+                    mail_auto_delete=True,
                 )
 
     def _message_auto_subscribe_followers(self, updated_values, default_subtype_ids):

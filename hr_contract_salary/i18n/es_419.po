@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:46+0000\n"
-"PO-Revision-Date: 2026-02-14 10:04+0000\n"
-"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:48+0000\n"
+"PO-Revision-Date: 2026-03-05 18:09+0000\n"
+"Last-Translator: \"Patricia Gutiérrez (pagc)\" <pagc@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/hr_contract_salary/es_419/>\n"
 "Language: es_419\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -53,11 +53,6 @@ msgstr "(Apellido Nombre)"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "/ month"
 msgstr "/ mes"
-
-#. module: hr_contract_salary
-#: model:hr.contract.salary.personal.info,placeholder:hr_contract_salary.hr_contract_salary_personal_info_identification_id
-msgid "00.00.00-000.00"
-msgstr "00.00.00-000.00"
 
 #. module: hr_contract_salary
 #: model:mail.template,body_html:hr_contract_salary.mail_template_send_offer
@@ -701,6 +696,7 @@ msgstr "Plantilla de contrato"
 #. module: hr_contract_salary
 #. odoo-python
 #: code:addons/hr_contract_salary/controllers/main.py:0
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__contract_type_id
 msgid "Contract Type"
 msgstr "Tipo de contrato"
 
@@ -1290,6 +1286,11 @@ msgstr "Tiene acceso como administrador"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__has_message
 msgid "Has Message"
 msgstr "Tiene un mensaje"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__has_sign_template
+msgid "Has Sign Template"
+msgstr "Tiene plantilla de firma"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__helper
@@ -3009,6 +3010,11 @@ msgid "e.g. Offer 70k Employer Cost"
 msgstr "Por ejemplo, Ofrece el costo del empleador"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "e.g. Permanent, Replacement, Short term"
+msgstr "Por ejemplo: Permanente, reemplazo, temporal"
+
+#. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action
 msgid "here"
 msgstr "aquí"
@@ -3034,6 +3040,9 @@ msgid "{{ object.company_id.name }}: Job Offer - {{ object.employee_id.name }}"
 msgstr ""
 "{{ object.company_id.name }}: Oferta de trabajo - "
 "{{ object.employee_id.name }}"
+
+#~ msgid "00.00.00-000.00"
+#~ msgstr "00.00.00-000.00"
 
 #~ msgid ""
 #~ "{{ object.company_id.name }}: Job Offer - "

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 18:43+0000\n"
-"PO-Revision-Date: 2026-01-05 18:39+0000\n"
+"POT-Creation-Date: 2026-03-13 18:47+0000\n"
+"PO-Revision-Date: 2026-03-16 11:29+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "pos_enterprise/it/>\n"
@@ -20,9 +20,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0)"
-" ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
+"0) ? 1 : 2);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: pos_enterprise
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_view_kanban
@@ -77,6 +77,16 @@ msgid "All categories"
 msgstr "Tutte le categorie"
 
 #. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid ""
+"All orders are in the last stage. This action will mark all orders as Done. "
+"Would you like to continue?"
+msgstr ""
+"Tutti gli ordini sono nell'ultima fase. Questa azione contrassegnerà tutti "
+"gli ordini come Completati. Vuoi continuare?"
+
+#. module: pos_enterprise
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_reset_wizard
 msgid ""
 "Archive all preparation display's orders for a fresh start. This will not "
@@ -124,6 +134,22 @@ msgstr "Elimina tutti i filtri"
 #. module: pos_enterprise
 #. odoo-javascript
 #: code:addons/pos_enterprise/static/src/app/components/preparation_display/preparation_display.xml:0
+msgid "Clear All Orders"
+msgstr "Cancella tutti gli ordini"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid ""
+"Clearing all orders will move all the orders of the current stage to the "
+"next one. Would you like to continue?"
+msgstr ""
+"Cancellando tutti gli ordini, tutti gli ordini della fase corrente "
+"passeranno a quella successiva. Vuoi continuare?"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/components/preparation_display/preparation_display.xml:0
 msgid "Close"
 msgstr "Chiudi"
 
@@ -156,6 +182,12 @@ msgstr "Impostazioni di configurazione"
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_view_kanban
 msgid "Configure"
 msgstr "Configura"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid "Continue"
+msgstr "Avanti"
 
 #. module: pos_enterprise
 #: model:ir.model.fields,field_description:pos_enterprise.field_pos_prep_display__create_uid
@@ -207,6 +239,8 @@ msgid ""
 msgstr "Prodotti e categorie diversi sono inviati a tablet e schermi diversi."
 
 #. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_reset_wizard
 msgid "Discard"
 msgstr "Annulla"
@@ -819,6 +853,12 @@ msgstr "Terminale di pagamento Tyro"
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.res_config_settings_view_form
 msgid "Urban Piper"
 msgstr "UrbanPiper"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid "Warning"
+msgstr "Avviso"
 
 #. module: pos_enterprise
 #: model:ir.model,name:pos_enterprise.model_resource_calendar_attendance

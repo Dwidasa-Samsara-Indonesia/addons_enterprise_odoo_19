@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:46+0000\n"
-"PO-Revision-Date: 2026-01-02 16:47+0000\n"
+"POT-Creation-Date: 2026-04-10 18:48+0000\n"
+"PO-Revision-Date: 2026-03-16 14:31+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
 "hr_contract_salary/ar/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -56,11 +56,6 @@ msgstr "(اسم العائلة الاسم الأول)"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "/ month"
 msgstr "/ شهر"
-
-#. module: hr_contract_salary
-#: model:hr.contract.salary.personal.info,placeholder:hr_contract_salary.hr_contract_salary_personal_info_identification_id
-msgid "00.00.00-000.00"
-msgstr "00.00.00-000.00"
 
 #. module: hr_contract_salary
 #: model:mail.template,body_html:hr_contract_salary.mail_template_send_offer
@@ -700,6 +695,7 @@ msgstr "قالب العقد"
 #. module: hr_contract_salary
 #. odoo-python
 #: code:addons/hr_contract_salary/controllers/main.py:0
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__contract_type_id
 msgid "Contract Type"
 msgstr "نوع العقد"
 
@@ -1281,6 +1277,11 @@ msgid "Has Message"
 msgstr "يحتوي على رسالة"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__has_sign_template
+msgid "Has Sign Template"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__helper
 msgid "Helper"
 msgstr "مساعد"
@@ -1588,17 +1589,17 @@ msgstr "شهرياً"
 #. module: hr_contract_salary
 #: model:hr.contract.salary.benefit.type,name:hr_contract_salary.l10n_be_monthly_cash
 msgid "Monthly Benefit in Cash"
-msgstr ""
+msgstr "الاستحقاق الشهري نقداً"
 
 #. module: hr_contract_salary
 #: model:hr.contract.salary.benefit.type,name:hr_contract_salary.l10n_be_monthly_benefit
 msgid "Monthly Benefit in Kind"
-msgstr ""
+msgstr "الاستحقاق الشهري العيني"
 
 #. module: hr_contract_salary
 #: model:hr.contract.salary.benefit.type,name:hr_contract_salary.l10n_be_monthly_net
 msgid "Monthly Benefit in Net"
-msgstr ""
+msgstr "الاستحقاق الشهري الصافي"
 
 #. module: hr_contract_salary
 #: model:hr.contract.salary.resume.category,name:hr_contract_salary.hr_contract_salary_resume_category_monthly_benefits
@@ -1755,7 +1756,7 @@ msgstr "لم تتم تهيئة أي قوالب بعد. هل ترغب في إعد
 #. module: hr_contract_salary
 #: model:hr.contract.salary.benefit.type,name:hr_contract_salary.l10n_be_non_financial_benefits
 msgid "Non Financial Benefits"
-msgstr ""
+msgstr "المزايا غير المالية"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_benefit_value__selector_highlight__none
@@ -2872,7 +2873,7 @@ msgstr ""
 #. module: hr_contract_salary
 #: model:hr.contract.salary.benefit.type,name:hr_contract_salary.l10n_be_yearly_cash
 msgid "Yearly Benefits in Cash"
-msgstr ""
+msgstr "المزايا السنوية النقدية"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_employee__final_yearly_costs
@@ -2957,6 +2958,11 @@ msgid "e.g. Offer 70k Employer Cost"
 msgstr ""
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "e.g. Permanent, Replacement, Short term"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action
 msgid "here"
 msgstr "هنا"
@@ -2980,6 +2986,9 @@ msgstr ""
 #: model:mail.template,subject:hr_contract_salary.mail_template_send_offer
 msgid "{{ object.company_id.name }}: Job Offer - {{ object.employee_id.name }}"
 msgstr ""
+
+#~ msgid "00.00.00-000.00"
+#~ msgstr "00.00.00-000.00"
 
 #~ msgid "Create a Offer"
 #~ msgstr "إنشاء عرض عمل"

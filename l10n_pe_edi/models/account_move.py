@@ -315,6 +315,9 @@ class AccountMove(models.Model):
                 break
 
         serie_folio = self._l10n_pe_edi_get_serie_folio()
+        partner_identification_type = self.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code
+        if not partner_identification_type and self.partner_id.country_id and self.partner_id.country_code != 'PE':
+            partner_identification_type = '0'
         qr_code_values = [
             self.company_id.vat,
             self.company_id.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code,
@@ -323,7 +326,7 @@ class AccountMove(models.Model):
             igv_tax_amount,
             str(self.amount_total),
             fields.Date.to_string(self.date),
-            self.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code,
+            partner_identification_type,
             self.commercial_partner_id.vat or '00000000',
             signature_hash,
         ]

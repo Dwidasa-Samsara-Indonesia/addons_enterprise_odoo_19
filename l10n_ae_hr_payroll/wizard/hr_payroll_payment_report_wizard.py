@@ -4,13 +4,18 @@ import base64
 import csv
 import io
 import pytz
+import xlsxwriter
 
 
 class HrPayrollPaymentReportWizard(models.TransientModel):
     _inherit = 'hr.payroll.payment.report.wizard'
 
-    export_format = fields.Selection(selection_add=[('l10n_ae_wps', 'UAE WPS')], default='l10n_ae_wps', ondelete={'l10n_ae_wps': 'set csv'})
-    l10n_ae_employer_narrative = fields.Char(string="Employer Reference for WPS (Optional)")
+    export_format = fields.Selection(
+        selection_add=[('l10n_ae_wps', 'UAE WPS (.sif)'), ('l10n_ae_wps_xlsx', 'UAE WPS (.xlsx)')],
+        default='l10n_ae_wps',
+        ondelete={'l10n_ae_wps': 'set csv', 'l10n_ae_wps_xlsx': 'set csv'}
+    )
+    l10n_ae_employer_narrative = fields.Char(string="Employer Reference")
 
     def _l10n_ae_get_company_wps(self, raise_if_multi=False):
         """
@@ -28,7 +33,7 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
 
     def _perform_checks(self):
         super()._perform_checks()
-        if self.export_format == 'l10n_ae_wps':
+        if self.export_format in ('l10n_ae_wps', 'l10n_ae_wps_xlsx'):
             payslips = self.payslip_ids.filtered(lambda p: p.state == "validated" and p.net_wage > 0)
             employees = payslips.employee_id
             invalid_banks_employee_ids = employees.filtered(lambda e: not e.primary_bank_account_id.bank_id.l10n_ae_routing_code)
@@ -51,6 +56,20 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
             if not company.l10n_ae_employer_code:
                 raise UserError(_("Please set the Employer Unique ID in the settings"))
 
+    def _l10n_ae_wps_render_xlsx(self, create_time):
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet('WPS')
+
+        records = self.payslip_ids._l10n_ae_get_wps_data()
+        footer = self._l10n_ae_get_wps_footer(create_time)
+
+        for row_idx, row in enumerate(records + footer):
+            worksheet.write_row(row_idx, 0, row)
+
+        workbook.close()
+        return base64.encodebytes(output.getvalue())
+
     def _l10n_ae_wps_render_csv(self, create_time):
         csv_data = io.StringIO()
         csv_writer = csv.writer(csv_data, delimiter=',')
@@ -68,12 +87,15 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
     # TODO: adjust for multiple bank accounts
     def generate_payment_report(self):
         super().generate_payment_report()
-        if self.export_format == 'l10n_ae_wps':
+        if self.export_format in ('l10n_ae_wps', 'l10n_ae_wps_xlsx'):
             now = fields.Datetime.now()
             user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
             create_time = pytz.utc.localize(now, is_dst=None).astimezone(user_tz)
-            wps_report = self._l10n_ae_wps_render_csv(create_time)
-            self._write_file(wps_report, '.sif', self._get_l10n_ae_wps_file_name(create_time))
+            filename = self._get_l10n_ae_wps_file_name(create_time)
+            file, ext = (self._l10n_ae_wps_render_csv(create_time), '.sif') \
+                if self.export_format == 'l10n_ae_wps' \
+                else (self._l10n_ae_wps_render_xlsx(create_time), '.xlsx')
+            self._write_file(file, ext, filename)
 
     def _get_l10n_ae_wps_file_name(self, create_time):
         self.ensure_one()
@@ -87,12 +109,12 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
         return [[
             "SCR",
             (company.l10n_ae_employer_code or '').zfill(13),
-            company.l10n_ae_bank_account_id.bank_id.l10n_ae_routing_code or '',
+            (company.l10n_ae_bank_account_id.bank_id.l10n_ae_routing_code or '').zfill(9),
             create_time.strftime("%Y-%m-%d") if create_time else '',
             create_time.strftime("%H%M") if create_time else '',
             self.payslip_run_id.date_start and self.payslip_run_id.date_start.strftime("%m%Y") or '',
             len(self.payslip_ids),
             self.env['hr.payslip']._l10n_ae_get_wps_formatted_amount(sum(self.payslip_ids.mapped('net_wage'))),
             "AED",
-            self.l10n_ae_employer_narrative or '',
+            self.l10n_ae_employer_narrative or '/',
         ]]

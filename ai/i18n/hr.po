@@ -3,22 +3,23 @@
 # * ai
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 20:03+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
-"Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/ai/hr/"
-">\n"
+"PO-Revision-Date: 2026-04-10 20:20+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
+"Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/ai/hr/>"
+"\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
@@ -30,6 +31,12 @@ msgid ""
 "must be in valid JSON format.\n"
 "        "
 msgstr ""
+"\n"
+"            **Naziv alata: Read group**\n"
+"\n"
+"            Pretražuje određeni model pomoću domene. Pružena domena mora "
+"biti u važećem JSON formatu.\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
@@ -41,6 +48,12 @@ msgid ""
 "must be in valid JSON format.\n"
 "        "
 msgstr ""
+"\n"
+"            **Naziv alata: search**\n"
+"\n"
+"            Pretražuje određeni model pomoću domene. Pružena domena mora "
+"biti u važećem JSON formatu.\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -83,6 +96,43 @@ msgid ""
 "Make 3 parallel calls.\n"
 "        "
 msgstr ""
+"\n"
+"            Izlistava SAMO polja za pretraživanje jednog modela koja se mogu "
+"koristiti u filterima i grupiranju domene.\n"
+"            Ključno za izgradnju važećih domena - ako polje nije ovdje "
+"navedeno, NE MOŽE se koristiti.\n"
+"\n"
+"            Format povrata:\n"
+"            ```\n"
+"            field_name|display_name|type|sortable|groupable|description\n"
+"            partner_id|Kupac|many2one(res.partner)|true|true|Kupac za ovaj "
+"nalog\n"
+"            date_order|Datum naloga|datetime|true|true|Datum kada je nalog "
+"postavljen\n"
+"            order_line|Stavke naloga|one2many(sale.order.line)"
+"|false|false|Stavke ovog naloga\n"
+"            state|Status|selection|true|true|Status naloga\n"
+"            ```\n"
+"\n"
+"            Ključne točke:\n"
+"            - ⚠️ Vraća samo polja SPREMNA ZA PRETRAGU - ostala se ne mogu "
+"koristiti u domenama\n"
+"            - Za relacije: prikazuje povezani model u zagradama (many2one, "
+"one2many, many2many)\n"
+"            - Samo polja relacija mogu se koristiti za traverziranje na "
+"druge modele\n"
+"            - Literalna polja poput char/text/float NE MOGU se koristiti za "
+"traverziranje\n"
+"            - 'sortable' označava može li se polje koristiti u order_by "
+"parametru\n"
+"            - 'groupable' označava može li se polje koristiti za grupiranje "
+"kada nije dostupno u prikazu pretrage\n"
+"\n"
+"            💡 Savjet za performanse: prilikom istraživanja više modela, "
+"pozovite ovaj alat više puta u JEDNOJ poruci\n"
+"            Primjer: istražujete sale.order, product.product i res.partner? "
+"Napravite 3 paralelna poziva.\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_compute_report_measures
@@ -111,6 +161,30 @@ msgid ""
 "            - Call multiple times in parallel if comparing different menus\n"
 "        "
 msgstr ""
+"\n"
+"            Izlistava numerička polja (mjere) dostupna za agregaciju u pivot/"
+"graf prikazima.\n"
+"            MORA se pozvati prije korištenja mjera u open_menu_pivot() ili "
+"open_menu_graph().\n"
+"\n"
+"            Vraća CSV s graničnikom cijev (|):\n"
+"            ```\n"
+"            field_name|display_name|type|aggregator|sortable\n"
+"            __count|Broj|integer||true\n"
+"            amount_total|Ukupno|monetary|sum|true\n"
+"            margin|Marža|float|sum|true\n"
+"            quantity|Količina|float|sum|true\n"
+"            ```\n"
+"\n"
+"            Ključne točke:\n"
+"            - __count je uvijek dostupan (broji zapise)\n"
+"            - Vraćaju se samo numerička polja s agregatorima\n"
+"            - Koristite field_name u parametru mjera\n"
+"            - Za rangiranje u pivotu: dodajte sortiranje (npr. "
+"\"amount_total desc\")\n"
+"            - Pozovite više puta paralelno ako uspoređujete različite "
+"izbornike\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_graph
@@ -139,6 +213,31 @@ msgid ""
 "            ⚠️ Order must be exactly 'ASC' or 'DESC'\n"
 "        "
 msgstr ""
+"\n"
+"            Otvara graf/graf prikaz pomoću elemenata prikaza pretrage.\n"
+"            Najbolje za: trendove, usporedbe, distribucije, vizualne KPI-"
+"jeve.\n"
+"\n"
+"            Podržani tipovi grafa:\n"
+"            - 'bar': usporedba vrijednosti po kategorijama\n"
+"            - 'line': prikaz trendova kroz vrijeme\n"
+"            - 'pie': prikaz proporcija cjeline\n"
+"\n"
+"            Značajke:\n"
+"            - Primjena filtera iz dostupnih opcija izbornika\n"
+"            - Vizualizacija jedne mjere\n"
+"            - Grupiranje po jednom polju za os grafa\n"
+"            - Pretraga unutar specifičnih polja\n"
+"            - Opcije slaganja i kumulacije\n"
+"            - Kontrola redoslijeda (ASC/DESC)\n"
+"\n"
+"            💡 Prvo pozovite compute_report_measures() za pronalazak "
+"valjanih mjera\n"
+"            ⚠️ Svaki pretražni niz mora koristiti format 'field=text'. Niz "
+"može sadržavati više pretražnih nizova ili biti prazan []\n"
+"            ⚠️ Način mora biti točno 'bar', 'line' ili 'pie'\n"
+"            ⚠️ Redoslijed mora biti točno 'ASC' ili 'DESC'\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_kanban
@@ -160,6 +259,25 @@ msgid ""
 "contain multiple search strings or be empty []\n"
 "        "
 msgstr ""
+"\n"
+"            Otvara kanban (prikaz temeljen na karticama) pomoću elemenata "
+"prikaza pretrage.\n"
+"            Najbolje za: vizualizaciju faza/statusa, prikaze tokova, "
+"upravljanje tijekovima rada.\n"
+"\n"
+"            Ključne značajke:\n"
+"            - Prikaz zapisa kao kartica u stupcima\n"
+"            - Primjena filtera iz dostupnih opcija izbornika\n"
+"            - Grupiranje po fazama tijeka rada ili drugim poljima\n"
+"            - Pretraga unutar specifičnih polja\n"
+"            - Idealno za CRM tokove, ploče zadataka, projektne tijekove "
+"rada\n"
+"\n"
+"            ⚠️ Koristite samo nazive filtera i polja za grupiranje iz "
+"podataka izbornika\n"
+"            ⚠️ Svaki pretražni niz mora koristiti format 'field=text'. Niz "
+"može sadržavati više pretražnih nizova ili biti prazan []\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_list
@@ -183,6 +301,27 @@ msgid ""
 "contain multiple search strings or be empty []\n"
 "        "
 msgstr ""
+"\n"
+"            Otvara popisni (tablični) prikaz pomoću elemenata prikaza "
+"pretrage.\n"
+"            Najbolje za: \"Prikaži mi\", \"Izlistaj sve\", detaljan pregled "
+"zapisa, sortiranje podataka.\n"
+"\n"
+"            Ključne značajke:\n"
+"            - Primjena više filtera po nazivu (iz prikaza pretrage izbornika)"
+"\n"
+"            - Grupiranje zapisa po dostupnim poljima\n"
+"            - Pretraga unutar specifičnih polja za tekst\n"
+"            - Prikazuje zapise u sortabilnom tabličnom formatu\n"
+"            - Idealno za pregled, filtriranje i izvoz podataka\n"
+"\n"
+"            💡 Koristite parametar pretrage za filtriranje po bilo kojem "
+"polju za pretraživanje PRIJE razmatranja prilagođenih domena\n"
+"            ⚠️ Koristite samo nazive filtera i polja za grupiranje iz "
+"podataka izbornika\n"
+"            ⚠️ Svaki pretražni niz mora koristiti format 'field=text'. Niz "
+"može sadržavati više pretražnih nizova ili biti prazan []\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_pivot
@@ -218,6 +357,38 @@ msgid ""
 "needs\n"
 "        "
 msgstr ""
+"\n"
+"            Otvara pivot tablicu s naprednom pretragom i filtriranjem.\n"
+"            Najbolje za: \"Top N\" upite, rangiranja, unakrsno tabliranje, "
+"metrike izvedbe.\n"
+"\n"
+"            Ključne značajke:\n"
+"            - Podržava filtere iz prikaza pretrage\n"
+"            - Grupira podatke po redovima I stupcima istovremeno\n"
+"            - Agregira mjere (sum, avg, count)\n"
+"            - Podržava tekstualnu pretragu po poljima za pretraživanje\n"
+"            - Funkcionalnost pivot tablice slična Excelu\n"
+"\n"
+"            💡 UVIJEK prvo pozovite compute_report_measures() za dobivanje "
+"valjanih mjera\n"
+"            💡 Za rangiranja: uključite sortiranje u mjere (npr. "
+"[\"amount_total desc\"])\n"
+"            💡 Koristite parametar pretrage za filtriranje po bilo kojem "
+"polju za pretraživanje PRIJE razmatranja prilagođenih domena\n"
+"            ⚠️ Preferirajte izbornike aplikacije \"Izvještavanje\" za "
+"najbolji pivot doživljaj\n"
+"            ⚠️ Svaki pretražni niz mora koristiti format 'field=text'. Niz "
+"može sadržavati više pretražnih nizova ili biti prazan []\n"
+"            ⚠️ Napomena: koristi row_groupbys/col_groupbys (nizovi) umjesto "
+"selected_groupbys\n"
+"\n"
+"            Primjer: za \"najbolji prodavači koji prodaju uredske "
+"proizvode\":\n"
+"            - Koristite search=[\"categ_id\", \"office\"] ako je categ_id "
+"polje za pretraživanje\n"
+"            - Koristite custom_domain samo ako nijedno polje za "
+"pretraživanje ne odgovara vašim potrebama\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_menu_details
@@ -248,6 +419,33 @@ msgid ""
 "            ⚠️ Always validate the returned model matches your expectations\n"
 "        "
 msgstr ""
+"\n"
+"            Dohvaća detaljne informacije (kontekst, domenu, prikaz pretrage) "
+"za specifične izbornike.\n"
+"            MORA se pozvati prije korištenja bilo kojeg open_menu_* alata "
+"kako bi se dobile pojedinosti specifične za izbornik.\n"
+"\n"
+"            Vraća CSV s graničnikom cijev (|):\n"
+"            ```\n"
+"            menu_id|model_name|context|domain|search_view\n"
+"            389|sale.order|{\"search_default_my_quotation\": 1}|[]|<search>"
+"<fields>...</fields></search>\n"
+"            172|account.move|{\"search_default_draft\": 1}|[[\"type\", "
+"\"=\", \"out_invoice\"]]|<search>...</search>\n"
+"            ```\n"
+"\n"
+"            Ključne informacije:\n"
+"            - Kontekst: zadani filteri/grupiranja koja se primjenjuju pri "
+"otvaranju izbornika\n"
+"            - Domena: trajni filteri koje korisnici ne mogu ukloniti\n"
+"            - Search_view: puna XML struktura s dostupnim filterima, "
+"grupiranjima i poljima za pretraživanje\n"
+"\n"
+"            💡 Savjet za performanse: zatražite pojedinosti više izbornika u "
+"jednom pozivu pri usporedbi opcija\n"
+"            ⚠️ Uvijek provjerite podudara li se vraćeni model s vašim "
+"očekivanjima\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_adjust_search
@@ -293,6 +491,46 @@ msgid ""
 "the current view info.\n"
 "        "
 msgstr ""
+"\n"
+"            Korisnik može nastaviti postavljati pitanja i ako mislite da se "
+"trenutna pretraga može samo prilagoditi bez otvaranja drugog izbornika, "
+"možete koristiti ovaj alat.\n"
+"\n"
+"            U prompt-ovom <session_info_context> nalazi se trenutne "
+"informacije o prikazu koje sadrže aktivne facete pretrage.\n"
+"            Faceta može biti grupa `OR`-iranih filtera, grupa grupiranja ili "
+"grupa `OR`-iranih pretražnih pojmova.\n"
+"\n"
+"            **Razumijevanje parametara**:\n"
+"            - `remove_facets` - Uklanjanje facete uklanja cijelu grupu "
+"filtera/grupiranja/pretražnih pojmova. Uklanjanje filtera ili pretražne "
+"facete smanjuje ograničenja.\n"
+"            - `toggle_filters` - Preklapanje filtera će dodati/ukloniti "
+"filter iz aktivne facete filtera.\n"
+"            - `toggle_groupbys` - Preklapanje grupiranja će dodati/ukloniti "
+"grupiranje iz aktivne facete grupiranja.\n"
+"            - `apply_searches` - Primjena pretrage će `OR`-irati pretražni "
+"pojam na aktivnu pretražnu facetu koja sadrži isto polje. Npr., ako postoji "
+"faceta polja \"name=John\" i pružite pretragu \"name=Jane\", rezultirajuća "
+"pretraga bit će \"name=John OR name=Jane\".\n"
+"            - `measures` - Specificiranje mjera aktivirat će odabrane mjere "
+"u trenutnom prikazu ako je pivot ili graf prikaz.\n"
+"            - `mode` - Samo graf prikaz: ovo je tip grafa. Odaberite između "
+"\"line\", \"bar\" ili \"pie\" za promjenu tipa grafa u trenutnom grafičkom "
+"prikazu.\n"
+"            - `order` - Samo graf prikaz: specificiranje redoslijeda će "
+"promijeniti sortiranje rezultata u trenutnom grafičkom prikazu.\n"
+"            - `stacked` - Samo graf prikaz: specificiranje stacked će "
+"promijeniti slaganje rezultata u trenutnom grafičkom prikazu.\n"
+"            - `cumulated` - Samo graf prikaz: specificiranje cumulated će "
+"promijeniti akumulaciju rezultata u trenutnom grafičkom prikazu.\n"
+"            - `custom_domain` - Elementi prikaza pretrage možda neće biti "
+"dovoljni za izražavanje potrebne domene. U tom slučaju možete pružiti "
+"prilagođenu domenu kao JSON string.\n"
+"            - `switch_view_type` - Prebacivanje tipa prikaza promijenit će "
+"trenutni prikaz u navedeni tip. Odaberite iz dostupnih tipova prikaza u "
+"trenutnim informacijama o prikazu.\n"
+"        "
 
 #. module: ai
 #. odoo-python
@@ -304,7 +542,7 @@ msgstr "%s (kopija)"
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "%s is no longer available. Please select a newer model."
-msgstr ""
+msgstr "%s više nije dostupan. Molimo odaberite noviji model."
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
@@ -312,6 +550,8 @@ msgid ""
 "<br/>\n"
 "            It used the following tools:"
 msgstr ""
+"<br/>\n"
+"            Koristilo je sljedeće alate:"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
@@ -320,11 +560,14 @@ msgid ""
 "ai_tool_show_warning\" aria-hidden=\"true\" title=\"The AI will not be "
 "limited by the groups defined on tools\"/>"
 msgstr ""
+"<i class=\"fa fa-warning text-warning me-2\" invisible=\"not "
+"ai_tool_show_warning\" aria-hidden=\"true\" title=\"AI neće biti ograničen "
+"grupama definiranim na alatima\"/>"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "<span>with arguments</span>"
-msgstr ""
+msgstr "<span>s argumentima</span>"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__topic_ids
@@ -332,6 +575,8 @@ msgid ""
 "A topic includes instructions and tools that guide Odoo AI in helping the "
 "user complete their tasks."
 msgstr ""
+"Tema uključuje upute i alate koji vode Odoo AI u pomaganju korisniku pri "
+"dovršavanju njihovih zadataka."
 
 #. module: ai
 #. odoo-javascript
@@ -340,61 +585,61 @@ msgstr ""
 #: code:addons/ai/static/src/web/systray_action.xml:0
 #: model:ir.model.fields.selection,name:ai.selection__ir_actions_server__state__ai
 msgid "AI"
-msgstr ""
+msgstr "AI"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_action_prompt
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_action_prompt
 msgid "AI Action Prompt"
-msgstr ""
+msgstr "AI prompt akcije"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_agent
 msgid "AI Agent"
-msgstr ""
+msgstr "AI agent"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_agent_source
 msgid "AI Agent Source"
-msgstr ""
+msgstr "Izvor AI agenta"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_cron_process_sources_ir_actions_server
 msgid "AI Agent Sources: Process Sources"
-msgstr ""
+msgstr "Izvori AI agenta: obrada izvora"
 
 #. module: ai
 #: model:ir.model.constraint,message:ai.constraint_discuss_channel_ai_channel_type_check
 msgid "AI Agent can only be set for ai_chat or livechat channels."
-msgstr ""
+msgstr "AI agent može se postaviti samo za ai_chat ili livechat kanale."
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_cron_generate_embedding_ir_actions_server
 msgid "AI Embedding: Generate Embeddings"
-msgstr ""
+msgstr "AI ugrađivanje: generiranje ugrađivanja"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__name
 msgid "AI Prompt"
-msgstr ""
+msgstr "AI prompt"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "AI Prompt Tools"
-msgstr ""
+msgstr "Alati AI promptova"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_schema
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_schema
 msgid "AI Schema"
-msgstr ""
+msgstr "AI shema"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_description
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_description
 msgid "AI Tool Description"
-msgstr ""
+msgstr "Opis AI alata"
 
 #. module: ai
 #. odoo-javascript
@@ -406,93 +651,93 @@ msgstr "AI Alati"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__discuss_channel__channel_type__ai_chat
 msgid "AI chat"
-msgstr ""
+msgstr "AI razgovor"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "AI is listening..."
-msgstr ""
+msgstr "AI sluša..."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/typing_patch.js:0
 msgid "AI is thinking..."
-msgstr ""
+msgstr "AI razmišlja..."
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_composer
 msgid "AI model configurations (system prompts) for text drafting."
-msgstr ""
+msgstr "Konfiguracije AI modela (sistemski promptovi) za izradu nacrta teksta."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/discuss_channel.py:0
 msgid "AI not reachable, AI Agent not found."
-msgstr ""
+msgstr "AI nedostupan, AI agent nije pronađen."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/discuss_channel.py:0
 msgid "AI: %(name)s"
-msgstr ""
+msgstr "AI: %(name)s"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_adjust_search
 msgid "AI: Adjust Search"
-msgstr ""
+msgstr "AI: prilagodi pretragu"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_compute_report_measures
 msgid "AI: Compute Report Measures"
-msgstr ""
+msgstr "AI: izračun mjera izvještaja"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_get_fields
 msgid "AI: Get Fields"
-msgstr ""
+msgstr "AI: dohvati polja"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_get_menu_details
 msgid "AI: Get Menu Details"
-msgstr ""
+msgstr "AI: dohvati detalje izbornika"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_graph
 msgid "AI: Open Menu Graph"
-msgstr ""
+msgstr "AI: otvori graf izbornika"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_kanban
 msgid "AI: Open Menu Kanban"
-msgstr ""
+msgstr "AI: otvori kanban izbornika"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_list
 msgid "AI: Open Menu List"
-msgstr ""
+msgstr "AI: otvori popis izbornika"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_pivot
 msgid "AI: Open Menu Pivot"
-msgstr ""
+msgstr "AI: otvori pivot izbornika"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_read_group
 msgid "AI: Read group"
-msgstr ""
+msgstr "AI: čitanje grupe"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_search
 msgid "AI: Search"
-msgstr ""
+msgstr "AI: pretraga"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "Access error"
-msgstr ""
+msgstr "Pogreška pristupa"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__interface_key
@@ -504,7 +749,7 @@ msgstr "Akcija"
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "Action \"%(action)s\" done."
-msgstr ""
+msgstr "Akcija \"%(action)s\" obavljena."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__active
@@ -516,7 +761,7 @@ msgstr "Aktivan"
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "Activity created for %(user)s."
-msgstr ""
+msgstr "Aktivnost kreirana za %(user)s."
 
 #. module: ai
 #. odoo-javascript
@@ -528,13 +773,13 @@ msgstr "Dodaj"
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Add Links"
-msgstr ""
+msgstr "Dodaj poveznice"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Add Sources"
-msgstr ""
+msgstr "Dodaj izvore"
 
 #. module: ai
 #. odoo-javascript
@@ -546,19 +791,21 @@ msgstr "Dodaj poveznicu"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Add notes about your upcoming meeting"
-msgstr ""
+msgstr "Dodajte bilješke o nadolazećem sastanku"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Add sources to your AI Agent to get answers based on specific content."
 msgstr ""
+"Dodajte izvore svom AI agentu kako biste dobili odgovore temeljene na "
+"određenom sadržaju."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Adding sources..."
-msgstr ""
+msgstr "Dodavanje izvora..."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__agent_id
@@ -566,52 +813,52 @@ msgstr ""
 #: model:ir.model.fields,field_description:ai.field_res_partner__agent_ids
 #: model:ir.model.fields,field_description:ai.field_res_users__agent_ids
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__name
 msgid "Agent Name"
-msgstr ""
+msgstr "Naziv agenta"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_discuss_channel__ai_agent_id
 msgid "Ai Agent"
-msgstr ""
+msgstr "AI agent"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_has_schema
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_has_schema
 msgid "Ai Tool Has Schema"
-msgstr ""
+msgstr "AI alat ima shemu"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_is_candidate
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_is_candidate
 msgid "Ai Tool Is Candidate"
-msgstr ""
+msgstr "AI alat je kandidat"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_show_warning
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_show_warning
 msgid "Ai Tool Show Warning"
-msgstr ""
+msgstr "AI alat prikazuje upozorenje"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_allow_end_message
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_allow_end_message
 msgid "Allow End Message"
-msgstr ""
+msgstr "Dopusti završnu poruku"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "An error occured"
-msgstr ""
+msgstr "Došlo je do pogreške"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent__response_style__analytical
 msgid "Analytical"
-msgstr ""
+msgstr "Analitički"
 
 #. module: ai
 #. odoo-javascript
@@ -620,12 +867,12 @@ msgstr ""
 #: code:addons/ai/static/src/mail_composer_chatgpt.xml:0
 #: code:addons/ai/static/src/web/systray_action.xml:0
 msgid "Ask AI"
-msgstr ""
+msgstr "Pitaj AI"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__systray_ai_button
 msgid "Ask AI for help"
-msgstr ""
+msgstr "Pitaj AI za pomoć"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_attachment
@@ -637,12 +884,12 @@ msgstr "Prilog"
 #. module: ai
 #: model:ir.model,name:ai.model_ai_embedding
 msgid "Attachment Chunks Embedding"
-msgstr ""
+msgstr "Ugrađivanje dijelova privitka"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__available_prompts
 msgid "Available User Prompts"
-msgstr ""
+msgstr "Dostupni korisnički promptovi"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__avatar_128
@@ -652,7 +899,7 @@ msgstr "Avatar"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent__response_style__balanced
 msgid "Balanced"
-msgstr ""
+msgstr "Uravnoteženo"
 
 #. module: ai
 #: model:ir.model,name:ai.model_base
@@ -687,7 +934,7 @@ msgstr "Kontrolni zbroj/SHA1"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__content
 msgid "Chunk Content"
-msgstr ""
+msgstr "Sadržaj dijela"
 
 #. module: ai
 #. odoo-javascript
@@ -699,7 +946,7 @@ msgstr "Zatvori"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__composer_id
 msgid "Composer"
-msgstr ""
+msgstr "Kompozer"
 
 #. module: ai
 #: model:ir.model,name:ai.model_res_config_settings
@@ -720,12 +967,12 @@ msgstr "Sadržaji"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_discuss_channel__ai_env_context
 msgid "Context for AI agent"
-msgstr ""
+msgstr "Kontekst za AI agenta"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__html_prompt_shortcut
 msgid "Convert a prompt in an email"
-msgstr ""
+msgstr "Pretvori prompt u e-poštu"
 
 #. module: ai
 #. odoo-python
@@ -734,6 +981,8 @@ msgid ""
 "Could you please provide info about '%s' as it is required to process your "
 "request"
 msgstr ""
+"Možete li molim dostaviti informacije o '%s' jer su potrebne za obradu vašeg "
+"zahtjeva"
 
 #. module: ai
 #: model:ir.model,website_form_label:ai.model_res_partner
@@ -746,6 +995,8 @@ msgid ""
 "Create a topic that leverages instructions and tools to direct Odoo AI in "
 "assisting the user with their tasks."
 msgstr ""
+"Kreirajte temu koja koristi upute i alate za usmjeravanje Odoo AI-a u "
+"pomaganju korisniku s njegovim zadacima."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__create_uid
@@ -770,12 +1021,12 @@ msgstr "Kreirano"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent__response_style__creative
 msgid "Creative"
-msgstr ""
+msgstr "Kreativan"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__system_prompt
 msgid "Customize to control relevance and formatting."
-msgstr ""
+msgstr "Prilagodite za kontrolu relevantnosti i formatiranja."
 
 #. module: ai
 #. odoo-javascript
@@ -789,7 +1040,7 @@ msgstr "Opis"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Dictate text or record a meeting"
-msgstr ""
+msgstr "Diktirajte tekst ili snimite sastanak"
 
 #. module: ai
 #. odoo-javascript
@@ -836,7 +1087,7 @@ msgstr "Uredi"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_prompt.xml:0
 msgid "Edit Field Prompt"
-msgstr ""
+msgstr "Uredi prompt polja"
 
 #. module: ai
 #. odoo-javascript
@@ -857,33 +1108,34 @@ msgstr "Nit e-pošte"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__embedding_model
 msgid "Embedding Model"
-msgstr ""
+msgstr "Model ugrađivanja"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__embedding_vector
 msgid "Embedding Vector"
-msgstr ""
+msgstr "Vektor ugrađivanja"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Embedding generation failed using the current LLM model selected."
 msgstr ""
+"Generiranje ugrađivanja nije uspjelo pomoću trenutno odabranog LLM modela."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__google_key_enabled
 msgid "Enable custom Google API key"
-msgstr ""
+msgstr "Omogući prilagođeni Google API ključ"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__openai_key_enabled
 msgid "Enable custom OpenAI API key"
-msgstr ""
+msgstr "Omogući prilagođeni OpenAI API ključ"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__error_details
 msgid "Error Details"
-msgstr ""
+msgstr "Detalji pogreške"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__failed
@@ -894,35 +1146,35 @@ msgstr "Neuspjelo"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "Failed to fetch URL: %s"
-msgstr ""
+msgstr "Dohvaćanje URL-a nije uspjelo: %s"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Failed to fetch the content of the source."
-msgstr ""
+msgstr "Dohvaćanje sadržaja izvora nije uspjelo."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Failed to get embeddings for the prompt."
-msgstr ""
+msgstr "Dohvaćanje ugrađivanja za prompt nije uspjelo."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "Field Selector"
-msgstr ""
+msgstr "Odabir polja"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
 msgid "Field Type"
-msgstr ""
+msgstr "Vrsta polja"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_model_fields
 msgid "Fields"
-msgstr ""
+msgstr "Polja"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
@@ -938,22 +1190,22 @@ msgstr "Veličina datoteke"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
-msgstr ""
+msgstr "Generiraj ili transformiraj sadržaj pomoću AI-a"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__chatter_ai_button
 msgid "Get help on a record"
-msgstr ""
+msgstr "Dobij pomoć za zapis"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__google_key
 msgid "Google AI API key"
-msgstr ""
+msgstr "Google AI API ključ"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_http
@@ -963,13 +1215,13 @@ msgstr "HTTP usmjeravanje"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__has_embedding_generation_failed
 msgid "Has Embedding Generation Failed"
-msgstr ""
+msgstr "Generiranje ugrađivanja nije uspjelo"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/thread_patch.js:0
 msgid "Hello, what can I help you with?"
-msgstr ""
+msgstr "Pozdrav, s čim vam mogu pomoći?"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__id
@@ -995,12 +1247,12 @@ msgstr "ID"
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__restrict_to_sources
 msgid "If checked, the agent will only respond based on the provided sources."
-msgstr ""
+msgstr "Ako je označeno, agent će odgovoriti samo na temelju pruženih izvora."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent_source__is_active
 msgid "If the source is active, it will be used in the RAG context."
-msgstr ""
+msgstr "Ako je izvor aktivan, koristit će se u RAG kontekstu."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__image_128
@@ -1017,31 +1269,31 @@ msgstr "Indeksirano"
 #: code:addons/ai/static/src/ai_model_field_selector/ai_model_field_selector_popover.xml:0
 #: code:addons/ai/static/src/records_selector_popover/records_selector_popover.xml:0
 msgid "Insert"
-msgstr ""
+msgstr "Umetni"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "Insert a field"
-msgstr ""
+msgstr "Umetni polje"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/core/html_editor/prompt_plugin.js:0
 msgid "Insert an AI prompt"
-msgstr ""
+msgstr "Umetni AI prompt"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_records_selector_plugin.js:0
 msgid "Insert records"
-msgstr ""
+msgstr "Umetni zapise"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_prompt_field.js:0
 msgid "Insert records the AI can use with the '/record' command"
-msgstr ""
+msgstr "Umetni zapise koje AI može koristiti s naredbom '/record'"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__default_prompt
@@ -1053,35 +1305,35 @@ msgstr "upute"
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "Invalid JSON schema (malformed JSON)."
-msgstr ""
+msgstr "Nevažeća JSON shema (neispravan JSON)."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_records_selector_plugin.js:0
 msgid "Invalid Record"
-msgstr ""
+msgstr "Nevažeći zapis"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_embedding.py:0
 msgid "Invalid attachment. Failed to extract content."
-msgstr ""
+msgstr "Nevažeći privitak. Izdvajanje sadržaja nije uspjelo."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Invalid search operator."
-msgstr ""
+msgstr "Nevažeći operator pretraživanja."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__is_ask_ai_agent
 msgid "Is Natural Language Query Agent"
-msgstr ""
+msgstr "Je agent za upite prirodnim jezikom"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__is_system_default
 msgid "Is the rule a system default or user created"
-msgstr ""
+msgstr "Je li pravilo sistemski zadano ili korisnički kreirano"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_tool_schema
@@ -1090,6 +1342,8 @@ msgid ""
 "JSON containing the values that can be returned by the LLM along with their "
 "properties (type, length, ...)"
 msgstr ""
+"JSON koji sadrži vrijednosti koje LLM može vratiti zajedno s njihovim "
+"svojstvima (tip, duljina, ...)"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
@@ -1097,6 +1351,7 @@ msgid ""
 "JSON schema for the parameters of the action (leave empty if no arguments "
 "are needed)"
 msgstr ""
+"JSON shema za parametre akcije (ostavite prazno ako argumenti nisu potrebni)"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
@@ -1106,7 +1361,7 @@ msgstr "Ključ"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__llm_model
 msgid "LLM Model"
-msgstr ""
+msgstr "LLM model"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__write_uid
@@ -1132,29 +1387,29 @@ msgstr "Promijenjeno"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Log Note"
-msgstr ""
+msgstr "Zabilježi bilješku"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/message_actions_patch.js:0
 msgid "Log as Note"
-msgstr ""
+msgstr "Zabilježi kao bilješku"
 
 #. module: ai
 #: model:ir.model,name:ai.model_mail_composer_mixin
 msgid "Mail Composer Mixin"
-msgstr ""
+msgstr "Mixin kompozera e-pošte"
 
 #. module: ai
 #: model:ir.model,name:ai.model_mail_render_mixin
 msgid "Mail Render Mixin"
-msgstr ""
+msgstr "Mixin renderiranja e-pošte"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Max Length"
-msgstr ""
+msgstr "Maksimalna duljina"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__mimetype
@@ -1165,7 +1420,7 @@ msgstr "MIME tip"
 #. odoo-python
 #: code:addons/ai/utils/tools_schema/validators.py:0
 msgid "Missing definition for %(name)s"
-msgstr ""
+msgstr "Nedostaje definicija za %(name)s"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__focused_models
@@ -1183,48 +1438,50 @@ msgstr "Naziv"
 #. odoo-python
 #: code:addons/ai/utils/llm_api_service.py:0
 msgid "No API key set for provider '%s'"
-msgstr ""
+msgstr "Nije postavljen API ključ za pružatelja '%s'"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "No configured Ask AI agent. Please contact your administrator."
 msgstr ""
+"Nema konfiguriranog agenta 'Pitaj AI'. Molimo kontaktirajte svog "
+"administratora."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No embedding configuration found for the provider"
-msgstr ""
+msgstr "Nije pronađena konfiguracija ugrađivanja za pružatelja"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "No embedding model found for the selected provider"
-msgstr ""
+msgstr "Nije pronađen model ugrađivanja za odabranog pružatelja"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No provider found for the embedding model"
-msgstr ""
+msgstr "Nije pronađen pružatelj za model ugrađivanja"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No provider found for the selected model"
-msgstr ""
+msgstr "Nije pronađen pružatelj za odabrani model"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "No tool was executed."
-msgstr ""
+msgstr "Nijedan alat nije izvršen."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.js:0
 msgid "No valid URLs found to process."
-msgstr ""
+msgstr "Nisu pronađeni važeći URL-ovi za obradu."
 
 #. module: ai
 #. odoo-javascript
@@ -1233,6 +1490,8 @@ msgid ""
 "No valid files to upload. Only PDF, Word, PowerPoint, Excel, Text, CSV, and "
 "OpenDocument files are allowed."
 msgstr ""
+"Nema važećih datoteka za učitavanje. Dozvoljene su samo PDF, Word, "
+"PowerPoint, Excel, tekstualne, CSV i OpenDocument datoteke."
 
 #. module: ai
 #. odoo-javascript
@@ -1251,23 +1510,23 @@ msgstr "Online"
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Only administrators can create sources from URLs."
-msgstr ""
+msgstr "Samo administratori mogu kreirati izvore iz URL-ova."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Oops, it looks like our AI is unreachable"
-msgstr ""
+msgstr "Ups, čini se da je naš AI nedostupan"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__text-embedding-3-small
 msgid "OpenAI"
-msgstr ""
+msgstr "OpenAI"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__openai_key
 msgid "OpenAI API key"
-msgstr ""
+msgstr "OpenAI API ključ"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__partner_id
@@ -1278,13 +1537,13 @@ msgstr "Partner"
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Paste your links, one per line"
-msgstr ""
+msgstr "Zalijepite svoje poveznice, jednu po retku"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Pretty Edit"
-msgstr ""
+msgstr "Lijepo uređivanje"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__processing
@@ -1303,24 +1562,25 @@ msgstr "Obrađuje se..."
 #: code:addons/ai/static/src/core/html_editor/prompt_plugin.js:0
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "Prompt"
-msgstr ""
+msgstr "Prompt"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_prompt_button
 msgid ""
 "Prompt that can be attached to AI UI rules for quick access by the user."
 msgstr ""
+"Prompt koji se može priložiti pravilima AI sučelja za brzi pristup korisniku."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_action_prompt
 #: model:ir.model.fields,help:ai.field_ir_cron__ai_action_prompt
 msgid "Prompt used by \"AI\" action"
-msgstr ""
+msgstr "Prompt koji koristi \"AI\" akcija"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Provide your API key to connect with your account"
-msgstr ""
+msgstr "Navedite svoj API ključ za povezivanje s računom"
 
 #. module: ai
 #. odoo-javascript
@@ -1332,7 +1592,7 @@ msgstr "Zapis"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_records_selector_plugin.js:0
 msgid "Records Selector"
-msgstr ""
+msgstr "Odabir zapisa"
 
 #. module: ai
 #. odoo-javascript
@@ -1343,17 +1603,17 @@ msgstr "Obavezno"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__response_style
 msgid "Response Style"
-msgstr ""
+msgstr "Stil odgovora"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__restrict_to_sources
 msgid "Restrict to Sources"
-msgstr ""
+msgstr "Ograniči na izvore"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__html_field_text_select
 msgid "Rewrite content"
-msgstr ""
+msgstr "Prepiši sadržaj"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__name
@@ -1370,25 +1630,25 @@ msgstr "Spremi"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_prompt.xml:0
 msgid "Save & Generate"
-msgstr ""
+msgstr "Spremi i generiraj"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/records_selector_popover/records_selector_popover.xml:0
 msgid "Select a records"
-msgstr ""
+msgstr "Odaberi zapise"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Send Message"
-msgstr ""
+msgstr "Pošalji poruku"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/message_actions_patch.js:0
 msgid "Send as Message"
-msgstr ""
+msgstr "Pošalji kao poruku"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__sequence
@@ -1405,18 +1665,18 @@ msgstr "Serverske radnje"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Share by email"
-msgstr ""
+msgstr "Podijeli e-poštom"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "Share transcript summary"
-msgstr ""
+msgstr "Podijeli sažetak transkripta"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "Short explanation of what this does"
-msgstr ""
+msgstr "Kratko objašnjenje što ovo radi"
 
 #. module: ai
 #. odoo-javascript
@@ -1425,6 +1685,8 @@ msgid ""
 "Some URLs are invalid and were skipped. URLs must start with http://, "
 "https://, or ftp://"
 msgstr ""
+"Neki URL-ovi su nevažeći i preskočeni su. URL-ovi moraju započinjati s "
+"http://, https:// ili ftp://"
 
 #. module: ai
 #. odoo-javascript
@@ -1433,12 +1695,14 @@ msgid ""
 "Some files have invalid formats and were skipped: %s. Only PDF, Word, "
 "PowerPoint, Excel, Text, CSV, and OpenDocument files are allowed."
 msgstr ""
+"Neke datoteke imaju nevažeće formate i preskočene su: %s. Dozvoljene su samo "
+"PDF, Word, PowerPoint, Excel, tekstualne, CSV i OpenDocument datoteke."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/views/fields/source_size_field.js:0
 msgid "SourceSizeIntegerField"
-msgstr ""
+msgstr "SourceSizeIntegerField"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__sources_ids
@@ -1448,19 +1712,20 @@ msgstr "Izvori"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__sources_fully_processed
 msgid "Sources Fully Processed"
-msgstr ""
+msgstr "Izvori potpuno obrađeni"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Start Recording"
-msgstr ""
+msgstr "Započni snimanje"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Start recording to get a real-time transcript of the conversation"
 msgstr ""
+"Započnite snimanje za dobivanje transkripta razgovora u stvarnom vremenu"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__status
@@ -1471,7 +1736,7 @@ msgstr "Status"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Stop Recording"
-msgstr ""
+msgstr "Zaustavi snimanje"
 
 #. module: ai
 #. odoo-javascript
@@ -1483,69 +1748,69 @@ msgstr "Sažetak"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__voice_transcription_component
 msgid "Summary Buttons for Voice Transcription Component"
-msgstr ""
+msgstr "Gumbi sažetka za komponentu glasovne transkripcije"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__is_system_agent
 msgid "System Agent"
-msgstr ""
+msgstr "Sistemski agent"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__system_prompt
 msgid "System Prompt"
-msgstr ""
+msgstr "Sistemski prompt"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "System agents cannot be deleted."
-msgstr ""
+msgstr "Sistemski agenti se ne mogu izbrisati."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_composer.py:0
 msgid "System default prompts cannot be removed."
-msgstr ""
+msgstr "Sistemski zadani promptovi ne mogu se ukloniti."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Text Selection"
-msgstr ""
+msgstr "Odabir teksta"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "The action '%s' cannot be used as an AI tool."
-msgstr ""
+msgstr "Akcija '%s' ne može se koristiti kao AI alat."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_composer__name
 msgid "The identifier for the interface component to agent rule"
-msgstr ""
+msgstr "Identifikator komponente sučelja za pravilo agenta"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.js:0
 msgid "The name should be unique"
-msgstr ""
+msgstr "Naziv bi trebao biti jedinstven"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "The partner linked to an AI agent can't be changed"
-msgstr ""
+msgstr "Partner povezan s AI agentom ne može se promijeniti"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_prompt_button__name
 msgid "The prompt sent to the AI when clicked on"
-msgstr ""
+msgstr "Prompt poslan AI-u prilikom klika"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "The site's rules (robots.txt) prevent reading this page."
-msgstr ""
+msgstr "Pravila stranice (robots.txt) onemogućuju čitanje ove stranice."
 
 #. module: ai
 #. odoo-python
@@ -1554,6 +1819,8 @@ msgid ""
 "The type of the parameter '%(name)s' is incorrect. It should be '%"
 "(expected_param_type)s'."
 msgstr ""
+"Tip parametra '%(name)s' nije točan. Trebao bi biti '%(expected_param_type)"
+"s'."
 
 #. module: ai
 #. odoo-python
@@ -1562,18 +1829,20 @@ msgid ""
 "The value '%(value)s' of the parameter '%(name)s' doesn't match the expected "
 "pattern '%(expected_pattern)s'."
 msgstr ""
+"Vrijednost '%(value)s' parametra '%(name)s' ne odgovara očekivanom uzorku '%"
+"(expected_pattern)s'."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "This action cannot be executed by an AI."
-msgstr ""
+msgstr "Ovu akciju ne može izvršiti AI."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "This action is interactive and cannot be executed by the agent."
-msgstr ""
+msgstr "Ova akcija je interaktivna i ne može je izvršiti agent."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_tool_allow_end_message
@@ -1582,12 +1851,14 @@ msgid ""
 "This tool is automatically provided with `__end_message` param which when "
 "provided, the LLM processing loop is terminated."
 msgstr ""
+"Ovaj alat automatski se pruža s parametrom `__end_message` koji, kada je "
+"pružen, zaustavlja LLM petlju obrade."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Those parameters will be passed as global variables of the actions."
-msgstr ""
+msgstr "Ti parametri bit će proslijeđeni kao globalne varijable akcija."
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.mail_template_view_form
@@ -1595,6 +1866,8 @@ msgid ""
 "Tip: Write /field to insert values or /prompt to integrate AI-generated "
 "dynamic content!"
 msgstr ""
+"Savjet: napišite /field za umetanje vrijednosti ili /prompt za integraciju "
+"dinamičkog sadržaja generiranog AI-em!"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_topic__name
@@ -1605,6 +1878,7 @@ msgstr "Naslov"
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "To return a result to the AI agent, do <code>ai['result'] = ...</code>"
 msgstr ""
+"Da biste vratili rezultat AI agentu, učinite <code>ai['result'] = ...</code>"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_ids
@@ -1615,20 +1889,21 @@ msgstr "Alati"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__topic_ids
 msgid "Topics"
-msgstr ""
+msgstr "Teme"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Transcript"
-msgstr ""
+msgstr "Transkript"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_natural_language_service.js:0
 msgid "Tried to switch to %s but the app is no longer in an action window."
 msgstr ""
+"Pokušao sam se prebaciti na %s, ali aplikacija više nije u prozoru akcije."
 
 #. module: ai
 #. odoo-javascript
@@ -1656,6 +1931,19 @@ msgid ""
 "- 'Multi Actions': define an action that triggers several other server "
 "actions\n"
 msgstr ""
+"Vrsta radnje poslužitelja. Dostupne su sljedeće vrijednosti:\n"
+"- 'Ažuriraj zapis': ažurira vrijednosti zapisa\n"
+"- 'Kreiraj aktivnost': kreira aktivnost (Discuss)\n"
+"- 'Pošalji e-poštu': objavljuje poruku, bilješku ili šalje e-poštu (Discuss)"
+"\n"
+"- 'Pošalji SMS': šalje SMS, bilježi ih na dokumentima (SMS)- 'Dodaj/ukloni "
+"pratitelje': dodaje ili uklanja pratitelje sa zapisa (Discuss)\n"
+"- 'Kreiraj zapis': kreira novi zapis s novim vrijednostima\n"
+"- 'Izvrši kod': blok Python koda koji će se izvršiti\n"
+"- 'Pošalji webhook obavijest': šalje POST zahtjev vanjskom sustavu, poznat i "
+"kao Webhook\n"
+"- 'Više radnji': definira radnju koja pokreće nekoliko drugih radnji "
+"poslužitelja\n"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__url
@@ -1667,70 +1955,70 @@ msgstr "URL"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %(url)s returned non-HTML content: %(content_type)s"
-msgstr ""
+msgstr "URL %(url)s vratio je ne-HTML sadržaj: %(content_type)s"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %s returned empty content"
-msgstr ""
+msgstr "URL %s vratio je prazan sadržaj"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "Unable to start the recording."
-msgstr ""
+msgstr "Nije moguće započeti snimanje."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_natural_language_service.js:0
 msgid "Unable to switch view"
-msgstr ""
+msgstr "Nije moguće prebaciti prikaz"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_api_service.py:0
 msgid "Unsupported provider '%s'"
-msgstr ""
+msgstr "Nepodržani pružatelj '%s'"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.js:0
 msgid "Upload a File"
-msgstr ""
+msgstr "Učitaj datoteku"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__use_in_ai
 #: model:ir.model.fields,field_description:ai.field_ir_cron__use_in_ai
 msgid "Use in AI"
-msgstr ""
+msgstr "Koristi u AI-u"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/message_actions_patch.js:0
 msgid "Use this"
-msgstr ""
+msgstr "Koristi ovo"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Use your own ChatGPT account"
-msgstr ""
+msgstr "Koristite vlastiti ChatGPT račun"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Use your own Google Gemini account"
-msgstr ""
+msgstr "Koristite vlastiti Google Gemini račun"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__user_has_access
 msgid "User Has Access"
-msgstr ""
+msgstr "Korisnik ima pristup"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "User error"
-msgstr ""
+msgstr "Korisnička pogreška"
 
 #. module: ai
 #. odoo-javascript
@@ -1743,29 +2031,29 @@ msgstr "Korisnik je dostupan"
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Voice Recording"
-msgstr ""
+msgstr "Glasovno snimanje"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Voice Transcript"
-msgstr ""
+msgstr "Glasovni transkript"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__mail_composer
 msgid "Write an email"
-msgstr ""
+msgstr "Napišite e-poštu"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__html_field_record
 msgid "Write in an HTML field"
-msgstr ""
+msgstr "Pišite u HTML polje"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/tools_schema/validators.py:0
 msgid "Wrong value %(value)s, should be in: %(enum)s"
-msgstr ""
+msgstr "Pogrešna vrijednost %(value)s, trebala bi biti u: %(enum)s"
 
 #. module: ai
 #. odoo-javascript
@@ -1774,43 +2062,45 @@ msgid ""
 "You must allow the access to your microphone to start the recording. Try "
 "refreshing the page and start again."
 msgstr ""
+"Morate dopustiti pristup svom mikrofonu za početak snimanja. Pokušajte "
+"osvježiti stranicu i započeti ponovno."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: New name to write"
-msgstr ""
+msgstr "npr: novi naziv za pisanje"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: ^(\\\\([0-9]{3}\\\\))?[0-9]{3}-[0-9]{4}$"
-msgstr ""
+msgstr "npr: ^(\\\\([0-9]{3}\\\\))?[0-9]{3}-[0-9]{4}$"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: name"
-msgstr ""
+msgstr "npr: naziv"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: red, blue, green"
-msgstr ""
+msgstr "npr: crvena, plava, zelena"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "executed."
-msgstr ""
+msgstr "izvršeno."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "fa-hashtag"
-msgstr ""
+msgstr "fa-hashtag"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
-msgstr ""
+msgstr "vektor"

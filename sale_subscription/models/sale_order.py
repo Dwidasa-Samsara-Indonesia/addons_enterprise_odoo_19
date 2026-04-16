@@ -229,8 +229,6 @@ class SaleOrder(models.Model):
         for order in self:
             if order.is_subscription and order.state == 'sale':
                 order.type_name = _('Subscription')
-            elif order.subscription_state == '7_upsell':
-                order.type_name = _('Quotation')
             elif order.subscription_state == '2_renewal':
                 order.type_name = _('Renewal Quotation')
             else:
@@ -638,7 +636,12 @@ class SaleOrder(models.Model):
                 if subscription_user != current_partner_user:
                     partner_to_remove = current_partner_user.partner_id - order.partner_id
                     order.message_unsubscribe(partner_ids=partner_to_remove.ids)
-                    order.partner_id.sudo().user_id = subscription_user
+                    partners_to_update = order.partner_id
+                    # If the partner is a company, keep all child contacts in sync so
+                    # portal users see the updated salesperson as well.
+                    if order.partner_id.is_company:
+                        partners_to_update |= order.partner_id.child_ids
+                    partners_to_update.sudo().write({'user_id': subscription_user.id})
         for order in self:
             # Add/update a subscription_discount line depending on the start_date and next_invoice_date
             if order.subscription_state == '7_upsell' and order.state in ['draft', 'sent'] and \
@@ -705,7 +708,8 @@ class SaleOrder(models.Model):
     def _action_cancel(self):
         to_open_ids = []
         for order in self:
-            related_move = order._get_subscription_invoices()
+            # Get the moves in sudo to be able to get moves in companies the user can't access.
+            related_move = order.sudo()._get_subscription_invoices()
             if order.subscription_state == '7_upsell':
                 if order.state in ['sale', 'done']:
                     cancel_message_body = _("The upsell %s has been cancelled. Please recheck the quantities as they may have been affected by this cancellation.", order._get_html_link())
@@ -743,7 +747,8 @@ class SaleOrder(models.Model):
                         user_id=order.subscription_id.user_id.id
                     )
                 order.subscription_state = False
-            elif order.subscription_state in SUBSCRIPTION_PROGRESS_STATE + ['5_renewed']:
+            elif (order.subscription_state in SUBSCRIPTION_PROGRESS_STATE + SUBSCRIPTION_CLOSED_STATE
+                  and any(state in ['draft', 'posted'] for state in related_move.mapped('state'))):
                 raise ValidationError(_(
                     "Cancelling an invoiced subscription wouldn't be fair to the customer. "
                     "Once the invoice been created and possibly even paid, it's a done deal. Cancelling the subscription would definitely cause some chaos!"
@@ -851,22 +856,23 @@ class SaleOrder(models.Model):
         for so in self:
             # We check the subscription direct invoice and not the one related to the whole SO
             if (so.start_date or today) >= so.subscription_id.next_invoice_date:
-                raise ValidationError(_("You cannot upsell a subscription whose next invoice date is in the past.\n"
-                                        "Please, invoice directly the %s contract.", so.subscription_id.name))
+                raise ValidationError(
+                    _(
+                        "The start date of an upsell cannot be greater or equal to the next invoice date of the subscription %s.\n"
+                        "You should first invoice the original subscription, use an earlier start date for the upsell or create a renewal quotation.",
+                        so.subscription_id.name
+                    )
+                )
+
         existing_line_ids = self.subscription_id.order_line
-        dummy, update_values = self.update_existing_subscriptions()
+        with self.env.protecting([self.subscription_id.order_line._fields['discount']], self.subscription_id.order_line):
+            _dummy, update_values = self.update_existing_subscriptions()
         updated_line_ids = self.env['sale.order.line'].browse({val[1] for val in update_values})
         new_lines_ids = self.subscription_id.order_line - existing_line_ids
         # Example: with a new yearly line starting in june when the expected next invoice date is december,
         # discount is 50% and the default next_invoice_date will be in june too.
         # We need to get the default next_invoice_date that was saved on the upsell because the compute has no way
         # to differentiate new line created by an upsell and new line created by the user.
-        self.env['sale.order'].search([
-            ('subscription_state', '=', '7_upsell'),
-            ('state', 'in', ['draft', 'sent']),
-            ('subscription_id', 'in', self.subscription_id.ids),
-            ('id', 'not in', self.ids)
-        ]).action_cancel()
         for upsell in self:
             upsell.subscription_id.message_post(body=_("The upsell %s has been confirmed.", upsell._get_html_link()))
         for line in (updated_line_ids | new_lines_ids).with_context(skip_line_status_compute=True):
@@ -1783,14 +1789,6 @@ class SaleOrder(models.Model):
             self._process_auto_invoice(invoice)
             return invoice
 
-        if not payment_token.partner_id.country_id:
-            msg_body = _('Automatic payment failed. No country specified on payment_token\'s partner')
-            for order in self:
-                order.message_post(body=msg_body)
-            invoice.unlink()
-            self._subscription_commit_cursor(auto_commit)
-            return
-
         existing_transactions = self.transaction_ids
         try:
             # execute payment
@@ -1958,6 +1956,8 @@ class SaleOrder(models.Model):
             unpaid_so = self.env['sale.order']
             expired_so = self.env['sale.order']
             for so in batched_to_close:
+                if so.subscription_state not in SUBSCRIPTION_PROGRESS_STATE:
+                    continue
                 if so.id in unpaid_ids:
                     unpaid_so |= so
                     account_move = self.env['account.move'].browse(unpaid_results[so.id])
@@ -2117,9 +2117,18 @@ class SaleOrder(models.Model):
             display_lines = self.order_line
 
         tax_totals = get_tax_totals(display_lines)
+        visible_ids = []
+        for line in self.order_line:
+            is_parent_collapsed = line.parent_id._is_collapsed()
+            is_grandparent_collapsed = line.parent_id.parent_id._is_collapsed()
+            is_section = line.display_type == 'line_section'
+            visible_subsection = line.display_type == 'line_subsection' and not is_parent_collapsed
+            visible_product = line.display_type not in ('line_section', 'line_subsection') and not is_parent_collapsed and not is_grandparent_collapsed
+            if is_section or visible_subsection or visible_product:
+                visible_ids.append(line.id)
         return {
             'sale_order': self,
-            'display_lines': display_lines,
+            'display_lines': self.env['sale.order.line'].browse(visible_ids),
             'next_invoice_amount': amount_to_pay.get('total_amount_currency') or 0.0,
             'tax_totals': tax_totals
         }

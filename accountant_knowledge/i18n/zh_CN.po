@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
 "PO-Revision-Date: 2026-01-06 05:29+0000\n"
 "Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -261,8 +261,21 @@ msgid "Annexes"
 msgstr "附属建筑物"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -309,26 +322,8 @@ msgid "Attestation"
 msgstr ""
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "审计报告"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -450,7 +445,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
+msgid "Create an Annual Report"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -646,8 +641,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr "编辑审计报告"
+msgid "Edit Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -1086,7 +1081,8 @@ msgstr "投资组合中持有的长期投资"
 msgid ""
 "Management has chosen not to disclose remuneration information, as doing so "
 "would effectively reveal the individual compensation of executives."
-msgstr "管理层决定不披露薪酬相关信息，因该等信息的披露将直接导致高管人员的个人薪酬情"
+msgstr ""
+"管理层决定不披露薪酬相关信息，因该等信息的披露将直接导致高管人员的个人薪酬情"
 "况被公开。"
 
 #. module: accountant_knowledge
@@ -1100,7 +1096,8 @@ msgid ""
 "Manufactured products are valued at production cost, which includes "
 "consumables, direct and indirect production expenses, and depreciation of "
 "assets used in production."
-msgstr "产成品按生产成本法计量，其成本包含直接消耗材料、直接生产费用、间接生产费用，"
+msgstr ""
+"产成品按生产成本法计量，其成本包含直接消耗材料、直接生产费用、间接生产费用，"
 "以及生产用固定资产的折旧费用。"
 
 #. module: accountant_knowledge
@@ -1164,7 +1161,8 @@ msgid ""
 "Only include events occurring between the end of the reporting period and "
 "the date the financial statements are approved, if they are significant "
 "enough to affect the fair presentation of the accounts."
-msgstr "仅需纳入报告期末至财务报表批准日期间发生的重大事项，前提是该等事项的影响程度"
+msgstr ""
+"仅需纳入报告期末至财务报表批准日期间发生的重大事项，前提是该等事项的影响程度"
 "足以改变财务报表的公允列报。"
 
 #. module: accountant_knowledge
@@ -1209,7 +1207,8 @@ msgid ""
 "applicable to compilation engagements, as issued by the professional body of "
 "chartered accountants. This engagement is however not an audit or a limited "
 "review."
-msgstr "我们的工作是按照特许会计师专业机构发布的、适用于财务信息编制业务的专业准则执"
+msgstr ""
+"我们的工作是按照特许会计师专业机构发布的、适用于财务信息编制业务的专业准则执"
 "行。但本项业务并非审计业务，亦非有限保证审阅业务。"
 
 #. module: accountant_knowledge
@@ -1305,7 +1304,8 @@ msgstr "请提供贷款发放相关费用及各类贷款赎回溢价的详细信
 msgid ""
 "Provide details on the carryback and carryforward of tax losses, and the "
 "split of income tax between current and exceptional results."
-msgstr "请提供税务亏损的结转弥补与向后结转情况，以及所得税在当期损益与非经常性损益之"
+msgstr ""
+"请提供税务亏损的结转弥补与向后结转情况，以及所得税在当期损益与非经常性损益之"
 "间的分摊明细。"
 
 #. module: accountant_knowledge
@@ -1313,7 +1313,8 @@ msgstr "请提供税务亏损的结转弥补与向后结转情况，以及所得
 msgid ""
 "Provide information on the estimated value of long-term investments held in "
 "the portfolio and any changes in their value over the financial year."
-msgstr "请提供投资组合中持有的长期投资的估值金额，以及本会计年度内其价值的任何变动情"
+msgstr ""
+"请提供投资组合中持有的长期投资的估值金额，以及本会计年度内其价值的任何变动情"
 "况。"
 
 #. module: accountant_knowledge
@@ -1488,14 +1489,16 @@ msgstr "软件：3 年"
 msgid ""
 "Specify details for executives, subsidiaries, investments, related "
 "companies, and others."
-msgstr "请详细列明高管人员、子公司、对外投资、关联企业及其他相关主体的具体信息。"
+msgstr ""
+"请详细列明高管人员、子公司、对外投资、关联企业及其他相关主体的具体信息。"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid ""
 "Specify the impact of the change as determined at the opening of the period, "
 "identifying the affected financial statement items."
-msgstr "请说明该会计估计变更在本期间期初确定的影响金额，并明确指出受影响的财务报表项"
+msgstr ""
+"请说明该会计估计变更在本期间期初确定的影响金额，并明确指出受影响的财务报表项"
 "目。"
 
 #. module: accountant_knowledge
@@ -1589,6 +1592,11 @@ msgid "Technical installations, equipment, and tools<br>"
 msgstr "技术设备、生产装置及工具<br>"
 
 #. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr ""
+
+#. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid ""
 "The annual financial statements have been prepared in accordance with "
@@ -1648,7 +1656,8 @@ msgstr "完整报告将纳入最终文档中。"
 msgid ""
 "The full report will be included in the final document. Feel free to tailor "
 "the result using filters and options from the report."
-msgstr "完整报告将纳入最终文档中。您可通过报告中的筛选条件与配置选项，灵活调整报告结"
+msgstr ""
+"完整报告将纳入最终文档中。您可通过报告中的筛选条件与配置选项，灵活调整报告结"
 "果。"
 
 #. module: accountant_knowledge
@@ -1657,7 +1666,8 @@ msgid ""
 "The gross value consists of the purchase cost, excluding incidental "
 "expenses. When the inventory value is lower than the gross value, a "
 "provision for impairment is recorded for the amount of the difference."
-msgstr "账面原值为采购成本，不含附带费用。当存货的可变现净值低于账面原值时，需按两者"
+msgstr ""
+"账面原值为采购成本，不含附带费用。当存货的可变现净值低于账面原值时，需按两者"
 "的差额确认存货减值准备。"
 
 #. module: accountant_knowledge
@@ -1707,7 +1717,8 @@ msgstr "账户中记录项目所采用的主要计量方法为历史成本法。
 msgid ""
 "The purchase price (including customs duties and non-recoverable taxes, less "
 "any trade discounts, rebates, or settlement discounts);"
-msgstr "采购价款（包含关税及不可抵扣的税金，扣除商业折扣、返利及结算折扣后的金额）；"
+msgstr ""
+"采购价款（包含关税及不可抵扣的税金，扣除商业折扣、返利及结算折扣后的金额）；"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_preamble
@@ -1814,7 +1825,8 @@ msgid ""
 "for potential collection difficulties. These provisions for impairment are "
 "determined by comparing the acquisition value with the probable realizable "
 "value."
-msgstr "如适用，针对可能存在的收款困难，应收款项将通过计提准备的方式进行减值处理。此"
+msgstr ""
+"如适用，针对可能存在的收款困难，应收款项将通过计提准备的方式进行减值处理。此"
 "类减值准备的确定，以取得成本与预计可变现价值的比较结果为依据。"
 
 #. module: accountant_knowledge
@@ -1832,3 +1844,9 @@ msgstr "本报告期内雇佣的员工人数"
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr "示例：年度财务总览"
+
+#~ msgid "Audit Reports"
+#~ msgstr "审计报告"
+
+#~ msgid "Edit Audit Report"
+#~ msgstr "编辑审计报告"

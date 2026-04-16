@@ -7,13 +7,14 @@
 # Martin Trigaux, 2022
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-14 15:21+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-11 09:34+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll_expense/hr/>\n"
 "Language: hr\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll_expense
 #: model_terms:ir.ui.view,arch_db:hr_payroll_expense.view_account_payment_register_form_inherit_hr_payroll_expense
@@ -32,11 +33,15 @@ msgid ""
 "payslip. Make sure this payment is intended.\n"
 "                        </span>"
 msgstr ""
+"<span class=\"fw-bold\">\n"
+"                            Troškovi će već biti nadoknađeni u isplati. "
+"Uvjerite se da je ovo plaćanje namjerno.\n"
+"                        </span>"
 
 #. module: hr_payroll_expense
 #: model_terms:ir.ui.view,arch_db:hr_payroll_expense.hr_expense_view_form_inherit_payroll
 msgid "<span class=\"o_stat_text\">Payslip</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Isplata</span>"
 
 #. module: hr_payroll_expense
 #: model:ir.model.fields,field_description:hr_payroll_expense.field_account_move__display_name
@@ -45,7 +50,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll_expense.field_hr_payroll_structure__display_name
 #: model:ir.model.fields,field_description:hr_payroll_expense.field_hr_payslip__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: hr_payroll_expense
 #: model:ir.model,name:hr_payroll_expense.model_hr_expense
@@ -56,13 +61,13 @@ msgstr "Trošak"
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_expense.py:0
 msgid "Expense (\"%(name)s\") was removed from the next payslip."
-msgstr ""
+msgstr "Trošak (\"%(name)s\") je uklonjen iz sljedeće isplate."
 
 #. module: hr_payroll_expense
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_expense.py:0
 msgid "Expense (\"%(name)s\") will be added to the next payslip."
-msgstr ""
+msgstr "Trošak (\"%(name)s\") će biti dodan sljedećoj isplati."
 
 #. module: hr_payroll_expense
 #. odoo-python
@@ -73,12 +78,16 @@ msgid ""
 "Please create one salary rule with the \"%(code)s\" code on the relevant "
 "salary structures."
 msgstr ""
+"Pravilo povrata troškova mora biti konfigurirano za dodavanje troškova "
+"isplatama.\n"
+"Kreirajte pravilo plaće s kodom \"%(code)s\" na odgovarajućim strukturama "
+"plaće."
 
 #. module: hr_payroll_expense
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_payslip.py:0
 msgid "Expense rules"
-msgstr ""
+msgstr "Pravila troškova"
 
 #. module: hr_payroll_expense
 #: model:hr.payslip.input.type,name:hr_payroll_expense.expense_other_input
@@ -106,7 +115,7 @@ msgstr "Troškovi koje treba nadoknaditi zaposleniku"
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_expense.py:0
 msgid "Go to salary rules"
-msgstr ""
+msgstr "Idi na pravila plaće"
 
 #. module: hr_payroll_expense
 #: model:ir.model.fields,field_description:hr_payroll_expense.field_account_move__id
@@ -120,7 +129,7 @@ msgstr "ID"
 #. module: hr_payroll_expense
 #: model:ir.model.fields,field_description:hr_payroll_expense.field_account_payment_register__is_already_paid_through_a_payslip
 msgid "Is Already Paid Through A Payslip"
-msgstr ""
+msgstr "Već je plaćeno kroz isplatu"
 
 #. module: hr_payroll_expense
 #: model:ir.model,name:hr_payroll_expense.model_account_move
@@ -131,7 +140,7 @@ msgstr "Temeljnica"
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_payslip.py:0
 msgid "No debit account for EXPENSES rules"
-msgstr ""
+msgstr "Nema dugovnog konta za pravila TROŠKOVA"
 
 #. module: hr_payroll_expense
 #. odoo-python
@@ -141,12 +150,15 @@ msgid ""
 "add a payable debit account to be able to create an accounting entry for the "
 "expenses linked to this payslip."
 msgstr ""
+"Nije pronađen dugovni konto u pravilu plaće isplate '%(rule_name)s'. Dodajte "
+"obvezni dugovni konto kako biste mogli kreirati knjigovodstveni zapis za "
+"troškove povezane s ovom isplatom."
 
 #. module: hr_payroll_expense
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_payslip.py:0
 msgid "No rule to handle expenses"
-msgstr ""
+msgstr "Nema pravila za rukovanje troškovima"
 
 #. module: hr_payroll_expense
 #. odoo-python
@@ -155,6 +167,8 @@ msgid ""
 "Only approved and posted expenses that were paid by an employee can be "
 "reimbursed in a payslip."
 msgstr ""
+"Samo odobreni i knjiženi troškovi koje je platio zaposlenik mogu se "
+"nadoknaditi u isplati."
 
 #. module: hr_payroll_expense
 #: model:ir.model,name:hr_payroll_expense.model_account_payment_register
@@ -187,7 +201,7 @@ msgstr "Nadoknađeni troškovi"
 #. module: hr_payroll_expense
 #: model_terms:ir.ui.view,arch_db:hr_payroll_expense.hr_expense_view_form_inherit_payroll
 msgid "Remove from Payslip"
-msgstr ""
+msgstr "Ukloni iz isplate"
 
 #. module: hr_payroll_expense
 #: model:ir.actions.server,name:hr_payroll_expense.hr_expense_add_to_payslip_action_server
@@ -213,12 +227,14 @@ msgid ""
 "The '%(account_name)s' account for the salary rule '%(rule_name)s' must be "
 "of type 'Payable'."
 msgstr ""
+"Konto '%(account_name)s' za pravilo plaće '%(rule_name)s' mora biti vrste "
+"'Obveze'."
 
 #. module: hr_payroll_expense
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_expense.py:0
 msgid "There are no valid expenses selected."
-msgstr ""
+msgstr "Nisu odabrani valjani troškovi."
 
 #. module: hr_payroll_expense
 #. odoo-python
@@ -228,12 +244,14 @@ msgid ""
 "validated.\n"
 "Expenses can only be removed from draft or canceled payslips."
 msgstr ""
+"Ne možete ukloniti trošak iz isplate koja je već potvrđena.\n"
+"Troškovi se mogu ukloniti samo iz nacrta ili otkazanih isplata."
 
 #. module: hr_payroll_expense
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/hr_expense.py:0
 msgid "You do not have permission to add this expense to a payslip."
-msgstr ""
+msgstr "Nemate dopuštenje za dodavanje ovog troška isplati."
 
 #. module: hr_payroll_expense
 #. odoo-python
@@ -242,12 +260,14 @@ msgid ""
 "You don't have the access rights to link an expense to a payslip. You need "
 "to be a payroll officer to do that."
 msgstr ""
+"Nemate prava pristupa za povezivanje troška s isplatom. Za to trebate biti "
+"voditelj obračuna plaća."
 
 #. module: hr_payroll_expense
 #. odoo-python
 #: code:addons/hr_payroll_expense/models/account_move.py:0
 msgid "You don't have the access rights to post an invoice."
-msgstr ""
+msgstr "Nemate prava pristupa za knjiženje računa."
 
 #~ msgid "Expense Report"
 #~ msgstr "Izvješće o troškovima"

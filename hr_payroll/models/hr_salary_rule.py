@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from collections import defaultdict
+from collections.abc import Iterable
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
@@ -91,7 +92,9 @@ result_rate = 10''')
 
     @api.model
     def update_properties_definition_domain(self, salary_rule_ids, res_model):
-        grouped_rules = self.browse(salary_rule_ids).grouped('struct_id')
+        if not isinstance(salary_rule_ids, Iterable):  # Handle the case of receiving a single id.
+            salary_rule_ids = [salary_rule_ids]
+        grouped_rules = self.browse(filter(None, salary_rule_ids)).grouped('struct_id')
         for struct, rules in grouped_rules.items():
             struct._update_payroll_properties(rules, res_model)
 

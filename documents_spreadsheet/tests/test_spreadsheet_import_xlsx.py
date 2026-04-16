@@ -43,6 +43,27 @@ class SpreadsheetImportXlsx(HttpCase, SpreadsheetTestCommon):
             spreadsheet = self.env["documents.document"].browse(spreadsheet_id).exists()
             self.assertTrue(spreadsheet)
 
+    def test_import_xlsx_keeps_linked_record(self):
+        folder = self.env["documents.document"].create({"name": "Test folder", "type": "folder"})
+        partner = self.env["res.partner"].create({"name": "Linked partner"})
+        with file_open('documents_spreadsheet/tests/data/test.xlsx', 'rb') as f:
+            spreadsheet_data = base64.encodebytes(f.read())
+            document_xlsx = self.env['documents.document'].create({
+                'datas': spreadsheet_data,
+                'name': 'text.xlsx',
+                'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'folder_id': folder.id,
+                'res_model': 'res.partner',
+                'res_id': partner.id,
+            })
+            with mute_logger('odoo.addons.documents.models.documents_document'):  # Creating document(s) as superuser
+                spreadsheet_id = document_xlsx.import_to_spreadsheet()
+        spreadsheet = self.env["documents.document"].browse(spreadsheet_id).exists()
+        self.assertEqual(spreadsheet.res_model, 'res.partner')
+        self.assertEqual(spreadsheet.res_id, partner.id)
+        self.assertEqual(spreadsheet.attachment_id.res_model, 'res.partner')
+        self.assertEqual(spreadsheet.attachment_id.res_id, partner.id)
+
     def test_import_xlsx_wrong_mime_type(self):
         """Import xlsx with wrong mime type raisese an error"""
         folder = self.env["documents.document"].create({"name": "Test folder", "type": "folder"})

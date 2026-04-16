@@ -57,7 +57,8 @@ class TestAllReportsGeneration(AccountTestInvoicingCommon):
             'PL': {'l10n_pl_reports_tax_office_id': l10n_pl_reports_tax_office and l10n_pl_reports_tax_office.id},
             'BD': {'l10n_bd_corporate_tax_liability': l10n_bd_corporate_tax_liability, 'l10n_bd_corporate_tax_expense': l10n_bd_corporate_tax_liability},
             'AE': {'l10n_ae_tax_report_liabilities_account': l10n_ae_liability_account, 'l10n_ae_tax_report_expenses_account': l10n_ae_liability_account, 'l10n_ae_tax_report_asset_account': l10n_ae_liability_account},
-            'CZ': {'l10n_cz_tax_office_id': l10n_cz_reports_tax_office and l10n_cz_reports_tax_office.id}
+            'CZ': {'l10n_cz_tax_office_id': l10n_cz_reports_tax_office and l10n_cz_reports_tax_office.id},
+            'SK': {'zip': '010 01', 'city': 'Žilina', 'income_tax_id': '9999999999', 'company_registry': '47686065', 'l10n_sk_nace_code': '01110'},
         }
 
         # ecdf_prefix and matr_number only exist in enterprise

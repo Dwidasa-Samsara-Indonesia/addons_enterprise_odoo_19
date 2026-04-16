@@ -50,5 +50,8 @@
         'web.assets_unit_tests': [
             'pos_appointment/static/tests/unit/**/*'
         ],
+        'web.assets_tests': [
+            'pos_appointment/static/tests/tours/**/*',
+        ],
     }
 }

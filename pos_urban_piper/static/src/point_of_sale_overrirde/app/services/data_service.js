@@ -6,12 +6,12 @@ patch(PosData.prototype, {
      * @override
      */
     async preLoadData(data) {
+        const loadData = await super.preLoadData(data);
         // FIXME: bad implementation, data can be undefined if there is nothing in indexedDB
         if (!data["pos.config"] || !Object.keys(data["pos.config"]).length) {
-            return {};
+            return loadData;
         }
 
-        const loadData = await super.preLoadData(data);
         const config = this.models["pos.config"].getFirst();
         if (!config.module_pos_urban_piper || !config.urbanpiper_store_identifier) {
             return loadData;

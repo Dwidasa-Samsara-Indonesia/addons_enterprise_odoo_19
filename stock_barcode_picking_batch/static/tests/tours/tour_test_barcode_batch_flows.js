@@ -1665,3 +1665,17 @@ registry.category("web_tour.tours").add("test_pack_batch_in_multiple_packages", 
         ...stepUtils.validateBarcodeOperation(),
     ],
 });
+
+registry.category("web_tour.tours").add("test_barcode_batch_GS1_scan_barcode_with_new_serial", {
+    steps: () => [
+        {
+            trigger: '.o_barcode_line:contains(product2)',
+            run: 'scan product2',
+        },
+        {
+            trigger: '.o_barcode_line:contains(productserial1)',
+            run: 'scan 012345678901234410BATCHSN1',
+        },
+        ...stepUtils.validateBarcodeOperation(),
+    ]
+});

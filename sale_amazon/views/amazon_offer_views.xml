@@ -22,10 +22,7 @@
                 <field name="marketplace_id" options="{'no_create_edit': True, 'no_open': True}"/>
                 <field name="product_id"/>
                 <field name="sku"/>
-                <field name="amazon_channel"
-                       widget="badge"
-                       decoration-info="amazon_channel == 'fbm'"
-                />
+                <field name="amazon_channel"/>
                 <field name="sync_stock" readonly="amazon_channel == 'fba'"/>
                 <field name="amazon_sync_status"
                        widget="badge"

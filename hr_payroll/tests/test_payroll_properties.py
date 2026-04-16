@@ -431,3 +431,121 @@ class TestPayrollProperties(TestPayslipContractBase):
         self.assertEqual(line_values['rule_a_1']['sum']['total'], 123)
         self.assertEqual(line_values['rule_a_2']['sum']['total'], 150)
         self.assertEqual(line_values['rule_a_3']['sum']['total'], 456)
+
+    def test_localdict_compute_with_folded_separator(self):
+        """Check payslip computation when a separator has a value (it has been folded/unfolded in the UI)."""
+        rule = self.create_property_salary_rule(struct_id=self.structure_A, code='rule_a_1', section=self.category1, default_value=100)
+        self.structure_A._update_payroll_properties(rule, 'hr.employee')
+
+        version_def = self.structure_A.version_properties_definition
+        self.assertTrue(version_def[0]['type'], 'separator')
+        version_def[0]['value'] = False
+        version_def[1]['value'] = 123
+
+        self.mr_property.version_id.structure_type_id = self.structure_type_A
+        self.mr_property.version_id.contract_date_start = date(2025, 1, 1)
+        self.mr_property.version_id.write({'payroll_properties': version_def})
+
+        property_slip = self.generate_payslip(struct=self.structure_A, date=date(2025, 1, 1), employee=self.mr_property)
+        self.assertEqual({rule.id: 123.0}, property_slip._get_localdict()['property_inputs'])
+
+    def test_add_input_shows_in_payslip(self):
+        def _get_new_rule(show_employee, show_payslip):
+            return self.env['hr.salary.rule'].create({
+                'name': 'Test Rule',
+                'code': "VERYCOOLCODE",
+                'category_id': self.env.ref('hr_payroll.ALW').id,
+                'condition_select': 'property_input',
+                'input_section': self.category1.id,
+                'input_unit': "monetary",
+                'struct_id': self.structure_A.id,
+                'input_usage_employee': show_employee,
+                'input_usage_payslip': show_payslip,
+            })
+
+        self.mr_property.version_id.structure_type_id = self.structure_type_A
+        self.mr_property.version_id.contract_date_start = date(2025, 1, 1)
+        payslip = self.generate_payslip(struct=self.structure_A, date=date(2025, 1, 1), employee=self.mr_property)
+
+        first_rule = _get_new_rule(True, True)
+        self.structure_A._update_payroll_properties(first_rule, 'hr.employee')
+
+        action = payslip.action_configure_payslip_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertIn(first_rule, available_properties)
+
+        second_rule = _get_new_rule(True, True)
+        self.structure_A._update_payroll_properties(second_rule, 'hr.payslip')
+
+        action = self.mr_property.action_configure_employee_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertIn(second_rule, available_properties)
+
+        third_rule = _get_new_rule(True, False)
+        action = self.mr_property.action_configure_employee_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertIn(third_rule, available_properties)
+
+        action = payslip.action_configure_payslip_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertNotIn(third_rule, available_properties)
+
+        fourth_rule = _get_new_rule(False, True)
+        action = payslip.action_configure_payslip_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertIn(fourth_rule, available_properties)
+
+        action = self.mr_property.action_configure_employee_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertNotIn(fourth_rule, available_properties)
+
+        fifth_rule = _get_new_rule(False, False)
+        action = self.mr_property.action_configure_employee_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertNotIn(fifth_rule, available_properties)
+
+        action = payslip.action_configure_payslip_inputs()
+        available_properties = self.env['hr.salary.rule'].search(action['domain'])
+        self.assertNotIn(fifth_rule, available_properties)
+
+    def test_add_dependent_salary_inputs(self):
+        """
+        Test that dependent salary rules are available in the 'Add Inputs'
+        selection list if their prerequisite is already present on the record.
+
+        Scenario:
+        - Rule A is a top-level property input.
+        - Rule B depends on Rule A.
+        - Rule C is created after Rule A is already added to the employee's payroll_properties.
+
+        Expectation:
+        - Rule C should be visible in the selection domain.
+        - Rule A should be excluded (already present).
+        """
+        self.mr_property.version_id.structure_type_id = self.structure_type_A
+        rule_A = self.create_property_salary_rule(struct_id=self.structure_A, code='rule_A', section=self.category1, default_value=100)
+        rule_A.input_usage_employee = True
+        rule_B = self.create_property_salary_rule(struct_id=self.structure_A, code='rule_B', section=self.category1, default_value=100, dependent_input_id=rule_A)
+        rule_B.input_usage_employee = True
+        action = self.mr_property.version_id.action_configure_template_inputs()
+        domain = action.get('domain', [])
+        matching_rules = self.env['hr.salary.rule'].search(domain)
+
+        self.assertIn(rule_A, matching_rules,
+            "Prerequisite Rule should be visible in the salary input selection.")
+        self.assertNotIn(rule_B, matching_rules,
+            "Dependent Rule 1 should not be visible in the salary input selection since it is dependent on Prerequisite Rule.")
+
+        self.structure_A._update_payroll_properties(rule_A, 'hr.employee')
+        rule_C = self.create_property_salary_rule(struct_id=self.structure_A, code='rule_C', section=self.category1, default_value=50, dependent_input_id=rule_A)
+        rule_C.input_usage_employee = True
+        action = self.mr_property.version_id.action_configure_template_inputs()
+        domain = action.get('domain', [])
+        matching_rules = self.env['hr.salary.rule'].search(domain)
+
+        self.assertIn(rule_C, matching_rules,
+            "Dependent Rule 2 should be visible in the salary input selection since it is dependent on visible Prerequisite Rule.")
+        self.assertNotIn(rule_A, matching_rules,
+            "Prerequisite Rule should not be visible in the salary input selection since it is already visible on the employee form.")
+        self.assertNotIn(rule_B, matching_rules,
+            "Dependent Rule 1 should not be visible in the salary input selection since it is already visible on the employee form.")

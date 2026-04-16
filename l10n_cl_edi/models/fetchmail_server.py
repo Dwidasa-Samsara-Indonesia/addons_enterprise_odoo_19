@@ -157,6 +157,18 @@ class FetchmailServer(models.Model):
                 return document_number
         return False
 
+    def _check_document_type(self, xml_tree):
+        document_type_code = xml_tree.findtext('.//ns0:TipoDTE', namespaces=XML_NAMESPACES)
+        document_type = self.env['l10n_latam.document.type'].search(
+            [('code', '=', document_type_code), ('country_id.code', '=', 'CL')], limit=1)
+        if not document_type:
+            _logger.info('DTE has been discarded! Document type %s not found', document_type_code)
+            return False
+        if document_type and document_type.internal_type not in ['invoice', 'debit_note', 'credit_note']:
+            _logger.info('DTE has been discarded! The document type %s is not a vendor bill', document_type_code)
+            return False
+        return True
+
     def _process_incoming_email(self, msg_txt):
         parsed_values = self.env['mail.thread']._message_parse_extract_payload(msg_txt, {})
         body, attachments = parsed_values['body'], parsed_values['attachments']
@@ -217,7 +229,11 @@ class FetchmailServer(models.Model):
 
         files_data = Move._to_files_data(attachment)
         files_data.extend(Move._unwrap_attachments(files_data))
-        files_data = [file_data for file_data in files_data if not self._check_dte_already_processed(file_data['xml_tree'])]
+        files_data = [
+            file_data for file_data in files_data
+            if not self._check_dte_already_processed(file_data['xml_tree'])
+            and self._check_document_type(file_data['xml_tree'])
+        ]
 
         records = Move.create([{}] * len(files_data))
         for record, file_data in zip(records, files_data):

@@ -29,11 +29,10 @@ patch(PosStore.prototype, {
         }
         return context;
     },
-    createNewOrder() {
-        const order = super.createNewOrder(...arguments);
-        if (!order.partner_id && this.isChileanCompany()) {
-            order.partner_id = this.config._consumidor_final_anonimo_id;
+    getDefaultPartnerId() {
+        if (this.isChileanCompany()) {
+            return this.config._consumidor_final_anonimo_id;
         }
-        return order;
+        return super.getDefaultPartnerId();
     },
 });

@@ -4,7 +4,8 @@
 import json
 import requests
 
-from odoo import models, fields
+from dateutil.relativedelta import relativedelta
+from odoo import _, models, fields
 from odoo.tools.urls import urljoin as url_join
 
 
@@ -78,6 +79,9 @@ class SocialLivePost(models.Model):
         3. Publish the Container:
             - Mark the media or carousel container as published using the ID returned from the previous request(s).
 
+        This process is asynchronous: if a container is not immediately 'FINISHED', we store
+        the pending ID(s) and retry via cron.
+
         More information & examples:
         - https://developers.facebook.com/docs/instagram-api/reference/ig-user/media
         - https://developers.facebook.com/docs/instagram-api/reference/ig-user/media_publish
@@ -92,80 +96,135 @@ class SocialLivePost(models.Model):
         media_url = url_join(endpoint, f"/{account.instagram_account_id}/media")
         media_publish_url = url_join(endpoint, f"/{account.instagram_account_id}/media_publish")
 
-        media_container_ids = []
         session = requests.Session()
-        # Step 1: Create Media Container(s)
-        for image in self.image_ids:
-            data = {
-                'access_token': account.instagram_access_token,
-                'image_url': url_join(
-                    base_url,
-                    f'/social_instagram/{post.instagram_access_token}/get_image/{image.id}'
+        container_id = False
+
+        if self.instagram_post_id and self.instagram_post_id.startswith('containerID-'):
+            container_id = self.instagram_post_id.split('containerID-', 1)[1]
+
+        if not container_id:
+            media_container_ids = []
+            # Step 1: Create Media Container(s)
+            for image in self.image_ids:
+                data = {
+                    'access_token': account.instagram_access_token,
+                    'image_url': url_join(
+                        base_url,
+                        f'/social_instagram/{post.instagram_access_token}/get_image/{image.id}'
+                    )
+                }
+
+                if len(self.image_ids) == 1:
+                    data['caption'] = self.message
+                else:
+                    data['is_carousel_item'] = True
+
+                media_response = session.post(media_url, data, timeout=10)
+                if not media_response.ok or not media_response.json().get('id'):
+                    self._instagram_log_error(media_response)
+                    return
+
+                media_container_ids.append(media_response.json().get('id'))
+
+            if len(media_container_ids) > 1:
+                # Step 2: Create Carousel Container
+                media_response = session.post(
+                    media_url,
+                    json={
+                        'caption': self.message,
+                        'access_token': account.instagram_access_token,
+                        'media_type': 'CAROUSEL',
+                        'children': media_container_ids
+                    },
+                    timeout=10,
                 )
-            }
-
-            if len(self.image_ids) == 1:
-                data['caption'] = self.message
+                if not media_response.ok or not media_response.json().get('id'):
+                    self._instagram_log_error(media_response)
+                    return
+                container_id = media_response.json()['id']
             else:
-                data['is_carousel_item'] = True
+                container_id = media_container_ids[0]
 
-            media_response = session.post(media_url, data, timeout=10)
-            if not media_response.ok or not media_response.json().get('id'):
-                self.write({
-                    'state': 'failed',
-                    'failure_reason': json.loads(media_response.text or '{}').get('error', {}).get('message', '')
-                })
-                return
+        # Check status of the final container (single or carousel)
+        status_response = session.get(f"{endpoint}/{container_id}", params={
+            'access_token': account.instagram_access_token,
+            'fields': 'status_code'
+        }, timeout=3)
 
-            media_container_ids.append(media_response.json().get('id'))
+        if not status_response.ok:
+            self._instagram_log_error(status_response)
+            return
 
-        if len(media_container_ids) == 1:
-            # Step 3: Publish the Container (single post)
-            publish_response = session.post(
-                media_publish_url,
-                data={
-                    'access_token': account.instagram_access_token,
-                    'creation_id': media_container_ids[0],
-                },
-                timeout=10,
-            )
-        else:
-            # Step 2: Create Carousel Container (if multiple images)
-            media_response = session.post(
-                media_url,
-                json={
-                    'caption': self.message,
-                    'access_token': account.instagram_access_token,
-                    'media_type': 'CAROUSEL',
-                    'children': media_container_ids
-                },
-                timeout=10,
-            )
-            if not media_response.ok or not media_response.json().get('id'):
-                self.write({
-                    'state': 'failed',
-                    'failure_reason': json.loads(media_response.text or '{}').get('error', {}).get('message', '')
-                })
-                return
-            # Step 3: Publish the Container (multi post)
-            publish_response = session.post(
-                media_publish_url,
-                data={
-                    'access_token': account.instagram_access_token,
-                    'creation_id': media_response.json()['id'],
-                },
-                timeout=10,
-            )
+        status_data = status_response.json()
+        status_code = status_data.get('status_code')
 
-        if publish_response.ok:
-            self.instagram_post_id = publish_response.json().get('id', False)
-            values = {
-                'state': 'posted',
-                'failure_reason': False
-            }
-        else:
-            values = {
+        if status_code == 'ERROR':
+            self.write({
                 'state': 'failed',
-                'failure_reason': json.loads(publish_response.text or '{}').get('error', {}).get('message', '')
-            }
-        self.write(values)
+                'failure_reason': self.env._("The media container failed to process.")
+            })
+            return
+        elif status_code == 'EXPIRED':
+            self.write({
+                'state': 'failed',
+                'failure_reason': self.env._("The media container expired.")
+            })
+            return
+        elif status_code == 'PUBLISHED':
+            status_response = session.get(f"{endpoint}/{container_id}", params={
+                'access_token': account.instagram_access_token,
+                'fields': 'ig_id'
+            }, timeout=3)
+            status_data = status_response.json()
+            self.write({
+                'state': 'posted',
+                'failure_reason': False,
+                'instagram_post_id': status_data.get('ig_id') or status_data.get('id')
+            })
+            return
+        elif status_code != 'FINISHED':
+            self.write({
+                'state': 'posting',
+                'instagram_post_id': f'containerID-{container_id}'
+            })
+            cron = self.env.ref('social.ir_cron_post_scheduled')
+            cron._trigger(at=fields.Datetime.now() + relativedelta(minutes=1))
+            return
+
+        # Step 3: Publish the Container
+        publish_response = session.post(
+            media_publish_url,
+            data={
+                'access_token': account.instagram_access_token,
+                'creation_id': container_id,
+            },
+            timeout=10,
+        )
+
+        if not publish_response.ok or not publish_response.json().get('id'):
+            self._instagram_log_error(publish_response)
+            return
+
+        self.write({
+            'state': 'posted',
+            'failure_reason': False,
+            'instagram_post_id': publish_response.json()['id']
+        })
+
+    def _instagram_log_error(self, response):
+        """Parse the Instagram response and log the appropriate error."""
+        self.ensure_one()
+        error = json.loads(response.text or '{}').get('error', {})
+        error_message = error.get('message', '')
+        if error.get('code') == 9004:
+            error_message = "\n".join((
+                _("Your media didn't go through. This is usually caused by one of the following:"),
+                _("- Check your file: Ensure it isn't corrupted and is from 320 to 1440 pixels wide, 8MB maximum, aspect ratio between 4:5 and 1.91:1."),
+                _("- Check your connection: Your server may be offline or temporarily unreachable."),
+                _("- Check permissions: Your site's robots.txt might be blocking Instagram from accessing the media folder (make sure /social_instagram is not blocked)."),
+            ))
+
+        self.write({
+            'state': 'failed',
+            'failure_reason': error_message,
+        })

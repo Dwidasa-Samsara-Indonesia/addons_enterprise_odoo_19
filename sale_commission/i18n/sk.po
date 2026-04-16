@@ -4,13 +4,14 @@
 #
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:49+0000\n"
-"PO-Revision-Date: 2025-11-17 03:29+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:53+0000\n"
+"PO-Revision-Date: 2026-04-04 10:53+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "sale_commission/sk/>\n"
 "Language: sk\n"
@@ -18,18 +19,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_achievement.py:0
 msgid "%(plan)s - %(type)s %(product)s %(categ)s"
-msgstr ""
+msgstr "%(plan)s - %(type)s %(product)s %(categ)s"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
 msgid "%(user)s - %(plan)s"
+msgstr "%(user)s - %(plan)s"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_achievement.py:0
+msgid "%s"
 msgstr ""
 
 #. module: sale_commission
@@ -41,45 +48,45 @@ msgstr "%s (kópia)"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "<span class=\"o_stat_text\">Commissions</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Provízie</span>"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement__achieved
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__achieved
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__achieved
 msgid "Achieved"
-msgstr ""
+msgstr "Dosiahnuté"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__target_rate
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__achieved_rate
 msgid "Achieved Rate"
-msgstr ""
+msgstr "Dosiahnutá miera"
 
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_achievement_report__commission_rate
 msgid "Achieved over the commission target amount"
-msgstr ""
+msgstr "Dosiahnuté nad rámec cieľovej sumy provízie"
 
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_achievement_report__target_rate
 msgid "Achieved over the target of that period, meaningless in group by"
-msgstr ""
+msgstr "Dosiahnuté nad cieľom daného obdobia, bezvýznamné pri zoskupení"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__achievement_ids
 msgid "Achievement"
-msgstr "Dosiahnutie"
+msgstr "Výsledok"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_res_config_settings__group_commission_forecast
 msgid "Achievement Forecast"
-msgstr ""
+msgstr "Prognóza výsledku"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_achievement_report_view_search
 msgid "Achievement Report"
-msgstr ""
+msgstr "Prehľad výsledkov"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_achievement_action_report
@@ -88,7 +95,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_list
 msgid "Achievements"
-msgstr ""
+msgstr "Výsledky"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_needaction
@@ -103,33 +110,33 @@ msgstr "Aktívne"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_search
 msgid "Active Plans"
-msgstr ""
+msgstr "Aktívne plány"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_wizard
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Add Multiple Salespersons"
-msgstr ""
+msgstr "Pridať viacerých obchodníkov"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_subscription_change_customer_wizard_action
 msgid "Add Salespersons"
-msgstr ""
+msgstr "Pridať obchodníkov"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Add a new Sales Person"
-msgstr ""
+msgstr "Pridať nového obchodníka"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Add a new achievement"
-msgstr ""
+msgstr "Pridať nový výsledok"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Add a new commission level"
-msgstr ""
+msgstr "Pridať novú úroveň provízie"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement__add_user_id
@@ -140,13 +147,13 @@ msgstr "Pridať k"
 #. odoo-python
 #: code:addons/sale_commission/model/commission_achievement.py:0
 msgid "Adjustment %s"
-msgstr ""
+msgstr "Úprava %s"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_achievement.py:0
 msgid "Adjustment: %s"
-msgstr ""
+msgstr "Úprava: %s"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_commission_action_achievement
@@ -157,12 +164,12 @@ msgstr "Úpravy"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "All categories"
-msgstr ""
+msgstr "Všetky kategórie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "All products"
-msgstr ""
+msgstr "Všetky produkty"
 
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_achievement
@@ -170,6 +177,8 @@ msgid ""
 "Allows you to manually adjust a salesperson's achievements\n"
 "                for a specific period and commission plan."
 msgstr ""
+"Umožňuje ručne upraviť výsledky obchodníka\n"
+"                za určité obdobie a províznu schému."
 
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_forecast
@@ -177,6 +186,8 @@ msgid ""
 "Allows you to manually set a salesperson's forecast\n"
 "                for a specific period and commission plan."
 msgstr ""
+"Umožňuje ručne nastaviť prognózu obchodníka\n"
+"                pre konkrétne obdobie a províznu schému."
 
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_my_forecast
@@ -184,16 +195,18 @@ msgid ""
 "Allows you to manually set your sales' forecast\n"
 "                for a specific period and commission plan."
 msgstr ""
+"Umožňuje vám ručne nastaviť prognózu predaja\n"
+"                pre konkrétne obdobie a províznu schému."
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan_achievement__type__amount_invoiced
 msgid "Amount Invoiced"
-msgstr ""
+msgstr "Fakturovaná suma"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan_achievement__type__amount_sold
 msgid "Amount Sold"
-msgstr ""
+msgstr "Predaná suma"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
@@ -225,7 +238,7 @@ msgstr "Na základe"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_wizard
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Cancel"
-msgstr "Zrušené"
+msgstr "Zrušiť"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan__state__cancel
@@ -243,18 +256,18 @@ msgstr "Kategória"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target_commission__amount
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__commission
 msgid "Commission"
-msgstr "Provízie"
+msgstr "Provízia"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_achievement_view_search
 msgid "Commission Achievement"
-msgstr ""
+msgstr "Výsledky provízie"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/report/commission_report.py:0
 msgid "Commission Detail: %(name)s"
-msgstr ""
+msgstr "Podrobnosti provízie: %(name)s"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan
@@ -266,69 +279,69 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_search
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_search
 msgid "Commission Plan"
-msgstr ""
+msgstr "Provízna schéma"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_achievement
 msgid "Commission Plan Achievement"
-msgstr ""
+msgstr "Výsledky províznej schémy"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_target
 msgid "Commission Plan Target"
-msgstr ""
+msgstr "Ciel províznej schémy"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_target_commission
 msgid "Commission Plan Target Commission"
-msgstr ""
+msgstr "Cieľová provízia províznej schémy"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_target_forecast
 msgid "Commission Plan Target Forecast"
-msgstr ""
+msgstr "Prognóza cieľa províznej schémy"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_user
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_view_search
 msgid "Commission Plan User"
-msgstr ""
+msgstr "Provízna schéma používateľa"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_commission_action_plan
 #: model:ir.ui.menu,name:sale_commission.sale_commission_plan_menu
 msgid "Commission Plans"
-msgstr "Plány provízií"
+msgstr "Provízne schémy"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__commission_rate
 msgid "Commission Rate"
-msgstr ""
+msgstr "Miera provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_search
 msgid "Commission Report"
-msgstr ""
+msgstr "Prehľad provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_achievement_report_view_list
 msgid "Commission Target"
-msgstr ""
+msgstr "Cieľ provízie"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__commission_target_amount
 msgid "Commission Target Amount"
-msgstr ""
+msgstr "Cieľová suma provízie"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_res_users__commission_plan_users_ids
 msgid "Commission plans"
-msgstr ""
+msgstr "Provízne schémy"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Commission table"
-msgstr ""
+msgstr "Provízna tabuľka"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_commission_action_report
@@ -338,7 +351,7 @@ msgstr ""
 #: model:ir.ui.menu,name:sale_commission.sale_commission_plan_report_menu_report
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Commissions"
-msgstr ""
+msgstr "Provízie"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement__company_id
@@ -349,7 +362,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_search
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_search
 msgid "Company"
-msgstr "Spoločnost"
+msgstr "Spoločnosť"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_search
@@ -362,6 +375,7 @@ msgid ""
 "Compute commissions of your sales people based on their achievements and "
 "targets"
 msgstr ""
+"Vypočítajte provízie svojich predajcov na základe ich výsledkov a cieľov"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_res_config_settings
@@ -371,18 +385,18 @@ msgstr "Nastavenia konfigurácie"
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_plan
 msgid "Create a new commission plan"
-msgstr ""
+msgstr "Vytvoriť novú províznu schému"
 
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_achievement
 msgid "Create an adjustment"
-msgstr ""
+msgstr "Vytvoriť úpravu"
 
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_forecast
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_my_forecast
 msgid "Create an forecast"
-msgstr ""
+msgstr "Vytvoriť prognózu"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement__create_uid
@@ -429,7 +443,7 @@ msgstr "Kurz meny"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_achievement_report_view_search
 msgid "Current Period"
-msgstr ""
+msgstr "Aktuálne obdobie"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__partner_id
@@ -452,12 +466,12 @@ msgstr "Dátum od"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_view_search
 msgid "Date To"
-msgstr "Date To"
+msgstr "Dátum do"
 
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_crm_team__commission_plan_ids
 msgid "Default commission plan for team members."
-msgstr ""
+msgstr "Predvolená provízna schéma pre členov tímu."
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_list
@@ -479,7 +493,7 @@ msgstr "Podrobnosti"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_user_wizard__display_name
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__display_name
 msgid "Display Name"
-msgstr "Zobrazovaný Názov"
+msgstr "Zobrazovaný názov"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan__state__done
@@ -496,12 +510,12 @@ msgstr "Návrh"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Effective Period"
-msgstr ""
+msgstr "Obdobie platnosti"
 
 #. module: sale_commission
 #: model:res.groups,name:sale_commission.group_commission_forecast
 msgid "Enable Commission Forecast"
-msgstr ""
+msgstr "Povoliť prognózu provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_list
@@ -516,17 +530,19 @@ msgid ""
 "Ensure you are assigned to a commission plan and have made sales that "
 "qualify for commissions"
 msgstr ""
+"Uistite sa, že ste zaradení do províznej schémy a dosiahli ste tržby, ktoré "
+"vás oprávňujú na provízie"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "Exporting targets is only available for plans based on targets"
-msgstr ""
+msgstr "Export cieľov je k dispozícii len pre schémy založené na cieľoch"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_res_users__filtered_commission_plan_users_ids
 msgid "Filtered Commission Plan Users"
-msgstr ""
+msgstr "Filtrované provízna schéma požívateľov"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_follower_ids
@@ -547,7 +563,7 @@ msgstr "Odberatelia (partneri)"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_target_forecast_view_pivot
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_target_forecast_view_search
 msgid "Forecast"
-msgstr "Odhad"
+msgstr "Prognóza"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__date_from
@@ -561,7 +577,7 @@ msgstr "Od"
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
 msgid "From must be before To"
-msgstr ""
+msgstr "Od musí byť pred Do"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
@@ -594,7 +610,7 @@ msgstr "Ak označené, potom nové správy vyžadujú vašu pozornosť."
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan__message_has_error
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Ak označené, potom majú niektoré správy chybu dodania."
+msgstr "Ak označené, potom majú niektoré správy chybu doručenia."
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_is_follower
@@ -636,11 +652,13 @@ msgid ""
 "Main user sales team. Used notably for pipeline, or to set sales team in "
 "invoicing or subscription."
 msgstr ""
+"Hlavný obchodný tím používateľov. Používa sa najmä pre pipeline alebo na "
+"nastavenie obchodného tímu vo fakturácii alebo predplatnom."
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_achievement
 msgid "Manual Commission Achievement"
-msgstr ""
+msgstr "Manuálny výsledok provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
@@ -650,7 +668,7 @@ msgstr "Označiť ako hotovo"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_has_error
 msgid "Message Delivery error"
-msgstr "Chyba zobrazovania správ"
+msgstr "Chyba doručenia správy"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_ids
@@ -665,19 +683,19 @@ msgstr "Mesačne"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_achievement_report_view_search
 msgid "My Achievements"
-msgstr ""
+msgstr "Moje výsledky"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_commission_action_my_report
 #: model:ir.ui.menu,name:sale_commission.sale_commission_my_menu
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_search
 msgid "My Commissions"
-msgstr ""
+msgstr "Moje provízie"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.sale_commission_action_my_forecast
 msgid "My Forecast"
-msgstr ""
+msgstr "Moja prognóza"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__name
@@ -714,7 +732,7 @@ msgstr "Počet správ, ktoré vyžadujú akciu"
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Počet doručených správ s chybou"
+msgstr "Počet správ s chybou doručenia"
 
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan__commission_amount
@@ -724,17 +742,17 @@ msgstr "OTC"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target_commission__amount_rate
 msgid "OTC %"
-msgstr ""
+msgstr "OTC %"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__commission_amount
 msgid "On Target Commission"
-msgstr ""
+msgstr "Provízia za splnenie cieľa"
 
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan_target_commission__amount_rate
 msgid "On Target Commission rate"
-msgstr ""
+msgstr "Miera provízie za splnenie cieľa"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_search
@@ -744,7 +762,7 @@ msgstr "Prebiehajúci"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_user__other_plans
 msgid "Other plans"
-msgstr ""
+msgstr "Iné schémy"
 
 #. module: sale_commission
 #. odoo-python
@@ -754,11 +772,14 @@ msgid ""
 "- %(c_name)s [%(c_from)s → %(c_to)s]\n"
 "- %(n_name)s [%(n_from)s → %(n_to)s]"
 msgstr ""
+"Zistené prekrývajúce sa obdobia pre plán '%(plan)s':\n"
+"- %(c_name)s [%(c_from)s → %(c_to)s]\n"
+"- %(n_name)s [%(n_from)s → %(n_to)s]"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target__payment_amount
 msgid "Payment Amount"
-msgstr "Suma platby"
+msgstr "Suma platieb"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target__payment_date
@@ -794,7 +815,7 @@ msgstr "Periodicita"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Periods"
-msgstr "Periody"
+msgstr "Obdobia"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_achievement__plan_id
@@ -804,7 +825,7 @@ msgstr "Periody"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_user__plan_id
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_view_search
 msgid "Plan"
-msgstr "Plán"
+msgstr "Schéma"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_achievement__product_id
@@ -814,7 +835,7 @@ msgstr "Produkt"
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan_achievement__type__qty_invoiced
 msgid "Quantity Invoiced"
-msgstr ""
+msgstr "Fakturované množstvo"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan_achievement__type__qty_sold
@@ -829,7 +850,7 @@ msgstr "Štvrťročne"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_achievement__rate
 msgid "Rate"
-msgstr "Kurz"
+msgstr "Miera"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__rating_ids
@@ -839,7 +860,7 @@ msgstr "Hodnotenia"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement__reduce_user_id
 msgid "Reduce From"
-msgstr ""
+msgstr "Znížiť z"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__related_res_id
@@ -849,18 +870,18 @@ msgstr "Súvisiace"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__related_res_model
 msgid "Related Res Model"
-msgstr ""
+msgstr "Súvisiaci model"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "Related commissions"
-msgstr ""
+msgstr "Súvisiace provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Reset to draft"
-msgstr ""
+msgstr "Obnoviť na návrh"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_has_sms_error
@@ -870,22 +891,22 @@ msgstr "Chyba doručenia SMS"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__team_id
 msgid "Sale team"
-msgstr ""
+msgstr "Obchodný tím"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_achievement_report
 msgid "Sales Achievement Report"
-msgstr ""
+msgstr "Prehľad výsledkov predaja"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_report
 msgid "Sales Commission Report"
-msgstr ""
+msgstr "Prehľad provízie z predaja"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Sales People"
-msgstr ""
+msgstr "Obchodníci"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__user_id
@@ -915,7 +936,7 @@ msgstr "Obchodník"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_list
 msgid "See associated achievements"
-msgstr ""
+msgstr "Pozri súvisiace výsledky"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_achievement_report_view_list
@@ -930,7 +951,7 @@ msgstr "Dátum začiatku"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__state
 msgid "State"
-msgstr "Štát"
+msgstr "Stav"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_wizard
@@ -940,12 +961,12 @@ msgstr "Predložiť"
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan_target__payment_amount
 msgid "Sum of amounts paid on the same payment date"
-msgstr ""
+msgstr "Súčet súm vyplatených v rovnaký deň platby"
 
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_achievement_report__commission_target_amount
 msgid "Sum of target amount per plan paid on the same date"
-msgstr ""
+msgstr "Suma cieľovej čiastky za každú schému zaplatená v ten istý deň"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__target_ids
@@ -959,45 +980,45 @@ msgstr "Cieľ"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__target_amount
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__target_amount
 msgid "Target Amount"
-msgstr ""
+msgstr "Cieľová suma"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__target_commission_ids
 msgid "Target Commission"
-msgstr ""
+msgstr "Cieľová provízia"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__target_commission_graph
 msgid "Target Commission Graph"
-msgstr ""
+msgstr "Graf cieľovej provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Target Frequency"
-msgstr ""
+msgstr "Frekvencia cieľa"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target_commission__target_rate
 msgid "Target completion (%)"
-msgstr ""
+msgstr "Splnenie cieľa (%)"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan__type__target
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "Targets"
-msgstr ""
+msgstr "Ciele"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The plan should have at least one target with an achievement rate of 0%"
-msgstr ""
+msgstr "Schéma by mala obsahovať aspoň jeden cieľ s mierou dosiahnutia 0 %"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The start date must be before the end date."
-msgstr ""
+msgstr "Dátum začiatku musí byť pred dátumom ukončenia."
 
 #. module: sale_commission
 #. odoo-python
@@ -1006,17 +1027,19 @@ msgid ""
 "The start date must be before the end date.\n"
 "Period: %s"
 msgstr ""
+"Dátum začiatku musí byť pred dátumom ukončenia.\n"
+"Obdobie: %s"
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The team is required in team plan."
-msgstr ""
+msgstr "Tím je potrebný v tímovej schéme."
 
 #. module: sale_commission
 #: model:ir.model.constraint,message:sale_commission.constraint_sale_commission_plan_user_user_uniq
 msgid "The user is already present in the plan"
-msgstr ""
+msgstr "Používateľ je už v schéme uvedený"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_target_forecast_view_search
@@ -1041,22 +1064,22 @@ msgstr "Do"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_achievement_report_view_list
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_achievement_view_list
 msgid "Total Achieved"
-msgstr ""
+msgstr "Celkom dosiahnuté"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_list
 msgid "Total Target"
-msgstr ""
+msgstr "Celkový cieľ"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_list
 msgid "Total achieved"
-msgstr ""
+msgstr "Celkom dosiahnuté"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_list
 msgid "Total commission"
-msgstr ""
+msgstr "Celková provízia"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__type
@@ -1070,7 +1093,7 @@ msgstr "Typ"
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_report
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_report_sale
 msgid "Unfortunately, there are no commissions for you"
-msgstr ""
+msgstr "Bohužiaľ, pre vás nie sú žiadne provízie"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_search
@@ -1089,7 +1112,7 @@ msgstr "Užívateľ"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target_forecast__team_id
 msgid "User Sales Team"
-msgstr "Užívateľ obchodného tímu"
+msgstr "Obchodný tím používateľa"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__user_type
@@ -1100,13 +1123,13 @@ msgstr "Typ užívateľa"
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
 msgid "User period cannot end after the plan."
-msgstr ""
+msgstr "Obdobie používateľa nemôže skončiť po období schémy."
 
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
 msgid "User period cannot start before the plan."
-msgstr ""
+msgstr "Obdobie používateľa nemôže začať pred obdobím schémy."
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__website_message_ids
@@ -1116,12 +1139,12 @@ msgstr "Správy webstránok"
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_sale_commission_plan__website_message_ids
 msgid "Website communication history"
-msgstr "História komunikácie webstránok"
+msgstr "História komunikácie na webstránke"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_user_wizard
 msgid "Wizard for selecting multiple users"
-msgstr ""
+msgstr "Sprievodca pre výber viacerých používateľov"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_plan__periodicity__year
@@ -1132,19 +1155,19 @@ msgstr "Ročne"
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_target_forecast.py:0
 msgid "You cannot create a forecast for an user that is not in the plan."
-msgstr ""
+msgstr "Pre používateľa, ktorý nie je v schéme, nemôžete vytvoriť prognózu."
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__forecast_id
 msgid "fc"
-msgstr ""
+msgstr "fc"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "i.e. Commissions plan 2025"
-msgstr ""
+msgstr "napr. Provízna schéma na rok 2025"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "per"
-msgstr ""
+msgstr "na"

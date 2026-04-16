@@ -21,6 +21,7 @@ export class SpreadsheetTest extends models.Model {
 
 export class SpreadsheetCellThread extends models.Model {
     _name = "spreadsheet.cell.thread";
+    _inherit = ["mail.thread"];
 
     dummy_id = fields.Many2one({ string: "Dummy", relation: "spreadsheet.test" });
 }

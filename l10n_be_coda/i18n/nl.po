@@ -7,13 +7,14 @@
 # Jolien De Paepe, 2023
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Bren Driesen <brdri@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 19:04+0000\n"
-"PO-Revision-Date: 2025-11-18 17:09+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 19:14+0000\n"
+"PO-Revision-Date: 2026-02-24 14:16+0000\n"
+"Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_be_coda/nl/>\n"
 "Language: nl\n"
@@ -21,7 +22,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
+
+#. module: l10n_be_coda
+#. odoo-python
+#: code:addons/l10n_be_coda/models/account_journal.py:0
+msgid " - %s"
+msgstr ""
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -485,6 +492,8 @@ msgid ""
 "Error %(error_code)s:\n"
 "Movement data records of type 2.%(type)s are not supported"
 msgstr ""
+"Fout %(error_code)s:\n"
+"Bewegingsgevensrecords van het type 2.%(type)s worden niet ondersteund"
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -493,6 +502,8 @@ msgid ""
 "Error %(error_code)s: CODA V%(version)s statements are not supported, please "
 "contact your bank"
 msgstr ""
+"Fout %(error_code)s: Afschriften van CODA V%(version)s worden niet "
+"ondersteund. Neem contact op met je bank"
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -501,6 +512,8 @@ msgid ""
 "Error %(error_code)s: CODA parsing error on information data record 3.2, seq "
 "nr %(seq_nr)s! Please report this issue via your Odoo support channel."
 msgstr ""
+"Fout %(error_code)s: CODA-verwerkingsfout in informatiegegevensrecord 3.2, "
+"seq nr %(seq_nr)s! Meld dit probleem via je Odoo-ondersteuningskanaal."
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -509,6 +522,8 @@ msgid ""
 "Error %(error_code)s: CODA parsing error on information data record 3.3, seq "
 "nr %(seq_nr)s! Please report this issue via your Odoo support channel."
 msgstr ""
+"Fout %(error_code)s: CODA-verwerkingsfout in informatiegegevensrecord 3.3, "
+"seq nr %(seq_nr)s! Meld dit probleem via je Odoo-ondersteuningskanaal."
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -517,6 +532,8 @@ msgid ""
 "Error %(error_code)s: CODA parsing error on movement data record 2.2, seq nr "
 "%(seq_nr)s! Please report this issue via your Odoo support channel."
 msgstr ""
+"Fout %(error_code)s: CODA-verwerkingsfout in bewegingsgegevensrecord 2.2, "
+"seq nr %(seq_nr)s! Meld dit probleem via je Odoo-ondersteuningskanaal."
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -525,6 +542,8 @@ msgid ""
 "Error %(error_code)s: CODA parsing error on movement data record 2.3, seq nr "
 "%(seq_nr)s! Please report this issue via your Odoo support channel."
 msgstr ""
+"Fout %(error_code)s: CODA-verwerkingsfout in bewegingsgegevensrecord 2.3, "
+"seq nr %(seq_nr)s! Meld dit probleem via je Odoo-ondersteuningskanaal."
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -533,12 +552,14 @@ msgid ""
 "Error %(error_code)s: Foreign bank accounts with BBAN structure are not "
 "supported."
 msgstr ""
+"Fout %(error_code)s: Buitenlandse bankrekeningen met BBAN-structuur worden "
+"niet ondersteund."
 
 #. module: l10n_be_coda
 #. odoo-python
 #: code:addons/l10n_be_coda/models/account_journal.py:0
 msgid "Error %(error_code)s: Unsupported bank account structure."
-msgstr ""
+msgstr "Fout %(error_code)s: Niet-ondersteunde bankrekeningstructuur."
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -799,7 +820,7 @@ msgstr "Diverse kosten en provisies"
 #. odoo-python
 #: code:addons/l10n_be_coda/models/account_journal.py:0
 msgid "Name: %(name)s, Town: %(city)s"
-msgstr ""
+msgstr "Naam: %(name)s, Stad: %(city)s"
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -1417,7 +1438,7 @@ msgstr "Transactie splitsen"
 #. module: l10n_be_coda
 #: model:ir.model.fields,help:l10n_be_coda.field_account_journal__coda_split_transactions
 msgid "Split collective payments for CODA files"
-msgstr ""
+msgstr "Gesplitste collectieve betalingen voor CODA-bestanden"
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -1561,7 +1582,7 @@ msgstr "Type R transactie"
 #. odoo-python
 #: code:addons/l10n_be_coda/models/account_journal.py:0
 msgid "Type of structured communication not supported: %(type)s"
-msgstr ""
+msgstr "Dit type gestructureerde mededeling wordt niet ondersteund: %(type)s"
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -1741,7 +1762,7 @@ msgstr "bedrag van de wisse"
 #. odoo-python
 #: code:addons/l10n_be_coda/models/account_journal.py:0
 msgid "amount on which % is calculated"
-msgstr ""
+msgstr "bedrag waarop de berekening van % is gebaseerd"
 
 #. module: l10n_be_coda
 #. odoo-python
@@ -2113,7 +2134,7 @@ msgstr "percentage"
 #. odoo-python
 #: code:addons/l10n_be_coda/models/account_journal.py:0
 msgid "period from %(start)s to %(end)s"
-msgstr ""
+msgstr "periode van %(start)s tot %(end)s"
 
 #. module: l10n_be_coda
 #. odoo-python

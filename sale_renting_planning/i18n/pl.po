@@ -3,13 +3,14 @@
 # * sale_renting_planning
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# "Marta (wacm)" <wacm@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 18:45+0000\n"
-"PO-Revision-Date: 2025-09-18 02:44+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"PO-Revision-Date: 2026-04-07 09:13+0000\n"
+"Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting_planning/pl/>\n"
 "Language: pl\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,help:sale_renting_planning.field_planning_role__sync_shift_rental
@@ -30,11 +31,17 @@ msgid ""
 "- On the website, users can’t select dates when no resources are available.\n"
 "- The order's rental period and the shift dates are synchronized."
 msgstr ""
+"- Twórz zamówienia wynajmu dla swoich zmian.\n"
+"- Zamówienia dla produktów powiązanych z tą rolą nie mogę być potwierdzone, "
+"jeśli nie ma dostępnych żadnych zasobów do zarządzania zmianą.\n"
+"- Jeśli nie ma dostępnych żadnych zasobów, użytkownicy nie mogą wybierać dat "
+"na stronie internetowej.\n"
+"- Okres wynajmu z zamówienia i daty zamian są zsynchronizowane."
 
 #. module: sale_renting_planning
 #: model_terms:ir.ui.view,arch_db:sale_renting_planning.planning_view_form_in_gantt_inherit
 msgid "Add to Last Order"
-msgstr ""
+msgstr "Dodaj do ostatniego zamówienia"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_role__display_name
@@ -57,6 +64,7 @@ msgstr "ID"
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Impossible to generate a rental order for a shift in conflict."
 msgstr ""
+"Nie można wygenerować zamówienia wynajmu dla zmiany, która jest w konflikcie."
 
 #. module: sale_renting_planning
 #: model_terms:ir.ui.view,arch_db:sale_renting_planning.planning_view_form_in_gantt_inherit
@@ -67,18 +75,18 @@ msgstr "Nowe zamówienie"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "No Rental Order is found."
-msgstr ""
+msgstr "Nie znaleziono żadnego zamówienia wynajmu."
 
 #. module: sale_renting_planning
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "No resources are available for the shifts in: %s."
-msgstr ""
+msgstr "Brak zasobów dla zmian w: %s."
 
 #. module: sale_renting_planning
 #: model:ir.model,name:sale_renting_planning.model_planning_role
 msgid "Planning Role"
-msgstr "Planowanie, Rola"
+msgstr "Rola planowania"
 
 #. module: sale_renting_planning
 #: model:ir.model,name:sale_renting_planning.model_planning_slot
@@ -99,19 +107,19 @@ msgstr "Pozycja zamówienia sprzedaży"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Shift added to last order"
-msgstr ""
+msgstr "Dodano zmianę do ostatniego zamówienia"
 
 #. module: sale_renting_planning
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Shift not rescheduled due to conflicts"
-msgstr ""
+msgstr "Zmiana nie została przełożona z powodu konfliktów"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_role__sync_shift_rental
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_slot__role_sync_shift_rental
 msgid "Sync Shifts and Rental Orders"
-msgstr ""
+msgstr "Zsynchronizuj zmiany i zamówienia wynajmu"
 
 #. module: sale_renting_planning
 #. odoo-python
@@ -120,6 +128,8 @@ msgid ""
 "The shift should not be in conflict to be able to correctly add it to an "
 "existing rental order."
 msgstr ""
+"Zmiana nie może być w konflikcie, aby było można ją poprawnie dodać do "
+"istniejącego zamówienia wynajmu."
 
 #. module: sale_renting_planning
 #. odoo-python
@@ -128,6 +138,8 @@ msgid ""
 "This Sales Order can't be confirmed. No enough resources are available for "
 "the shifts in: %(product_name)s."
 msgstr ""
+"To zamówienie sprzedaży nie może zostać potwierdzone. Nie ma wystarczających "
+"zasobów dla zmian w: %(product_name)s."
 
 #. module: sale_renting_planning
 #. odoo-python
@@ -136,3 +148,5 @@ msgid ""
 "This Sales Order can't be confirmed. No resources are available for the "
 "shifts in: %(problematic_services)s."
 msgstr ""
+"To zamówienie sprzedaży nie może zostać potwierdzone. Nie ma żadnych "
+"dostępnych zasobów dla zmian w: %(problematic_services)s."

@@ -115,6 +115,5 @@ class StockMoveLine(models.Model):
         if self.product_uom_id.is_zero(self.quantity):
             return False
         if check_picked:
-            if not self._is_checkable_from_context():
-                return False
+            return self.picked
         return True

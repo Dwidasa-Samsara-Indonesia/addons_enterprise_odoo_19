@@ -296,3 +296,21 @@ test("[removeOrdersByPosOrderIds] removes POS order and related preparation reco
     expect(models["pos.prep.line"].length).toBe(0);
     expect(models["pos.prep.state"].length).toBe(0);
 });
+
+test("moveAllOrdersToNextStage -> when order not in lastStage", async () => {
+    const store = await setupPosPrepDisplayEnv();
+    await createPrepDisplayTicket(store);
+    await store.moveAllOrdersToNextStage();
+    await store.data.initData();
+    const states = store.data.models["pos.prep.state"].getAll();
+    expect(states[0].stage_id.id).toBe(2);
+});
+
+test("moveAllOrdersToNextStage -> when order is in lastStage", async () => {
+    const store = await setupPosPrepDisplayEnv();
+    await createPrepDisplayTicket(store);
+    const orders = store.filteredOrders;
+    orders[0].stage = store.lastStage;
+    await store.moveAllOrdersToNextStage();
+    expect(orders[0].states.every((s) => s.todo === false)).toBe(true);
+});

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
 "PO-Revision-Date: 2026-01-06 05:29+0000\n"
 "Last-Translator: \"Thi Huong Nguyen (thng)\" <thng@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
@@ -1773,15 +1773,15 @@ msgid "Country"
 msgstr "Quốc gia"
 
 #. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
+msgstr ""
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
 msgid "Country Clubs"
 msgstr "Câu lạc bộ đồng quê"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr "Quốc gia không được phép"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
@@ -2809,8 +2809,8 @@ msgstr "MCC"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
-msgstr "MCC không được phép"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
@@ -3177,15 +3177,25 @@ msgstr "Nội thất văn phòng và thương mại"
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
-msgstr "Hiện tại, chỉ hỗ trợ IBAN cho hướng dẫn nạp tiền Stripe Issuing"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
-msgstr "Hiện tại, chỉ hỗ trợ SEPA cho hướng dẫn nạp tiền Stripe Issuing"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3862,6 +3872,14 @@ msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing is not available in your country."
 msgstr "Stripe Issuing hiện không khả dụng tại quốc gia của bạn."
@@ -4216,6 +4234,13 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr "Địa chỉ giao hàng phải nằm trong Liên minh Châu Âu."
 
@@ -4465,23 +4490,22 @@ msgstr "Giao dịch đã được chấp nhận"
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
 msgstr ""
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr ""
-"Số tiền giao dịch vượt quá giới hạn cho phép trong khoảng thời gian quy định"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr "Số tiền giao dịch vượt quá giới hạn tối đa cho phép"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -5064,6 +5088,28 @@ msgstr "id"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "điều khoản và điều kiện"
+
+#~ msgid "Country not allowed"
+#~ msgstr "Quốc gia không được phép"
+
+#~ msgid "MCC not allowed"
+#~ msgstr "MCC không được phép"
+
+#~ msgid ""
+#~ "Only IBAN is supported for Stripe Issuing funding instructions right now"
+#~ msgstr "Hiện tại, chỉ hỗ trợ IBAN cho hướng dẫn nạp tiền Stripe Issuing"
+
+#~ msgid ""
+#~ "Only SEPA is supported for Stripe Issuing funding instructions right now"
+#~ msgstr "Hiện tại, chỉ hỗ trợ SEPA cho hướng dẫn nạp tiền Stripe Issuing"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr ""
+#~ "Số tiền giao dịch vượt quá giới hạn cho phép trong khoảng thời gian quy "
+#~ "định"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "Số tiền giao dịch vượt quá giới hạn tối đa cho phép"
 
 #~ msgid "Stripe issuing is not supported for your localization"
 #~ msgstr "Stripe Issuing không được hỗ trợ cho khu vực của bạn"

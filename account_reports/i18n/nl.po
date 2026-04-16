@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:56+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-14 10:53+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/nl/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -94,21 +94,11 @@ msgstr "%s geselecteerd"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
 "Het datumbereik ‘%s’ kan niet worden geëvalueerd voor een rapport dat wordt "
-"gebruikt voor meerdere aangiftetypen."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"Het datumbereik ‘%s’ kan niet worden geëvalueerd voor een rapport dat door "
-"geen enkel aangiftetype wordt gebruikt."
+"gebruikt voor meerdere aangiftetypen met meerdere frequenties."
 
 #. module: account_reports
 #. odoo-python
@@ -515,6 +505,11 @@ msgid "Account Audit Status"
 msgstr "Rekeningauditstatus"
 
 #. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Grootboekschema sjabloon"
+
+#. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_journal_report.py:0
 msgid "Account Code"
@@ -761,7 +756,7 @@ msgstr "Activiteitsfase"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Activiteitensoort icoon"
+msgstr "Activiteitstype icoon"
 
 #. module: account_reports
 #. odoo-javascript
@@ -938,12 +933,8 @@ msgstr "Alle controles en goedkeurders zijn gereset"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
-msgstr ""
-"Alle btw-nummers van klanten zijn geldig volgens <a href=\"https://"
-"ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
+msgstr "Alle btw-nummers van klanten zijn geldig volgens VIES."
 
 #. module: account_reports
 #. odoo-python
@@ -2493,6 +2484,7 @@ msgstr "Toon mail composer"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2575,6 +2567,8 @@ msgid ""
 "Division by zero occurred while evaluating Expression: %(line_name)s > %"
 "(label)s."
 msgstr ""
+"Er is een deling door nul opgetreden tijdens het evalueren van de "
+"expression: %(line_name)s > %(label)s."
 
 #. module: account_reports
 #. odoo-python
@@ -2679,7 +2673,7 @@ msgstr "Dynamische placeholder"
 #: model:ir.actions.client,name:account_reports.action_account_report_sales
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_sales
 msgid "EC Sales List"
-msgstr "IC-opgave"
+msgstr "ICP-aangifte"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_ec_sales_report_handler
@@ -2940,15 +2934,7 @@ msgstr "Exclusief provisie over valuta"
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
-msgstr ""
-"Sluit binnenlandse of extra-EU verkopen uit van de ICP-aangifte (EU "
-"Verkooplijst)."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Sluit particuliere klanten uit."
+msgstr "Sluit binnenlandse of extra-EU verkopen uit van de ICP-aangifte."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3493,6 +3479,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4116,12 +4103,12 @@ msgstr "Wettelijke reserve en uitkeerbaarheid van dividenden"
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_allocations_withdrawals0
 msgid "Less Allocations and Plus Withdrawals"
-msgstr "Min toewijzingen en plus onttrekkingen"
+msgstr "Min Toewijzingen en plus onttrekkingen"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_cost_sales0
 msgid "Less Costs of Revenue"
-msgstr "Minder kosten van de omzet"
+msgstr "Min Kosten van de omzet"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_expense0
@@ -4131,7 +4118,7 @@ msgstr "Min Bedrijfskosten"
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_depreciation0
 msgid "Less Other Expenses"
-msgstr "Min: Overige kosten"
+msgstr "Min Overige kosten"
 
 #. module: account_reports
 #. odoo-python
@@ -4341,15 +4328,12 @@ msgstr "Ontbrekend"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 "Ontbrekende bedrijfsgegevens (zoals btw-nummer of land) kunnen fouten in je "
-"rapport veroorzaken,\n"
-"zoals het gebruik van het verkeerde btw-tarief of het ten onrechte "
-"vrijstellen van transacties.\n"
-"                "
+"rapport veroorzaken, zoals het gebruik van het verkeerde btw-tarief of het "
+"ten onrechte vrijstellen van transacties."
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4764,12 +4748,6 @@ msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
 "Alleen een beheerder van Boekhouding kan een leidinggevende instellen/"
 "uitschakelen."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Alleen zakelijke klanten"
 
 #. module: account_reports
 #. odoo-python
@@ -5285,12 +5263,6 @@ msgid "Print & Send"
 msgstr "Afdrukken en verzenden"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Particuliere klanten"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
 msgid ""
 "Proceed with caution as there might be an existing adjustment for this "
@@ -5340,7 +5312,7 @@ msgstr "Voorziening voor bijzondere waardevermindering"
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__purchases
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__purchases
 msgid "Purchases"
-msgstr "Aankopen"
+msgstr "Inkopen"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_qr_code_payment_wizard__qr_code
@@ -6177,7 +6149,7 @@ msgstr "Overzicht dochterondernemingen en investeringen"
 #: model:account.return.check.template,description:account_reports.account_return_check_template_audit_assets_listing
 #: model:account.return.check.template,description:account_reports.account_return_check_template_audit_period_events
 msgid "Summarize main events that occurs in this fiscal period."
-msgstr "Vat de belangrijkste gebeurtenissen in deze fiscale periode samen."
+msgstr "Vat de belangrijkste gebeurtenissen in deze boekhoudperiode samen."
 
 #. module: account_reports
 #: model:ir.model.fields.selection,name:account_reports.selection__account_account__audit_status__supervised
@@ -6285,7 +6257,7 @@ msgstr "Btw-aangifte/Audit"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -6453,7 +6425,7 @@ msgstr ""
 #: code:addons/account_reports/wizard/return_creation_wizard.py:0
 #: model_terms:ir.ui.view,arch_db:account_reports.return_creation_wizard_form
 msgid "The selected range doesn't match any fiscal period."
-msgstr "Het geselecteerde bereik komt niet overeen met een fiscale periode."
+msgstr "Het geselecteerde bereik komt niet overeen met een boekhoudperiode."
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_return__generic_state_tax_report
@@ -7227,14 +7199,6 @@ msgstr "Je kunt slechts één unieke controlecode per aangifte hebben."
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Je kunt een voltooide aangifte alleen terugzetten als de vorige status "
-"'nieuw' was."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr "Je kan alleen een voltooide aangifte uit het archief halen."
 
@@ -7559,6 +7523,35 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Reset naar Odoo’s koers"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "Het datumbereik ‘%s’ kan niet worden geëvalueerd voor een rapport dat "
+#~ "door geen enkel aangiftetype wordt gebruikt."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Alle btw-nummers van klanten zijn geldig volgens <a href=\"https://"
+#~ "ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</a>."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Je kunt een voltooide aangifte alleen terugzetten als de vorige status "
+#~ "'nieuw' was."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Sluit particuliere klanten uit."
+
+#~ msgid "Only business customers"
+#~ msgstr "Alleen zakelijke klanten"
+
+#~ msgid "Private Customers"
+#~ msgstr "Particuliere klanten"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7681,9 +7674,6 @@ msgstr "⇒ Reset naar Odoo’s koers"
 
 #~ msgid "=&gt; Audit"
 #~ msgstr "=&gt; Audit"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Grootboekschema sjabloon"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "Boekhoudrapport voetnotitie"

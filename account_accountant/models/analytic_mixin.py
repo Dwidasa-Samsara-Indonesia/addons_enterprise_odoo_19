@@ -24,19 +24,22 @@ class AnalyticMixin(models.AbstractModel):
         res = super()._read_group(domain, groupby, aggregates_2_0, having, offset, limit, order)
 
         # Make the aggregate sum "manually".
+        # Pre-fetch all matching records once outside the loop to avoid re-evaluating
+        # expensive search methods on every group iteration.
+        field_name = groupby[0]
+        if ':' in field_name:
+            field_name = field_name.split(':')[0]
+
+        all_records = self.env[self._name].search_fetch(
+            domain=Domain.AND([domain, self._get_accrual_domain()]),
+            field_names=[field_name],
+        )
+        records_by_group = all_records.grouped(field_name)
+
         patched_res = []
         for group in res:
-            field_name = groupby[0]
-            if ':' in field_name:
-                # Support of group by date fields.
-                field_name = field_name.split(':')[0]
-            # Distinct related fields.
             group_criteria = group[0].id if isinstance(group[0], models.Model) else group[0]
-            records = self.env[self._name].search(Domain.AND([
-                domain,
-                self._get_accrual_domain(),
-                [(field_name, '=', group_criteria)]
-            ]))
+            records = records_by_group.get(group_criteria, all_records.browse())
             new_tuple = list(group)
             for field, index in fields_index.items():
                 sum_qty_received = sum(rec[field] for rec in records)

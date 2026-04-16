@@ -197,9 +197,10 @@
             class="o_hr_narrow_field ms-3" invisible="not contract_date_start"/>
             <widget name="button_new_contract"/>
         </div>
-                            <field name="contract_type_id" string="Contract Type" placeholder="Contract Type"/>
-                            <field name="structure_type_id" string="Pay Category" placeholder="Employee will be excluded from Pay Runs"
-                                    domain="['|', ('country_id', '=', False), ('country_id', '=', company_country_id)]"/>
+    <field name="contract_type_id" string="Contract Type" placeholder="Contract Type"/>
+    <field name="structure_type_id" string="Pay Category" placeholder="Employee will be excluded from Pay Runs"
+            domain="['|', ('country_id', '=', False), ('country_id', '=', company_country_id)]"/>
+    <field name="l10n_ch_contractual_annual_wage" invisible="wage_type != 'NoTimeConstraint'"/>
     <separator string="Schedule"/>
     <field name="resource_calendar_id"
         groups="hr.group_hr_manager"

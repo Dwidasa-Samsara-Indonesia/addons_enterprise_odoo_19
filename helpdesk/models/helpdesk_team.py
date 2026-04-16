@@ -841,11 +841,11 @@ class HelpdeskTeam(models.Model):
 
     def action_view_rating_today(self):
         #  call this method of on click "Customer Rating" button on dashbord for today rating of teams tickets
-        return self.search([('member_ids', 'in', self.env.uid)])._action_view_rating(period='today', user_id=self.env.uid)
+        return self.search([])._action_view_rating(period='today', user_id=self.env.uid)
 
     def action_view_rating_7days(self):
         #  call this method of on click "Customer Rating" button on dashbord for last 7days rating of teams tickets
-        return self.search([('member_ids', 'in', self.env.uid)])._action_view_rating(period='seven_days', user_id=self.env.uid)
+        return self.search([])._action_view_rating(period='seven_days', user_id=self.env.uid)
 
     def action_view_team_rating(self):
         self.ensure_one()

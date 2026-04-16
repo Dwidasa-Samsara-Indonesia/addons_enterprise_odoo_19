@@ -484,3 +484,25 @@ class TestSignTemplate(TransactionCase):
         template = self.env['sign.template'].browse(template_id)
         # check existing sign items have not been copied to avoid access errors
         self.assertFalse(template.sign_item_ids)
+
+    def test_get_selection_ids_from_value_order(self):
+        """
+        Test that get_selection_ids_from_value returns IDs in the correct order and creates missing ones.
+        """
+        SignItemOption = self.env["sign.item.option"]
+        options = ["Beta", "Alpha", "Gamma"]
+        ids = SignItemOption.get_selection_ids_from_value(options)
+        recs = SignItemOption.browse(ids)
+
+        self.assertEqual(len(recs), 3)
+        self.assertEqual(recs[0].value, "Beta")
+        self.assertEqual(recs[1].value, "Alpha")
+        self.assertEqual(recs[2].value, "Gamma")
+
+        more_options = ["Delta", "Alpha", "Beta"]
+        ids2 = SignItemOption.get_selection_ids_from_value(more_options)
+        recs2 = SignItemOption.browse(ids2)
+        self.assertEqual(len(recs2), 3)
+        self.assertEqual(recs2[0].value, "Delta")
+        self.assertEqual(recs2[1].value, "Alpha")
+        self.assertEqual(recs2[2].value, "Beta")

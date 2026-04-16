@@ -1,9 +1,10 @@
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 import odoo
 from odoo.addons.point_of_sale.tests.common import CommonPosTest
 
 
-@odoo.tests.tagged('post_install', '-at_install')
-class TestPosAppointmentFlow(CommonPosTest):
+class CommonPosAppointmentTest(CommonPosTest):
 
     @classmethod
     def setUpClass(cls):
@@ -32,6 +33,10 @@ class TestPosAppointmentFlow(CommonPosTest):
             }
         ])
         cls.env.user.group_ids -= cls.env.ref('appointment.group_appointment_manager')
+
+
+@odoo.tests.tagged('post_install', '-at_install')
+class TestPosAppointmentFlow(CommonPosAppointmentTest):
 
     def test_appointment_reservation_count(self):
         """ Test that bookings are created with the correct number of reservation. """

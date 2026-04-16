@@ -214,3 +214,16 @@ class TestFRIntrastatReport(TestAccountReportsCommon):
         options = self._generate_options(self.report_services)
         report_xml = self._l10n_fr_intrastat_generate_report_xml(options, self.report_handler_services)
         self._report_compare_with_test_file(report_xml, 'services_export.xml')
+
+    def test_fr_intrastat_export_report_with_commas_as_decimal(self):
+        """ Test creating a report when the language sets the decimal separator to a comma instead of a period """
+        langs = self.env['res.lang'].search([['active', '=', True]])
+        langs.write({
+            'decimal_point': ',',
+            'thousands_sep': ''
+        })
+        options = self._generate_options(self.report_goods, {
+            'export_type': 'statistical_survey_and_vat_summary_statement',
+            'emebi_flow': 'arrivals_and_dispatches',
+        })
+        self._l10n_fr_intrastat_generate_report_xml(options, self.report_handler_goods)

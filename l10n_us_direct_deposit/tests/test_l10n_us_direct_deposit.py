@@ -168,7 +168,7 @@ class TestWiseDirectDeposit(AccountTestInvoicingCommon):
             ('/v3/profiles/01234567/batch-groups/1', 'complete_batch_request', 'complete_batch_response'),  # create a transfer for partner_b
         ]):
             redirect_action = self.batch.validate_batch()
-            self.assertEqual(redirect_action, {'type': 'ir.actions.act_url', 'url': 'https://sandbox.transferwise.tech/transactions/batch/1'})
+            self.assertEqual(redirect_action, {'type': 'ir.actions.act_url', 'url': 'https://wise-sandbox.com/transactions/batch/1'})
 
     def test_wise_batch_validity_errors(self):
         """This implementation currently only supports USD currency, all others should be blocked."""

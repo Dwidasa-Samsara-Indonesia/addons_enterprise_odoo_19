@@ -162,7 +162,8 @@ class AccountPayment(models.Model):
                 exchange_diff_balance = st_line._lines_get_account_balance_exchange_diff(line.currency_id, line.amount_residual, line.amount_residual_currency)
                 amls_to_add = [line._get_aml_values(
                     name=line.name,
-                    balance=line.currency_id._convert(from_amount=-current_amount, to_currency=company_currency, date=st_line.date),
+                    balance=payment.currency_id._convert(from_amount=-current_amount, to_currency=company_currency, date=st_line.date),
+                    currency_id=payment.currency_id.id,
                     amount_currency=-current_amount,
                     reconciled_lines_ids=[Command.set(line.ids)],
                     payment_lines_ids=[Command.set(payment.ids)],

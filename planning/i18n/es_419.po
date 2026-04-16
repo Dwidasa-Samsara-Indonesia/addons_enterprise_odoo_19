@@ -3,16 +3,16 @@
 # * planning
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
 # "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2026-01-23 22:03+0000\n"
-"Last-Translator: \"Patricia Gutiérrez (pagc)\" <pagc@odoo.com>\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"PO-Revision-Date: 2026-03-20 04:34+0000\n"
+"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/planning/es_419/>\n"
 "Language: es_419\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: planning
 #. odoo-python
@@ -732,14 +732,14 @@ msgstr ""
 "                <body><div>\n"
 "                    <p t-if=\"ctx.get('employee')\">Apreciable <t t-"
 "out=\"ctx['employee'].name or ''\">Anita Oliver</t>,</p>\n"
-"                    <p t-else=\"\">Hola,</p>\n"
+"                    <p t-else=\"\">Hola:</p>\n"
 "                    <br/>\n"
-"                    <p t-if=\"ctx.get('start_datetime') and "
-"ctx.get('end_datetime')\">\n"
-"                        Sus turnos programados del <t t-"
-"out=\"format_date(ctx['start_datetime'])\">05-05-2021</t>\n"
-"                        al <t t-out=\"format_date(ctx['end_datetime'])"
-"\">05-11-2021</t> ahora están publicados.\n"
+"                    <p t-if=\"ctx.get('start_datetime') and ctx.get"
+"('end_datetime')\">\n"
+"                        Tus turnos programados del <t t-out=\"format_date"
+"(ctx['start_datetime'])\">05-05-2021</t>\n"
+"                        al <t t-out=\"format_date(ctx['end_datetime'])\">05-"
+"11-2021</t> ahora están publicados.\n"
 "                    </p>\n"
 "                    <div style=\"display: flex; margin: 15px;\">\n"
 "                        <div t-if=\"ctx.get('planning_url')\" style=\"margin-"
@@ -747,8 +747,8 @@ msgstr ""
 "                            <a t-att-href=\"ctx['planning_url']\" "
 "target=\"_blank\" class=\"planning_mail_template_button\" t-attf-"
 "style=\"color: {{object.company_id.email_primary_color or '#FFFFFF'}}; "
-"background-color: {{object.company_id.email_secondary_color or '#875A7B'}};"
-"\">Ver su planeación</a>\n"
+"background-color: {{object.company_id.email_secondary_color or '#875A7B'}}"
+";\">Ver tu planeación</a>\n"
 "                        </div>\n"
 "                        <div t-if=\"ctx.get('planning_url_ics')\">\n"
 "                            <a t-att-href=\"ctx['planning_url_ics']\" "
@@ -761,23 +761,23 @@ msgstr ""
 "                    <p t-if=\"ctx.get('slot_unassigned') or "
 "(object.allow_self_unassign and object.self_unassign_days_before)\">\n"
 "                        <t t-if=\"ctx.get('slot_unassigned')\">\n"
-"                            Queremos recordarle que hay turnos disponibles. "
-"Asígneselos si le interesan y puede tomarlos.\n"
+"                            Queremos recordarte que hay turnos disponibles. "
+"Si te interesan, puedes asignártelos para tomarlos.\n"
 "                        </t>\n"
 "                        <t t-if=\"object.allow_self_unassign and "
 "object.self_unassign_days_before\">\n"
-"                            Si no puede cubrir alguno de los turnos que se "
-"le asignaron, asegúrese de cancelar la asignación al menos <t t-"
+"                            Si no puedes cubrir alguno de los turnos que se "
+"te asignaron, asegúrate de cancelar la asignación al menos <t t-"
 "out=\"object.self_unassign_days_before or ''\">5</t> día(s) antes del inicio "
 "del turno.\n"
 "                        </t>\n"
 "                    </p>\n"
-"                    <p t-if=\"ctx.get('message')\" t-out=\"ctx['message']\"/"
-">\n"
+"                    <p t-if=\"ctx.get('message')\" t-out=\"ctx['message']\"/>"
+"\n"
 "                    <p t-if=\"object.allow_self_unassign\">En caso de que no "
-"pueda tomar este turno le invitamos a que se comunique con alguno de sus "
-"compañeros para que puedan cambiar de turno, puede que alguno quiera "
-"intercambiarlo.</p>\n"
+"puedas tomar este turno, te pedimos que contactes a alguno de tus compañeros "
+"para que puedan cambiar de turno, puede que alguno quiera tomar el tuyo.</p>"
+"\n"
 "                </div>\n"
 "            </body>"
 
@@ -1248,6 +1248,7 @@ msgstr "Descartar"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__display_name
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_planning__display_name
@@ -1513,6 +1514,7 @@ msgstr "No estoy disponible"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__id
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__id
 #: model:ir.model.fields,field_description:planning.field_planning_planning__id
@@ -2251,6 +2253,11 @@ msgid "Repetitions"
 msgstr "Repeticiones"
 
 #. module: planning
+#: model:ir.model,name:planning.model_ir_actions_report
+msgid "Report Action"
+msgstr "Reporte de la acción"
+
+#. module: planning
 #: model:ir.ui.menu,name:planning.planning_menu_reporting
 msgid "Reporting"
 msgstr "Reportes"
@@ -2427,7 +2434,7 @@ msgid ""
 "Schedule your human and material resources across roles, projects and sales "
 "orders."
 msgstr ""
-"Programe sus recursos humanos y materiales entre funciones, proyectos y "
+"Programa tus recursos humanos y materiales entre funciones, proyectos y "
 "órdenes de venta."
 
 #. module: planning
@@ -2641,6 +2648,26 @@ msgstr "Fecha de finalización"
 #: model:ir.model.fields.selection,name:planning.selection__res_company__planning_employee_unavailabilities__switch
 msgid "Switch shifts with other employees"
 msgstr "Cambiar turnos con otros empleados"
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be added to the print menu. Please use the Print "
+"action available in the Planning calendar and Gantt views."
+msgstr ""
+"No puedes agregar el reporte de planeación al menú de impresión. Usa la "
+"acción Imprimir disponible en las vistas de calendario y Gantt de Planeación."
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be printed from here. Please use the Print action "
+"available in the Planning calendar and Gantt views."
+msgstr ""
+"El reporte de planificación no se puede imprimir desde aquí. Usa la acción "
+"Imprimir disponible en las vistas de Calendario de planificación y gantt."
 
 #. module: planning
 #: model:ir.model.constraint,message:planning.constraint_res_company_planning_self_unassign_days_before_positive

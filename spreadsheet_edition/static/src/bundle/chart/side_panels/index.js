@@ -55,7 +55,7 @@ chartSidePanelComponentRegistry
     })
     .add("odoo_scatter", {
         configuration: CommonOdooChartConfigPanel,
-        design: GenericZoomableChartDesignPanel,
+        design: ChartWithAxisDesignPanel,
     })
     .add("odoo_combo", {
         configuration: CommonOdooChartConfigPanel,

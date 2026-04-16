@@ -111,7 +111,7 @@ class AccountPayment(models.Model):
     @api.depends('payment_method_id')
     def _compute_iso20022_uetr(self):
         payments = self.filtered(
-            lambda p: not p.iso20022_uetr and p.payment_method_id.code in ('iso20022', 'sepa_ct')
+            lambda p: not p.iso20022_uetr and p.payment_method_id.code == 'iso20022'
         )
         for payment in payments:
             payment.iso20022_uetr = uuid4()

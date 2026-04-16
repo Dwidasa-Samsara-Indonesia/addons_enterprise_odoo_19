@@ -2,15 +2,16 @@
 # This file contains the translation of the following modules:
 # * project_enterprise
 #
-# Odoo Translation Bot <c3p@odoo.com>, 2025.
+# Odoo Translation Bot <c3p@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-11-17 03:29+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-03 18:48+0000\n"
+"PO-Revision-Date: 2026-04-09 11:30+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "project_enterprise/sk/>\n"
 "Language: sk\n"
@@ -18,13 +19,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: project_enterprise
 #. odoo-python
 #: code:addons/project_enterprise/models/project_task.py:0
 msgid "%(partner)s has %(amount)s tasks at the same time."
-msgstr ""
+msgstr "%(partner)s má %(amount)s úloh súčasne."
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_task_view_form
@@ -32,17 +33,21 @@ msgid ""
 "<i class=\"fa fa-exclamation-circle me-2\" role=\"img\" title=\"Dependency "
 "warning\"/>"
 msgstr ""
+"<i class=\"fa fa-exclamation-circle me-2\" role=\"img\" title=\"Upozornenie "
+"na závislosť\"/>"
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_task_view_form
 msgid ""
 "<i class=\"fa fa-random me-2\" role=\"img\" title=\"Planning overlap\"/>"
 msgstr ""
+"<i class=\"fa fa-random me-2\" role=\"img\" title=\"Prekrývanie plánovania\"/"
+">"
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.portal_my_task
 msgid "<strong>Deadline:</strong>"
-msgstr "<strong>Deadline:</strong>"
+msgstr "<strong>Termín:</strong>"
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.portal_my_task
@@ -52,6 +57,11 @@ msgstr "<strong>Plánovaný dátum:</strong>"
 #. module: project_enterprise
 #: model:ir.model.fields,field_description:project_enterprise.field_project_task__allocated_hours
 msgid "Allocated Time"
+msgstr "Pridelený čas"
+
+#. module: project_enterprise
+#: model:ir.model.fields,field_description:project_enterprise.field_res_users__task_ids
+msgid "Assigned Tasks"
 msgstr ""
 
 #. module: project_enterprise
@@ -65,17 +75,17 @@ msgstr "Pridelené osoby"
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/view_dialogs/select_auto_plan_create_dialog.xml:0
 msgid "Auto Plan"
-msgstr ""
+msgstr "Plánovať automaticky"
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_task_view_form
 msgid "Check it out <i class=\"oi oi-chevron-right ms-2\"/>"
-msgstr ""
+msgstr "Skontrolovať <i class=\"oi oi-chevron-right ms-2\"/>"
 
 #. module: project_enterprise
 #: model:ir.model,website_form_label:project_enterprise.model_project_task
 msgid "Create a Task"
-msgstr "Vytvorte požiadavku"
+msgstr "Vytvorte úlohu"
 
 #. module: project_enterprise
 #: model:ir.model.fields,field_description:project_enterprise.field_project_task__partner_id
@@ -108,7 +118,7 @@ msgstr "Zobrazovaný názov"
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Failed to undo reschedule"
-msgstr ""
+msgstr "Nepodarilo sa zrušiť preplánovanie"
 
 #. module: project_enterprise
 #: model:ir.model.fields,field_description:project_enterprise.field_project_project__id
@@ -132,6 +142,8 @@ msgid ""
 "One parameter is missing to use this method. You should give a start and end "
 "dates."
 msgstr ""
+"Na použitie tejto metódy chýba jeden parameter. Mali by ste zadať dátum "
+"začiatku a konca."
 
 #. module: project_enterprise
 #. odoo-python
@@ -144,7 +156,7 @@ msgstr "Plánovaný dátum"
 #. module: project_enterprise
 #: model:ir.model.fields,field_description:project_enterprise.field_project_task__planned_date_start
 msgid "Planned Date Start"
-msgstr ""
+msgstr "Plánovaný dátum začiatku"
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_project_view_gantt
@@ -164,13 +176,13 @@ msgstr "Projekt"
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/project_task_common/milestones_popover.xml:0
 msgid "Project due"
-msgstr ""
+msgstr "Termín projektu"
 
 #. module: project_enterprise
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/project_task_common/milestones_popover.xml:0
 msgid "Project start"
-msgstr ""
+msgstr "Začiatok projektu"
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_sharing_project_task_view_form_inherited_in_gantt
@@ -185,12 +197,14 @@ msgid ""
 "Some tasks have been successfully scheduled for the upcoming periods. Some "
 "warnings were generated. Please review them for details."
 msgstr ""
+"Niektoré úlohy boli úspešne naplánované do nadchádzajúcich období. Bolo "
+"vygenerovaných niekoľko varovaní. Pre podrobnosti si ich prosím prečítajte."
 
 #. module: project_enterprise
 #. odoo-python
 #: code:addons/project_enterprise/models/project_task.py:0
 msgid "Some tasks were planned after their initial deadline."
-msgstr ""
+msgstr "Niektoré úlohy boli naplánované po ich pôvodnom termíne."
 
 #. module: project_enterprise
 #. odoo-python
@@ -200,6 +214,9 @@ msgid ""
 "limited availability of the assignees. The planned dates for these tasks may "
 "not align with their allocated hours."
 msgstr ""
+"Niektoré úlohy boli naplánované súčasne, čo viedlo ku konfliktu kvôli "
+"obmedzenej dostupnosti pridelených osôb. Plánované termíny týchto úloh sa "
+"nemusia zhodovať s pridelenými hodinami."
 
 #. module: project_enterprise
 #. odoo-python
@@ -208,6 +225,8 @@ msgid ""
 "Some tasks weren't planned because the closest available starting date was "
 "too far ahead in the future"
 msgstr ""
+"Niektoré úlohy neboli naplánované, pretože najbližší dostupný termín začatia "
+"bol v príliš vzdialenej budúcnosti"
 
 #. module: project_enterprise
 #: model:ir.model.fields,field_description:project_enterprise.field_project_task__planned_date_begin
@@ -218,7 +237,7 @@ msgstr "Dátum začiatku"
 #. module: project_enterprise
 #: model:ir.model,name:project_enterprise.model_project_task
 msgid "Task"
-msgstr "Požiadavka"
+msgstr "Úloha"
 
 #. module: project_enterprise
 #: model:ir.model,name:project_enterprise.model_project_task_recurrence
@@ -229,31 +248,31 @@ msgstr "Opakovanie úlohy"
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Task could not be removed"
-msgstr ""
+msgstr "Úloha nemohla byť odstránená"
 
 #. module: project_enterprise
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Task duplicated"
-msgstr ""
+msgstr "Úloha bola duplikovaná"
 
 #. module: project_enterprise
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Task removed"
-msgstr ""
+msgstr "Úloha bola odstránená"
 
 #. module: project_enterprise
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Task reschedule undone"
-msgstr ""
+msgstr "Preplánovanie úlohy bolo zrušené"
 
 #. module: project_enterprise
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Task rescheduled"
-msgstr ""
+msgstr "Úloha bola preplánovaná"
 
 #. module: project_enterprise
 #: model:ir.model,name:project_enterprise.model_report_project_task_user
@@ -264,19 +283,19 @@ msgstr "Analýza úloh"
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/task_gantt/task_gantt_renderer.js:0
 msgid "Tasks have been successfully scheduled for the upcoming periods."
-msgstr ""
+msgstr "Úlohy boli úspešne naplánované do nadchádzajúcich období."
 
 #. module: project_enterprise
 #. odoo-python
 #: code:addons/project_enterprise/models/project_task.py:0
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_task_view_search_conflict_task_project_enterprise
 msgid "Tasks in Conflict"
-msgstr ""
+msgstr "Úlohy v konflikte"
 
 #. module: project_enterprise
 #: model:ir.model.constraint,message:project_enterprise.constraint_project_task_planned_dates_check
 msgid "The planned start date must be before the planned end date."
-msgstr ""
+msgstr "Plánovaný dátum začiatku musí byť pred plánovaným dátumom ukončenia."
 
 #. module: project_enterprise
 #. odoo-python
@@ -285,12 +304,14 @@ msgid ""
 "The tasks could not be rescheduled due to the assignees' lack of "
 "availability at this time."
 msgstr ""
+"Úlohy nebolo možné preplánovať z dôvodu nedostupnosti poverených osôb v "
+"tomto čase."
 
 #. module: project_enterprise
 #. odoo-python
 #: code:addons/project_enterprise/models/project_task.py:0
 msgid "This Progress Bar is not implemented."
-msgstr ""
+msgstr "Tento indikátor priebehu nie je implementovaný."
 
 #. module: project_enterprise
 #. odoo-python
@@ -299,6 +320,8 @@ msgid ""
 "This task cannot be planned before the following tasks on which it depends: %"
 "(task_list)s"
 msgstr ""
+"Túto úlohu nie je možné naplánovať skôr ako nasledujúce úlohy, od ktorých "
+"závisí: %(task_list)s"
 
 #. module: project_enterprise
 #. odoo-python
@@ -307,6 +330,8 @@ msgid ""
 "This user isn't expected to have any tasks assigned during this period "
 "because they don't have any running contract."
 msgstr ""
+"Tento používateľ by nemal mať počas tohto obdobia pridelené žiadne úlohy, "
+"pretože nemá žiadnu platnú zmluvu."
 
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.res_config_settings_view_form
@@ -319,7 +344,7 @@ msgstr "Pracovné výkazy"
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_task_view_gantt
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_task_view_gantt_inherited_project_sharing_task
 msgid "Unschedule"
-msgstr ""
+msgstr "Odplánovať"
 
 #. module: project_enterprise
 #: model:ir.model.fields,help:project_enterprise.field_project_task__display_name
@@ -336,6 +361,17 @@ msgid ""
 "        Make sure to use the right format and order e.g. Improve the "
 "configuration screen 5h #feature #v16 @Mitchell !"
 msgstr ""
+"Na nastavenie nových úloh použite tieto kľúčové slová v názve:\n"
+"\n"
+"        30h Prideliť úlohe 30 hodín\n"
+"        #tags Nastaviť štítky úlohy\n"
+"        @user Prideliť úlohu používateľovi\n"
+"        ! Nastaviť úlohu ako strednú prioritu\n"
+"        !! Nastaviť úlohu ako vysokú prioritu\n"
+"        !!! Nastavte úlohe naliehavú prioritu\n"
+"\n"
+"        Uistite sa, že používate správny formát a poradie, napr. Vylepšiť "
+"konfiguračnú obrazovku 5h #bug #v16 @Jano !"
 
 #. module: project_enterprise
 #: model:ir.model,name:project_enterprise.model_res_users
@@ -345,10 +381,10 @@ msgstr "Užívateľ"
 #. module: project_enterprise
 #: model_terms:ir.ui.view,arch_db:project_enterprise.project_project_view_gantt
 msgid "View Tasks"
-msgstr ""
+msgstr "Zobraziť úlohy"
 
 #. module: project_enterprise
 #. odoo-javascript
 #: code:addons/project_enterprise/static/src/views/project_task_map/project_task_map_renderer.xml:0
 msgid "View customer locations for your tasks"
-msgstr ""
+msgstr "Zobraziť polohu zákazníkov pre vaše úlohy"

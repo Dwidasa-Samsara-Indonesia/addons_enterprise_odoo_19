@@ -446,6 +446,7 @@ class TestInterCompanyPurchaseToSaleWithStock(TestInterCompanyRulesCommonStock):
         except ValueError:
             self.skipTest('This test requires the following module: stock_dropshipping')
 
+        self.env.user.group_ids |= self.env.ref('stock.group_production_lot')
         (self.company_a | self.company_b).write({
             'intercompany_generate_sales_orders': True,
             'intercompany_generate_purchase_orders': True,

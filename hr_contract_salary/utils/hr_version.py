@@ -79,6 +79,11 @@ def hr_version_context(
     """
     assert key not in overrides
 
+    # Check if we are already running inside the simulation context
+    if container.env.context.get(key):
+        yield container
+        return
+
     ctx_overrides = {
         key: True,
         'salary_simulation': True,
@@ -106,3 +111,4 @@ def hr_version_context(
 
     if invalidate:
         container.env['hr.version'].invalidate_model()
+        container.env['hr.contract.salary.offer'].invalidate_model(['is_contract_amendment'])

@@ -1,10 +1,11 @@
-from collections import defaultdict
 from copy import deepcopy
 import datetime
 from odoo import fields
 from odoo.tools.misc import format_date
+from odoo.tools.float_utils import float_round
 import re
 import uuid
+from collections import defaultdict
 
 
 SALARY_TYPE_MAPPING = {
@@ -249,6 +250,16 @@ class SwissdecDeclaration:
             return "CategoryPredefined"
 
     @staticmethod
+    def _round_to_5_cents(total):
+        total = float_round(total, precision_rounding=0.01, rounding_method="HALF-UP")
+        remainder = total % 0.05
+        if remainder >= 0.025:
+            result = total + 0.05 - remainder
+        else:
+            result = total - remainder
+        return SwissdecDeclaration.amount2str(result)
+
+    @staticmethod
     def get_salary_totals(staff, **kwargs):
         def convert_floats_to_str(data):
             for key, value in data.items():
@@ -305,6 +316,8 @@ class SwissdecDeclaration:
             "TotalTaxAtSource": "0.00",
             "TotalCommission": "0.00",
         }))
+
+        source_tax_commission_rates = kwargs.get("source_tax_commission_rates", defaultdict(float))
 
         # Txb totals: QST - Taxable earning
 
@@ -370,6 +383,13 @@ class SwissdecDeclaration:
                             total_key = f"Total{key}"
                             if total_key in source_tax_correction_totals[qst_id_ref][month]:
                                 source_tax_correction_totals[qst_id_ref][month][total_key] = SwissdecDeclaration.amount2str(float(source_tax_correction_totals[qst_id_ref][month][total_key]) + float(value))
+
+            for qst_institution in source_tax_totals:
+                source_tax_totals[qst_institution]['TotalCommission'] = SwissdecDeclaration._round_to_5_cents(total=float(source_tax_totals[qst_institution]['TotalTaxAtSource']) * source_tax_commission_rates[qst_institution])
+
+            for qst_institution in source_tax_correction_totals:
+                for month in source_tax_correction_totals[qst_institution]:
+                    source_tax_correction_totals[qst_institution][month]['TotalCommission'] = SwissdecDeclaration._round_to_5_cents(total=float(source_tax_correction_totals[qst_institution][month]['TotalTaxAtSource']) * source_tax_commission_rates[qst_institution])
 
             global_txb_period = kwargs.get("global_txb_periods", {})
             for txb_salary in person.get("TaxCrossborderSalaries", {}).get("TaxCrossborderSalary", []):

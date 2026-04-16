@@ -6,34 +6,15 @@ export class DocumentsEmployeeDeclarationListController extends EmployeeDeclarat
     setup() {
         super.setup();
     }
-
-    getNumberToPost() {
-        return this.onlyGenerated() ? "" : this.model.root.selection.filter((r) => r.data.state === "pdf_generated").length
-    }
-
-    noGenerated(){
-        if (this.hasSelectedRecords)
-            return this.model.root.selection.filter((r) => r.data.state === "pdf_generated").length < 1
-        return this.model.root.records.filter((r) => r.data.state === "pdf_generated").length < 1
-    }
-
-    onlyGenerated(){
-        if (this.hasSelectedRecords)
-            if (this.model.root.selection.filter((r) => r.data.state === "pdf_generated").length === this.model.root.selection.length)
-                return true
-        return this.model.root.records.filter((r) => r.data.state === "pdf_generated").length === this.model.root.records.length;
-    }
-
-    checkOnlyGenerated() {
-        return this.onlyGenerated() ? "btn-primary" : "btn-secondary"
-    }
-
-    postPdfs(){
+    
+    async postPdfs(){
+        const selectedIDs = await this.model.root.getResIds(true);
+        const recordsTopost = await this.orm.read(this.model.root.resModel, selectedIDs, ['state']);
         return this.action.doActionButton({
             type: "object",
             resModel: "hr.payroll.employee.declaration",
             name: "action_post_in_documents",
-            resIds: this.model.root.selection.filter((r) => r.data.state === "pdf_generated").map((r) => r.resId),
+            resIds: recordsTopost.filter((r) => r.state === "pdf_generated").map((r) => r.id),
         })
     }
 }

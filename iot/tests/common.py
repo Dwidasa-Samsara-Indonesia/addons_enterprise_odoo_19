@@ -28,6 +28,15 @@ class IotCommonTest(HttpCase):
             'connected_status': 'connected',
         })
 
+        cls.iot_payment_terminal = cls.env['iot.device'].sudo().create({
+            'name': 'Payment Terminal',
+            'identifier': 'payment_terminal_identifier',
+            'iot_id': cls.shop_iot_box.id,
+            'type': 'payment',
+            'connection': 'network',
+            'connected_status': 'connected',
+        })
+
     def setUp(self):
         super().setUp()
         original_send_message = IotChannel.send_message

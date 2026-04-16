@@ -18,7 +18,6 @@
 
     tr.subtable {
         .table {
-            table-layout: fixed;
             width: 100%;
             min-width: auto;
             max-width: 480px;
@@ -34,6 +33,12 @@
                 .btn_action { opacity: 1 }
             }
             :not(caption) > *:not(.btn_action) > *:not(.btn_action) { padding: 0.5rem 0.3rem }
+            td.name {
+                text-wrap: nowrap;
+                max-width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
     }
 }

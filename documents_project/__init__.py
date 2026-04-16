@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import models
+from . import wizard
 
 
 def _documents_project_post_init(env):

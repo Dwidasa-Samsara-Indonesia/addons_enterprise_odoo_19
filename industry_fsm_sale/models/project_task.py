@@ -655,12 +655,13 @@ class ProjectTask(models.Model):
             sale_order_line = self.sale_order_id and self.sudo().sale_order_id.order_line.filtered(lambda sol: sol.product_id == self.project_id.timesheet_product_id)[:1]
             if not sale_order_line:
                 quantity = sum(timesheet_id.unit_amount for timesheet_id in not_billed_timesheets)
+                price_unit = self.timesheet_product_id.lst_price
                 if self.under_warranty:
                     price_unit = 0.0
                 elif price_list := self.sale_order_id.pricelist_id:
-                    price_unit = price_list._get_product_price(self.timesheet_product_id, quantity)
-                else:
-                    price_unit = self.timesheet_product_id.lst_price
+                    product_rule = self.env['product.pricelist.item'].browse(price_list._get_product_rule(self.timesheet_product_id, quantity))
+                    if not (product_rule and product_rule._show_discount()):
+                        price_unit = price_list._get_product_price(self.timesheet_product_id, quantity)
 
                 sol_vals = {
                     **self._get_sale_order_line_vals(),

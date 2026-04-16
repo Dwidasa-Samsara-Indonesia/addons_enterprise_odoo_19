@@ -16,13 +16,14 @@
 # Mikael Åkerberg <mikael.akerberg@mariaakerberg.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 17:46+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-10 12:11+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/sv/>\n"
 "Language: sv\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -194,7 +195,7 @@ msgstr "Konto"
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_chart_template
 msgid "Account Chart Template"
-msgstr "Kontoplan"
+msgstr "Mall för kontoplan"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_type
@@ -257,7 +258,7 @@ msgstr ""
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Accounting"
-msgstr "Redovisning"
+msgstr "Bokföring"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_report
@@ -281,7 +282,7 @@ msgstr "Anskaffningsdatum"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__modify_action
 msgid "Action"
-msgstr "Åtgärder"
+msgstr "Åtgärd"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_needaction
@@ -301,12 +302,12 @@ msgstr "Aktiviteter"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Aktivitet undantaget dekoration"
+msgstr "Undantagsaktiviteter dekoration"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_state
 msgid "Activity State"
-msgstr "Aktivitetsläge"
+msgstr "Aktivitetsstatus"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_type_icon
@@ -536,7 +537,7 @@ msgstr "Tillgång(ar)"
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset
 msgid "Asset/Revenue Recognition"
-msgstr "Tillgång/Intäktsredovisning"
+msgstr "Redovisning av intäkter och tillgångar"
 
 #. module: account_asset
 #. odoo-python
@@ -602,7 +603,7 @@ msgstr "Baserat på antal dagar per period"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Bills"
-msgstr "Räkningar"
+msgstr "Leverantörsfakturor"
 
 #. module: account_asset
 #. odoo-python
@@ -857,7 +858,7 @@ msgstr "Avskrivet belopp"
 #: model:ir.model.fields.selection,name:account_asset.selection__account_move__asset_move_type__depreciation
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Depreciation"
-msgstr "Avskrivningar"
+msgstr "Avskrivning"
 
 #. module: account_asset
 #. odoo-python
@@ -1047,7 +1048,7 @@ msgstr "Följare"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__activity_type_icon
@@ -1118,7 +1119,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/account_asset/static/src/components/depreciation_schedule/groupby.xml:0
 msgid "Group by Account"
-msgstr ""
+msgstr "Gruppera efter konto"
 
 #. module: account_asset
 #. odoo-javascript
@@ -1166,13 +1167,13 @@ msgstr ""
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
+msgstr "Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_has_error
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad, några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: account_asset
 #: model_terms:ir.actions.act_window,help:account_asset.action_account_asset_form
@@ -1225,25 +1226,25 @@ msgstr "Journal"
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Journal Entries"
-msgstr "Verifikat"
+msgstr "Bokföringsposter"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_move
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Journal Entry"
-msgstr "Verifikat"
+msgstr "Bokföringspost"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_move_line
 msgid "Journal Item"
-msgstr "Journalpost"
+msgstr "Affärshändelse"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__original_move_line_ids
 msgid "Journal Items"
-msgstr "Journalrader"
+msgstr "Affärshändelser"
 
 #. module: account_asset
 #. odoo-python
@@ -1272,7 +1273,7 @@ msgstr "Senast uppdaterad den"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Late Activities"
-msgstr "Sena aktiviteter"
+msgstr "Försenade aktiviteter"
 
 #. module: account_asset
 #. odoo-python
@@ -1310,7 +1311,7 @@ msgstr ""
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_ids
@@ -1437,7 +1438,7 @@ msgstr "Nytt restvärde för tillgången"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "Nästa Kalenderhändelse för aktivitet"
+msgstr "Nästa aktivitetshändelse i kalendern"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_date_deadline
@@ -1539,7 +1540,7 @@ msgstr "Antal fel"
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_has_error_counter
@@ -1650,7 +1651,7 @@ msgstr "Köp"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: account_asset
 #. odoo-python
@@ -1716,7 +1717,7 @@ msgstr "Pågående"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_move__asset_move_type__sale
@@ -1828,8 +1829,8 @@ msgid ""
 "The ISO country code in two chars. \n"
 "You can use this field for quick search."
 msgstr ""
-"ISO-landskoden med två tecken.\n"
-"Du kan använda det här fältet för snabbsökning."
+"ISO-kod med två tecken.\n"
+"Fältet används för snabbsökning."
 
 #. module: account_asset
 #. odoo-python
@@ -2035,7 +2036,7 @@ msgstr "Varning för det ursprungliga värdet av %s"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__website_message_ids
 msgid "Website Messages"
-msgstr "Webbplatsmeddelanden"
+msgstr "Hemsidesmeddelanden"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__website_message_ids
@@ -2177,25 +2178,25 @@ msgstr "Du kan inte välja samma konto som avskrivningskonto"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "account_asset_id"
-msgstr ""
+msgstr "account_asset_id"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "account_depreciation_expense_id"
-msgstr ""
+msgstr "account_depreciation_expense_id"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "account_depreciation_id"
-msgstr ""
+msgstr "account_depreciation_id"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "acquisition_date"
-msgstr ""
+msgstr "acquisition_date"
 
 #. module: account_asset
 #. odoo-python
@@ -2207,7 +2208,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "asset_group_id"
-msgstr ""
+msgstr "asset_group_id"
 
 #. module: account_asset
 #: model:account.report.column,name:account_asset.assets_report_balance
@@ -2218,7 +2219,7 @@ msgstr "book_value"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "company_id"
-msgstr "företag_id"
+msgstr "company_id"
 
 #. module: account_asset
 #: model:account.report.column,name:account_asset.assets_report_date_from
@@ -2300,7 +2301,7 @@ msgstr "vinst/förlust"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "journal_id"
-msgstr ""
+msgstr "journal_id"
 
 #. module: account_asset
 #. odoo-python
@@ -2360,7 +2361,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "prorata_date"
-msgstr ""
+msgstr "prorata_date"
 
 #. module: account_asset
 #. odoo-python

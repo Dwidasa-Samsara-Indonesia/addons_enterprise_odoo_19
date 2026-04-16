@@ -20,8 +20,8 @@ class ResCompany(models.Model):
         ('non_commercial', 'Employers without industrial or commercial purposes'),
     ], default='commercial')
     onss_expeditor_number = fields.Char(
-        string="ONSS Expeditor Number", groups="base.group_system",
-        help="ONSS Expeditor Number provided when registering service on the technical user")
+        string="ONSS Client ID", groups="base.group_system",
+        help="ONSS Expeditor Number provided when registering service on the technical user. Eg: self_service_chaman_123456_98jdnvh63y")
     onss_certificate_id = fields.Many2one(
         string="ONSS Certificate",
         comodel_name="certificate.certificate",
@@ -57,6 +57,13 @@ class ResCompany(models.Model):
             number = company.l10n_be_company_number
             if not number.isdecimal() or len(number) != 10 or (not number.startswith('0') and not number.startswith('1')):
                 raise ValidationError(_("The company number should contain digits only, starts with a '0' or a '1' and be 10 characters long."))
+
+    @api.constrains('onss_company_id')
+    def _check_onss_company_id(self):
+        for company in self.filtered(lambda c: c.onss_company_id):
+            number = company.onss_company_id
+            if not number.isdecimal() or len(number) != 10:
+                raise ValidationError(_("The ONSS company ID should contain digits only and be 10 characters long."))
 
     def _prepare_resource_calendar_values(self):
         """

@@ -526,10 +526,11 @@ export class PlanningGanttRenderer extends GanttRenderer {
 
     /**
      * Split a shift (pill) into two shifts.
-     * For shifts with flexible hours or open slots, the split is done without taking into account availabbilities.
-     * For shifts with regular working hours, the split is done taking into account the resource's availabilities.
-     * As an exception, if the shift spans on weekends (where the resource had no availabilities unavailable)
-     * for a regular working schedule, we split the shift but set a 8-17 schedule for the shift in weekends.
+     * If the view scale is 'day', split exactly where requested, else:
+     *     For shifts with flexible hours or open slots, the split is done without taking into account availabilities.
+     *     For shifts with regular working hours, the split is done taking into account the resource's availabilities.
+     *     As an exception, if the shift spans on weekends (where the resource had no availabilities unavailable)
+     *     for a regular working schedule, we split the shift but set a 8-17 schedule for the shift in weekends.
      *
      * @param {Pill} pill
      * @param {number} startColumnId - column where to split the pill
@@ -539,7 +540,7 @@ export class PlanningGanttRenderer extends GanttRenderer {
         const splitRightPill = this.getColumnStartStop(startColumnId, startColumnId);
         const splitLeftPill = this.getColumnStartStop(startColumnId - 1, startColumnId - 1);
         let copiedShiftId;
-        if (!resourceId || this.isFlexibleHours(resourceId)) {
+        if (!resourceId || this.isFlexibleHours(resourceId) || this.currentScaleId === "day") {
             const start = splitRightPill.start;
             const stop = splitLeftPill.stop;
             copiedShiftId = await this.model.splitPill(start, stop, pill.record);

@@ -66,7 +66,7 @@ class TestReports(L10nInTestAccountReportsCommon):
             ref='BILL/NO_TAX',
             post=False,
         )
-        cls.bill_with_no_tax.line_ids.tax_ids.unlink()
+        cls.bill_with_no_tax.line_ids.tax_ids = False
         cls.bill_with_no_tax.action_post()
         account_return_type = cls.env.ref('l10n_in_reports.in_gstr2b_return_type')
         start_date, end_date = account_return_type._get_period_boundaries(cls.default_company, cls.test_date)

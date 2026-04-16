@@ -30,19 +30,19 @@
 
     <div style="text-align: center; padding: 16px 0px 16px 0px;">
         <t t-if="hasattr(object.team_id, 'website_id') and object.team_id.use_website_helpdesk_form">
-            <a t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size: 13px;" t-att-href="'%s%s' % (object.team_id.website_id.domain or '', object.get_portal_url())" target="_blank">View Ticket</a>
+            <a class="btn btn-fill-primary" t-attf-style="background-color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; padding: 5px 10px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; font-size: 14px;" t-att-href="'%s%s' % (object.team_id.website_id.domain or '', object.get_portal_url())" target="_blank">View Ticket</a>
         </t>
         <t t-else="">
-            <a t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;" t-att-href="object.get_portal_url()" target="_blank">View Ticket</a>
+            <a class="btn btn-fill-primary" t-attf-style="background-color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; padding: 5px 10px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; font-size: 14px;" t-att-href="object.get_portal_url()" target="_blank">View Ticket</a>
         </t>
         <t t-if="hasattr(object.team_id, 'website_id') and object.team_id.allow_portal_ticket_closing">
-            <a t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;" t-att-href="'%s/my/ticket/close/%s/%s' % (object.team_id.website_id.domain or '', object.id, object.access_token)" target="_blank">Close Ticket</a>
+            <a class="btn btn-fill-primary" t-attf-style="background-color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; padding: 5px 10px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; font-size: 14px;" t-att-href="'%s/my/ticket/close/%s/%s' % (object.team_id.website_id.domain or '', object.id, object.access_token)" target="_blank">Close Ticket</a>
         </t>
         <t t-elif="object.team_id.allow_portal_ticket_closing">
-            <a t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;" t-att-href="'/my/ticket/close/%s/%s' % (object.id, object.access_token)" target="_blank">Close Ticket</a>
+            <a class="btn btn-fill-primary" t-attf-style="background-color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; padding: 5px 10px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; font-size: 14px;" t-att-href="'/my/ticket/close/%s/%s' % (object.id, object.access_token)" target="_blank">Close Ticket</a>
         </t>
         <t t-if="object.team_id.use_website_helpdesk_forum or object.team_id.use_website_helpdesk_knowledge or object.team_id.use_website_helpdesk_slides">
-            <a t-attf-style="background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;" t-att-href="object.team_id.feature_form_url" target="_blank">Visit Help Center</a>
+            <a class="btn btn-fill-primary" t-attf-style="background-color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; padding: 5px 10px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; font-size: 14px;" t-att-href="object.team_id.feature_form_url" target="_blank">Visit Help Center</a>
         </t><br/><br/>
     </div>
 

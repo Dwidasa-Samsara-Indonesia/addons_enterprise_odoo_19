@@ -575,8 +575,8 @@ class TestWorkOrder(TestMrpWorkorderCommon):
         self.assertEqual(mo.state, 'to_close')
         # Try to finish the production without assigning an SN
         mo.move_raw_ids.filtered(lambda m: not m.operation_id).picked = True
-        mo.button_mark_done()
 
+        mo.button_mark_done()
         self.assertEqual(operation_1.finished_lot_ids, mo.lot_producing_ids)
         self.assertEqual(operation_2.finished_lot_ids, mo.lot_producing_ids)
         self.assertEqual(mo.state, 'done')

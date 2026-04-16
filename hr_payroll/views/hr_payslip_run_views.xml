@@ -40,8 +40,8 @@
                 <field name="has_error"/>
                 <templates>
                     <t t-name="menu" class="d-flex flex-column">
-                        <button name="action_confirm" type="object" class="btn oe_highlight" string="Compute" invisible="state != '01_ready' or not empty_payslips"/>
-                        <button name="action_validate" type="object" class="btn oe_highlight" string="Confirm" invisible="state != '01_ready' or empty_payslips" context="{'payslip_generate_pdf': True}"/>
+                        <button name="action_confirm" type="object" class="btn oe_highlight" string="Compute" invisible="state != '01_ready' or empty_payslips == 0"/>
+                        <button name="action_validate" type="object" class="btn oe_highlight" string="Confirm" invisible="state != '01_ready' or empty_payslips > 0 or payslip_count == 0" context="{'payslip_generate_pdf': True}"/>
                         <button name="action_paid" type="object" class="btn btn-primary" string="Mark as Paid" invisible="state != '02_close'" options="{'is_priority': True}"/>
                         <field name="payment_report" filename="payment_report_filename" format="payment_report_format"
                                widget="payrun_binary" class="btn btn-secondary btn-addr align-content-center text-center"  invisible="not payment_report"/>

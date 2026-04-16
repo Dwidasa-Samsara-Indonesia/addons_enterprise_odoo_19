@@ -90,6 +90,7 @@ class MrpProduction(models.Model):
             'workcenter_id': 0,  # Sets active WC to Overview
             'search_default_blocked': True,
             'shouldHideNewWorkcenterButton': True,
+            'shouldKeepMoFilter': True,
         }
         del action['context']['search_default_filter_ready']
         return action

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 10:01+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-13 09:41+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -176,11 +176,6 @@ msgstr ""
 "* 給与明細が確定されると、ステータスは 「完了」 に変わります。\n"
 "                \n"
 "*給与明細をキャンセルすると、ステータスは 「キャンセル済」 になります。"
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
@@ -499,11 +494,6 @@ msgstr "<strong class=\"me-2\">計算日:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr "<strong class=\"me-2\">契約開始日:</strong>"
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr "<strong class=\"me-2\">契約タイプ:</strong>"
 
@@ -516,6 +506,11 @@ msgstr "<strong class=\"me-2\">部署:</strong>"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
 msgstr "<strong class=\"me-2\">Eメール:</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -1926,7 +1921,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__disabled
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__disabled
 msgid "Disabled"
-msgstr "無効にします"
+msgstr "無効"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -2546,8 +2541,6 @@ msgid "General"
 msgstr "一般"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "作成"
@@ -2577,6 +2570,12 @@ msgstr "給与処理を生成"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "Generate Payslips"
 msgstr "給与明細を作成"
+
+#. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
 
 #. module: hr_payroll
 #. odoo-python
@@ -3826,12 +3825,6 @@ msgstr "PDFファイル"
 #: code:addons/hr_payroll/models/hr_payroll_employee_declaration.py:0
 msgid "PDF generation started. It will be available shortly."
 msgstr "PDF生成が開始されました。まもなく利用可能になります。"
-
-#. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr "PDF"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
@@ -6518,6 +6511,15 @@ msgstr "{{ object.employee_id.name }}、新規給与明細の用意ができま�
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆一番上のメニューをご覧ください"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "PDFs"
+#~ msgstr "PDF"
+
+#~ msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
+#~ msgstr "<strong class=\"me-2\">契約開始日:</strong>"
 
 #~ msgid "Other Input Types"
 #~ msgstr "その他入力タイプ"

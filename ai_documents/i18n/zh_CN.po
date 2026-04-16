@@ -5,13 +5,14 @@
 # "Chloe Wang (chwa)" <chwa@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
+# 张飞虎 <feihu.zhang@live.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-30 18:45+0000\n"
-"PO-Revision-Date: 2025-12-30 12:59+0000\n"
-"Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
+"PO-Revision-Date: 2026-04-09 09:08+0000\n"
+"Last-Translator: 张飞虎 <feihu.zhang@live.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
 "projects/odoo-19/ai_documents/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: ai_documents
 #: model_terms:ir.ui.view,arch_db:ai_documents.ai_documents_sort_view_form
@@ -57,18 +58,18 @@ msgstr "人工智能分类"
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_documents_document__ai_sortable
 msgid "AI Sortable"
-msgstr ""
+msgstr "支持 AI 排序"
 
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_documents_document__ai_to_sort
 #: model_terms:ir.ui.view,arch_db:ai_documents.documents_document_view_kanban
 msgid "AI To Sort"
-msgstr ""
+msgstr "待 AI 排序"
 
 #. module: ai_documents
 #: model:ir.actions.server,name:ai_documents.ir_actions_server_add_tags
 msgid "AI: Add Tags"
-msgstr ""
+msgstr "AI：添加标签"
 
 #. module: ai_documents
 #. odoo-python
@@ -79,32 +80,32 @@ msgstr "AI: 出现错误：%s"
 #. module: ai_documents
 #: model:ir.actions.server,name:ai_documents.ir_actions_server_move_in_folder
 msgid "AI: Move To Folder"
-msgstr ""
+msgstr "AI：移动到文件夹"
 
 #. module: ai_documents
 #: model:ir.actions.server,name:ai_documents.ir_actions_server_rename_documents
 msgid "AI: Rename Document"
-msgstr ""
+msgstr "AI：重命名文档"
 
 #. module: ai_documents
 #: model:ir.actions.server,ai_tool_description:ai_documents.ir_actions_server_add_tags
 msgid "Add the tags on the document"
-msgstr ""
+msgstr "为文档添加标签"
 
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_ai_documents_sort__ai_tool_ids
 msgid "Additional Tools"
-msgstr ""
+msgstr "附加工具"
 
 #. module: ai_documents
 #: model:ir.model,name:ai_documents.model_ai_documents_sort
 msgid "Ai Documents Sort"
-msgstr ""
+msgstr "AI 文档排序"
 
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_ai_documents_sort__allowed_tools_ids
 msgid "Allowed Tools"
-msgstr ""
+msgstr "允许的工具"
 
 #. module: ai_documents
 #. odoo-python
@@ -122,7 +123,7 @@ msgstr "自动排序"
 #. odoo-python
 #: code:addons/ai_documents/models/documents_document.py:0
 msgid "Auto-sort documents in %s"
-msgstr ""
+msgstr "自动整理 %s 中的文档"
 
 #. module: ai_documents
 #: model:ir.model,name:ai_documents.model_base_automation
@@ -193,7 +194,7 @@ msgstr "文件夹"
 #. module: ai_documents
 #: model:ir.model,name:ai_documents.model_ir_http
 msgid "HTTP Routing"
-msgstr ""
+msgstr "HTTP 路由"
 
 #. module: ai_documents
 #. odoo-python
@@ -223,7 +224,7 @@ msgstr "如果文件是发票，则发送至 %s"
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_ai_documents_sort__is_ai_sort_prompt_set
 msgid "Is Prompt Set"
-msgstr ""
+msgstr "是否已设置提示词"
 
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_ai_documents_sort__write_uid
@@ -238,7 +239,6 @@ msgstr "上次更新日期"
 #. module: ai_documents
 #. odoo-python
 #: code:addons/ai_documents/models/documents_document.py:0
-#, fuzzy
 msgid "Mimetype"
 msgstr "Mimetype"
 
@@ -250,13 +250,13 @@ msgstr "模型"
 #. module: ai_documents
 #: model:ir.actions.server,ai_tool_description:ai_documents.ir_actions_server_move_in_folder
 msgid "Move the documents in the given folder id"
-msgstr ""
+msgstr "将文档移动到指定文件夹"
 
 #. module: ai_documents
 #. odoo-python
 #: code:addons/ai_documents/models/documents_document.py:0
 msgid "Moved to \"%(folder)s\"."
-msgstr ""
+msgstr "已移动到\"%(folder)s\"。"
 
 #. module: ai_documents
 #. odoo-python
@@ -278,12 +278,12 @@ msgstr "仅文件夹可以自动排序。"
 #. module: ai_documents
 #: model:ir.model.constraint,message:ai_documents.constraint_base_automation_unique_ai_autosort_folder_id
 msgid "Only one automation rule can be used to sort with AI a given folder"
-msgstr ""
+msgstr "每个文件夹只能使用一条自动化规则进行 AI 排序"
 
 #. module: ai_documents
 #: model:ir.model.fields,help:ai_documents.field_documents_document__ai_sort_prompt
 msgid "Prompt used to automatically sort files moved in this folder"
-msgstr ""
+msgstr "用于自动整理移入此文件夹文件的提示词"
 
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_ai_documents_sort__relation
@@ -309,20 +309,20 @@ msgstr "服务器动作"
 #. odoo-javascript
 #: code:addons/ai_documents/static/src/views/documents_controller_mixin.js:0
 msgid "Sort With AI"
-msgstr ""
+msgstr "用 AI 排序"
 
 #. module: ai_documents
 #: model:ir.model.fields,field_description:ai_documents.field_base_automation__ai_autosort_folder_id
 #: model:ir.model.fields,field_description:ai_documents.field_ir_actions_server__ai_autosort_folder_id
 #: model:ir.model.fields,field_description:ai_documents.field_ir_cron__ai_autosort_folder_id
 msgid "Sorted Folder"
-msgstr ""
+msgstr "已排序文件夹"
 
 #. module: ai_documents
 #. odoo-python
 #: code:addons/ai_documents/models/documents_document.py:0
 msgid "Tag(s) %s added"
-msgstr ""
+msgstr "已添加标签 %s"
 
 #. module: ai_documents
 #. odoo-python

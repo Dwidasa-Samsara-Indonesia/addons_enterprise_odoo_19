@@ -25,11 +25,11 @@
         <record id="own_transaction_rule" model="ir.rule">
             <field name="name">Own transaction</field>
             <field name="model_id" ref="model_equity_transaction"/>
-            <field name="domain_force">['|', ('seller_id', '=', user.id), ('subscriber_id', '=', user.id)]</field>
+            <field name="domain_force">['|', ('seller_id', '=', user.partner_id.id), ('subscriber_id', '=', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('base.group_portal')), (4, ref('base.group_user'))]"/>
         </record>
 
-        <record id="own_transaction_rule" model="ir.rule">
+        <record id="all_transaction_rule" model="ir.rule">
             <field name="name">All transaction</field>
             <field name="model_id" ref="model_equity_transaction"/>
             <field name="domain_force">[(1, '=', 1)]</field>

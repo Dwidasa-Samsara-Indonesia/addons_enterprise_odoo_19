@@ -24,8 +24,9 @@ patch(PosStore.prototype, {
 
     async mergeOrders(sourceOrder, destOrder) {
         const result = await super.mergeOrders(...arguments);
-        await this.data.call("pos.prep.order", "merge_orders", [sourceOrder.id, result.id]);
-
+        if (typeof result.id === "number") {
+            await this.data.call("pos.prep.order", "merge_orders", [sourceOrder.id, result.id]);
+        }
         return result;
     },
 });

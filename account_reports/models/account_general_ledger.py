@@ -136,7 +136,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         if options.get('export_mode') == 'print' and options.get('filter_search_bar') and current_groupby not in ('id_with_accumulated_balance', 'id'):
             search_bar_sql = SQL(
                 """
-                AND result_account.id = ANY(%(search_bar_account_query)s)
+                AND account_move_line.account_id = ANY(%(search_bar_account_query)s)
                 """,
                 search_bar_account_query=self.env['account.account']._search([
                     ('display_name', 'ilike', options.get('filter_search_bar')),
@@ -149,8 +149,8 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         additional_select = SQL("")
         groupby = []
         if current_groupby == 'id_with_accumulated_balance':
-            account_code_select = self.env['account.account']._field_to_sql('result_account', 'code', report_query)
-            account_name_select = self.env['account.account']._field_to_sql('result_account', 'name')
+            account_code_select = self.env['account.account']._field_to_sql('account_move_line__account_id', 'code', report_query)
+            account_name_select = self.env['account.account']._field_to_sql('account_move_line__account_id', 'name')
             additional_select = SQL("""
                 CASE
                     WHEN account_move_line.date >= %(date)s THEN account_move_line.id
@@ -165,7 +165,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 SUM(account_move_line.amount_currency) AS amount_currency,
                 MIN(partner.name) AS partner_name,
                 MIN(account_move_line.currency_id) AS currency_id,
-                MIN(result_account.id) AS account_id,
+                MIN(account_move_line__account_id.id) AS account_id,
 
                 MIN(account_move_line.name) AS line_name,
                 MIN(%(account_name_select)s) AS account_name,
@@ -178,15 +178,16 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             groupby = [SQL("1"), SQL("2"), SQL("account_id")]
         elif current_groupby == 'account_id':
             additional_select = SQL("""
-                result_account.id AS account_id,
-                result_account.account_type AS account_type,
+                account_move_line__account_id.id AS account_id,
+                account_move_line__account_id.account_type AS account_type,
                 SUM(account_move_line.amount_currency) AS amount_currency,
-                result_account.currency_id AS currency_id,
+                account_move_line__account_id.currency_id AS currency_id,
             """)
-            groupby = [SQL("result_account.id"), SQL("result_account.currency_id")]
+            groupby = [SQL("account_move_line__account_id.id"), SQL("account_move_line__account_id.currency_id")]
         elif current_groupby:
-            additional_select = SQL("%s,", self.env['account.move.line']._field_to_sql('account_move_line', current_groupby, report_query))
-            groupby = [SQL("%s", self.env['account.move.line']._field_to_sql('account_move_line', current_groupby, report_query))]
+            groupby_field_sql = self.env['account.move.line']._field_to_sql('account_move_line', current_groupby, report_query)
+            additional_select = SQL("%s AS %s,", groupby_field_sql, SQL.identifier(current_groupby))
+            groupby = [groupby_field_sql]
 
         query = SQL(
             """
@@ -198,9 +199,6 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             FROM %(from_clause)s
 
             LEFT JOIN res_partner partner ON partner.id = account_move_line.partner_id
-            JOIN account_account account ON account.id = account_move_line.account_id
-            JOIN account_account result_account ON result_account.id = account_move_line.account_id
-
             JOIN account_move move ON move.id = account_move_line.move_id
             %(currency_table_join)s
 

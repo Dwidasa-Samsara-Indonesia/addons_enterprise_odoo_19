@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
 "PO-Revision-Date: 2026-01-05 18:40+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
@@ -3412,8 +3412,6 @@ msgid "Quantity"
 msgstr "الكمية"
 
 #. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log_report__state__draft
@@ -4404,6 +4402,16 @@ msgid "The start date indicate when the subscription periods begin."
 msgstr "يشير تاريخ البدء إلى وقت بدء فترة الاشتراك."
 
 #. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/sale_order.py:0
+msgid ""
+"The start date of an upsell cannot be greater or equal to the next invoice "
+"date of the subscription %s.\n"
+"You should first invoice the original subscription, use an earlier start "
+"date for the upsell or create a renewal quotation."
+msgstr ""
+
+#. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
 msgid "The subscription was renewed with a new plan"
 msgstr "لقد تم تجديد الاشتراك مع خطة جديدة"
@@ -4976,16 +4984,6 @@ msgstr "لا يمكنك الارتقاء بصفقة اشتراك باستخدا�
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid ""
-"You cannot upsell a subscription whose next invoice date is in the past.\n"
-"Please, invoice directly the %s contract."
-msgstr ""
-"لا يمكنك الارتقاء بصفقة اشتراك تاريخ انتهاء فاتورته في الماضي. \n"
-"يرجى فوترة عقد %s مباشرة."
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
 "You cannot validate a renewal quotation starting before the next invoice "
 "date of the parent contract. Please update the start date after the %s."
 msgstr ""
@@ -5225,6 +5223,13 @@ msgstr ""
 "{{ object.company_id.name }}: اشتراكك {{ object.name }} يحتاج إلى اهتمام "
 "منك. إذا كانت لديك أي استفسارات حوله، يرجى التواصل مع "
 "{{ object.user_id.name }}، الوظف المسند إليك."
+
+#~ msgid ""
+#~ "You cannot upsell a subscription whose next invoice date is in the past.\n"
+#~ "Please, invoice directly the %s contract."
+#~ msgstr ""
+#~ "لا يمكنك الارتقاء بصفقة اشتراك تاريخ انتهاء فاتورته في الماضي. \n"
+#~ "يرجى فوترة عقد %s مباشرة."
 
 #~ msgid "Applied On"
 #~ msgstr "مُطبَّق في"

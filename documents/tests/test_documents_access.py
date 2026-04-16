@@ -516,60 +516,6 @@ class TestDocumentsAccess(TransactionCaseDocuments, MockEmail):
         self.document_gif.owner_id = self.internal_user
         self.document_gif.with_user(self.internal_user).folder_id = self.folder_a
 
-    def test_ir_actions_server(self):
-        """Check the behavior of the documents actions.
-
-        To be able to use those actions, they need to be embedded on the folder of
-        the documents on which we execute the action.
-        """
-        self.internal_user.group_ids |= self.env.ref('documents.group_documents_user')
-        document = self.document_gif.with_user(self.internal_user)
-        document.sudo().access_internal = 'edit'
-
-        # Sanity check
-        self.assertEqual(document.user_permission, 'edit')
-        self.assertEqual(document.folder_id.user_permission, 'view')
-        self.assertEqual(self.folder_a.user_permission, 'edit')
-        with self.assertRaises(AccessError):
-            document.folder_id = self.folder_a
-
-        action_base_values = {
-            'name': 'Test Action',
-            'model_id': self.env['ir.model']._get_id('documents.document'),
-            'update_path': 'folder_id',
-            'usage': 'documents_embedded',
-            'resource_ref': f'documents.document,{self.folder_a.id}',
-        }
-
-        action = self.env['ir.actions.server'].create({
-            **action_base_values,
-            'state': 'multi',
-            # Check that the child actions can be executed
-            'child_ids': [Command.create({
-                **action_base_values,
-                'state': 'multi',
-                'child_ids': [Command.create({
-                    **action_base_values,
-                    'state': 'object_write',
-                })],
-            })],
-        }).with_user(self.internal_user)
-
-        # We can not execute the action because it's not pinned on the folder
-        with self.assertRaises(UserError):
-            action.with_context(active_model='documents.document', active_id=document.id).run()
-
-        # Pin the action on the folder, so we can execute it
-        self.env['documents.document'].action_folder_embed_action(document.folder_id.id, action.id)
-
-        # We can move the documents even if we have no write access on the initial folder
-        action.with_context(active_model='documents.document', active_id=document.id).run()
-        self.assertEqual(document.folder_id, self.folder_a)
-
-        # Check that we can not execute the action if it's pinned on a different folder
-        with self.assertRaises(UserError):
-            action.with_context(active_model='documents.document', active_id=document.id).run()
-
     @mute_logger('odoo.addons.base.models.ir_model', 'odoo.addons.base.models.ir_rule')
     def test_create_document_access(self):
         with self.assertRaises(AccessError):

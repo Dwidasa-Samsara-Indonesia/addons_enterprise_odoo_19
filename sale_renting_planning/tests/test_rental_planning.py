@@ -76,7 +76,7 @@ class TestRentalPlanning(TestSalePlanning):
             'order_line': [
                 Command.create({
                     'product_id': self.plannable_product.id,
-                    'product_uom_qty': 1,
+                    'product_uom_qty': 2,
                 }),
             ],
         }, {
@@ -91,6 +91,10 @@ class TestRentalPlanning(TestSalePlanning):
             ],
         }])
 
+        self.assertFalse(basic_so.order_line.planning_slot_ids, "No shift should be generated since the rental order is still in draft.")
+        basic_so.order_line[0].product_uom_qty = 1
+        basic_so.order_line.invalidate_recordset(['planning_slot_ids'])
+        self.assertFalse(basic_so.order_line.planning_slot_ids, "No shift should be generated since the rental order is still in draft.")
         basic_so.action_confirm()
         slot = basic_so.order_line.planning_slot_ids
 
@@ -439,3 +443,67 @@ class TestRentalPlanning(TestSalePlanning):
             msg="Impossible to update the slot because it has a conflict with another slot and so it is impossible to update the rental order accordingly."
         ):
             slot.end_datetime = datetime(2025, 9, 20, 9, 0)  # create conflict with slot2
+
+    def test_no_slots_created_for_product_without_plan_services(self):
+        service_product = self.env['product.product'].create({
+            'name': 'Test rental Service',
+            'type': 'service',
+            'rent_ok': True,
+            'uom_id': self.env.ref('uom.product_uom_unit').id,
+        })
+
+        rental_order = self.env['sale.order'].with_context(in_rental_app=True).create({
+            'partner_id': self.planning_partner.id,
+            'order_line': [Command.create({'product_id': service_product.id, 'product_uom_qty': 1})],
+        })
+
+        rental_order.action_confirm()
+        line = rental_order.order_line
+
+        # Ensure no slots after confirmation
+        self.assertFalse(line.planning_slot_ids, "no slots should be generated since the planning_enabled is false on the product related after confirmation.")
+        # Update quantity
+        line.product_uom_qty = 2
+        line.invalidate_recordset(['planning_slot_ids'])
+        self.assertFalse(line.planning_slot_ids, "no slots should be generated since the planning_enabled is false on the product related.")
+
+    def test_shift_publish_after_confirm_rental_order(self):
+        """
+        Steps:
+            1) Enable sync on planning role and assign resource.
+            2) Manually create a planning slot.
+            3) Use "New Order" from that slot to create a rental SO.
+            4) Confirm SO → slot must become published.
+        """
+        resource = self.employee_joseph.resource_id
+        self.planning_role_junior.write({
+            'sync_shift_rental': True,
+            'resource_ids': [Command.set([resource.id])],
+        })
+        self.plannable_product.rent_ok = True
+
+        slot = self.env['planning.slot'].create({
+            'role_id': self.planning_role_junior.id,
+            'resource_id': resource.id,
+            'start_datetime': datetime(2025, 12, 20, 9, 0),
+            'end_datetime': datetime(2025, 12, 20, 17, 0),
+        })
+
+        action = slot.action_create_order()
+        context = action["context"]
+        view_ids = [view_id for view_id, view_type in action['views'] if view_type == 'form']
+        form_view_id = view_ids[0] if view_ids else False
+        rental_order_form = Form(self.env['sale.order'].with_context(context), view=form_view_id)
+        rental_order_form.partner_id = self.planning_partner
+        rental_order = rental_order_form.save()
+        self.assertEqual(
+            slot.state,
+            "draft",
+            "Slot should remain in draft after creating the order."
+        )
+
+        rental_order.action_confirm()
+        self.assertEqual(
+            slot.state, "published",
+            "Slot must be published only after confirming the SO."
+    )

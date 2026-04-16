@@ -33,5 +33,8 @@ Keeps track of loans, and creates corresponding journal entries.
         'web.assets_backend': [
             'account_loans/static/src/**/*',
         ],
+        'web.assets_unit_tests': [
+            'account_loans/static/tests/*',
+        ],
     }
 }

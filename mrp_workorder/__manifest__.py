@@ -27,6 +27,7 @@
         'views/stock_picking_type_views.xml',
         'views/res_config_settings_view.xml',
         'views/mrp_workorder_views_menus.xml',
+        'views/stock_quant_views.xml',
         'wizard/additional_workorder_views.xml',
         'wizard/propose_change_views.xml',
     ],

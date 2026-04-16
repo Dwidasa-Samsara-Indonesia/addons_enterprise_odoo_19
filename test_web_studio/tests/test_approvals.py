@@ -670,3 +670,15 @@ class TestStudioApprovalsUIUnit(HttpCase):
         url = f"/odoo/action-{self.testAction.id}/studio?mode=editor&_view_type=form&_tab=views&menu_id={self.testMenu.id}"
         self.start_tour(url, "test_web_studio.test_disable_approvals_via_kanban", login="admin")
         self.assertEqual(rule.active, False)
+
+    def test_account_validate_moves(self):
+        if "account.move" not in self.env:
+            return
+        action_to_disable = self.env.ref("account.action_validate_account_moves")
+        self.assertEqual(action_to_disable.binding_model_id.model, "account.move")
+        self.env["studio.approval.rule"].create({
+            "model_id": self.env["ir.model"]._get("account.move").id,
+            "method": "action_post",
+            "approver_ids": [Command.link(self.admin_user.id)]
+        })
+        self.assertFalse(action_to_disable.binding_model_id)

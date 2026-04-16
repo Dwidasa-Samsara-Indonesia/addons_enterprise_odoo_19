@@ -32,7 +32,7 @@ class AccountBatchPayment(models.Model):
         if not self.wise_batch_identifier or not self.wise_payments_enabled:
             raise UserError(self.env._("This batch payment is not yet created in Wise."))
 
-        url = "https://sandbox.transferwise.tech" if self.company_id.wise_environment == 'sandbox' else "https://wise.com"
+        url = "https://wise-sandbox.com" if self.company_id.wise_environment == 'sandbox' else "https://wise.com"
         return {
             'type': 'ir.actions.act_url',
             'url': f"{url}/transactions/activities/by-resource/BATCH_TRANSFER/{self.wise_batch_identifier}",
@@ -134,7 +134,7 @@ class AccountBatchPayment(models.Model):
             raise UserError(self.env._("Failed to mark the batch as complete on Wise:\n%(wise_error)s", wise_error=wise_api.format_errors(status)))
 
         self.wise_payment_status = status['status'].lower()
-        url = "https://sandbox.transferwise.tech" if self.company_id.sudo().wise_environment == 'sandbox' else "https://wise.com"
+        url = "https://wise-sandbox.com" if self.company_id.sudo().wise_environment == 'sandbox' else "https://wise.com"
         super()._send_after_validation()
 
         return {
@@ -168,7 +168,7 @@ class AccountBatchPayment(models.Model):
 
         if recipient:
             key_elements = [recipient['name']['fullName'], recipient['email']]
-            if recipient['type'].lower() == 'swift_code':
+            if recipient['type'].lower() in ['swift_code', 'swiftcode']:
                 key_elements.extend(['swift_code', recipient['details']['swiftCode']])
             else:
                 key_elements.extend([recipient['type'].lower(), recipient['details']['accountType'].lower(), recipient['details']['abartn']])

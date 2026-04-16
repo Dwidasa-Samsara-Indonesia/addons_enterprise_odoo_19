@@ -16,13 +16,15 @@
 # Jan Prokop, 2022
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2023
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-17 03:27+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-09 11:30+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/sk/>\n"
 "Language: sk\n"
@@ -31,7 +33,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
 ">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -162,11 +164,6 @@ msgid ""
 "* If the payslip is confirmed then status is set to 'Done'.\n"
 "                \n"
 "* When the user cancels a payslip, the status is 'Canceled'."
-msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
 msgstr ""
 
 #. module: hr_payroll
@@ -450,11 +447,6 @@ msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr ""
 
@@ -466,6 +458,11 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
+msgstr ""
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
 msgstr ""
 
 #. module: hr_payroll
@@ -1025,7 +1022,7 @@ msgstr "Kalkulácie"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Cancel"
-msgstr "Zrušené"
+msgstr "Zrušiť"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__cancel
@@ -2445,8 +2442,6 @@ msgid "General"
 msgstr "Všeobecné"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Všeobecné"
@@ -2476,6 +2471,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "Generate Payslips"
 msgstr "Vygenerovať výplatné pásky"
+
+#. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
 
 #. module: hr_payroll
 #. odoo-python
@@ -3184,7 +3185,7 @@ msgstr "Stravný lístok"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_has_error
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_has_error
 msgid "Message Delivery error"
-msgstr "Chyba zobrazovania správ"
+msgstr "Chyba doručenia správy"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__message_ids
@@ -3705,12 +3706,6 @@ msgid "PDF generation started. It will be available shortly."
 msgstr ""
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr ""
-
-#. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state_display__paid
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_run__state__03_paid
@@ -3881,7 +3876,7 @@ msgstr ""
 #: model:res.groups.privilege,name:hr_payroll.res_groups_privilege_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
 msgid "Payroll"
-msgstr "Výplatná listina"
+msgstr "Mzdy"
 
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_reset_work_entries

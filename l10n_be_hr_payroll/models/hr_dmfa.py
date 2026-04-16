@@ -933,6 +933,10 @@ class L10n_BeDmfa(models.Model):
             onss_expeditor_number = dmfa.company_id.onss_expeditor_number
             if not onss_expeditor_number:
                 raise UserError(_('There is no defined expeditor number for the company.'))
+            if onss_expeditor_number.startswith('self_service_chaman_'):
+                expeditor = onss_expeditor_number.split('_')[3]
+            else:
+                expeditor = onss_expeditor_number
             # Declaration File
             if not dmfa._origin.dmfa_xml_filename:
                 num_suite = 0
@@ -942,7 +946,7 @@ class L10n_BeDmfa(models.Model):
             num_suite = str(num_suite).zfill(5)
             file_type = dmfa.file_type
 
-            filename_common = '.DMFA.%s.%s.%s.%s.1' % (onss_expeditor_number, now.strftime('%Y%m%d'), num_suite, file_type)
+            filename_common = '.DMFA.%s.%s.%s.%s.1' % (expeditor, now.strftime('%Y%m%d'), num_suite, file_type)
 
             filename = 'FI' + filename_common + '.1'
             dmfa.dmfa_xml_filename = filename
@@ -961,6 +965,11 @@ class L10n_BeDmfa(models.Model):
             onss_expeditor_number = dmfa.company_id.onss_expeditor_number
             if not onss_expeditor_number:
                 raise UserError(_('There is no defined expeditor number for the company.'))
+            if onss_expeditor_number.startswith('self_service_chaman_'):
+                expeditor = onss_expeditor_number.split('_')[3]
+            else:
+                expeditor = onss_expeditor_number
+
             if not dmfa._origin.dmfa_pdf_filename:
                 num_suite = 0
             else:
@@ -969,7 +978,7 @@ class L10n_BeDmfa(models.Model):
             num_suite = str(num_suite).zfill(5)
             file_type = dmfa.file_type
 
-            filename = 'FI.DMFA.%s.%s.%s.%s.1.1.pdf' % (onss_expeditor_number, now.strftime('%Y%m%d'), num_suite, file_type)
+            filename = 'FI.DMFA.%s.%s.%s.%s.1.1.pdf' % (expeditor, now.strftime('%Y%m%d'), num_suite, file_type)
             dmfa.dmfa_pdf_filename = filename
 
     @api.depends('year', 'quarter')

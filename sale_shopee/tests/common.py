@@ -77,7 +77,7 @@ GET_ACCESS_TOKEN_RESPONSE_MOCK = {
     'request_id': '123456',
     'response': {},
     'refresh_token': 'dummy_refresh_token',
-    'access_token': 'dummpy_oauth_token',
+    "access_token": "dummy_oauth_token",
     'expire_in': 1000000,
 }
 

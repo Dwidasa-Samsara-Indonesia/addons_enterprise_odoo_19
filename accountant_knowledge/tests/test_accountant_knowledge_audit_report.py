@@ -12,7 +12,7 @@ class TestAccountantKnowledgeAuditReport(TransactionCaseWithUserDemo):
             article linked to the audit report. """
 
         audit_report = self.env['audit.report'].create({
-            'title': 'My Audit Report',
+            'title': 'My Annual Report',
             'responsible_user_ids': [
                 Command.link(self.user_demo.id)
             ],

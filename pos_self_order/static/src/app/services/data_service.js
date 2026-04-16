@@ -6,9 +6,13 @@ import { rpc } from "@web/core/network/rpc";
 export const unpatchSelf = patch(PosData.prototype, {
     async loadInitialData() {
         const configId = session.data.config_id;
-        return await rpc(`/pos-self/data/${parseInt(configId)}`, {
+        const localData = await this.getCachedServerDataFromIndexedDB();
+        const partners = localData?.["res.partner"] || [];
+        const data = await rpc(`/pos-self/data/${parseInt(configId)}`, {
             access_token: odoo.access_token,
         });
+        data["res.partner"] = partners;
+        return data;
     },
     async loadFieldsAndRelations() {
         const configId = session.data.config_id;
@@ -33,6 +37,11 @@ export const unpatchSelf = patch(PosData.prototype, {
     synchronizeLocalDataInIndexedDB() {
         return session.data.self_ordering_mode === "mobile"
             ? super.synchronizeLocalDataInIndexedDB(...arguments)
+            : true;
+    },
+    synchronizeServerDataInIndexedDB() {
+        return session.data.self_ordering_mode === "mobile"
+            ? super.synchronizeServerDataInIndexedDB(...arguments)
             : true;
     },
     async getCachedServerDataFromIndexedDB() {

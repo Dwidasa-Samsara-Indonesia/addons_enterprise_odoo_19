@@ -19,11 +19,21 @@ patch(Thread.prototype, {
         await super.closeChatWindow(options);
         browser.localStorage.removeItem(AI_PROMPT_BUTTONS.concat(this.id));
     },
-    get avatarUrl() { 
+    get avatarUrl() {
         if (this.channel_type === "ai_chat" && this.correspondent) {
             return this.correspondent.avatarUrl;
         }
 
         return super.avatarUrl;
+    },
+    computeCorrespondent() {
+        const correspondent = super.computeCorrespondent();
+        if (
+            ["ai_composer", "ai_chat"].includes(this.channel_type) &&
+            correspondent?.persona?.eq(this.store.self)
+        ) {
+            return undefined;
+        }
+        return correspondent;
     },
 });

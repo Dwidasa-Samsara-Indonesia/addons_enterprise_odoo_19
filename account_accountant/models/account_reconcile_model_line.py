@@ -7,6 +7,68 @@ import re
 from math import copysign
 
 
+def split_amount_str(amount_str):
+    """
+    Parse a localized amount string into (int_part, dec_part) as strings
+    Detects the number format (European/US) purely from the string structure.
+    See the test test_split_amount_string for examples.
+    :param amount_str:   The amount string to parse.
+    :return: Tuple of (int_part, dec_part) as strings e.g. ('1334', '07') or ('0', '0') for invalid/empty input.
+    """
+    if not amount_str:
+        return ('0', '0')
+
+    # Normalize NBSP and trim
+    groupings_re = "[ '\xa0]"
+    has_grouping = bool(re.search(groupings_re, amount_str))
+    amount_str = re.sub(groupings_re, "", amount_str).strip()
+    commas = amount_str.count(',')
+    dots = amount_str.count('.')
+    last_comma, last_dot = amount_str.rfind(','), amount_str.rfind('.')
+    comma_distance = len(amount_str) - 1 - last_comma if last_comma >= 0 else -1
+    dot_distance = len(amount_str) - 1 - last_dot if last_dot >= 0 else -1
+
+    def solitary(int_part, distance):
+        return (
+            not has_grouping
+            and distance == 3
+            and int_part.isdigit()
+            and len(int_part) <= 3
+            and int_part != '0'
+        )
+
+    match (commas, dots):
+        case (0, 0):
+            tsep, dsep = ',', '.'  # '1334'
+        case (c, 0) if c > 1:
+            tsep, dsep = ',', '.'  # '1,334,567'
+        case (0, d) if d > 1:
+            tsep, dsep = '.', ','   # '1.334.567'
+        case (c, 1) if c > 1:
+            tsep, dsep = ',', '.'
+        case (1, d) if d > 1:
+            tsep, dsep = '.', ','
+        case (1, 1) if last_comma > last_dot:
+            tsep, dsep = '.', ','
+        case (1, 1):
+            tsep, dsep = ',', '.'
+        case (0, 1) if solitary(amount_str[:last_dot], dot_distance):
+            tsep, dsep = '.', ','  # best possible assumption
+        case (0, 1):
+            tsep, dsep = ',', '.'
+        case (1, 0) if solitary(amount_str[:last_comma], comma_distance):
+            tsep, dsep = ',', '.'  # best possible assumption
+        case (1, 0):
+            tsep, dsep = '.', ','
+        case _:
+            return ('0', '0')
+
+    parts = amount_str.replace(tsep, '').split(dsep)
+    if len(parts) > 2:
+        return ('0', '0')
+    return tuple((parts + ['0'])[:2])
+
+
 class AccountReconcileModelLine(models.Model):
     _inherit = 'account.reconcile.model.line'
 
@@ -117,8 +179,19 @@ class AccountReconcileModelLine(models.Model):
                 continue
             if match := re.search(amount_string, target_field):
                 try:
-                    extracted_match_group = re.search(r'\d+[,.]?\d*', match.group(1))
-                    extracted_balance = float(extracted_match_group.group().replace(',', '.'))
+                    # If there is only one capturing group in the regex, extract the amount from it.
+                    # If there are two capturing groups, then first group have integer part and second group have decimal part of the amount.
+                    groups = match.groups()
+                    if len(groups) >= 2:
+                        group_iter = iter(groups)
+                        int_part = str(next(group_iter) or '0').replace('.', '').replace(',', '')
+                        dec_part = next(group_iter, None)
+                        dec_part = dec_part if dec_part and dec_part.isdigit() else '0'
+                        extracted_balance = float(f'{int_part}.{dec_part}')
+                    else:
+                        extracted_match_group = re.search(r"\d[\d\s.,'\xa0]*", match.group(1))
+                        int_part, dec_part = split_amount_str(extracted_match_group.group())
+                        extracted_balance = float(f"{int_part}.{dec_part}")
                     return copysign(extracted_balance * sign, residual_amount_currency)
                 except IndexError:         # from .group(1) if the regex doesn't contain a parenthesis part
                     raise RedirectWarning(_("The regular expression for capturing the counterpart amount appears to be incorrectly formatted.\n"

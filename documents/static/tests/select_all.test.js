@@ -2,6 +2,7 @@ import {
     contains,
     defineModels,
     onRpc,
+    mockService,
     mountWithCleanup,
     getService,
     defineActions,
@@ -194,4 +195,21 @@ test("Selected all records from current page are archived/restore correctly", as
     await contains(actionSelector).click();
     await contains(".o_menu_item.dropdown-item .fa-history").click();
     expect.verifySteps(["Document restored"]);
+});
+
+test("Open share correctly with all records selected", async function () {
+    const serverData = prepareSelectAllActionDataViews();
+    mockService("document.document", {
+        openSharingDialog: (documentIds) => {
+            expect(documentIds).toEqual([2, 3, 4]);
+            expect.step("open_share");
+        },
+    });
+    await makeDocumentsMockEnv({ serverData });
+    await mountWithCleanup(WebClient);
+    await getService("action").doAction(action1.id);
+
+    await commonSelectAllSteps();
+    await contains(".o_control_panel_actions button:contains('Share')").click();
+    expect.verifySteps(["open_share"]);
 });

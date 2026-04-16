@@ -4,7 +4,7 @@ import { Dialog } from "@web/core/dialog/dialog";
 import { _t } from "@web/core/l10n/translation";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { Component, onWillStart, useState, useRef } from "@odoo/owl";
-import { formatDate, deserializeDate } from "@web/core/l10n/dates";
+import { formatDateTime, deserializeDateTime } from "@web/core/l10n/dates";
 import { download } from "@web/core/network/download";
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 
@@ -24,7 +24,7 @@ export class DocumentsManageVersions extends Component {
         this.documentService = useService("document.document");
         this.fileUploadService = useService("file_upload");
         this.fileInputRef = useRef("uploadFileInput");
-        this.formatDate = (d) => formatDate(deserializeDate(d), { format: "HH:mm DDD" });
+        this.formatDate = (d) => formatDateTime(deserializeDateTime(d), { format: "HH:mm DDD" });
 
         this.state = useState({ documentName: "", accessToken: "", versions: [] });
 

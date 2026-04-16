@@ -8,13 +8,13 @@
 # Cécile Collart <cco@odoo.com>, 2022
 # Jolien De Paepe, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025.
+# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2025-12-10 10:26+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-08 12:03+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/fr/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -178,11 +178,6 @@ msgstr ""
 "                \n"
 "* Lorsque l’utilisateur annule une fiche de paie, le statut devient "
 "\"Annulé\"."
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
@@ -440,11 +435,11 @@ msgid ""
 "automatic recalculation. Be careful that reordering the lines doesn't "
 "recompute them.</span>"
 msgstr ""
-"<span><strong>Astuce l:</strong> Chaque fois que vous modifiez la quantité "
-"ou le montant d'une ligne, les lignes suivants sont recalculées. Nous vous "
-"conseillons d'modifier les lignes de haut en bas pour éviter que vos "
-"changements soient écrasés par le recalcul automatique. Soyez conscient que "
-"réordonner les lignes ne les recalcule pas.</span>"
+"<span><strong>Astuce :</strong> Chaque fois que vous modifiez la quantité ou "
+"le montant d’une ligne, les lignes suivantes sont recalculées. Nous vous "
+"conseillons de modifier les lignes de haut en bas afin d’éviter que vos "
+"modifications ne soient écrasées par le recalcul automatique. Notez que la "
+"réorganisation des lignes ne déclenche pas de recalcul.</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -503,11 +498,6 @@ msgstr "<strong class=\"me-2\">Calculé le :</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr "<strong class=\"me-2\">Date de début du contrat :</strong>"
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr "<strong class=\"me-2\">Type de contrat :</strong>"
 
@@ -520,6 +510,11 @@ msgstr "<strong class=\"me-2\">Département :</strong>"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
 msgstr "<strong class=\"me-2\">E-mail :</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr "<strong class=\"me-2\">Date de prestation :</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -684,7 +679,7 @@ msgstr "Activités de"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__activity_exception_decoration
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Activité exception décoration"
+msgstr "Indicateur d’exception d’activité"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__activity_state
@@ -2339,7 +2334,7 @@ msgstr "Employés sans numéro d'identification"
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_employee_without_contract
 msgid "Employees Without Running Contracts"
-msgstr "Employés sans contrats ouverts"
+msgstr "Employés sans contrats en cours"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_nearly_expired_contracts
@@ -2575,8 +2570,6 @@ msgid "General"
 msgstr "Général"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Générer"
@@ -2608,11 +2601,17 @@ msgid "Generate Payslips"
 msgstr "Générer les fiches de paie"
 
 #. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr "Générer les rapports ("
+
+#. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "Generate a Payment Report"
-msgstr ""
+msgstr "Générer un rapport de paiement"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payroll_employee_declaration__state__pdf_generated
@@ -3870,12 +3869,6 @@ msgid "PDF generation started. It will be available shortly."
 msgstr "Lancement de la génération du PDF. Il sera disponible sous peu."
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr "PDF"
-
-#. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state_display__paid
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_run__state__03_paid
@@ -4874,7 +4867,7 @@ msgstr "Sections d’entrée salariale"
 #: model:ir.actions.act_window,name:hr_payroll.action_view_hr_payslip_input_type
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_entry_type_view
 msgid "Salary Input Types"
-msgstr ""
+msgstr "Types d’entrées salariales"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -6391,6 +6384,8 @@ msgstr ""
 #: code:addons/hr_payroll/models/hr_salary_rule_section.py:0
 msgid "You cannot delete a section currently used in a salary structure."
 msgstr ""
+"Vous ne pouvez pas supprimer une section actuellement utilisée dans une "
+"structure salariale."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6617,6 +6612,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆Vous voyez le menu, en haut ?"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "PDFs"
+#~ msgstr "PDF"
+
+#~ msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
+#~ msgstr "<strong class=\"me-2\">Date de début du contrat :</strong>"
 
 #~ msgid "Other Input Types"
 #~ msgstr "Autres types d'entrée"

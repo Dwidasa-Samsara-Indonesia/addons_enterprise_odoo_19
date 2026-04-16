@@ -455,3 +455,24 @@ class TestPayslipOvertime(HrWorkEntryAttendanceCommon):
             }
         ])
         attendances.action_approve_overtime()
+
+    def test_work_entry_consecutive_attendances(self):
+        calendar = self.env['resource.calendar'].create({
+            'name': 'Full Time 24h/8day',
+            'hours_per_day': 7.6,
+            'attendance_ids': [
+                (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 8, 'hour_to': 16.6, 'day_period': 'full_day'}),
+                (0, 0, {'name': 'Tuesday Morning', 'dayofweek': '1', 'hour_from': 8, 'hour_to': 16.6, 'day_period': 'full_day'}),
+                (0, 0, {'name': 'Wednesday Morning', 'dayofweek': '2', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning'}),
+                (0, 0, {'name': 'Wednesday Afternoon', 'dayofweek': '2', 'hour_from': 12, 'hour_to': 16.6, 'day_period': 'afternoon', 'work_entry_type_id': self.overtime_type.id}),
+                (0, 0, {'name': 'Thursday Morning', 'dayofweek': '3', 'hour_from': 8, 'hour_to': 16.6, 'day_period': 'morning'}),
+                (0, 0, {'name': 'Friday Morning', 'dayofweek': '4', 'hour_from': 8, 'hour_to': 16.6, 'day_period': 'morning'}),
+            ],
+        })
+        self.contract.write({
+            'resource_calendar_id': calendar.id,
+        })
+        work_entries = self.contract.generate_work_entries(date(2022, 12, 1), date(2022, 12, 31))
+        work_entry_types = work_entries.mapped('work_entry_type_id')
+        self.assertIn(self.attendance_type, work_entry_types)
+        self.assertIn(self.overtime_type, work_entry_types)

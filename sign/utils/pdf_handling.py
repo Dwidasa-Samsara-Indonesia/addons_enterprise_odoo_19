@@ -133,17 +133,26 @@ def _draw_field_value(can, annot_ref):
     rect = annot.get("/Rect")
     if not rect:
         return
-
-    x, y = float(rect[0]), float(rect[1])
-    field_value = ""
-    can.setFont("Helvetica", 10)
-
-    # Render a ✓ symbol for checked Check Box or Radio Button
-    appearance_state = annot.get("/AS")
-    if appearance_state and appearance_state != NameObject("/Off"):
-        field_value = chr(0x2713)
-    elif annot.get("/V") != "/Off":
-        field_value = str(annot.get("/V") or "")
-
+    field_value = _get_field_value(annot)
     if field_value:
+        x, y = float(rect[0]), float(rect[1])
+        can.setFont("Helvetica", 10)
         can.drawString(x + 2, y + 2, field_value)
+
+
+def _get_field_value(annot):
+    """ Return the display value extracted from a PDF annotation.
+
+    :param annot: The annotation dictionary representing the PDF form field.
+    :return: The string value to draw, or a checkmark character for active buttons.
+    :rtype: str
+    """
+    field_type = annot.get("/FT")
+    if field_type == "/Btn":  # checkbox or radio
+        appearance_state = annot.get("/AS")
+        if appearance_state and appearance_state != NameObject("/Off"):
+            # Render a ✓ symbol for checked Check Box or Radio Button
+            return chr(0x2713)
+        else:  # if btn is not checked don't render anything
+            return ""
+    return str(annot.get("/V") or "")

@@ -6,7 +6,7 @@
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2022
 # Martin Trigaux, 2023
 # Jolien De Paepe, 2023
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2023
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2023, 2026.
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Bren Driesen <brdri@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-01-09 10:58+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-14 10:54+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "sale_subscription/nl/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_subscription
 #. odoo-python
@@ -37,8 +37,8 @@ msgid ""
 "date of the contract."
 msgstr ""
 "\n"
-"- Je probeert herhalende orders (abonnementen) te factureren. Controleer het "
-"geleverde aantal van het product op basis van het factureringsbeleid, de "
+"- Je probeert terugkerende orders (abonnementen) te factureren. Controleer "
+"het geleverde aantal van het product op basis van het factureringsbeleid, de "
 "volgende factuurdatum en de einddatum van het contract."
 
 #. module: sale_subscription
@@ -103,7 +103,7 @@ msgid ""
 "(*) These recurring products are discounted according to the prorated period "
 "from %(start)s to %(end)s"
 msgstr ""
-"(*) Deze herhalende producten worden verdisconteerd volgens de pro rata "
+"(*) Deze terugkerende producten worden verdisconteerd volgens de pro rata "
 "periode van %(start)s t/m %(end)s"
 
 #. module: sale_subscription
@@ -113,7 +113,7 @@ msgid ""
 "(*) These recurring products are entirely discounted as the next period has "
 "not been invoiced yet."
 msgstr ""
-"(*) Deze herhalende producten worden volledig verdisconteerd omdat de "
+"(*) Deze terugkerende producten worden volledig verdisconteerd omdat de "
 "volgende periode nog niet is gefactureerd."
 
 #. module: sale_subscription
@@ -631,12 +631,12 @@ msgstr "<span class=\"text-muted\">Volgende facturatie</span>"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.recurring_details
 msgid "<span class=\"text-start\">Non Recurring</span>:"
-msgstr "<span class=\"text-start\">Niet herhalend</span>:"
+msgstr "<span class=\"text-start\">Niet terugkerend</span>:"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.recurring_details
 msgid "<span class=\"text-start\">Recurring</span>:"
-msgstr "<span class=\"text-start\">Herhalend</span>:"
+msgstr "<span class=\"text-start\">Terugkerend</span>:"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -674,7 +674,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.report_saleorder_document
 msgid "<strong>Recurring Plan</strong>"
-msgstr "<strong>Herhalend plan</strong>"
+msgstr "<strong>Terugkerend plan</strong>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_close_reason_view_form
@@ -1336,7 +1336,7 @@ msgstr "Activiteitenplan"
 #: model:ir.actions.act_window,name:sale_subscription.mail_activity_type_action_config_subscription
 #: model:ir.ui.menu,name:sale_subscription.subscription_menu_config_activity_type
 msgid "Activity Types"
-msgstr "Activiteitensoorten"
+msgstr "Activiteitstypes"
 
 #. module: sale_subscription
 #: model_terms:ir.actions.act_window,help:sale_subscription.mail_activity_plan_action_subscription
@@ -1374,8 +1374,8 @@ msgid ""
 "Add a recurring plan for this product, or create a new one with the desired "
 "recurrence (e.g., Monthly)"
 msgstr ""
-"Voeg een herhaalplan toe voor dit product, of maak een nieuw abonnement met "
-"het gewenste herhalingspatroon (bijvoorbeeld maandelijks)"
+"Voeg een terugkerend plan toe voor dit product, of maak een nieuw abonnement "
+"met het gewenste herhalingspatroon (bijvoorbeeld maandelijks)"
 
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_subscription_plan__billing_first_day
@@ -1450,7 +1450,7 @@ msgstr "Er is een upsell-offerte %s gemaakt"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log_report__recurring_yearly
 msgid "Annual Recurring Revenue"
-msgstr "Jaarlijks herhalende omzet"
+msgstr "Jaarlijks terugkerende inkomsten"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_template_view_search
@@ -1878,7 +1878,7 @@ msgstr "Contract in uitzondering"
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log_report__event_type__15_contraction
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_log_report_search
 msgid "Contraction"
-msgstr "Contraction"
+msgstr "Inkrimping"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
@@ -1944,7 +1944,7 @@ msgid ""
 "Create subscriptions to manage recurring invoicing and payments from your "
 "customers."
 msgstr ""
-"Maak abonnementen om herhalende facturatie en betalingen van je klanten te "
+"Maak abonnementen om terugkerende facturatie en betalingen van je klanten te "
 "verwerken."
 
 #. module: sale_subscription
@@ -2380,7 +2380,7 @@ msgstr "Heeft bericht"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__has_recurring_line
 msgid "Has Recurring Line"
-msgstr "Heeft herhalende regel"
+msgstr "Heeft terugkerende regel"
 
 #. module: sale_subscription
 #: model_terms:ir.actions.act_window,help:sale_subscription.sale_subscription_action_pending
@@ -2850,7 +2850,7 @@ msgid ""
 "Mix of negative recurring lines and non-recurring line. The contract should "
 "be fixed manually"
 msgstr ""
-"Mix van negatieve herhalende regels en een eenmalige regel. Het contract "
+"Mix van negatieve terugkerende regels en een eenmalige regel. Het contract "
 "moet handmatig worden vastgelegd"
 
 #. module: sale_subscription
@@ -2862,14 +2862,14 @@ msgstr "Maandelijks"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__recurring_monthly
 msgid "Monthly Recurring"
-msgstr "Maandelijks herhalend"
+msgstr "Maandelijks terugkerend"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_account_move_line__subscription_mrr
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_line__recurring_monthly
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log_report__recurring_monthly
 msgid "Monthly Recurring Revenue"
-msgstr "Maandelijks herhalende omzet"
+msgstr "Maandelijks terugkerende inkomsten"
 
 #. module: sale_subscription
 #: model:product.template,description_sale:sale_subscription.product_car_leasing_product_template
@@ -3005,13 +3005,13 @@ msgstr "Geen geldige betaalmethode"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_tree
 msgid "Non Recurring"
-msgstr "Niet herhalend"
+msgstr "Niet terugkerend"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_search
 #: model_terms:ir.ui.view,arch_db:sale_subscription.view_order_product_search_inherit
 msgid "Non-recurring"
-msgstr "Niet-herhalend"
+msgstr "Niet-terugkerend"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_template_view_form
@@ -3026,7 +3026,7 @@ msgstr "Niet gefactureerd"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.view_sales_order_filter_subscription
 msgid "Not Recurring"
-msgstr "Niet herhalend"
+msgstr "Niet terugkerend"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__note_order
@@ -3216,12 +3216,12 @@ msgstr "Betaal"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Pay Now"
-msgstr "Betaal nu"
+msgstr "Nu betalen"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "Pay now"
-msgstr "Betaal nu"
+msgstr "Nu betalen"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -3306,8 +3306,8 @@ msgid ""
 "Please add a recurring plan on the subscription or remove the recurring "
 "product."
 msgstr ""
-"Voeg een herhaalplan toe aan het abonnement of verwijder het herhalend "
-"product."
+"Voeg een terugkerend plan toe aan het abonnement of verwijder het "
+"terugkerend product."
 
 #. module: sale_subscription
 #. odoo-python
@@ -3316,8 +3316,8 @@ msgid ""
 "Please add a recurring product in the subscription or remove the recurring "
 "plan."
 msgstr ""
-"Voeg een herhalend product toe aan het abonnement of verwijder het "
-"herhaalplan."
+"Voeg een terugkerend product toe aan het abonnement of verwijder het "
+"terugkerend plan."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -3340,7 +3340,8 @@ msgid ""
 "Please remove the recurring plan on the subscription before sending the "
 "email."
 msgstr ""
-"Verwijder het herhaalplan van het abonnement voordat je de e-mail verstuurt."
+"Verwijder het terugkerend plan van het abonnement voordat je de e-mail "
+"verstuurt."
 
 #. module: sale_subscription
 #. odoo-python
@@ -3354,7 +3355,8 @@ msgstr "Selecteer een datum om het abonnement te pauzeren tot."
 msgid ""
 "Please set a recurring plan on the subscription before sending the email."
 msgstr ""
-"Stel een herhaalplan in op het abonnement voordat je de e-mail verstuurt."
+"Stel een terugkerend plan in op het abonnement voordat je de e-mail "
+"verstuurt."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_close_reason_view_form
@@ -3465,11 +3467,9 @@ msgstr "Aantal te factureren"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_analysis_view_pivot
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_analysis_view_tree
 msgid "Quantity"
-msgstr "Aantal"
+msgstr "Hoeveelheid"
 
 #. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log_report__state__draft
@@ -3567,7 +3567,7 @@ msgstr "Reden"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.view_order_product_search_inherit
 #: model_terms:ir.ui.view,arch_db:sale_subscription.view_sales_order_filter_subscription
 msgid "Recurring"
-msgstr "Herhalend"
+msgstr "Terugkerend"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__recurring_total
@@ -3577,7 +3577,7 @@ msgstr "Terugkerend bedrag"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__recurring_details
 msgid "Recurring Details"
-msgstr "Herhalende details"
+msgstr "Terugkerende details"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_product_pricelist_item__plan_id
@@ -3590,34 +3590,34 @@ msgstr "Herhalende details"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_plan_view_form
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
 msgid "Recurring Plan"
-msgstr "Herhalend plan"
+msgstr "Terugkerend plan"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
 msgid "Recurring Plan:"
-msgstr "Herhalend plan:"
+msgstr "Terugkerend plan:"
 
 #. module: sale_subscription
 #: model:ir.actions.act_window,name:sale_subscription.sale_subscription_plan_action
 #: model:ir.ui.menu,name:sale_subscription.menu_sale_subscription_plans
 msgid "Recurring Plans"
-msgstr "Herhaalplannen"
+msgstr "Terugkerende plannen"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.product_pricelist_view
 msgid "Recurring Prices"
-msgstr "Herhalende prijzen"
+msgstr "Terugkerende prijzen"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_product_pricelist__subscription_item_ids
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__subscription_rule_ids
 msgid "Recurring Pricing"
-msgstr "Herhalende prijzen"
+msgstr "Terugkerende prijzen"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__recurring_total
 msgid "Recurring Revenue"
-msgstr "Herhalende omzet"
+msgstr "Terugkerende inkomsten"
 
 #. module: sale_subscription
 #. odoo-python
@@ -3788,7 +3788,7 @@ msgstr "Verkoop abonnement: KPI bijwerken"
 #. module: sale_subscription
 #: model:ir.actions.server,name:sale_subscription.account_analytic_cron_for_invoice_ir_actions_server
 msgid "Sale Subscription: generate recurring invoices and payments"
-msgstr "Abonnementen: genereer herhalende facturen en betalingen"
+msgstr "Abonnementen: genereer terugkerende facturen en betalingen"
 
 #. module: sale_subscription
 #: model:ir.actions.server,name:sale_subscription.send_payment_reminder_ir_actions_server
@@ -3881,7 +3881,7 @@ msgstr "Zoeksjabloon"
 #. odoo-javascript
 #: code:addons/sale_subscription/static/src/js/tours/sale_subscription.js:0
 msgid "Select a recurring product"
-msgstr "Selecteer een herhalend product"
+msgstr "Selecteer een terugkerend product"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_close_reason_view_form
@@ -4284,12 +4284,12 @@ msgstr "Abonnementen niet toegewezen aan een account manager."
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_analysis_view_tree
 msgid "Sum of Monthly Recurring"
-msgstr "Som van maandelijks herhalend"
+msgstr "Som van maandelijks terugkerend"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_analysis_view_tree
 msgid "Sum of Yearly Recurring Revenue"
-msgstr "Som van jaarlijks herhalend omzet"
+msgstr "Som van jaarlijkse terugkerende inkomsten"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__team_user_id
@@ -4473,6 +4473,16 @@ msgid "The start date indicate when the subscription periods begin."
 msgstr "De startdatum geeft aan wanneer de abonnementsperiode begint."
 
 #. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/sale_order.py:0
+msgid ""
+"The start date of an upsell cannot be greater or equal to the next invoice "
+"date of the subscription %s.\n"
+"You should first invoice the original subscription, use an earlier start "
+"date for the upsell or create a renewal quotation."
+msgstr ""
+
+#. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
 msgid "The subscription was renewed with a new plan"
 msgstr "Het abonnement is verlengd met een nieuw abonnement"
@@ -4552,7 +4562,7 @@ msgid ""
 "recurring plan. It will be closed soon by the system."
 msgstr ""
 "Dit abonnement is verlopen en overschrijdt de automatische sluitingslimiet "
-"van het herhalend plan. Het wordt binnenkort door het systeem gesloten."
+"van het terugkerend plan. Het wordt binnenkort door het systeem gesloten."
 
 #. module: sale_subscription
 #. odoo-python
@@ -4609,7 +4619,7 @@ msgstr "Totaal"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__non_recurring_total
 msgid "Total Non Recurring Revenue"
-msgstr "Totaal niet herhalende omzet"
+msgstr "Totaal niet-terugkerende inkomsten"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -4785,8 +4795,8 @@ msgid ""
 "Want a recurring billing through subscription management? Get started by "
 "clicking here"
 msgstr ""
-"Wil je herhalende facturatie via abonnementsbeheer? Ga aan de slag door hier "
-"te klikken"
+"Wil je terugkerende facturatie via abonnementsbeheer? Ga aan de slag door "
+"hier te klikken"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__warehouse_id
@@ -4859,7 +4869,7 @@ msgstr "Jaarlijks"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__recurring_yearly
 msgid "Yearly Recurring"
-msgstr "Jaarlijks herhalend"
+msgstr "Jaarlijks terugkerend"
 
 #. module: sale_subscription
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_template__duration_unit__year
@@ -4903,8 +4913,8 @@ msgid ""
 "You can not change the recurring property of this product because it has "
 "been sold already."
 msgstr ""
-"Je kunt de herhalende eigenschap van dit product niet wijzigen omdat het al "
-"verkocht is."
+"Je kunt de terugkerende eigenschap van dit product niet wijzigen omdat het "
+"al verkocht is."
 
 #. module: sale_subscription
 #. odoo-python
@@ -4935,7 +4945,7 @@ msgid ""
 "orders: %s"
 msgstr ""
 "Je kunt de partner niet archiveren omdat deze wordt gebruikt in de volgende "
-"herhalende orders: %s"
+"terugkerende orders: %s"
 
 #. module: sale_subscription
 #. odoo-python
@@ -4949,7 +4959,7 @@ msgstr ""
 #: code:addons/sale_subscription/wizard/sale_subscription_change_customer_wizard.py:0
 msgid "You cannot change the customer of non recurring sale order."
 msgstr ""
-"Je kunt de naam van een klant van een niet herhalend verkooporder niet "
+"Je kunt de naam van een klant van een niet-terugkerende verkooporder niet "
 "wijzigen."
 
 #. module: sale_subscription
@@ -5063,17 +5073,6 @@ msgstr ""
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid "You cannot upsell a subscription using a different currency."
 msgstr "Je kunt een abonnement niet upsellen met een andere valuta."
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
-"You cannot upsell a subscription whose next invoice date is in the past.\n"
-"Please, invoice directly the %s contract."
-msgstr ""
-"Je kunt geen abonnement upsellen waarvan de volgende factuurdatum in het "
-"verleden ligt. \n"
-"Je moet rechtstreeks het contract %s te factureren."
 
 #. module: sale_subscription
 #. odoo-python
@@ -5318,6 +5317,14 @@ msgstr ""
 "{{ object.company_id.name }}: Je abonnement {{ object.name }} heeft je "
 "aandacht nodig. Als je je hier zorgen over maakt, neem dan contact op met: "
 "{{ object.user_id.name }}, je contactpersoon."
+
+#~ msgid ""
+#~ "You cannot upsell a subscription whose next invoice date is in the past.\n"
+#~ "Please, invoice directly the %s contract."
+#~ msgstr ""
+#~ "Je kunt geen abonnement upsellen waarvan de volgende factuurdatum in het "
+#~ "verleden ligt. \n"
+#~ "Je moet rechtstreeks het contract %s te factureren."
 
 #~ msgid "Applied On"
 #~ msgstr "Toegepast op"

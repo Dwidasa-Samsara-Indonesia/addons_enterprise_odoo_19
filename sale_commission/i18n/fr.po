@@ -4,13 +4,13 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025.
+# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:49+0000\n"
-"PO-Revision-Date: 2025-11-18 17:09+0000\n"
+"POT-Creation-Date: 2026-04-10 18:53+0000\n"
+"PO-Revision-Date: 2026-04-14 13:04+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "sale_commission/fr/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_commission
 #. odoo-python
@@ -32,6 +32,12 @@ msgstr "%(plan)s - %(type)s %(product)s %(categ)s"
 #: code:addons/sale_commission/model/commission_plan_user.py:0
 msgid "%(user)s - %(plan)s"
 msgstr "%(user)s - %(plan)s"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_achievement.py:0
+msgid "%s"
+msgstr "%s"
 
 #. module: sale_commission
 #. odoo-python
@@ -275,7 +281,7 @@ msgstr "Détail des commissions : %(name)s"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_search
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_report_view_search
 msgid "Commission Plan"
-msgstr "Plan de comission"
+msgstr "Plan de commission"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_plan_achievement
@@ -307,7 +313,7 @@ msgstr "Utilisateur du plan de commission"
 #: model:ir.actions.act_window,name:sale_commission.sale_commission_action_plan
 #: model:ir.ui.menu,name:sale_commission.sale_commission_plan_menu
 msgid "Commission Plans"
-msgstr "Plans de comission"
+msgstr "Plans de commission"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_achievement_report__commission_rate
@@ -772,6 +778,9 @@ msgid ""
 "- %(c_name)s [%(c_from)s → %(c_to)s]\n"
 "- %(n_name)s [%(n_from)s → %(n_to)s]"
 msgstr ""
+"Chevauchement de périodes détecté pour le plan \"%(plan)s\" :\n"
+"- %(c_name)s [%(c_from)s → %(c_to)s]\n"
+"- %(n_name)s [%(n_from)s → %(n_to)s]"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan_target__payment_amount
@@ -1025,6 +1034,8 @@ msgid ""
 "The start date must be before the end date.\n"
 "Period: %s"
 msgstr ""
+"La date de début doit être antérieure à la date de fin.\n"
+"Période : %s"
 
 #. module: sale_commission
 #. odoo-python

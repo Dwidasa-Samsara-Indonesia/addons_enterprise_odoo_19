@@ -115,9 +115,18 @@ export class DataMergeListController extends DataCleaningCommonListController {
         this.dialog.add(ConfirmationDialog, {
             body: _t("Are you sure that you want to merge the selected records in their respective group?"),
             confirm: async () => {
-                await this.orm.call('data_merge.group', 'merge_multiple_records', [group_ids]);
-                this.showMergeNotification();
-                await this.model.load();
+                try {
+                    await this.orm.call('data_merge.group', 'merge_multiple_records', [group_ids]);
+                    this.showMergeNotification();
+                    await this.model.load();
+                } catch (error) {
+                    console.warn("Merge operation failed or timed out:", error);
+                    this.notificationService.add(
+                        _t("The connection timed out. Please try merging fewer records at once."),
+                        { type: "warning", sticky: true }
+                    );
+                }
+
             },
             cancel: () => {},
         });

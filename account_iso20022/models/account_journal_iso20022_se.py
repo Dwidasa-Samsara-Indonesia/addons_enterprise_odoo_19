@@ -1,6 +1,17 @@
 from lxml import etree
 from odoo import models
 
+SCHEM_NAME_PER_BANK_BIC = {
+    'init': {
+        'BANK': {'SWEDSESS'},
+        'CUST': {'NDEASESS'},
+    },
+    'dbtr': {
+        'BANK': {'NDEASESS'},
+        'CUST': {},
+    },
+}
+
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
@@ -20,14 +31,16 @@ class AccountJournal(models.Model):
     def _get_InitgPty(self, payment_method_code):
         if payment_method_code == 'iso20022_se':
             InitgPty = etree.Element("InitgPty")
-            InitgPty.extend(self._get_company_PartyIdentification32(postal_address=False, issr=False, nm=False, schme_nm='BANK', payment_method_code=payment_method_code))
+            schme_nm = 'CUST' if self.bank_id.bic in SCHEM_NAME_PER_BANK_BIC['init']['CUST'] else 'BANK'
+            InitgPty.extend(self._get_company_PartyIdentification32(postal_address=False, issr=False, nm=False, schme_nm=schme_nm, payment_method_code=payment_method_code))
             return InitgPty
         return super()._get_InitgPty(payment_method_code)
 
     def _get_Dbtr(self, payment_method_code):
         if payment_method_code == 'iso20022_se':
             Dbtr = etree.Element("Dbtr")
-            Dbtr.extend(self._get_company_PartyIdentification32(postal_address=True, issr=False, schme_nm="CUST", payment_method_code=payment_method_code))
+            schme_nm = 'BANK' if self.bank_id.bic in SCHEM_NAME_PER_BANK_BIC['dbtr']['BANK'] else 'CUST'
+            Dbtr.extend(self._get_company_PartyIdentification32(postal_address=True, issr=False, schme_nm=schme_nm, payment_method_code=payment_method_code))
             return Dbtr
         return super()._get_Dbtr(payment_method_code)
 

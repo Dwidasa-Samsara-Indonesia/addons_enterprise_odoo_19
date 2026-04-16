@@ -212,6 +212,5 @@ class HrPayrollStructure(models.Model):
             'domain': [
                 ('struct_id', '=', self.id),
                 ('condition_select', '=', 'property_input'),
-                ('dependent_input_id', '=', False),
             ]
         }

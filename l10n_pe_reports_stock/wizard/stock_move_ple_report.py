@@ -148,9 +148,8 @@ class L10n_PeStockPleWizard(models.TransientModel):
         data.extend(self._append_historic_valuation_lines(products, period, count, report))
         if not data:
             return ''
-        csv.register_dialect("pipe_separator", delimiter="|", skipinitialspace=True, lineterminator='|\n')
         output = StringIO()
-        writer = csv.DictWriter(output, dialect="pipe_separator", fieldnames=data[0].keys())
+        writer = csv.DictWriter(output, delimiter="|", skipinitialspace=True, lineterminator='\n', fieldnames=[*data[0], object()])
         writer.writerows(data)
         txt_result = output.getvalue()
         return txt_result

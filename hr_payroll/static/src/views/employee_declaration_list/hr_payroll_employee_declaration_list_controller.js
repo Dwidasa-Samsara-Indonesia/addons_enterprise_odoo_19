@@ -1,5 +1,6 @@
 import {ListController} from "@web/views/list/list_controller";
 import {useService} from "@web/core/utils/hooks";
+import {useState} from "@odoo/owl";
 
 export class EmployeeDeclarationListController extends ListController {
     static template = "hr_payroll.EmployeeDeclarationListController";
@@ -8,35 +9,40 @@ export class EmployeeDeclarationListController extends ListController {
         super.setup();
         this.orm = useService("orm")
         this.action = useService("action");
+        this.state = useState({})
     }
 
-    getNumberToGenerate() {
-        return this.onlyDrafts() ? "" : this.model.root.selection.filter((r) => r.data.state === "draft").length
-    }
+    async onSelectionChanged() {
+        await super.onSelectionChanged();
 
-    noDrafts(){
-        if (this.hasSelectedRecords)
-            return this.model.root.selection.filter((r) => r.data.state === "draft").length < 1
-        return this.model.root.records.filter((r) => r.data.state === "draft").length < 1
+        const records = await this._getSelectedRecords();
+        this.state.generateCount = records.filter(r => r.state === "draft" || r.state === "pdf_generated").length;
+        this.state.postCount = records.filter(r => r.state === "pdf_generated").length;
+        this.state.onlyDrafts = records.every(r => r.state === "draft");
     }
-
-    onlyDrafts(){
-        if (this.hasSelectedRecords)
-            if (this.model.root.selection.filter((r) => r.data.state === "draft").length === this.model.root.selection.length)
-                return true
-        return this.model.root.records.filter((r) => r.data.state === "draft").length === this.model.root.records.length;
-    }
-
-    checkOnlyDrafts() {
-        return this.onlyDrafts() ? "btn-primary" : "btn-secondary"
-    }
-
-    generatePdfs(){
+    
+    async generatePdfs(){
         return this.action.doActionButton({
             type: "object",
             resModel: "hr.payroll.employee.declaration",
             name:"action_generate_pdf",
-            resIds: this.model.root.selection.filter((r) => r.data.state === "draft").map((r) => r.resId),
+            resIds: await this.model.root.getResIds(true),
         })
     }
+
+    async _getSelectedRecords() {
+        const {root} = this.model;
+
+        if(this.isDomainSelected) {
+            const selectedIDs = await root.getResIds(true);
+            return await this.orm.read(root.resModel, selectedIDs, ['state']);
+        }
+
+        if (this.hasSelectedRecords) {
+            return root.selection.map((r) => r.data);
+        }
+
+        return root.records.map((r) => r.data);
+    }
+
 }

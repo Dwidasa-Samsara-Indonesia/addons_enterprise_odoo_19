@@ -132,7 +132,7 @@
                         <t t-foreach="o.employee_id.bank_account_ids" t-as="ba">
                             <li>
                                 <span class="fw-bold" t-out="ba.display_name"/>
-                                of <span class="fst-italic" t-field="o.employee_id"/>:
+                                of <span class="fst-italic" t-field="ba.acc_holder_name"/>:
                                 <t t-esc="allocations.get(str(ba.id), 0.0)"/>
                             </li>
                         </t>

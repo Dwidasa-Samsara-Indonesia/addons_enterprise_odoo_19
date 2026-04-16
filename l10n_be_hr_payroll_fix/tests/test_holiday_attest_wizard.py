@@ -1,10 +1,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from datetime import date
 
-from odoo.tests import tagged
+from odoo.tests import tagged, freeze_time
 from odoo.addons.l10n_be_hr_payroll.tests.common import TestPayrollCommon
 
 
+@freeze_time("2026-02-01 08:00:00")
 @tagged("post_install_l10n", "post_install", "-at_install")
 class TestHolidayAttestWizard(TestPayrollCommon):
     @classmethod

@@ -3,13 +3,14 @@
 # * delivery_fedex_rest
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2025-09-16 15:30+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"POT-Creation-Date: 2026-02-20 18:41+0000\n"
+"PO-Revision-Date: 2026-03-14 09:38+0000\n"
+"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "delivery_fedex_rest/fi/>\n"
 "Language: fi\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -26,7 +27,7 @@ msgid ""
 "secret key and account number:</b>\n"
 "                                <br/>"
 msgstr ""
-"<b>Projektin luomisen jälkeen näet API-testiavaimesi, salaiset avaimesi ja "
+"<b>Projektin luomisen jälkeen näet API-testiavaimesi, salaisen avaimesi ja "
 "tilinumerosi:</b>\n"
 "                                <br/>"
 
@@ -142,7 +143,7 @@ msgstr "Ota yhteyttä FedExiin järjestääksesi noudon"
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/fedex_request.py:0
 msgid "Could not decode response"
-msgstr "Vastausta ei voitu tulkita."
+msgstr "Vastauksen purkaminen epäonnistui"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_residential_address
@@ -496,6 +497,12 @@ msgstr ""
 "yhteydessä."
 
 #. module: delivery_fedex_rest
+#. odoo-python
+#: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
+msgid "Freight services for Fedex are not implemented."
+msgstr "Fedexin rahtipalvelut eivät ole käytössä."
+
+#. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_documentation_type
 msgid "Generate invoice"
 msgstr "Luo lasku"
@@ -802,8 +809,8 @@ msgid ""
 "When enabled, the customer will receive email notifications from FedEx about "
 "this shipment (when an email address is configured on the customer)"
 msgstr ""
-"Kun toiminto on käyttössä, asiakas saa sähköpostitiedotteita FedEx:iltä "
-"lähetykseen liittyen (kunhan asiakkaalle on määritetty sähköpostiosoite)."
+"Kun toiminto on käytössä, asiakas saa sähköposti-ilmoituksia FedEx:iltä "
+"lähetykseen liittyen (jos asiakkaalle on määritetty sähköpostiosoite)"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_override_shipper_vat

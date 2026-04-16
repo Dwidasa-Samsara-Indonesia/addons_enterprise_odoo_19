@@ -4,13 +4,14 @@
 #
 # Translators:
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-10-22 12:10+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-02-20 21:55+0000\n"
+"Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "delivery_sendcloud/ru/>\n"
 "Language: ru\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -51,6 +52,14 @@ msgstr ""
 "\n"
 "Попробуйте распределить товары по посылкам так, чтобы их вес не превышал %"
 "(max_weight)s %(unit)s, или выберите другого перевозчика."
+
+#. module: delivery_sendcloud
+#. odoo-python
+#: code:addons/delivery_sendcloud/models/sendcloud_service.py:0
+msgid ""
+" Please make sure there is an address with the same name under \"Address "
+"Name (optional)\" in your Sendcloud Address configuration."
+msgstr ""
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -592,6 +601,12 @@ msgid ""
 "\t - The parcel has been announced more than 42 days ago\n"
 "\t - The parcel has already been delivered"
 msgstr ""
+"Отмена была отклонена для посылки (посылок) со следующим идентификатором:\n"
+"%(details)s\n"
+"Причины:\n"
+"\t – Отправление уже отменено\n"
+"\t – Отправление было зарегистрировано более 42 дней назад\n"
+"\t – Отправление уже доставлено"
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -766,6 +781,12 @@ msgid ""
 msgstr ""
 "создано в Sendcloud. <br/>\n"
 "           <b>Номера для отслеживания:</b>"
+
+#. module: delivery_sendcloud
+#. odoo-javascript
+#: code:addons/delivery_sendcloud/static/src/views/sendcloud_product_selection_widget.xml:0
+msgid "g"
+msgstr ""
 
 #~ msgid ""
 #~ "%s\n"

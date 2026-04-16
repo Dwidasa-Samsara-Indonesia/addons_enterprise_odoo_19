@@ -113,7 +113,14 @@ publicWidget.registry.PlanningView = publicWidget.Widget.extend({
             const timeRow = document.createElement('div');
             timeRow.classList.add('d-flex', 'align-items-center', 'w-100', 'overflow-hidden');
             const titleEvent = calendarElement.querySelector('.fc-event-title');
-            const colorElement = calendarElement.querySelector('.fc-daygrid-event-dot');
+            const colorElement = calendarElement.querySelector('.fc-daygrid-event-dot')
+                || (() => {
+                    const el = document.createElement('div');
+                    el.classList.add('fc-daygrid-event-dot');
+                    el.style.borderColor = calendarElement.style.borderColor;
+                    calendarElement.style.backgroundColor = null;
+                    return el;
+                })();
             timeEvent.classList.add('w-100', 'text-truncate');
             timeRow.append(colorElement, timeEvent);
             titleEvent.classList.add('w-100', 'text-truncate', 'ms-4');

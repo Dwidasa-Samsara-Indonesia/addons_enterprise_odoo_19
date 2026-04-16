@@ -106,7 +106,9 @@ class AccountBatchPayment(models.Model):
         if self.payment_method_code in ['sepa_ct', 'iso20022', 'iso20022_se', 'iso20022_ch', 'iso20022_us']:
             payments = self.payment_ids.sorted(key=lambda r: r.id)
             payment_dicts = self._generate_payment_template(payments)
-            xml_doc = self.journal_id.create_iso20022_credit_transfer(
+            xml_doc = self.with_context(
+                bban=self.payment_method_code == 'iso20022_se' and len({'bban_se', 'plusgiro', 'bankgiro', *self.payment_ids.mapped('partner_bank_id.acc_type')}) == 3
+            ).journal_id.create_iso20022_credit_transfer(
                 payment_dicts,
                 self.payment_method_code,
                 batch_booking=self.iso20022_batch_booking,

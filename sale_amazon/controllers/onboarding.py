@@ -59,7 +59,14 @@ class AmazonController(http.Controller):
             raise Forbidden()
 
         # Store the Amazon data on the account.
-        account = request.env['amazon.account'].browse(account_id).exists()
+        account = (
+            request
+            .env['amazon.account']
+            .browse(account_id)
+            .exists()
+            # Expand allowed companies since the route restricts access to the website company.
+            .with_context(allowed_company_ids=request.env.user._get_company_ids())
+        )
         if not account:
             raise ValidationError(_("Could not find Amazon account with id %s", account_id))
         account.seller_key = seller_key

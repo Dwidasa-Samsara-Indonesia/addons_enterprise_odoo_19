@@ -8,14 +8,14 @@
 # Geoffrey_GMF <gmf@odoo.com>, 2023
 # Jolien De Paepe, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025.
+# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-18 10:25+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-07 15:51+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "hr_appraisal/fr/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_appraisal
 #. odoo-python
@@ -71,30 +71,10 @@ msgid ". Then, share it with appraisers."
 msgstr ". Ensuite, partagez-le avec les évaluateurs."
 
 #. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__100
-msgid "100%"
-msgstr "100%"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__025
-msgid "25%"
-msgstr "25%"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_res_config_settings__module_hr_appraisal_survey
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.res_config_settings_view_employee_form
 msgid "360 Feedback"
 msgstr "Feedback 360"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__050
-msgid "50%"
-msgstr "50%"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__075
-msgid "75%"
-msgstr "75%"
 
 #. module: hr_appraisal
 #: model:mail.template,body_html:hr_appraisal.mail_template_appraisal_confirm
@@ -267,7 +247,7 @@ msgstr ""
 "                        <br/>\n"
 "                        Juste un petit rappel : votre prochaine évaluation "
 "avec <t t-out=\"ctx.get('manager_names')\"> [Évaluateurs]</t>\n"
-"                        est prévue pour le <t t-out=\"ctx.get('date_close')"
+"                        est prévue le <t t-out=\"ctx.get('date_close')"
 "\">[deadline]</t>.\n"
 "                        <br/>\n"
 "                        <t t-if=\"ctx.get('user_body')\">\n"
@@ -1095,7 +1075,7 @@ msgstr "Activités de"
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal__activity_exception_decoration
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_goal__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Activité exception décoration"
+msgstr "Indicateur d’exception d’activité"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal__activity_state
@@ -1327,6 +1307,16 @@ msgstr "Évaluation à compléter"
 #: model:ir.actions.act_window,name:hr_appraisal.hr_appraisal_action_from_department
 msgid "Appraisal to start"
 msgstr "Évaluation à commencer"
+
+#. module: hr_appraisal
+#. odoo-python
+#: code:addons/hr_appraisal/wizard/hr_departure_wizard.py:0
+msgid ""
+"Appraisal's managers have been updated due to the end of collaboration with "
+"an employee."
+msgstr ""
+"Les responsables de l’évaluation ont été mis à jour en raison de la fin de "
+"la collaboration avec un employé."
 
 #. module: hr_appraisal
 #: model:ir.actions.server,name:hr_appraisal.ir_cron_scheduler_appraisal_ir_actions_server
@@ -3340,6 +3330,18 @@ msgstr ""
 #: model:mail.template,subject:hr_appraisal.mail_template_appraisal_confirm
 msgid "{{ object.employee_id.name }}: Appraisal Confirmed"
 msgstr "{{ object.employee_id.name }}: Évaluation confirmée"
+
+#~ msgid "100%"
+#~ msgstr "100%"
+
+#~ msgid "25%"
+#~ msgstr "25%"
+
+#~ msgid "50%"
+#~ msgstr "50%"
+
+#~ msgid "75%"
+#~ msgstr "75%"
 
 #~ msgid "%s Goals"
 #~ msgstr "%s Objectifs"

@@ -8,7 +8,7 @@
                     <i class="fa fa-circle-o-notch fa-spin"/>
                 </div>
             </t>
-            <t t-else="">
+            <t t-elif="['pending', 'unsigned'].includes(state.status)">
                 <div name="check_online_payment_status" t-on-click="onClickFetchStatus">
                     <i class="fa fa-refresh"/>
                 </div>

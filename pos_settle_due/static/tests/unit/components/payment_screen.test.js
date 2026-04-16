@@ -24,6 +24,7 @@ test("validateOrder -> depositOrder", async () => {
 
     const store = await setupPosEnv();
     const order = store.addNewOrder();
+    order.is_settling_account = true;
     const partner = store.models["res.partner"].get(3);
     const cash = store.models["pos.payment.method"].get(1);
     order.setPartner(partner);
@@ -31,7 +32,7 @@ test("validateOrder -> depositOrder", async () => {
     const paymentLine = order.addPaymentline(cash);
     paymentLine.data.amount = 50;
     const screen = await mountWithCleanup(PaymentScreen, {
-        props: { orderUuid: order.uuid, isDepositOrder: true },
+        props: { orderUuid: order.uuid },
     });
 
     await screen.validateOrder();

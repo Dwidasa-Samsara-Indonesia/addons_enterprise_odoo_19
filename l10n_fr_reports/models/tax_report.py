@@ -74,7 +74,7 @@ class L10n_FrReportHandler(models.AbstractModel):
         def _compare_expression_totals(expression_totals):
             return float_compare(sum(
                 expression_totals[balance_line_expression_per_line_code[code]]['value']
-                for code in ['box_A1', 'box_A2', 'box_A3', 'box_B1', 'box_B2', 'box_B3', 'box_B4']
+                for code in ['box_A1', 'box_A2', 'box_A3', 'box_B2', 'box_B3', 'box_B4']
             ), sum(
                 expression_totals[balance_line_expression_per_line_code[code]]['value']
                 for code in [

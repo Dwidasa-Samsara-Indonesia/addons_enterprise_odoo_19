@@ -3,7 +3,7 @@
 import re
 import string
 
-from odoo import api, models, _
+from odoo import api, models, tools, _
 from odoo.addons.iap.tools import iap_tools
 
 OCR_VERSION = 102
@@ -58,6 +58,13 @@ class HrApplicant(models.Model):
             name_ocr = self._get_ocr_selected_value(ocr_results, 'name', "")
             email_from_ocr = self._get_ocr_selected_value(ocr_results, 'email', "")
             phone_ocr = self._get_ocr_selected_value(ocr_results, 'phone', "")
+
+            if (
+                (email_from_ocr and self.email_from and tools.email_normalize(email_from_ocr) != tools.email_normalize(self.email_from))
+                or (self.partner_id and (self.partner_id.parent_id or self.partner_id.user_ids))
+            ):
+                email_from_ocr = name_ocr = phone_ocr = ''
+
             self.partner_name = name_ocr or self.partner_name
             self.email_from = email_from_ocr or self.email_from
             self.partner_phone = phone_ocr or self.partner_phone

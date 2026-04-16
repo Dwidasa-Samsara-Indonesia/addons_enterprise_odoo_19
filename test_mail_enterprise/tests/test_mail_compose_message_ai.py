@@ -138,3 +138,14 @@ class TestMailComposeMessageAI(MailCommonAI):
                 )))
                 composer = composer_form.save()
                 self.assertEqual(composer.body, """<div>Test</div>""", msg="The body should not contain the prompt if the default agent is missing.")
+
+    @users("employee")
+    def test_eval_ai_prompt_with_single_prompt_element(self):
+        default_agent = self.env.ref("ai.ai_default_agent", raise_if_not_found=True)
+
+        with self._patch_agent_generate_response(response=["Hello A and B. I hope you are doing well."]):
+            html_to_eval = self._wrap_prompt('Greet A and B')
+            self.assertIn("Hello A and B. I hope you are doing well.",
+                default_agent._eval_ai_prompts(rendered_html=html_to_eval),
+                msg="The prompt should be evaluated even if it is the only element in the HTML.",
+            )

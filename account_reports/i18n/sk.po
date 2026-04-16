@@ -12,22 +12,23 @@
 # Martin Trigaux, 2023
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2025, 2026.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:13+0000\n"
-"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:29+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
+"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -94,21 +95,9 @@ msgstr "%s vybrané"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"Rozsah dátumu „%s“ nie je možné vyhodnotiť pre výkaz, ktorý používa viac ako "
-"jeden návratový typ."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"Rozsah dátumu „%s“ nie je možné vyhodnotiť pre výkaz, ktorý nie je použitý "
-"žiadnym návratovým typom."
 
 #. module: account_reports
 #. odoo-python
@@ -513,6 +502,11 @@ msgid "Account Audit Status"
 msgstr "Účtovný audit - Stav"
 
 #. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Účtovná osnova"
+
+#. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_journal_report.py:0
 msgid "Account Code"
@@ -522,7 +516,7 @@ msgstr "Kód účtu"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Account Code / Tag"
-msgstr "Kód účtu / tag"
+msgstr "Kód účtu / štítok"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_res_company__account_display_representative_field
@@ -935,12 +929,8 @@ msgstr "Všetky kontroly a schvaľovatelia boli resetované"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"Všetky IČ DPH (VAT) zákazníkov sú platné v systéme <a href=\"https://"
-"ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</a>."
 
 #. module: account_reports
 #. odoo-python
@@ -2479,6 +2469,7 @@ msgstr "Zobraziť editor správ"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2560,6 +2551,7 @@ msgid ""
 "Division by zero occurred while evaluating Expression: %(line_name)s > %"
 "(label)s."
 msgstr ""
+"Pri vyhodnocovaní výrazu: %(line_name)s > %(label)s došlo k deleniu nulou."
 
 #. module: account_reports
 #. odoo-python
@@ -2921,12 +2913,6 @@ msgstr "Vylúčte menu poskytovania"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "Zoznam predaja v ES nezahŕňa žiadny domáci predaj ani predaj mimo EÚ."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Vylúčiť všetkých súkromných zákazníkov."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3466,6 +3452,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4313,15 +4300,9 @@ msgstr "Chýba"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
-"Chýbajúce údaje o spoločnosti (ako napríklad IČ DPH (VAT) alebo krajina) "
-"môžu spôsobiť chyby v daňovom výkaze,\n"
-"napríklad použitie nesprávnej sadzby DPH alebo nesprávne oslobodenie "
-"transakcií od dane.\n"
-"                "
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4730,12 +4711,6 @@ msgstr "Ročnú závierku môže resetovať iba správca účtovníctva"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr "Iba správca účtovníctva môže nastaviť/zrušiť nastavenie supervízora."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Iba firemní zákazníci"
 
 #. module: account_reports
 #. odoo-python
@@ -5250,12 +5225,6 @@ msgstr "Nerozdelené zisk z predchádzajúcich rokov"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "Tlačiť a odoslať"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Individuálni zákazníci"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6168,7 +6137,7 @@ msgstr "T: %s"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filter_partner.xml:0
 msgid "Tags"
-msgstr "Tagy"
+msgstr "Štítky"
 
 #. module: account_reports
 #. odoo-javascript
@@ -6251,7 +6220,7 @@ msgstr "Zúčtovanie dane/audit"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -6620,8 +6589,8 @@ msgid ""
 "This tag is reported in a line of the report but is not linked to any "
 "account of the Chart of Accounts"
 msgstr ""
-"Tento tag je uvedený v riadku výkazu, ale nie je prepojený so žiadnym účtom "
-"účtovnej osnovy"
+"Tento štítok je uvedený v riadku výkazu, ale nie je prepojený so žiadnym "
+"účtom účtovnej osnovy"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__name
@@ -7174,14 +7143,6 @@ msgstr "Pre každú závierku môžete mať iba jeden jedinečný kontrolný kó
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Dokončenú závierku môžete vrátiť späť len v prípade, ak predchádzajúci stav "
-"bol nový."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr "Môžete odarchívovať iba vyplnené priznanie/závierku."
 
@@ -7503,6 +7464,35 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Obnoviť na kurz z Odoo"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "Rozsah dátumu „%s“ nie je možné vyhodnotiť pre výkaz, ktorý nie je "
+#~ "použitý žiadnym návratovým typom."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Všetky IČ DPH (VAT) zákazníkov sú platné v systéme <a href=\"https://"
+#~ "ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</a>."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Dokončenú závierku môžete vrátiť späť len v prípade, ak predchádzajúci "
+#~ "stav bol nový."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Vylúčiť všetkých súkromných zákazníkov."
+
+#~ msgid "Only business customers"
+#~ msgstr "Iba firemní zákazníci"
+
+#~ msgid "Private Customers"
+#~ msgstr "Individuálni zákazníci"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7576,9 +7566,6 @@ msgstr "⇒ Obnoviť na kurz z Odoo"
 #~ msgstr ""
 #~ "<span class=\"o_account_reports_footnote_icons\"><i class=\"fa fa-fw fa-"
 #~ "trash-o\" role=\"img\" aria-label=\"Delete\" title=\"Delete\"/></span>"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Účtovná osnova"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "Poznámka k správe o účte"

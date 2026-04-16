@@ -8,6 +8,7 @@ from . import test_documents_access
 from . import test_documents_common
 from . import test_documents_document
 from . import test_documents_document_folder
+from . import test_documents_ir_actions_server
 from . import test_documents_multicompany
 from . import test_documents_multipage
 from . import test_documents_request

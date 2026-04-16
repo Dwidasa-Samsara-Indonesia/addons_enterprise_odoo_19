@@ -35,6 +35,7 @@ class HrPayslipSwissWage(models.Model):
             "CH_1065", # Overtime
             "CH_1061", # Overtime 125%
             "CH_1066", # Overtime 150%
+            "CH_1068",  # Overtime 200%
             "CH_1071", # On-call duty 125%
             "CH_1075", # Night shift 110%
             "CH_ILLNESS", # Illness

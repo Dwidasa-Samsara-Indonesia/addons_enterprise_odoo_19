@@ -17,9 +17,9 @@ class ProductPricelistItem(models.Model):
 
     @api.depends('plan_id')
     def _compute_company_id(self):
-        rules_with_pricelist = self.filtered('pricelist_id')
-        super(ProductPricelistItem, rules_with_pricelist)._compute_company_id()
-        for item in (self - rules_with_pricelist):
+        rules_with_pricelist_or_template_id = self.filtered(lambda rule: rule.pricelist_id or rule.product_tmpl_id)
+        super(ProductPricelistItem, rules_with_pricelist_or_template_id)._compute_company_id()
+        for item in (self - rules_with_pricelist_or_template_id):
             # must have a plan if there is no pricelist
             if not item.plan_id:
                 continue

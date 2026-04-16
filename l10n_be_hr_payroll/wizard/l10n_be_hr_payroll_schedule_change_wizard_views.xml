@@ -25,7 +25,7 @@
                         <field name="full_wage"/>
                         <field name="current_wage"/>
                         <field name="wage"/>
-                        <field name="previous_contract_creation"/>
+                        <field name="previous_contract_creation" invisible="1"/>  <!--will be deleted in master-->
                     </group>
                     <group>
                         <field name="full_resource_calendar_id" options="{'no_create' : True}"/>
@@ -50,9 +50,11 @@
                             <span>days</span>
                         </div>
                     </group>
-                    <div class="alert alert-warning" role="alert" invisible="not leave_type_id or found_leave_allocation">
-                        No time off allocation has been found for this time off type, no changes will occur to time off for this employee.
-                    </div>
+                    <group invisible="not leave_type_id or found_leave_allocation">
+                        <div class="alert alert-warning" role="alert">
+                            No time off allocation has been found for this time off type, no changes will occur to time off for this employee.
+                        </div>
+                    </group>
                 </group>
                 <footer>
                     <button name="action_validate" string="Create new contract and adapt time off allocation" type="object" class="oe_highlight"/>

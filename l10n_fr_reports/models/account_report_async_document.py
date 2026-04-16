@@ -1,4 +1,5 @@
 import json
+import logging
 
 from markupsafe import Markup
 from odoo import api, fields, models
@@ -7,6 +8,7 @@ from odoo.exceptions import UserError
 from odoo.tools import LazyTranslate, _
 
 _lt = LazyTranslate(__name__)
+_logger = logging.getLogger(__name__)
 ENDPOINT = "https://l10n-fr-aspone.api.odoo.com"
 
 # Allows to translate the errors returned by IAP
@@ -103,30 +105,33 @@ class AccountReportAsyncDocument(models.Model):
         received a final state and was not in error).
         """
         for export in self:
-            # Avoid calling the first step again if its state is already final
-            first_step_state_final = False
-            if export.step_1_logs:
-                first_step_state_final = any(status['is_final'] for status in json.loads(export.step_1_logs))
+            try:
+                # Avoid calling the first step again if its state is already final
+                first_step_state_final = False
+                if export.step_1_logs:
+                    first_step_state_final = any(status['is_final'] for status in json.loads(export.step_1_logs))
 
-            # First step
-            if not first_step_state_final:
-                response = export._get_interchanges_by_deposit_id()
-                step_1_logs = export._process_interchanges_response(response)
-                export.step_1_logs = json.dumps(step_1_logs)
-                if any(status['is_error'] for status in step_1_logs):
-                    export.state = 'rejected'
-                first_step_state_final = any(status['is_final'] for status in step_1_logs)
+                # First step
+                if not first_step_state_final:
+                    response = export._get_interchanges_by_deposit_id()
+                    step_1_logs = export._process_interchanges_response(response)
+                    export.step_1_logs = json.dumps(step_1_logs)
+                    if any(status['is_error'] for status in step_1_logs):
+                        export.state = 'rejected'
+                    first_step_state_final = any(status['is_final'] for status in step_1_logs)
 
-            # Second step
-            if first_step_state_final and export.state != 'rejected' and export.declaration_uid:
-                response = export._get_declaration_details()
-                step_2_logs = export._process_declaration_response(response)
+                # Second step
+                if first_step_state_final and export.state != 'rejected' and export.declaration_uid:
+                    response = export._get_declaration_details()
+                    step_2_logs = export._process_declaration_response(response)
 
-                export.step_2_logs = json.dumps(step_2_logs)
-                if any(status['is_error'] for status in step_2_logs):
-                    export.state = 'rejected'
-                elif any(status['is_final'] for status in step_2_logs):
-                    export.state = 'accepted'
+                    export.step_2_logs = json.dumps(step_2_logs)
+                    if any(status['is_error'] for status in step_2_logs):
+                        export.state = 'rejected'
+                    elif any(status['is_final'] for status in step_2_logs):
+                        export.state = 'accepted'
+            except Exception as e:  # noqa: BLE001
+                _logger.warning("Error while processing interchanges response: %s", e)
 
             if export.state == 'rejected':
                 report_closing_entry = export.env['account.move'].search([

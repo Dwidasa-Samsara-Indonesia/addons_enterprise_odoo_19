@@ -5,7 +5,8 @@
 <div name="budget" t-if="project.total_budget_amount and project.account_id and user.has_group('account.group_account_readonly')">
 <br/>
 <h3 class="fw-bolder mt-4"><u>Budget</u></h3>
-<t><t t-out="budget['percentage']"/>% (<t t-out="format_monetary(budget['total']['spent'])"/>) of the <t t-out="format_monetary(project.total_budget_amount)"/> budget has been spent. <t t-out="budget['remaining_budget_percentage']"/>% (<t t-out="format_monetary(project.total_budget_amount + budget['total']['spent'])"/>) of the budget is remaining.</t>
+<t t-if="budget.get('budget_type') == 'revenue'"><t t-out="budget['percentage']"/>% (<t t-out="format_monetary(budget['total']['spent'])"/>) of the <t t-out="format_monetary(project.total_budget_amount)"/> projected profit has been realized. <t t-out="budget['remaining_budget_percentage']"/>% (<t t-out="format_monetary(project.total_budget_amount - budget['total']['spent'])"/>) of the profit is still expected.</t>
+<t t-else=""><t t-out="budget['percentage']"/>% (<t t-out="format_monetary(budget['total']['spent'])"/>) of the <t t-out="format_monetary(project.total_budget_amount)"/> budget has been spent. <t t-out="budget['remaining_budget_percentage']"/>% (<t t-out="format_monetary(project.total_budget_amount - abs(budget['total']['spent']))"/>) of the budget is remaining.</t>
 <div t-if="budget['data']" name="budget_detail" class="mt-4">
 <table class="table table-striped">
 <thead class="border-2 border-start-0 border-end-0">

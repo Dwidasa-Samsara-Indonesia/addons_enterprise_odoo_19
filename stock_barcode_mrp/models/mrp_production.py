@@ -74,7 +74,7 @@ class MrpProduction(models.Model):
         products = self.product_id | (self.move_raw_ids + self.move_byproduct_ids).product_id
         moves = self.move_raw_ids | self.move_byproduct_ids
 
-        uoms = products.uom_id | move_lines.product_uom_id | products.uom_ids
+        uoms = products.uom_id | move_lines.product_uom_id | products.uom_ids | self.bom_id.product_uom_id | moves.bom_line_id.product_uom_id
         # If UoM setting is active, fetch all UoM's data.
         if self.env.user.has_group('uom.group_uom'):
             uoms |= self.env['uom.uom'].search([])

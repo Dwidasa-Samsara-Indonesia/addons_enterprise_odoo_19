@@ -224,8 +224,13 @@
 
                     <th t-if="options.get('column_percent_comparison') == 'growth'">%</th>
 
+                    <th t-if="options.get('column_percent_comparison') == 'analytic_coverage' and column_header_index == 1">
+                        Analytic coverage
+                    </th>
+
                     <!-- Last comment header -->
                     <th t-if="show_last_annotations" class="o_last_comment_header">Last Comment</th>
+
                 </tr>
             </t>
             <!-- Custom subheaders -->

@@ -139,7 +139,8 @@
                 <secuencial t-out="sequential"/>
                 <dirMatriz t-out="company_address"/>
                 <agenteRetencion t-out="company.l10n_ec_withhold_agent_number"/>
-                <contribuyenteRimpe t-if="company.l10n_ec_regime == 'rimpe'" t-out="'CONTRIBUYENTE RÉGIMEN RIMPE'"/>
+                <contribuyenteRimpe t-if="company.l10n_ec_regime == 'rimpe_emprendedor'" t-out="'CONTRIBUYENTE RÉGIMEN RIMPE'"/>
+                <contribuyenteRimpe t-elif="company.l10n_ec_regime == 'rimpe_negocio_popular'" t-out="'CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE'"/>
             </infoTributaria>
         </template>
 

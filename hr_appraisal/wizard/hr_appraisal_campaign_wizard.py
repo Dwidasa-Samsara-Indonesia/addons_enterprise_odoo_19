@@ -97,7 +97,9 @@ class HrAppraisalCampaignWizard(models.TransientModel):
 
     def _get_employees_from_mode(self):
         if self.mode == 'employee':
-            employees = self.employee_ids or self.env['hr.employee'].search([('company_id', 'in', self.env.companies.ids)])
+            employees = self.employee_ids or self.env['hr.employee'].search([
+                self._employees_domain()
+            ])
         elif self.mode == 'company':
             employees = self.env['hr.employee'].search([('company_id', '=', self.company_id.id)])
         elif self.mode == 'category':

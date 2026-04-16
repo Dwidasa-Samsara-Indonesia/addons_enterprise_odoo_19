@@ -157,9 +157,10 @@ registry.category("web_tour.tours").add("test_quality_check_partial_reception_ba
             trigger: ".o_check_quality",
             run: "click",
         },
+        // User Error appears as quality checks require lot/sn set for tracked products
         {
             trigger:
-                ".modal-content:contains(product1):has(.o_field_widget[name=nb_checks]:contains(1)) .btn-close",
+                ".modal-content.o_error_dialog:contains(You need to supply a Lot/Serial Number for product: - productserial1) .btn-close",
             run: "click",
         },
         {
@@ -180,7 +181,8 @@ registry.category("web_tour.tours").add("test_quality_check_partial_reception_ba
         },
         // Discard the dialog and check that the validation process displays the same QC
         {
-            trigger: ".modal-content:has(.modal-header:contains(productserial1)) .btn-close",
+            trigger:
+                ".modal-content:contains(productserial1):has(.o_field_widget[name=nb_checks]:contains(1)) .btn-close",
             run: "click",
         },
         {

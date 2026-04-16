@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 10:11+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-02-16 10:59+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "accountant_knowledge/pl/>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.14.3\n"
 
 #. module: accountant_knowledge
@@ -274,9 +274,22 @@ msgid "Annexes"
 msgstr "Aneksy"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
 msgstr "Raport roczny"
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_article_id
@@ -302,8 +315,8 @@ msgid ""
 "period }} to {{ end of period }}, which include the following key figures:"
 msgstr ""
 "Jako biegli księgowi sporządziliśmy zestawienie śródrocznego sprawozdania "
-"finansowego spółki {{ company name }} za okres od {{ start of period }} do {{"
-" end of period }}, które zawiera następujące kluczowe dane:"
+"finansowego spółki {{ company name }} za okres od {{ start of period }} do "
+"{{ end of period }}, które zawiera następujące kluczowe dane:"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -333,27 +346,9 @@ msgid "Attestation"
 msgstr "Atest"
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
 msgstr "Raport audytu"
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr "Szablon raportu z audytu"
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Raporty audytów"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
-msgstr "Szablon audytu"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_balance_sheet
@@ -483,8 +478,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
-msgstr "Utwórz raport z audytu"
+msgid "Create an Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_uid
@@ -689,8 +684,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr "Edytuj raport audytu"
+msgid "Edit Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -995,8 +990,8 @@ msgid ""
 "period }} to {{ end of period }}"
 msgstr ""
 "Zgodnie z warunkami naszej misji przygotowaliśmy podsumowanie prac "
-"wykonanych dla {{ company name }} w okresie od {{ start of period }} do {{ "
-"end of period }}"
+"wykonanych dla {{ company name }} w okresie od {{ start of period }} do "
+"{{ end of period }}"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -1108,7 +1103,7 @@ msgstr "Przegląd zasobów"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
 msgid "Inventory Valuation"
-msgstr "Wycena Magazynów"
+msgstr "Wycena zapasów"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_journal_audit
@@ -1712,6 +1707,11 @@ msgid "Technical installations, equipment, and tools<br>"
 msgstr "Instalacje techniczne, sprzęt i narzędzia<br>"
 
 #. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr ""
+
+#. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid ""
 "The annual financial statements have been prepared in accordance with "
@@ -1863,8 +1863,8 @@ msgid ""
 "The total balance sheet amount before allocation of the result is {{ total "
 "balance sheet }}."
 msgstr ""
-"Łączna kwota bilansowa przed podziałem wyniku wynosi {{ total balance sheet "
-"}}."
+"Łączna kwota bilansowa przed podziałem wyniku wynosi {{ total balance "
+"sheet }}."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
@@ -1937,7 +1937,7 @@ msgstr "Wycena opcji na akcje przyznane w ciągu roku<br>"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid "Voluntary Change in Accounting Policy"
-msgstr ""
+msgstr "Dobrowolna zmiana zasad rachunkowości"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -1945,11 +1945,13 @@ msgid ""
 "We are making the following comment regarding a matter that may affect the "
 "overall consistency and reliability of the financial statements:"
 msgstr ""
+"Przedstawiamy następującą uwagę dotyczącą kwestii, która może mieć wpływ na "
+"ogólną spójność i wiarygodność sprawozdania finansowego:"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
 msgid "Weighted Average Cost"
-msgstr ""
+msgstr "Średni ważony koszt"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -1957,6 +1959,9 @@ msgid ""
 "When applicable, the initial estimate of dismantling, removal, and site "
 "restoration costs related to the asset's location."
 msgstr ""
+"W stosownych przypadkach, wstępne oszacowanie kosztów demontażu, usunięcia i "
+"przywrócenia stanu pierwotnego terenu w związku z lokalizacją składnika "
+"aktywów."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
@@ -1966,6 +1971,10 @@ msgid ""
 "determined by comparing the acquisition value with the probable realizable "
 "value."
 msgstr ""
+"W stosownych przypadkach należności są amortyzowane poprzez utworzenie "
+"rezerw na poczet potencjalnych trudności w ich odzyskaniu. Rezerwy na utratę "
+"wartości są ustalane poprzez porównanie wartości nabycia z prawdopodobną "
+"wartością możliwą do uzyskania."
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_workforce
@@ -1976,9 +1985,24 @@ msgstr "Siła robocza"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_workforce
 msgid "Workforce employed during the Period"
-msgstr ""
+msgstr "Zatrudnienie w okresie sprawozdawczym"
 
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr "np. Roczny przegląd finansowy"
+
+#~ msgid "Audit Report Template"
+#~ msgstr "Szablon raportu z audytu"
+
+#~ msgid "Audit Reports"
+#~ msgstr "Raporty audytów"
+
+#~ msgid "Audit Template"
+#~ msgstr "Szablon audytu"
+
+#~ msgid "Create an Audit Report"
+#~ msgstr "Utwórz raport z audytu"
+
+#~ msgid "Edit Audit Report"
+#~ msgstr "Edytuj raport audytu"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:46+0000\n"
-"PO-Revision-Date: 2026-02-14 09:59+0000\n"
+"POT-Creation-Date: 2026-04-10 18:48+0000\n"
+"PO-Revision-Date: 2026-04-14 10:54+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "hr_contract_salary/nl/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -56,11 +56,6 @@ msgstr "(Naam voornaam)"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "/ month"
 msgstr "/ maand"
-
-#. module: hr_contract_salary
-#: model:hr.contract.salary.personal.info,placeholder:hr_contract_salary.hr_contract_salary_personal_info_identification_id
-msgid "00.00.00-000.00"
-msgstr "00.00.00-000.00"
 
 #. module: hr_contract_salary
 #: model:mail.template,body_html:hr_contract_salary.mail_template_send_offer
@@ -356,12 +351,12 @@ msgstr "Activiteitsfase"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__activity_type_id
 msgid "Activity Type"
-msgstr "Soort activiteit"
+msgstr "Activiteitstype"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Activiteitensoort icoon"
+msgstr "Activiteitstype icoon"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_benefit_view_form
@@ -710,6 +705,7 @@ msgstr "Contractsjabloon"
 #. module: hr_contract_salary
 #. odoo-python
 #: code:addons/hr_contract_salary/controllers/main.py:0
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__contract_type_id
 msgid "Contract Type"
 msgstr "Contractsoort"
 
@@ -1297,6 +1293,11 @@ msgstr "Heeft beheerderstoegang"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__has_message
 msgid "Has Message"
 msgstr "Heeft bericht"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__has_sign_template
+msgid "Has Sign Template"
+msgstr "Heeft Ondertekensjabloon"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__helper
@@ -2081,7 +2082,7 @@ msgstr "Aantal voorgestelde contracten"
 #. module: hr_contract_salary
 #: model:ir.model,name:hr_contract_salary.model_hr_employee_public
 msgid "Public Employee"
-msgstr "Openbare werknemer"
+msgstr "Ambtenaar"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_personal_info__display_type__radio
@@ -2206,7 +2207,7 @@ msgstr "Samenvatting"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.salary_package_next_step_button
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.salary_package_sidebar
 msgid "Review Contract &amp; Sign"
-msgstr "Controleer contract &amp; Teken"
+msgstr "Contract controleren &amp; Tekenen"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_has_sms_error
@@ -3014,6 +3015,11 @@ msgid "e.g. Offer 70k Employer Cost"
 msgstr "bv. Voorstel 70.000 loonkost"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "e.g. Permanent, Replacement, Short term"
+msgstr "bv. Permanent, Vervanging, Korte termijn"
+
+#. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action
 msgid "here"
 msgstr "hier"
@@ -3037,6 +3043,9 @@ msgstr ""
 #: model:mail.template,subject:hr_contract_salary.mail_template_send_offer
 msgid "{{ object.company_id.name }}: Job Offer - {{ object.employee_id.name }}"
 msgstr "{{ object.company_id.name }}: Voorstel - {{ object.employee_id.name }}"
+
+#~ msgid "00.00.00-000.00"
+#~ msgstr "00.00.00-000.00"
 
 #~ msgid ""
 #~ "{{ object.company_id.name }}: Job Offer - "

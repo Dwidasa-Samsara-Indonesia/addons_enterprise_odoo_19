@@ -27,7 +27,7 @@
                         <td><div t-if="o.version_id.job_id"><strong>Job Position: </strong><span t-field="o.version_id.job_id"/></div></td>
                     </tr>
                     <tr>
-                        <td><strong>Entry Date: </strong><span t-field="o.version_id.date_start"/></td>
+                        <td><strong>Entry Date: </strong><span t-out="o.l10n_ch_entry"/></td>
                     </tr>
                     <tr>
                         <td><div t-if="o.version_id.date_end"><strong>Withdrawal Date: </strong><span t-field="o.version_id.date_end"/></div></td>
@@ -159,7 +159,7 @@
                         <t t-foreach="o.employee_id.bank_account_ids" t-as="ba">
                             <li>
                                 <span  class="fw-bold" t-out="ba.display_name"/>
-                                of <span class="fst-italic" t-field="o.employee_id"/>:
+                                of <span class="fst-italic" t-field="ba.acc_holder_name"/>:
                                 <t t-esc="allocations.get(str(ba.id), 0.0)"/>
                             </li>
                         </t>

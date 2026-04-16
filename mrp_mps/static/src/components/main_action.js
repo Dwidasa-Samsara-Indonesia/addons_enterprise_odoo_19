@@ -26,6 +26,7 @@ export class MainComponentAction extends Component {
             this.withSearchProps = {
                 resModel: this.resModel,
                 SearchModel: MrpMpsSearchModel,
+                globalState: this.props.globalState,
                 context: this.props.action.context,
                 domain: this.props.action.domain,
                 orderBy: [{name: "id", asc: true}],

@@ -119,7 +119,7 @@ class TestNacha(CommonTestPayslips):
             # header
             f"101 111111118  IMM_ORIG2011301945A094101DESTINATION            {self.env.company.name:23.23}{self.payslip_run_id.id:8d}",
             # batch header
-            f"5220{self.env.company.name:16.16}Payslip Run         COMPANY   CCDBATCH 0   201130201130   1ORIGINAT0000000",
+            f"5220{self.env.company.name:16.16}Payslip Run         COMPANY   CCDPAYROLL 0 201130201130   1ORIGINAT0000000",
         ]
         entry_detail_records = self.generate_batch_entry_detail_records()
         total_payslips_amount_in_cents = self.get_payslips_total_amount_cents()
@@ -142,7 +142,7 @@ class TestNacha(CommonTestPayslips):
             # header
             f"101 111111118  IMM_ORIG2011301945A094101DESTINATION            {self.env.company.name:23.23}{self.payslip_run_id.id:8d}",
             # batch header
-            f"5200{self.env.company.name:16.16}00000000000123456789COMPANY   CCDBATCH 0   201130201130   1ORIGINAT0000000",
+            f"5200{self.env.company.name:16.16}00000000000123456789COMPANY   CCDPAYROLL 0 201130201130   1ORIGINAT0000000",
         ]
         entry_detail_records = self.generate_batch_entry_detail_records()
         # Add the offset entry detail record to the entry detail records

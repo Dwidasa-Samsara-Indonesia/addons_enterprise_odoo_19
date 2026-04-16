@@ -1,5 +1,5 @@
 from freezegun import freeze_time
-from datetime import date, timedelta
+from datetime import date
 
 
 import odoo.tests
@@ -181,20 +181,43 @@ class TestEmployeeSalaryConfigurator(odoo.tests.HttpCase):
 
         })
 
-    def test_employee_salary_configurator_flow(self):
-        employee = self.env['hr.employee'].search([('name', 'ilike', 'Ahmed Abdelrazek')])
-        active_versions = self.env['hr.version'].search([('employee_id', '=', employee.id), ('active', '=', True)])
-        self.assertEqual(len(active_versions), 1)
-        self.assertEqual(active_versions[0].contract_date_start, date(2020, 1, 1))
-        self.assertFalse(active_versions[0].contract_date_end)
+    def test_employee_salary_configurator_amendment_flow(self):
+        employee = self.employee_1
         employee.private_country_id = self.env.ref('base.be').id
         employee.private_state_id = self.env.ref('base.state_be_1').id
+
         with freeze_time("2022-01-01 12:00:00"):
             self.start_tour("/", 'hr_contract_salary_employee_flow_tour', login='admin', timeout=350)
-            self.assertEqual(len(active_versions), 1)
-            self.assertFalse(active_versions[0].contract_date_end)
+            offers = self.env['hr.contract.salary.offer'].search([('employee_id', '=', employee.id)])
+            self.assertTrue(offers)
+            latest_offer = offers[-1]
+            self.assertTrue(latest_offer.is_contract_amendment)
+
         with freeze_time("2022-01-01 13:00:00"):
             self.start_tour("/", 'hr_contract_salary_employee_flow_tour_counter_sign', login='admin', timeout=350)
-            active_versions = self.env['hr.version'].search([('employee_id', '=', employee.id), ('active', '=', True)])
-            self.assertEqual(len(active_versions), 2)
-            self.assertEqual(active_versions[0].contract_date_end, active_versions[-1].contract_date_start - timedelta(days=1))
+            versions = employee.version_ids
+            self.assertEqual(len(versions), 2)
+            previous_version = versions[-2]
+            amendment_version = versions[-1]
+            self.assertEqual(amendment_version.contract_date_start, date(2020, 1, 1))
+            self.assertEqual(amendment_version.date_version, date(2022, 1, 1))
+            self.assertFalse(amendment_version.contract_date_end)
+            self.assertFalse(previous_version.contract_date_end)
+
+    def test_employee_salary_configurator_new_contract_flow(self):
+        employee = self.employee_1
+        employee.version_id.contract_date_end = date(2022, 6, 1)
+
+        with freeze_time("2023-01-01 10:00:00"):
+            self.start_tour("/", 'hr_contract_salary_employee_flow_tour', login='admin', timeout=350)
+            offers = self.env['hr.contract.salary.offer'].search([('employee_id', '=', employee.id)])
+            self.assertTrue(offers)
+            new_contract_offer = offers.sorted('create_date')[-1]
+            self.assertFalse(new_contract_offer.is_contract_amendment)
+
+        with freeze_time("2023-01-01 11:00:00"):
+            self.start_tour("/", 'hr_contract_salary_employee_flow_tour_counter_sign', login='admin', timeout=350)
+            final_contract = self.env['hr.version'].search([('employee_id', '=', employee.id)], order='date_version desc', limit=1)
+            self.assertEqual(final_contract.contract_date_start, date(2023, 1, 1))
+            self.assertEqual(final_contract.date_version, date(2023, 1, 1))
+            self.assertFalse(final_contract.contract_date_end)

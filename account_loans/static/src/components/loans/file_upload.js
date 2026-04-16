@@ -1,5 +1,4 @@
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
 import { FileUploader } from "@web/views/fields/file_handler";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
 import { Component } from "@odoo/owl";
@@ -16,8 +15,8 @@ export class NewLoanComponent extends Component {
     };
 
     setup() {
-        this.orm = useService("orm");
-        this.action = useService("action");
+        this.orm = this.env.services.orm;
+        this.action = this.env.services.action;
     }
 
     async onFileUploaded(file) {

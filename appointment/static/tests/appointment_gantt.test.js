@@ -2,7 +2,7 @@ import { describe, expect, test } from "@odoo/hoot";
 import { animationFrame, click } from "@odoo/hoot-dom";
 
 import { mockDate } from "@odoo/hoot-mock";
-import { asyncStep, onRpc, selectGroup, waitForSteps } from "@web/../tests/web_test_helpers";
+import { asyncStep, contains, onRpc, selectGroup, waitForSteps } from "@web/../tests/web_test_helpers";
 
 import {
     dragPill,
@@ -293,4 +293,32 @@ test("appointment status pill colors: no_show", async () => {
     expect(getPill("Event 1", { nth: 2 })).toHaveClass("o_appointment_booking_gantt_color_grey");
     expect(getPill("Event 2", { nth: 2 })).toHaveClass("o_appointment_booking_gantt_color_grey");
     expect(getPill("Event 3", { nth: 2 })).toHaveClass("o_appointment_booking_gantt_color_grey");
+});
+
+test("undo action: move and undo a pill", async () => {
+    expect.assertions(4);
+    mockDate("2022-01-03 08:00:00")
+    CalendarEvent._views.gantt = CalendarEvent._views.gantt
+        .replace(`default_range="day"`, "")
+        .replace(`default_scale="day"`, "");
+
+    onRpc("gantt_undo_drag_drop", function ({ model, args }) {
+        expect(args[0]).toEqual(2);
+        expect(args[1]).toEqual("reschedule");
+        expect(args[2]).toEqual({
+                partner_ids: [ 214 ],
+                start: "2022-01-05 10:00:00",
+                stop: "2022-01-05 11:00:00",
+            },
+        );
+        return this.env[model].write([args[0]], args[2]);
+    });
+
+    await mountGanttView({ resModel: "calendar.event" });
+
+    const { drop } = await dragPill("Event 2", { nth: 1 });
+    await drop({ row: "Partner 1", columnHeader: "21", groupHeader: "January 2022", part: 2 });
+
+    await contains(".o_notification_buttons button i[title='Undo']").click();
+    expect(".o_notification_content").toHaveText("Record reschedule undone");
 });

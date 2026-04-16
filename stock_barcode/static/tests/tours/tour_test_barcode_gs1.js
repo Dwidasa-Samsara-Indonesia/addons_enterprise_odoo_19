@@ -1213,6 +1213,80 @@ registry.category("web_tour.tours").add("test_gs1_receipt_lot_serial", {
     ],
 });
 
+registry.category("web_tour.tours").add("test_gs1_receipt_multiple_extra_items", {
+    steps: () => [
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan 0112345678900005", // Wanted product
+        },
+        {
+            trigger: ".o_barcode_line[data-barcode='12345678900005'] .qty-done:contains('1')",
+            run: "scan 0112345678900012", // Extra product 1
+        },
+        {
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900012'] span.col-3:contains('1')",
+            run: "scan 01123456789000123010", // Extra product 1 (10 qty)
+        },
+        {
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900012'] span.col-3:contains('11')",
+            run: "scan 011234567890002921001", // Extra product 2 (Serial 001)
+        },
+        {
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900029'] span.col-3:contains('1')",
+            run: "scan 011234567890002921002", // Extra product 2 (Serial 002)
+        },
+        {
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900029'] span.col-3:contains('2')",
+            run: "scan 011234567890003610L001#305", // Extra product 3 (Lot L001, Qty 5)
+        },
+        {
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900036'] span.col-3:contains('5')",
+            run: "scan 011234567890003610L001#305", // Extra product 3 (Lot L001, Qty 5) scanned again, should increase the quantity but not the number of lines
+        },
+        {
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900036'] span.col-3:contains('10')",
+            run: "scan 011234567890002921002", // Serial already in list & awaiting confirmation -> Skipped, notification should be shown
+        },
+        ...stepUtils.checkNotificationMessage(
+            "The scanned serial number 002 is already awaiting confirmation."
+        ),
+        {
+            content: "Remove Extra Product 1 from selected products",
+            trigger:
+                ".modal-content .o_barcode_extra_product_dialog div.row[data-barcode='12345678900012'] input[type='checkbox']",
+            run: "uncheck",
+        },
+        {
+            trigger: ".modal-dialog button.btn-primary",
+            run: "click",
+        },
+        {
+            content: "Open the sublines of the serial product to see all the tracked items",
+            trigger: "button.o_toggle_sublines",
+            run: "click",
+        },
+        {
+            trigger: "body:not(:has(.modal)) .o_barcode_client_action",
+            run: function () {
+                helper.assertLinesCount(3);
+                helper.assertSublinesCount(2);
+                helper.assertLineQty(0, "1/2 Units");
+                helper.assertLineQty(1, "2 Units");
+                helper.assertLineTrackingNumber(2, "001");
+                helper.assertLineTrackingNumber(3, "002");
+                helper.assertLineQty(4, "10 Units");
+                helper.assertLineTrackingNumber(4, "L001");
+            },
+        },
+    ],
+});
+
 registry.category("web_tour.tours").add("test_gs1_receipt_quantity_with_uom", {
     steps: () => [
         {
@@ -1418,5 +1492,50 @@ registry.category("web_tour.tours").add("test_gs1_tracked_packaging", {
         },
         { trigger: ".o_validate_page", run: "click" },
         { trigger: ".o_notification_bar.bg-success" },
+    ],
+});
+
+registry.category("web_tour.tours").add("test_gs1_multi_company_setup", {
+    steps: () => [
+        {
+            trigger: ".o_switch_company_menu > button",
+            run: "click",
+        },
+        {
+            trigger:
+                ".dropdown-menu .dropdown-item[data-company-id] span:contains('Lovely Company')",
+            run: "click",
+            expectUnloadPage: true,
+        },
+        {
+            trigger: ".o_switch_company_menu .oe_topbar_name:contains('Lovely Company')",
+        },
+        {
+            trigger: "[data-menu-xmlid='stock_barcode.stock_barcode_menu'] > .o_app_icon",
+            run: "click",
+        },
+        {
+            trigger: ".o_stock_barcode_main_menu",
+            run: "scan 0136939282410106",
+        },
+        {
+            content: "Check that the existing quant was found",
+            trigger: ".o_list_view .o_data_row:contains('Lovel/Stock')",
+        },
+        {
+            trigger: ".o_back_button",
+            run: "click",
+        },
+        {
+            trigger: ".o_stock_barcode_main_menu",
+            run: "scan 4133033710074365",
+        },
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan 0136939282410106",
+        },
+        {
+            trigger: ".o_barcode_line:contains(product1)",
+        },
     ],
 });

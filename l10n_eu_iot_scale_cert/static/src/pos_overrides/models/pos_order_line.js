@@ -21,8 +21,4 @@ patch(PosOrderline.prototype, {
 
         return super.quantityStr;
     },
-
-    get showUnit() {
-        return this.product_id.uom_id.id !== 1;
-    },
 });

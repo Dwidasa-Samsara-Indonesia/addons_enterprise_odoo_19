@@ -60,7 +60,7 @@ class AccountChartTemplate(models.AbstractModel):
         if company.country_id in sepa_countries:
             sepa_module = self.env['ir.module.module'].sudo().search([('name', '=', 'account_iso20022')], limit=1)
             if sepa_module and sepa_module.state != 'installed':
-                if self.env.registry.ready and not self.env.registry._init and not modules.module.current_test:
+                if self.env.registry.ready and not self.env.registry._init and not modules.module.current_test and not self.env.context.get('install_demo'):
                     sepa_module.button_immediate_install()
                 else:
                     sepa_module.button_install()

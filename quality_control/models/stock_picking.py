@@ -46,6 +46,7 @@ class StockPicking(models.Model):
 
     def _checks_to_do(self):
         check_ids_to_do = OrderedSet()
+        checkable_lines_ids = OrderedSet()
         for picking in self:
             has_picked = True
             if all(not move.picked for move in picking.move_ids):
@@ -60,7 +61,26 @@ class StockPicking(models.Model):
                 lambda qc: qc._is_to_do(checkable_products, check_picked=has_picked)
             )
             check_ids_to_do.update(checks_to_do.ids)
-        return self.env['quality.check'].browse(check_ids_to_do)
+            checkable_lines_ids.update(checkable_lines.ids)
+        # raise user error for checkable by quantity, picked and tracked products where lot is not set
+        all_checks_to_do = self.env['quality.check'].browse(check_ids_to_do)
+        all_checkable_lines = self.env['stock.move.line'].browse(checkable_lines_ids)
+        check_to_do_on_move_lines = all_checks_to_do.filtered(lambda check: check.measure_on == "move_line")
+        tracked_checkable_lines_without_lot = all_checkable_lines.filtered(
+            lambda ml: ml.product_id.tracking in ["serial", "lot"] and
+            (ml.picking_type_use_create_lots or ml.picking_type_use_existing_lots) and
+            not ml.lot_id and not ml.lot_name and
+            ml.product_id in check_to_do_on_move_lines.product_id
+            )
+        if tracked_checkable_lines_without_lot:
+            products_list = "\n".join(f"- {product.display_name}" for product in tracked_checkable_lines_without_lot.product_id)
+            raise UserError(
+                _(
+                    "You need to supply a Lot/Serial Number for product:\n%(products)s",
+                    products=products_list,
+                ),
+            )
+        return all_checks_to_do
 
     def check_quality(self):
         checks = self._checks_to_do()
@@ -88,7 +108,7 @@ class StockPicking(models.Model):
     def _pre_action_done_hook(self):
         res = super()._pre_action_done_hook()
         if res is True:
-            return self.with_context(picking_validation=True).check_quality()
+            return self.check_quality()
         return res
 
     def _check_for_quality_checks(self):

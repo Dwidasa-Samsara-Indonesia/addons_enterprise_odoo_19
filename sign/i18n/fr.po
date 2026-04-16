@@ -14,29 +14,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2026-02-14 10:02+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-03-14 09:36+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
-"Language-Team: French <https://translate.odoo.com/projects/odoo-19/sign/fr/>"
-"\n"
+"Language-Team: French <https://translate.odoo.com/projects/odoo-19/sign/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : "
-"((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
+"1000000 == 0) ? 1 : 2);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_res_partner__signature_count
 #: model:ir.model.fields,field_description:sign.field_res_users__signature_count
 msgid "# Signatures"
 msgstr "# Signatures"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "#7898678"
-msgstr "#7898678"
 
 #. module: sign
 #. odoo-python
@@ -134,11 +129,6 @@ msgstr ""
 "a demandé votre signature sur le document"
 
 #. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "******1234"
-msgstr "******1234"
-
-#. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_portal_my_request
 msgid ""
 "-\n"
@@ -164,31 +154,6 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:sign.sign_template_action
 msgid "- or -"
 msgstr "- ou -"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "1001"
-msgstr "1001"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "192.168.1.1"
-msgstr "192.168.1.1"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "20-03-2000"
-msgstr "20-03-2000"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "2023-08-18"
-msgstr "18-08-2023"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "2023-08-18 - 12:30:45"
-msgstr "18-08-2023 - 12:30:45"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
@@ -364,6 +329,9 @@ msgid ""
 "                                    Shared\n"
 "                                </span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\" title=\"Partagé\">\n"
+"                                    Partagé\n"
+"                               </span>"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
@@ -405,19 +373,6 @@ msgstr "<span class=\"text-muted\">Non disponible</span>"
 msgid "<span class=\"text-nowrap\">Add certificate on each page</span>"
 msgstr ""
 "<span class=\"text-nowrap\">Ajouter un certificat sur chaque page</span>"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
-msgid ""
-"<span groups=\"base.group_system\">\n"
-"                                    Certify your documents using a "
-"provided .pfx or .p12 file.\n"
-"                                </span>"
-msgstr ""
-"<span groups=\"base.group_system\">\n"
-"                                      Certifiez vos documents en utilisant "
-"un fichier .pfx ou .p12 fourni.\n"
-"                                </span>"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_kanban
@@ -594,7 +549,7 @@ msgstr "Activités"
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_request__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Activité exception décoration"
+msgstr "Indicateur d’exception d’activité"
 
 #. module: sign
 #: model:ir.actions.report,name:sign.action_sign_request_print_logs
@@ -730,7 +685,7 @@ msgstr "Anvers"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
 msgid "Anyone"
-msgstr ""
+msgstr "Tout le monde"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_kanban
@@ -827,7 +782,7 @@ msgstr "Utilisateurs autorisés :"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_item_type_view_form
 msgid "Autocomplete this field"
-msgstr ""
+msgstr "Compléter automatiquement ce champ"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_send_request_view_form
@@ -982,6 +937,11 @@ msgstr "Certificat d'achèvement<br/>"
 #: code:addons/sign/models/sign_request.py:0
 msgid "Certificate of completion - %s.pdf"
 msgstr "Certificat d’achèvement - %s.pdf"
+
+#. module: sign
+#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
+msgid "Certify your documents using a provided .pfx or .p12 file."
+msgstr "Certifiez vos documents à l'aide d'un fichier .pfx ou .p12 fourni."
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_item_role__change_authorized
@@ -2579,7 +2539,7 @@ msgstr "Pas encore de documents"
 #. odoo-javascript
 #: code:addons/sign/static/src/views/helper/sign_action_helper.xml:0
 msgid "No documents here"
-msgstr ""
+msgstr "Aucun document ici"
 
 #. module: sign
 #. odoo-python
@@ -2591,7 +2551,7 @@ msgstr "Aucune raison précise"
 #. odoo-javascript
 #: code:addons/sign/static/src/views/helper/sign_action_helper.xml:0
 msgid "No template here"
-msgstr ""
+msgstr "Aucun modèle ici"
 
 #. module: sign
 #: model_terms:ir.actions.act_window,help:sign.sign_template_action
@@ -2922,7 +2882,7 @@ msgstr "Lien de redirection"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
 msgid "Redirect signers to a page after signing"
-msgstr ""
+msgstr "Rediriger les signataires vers une page après la signature"
 
 #. module: sign
 #: model:ir.model.fields.selection,name:sign.selection__sign_log__action__refuse
@@ -2988,13 +2948,13 @@ msgstr "Location"
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_action.js:0
 msgid "Replace Document"
-msgstr ""
+msgstr "Remplacer le document"
 
 #. module: sign
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_sidebar.xml:0
 msgid "Replace document"
-msgstr ""
+msgstr "Remplacer le document"
 
 #. module: sign
 #: model:ir.ui.menu,name:sign.sign_reports
@@ -4731,7 +4691,7 @@ msgstr "La valeur existe déjà !"
 #. odoo-javascript
 #: code:addons/sign/static/src/dialogs/sms_signer_dialog.xml:0
 msgid "Verify"
-msgstr "Verifier"
+msgstr "Vérifier"
 
 #. module: sign
 #. odoo-javascript
@@ -4950,6 +4910,8 @@ msgstr ""
 #: code:addons/sign/models/sign_template.py:0
 msgid "You need at least one field type in order to sign a document!"
 msgstr ""
+"Vous devez définir au moins un type de champ pour pouvoir signer un "
+"document !"
 
 #. module: sign
 #. odoo-python
@@ -5350,6 +5312,38 @@ msgstr "vous"
 #: model_terms:ir.ui.view,arch_db:sign.green_report_el_pdf
 msgid "{{0}} Summary"
 msgstr "{{0}} Résumé"
+
+#~ msgid "#7898678"
+#~ msgstr "#7898678"
+
+#~ msgid "******1234"
+#~ msgstr "******1234"
+
+#~ msgid "1001"
+#~ msgstr "1001"
+
+#~ msgid "192.168.1.1"
+#~ msgstr "192.168.1.1"
+
+#~ msgid "20-03-2000"
+#~ msgstr "20-03-2000"
+
+#~ msgid "2023-08-18"
+#~ msgstr "18-08-2023"
+
+#~ msgid "2023-08-18 - 12:30:45"
+#~ msgstr "18-08-2023 - 12:30:45"
+
+#~ msgid ""
+#~ "<span groups=\"base.group_system\">\n"
+#~ "                                    Certify your documents using a "
+#~ "provided .pfx or .p12 file.\n"
+#~ "                                </span>"
+#~ msgstr ""
+#~ "<span groups=\"base.group_system\">\n"
+#~ "                                      Certifiez vos documents en "
+#~ "utilisant un fichier .pfx ou .p12 fourni.\n"
+#~ "                                </span>"
 
 #~ msgid ""
 #~ "<span class=\"badge rounded-pill text-bg-success\" title=\"Shared\" "

@@ -4,13 +4,14 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
-"PO-Revision-Date: 2025-11-16 13:43+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-03 18:45+0000\n"
+"PO-Revision-Date: 2026-04-10 12:12+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "documents_hr_payroll/sv/>\n"
 "Language: sv\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: documents_hr_payroll
 #. odoo-python
@@ -93,6 +94,7 @@ msgstr "Inställningar"
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payroll_declaration_mixin__display_name
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payroll_employee_declaration__display_name
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payslip_run__display_name
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_res_company__display_name
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_res_config_settings__display_name
 msgid "Display Name"
@@ -155,21 +157,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payroll_declaration_mixin__id
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payroll_employee_declaration__id
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payslip__id
+#: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payslip_run__id
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_res_company__id
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
 #. module: documents_hr_payroll
-#. odoo-javascript
-#: code:addons/documents_hr_payroll/static/src/views/employee_declaration_list/documents_hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
+#. odoo-python
+#: code:addons/documents_hr_payroll/models/hr_payroll_employee_declaration.py:0
+msgid "PDFs are going to be posted in Documents shortly"
 msgstr ""
 
 #. module: documents_hr_payroll
-#. odoo-python
-#: code:addons/documents_hr_payroll/models/hr_payroll_employee_declaration.py:0
-msgid "PDFs are gonna be posted in Documents shortly"
+#: model:ir.model,name:documents_hr_payroll.model_hr_payslip_run
+msgid "Pay Run"
 msgstr ""
 
 #. module: documents_hr_payroll
@@ -226,14 +228,14 @@ msgstr ""
 
 #. module: documents_hr_payroll
 #. odoo-javascript
-#: code:addons/documents_hr_payroll/static/src/views/employee_declaration_list/documents_hr_payroll_employee_declaration_list_controller.xml:0
-msgid "Post"
-msgstr "Bokför"
+#: code:addons/documents_hr_payroll/static/src/backend_components/cog_menu/hr_payroll_post_pdfs_cog_menu.xml:0
+msgid "Post PDFs"
+msgstr ""
 
 #. module: documents_hr_payroll
 #. odoo-javascript
-#: code:addons/documents_hr_payroll/static/src/backend_components/cog_menu/hr_payroll_post_pdfs_cog_menu.xml:0
-msgid "Post PDFs"
+#: code:addons/documents_hr_payroll/static/src/views/employee_declaration_list/documents_hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Post Reports ("
 msgstr ""
 
 #. module: documents_hr_payroll
@@ -283,7 +285,7 @@ msgstr ""
 #. module: documents_hr_payroll
 #: model:ir.model.fields,field_description:documents_hr_payroll.field_hr_payroll_employee_declaration__state
 msgid "State"
-msgstr "Läge"
+msgstr "Status"
 
 #. module: documents_hr_payroll
 #. odoo-python
@@ -318,3 +320,6 @@ msgstr ""
 #: model:mail.template,subject:documents_hr_payroll.mail_template_new_declaration
 msgid "{{ object.name }}, a new declaration file is available for you"
 msgstr ""
+
+#~ msgid "Post"
+#~ msgstr "Publicera"

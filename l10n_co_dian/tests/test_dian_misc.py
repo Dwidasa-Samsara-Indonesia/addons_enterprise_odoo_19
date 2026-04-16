@@ -109,11 +109,11 @@ class TestDianMisc(TestCoDianCommon):
         self.assertIn('sts', root.nsmap)
         self.assertIn('ext', root.nsmap)
 
-        expected_xml = self._read_file('l10n_co_dian/tests/attachments/invoice_signed.xml', 'rb')
+        expected_xml = self._read_file('l10n_co_dian/tests/attachments/invoice_signed.xml', 'r')
         # Remove the namespaces as they are serialized in a non deterministic order
         self.assertEqual(
-            re.sub(b'xmlns.*"', b'', expected_xml),
-            re.sub(b'xmlns.*"', b'', xml),
+            re.sub(r'xmlns.*"', r'', expected_xml.strip()),
+            re.sub(r'xmlns.*"', r'', xml.strip().decode()),
         )
 
     def test_dian_xades_signature(self):
@@ -165,7 +165,7 @@ class TestDianMisc(TestCoDianCommon):
         self.invoice.partner_id.email = "tmp@odoo.com"  # so the email is sent by default when Send & Printing
 
         # Send & Print to generate the zip (containing the AttachedDocument + the PDF)
-        with patch(f'{self.document_path}._get_status', return_value=self._mocked_response('GetStatus_invoice.xml', 200)):
+        with self._mock_get_status():
             self._mock_send_and_print(move=self.invoice, response_file='SendBillSync_warnings.xml')
 
         attachments = self.env['ir.attachment'].search([
@@ -175,7 +175,7 @@ class TestDianMisc(TestCoDianCommon):
         self.assertIn("SETP202400001.zip", attachments.mapped('name'))
 
         # regenerate the attached document
-        with patch(f'{self.document_path}._get_status', return_value=self._mocked_response('GetStatus_invoice.xml', 200)):
+        with self._mock_get_status():
             xml, error = self.invoice.l10n_co_dian_document_ids._get_attached_document()
         self.assertEqual(error, "")
         self._assert_document_dian(xml, "l10n_co_dian/tests/attachments/attached_document.xml")

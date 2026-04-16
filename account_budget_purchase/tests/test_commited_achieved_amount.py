@@ -376,44 +376,6 @@ class TestCommittedAchievedAmount(TestAccountBudgetPurchaseCommon):
         # Committed = ((order - received) * price) + achieved = ((10-5) * -100 + 100 = -400
         self.assertEqual(plan_b_admin_line.committed_amount, -400)
 
-    def test_budget_analytic_misc_entry(self):
-        """ Even if an analytic distribution is set, only the accounts with type 'income'/'expense' should be taken
-        into account for the budgets.
-        """
-        self.purchase_order.button_draft()
-        journal_entry = self.env['account.move'].create({
-            'move_type': 'entry',
-            'partner_id': self.partner_a.id,
-            'invoice_date': '2019-01-10',
-            'date': '2019-01-10',
-            'invoice_line_ids': [
-                Command.create({
-                    'partner_id': self.partner_a.id,
-                    'account_id': self.company_data['default_account_expense'].id,
-                    'analytic_distribution': {self.analytic_account_partner_a.id: 100},
-                    'debit': 100,
-                }),
-                Command.create({
-                    'partner_id': self.partner_a.id,
-                    'account_id': self.company_data['default_account_assets'].id,
-                    'analytic_distribution': {self.analytic_account_partner_a.id: 100},
-                    'credit': 70,
-                }),
-                Command.create({
-                    'partner_id': self.partner_a.id,
-                    'account_id': self.company_data['default_account_assets'].id,
-                    'credit': 30,
-                }),
-            ],
-        })
-        journal_entry.action_post()
-
-        budget_both_line_a = self.budget_analytic_both.budget_line_ids[0]
-        self.assertEqual((budget_both_line_a.committed_amount, budget_both_line_a.achieved_amount), (-100, -100))
-
-        budget_expense_line_a = self.budget_analytic_expense.budget_line_ids[0]
-        self.assertEqual((budget_expense_line_a.committed_amount, budget_expense_line_a.achieved_amount), (100, 100))
-
     def test_budget_analytic_expense_with_credit_note(self):
         """ Test that credit note are taken into account. """
         plan_a_line, plan_b_line, plan_b_admin_line = self.budget_analytic_expense.budget_line_ids

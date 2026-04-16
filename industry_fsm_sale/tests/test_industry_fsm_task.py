@@ -208,3 +208,43 @@ class TestIndustryFsmTask(TestFsmFlowSaleCommon):
         self.task.under_warranty = False
         self.assertEqual(sol.price_unit, self.consu_product_delivered.list_price,
                          "The price should match the product's listed price.")
+
+    def test_no_double_discount_for_fsm_task(self):
+        """
+        Test that the timesheet service line only gives discount
+        once from the customer's assigned pricelist.
+
+            Steps to reproduce:
+            - Enable discounts
+            - Create a discount pricelist that applies to all products.
+            - Assign the pricelist to the customer.
+            - Create a task linked to that customer.
+            - Add a timesheet entry to the task.
+            - Mark the task as done.
+            - Verify that the price of the timesheet service line
+            in the sale order does not have discount applied twice.
+        """
+        self.env['res.config.settings'].create({'group_discount_per_so_line': True}).execute()
+
+        pricelist = self.env['product.pricelist'].create({
+            'name': 'Price List',
+            'item_ids': [Command.create({
+                'applied_on': '3_global',
+                'compute_price': 'percentage',
+                'percent_price': 10,
+            })],
+        })
+        self.partner.property_product_pricelist = pricelist
+        self.task.partner_id = self.partner
+
+        analytic_line = self.env['account.analytic.line'].create({
+            'employee_id': self.employee_user2.id,
+            'task_id': self.task.id,
+            'unit_amount': 1.0,
+            'date': '2025-06-17',
+        })
+        self.task.action_fsm_validate()
+        discounted_price = pricelist._get_product_price(
+            self.task.timesheet_product_id, analytic_line.unit_amount
+        )
+        self.assertEqual(self.task.sale_line_id.price_subtotal, discounted_price)

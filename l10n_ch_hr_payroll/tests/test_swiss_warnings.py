@@ -1,5 +1,4 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 from odoo.tests import TransactionCase, tagged
 from datetime import date
 from freezegun import freeze_time
@@ -195,11 +194,12 @@ class TestWhitelistFromTemplate(TransactionCase):
         """
 
         payslip_run = self.env['hr.payslip.run'].create({
+            "company_id": self.company_ch.id,
             'date_end': '2025-11-30',
             'date_start': '2025-11-01',
             'name': 'Payslip for Employee',
             'structure_id': self.env.ref('l10n_ch_hr_payroll.hr_payroll_structure_ch_elm').id,
         })
 
-        payslip_run.generate_payslips(employee_ids=[self.employee_ch.id])
+        payslip_run.generate_payslips(payslip_run.sudo()._get_valid_version_ids())
         self.assertEqual(payslip_run.slip_ids.name, 'Salary Slip - CH Employee - November 2025')

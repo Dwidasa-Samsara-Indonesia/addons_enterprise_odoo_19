@@ -532,6 +532,14 @@ if gross:
     isr_table = payslip._rule_parameter('l10n_mx_isr_tables')[version.schedule_pay]
     low, high, fix, rate = find_rates(gross, isr_table)
     result = -((gross - low) * rate + fix)
+
+period_factor = payslip._rule_parameter('l10n_mx_schedule_table')[version.schedule_pay]
+if period_factor >= 15:
+    period_factor = (period_factor / 30) * (365 / 12)
+min_wage = payslip._rule_parameter('l10n_mx_daily_min_wage') * period_factor
+
+if gross &lt;= min_wage:
+    result_qty = 0.0
         </field>
         <field name="struct_id" ref="l10n_mx_regular_pay"/>
         <field name="note">
@@ -543,6 +551,21 @@ https://www.dof.gob.mx/nota_detalle.php?codigo=5640505&amp;fecha=12/01/2022#gsc.
 
 [(Gross monthly salary - Lower limit) x Percentage to be applied over the excess of the lower limit] + Fixed rate
         </field>
+    </record>
+
+    <record id="l10n_mx_regular_pay_isr_on_minimum_wage" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_mx_category_non_taxable_benefit"/>
+        <field name="name">ISR on minimum wage</field>
+        <field name="code">ISR_MINIMUM_WAGE</field>
+        <field name="sequence">111</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = gross &lt;= min_wage</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -result_rules['ISR']['amount']
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_mx_regular_pay"/>
     </record>
 
     <record id="l10n_mx_regular_pay_isr_adjustment" model="hr.salary.rule">
@@ -653,6 +676,9 @@ elif version.schedule_pay == 'bi-monthly':
 else:
     days_in_period = (payslip.date_to - payslip.date_from).days + 1
     result = daily_subsidy * days_in_period
+
+if gross &lt;= min_wage:
+    result_qty = 0.0
         </field>
         <field name="struct_id" ref="l10n_mx_regular_pay"/>
     </record>
@@ -1201,6 +1227,8 @@ result_name = inputs['REIMBURSEMENT'].name
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result = -categories['IMSS_EMPLOYEE']
+if gross &lt;= min_wage:
+    result_qty = 0.0
         </field>
         <field name="appears_on_payslip" eval="True"/>
         <field name="struct_id" ref="l10n_mx_regular_pay"/>
@@ -1215,6 +1243,21 @@ result = -categories['IMSS_EMPLOYEE']
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result = categories['IMSS_EMPLOYER']
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="struct_id" ref="l10n_mx_regular_pay"/>
+    </record>
+
+    <record id="l10n_mx_regular_pay_social_security_total_employee_on_minimum_wage" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_mx_category_social_security_employee"/>
+        <field name="name">IMSS (Employee) on minimum wage</field>
+        <field name="code">IMSS_MINIMUM_WAGE</field>
+        <field name="sequence">200</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = gross &lt;= min_wage</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules['IMSS_EMPLOYEE_TOTAL']['amount']
         </field>
         <field name="appears_on_payslip" eval="False"/>
         <field name="struct_id" ref="l10n_mx_regular_pay"/>

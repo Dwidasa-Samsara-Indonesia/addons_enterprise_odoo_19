@@ -91,6 +91,7 @@
             <UOMTable>
                 <UOMTableEntry t-foreach="uoms" t-as="uom">
                     <UnitOfMeasure t-out="unece_code_by_uom[uom.id]"/>
+                    <Description t-out="uom.name[:256]"/>
                 </UOMTableEntry>
             </UOMTable>
             <AnalysisTypeTable/>
@@ -173,8 +174,8 @@
         <xpath expr="//Transaction/t[1]" position="replace">
             <t t-set="partner_info" t-value="partner_detail_map[move_vals['partner_id']]"/>
             <t t-set="default_registration_number" t-value="partner_detail_map[company.partner_id.id]['registration_number']"/>
-            <CustomerID t-out="partner_info['registration_number'] if partner_info['type'] == 'customer' else default_registration_number"/>
-            <SupplierID t-out="partner_info['registration_number'] if partner_info['type'] == 'supplier' else default_registration_number"/>
+            <CustomerID t-out="partner_info['registration_number'] if 'customer' in partner_info['types'] else default_registration_number"/>
+            <SupplierID t-out="partner_info['registration_number'] if 'supplier' in partner_info['types'] else default_registration_number"/>
         </xpath>
 
         <!-- Line is renamed TransactionLine -->
@@ -185,8 +186,8 @@
                 <ValueDate t-out="move_vals['invoice_date']"/>
                 <SourceDocumentID t-out="move_vals['id']"/>
                 <t t-set="partner_info" t-value="partner_detail_map[line_vals['partner_id']]"/>
-                <CustomerID t-out="partner_info['registration_number'] if partner_info['type'] == 'customer' else default_registration_number"/>
-                <SupplierID t-out="partner_info['registration_number'] if partner_info['type'] == 'supplier' else default_registration_number"/>
+                <CustomerID t-out="partner_info['registration_number'] if 'customer' in partner_info['types'] else default_registration_number"/>
+                <SupplierID t-out="partner_info['registration_number'] if 'supplier' in partner_info['types'] else default_registration_number"/>
                 <Description t-out="(line_vals['name'] or move_vals['name'])[:256]"/>
                 <t t-call="l10n_ro_saft.saft_template_line_debit_credit_amount"/>
                 <t t-call="l10n_ro_saft.saft_template_tax_information"/>
@@ -249,35 +250,33 @@
                     </t>
                 </Payments>
                 <MovementOfGoods/>
-                <AssetTransactions>
-                    <t t-if="l10n_ro_saft_required_sections['source_documents']['asset_transactions']">
-                        <NumberOfAssetTransactions t-out="len(asset_transactions)"/>
-                        <AssetTransaction t-foreach="asset_transactions" t-as="asset_transaction">
-                            <AssetTransactionID t-out="asset_transaction['asset_transaction_id']"/>
-                            <AssetID t-out="asset_transaction['asset_id']"/>
-                            <AssetTransactionType t-out="asset_transaction['asset_transaction_type']"/>
-                            <Description t-out="asset_transaction['description']"/>
-                            <AssetTransactionDate t-out="asset_transaction['asset_transaction_date']"/>
-                            <AssetSupplier t-foreach="asset_transaction['supplier_ids']" t-as="supplier_id">
-                                <t t-set="partner" t-value="partner_detail_map[supplier_id]"/>
-                                <SupplierName t-out="partner['partner'].name[:70]"/>
-                                <SupplierID t-out="partner['registration_number']"/>
-                                <PostalAddress>
-                                    <t t-set="partner_address" t-value="partner['partner']"/>
-                                    <t t-call="account_saft.address"/>
-                                </PostalAddress>
-                            </AssetSupplier>
-                            <TransactionID t-out="asset_transaction['transaction_id']"/>
-                            <AssetTransactionValuations>
-                                <AssetTransactionValuation t-foreach="asset_transaction['asset_transaction_valuation']" t-as="transaction_valuation">
-                                    <AssetValuationType t-out="transaction_valuation['asset_valuation_type']"/>
-                                    <AcquisitionAndProductionCostsOnTransaction t-out="transaction_valuation['acquisition_and_production_costs_on_transaction']"/>
-                                    <BookValueOnTransaction t-out="transaction_valuation['book_value_transaction']"/>
-                                    <AssetTransactionAmount t-out="transaction_valuation['asset_transaction_amount']"/>
-                                </AssetTransactionValuation>
-                            </AssetTransactionValuations>
-                        </AssetTransaction>
-                    </t>
+                <AssetTransactions t-if="l10n_ro_saft_required_sections['source_documents']['asset_transactions']">
+                    <NumberOfAssetTransactions t-out="len(asset_transactions)"/>
+                    <AssetTransaction t-foreach="asset_transactions" t-as="asset_transaction">
+                        <AssetTransactionID t-out="asset_transaction['asset_transaction_id']"/>
+                        <AssetID t-out="asset_transaction['asset_id']"/>
+                        <AssetTransactionType t-out="asset_transaction['asset_transaction_type']"/>
+                        <Description t-out="asset_transaction['description']"/>
+                        <AssetTransactionDate t-out="asset_transaction['asset_transaction_date']"/>
+                        <AssetSupplier t-foreach="asset_transaction['supplier_ids']" t-as="supplier_id">
+                            <t t-set="partner" t-value="partner_detail_map[supplier_id]"/>
+                            <SupplierName t-out="partner['partner'].name[:70]"/>
+                            <SupplierID t-out="partner['registration_number']"/>
+                            <PostalAddress>
+                                <t t-set="partner_address" t-value="partner['partner']"/>
+                                <t t-call="account_saft.address"/>
+                            </PostalAddress>
+                        </AssetSupplier>
+                        <TransactionID t-out="asset_transaction['transaction_id']"/>
+                        <AssetTransactionValuations>
+                            <AssetTransactionValuation t-foreach="asset_transaction['asset_transaction_valuation']" t-as="transaction_valuation">
+                                <AssetValuationType t-out="transaction_valuation['asset_valuation_type']"/>
+                                <AcquisitionAndProductionCostsOnTransaction t-out="transaction_valuation['acquisition_and_production_costs_on_transaction']"/>
+                                <BookValueOnTransaction t-out="transaction_valuation['book_value_transaction']"/>
+                                <AssetTransactionAmount t-out="transaction_valuation['asset_transaction_amount']"/>
+                            </AssetTransactionValuation>
+                        </AssetTransactionValuations>
+                    </AssetTransaction>
                 </AssetTransactions>
             </SourceDocuments>
         </xpath>
@@ -295,6 +294,12 @@
             <t t-call="l10n_ro_saft.addresses_contacts">
                 <t t-set="partner_id" t-value="company.partner_id.id"/>
             </t>
+        </xpath>
+        <xpath expr="//IBANNumber" position="attributes">
+            <attribute name="t-out">partner_bank.sanitized_acc_number</attribute>
+        </xpath>
+        <xpath expr="//BankAccountNumber" position="attributes">
+            <attribute name="t-out">partner_bank.sanitized_acc_number</attribute>
         </xpath>
     </template>
 
@@ -388,13 +393,13 @@
             <InvoiceNo t-out="move_vals['name']"/>
             <t t-set="partner_info" t-value="partner_detail_map[move_vals['partner_id']]"/>
             <t t-set="partner" t-value="partner_info['partner']"/>
-            <CustomerInfo t-if="partner_info['type'] == 'customer'">
+            <CustomerInfo t-if="'customer' in partner_info['types']">
                 <CustomerID t-out="partner_info['registration_number']"/>
                 <BillingAddress t-foreach="partner_info['addresses']" t-as="partner_address">
                     <t t-call="account_saft.address"/>
                 </BillingAddress>
             </CustomerInfo>
-            <SupplierInfo t-if="partner_info['type'] == 'supplier'">
+            <SupplierInfo t-if="'supplier' in partner_info['types']">
                 <SupplierID t-out="partner_info['registration_number']"/>
                 <BillingAddress t-foreach="partner_info['addresses']" t-as="partner_address">
                     <t t-call="account_saft.address"/>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:41+0000\n"
+"POT-Creation-Date: 2026-04-10 18:44+0000\n"
 "PO-Revision-Date: 2025-11-17 03:33+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Norwegian Bokmål <https://translate.odoo.com/projects/odoo-19/"
@@ -23,7 +23,24 @@ msgstr ""
 #. module: databases
 #. odoo-python
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
+msgid "%(nb_failed_dbs)s databases could not be synchronized.\n"
+msgstr ""
+
+#. module: databases
+#. odoo-python
+#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "%(nb_new_dbs)s new databases, %(nb_updated_dbs)s updated."
+msgstr ""
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
+msgid ""
+"<span class=\"o_form_label\">\n"
+"                                Manage access:\n"
+"                            </span>\n"
+"                            <span class=\"text-muted\">\n"
+"                                useful to cut all access at once\n"
+"                            </span>"
 msgstr ""
 
 #. module: databases
@@ -196,6 +213,7 @@ msgstr ""
 
 #. module: databases
 #: model:ir.model,name:databases.model_databases_user
+#: model:ir.model.fields,field_description:databases.field_res_users__database_user_ids
 msgid "Database User"
 msgstr ""
 
@@ -228,6 +246,7 @@ msgstr ""
 #: model:ir.ui.menu,name:databases.menu_main_databases
 #: model:res.groups.privilege,name:databases.res_groups_privilege_databases
 #: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "Databases"
 msgstr ""
 
@@ -253,6 +272,7 @@ msgstr "Avbryt"
 #: model:ir.model.fields,field_description:databases.field_project_project__display_name
 #: model:ir.model.fields,field_description:databases.field_project_template_create_wizard__display_name
 #: model:ir.model.fields,field_description:databases.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:databases.field_res_users__display_name
 msgid "Display Name"
 msgstr "Visningsnavn"
 
@@ -314,18 +334,6 @@ msgid "Error while removing users from %(dbname)s: %(message)s\n"
 msgstr ""
 
 #. module: databases
-#. odoo-python
-#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
-msgid "Error while resolving %(url)s: %(exception)s\n"
-msgstr ""
-
-#. module: databases
-#. odoo-python
-#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
-msgid "Error while resolving %(url)s: found no IP\n"
-msgstr ""
-
-#. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__everywhere_user_ids
 msgid "Everywhere User"
 msgstr ""
@@ -378,6 +386,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:databases.field_project_project__id
 #: model:ir.model.fields,field_description:databases.field_project_template_create_wizard__id
 #: model:ir.model.fields,field_description:databases.field_res_config_settings__id
+#: model:ir.model.fields,field_description:databases.field_res_users__id
 msgid "ID"
 msgstr "ID"
 
@@ -599,6 +608,7 @@ msgstr "Fjern"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.edit_project
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "Remove User"
 msgstr ""
 
@@ -606,6 +616,11 @@ msgstr ""
 #: model:ir.actions.server,name:databases.action_remove_users
 #: model_terms:ir.ui.view,arch_db:databases.view_databases_list
 msgid "Remove Users"
+msgstr ""
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
+msgid "Remove this user from all databases"
 msgstr ""
 
 #. module: databases
@@ -617,6 +632,11 @@ msgstr "Rapportering"
 #: model_terms:ir.ui.view,arch_db:databases.view_databases_list
 msgid "Responsible"
 msgstr "Ansvarlig"
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
+msgid "Revoke all access"
+msgstr ""
 
 #. module: databases
 #. odoo-python
@@ -710,14 +730,6 @@ msgstr ""
 
 #. module: databases
 #. odoo-python
-#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
-msgid ""
-"The database %(url)s is registered as a saas database in odoo.com. As it "
-"seems to be configured we have left it as is.\n"
-msgstr ""
-
-#. module: databases
-#. odoo-python
 #: code:addons/databases/wizard/databases_manage_users_wizard.py:0
 msgid "These users were successfully invited to %(nb_databases)s databases."
 msgstr ""
@@ -729,11 +741,24 @@ msgid "These users were successfully removed from %(nb_databases)s databases."
 msgstr ""
 
 #. module: databases
+#. odoo-python
+#: code:addons/databases/models/res_users.py:0
+msgid "This user has no access to remove."
+msgstr ""
+
+#. module: databases
 #: model:ir.model.constraint,message:databases.constraint_project_project_database_url_required
 msgid "Uh-oh! It seems we are missing a url for a database!"
 msgstr ""
 
 #. module: databases
+#. odoo-python
+#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
+msgid "Unreachable"
+msgstr ""
+
+#. module: databases
+#: model:ir.model,name:databases.model_res_users
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__user_ids
 #: model:res.groups,name:databases.group_databases_user
 msgid "User"
@@ -770,4 +795,15 @@ msgstr "Versjon"
 msgid ""
 "Whether the user should be notified once the cron has finished synchronizing "
 "the databases"
+msgstr ""
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
+msgid ""
+"You can't revoke your own access. You wouldn't want to lock yourself out!"
+msgstr ""
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
+msgid "remote user"
 msgstr ""

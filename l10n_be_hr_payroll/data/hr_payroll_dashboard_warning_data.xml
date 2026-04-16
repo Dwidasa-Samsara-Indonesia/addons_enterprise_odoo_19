@@ -80,6 +80,7 @@ sick_work_entry_types = sick_work_entry_type + partial_sick_work_entry_type + lo
 sick_more_than_30days_leave = self.env['hr.leave'].search([
     ('employee_company_id', 'in', belgian_companies.ids),
     ('date_from', '&lt;=', date.today() + relativedelta(days=-31)),
+    ('date_to', '&gt;=', date.today()),
     ('holiday_status_id.work_entry_type_id', 'in', sick_work_entry_types.ids),
     ('state', '=', 'validate'),
 ])

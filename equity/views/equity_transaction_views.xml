@@ -163,6 +163,7 @@
                             </div>
                             <div class="d-flex">
                                 <field name="security_price" class="w-50" widget="monetary" options="{'currency_field': 'equity_currency_id'}"/>
+                                <field name="equity_currency_id" class="w-25" options="{'no_create': True}" groups="base.group_multi_currency" invisible="not can_change_currency"/>
                                 <div>/ Security</div>
                             </div>
                             <field name="transfer_amount" widget="monetary"/>

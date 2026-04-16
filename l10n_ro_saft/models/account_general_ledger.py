@@ -37,18 +37,20 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
 
     @api.model
     def l10n_ro_export_saft_to_xml_monthly(self, options):
-        options['l10n_ro_saft_required_sections'] = self._set_l10n_ro_saft_required_sections('monthly')
+        options['l10n_ro_saft_type'] = 'monthly'
+        options['l10n_ro_saft_required_sections'] = self._set_l10n_ro_saft_required_sections(options['l10n_ro_saft_type'])
         return self.l10n_ro_export_saft_to_xml(options)
 
     @api.model
     def l10n_ro_export_saft_to_xml_assets(self, options):
-        options['l10n_ro_saft_required_sections'] = self._set_l10n_ro_saft_required_sections('assets')
+        options['l10n_ro_saft_type'] = 'assets'
+        options['l10n_ro_saft_required_sections'] = self._set_l10n_ro_saft_required_sections(options['l10n_ro_saft_type'])
         return self.l10n_ro_export_saft_to_xml(options)
 
     @api.model
     def _set_l10n_ro_saft_required_sections(self, export_type):
         """Define which sections of the XML are required to export based on the
-        type of export, which can either be monthly, assets, or stocks (coming soon). """
+        type of export, which can either be monthly, assets"""
         monthly = (export_type == 'monthly')
         assets = (export_type == 'assets')
 
@@ -104,7 +106,8 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
 
     @api.model
     def _l10n_ro_saft_prepare_report_values(self, report, options):
-        values = self._saft_prepare_report_values(report, options)
+        options['saft_allow_empty_address'] = self.env.company.country_code == 'RO'
+        values = super()._saft_prepare_report_values(report, options)
 
         # The saft template needs to know which sections are requested
         values['l10n_ro_saft_required_sections'] = options['l10n_ro_saft_required_sections']
@@ -200,7 +203,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         # - L for monthly returns
         # - T for quarterly returns
         # - A for annual returns
-        # - C for returns on request
+        # - C for returns on request (see l10n_ro_saft_stock/models/account_general_ledger.py)
         # - NL for non-residents monthly
         # - NT for non-residents quarterly
         if values['company'].country_code == 'RO':
@@ -284,58 +287,60 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         }
 
     @api.model
+    def _l10n_ro_saft_get_registration_number(self, partner):
+        """ Compute the RegistrationNumber field for a partner, consisting of a two-digit type followed by the partner's ID:
+        00 + CUI number (without the 'RO' prefix), for economic operators registered in Romania;
+        01 + country code + VAT code, for economic operators from EU Member States other than Romania;
+        02 + country code + VAT code, for economic operators from non-EU states EU;
+        03 + CNP, for Romanian citizens and individuals resident in Romania, or 03 + NIF for non-resident individuals;
+        04 + partner ID, for customers from Romania not subject to VAT and whose CNP is unknown (e.g. e-commerce);
+        05 + country code + partner ID, for customers from EU Member States other than Romania not subject to VAT;
+        06 + country code + partner ID, for customers from non-EU states not subject to VAT;
+        08 + 13 zeros (080000000000000), for unidentified customers in PoS transactions. This code is restricted ONLY to such transactions;
+        09 + NIF for non-resident legal entities registered in Romania;
+        (types 10 and 11 are restricted to banks)
+        This function requires the country_code to be correctly set on the partner.
+
+        :param partner: the res.partner for which to generate the registration number
+
+        :return: the RegistrationNumber (a string)
+        """
+        if not partner:
+            return '0'
+        if partner.is_company:
+            if not partner.vat:
+                vat_country, vat_number = 'ro', ''
+            elif not partner.vat[:2].isalpha():
+                vat_country, vat_number = 'ro', partner.vat
+            else:
+                vat_country, vat_number = partner._split_vat(partner.vat)
+            if partner.country_code == 'RO' or not partner.country_code:
+                # For Romanian companies, the company_registry field should contain the CUI number, which is a 8-digit number without the 'RO' prefix
+                # Alternatively, we can get the CUI from the VAT number by removing the 'RO' prefix.
+                cui = partner.company_registry or vat_number
+                return '00' + stdnum.ro.cui.compact(cui)
+            elif partner.country_id and 'EU' in partner.country_id.country_group_codes:
+                return '01' + vat_country + vat_number
+            else:
+                return '02' + vat_country + vat_number
+        else:
+            if partner.company_registry and stdnum.ro.cnp.is_valid(partner.company_registry):
+                # For individuals having a valid CNP or NIF, that should be used
+                return stdnum.ro.cnp.compact(partner.company_registry)
+            elif partner.country_code == 'RO' or not partner.country_code:
+                return '04' + str(partner.id)
+            elif partner.country_id and 'EU' in partner.country_id.country_group_codes:
+                return '05' + partner.country_code + str(partner.id)
+            else:
+                return '06' + partner.country_code + str(partner.id)
+            # Code 08 (unidentified customer in PoS transactions) not implemented because the PoS does
+            # not generate anonymous invoices.
+
+    @api.model
     def _l10n_ro_saft_fill_partner_values(self, values):
         """ Fill in partner-related values in the values dict, performing checks as we go. """
-
-        def get_registration_number(partner):
-            """ Compute the RegistrationNumber field for a partner, consisting of a two-digit type followed by the partner's ID:
-            00 + CUI number (without the 'RO' prefix), for economic operators registered in Romania;
-            01 + country code + VAT code, for economic operators from EU Member States other than Romania;
-            02 + country code + VAT code, for economic operators from non-EU states EU;
-            03 + CNP, for Romanian citizens and individuals resident in Romania, or 03 + NIF for non-resident individuals;
-            04 + partner ID, for customers from Romania not subject to VAT and whose CNP is unknown (e.g. e-commerce);
-            05 + country code + partner ID, for customers from EU Member States other than Romania not subject to VAT;
-            06 + country code + partner ID, for customers from non-EU states not subject to VAT;
-            08 + 13 zeros (080000000000000), for unidentified customers in PoS transactions. This code is restricted ONLY to such transactions;
-            09 + NIF for non-resident legal entities registered in Romania;
-            (types 10 and 11 are restricted to banks)
-            This function requires the country_code to be correctly set on the partner.
-
-            :param partner: the res.partner for which to generate the registration number
-
-            :return: the RegistrationNumber (a string)
-            """
-            if partner.is_company:
-                if not partner.vat:
-                    vat_country, vat_number = 'ro', ''
-                elif not partner.vat[:2].isalpha():
-                    vat_country, vat_number = 'ro', partner.vat
-                else:
-                    vat_country, vat_number = partner._split_vat(partner.vat)
-                if partner.country_code == 'RO' or not partner.country_code:
-                    # For Romanian companies, the company_registry field should contain the CUI number, which is a 8-digit number without the 'RO' prefix
-                    # Alternatively, we can get the CUI from the VAT number by removing the 'RO' prefix.
-                    cui = partner.company_registry or vat_number
-                    return '00' + stdnum.ro.cui.compact(cui)
-                elif partner.country_id and 'EU' in partner.country_id.country_group_codes:
-                    return '01' + vat_country + vat_number
-                else:
-                    return '02' + vat_country + vat_number
-            else:
-                if partner.company_registry and stdnum.ro.cnp.is_valid(partner.company_registry):
-                    # For individuals having a valid CNP or NIF, that should be used
-                    return stdnum.ro.cnp.compact(partner.company_registry)
-                elif partner.country_code == 'RO' or not partner.country_code:
-                    return '04' + (partner.country_code or '') + str(partner.id)
-                elif partner.country_id and 'EU' in partner.country_id.country_group_codes:
-                    return '05' + partner.country_code + str(partner.id)
-                else:
-                    return '06' + partner.country_code + str(partner.id)
-                # Code 08 (unidentified customer in PoS transactions) not implemented because the PoS does
-                # not generate anonymous invoices.
-
         for partner_vals in values['partner_detail_map'].values():
-            partner_vals['registration_number'] = get_registration_number(partner_vals['partner'])
+            partner_vals['registration_number'] = self._l10n_ro_saft_get_registration_number(partner_vals['partner'])
             partner_vals['l10n_ro_saft_contacts'] = partner_vals['contacts'].filtered(
                 # Only provide partners which have a first name, last name and phone number.
                 lambda contact: ' ' in contact.name[1:-1] and contact.phone
@@ -391,6 +396,14 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             tax_fields = tax_fields_by_id[tax_vals['id']]
             tax_vals.update(tax_fields)
 
+    def _get_encountered_product_uom_ids(self, values):
+        return {
+            line_vals['product_uom_id']
+            for move_vals in values['move_vals_list']
+            for line_vals in move_vals['line_vals_list']
+            if line_vals['product_uom_id']
+        }
+
     @api.model
     def _l10n_ro_saft_fill_uom_values(self, options, values):
         """ Fill UoMs and unece_code_by_uom """
@@ -402,12 +415,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             })
             return
 
-        encountered_product_uom_ids = sorted({
-            line_vals['product_uom_id']
-            for move_vals in values['move_vals_list']
-            for line_vals in move_vals['line_vals_list']
-            if line_vals['product_uom_id']
-        })
+        encountered_product_uom_ids = sorted(self._get_encountered_product_uom_ids(values))
         uoms = self.env['uom.uom'].browse(encountered_product_uom_ids)
 
         # Provide a dict that links each UOM id to its UNECE code
@@ -433,12 +441,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 'level': level,
             }
 
-        encountered_product_ids = sorted({
-            line_vals['product_id']
-            for move_vals in values['move_vals_list']
-            for line_vals in move_vals['line_vals_list']
-            if line_vals['product_id']
-        })
+        encountered_product_ids = sorted(self._get_encountered_product_ids(values))
         encountered_products = self.env['product.product'].browse(encountered_product_ids)
         product_refs = encountered_products.mapped('default_code')
         products_no_ref = encountered_products.filtered(lambda product: not product.default_code)
@@ -469,6 +472,20 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
 
         return errors
 
+    def _get_commodity_code(self, product):
+        if product.type == 'service':
+            return '00000000'
+        else:
+            return product.intrastat_code_id.code if 'intrastat_code_id' in product and product.intrastat_code_id else '0'
+
+    def _get_encountered_product_ids(self, values):
+        return {
+            line_vals['product_id']
+            for move_vals in values['move_vals_list']
+            for line_vals in move_vals['line_vals_list']
+            if line_vals['product_id']
+        }
+
     @api.model
     def _l10n_ro_saft_fill_product_values(self, options, values):
         """ Fill product_vals_list """
@@ -476,12 +493,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             values['product_vals_list'] = []
             return
 
-        encountered_product_ids = sorted({
-            line_vals['product_id']
-            for move_vals in values['move_vals_list']
-            for line_vals in move_vals['line_vals_list']
-            if line_vals['product_id']
-        })
+        encountered_product_ids = sorted(self._get_encountered_product_ids(values))
         encountered_products = self.env['product.product'].browse(encountered_product_ids)
         product_vals_list = [
             {
@@ -491,8 +503,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 'uom_id': product.uom_id.id,
                 'product_category': product.product_tmpl_id.categ_id.name,
                 # The account_intrastat module is not a dependency, so this code should work regardless of whether it is installed.
-                'commodity_code': '00000000' if product.type == 'service' else
-                                  (product.intrastat_code_id.code if 'intrastat_code_id' in product and product.intrastat_code_id else '0'),
+                'commodity_code': self._get_commodity_code(product),
             }
             for product in encountered_products
         ]

@@ -2,7 +2,13 @@
 <templates xml:space="preserve">
     <t t-name="l10n_it_pos.FiscalDocumentBody">
         <t t-foreach="lines" t-as="line" t-key="line.index">
-            <t t-if="line.isRefund">
+            <t t-if="props.isBasicPrint or props.isEarlyPrint">
+                <PrintNormal operator="1" font="1" data="line.message"/>
+                <t t-if="props.isEarlyPrint">
+                    <PrintNormal operator="1" font="1" data="line.priceTotal" alignment="3"/>
+                </t>
+            </t>
+            <t t-elif="line.isRefund">
                 <PrintRecRefund operator="1" description="line.description" quantity="line.quantity" unitPrice="line.unitPrice" department="line.department" />
             </t>
             <t t-elif="line.isReward">
@@ -21,18 +27,23 @@
                 </t>
             </t>
         </t>
-        <t t-if="this.adjustment">
-            <PrintRecSubtotalAdjustment operator="1" adjustmentType="this.adjustment.adjustmentType" description="this.adjustment.description" amount="this.adjustment.amount" justification="2" />
+        <t t-if="props.isEarlyPrint">
+            <PrintNormal operator="1" font="1" data="subtotal" alignment="3"/>
         </t>
-        <t t-if="this.order.isRefunded or this.isFullDiscounted">
-            <printRecTotal operator="1" />
-        </t>  
-        <t t-else="">
-            <printRecSubtotal operator="1" option="1">
-                <t t-foreach="payments" t-as="payment" t-key="payment.id">
-                    <PrintRecTotal operator="1" description="payment.description" payment="payment.payment" paymentType="payment.paymentType" index="payment.index" justification="2"/>
-                </t>
-            </printRecSubtotal>
+        <t t-if="!props.isBasicPrint and !props.isEarlyPrint">
+            <t t-if="this.adjustment">
+                <PrintRecSubtotalAdjustment operator="1" adjustmentType="this.adjustment.adjustmentType" description="this.adjustment.description" amount="this.adjustment.amount" justification="2" />
+            </t>
+            <t t-if="this.order.isRefunded or this.isFullDiscounted">
+                <printRecTotal operator="1" />
+            </t>
+            <t t-else="">
+                <printRecSubtotal operator="1" option="1">
+                    <t t-foreach="payments" t-as="payment" t-key="payment.id">
+                        <PrintRecTotal operator="1" description="payment.description" payment="payment.payment" paymentType="payment.paymentType" index="payment.index" justification="2"/>
+                    </t>
+                </printRecSubtotal>
+            </t>
         </t>
     </t>
 </templates>

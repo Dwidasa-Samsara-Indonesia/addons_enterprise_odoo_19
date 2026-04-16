@@ -49,6 +49,7 @@ test("The geoJson service is given to the model for geo charts", async function 
         "North America",
         "United States",
         "South America",
+        "Oceania",
     ]);
 
     expect(model.getters.getGeoJsonFeatures("world")).toEqual(undefined);

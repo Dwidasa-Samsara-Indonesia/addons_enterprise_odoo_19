@@ -36,13 +36,15 @@
 # Yael Terner <yael@laylinetech.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # noa eldar <noaeldar@laylinetech.com>, 2026.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2026.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:35+0000\n"
-"PO-Revision-Date: 2026-02-11 17:40+0000\n"
-"Last-Translator: Yael Terner <yael@laylinetech.com>\n"
+"POT-Creation-Date: 2026-04-10 18:37+0000\n"
+"PO-Revision-Date: 2026-04-09 11:26+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Hebrew <https://translate.odoo.com/projects/odoo-19/account/"
 "he/>\n"
 "Language: he\n"
@@ -51,7 +53,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal__type
@@ -96,6 +98,14 @@ msgstr ""
 "לדוגמה: 180 / (1 - 10%) = 200 (לא כולל מס במחיר)\n"
 "לדוגמה: 200 * (1 - 10%) = 180 (כולל מס במחיר)\n"
 "        "
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid ""
+"\n"
+"Please contact your administrator."
+msgstr ""
 
 #. module: account
 #. odoo-python
@@ -220,6 +230,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/account/wizard/accrued_orders.py:0
 msgid ""
+"%(order)s - %(order_line)s; %(qty_invoiced)s invoiced, %(qty_delivered)s "
+"delivered at %(unit_price)s"
+msgstr ""
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid ""
 "%(order)s - %(order_line)s; %(quantity_billed)s Billed, %"
 "(quantity_received)s Received at %(unit_price)s each"
 msgstr ""
@@ -235,6 +253,12 @@ msgid ""
 msgstr ""
 "%(order)s - %(order_line)s; %(quantity_invoiced)s חויבו, %"
 "(quantity_delivered)s נשלחו ב %(unit_price)s כל אחד"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "%(order)s - %(order_line)s; price difference for %(product)s"
+msgstr ""
 
 #. module: account
 #. odoo-python
@@ -322,18 +346,6 @@ msgstr ""
 #: code:addons/account/models/account_document_import_mixin.py:0
 msgid "'%(filename)s' (type=%(type)s)"
 msgstr "'%(filename)s' (סוג=%(type)s)"
-
-#. module: account
-#. odoo-python
-#: code:addons/account/wizard/accrued_orders.py:0
-msgid "(*) Goods Delivered not Invoiced (perpetual valuation)"
-msgstr "(*) סחורה שסופקה אך טרם חויבה"
-
-#. module: account
-#. odoo-python
-#: code:addons/account/wizard/accrued_orders.py:0
-msgid "(*) Goods Invoiced not Delivered (perpetual valuation)"
-msgstr "(*) סחורה שחויבה אך טרם סופקה"
 
 #. module: account
 #: model:ir.actions.server,name:account.action_move_block_payment
@@ -453,24 +465,9 @@ msgid "0% Imports"
 msgstr "0% ייבוא"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "1.00"
-msgstr "1.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-msgid "1.05"
-msgstr "1.05"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_30_days_end_month_the_10
 msgid "10 Days after End of Next Month"
 msgstr "10 ימים לאחר סיום חודש הבא"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "100.0"
-msgstr "100.0"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
@@ -478,103 +475,14 @@ msgid "100.00 USD"
 msgstr "100.00 USD"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "1000.0"
-msgstr "1000.0"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "11.05"
-msgstr "11.05"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "12345"
-msgstr "12345"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_15days
 msgid "15 Days"
 msgstr "15 ימים"
 
 #. module: account
-#: model:account.tax,name:account.1_purchase_tax_template
-#: model:account.tax,name:account.1_sale_tax_template
-msgid "15%"
-msgstr "15%"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "1500.0"
-msgstr "1500.0"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_2_9
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_2_9
-#: model:account.tax,name:account.2_account_tax_us_purchase_2_9
-#: model:account.tax,name:account.2_account_tax_us_sale_2_9
-msgid "2.9%"
-msgstr "2.9%"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_30days_early_discount
 msgid "2/7 Net 30"
 msgstr "2/7 נטו 30"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "20.00"
-msgstr "20.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2021-09-19"
-msgstr "2021-09-19"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
-msgid "2023-01-01"
-msgstr "2023-01-01"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
-msgid "2023-01-05"
-msgstr "2023-01-05"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "2023-08-11"
-msgstr "2023-08-11"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "2023-08-15"
-msgstr "2023-08-15"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "2023-08-31"
-msgstr "2023-08-31"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2023-09-12"
-msgstr "2023-09-12"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2023-09-25"
-msgstr "2023-09-25"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2023-10-31"
-msgstr "2023-10-31"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2024-01-01"
-msgstr "2024-01-01"
 
 #. module: account
 #: model:account.payment.term,name:account.account_payment_term_21days
@@ -592,18 +500,6 @@ msgid "25.00 USD"
 msgstr "25.00 USD"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_company_currency_template
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "27.00"
-msgstr "27.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "3.00"
-msgstr "3.00"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_30days
 msgid "30 Days"
 msgstr "30 ימים"
@@ -619,99 +515,9 @@ msgid "30% Now, Balance 60 Days"
 msgstr "30% עכשיו, יתרה תוך 60 יום"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "30.00"
-msgstr "30.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_company_currency_template
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "31.05"
-msgstr "31.05"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_company_currency_template
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-msgid "4.05"
-msgstr "4.05"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_2
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_2
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_2
-#: model:account.tax,name:account.2_account_tax_us_sale_4_2
-msgid "4.2%"
-msgstr "4.2%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_225
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_225
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_225
-#: model:account.tax,name:account.2_account_tax_us_sale_4_225
-msgid "4.225%"
-msgstr "4.225%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_5
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_5
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_5
-#: model:account.tax,name:account.2_account_tax_us_sale_4_5
-msgid "4.5%"
-msgstr "4.5%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_75
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_75
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_75
-#: model:account.tax,name:account.2_account_tax_us_sale_4_75
-msgid "4.75%"
-msgstr "4.75%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_875
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_875
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_875
-#: model:account.tax,name:account.2_account_tax_us_sale_4_875
-msgid "4.875%"
-msgstr "4.875%"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_45days
 msgid "45 Days"
 msgstr "45 ימים"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_3
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_3
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_3
-#: model:account.tax,name:account.2_account_tax_us_sale_5_3
-msgid "5.3%"
-msgstr "5.3%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_5
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_5
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_5
-#: model:account.tax,name:account.2_account_tax_us_sale_5_5
-msgid "5.5%"
-msgstr "5.5%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_6
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_6
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_6
-#: model:account.tax,name:account.2_account_tax_us_sale_5_6
-msgid "5.6%"
-msgstr "5.6%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_75
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_75
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_75
-#: model:account.tax,name:account.2_account_tax_us_sale_5_75
-msgid "5.75%"
-msgstr "5.75%"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
@@ -722,80 +528,6 @@ msgstr "50 USD"
 #: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
 msgid "50.00 EUR"
 msgstr "50.00 EUR"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "534677881234"
-msgstr "534677881234"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_1
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_1
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_1
-#: model:account.tax,name:account.2_account_tax_us_sale_6_1
-msgid "6.1%"
-msgstr "6.1%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_25
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_25
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_25
-#: model:account.tax,name:account.2_account_tax_us_sale_6_25
-msgid "6.25%"
-msgstr "6.25%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_35
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_35
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_35
-#: model:account.tax,name:account.2_account_tax_us_sale_6_35
-msgid "6.35%"
-msgstr "6.35%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_5
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_5
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_5
-#: model:account.tax,name:account.2_account_tax_us_sale_6_5
-msgid "6.5%"
-msgstr "6.5%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_625
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_625
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_625
-#: model:account.tax,name:account.2_account_tax_us_sale_6_625
-msgid "6.625%"
-msgstr "6.625%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_85
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_85
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_85
-#: model:account.tax,name:account.2_account_tax_us_sale_6_85
-msgid "6.85%"
-msgstr "6.85%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_875
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_875
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_875
-#: model:account.tax,name:account.2_account_tax_us_sale_6_875
-msgid "6.875%"
-msgstr "6.875%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_7_25
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_7_25
-#: model:account.tax,name:account.2_account_tax_us_purchase_7_25
-#: model:account.tax,name:account.2_account_tax_us_sale_7_25
-msgid "7.25%"
-msgstr "7.25%"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "9.00"
-msgstr "9.00"
 
 #. module: account
 #: model:account.payment.term,name:account.account_payment_term_90days_on_the_10th
@@ -1702,14 +1434,8 @@ msgstr "<span>$<span class=\"oe_currency_value\">19,250.00</span></span>"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid ""
-"<span>1.00</span>\n"
-"                                                        <span "
-"groups=\"uom.group_uom\">Units</span>"
+msgid "<span>1.00</span>"
 msgstr ""
-"<span>1.00</span>\n"
-"                                                        <span "
-"groups=\"uom.group_uom\">יחידות</span>"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
@@ -2736,7 +2462,7 @@ msgstr ""
 #. module: account
 #: model:ir.model,name:account.model_account_move_send_batch_wizard
 msgid "Account Move Send Batch Wizard"
-msgstr ""
+msgstr "אשף שליחת תנועות אצווה"
 
 #. module: account
 #: model:ir.model,name:account.model_account_move_send_wizard
@@ -3498,7 +3224,7 @@ msgstr "כינוי"
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_journal__alias_domain_id
 msgid "Alias Domain"
-msgstr "שם-מתחם (דומיין)"
+msgstr "שם דומיין"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_journal__alias_domain
@@ -3645,7 +3371,7 @@ msgstr "מאפשר לך להשתמש בחשבונאות אנליטית."
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_invoice_page
 msgid "Already Paid:"
-msgstr "כבר שולם"
+msgstr "כבר שולם|:"
 
 #. module: account
 #. odoo-python
@@ -3936,7 +3662,7 @@ msgstr "ניתוח נתונים"
 #. module: account
 #: model:ir.model.constraint,message:account.constraint_account_move_unique_name
 msgid "Another entry with the same name already exists."
-msgstr "תנועה נוספת קיימת כבר עם אותו שם"
+msgstr "תנועה נוספת קיימת כבר עם אותו שם."
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_reconcile_model_form
@@ -3955,7 +3681,7 @@ msgid ""
 "in accordance with its journal sequence. This lock date is irreversible and "
 "does not allow any exception."
 msgstr ""
-"כל פקודת יומן  עד התאריך הזה וכולל אותו, תדחה לזמן מאוחר יותר, בהתאם לסדר "
+"כל פקודת יומן עד התאריך הזה וכולל אותו, תדחה לזמן מאוחר יותר, בהתאם לסדר "
 "הרישומים ביומן. תאריך הנעילה הזה הוא בלתי הפיך ואינו מאפשר שום חריגה."
 
 #. module: account
@@ -4003,7 +3729,7 @@ msgid ""
 "Any purchase entry prior to and including this date will be postponed to a "
 "later date, in accordance with its journal's sequence."
 msgstr ""
-"כל פקודת רכש  לפני התאריך הזה וכולל אותו, תדחה לתאריך מאוחר יותר, בהתאם לסדר "
+"כל פקודת רכש לפני התאריך הזה וכולל אותו, תדחה לתאריך מאוחר יותר, בהתאם לסדר "
 "הרישומים ביומן."
 
 #. module: account
@@ -4090,7 +3816,7 @@ msgstr "האם אתה בטוח? פעולה זו תבצע את הפעולות ה�
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__res_partner__autopost_bills__ask
 msgid "Ask after 3 validations without edits"
-msgstr "שאל לאחר 3 אישורים ללא עריכות."
+msgstr "שאל לאחר 3 אישורים ללא עריכות"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.autopost_bills_wizard
@@ -4361,7 +4087,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account/models/chart_template.py:0
 msgid "BILL"
-msgstr "חשבוניות רכש"
+msgstr "BILL"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_reconcile_model_form
@@ -4372,18 +4098,18 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/account/static/src/components/product_catalog/kanban_controller.js:0
 msgid "Back to Bill"
-msgstr "בחזרה לחשבון"
+msgstr "בחזרה לחשבונית ספק"
 
 #. module: account
 #. odoo-javascript
 #: code:addons/account/static/src/components/product_catalog/kanban_controller.js:0
 msgid "Back to Invoice"
-msgstr "בחזרה לחשבוניות"
+msgstr "בחזרה לחשבוניות לקוח"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_invoice_document
 msgid "Bacon Burger"
-msgstr "בורגר בייקון"
+msgstr ""
 
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__res_partner__trust__bad
@@ -4441,7 +4167,7 @@ msgstr "בנק ומזומן"
 #. odoo-python
 #: code:addons/account/models/account_account.py:0
 msgid "Bank & Cash accounts cannot be shared between companies."
-msgstr "בנק & מזומנים לא יכולים להיות משותפים בין חברות."
+msgstr "בנקים & מזומנים לא יכולים להיות משותפים בין חברות."
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_journal__bank_account_id
@@ -4626,6 +4352,12 @@ msgid "Bank of odoo"
 msgstr ""
 
 #. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "Bank settings"
+msgstr ""
+
+#. module: account
 #: model:ir.model,name:account.model_account_setup_bank_manual_config
 msgid "Bank setup manual config"
 msgstr "הגדרת תצורת בנק ידנית"
@@ -4726,7 +4458,7 @@ msgstr "רצף תשלומי אצווה"
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
 msgid "Batch Payments"
-msgstr "סבב תשלומים"
+msgstr "תשלומי אצווה"
 
 #. module: account
 #. odoo-python
@@ -4735,6 +4467,8 @@ msgid ""
 "Batch invoice sending is unavailable. Please, activate the cron to enable "
 "batch sending of invoices."
 msgstr ""
+"שליחת חשבוניות אצווה אינה זמינה. אנא הפעילו את משימת ה־cron כדי לאפשר שליחת "
+"חשבוניות אצווה."
 
 #. module: account
 #. odoo-python
@@ -4949,6 +4683,12 @@ msgid ""
 "By unchecking the active field, you may hide an INCOTERM you will not use."
 msgstr ""
 "על ידי ביטול הסימון של השדה הפעיל, אתה עלול להסתיר INCOTERM שלא תשתמש בו."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_automatic_entry_wizard.py:0
+msgid "C"
+msgstr ""
 
 #. module: account
 #. odoo-python
@@ -5406,6 +5146,8 @@ msgid "Chart of accounts set!"
 msgstr "הוגדר לוח חשבונות!"
 
 #. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
 #: model_terms:ir.ui.view,arch_db:account.report_hash_integrity
 msgid "Check"
 msgstr "בדיקה"
@@ -6755,6 +6497,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/account/wizard/account_automatic_entry_wizard.py:0
 msgid "Cut-off {label} {percent}%"
+msgstr ""
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_automatic_entry_wizard.py:0
+msgid "D"
 msgstr ""
 
 #. module: account
@@ -9241,6 +8989,18 @@ msgid "Goods"
 msgstr "סחורות"
 
 #. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "Goods Delivered not Invoiced (perpetual valuation)"
+msgstr ""
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "Goods Invoiced not Delivered (perpetual valuation)"
+msgstr ""
+
+#. module: account
 #: model:account.account,name:account.2_account_account_us_ground_transportation
 msgid "Ground Transportation"
 msgstr ""
@@ -9612,7 +9372,7 @@ msgstr "מזהה"
 #. odoo-python
 #: code:addons/account/models/chart_template.py:0
 msgid "INV"
-msgstr "חשבונית"
+msgstr "INV"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_invoice_document
@@ -11154,6 +10914,7 @@ msgstr "יומן:"
 #: model:ir.model.fields,field_description:account.field_account_reconcile_model__match_journal_ids
 #: model:ir.model.fields,field_description:account.field_account_report__filter_journals
 #: model:ir.ui.menu,name:account.menu_action_account_journal_form
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
 msgid "Journals"
 msgstr "יומנים"
 
@@ -15018,11 +14779,6 @@ msgid "Responsible User"
 msgstr "משתמש אחראי"
 
 #. module: account
-#: model:ir.model.fields,help:account.field_account_tax__tax_scope
-msgid "Restrict the use of taxes to a type of product."
-msgstr "הגבל את השימוש במסים לסוג מוצר."
-
-#. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_hash_integrity
 #: model_terms:ir.ui.view,arch_db:account.view_message_tree_audit_log_search
 msgid "Restricted"
@@ -17423,6 +17179,14 @@ msgid ""
 msgstr "חשבון הבנק של יומן בנק חייב להיות שייך לאותה חברה (%s)."
 
 #. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"The bank account of your company is not trusted. Please ask an admin or "
+"someone with approval rights to check it."
+msgstr ""
+
+#. module: account
 #: model:ir.model.fields,help:account.field_account_move_line__statement_id
 msgid "The bank statement used for bank reconciliation"
 msgstr "דפי הבנק לשימוש עבור התאמות בנק"
@@ -17494,6 +17258,15 @@ msgstr "השילוב בין מודל ההתייחסות לסוג ההתייחס�
 msgid ""
 "The commercial partner has been updated for all related accounting entries."
 msgstr "שותף המסחר עודכן עבור כל הפקודות החשבונאיות הקשורות."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"The company bank account (%(account_number)s) linked to this invoice is not "
+"trusted. Go to the Bank Settings, double-check that it is yours or correct "
+"the number, and click on Send Money to trust it."
+msgstr ""
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_tax_repartition_line__company_id
@@ -17969,6 +17742,14 @@ msgstr "היתרה הפעילה (%s) אינה תואמת את יתרת הסיו�
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid ""
+"The scheduled action 'Send Invoices automatically' is archived. You won't be "
+"able to send invoices in batch."
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/account_report.py:0
 msgid "The sections defined on a report cannot have sections themselves."
 msgstr "לא ניתן להגדיר תתי סעיפים לסעיפים שהוגדרו בדו\"ח זה."
@@ -18284,12 +18065,22 @@ msgstr ""
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_document_import_mixin.py:0
+msgid ""
+"There was an error while importing the bill, you can find attached the "
+"incoming XML"
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/wizard/account_payment_register.py:0
 msgid ""
 "There's nothing left to pay for the selected journal items, so no payment "
 "registration is necessary. You've got your finances under control like a "
 "boss!"
 msgstr ""
+"אין יתרה לתשלום עבור תנועות היומן שנבחרות ,ולכן אין צורך ברישום תשלום. נראה "
+"שאתה מנהל את הכספים שלך כמו מקצוען!"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_invoice_document
@@ -18961,6 +18752,11 @@ msgid "Transfer to %s"
 msgstr "העבר ל %s"
 
 #. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__translated_product_name
+msgid "Translated Product Name"
+msgstr ""
+
+#. module: account
 #: model:account.group,name:account.2_us_group_661
 msgid "Travel Expenses"
 msgstr ""
@@ -19107,6 +18903,11 @@ msgstr "מחיר יחידה"
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
 msgid "Unit Price:"
 msgstr "מחיר יחידה:"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
+msgid "Units"
+msgstr ""
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
@@ -19538,7 +19339,16 @@ msgid ""
 "needed. For instance if you want to extract the amount from\n"
 "R:9672938 10/07 AX 9415126318 T:5L:NA BRT: 3358,07 C:\n"
 "You could enter\n"
-"BRT: ([\\d,]+)"
+"BRT: ([\\d,]+)\n"
+"    If the label is \"01870912 0009065 00115\" and you need the amount in "
+"decimal\n"
+"    format (e.g. 90.65), you can use a regex with capturing groups, for "
+"example:\n"
+"        \\s+0*(\\d+?)(\\d{2})(?=\\s)\n"
+"    In this case:\n"
+"    • the first group captures the integer part\n"
+"    • the second group captures the decimal part (last two digits)\n"
+"    "
 msgstr ""
 
 #. module: account
@@ -20215,6 +20025,14 @@ msgstr "לא ניתן למחוק פריטי יומן השייכים לפקודת
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_tax.py:0
+msgid ""
+"You cannot delete taxes that are currently in use. Consider archiving them "
+"instead."
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/account_account_tag.py:0
 msgid ""
 "You cannot delete this account tag (%s), it is used on the chart of account "
@@ -20381,6 +20199,12 @@ msgstr "אינך יכול לבצע פעולה זו בחשבון שמכיל פק�
 #: code:addons/account/models/account_move.py:0
 msgid "You cannot post an entry in an archived journal (%(journal)s)"
 msgstr "אי אפשר להוסיף רשומה בפוקדת יומן שהועברה לארכיון (%(journal)s)"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "You cannot post an entry with an archived analytic account: %s"
+msgstr ""
 
 #. module: account
 #. odoo-python
@@ -21268,6 +21092,156 @@ msgid ""
 "{{ object.company_id.name }} Self-billing invoice (Ref {{ object.name or 'n/"
 "a' }})"
 msgstr ""
+
+#~ msgid "1.00"
+#~ msgstr "1.00"
+
+#~ msgid "1.05"
+#~ msgstr "1.05"
+
+#~ msgid "100.0"
+#~ msgstr "100.0"
+
+#~ msgid "1000.0"
+#~ msgstr "1000.0"
+
+#~ msgid "11.05"
+#~ msgstr "11.05"
+
+#~ msgid "12345"
+#~ msgstr "12345"
+
+#~ msgid "15%"
+#~ msgstr "15%"
+
+#~ msgid "1500.0"
+#~ msgstr "1500.0"
+
+#~ msgid "2.9%"
+#~ msgstr "2.9%"
+
+#~ msgid "20.00"
+#~ msgstr "20.00"
+
+#~ msgid "2021-09-19"
+#~ msgstr "2021-09-19"
+
+#~ msgid "2023-01-01"
+#~ msgstr "2023-01-01"
+
+#~ msgid "2023-01-05"
+#~ msgstr "2023-01-05"
+
+#~ msgid "2023-08-11"
+#~ msgstr "2023-08-11"
+
+#~ msgid "2023-08-15"
+#~ msgstr "2023-08-15"
+
+#~ msgid "2023-08-31"
+#~ msgstr "2023-08-31"
+
+#~ msgid "2023-09-12"
+#~ msgstr "2023-09-12"
+
+#~ msgid "2023-09-25"
+#~ msgstr "2023-09-25"
+
+#~ msgid "2023-10-31"
+#~ msgstr "2023-10-31"
+
+#~ msgid "2024-01-01"
+#~ msgstr "2024-01-01"
+
+#~ msgid "27.00"
+#~ msgstr "27.00"
+
+#~ msgid "3.00"
+#~ msgstr "3.00"
+
+#~ msgid "30.00"
+#~ msgstr "30.00"
+
+#~ msgid "31.05"
+#~ msgstr "31.05"
+
+#~ msgid "4.05"
+#~ msgstr "4.05"
+
+#~ msgid "4.2%"
+#~ msgstr "4.2%"
+
+#~ msgid "4.225%"
+#~ msgstr "4.225%"
+
+#~ msgid "4.5%"
+#~ msgstr "4.5%"
+
+#~ msgid "4.75%"
+#~ msgstr "4.75%"
+
+#~ msgid "4.875%"
+#~ msgstr "4.875%"
+
+#~ msgid "5.3%"
+#~ msgstr "5.3%"
+
+#~ msgid "5.5%"
+#~ msgstr "5.5%"
+
+#~ msgid "5.6%"
+#~ msgstr "5.6%"
+
+#~ msgid "5.75%"
+#~ msgstr "5.75%"
+
+#~ msgid "534677881234"
+#~ msgstr "534677881234"
+
+#~ msgid "6.1%"
+#~ msgstr "6.1%"
+
+#~ msgid "6.25%"
+#~ msgstr "6.25%"
+
+#~ msgid "6.35%"
+#~ msgstr "6.35%"
+
+#~ msgid "6.5%"
+#~ msgstr "6.5%"
+
+#~ msgid "6.625%"
+#~ msgstr "6.625%"
+
+#~ msgid "6.85%"
+#~ msgstr "6.85%"
+
+#~ msgid "6.875%"
+#~ msgstr "6.875%"
+
+#~ msgid "7.25%"
+#~ msgstr "7.25%"
+
+#~ msgid "9.00"
+#~ msgstr "9.00"
+
+#~ msgid "Restrict the use of taxes to a type of product."
+#~ msgstr "הגבל את השימוש במסים לסוג מוצר."
+
+#~ msgid "(*) Goods Delivered not Invoiced (perpetual valuation)"
+#~ msgstr "(*) סחורה שסופקה אך טרם חויבה"
+
+#~ msgid "(*) Goods Invoiced not Delivered (perpetual valuation)"
+#~ msgstr "(*) סחורה שחויבה אך טרם סופקה"
+
+#~ msgid ""
+#~ "<span>1.00</span>\n"
+#~ "                                                        <span "
+#~ "groups=\"uom.group_uom\">Units</span>"
+#~ msgstr ""
+#~ "<span>1.00</span>\n"
+#~ "                                                        <span "
+#~ "groups=\"uom.group_uom\">יחידות</span>"
 
 #~ msgid ""
 #~ "<br/>\n"

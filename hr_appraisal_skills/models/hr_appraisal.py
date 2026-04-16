@@ -55,8 +55,10 @@ class HrAppraisal(models.Model):
             if "current_appraisal_skill_ids" in vals:
                 vals_app_skill = vals.pop('current_appraisal_skill_ids')
                 vals['appraisal_skill_ids'] = self.env['hr.appraisal.skill']._get_transformed_commands(vals_app_skill, self)
-        res = super().create(vals_list)
-        return res
+        appraisals = super().create(vals_list)
+        if pending_appraisals := appraisals.filtered(lambda a: a.state == '2_pending'):
+            pending_appraisals._copy_skills_when_confirmed()
+        return appraisals
 
     def write(self, vals):
         if "current_appraisal_skill_ids" in vals:

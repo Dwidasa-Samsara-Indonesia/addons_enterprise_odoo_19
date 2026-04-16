@@ -47,6 +47,17 @@ class TestClFetchmailServer(TestL10nClEdiCommon):
         )
         self.env['fetchmail.server']._process_incoming_supplier_document(file_data, from_address, company.id)
 
+    def test_incoming_supplier_dte_52(self):
+        """ Test that a DTE is well discarded when it is from a wrong type """
+        att_name = 'incoming_supplier_dte_52.xml'
+        from_address = 'incoming_dte@test.com'
+        with file_open(f'l10n_cl_edi/tests/fetchmail_dtes/{att_name}', 'rb') as f:
+            content = f.read()
+        file_data = {'name': att_name, 'raw': content, 'xml_tree': etree.fromstring(content)}
+        with patch('logging.Logger.info') as logger:
+            self.env['fetchmail.server']._process_incoming_supplier_document(file_data, from_address, self.company_data['company'].id)
+            logger.assert_any_call('DTE has been discarded! The document type %s is not a vendor bill', '52')
+
     def test_get_dte_recipient_company_incoming_sii_dte_result(self):
         with file_open('l10n_cl_edi/tests/fetchmail_dtes/incoming_sii_dte_result.xml', 'rb') as f:
             incoming_sii_dte_result = f.read()

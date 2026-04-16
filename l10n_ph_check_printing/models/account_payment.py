@@ -7,7 +7,7 @@ from odoo.tools import formatLang
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    @api.depends('payment_method_line_id', 'currency_id', 'amount')
+    @api.depends('payment_method_line_id', 'currency_id', 'amount', 'amount_company_currency_signed')
     def _compute_check_amount_in_words(self):
         """ Override to support the specific format for the cheques.
         As amounts are quite large, decimals are written as x/100.
@@ -17,12 +17,13 @@ class AccountPayment(models.Model):
         for pay in ph_checks_payments:
             if pay.currency_id:
                 # Start by getting the integer amount
-                check_amount = pay.currency_id.amount_to_text(int(pay.amount)).removesuffix(' Peso')
+                amount_company_currency = abs(pay.amount_company_currency_signed)
+                check_amount = pay.currency_id.amount_to_text(int(amount_company_currency)).removesuffix(' Peso')
                 if self.env.lang.startswith('en'):
                     check_amount = check_amount.replace('And ', '').replace(',', '')
-                if pay.amount % 1 > 0:
+                if amount_company_currency % 1 > 0:
                     # If there are decimals, we write them as x/100
-                    check_amount += f' and {str(pay.amount).split(".")[1].ljust(2, "0")}/100'
+                    check_amount += f' and {str(amount_company_currency).split(".")[1].ljust(2, "0")}/100'
                 else:
                     check_amount += ' ONLY'
                 pay.check_amount_in_words = check_amount
@@ -49,7 +50,7 @@ class AccountPayment(models.Model):
             'day': self.date.strftime('%d'),
             'month': self.date.strftime('%m'),
             'year': self.date.strftime('%Y'),
-            'amount_no_currency': formatLang(self.env, self.amount) if i == 0 else 'VOID',
+            'amount_no_currency': formatLang(self.env, abs(self.amount_company_currency_signed)) if i == 0 else 'VOID',
         })
         return info
 

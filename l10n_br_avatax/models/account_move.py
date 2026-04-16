@@ -56,7 +56,8 @@ class AccountMove(models.Model):
             # already existing taxes to ensure that previous tax calculations haven't altered the down payment lines.
             if invoice.l10n_br_is_service_transaction and invoice._get_l10n_br_avatax_service_params().get('installments'):
                 invoice.invoice_line_ids.filtered('tax_ids').write({
-                    'tax_ids': [Command.clear()]
+                    'tax_ids': [Command.clear()],
+                    'extra_tax_data': False,
                 })
 
         return super()._get_external_taxes()

@@ -33,7 +33,7 @@ class IrActionsReport(models.Model):
                 attachments = self.env['ir.attachment'].browse(options.get('attachment_ids'))
             else:
                 invoices = partner._get_invoices_to_print(options)
-                attachments = invoices.message_main_attachment_id  # existence guaranteed by _get_invoices_to_print
+                attachments = invoices.invoice_pdf_report_id  # existence guaranteed by _get_invoices_to_print
 
             writer = OdooPdfFileWriter()
 

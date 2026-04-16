@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 18:35+0000\n"
-"PO-Revision-Date: 2026-02-06 06:07+0000\n"
+"POT-Creation-Date: 2026-04-10 18:37+0000\n"
+"PO-Revision-Date: 2026-03-06 17:45+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "hr_holidays/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: hr_holidays
 #. odoo-python
@@ -84,7 +84,7 @@ msgstr "!important; font-size: 8px; min-width: 18px\"&gt;"
 #. module: hr_holidays
 #: model_terms:ir.ui.view,arch_db:hr_holidays.resource_calendar_view_tree
 msgid "# Public Holidays"
-msgstr "# 祝祭日"
+msgstr "# 祝日"
 
 #. module: hr_holidays
 #: model_terms:ir.ui.view,arch_db:hr_holidays.view_holiday_list
@@ -247,10 +247,24 @@ msgstr "のこの時期の休暇概要"
 #. module: hr_holidays
 #. odoo-javascript
 #: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.xml:0
+#, fuzzy
+#| msgid "Day(s)"
+msgid "(s)"
+msgstr "日"
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.xml:0
 msgid ""
 "(s)\n"
 "                                    and a balance cap is set to"
 msgstr "および残りの上限が以下に設定されています:"
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.xml:0
+msgid "(s)."
+msgstr ""
 
 #. module: hr_holidays
 #. odoo-javascript
@@ -611,7 +625,7 @@ msgstr "休暇累積プランの従業員"
 #: model:ir.ui.menu,name:hr_holidays.hr_holidays_accrual_menu_configuration
 #: model_terms:ir.ui.view,arch_db:hr_holidays.hr_accrual_plan_view_tree
 msgid "Accrual Plans"
-msgstr "休暇累積プラン"
+msgstr "休暇累積(付与ルール)"
 
 #. module: hr_holidays
 #: model:ir.actions.server,name:hr_holidays.hr_leave_allocation_cron_accrual_ir_actions_server
@@ -2449,7 +2463,8 @@ msgstr ""
 msgid ""
 "If the active field is set to False, it will allow you to hide the resource "
 "record without removing it."
-msgstr "有効項目をFalse にセットすると、リソースレコードは削除することなく非表示にで"
+msgstr ""
+"有効項目をFalse にセットすると、リソースレコードは削除することなく非表示にで"
 "きます。"
 
 #. module: hr_holidays
@@ -2457,7 +2472,8 @@ msgstr "有効項目をFalse にセットすると、リソースレコードは
 msgid ""
 "If the active field is set to false, it will allow you to hide the time off "
 "type without removing it."
-msgstr "有効フィールドがfalseに設定されている場合、タイムオフタイプを削除せずに非表示"
+msgstr ""
+"有効フィールドがfalseに設定されている場合、タイムオフタイプを削除せずに非表示"
 "にできます。"
 
 #. module: hr_holidays
@@ -2469,7 +2485,7 @@ msgstr "日数を変更したい場合は、'期間'モードを使用する必�
 #. module: hr_holidays
 #: model:ir.model.fields,field_description:hr_holidays.field_hr_leave_type__include_public_holidays_in_duration
 msgid "Ignore Public Holidays"
-msgstr "祝祭日を無視"
+msgstr "祝日を無視"
 
 #. module: hr_holidays
 #: model:hr.leave.type,name:hr_holidays.l10n_ch_swissdec_illness_lt
@@ -3019,7 +3035,7 @@ msgstr "制限なし"
 #. module: hr_holidays
 #: model_terms:ir.actions.act_window,help:hr_holidays.open_view_public_holiday
 msgid "No Public Holidays yet!"
-msgstr "まだ祝祭日がありません!"
+msgstr "まだ祝日がありません!"
 
 #. module: hr_holidays
 #: model_terms:ir.actions.act_window,help:hr_holidays.action_hr_available_holidays_report
@@ -3381,13 +3397,13 @@ msgstr "公開従業員"
 #: model:ir.ui.menu,name:hr_holidays.hr_holidays_public_time_off_menu_configuration
 #: model_terms:ir.ui.view,arch_db:hr_holidays.resource_calendar_form_inherit
 msgid "Public Holidays"
-msgstr "祝祭日"
+msgstr "祝日"
 
 #. module: hr_holidays
 #: model_terms:ir.actions.act_window,help:hr_holidays.open_view_public_holiday
 msgid ""
 "Public Holidays are non-working days that don't impact employees' balances"
-msgstr "祝祭日は、従業員の給与に影響を与えない非労働日です。"
+msgstr "祝日は、従業員の給与に影響を与えない非労働日です。"
 
 #. module: hr_holidays
 #: model:ir.model.fields,help:hr_holidays.field_hr_leave_type__include_public_holidays_in_duration
@@ -4529,7 +4545,7 @@ msgstr "年に２回"
 #: code:addons/hr_holidays/models/resource.py:0
 msgid ""
 "Two public holidays cannot overlap each other for the same working hours."
-msgstr "2つの祝祭日が同じ労働時間で重なることはありません。"
+msgstr "2つの祝日が同じ労働時間で重なることはありません。"
 
 #. module: hr_holidays
 #: model_terms:ir.ui.view,arch_db:hr_holidays.view_hr_holidays_filter
@@ -4844,7 +4860,8 @@ msgstr "休暇累積のタイミング"
 msgid ""
 "Whether the employee is a member of the active user's department or one of "
 "it's child department."
-msgstr "その従業員が、有効ユーザの所属部門またはその子部門のメンバであるかどうか。"
+msgstr ""
+"その従業員が、有効ユーザの所属部門またはその子部門のメンバであるかどうか。"
 
 #. module: hr_holidays
 #: model_terms:ir.ui.view,arch_db:hr_holidays.hr_holidays_cancel_leave_form

@@ -25,6 +25,7 @@ export class WorkEntriesGanttModel extends GanttModel {
         const cellsFormattedData = [];
         for (const { start, rowId } of cellsInfo) {
             const schedule = this.getSchedule({ start, rowId });
+            if (!schedule.employee_id) continue;
             cellsFormattedData.push({ date: schedule.date, employee_id: schedule.employee_id });
         }
         await this.orm.call("hr.work.entry.regeneration.wizard", "regenerate_work_entries", [
@@ -121,9 +122,13 @@ export class WorkEntriesGanttModel extends GanttModel {
             }
         );
         if (userFavoritesWorkEntriesIds.length) {
+            const typeIds = userFavoritesWorkEntriesIds
+                .map((r) => r.work_entry_type_id?.[0])
+                .filter(Boolean);
+            const uniqueTypeIds = [...new Set(typeIds)];
             this.userFavoritesWorkEntries = await this.orm.read(
                 "hr.work.entry.type",
-                userFavoritesWorkEntriesIds.map((r) => r.work_entry_type_id?.[0]).filter(Boolean),
+                uniqueTypeIds,
                 ["display_name", "display_code", "color"]
             );
             this.userFavoritesWorkEntries = this.userFavoritesWorkEntries.sort((a, b) =>

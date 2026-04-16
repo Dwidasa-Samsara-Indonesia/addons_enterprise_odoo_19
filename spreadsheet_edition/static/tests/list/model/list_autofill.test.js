@@ -192,6 +192,6 @@ test("Autofill list keeps format but neither style nor border", async function (
     // Check that the format of C2 has been correctly applied to C3 but not the style nor the border
     const filledCell = getCell(model, "C3");
     expect(filledCell.style).toBe(undefined);
-    expect(model.getters.getCellBorder({ sheetId, col, row: row + 1 })).toEqual({});
+    expect(model.getters.getCellBorder({ sheetId, col, row: row + 1 })).toBe(null);
     expect(filledCell.format).toBe("m/d/yyyy");
 });

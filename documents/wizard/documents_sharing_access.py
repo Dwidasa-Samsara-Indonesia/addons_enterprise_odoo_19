@@ -45,10 +45,11 @@ class DocumentsShareAccess(models.TransientModel):
             record.has_user = bool(record.partner_id.user_ids)
 
     @api.depends('documents_sharing_id.access_via_link', 'documents_sharing_id.invite_partner_ids',
-                 'partner_id.user_ids')
+                 'partner_id.user_ids', 'is_deleted')
     def _compute_has_warning_no_access(self):
         for record in self:
             record.has_warning_no_access = (
                     not record.documents_sharing_id.invite_partner_ids  # we are modifying rights not inviting
                     and record.documents_sharing_id.access_via_link.endswith('none')
-                    and not record.has_user)
+                    and not record.has_user
+                    and not record.is_deleted)

@@ -60,8 +60,6 @@ class HrEmployee(models.Model):
         self.ensure_one()
         return {
             'default_company_id': self.company_id.id,
-            'default_contract_template_id': self.version_id.id,
-            'default_employee_version_id': self.version_id.id,
             'default_final_yearly_costs': self.final_yearly_costs,
             'default_job_title': self.job_id.name,
             'default_employee_job_id':  self.job_id.id,

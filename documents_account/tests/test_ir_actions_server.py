@@ -1,6 +1,7 @@
 from itertools import product
 from unittest.mock import patch
 
+from odoo import Command
 from odoo.addons.documents_account.tests.common import DocumentsAccountActionsServerCommon
 from odoo.exceptions import ValidationError
 from odoo.tests.common import tagged
@@ -89,3 +90,59 @@ class TestIrActionsServer(DocumentsAccountActionsServerCommon):
                 'state': 'documents_account_record_create',
                 'documents_account_create_model': 'account.move.in_invoice',
             })
+
+    def test_multi_actions_end_destinations(self):
+        source_folder = self.folder_a
+        destination_folder = self.folder_a_a
+        purchase_journal = self.journals_by_type['purchase']
+
+        def get_create_action(seq=5):
+            return self.env['ir.actions.server'].create({
+                'name': 'Create Vendor Bill',
+                'model_id': self.env['ir.model']._get_id('documents.document'),
+                'state': 'documents_account_record_create',
+                'documents_account_create_model': 'account.move.in_invoice',
+                'documents_account_journal_id': purchase_journal.id,
+                'usage': 'documents_embedded',
+                'sequence': seq,
+            })
+
+        def get_move_action(folder, seq=5):
+            return self.env['ir.actions.server'].create({
+                'name': f'Move to {folder.name}',
+                'model_id': self.env['ir.model']._get_id('documents.document'),
+                'state': 'object_write',
+                'update_path': 'folder_id',
+                'resource_ref': f'documents.document,{folder.id}',
+                'sequence': seq,
+            })
+
+        def run_scenario(child_ids, expected_folder):
+            doc = self.document_pdf.copy()
+            doc.folder_id = source_folder
+            doc.tag_ids = [Command.clear()]
+
+            parent_action = self.env["ir.actions.server"].create({
+                "name": "Multi Wrapper",
+                "state": "multi",
+                "model_id": self.env["ir.model"]._get_id("documents.document"),
+                "child_ids": child_ids,
+                "usage": "documents_embedded",
+            })
+
+            source_folder._embed_action(parent_action.id)
+
+            parent_action.with_context(active_model="documents.document", active_id=doc.id).run()
+            self.assertEqual(doc.folder_id.name, expected_folder)
+
+        with self.subTest("Multi Action [Move -> Create] - Ends up in sync folder"):
+            run_scenario(
+                [get_move_action(destination_folder).id, get_create_action(seq=10).id],
+                expected_folder=self.journal_type_labels[purchase_journal.type],
+            )
+
+        with self.subTest("Multi Action [Create -> Move] - Ends up in move folder"):
+            run_scenario(
+                [get_create_action(seq=1).id, get_move_action(destination_folder).id],
+                expected_folder=destination_folder.name,
+            )

@@ -419,3 +419,263 @@ class TestSalaryRules(TestL10NHkHrPayrollAccountCommon):
         payslip = self._generate_payslip(date(2023, 12, 1), date(2023, 12, 31))
         payslip_results = {'BASIC': 20000.0, 'ALW.INT': 200.0, '713_GROSS': 20200.0, 'END_OF_YEAR_PAYMENT': 10013.69, 'MPF_GROSS': 30213.69, 'EEMC': -1500.0, 'ERMC': -1500.0, 'GROSS': 30213.69, 'NET': 28713.69, 'MEA': 28713.69}
         self._validate_payslip(payslip, payslip_results)
+
+    def test_contract_change(self):
+        """
+        Test an employee whose contract is updated in the middle of the month.
+        The payrun will contain two payslips, and we need to make sure that the amounts of various benefits aren't double.
+        """
+        self.contract.write({
+            'date_version': date(2025, 10, 1),
+            'contract_date_start': date(2025, 10, 1),
+            'contract_date_end': date(2026, 1, 15),
+            'wage': 40000,
+            'l10n_hk_mpf_scheme_id': self.mpf_scheme.id,
+            "l10n_hk_mpf_contribution_start": "immediate",
+            "l10n_hk_mpf_registration_status": "registered",
+            "l10n_hk_member_class_id": self.member_class.id,
+            "l10n_hk_mpf_scheme_join_date": date(2025, 10, 1),
+        })
+        self.contract.l10n_hk_member_class_ct_ervc2_id = self.env['l10n_hk.member.class.contribution.type'].create({
+            'member_class_id': self.member_class.id,
+            'contribution_type': 'employer_2',
+            'contribution_option': 'fixed',
+            'amount': 200,
+        })
+        self.employee.create_version({
+            'date_version': date(2026, 1, 16),
+            'contract_date_start': date(2026, 1, 16),
+            'wage': 40000,
+        })
+
+        payrun = self.env['hr.payslip.run'].create({
+            'date_start': date(2026, 1, 1),
+            'date_end': date(2026, 1, 31),
+        })
+        payrun.generate_payslips(employee_ids=self.employee.ids)
+        payslips = payrun.slip_ids.sorted('date_from asc')
+        self.assertEqual(len(payslips), 2)
+        # Assert the first payslip's line
+        first_payslip_results = {
+            'BASIC': 19354.84,
+            'ALW.INT': 96.77,
+            '713_GROSS': 19451.61,
+            'MPF_GROSS': 19451.61,
+            'EEMC': -972.58,
+            'ERMC': -972.58,
+            'EEVC': 0.0,
+            'ERVC': 0.0,
+            'ERVC2': -96.77,
+            'GROSS': 19451.61,
+            'NET': 18479.03,
+            'MEA': 18479.03,
+        }
+        self._validate_payslip(payslips[0], first_payslip_results)
+        # And the second
+        second_payslip_results = {
+            'BASIC': 20645.16,
+            'ALW.INT': 103.23,
+            '713_GROSS': 20748.39,
+            'MPF_GROSS': 20748.39,
+            'EEMC': -527.42,
+            'ERMC': -527.42,
+            'EEVC': -510.0,
+            'ERVC': -510.0,
+            'ERVC2': -103.23,
+            'GROSS': 20748.39,
+            'NET': 19710.97,
+            'MEA': 19710.97,
+        }
+        self._validate_payslip(payslips[1], second_payslip_results)
+        # As comparison, we'll also do a payslip for another month of same length.
+        date_start = date(2026, 3, 1)
+        payrun = self.env['hr.payslip.run'].create({
+            'date_start': date_start,
+            'date_end': date_start + relativedelta(day=31),
+        })
+        payrun.generate_payslips(employee_ids=self.employee.ids)
+        payslips = payrun.slip_ids
+        control_payslip_results = {
+            'BASIC': 40000.0,
+            'ALW.INT': 200.0,
+            '713_GROSS': 40200.0,
+            'MPF_GROSS': 40200.0,
+            'EEMC': -1500.0,
+            'ERMC': -1500.0,
+            'EEVC': -510.0,
+            'ERVC': -510.0,
+            'ERVC2': -200.0,
+            'GROSS': 40200.0,
+            'NET': 38190.0,
+            'MEA': 38190.0,
+        }
+        self._validate_payslip(payslips, control_payslip_results)
+        # And to make sure we're all good, we now sum the two half month payslip and compare the result with the full month one!
+        for rule, control_value in control_payslip_results.items():
+            self.assertEqual(
+                first_payslip_results[rule] + second_payslip_results[rule], control_value
+            )
+
+    def test_contract_change_middle_monthly_payrun(self):
+        """
+        Same as above, but the payslip is between two middle of months.
+        """
+        self.contract.write({
+            'date_version': date(2025, 10, 1),
+            'contract_date_start': date(2025, 10, 1),
+            'contract_date_end': date(2026, 1, 31),
+            'wage': 40000,
+        })
+        self.employee.create_version({
+            'date_version': date(2026, 2, 1),
+            'contract_date_start': date(2026, 2, 1),
+            'wage': 40000,
+        })
+
+        payrun = self.env['hr.payslip.run'].create({
+            'date_start': date(2026, 1, 15),
+            'date_end': date(2026, 2, 15),
+        })
+        payrun.generate_payslips(employee_ids=self.employee.ids)
+        payslips = payrun.slip_ids.sorted('date_from asc')
+        self.assertEqual(len(payslips), 2)
+        # Assert the first payslip's line
+        first_payslip_results = {
+            'BASIC': 21250.0,
+            'ALW.INT': 106.25,
+            '713_GROSS': 21356.25,
+            'MPF_GROSS': 21356.25,
+            'EEMC': -1067.81,
+            'ERMC': -1067.81,
+            'GROSS': 21356.25,
+            'NET': 20288.44,
+            'MEA': 20288.44,
+        }
+        self._validate_payslip(payslips[0], first_payslip_results)
+        # And the second
+        second_payslip_results = {
+            'BASIC': 18750.0,
+            'ALW.INT': 93.75,
+            '713_GROSS': 18843.75,
+            'MPF_GROSS': 18843.75,
+            'EEMC': -432.19,
+            'ERMC': -432.19,
+            'GROSS': 18843.75,
+            'NET': 18411.56,
+            'MEA': 18411.56,
+        }
+        self._validate_payslip(payslips[1], second_payslip_results)
+        # As comparison, we'll also do a payslip for another month of same length.
+        date_start = date(2026, 3, 1)
+        payrun = self.env['hr.payslip.run'].create({
+            'date_start': date_start,
+            'date_end': date_start + relativedelta(day=31),
+        })
+        payrun.generate_payslips(employee_ids=self.employee.ids)
+        payslips = payrun.slip_ids
+        control_payslip_results = {
+            'BASIC': 40000.0,
+            'ALW.INT': 200.0,
+            '713_GROSS': 40200.0,
+            'MPF_GROSS': 40200.0,
+            'EEMC': -1500.0,
+            'ERMC': -1500.0,
+            'GROSS': 40200.0,
+            'NET': 38700.0,
+            'MEA': 38700.0,
+        }
+        self._validate_payslip(payslips, control_payslip_results)
+        # And to make sure we're all good, we now sum the two half month payslip and compare the result with the full month one!
+        for rule, control_value in control_payslip_results.items():
+            self.assertEqual(
+                first_payslip_results[rule] + second_payslip_results[rule], control_value
+            )
+
+    def test_contract_change_rent(self):
+        """
+        Test the case of a contract change where rent is involved.
+        In this scenario, the half month wage shouldn't be enough to cover the whole rent amount; but we expect the two
+        halves to make up for the whole amount.
+        """
+        self.contract.write({
+            'date_version': date(2025, 10, 1),
+            'contract_date_start': date(2025, 10, 1),
+            'contract_date_end': date(2026, 1, 15),
+            'wage': 40000,
+        })
+        self.env['l10n_hk.rental'].create({
+            'name': 'test rental',
+            'address': 'test address',
+            'nature': 'flat',
+            'state': 'open',
+            'amount': 25000,
+            'date_start': date(2025, 1, 1),
+            'employee_id': self.employee.id,
+        })
+        self.employee.create_version({
+            'date_version': date(2026, 1, 16),
+            'contract_date_start': date(2026, 1, 16),
+            'wage': 40000,
+        })
+
+        payrun = self.env['hr.payslip.run'].create({
+            'date_start': date(2026, 1, 1),
+            'date_end': date(2026, 1, 31),
+        })
+        payrun.generate_payslips(employee_ids=self.employee.ids)
+        payslips = payrun.slip_ids.sorted('date_from asc')
+        self.assertEqual(len(payslips), 2)
+        # Assert the first payslip's line
+        first_payslip_results = {
+            'HRA': 19354.84,
+            'BASIC': 0.0,
+            'ALW.INT': 96.77,
+            '713_GROSS': 19451.61,
+            'MPF_GROSS': 19451.61,
+            'EEMC': -972.58,
+            'ERMC': -972.58,
+            'GROSS': 19451.61,
+            'NET': 18479.03,
+            'MEA': 18479.03,
+        }
+        self._validate_payslip(payslips[0], first_payslip_results)
+        # And the second
+        second_payslip_results = {
+            'HRA': 5645.16,
+            'BASIC': 15000.0,
+            'ALW.INT': 103.23,
+            '713_GROSS': 20748.39,
+            'MPF_GROSS': 20748.39,
+            'EEMC': -527.42,
+            'ERMC': -527.42,
+            'GROSS': 20748.39,
+            'NET': 20220.97,
+            'MEA': 20220.97,
+        }
+        self._validate_payslip(payslips[1], second_payslip_results)
+        # As comparison, we'll also do a payslip for another month of same length.
+        date_start = date(2026, 3, 1)
+        payrun = self.env['hr.payslip.run'].create({
+            'date_start': date_start,
+            'date_end': date_start + relativedelta(day=31),
+        })
+        payrun.generate_payslips(employee_ids=self.employee.ids)
+        payslips = payrun.slip_ids
+        control_payslip_results = {
+            'HRA': 25000.0,
+            'BASIC': 15000.0,
+            'ALW.INT': 200.0,
+            '713_GROSS': 40200.0,
+            'MPF_GROSS': 40200.0,
+            'EEMC': -1500.0,
+            'ERMC': -1500.0,
+            'GROSS': 40200.0,
+            'NET': 38700.0,
+            'MEA': 38700.0,
+        }
+        self._validate_payslip(payslips, control_payslip_results)
+        # And to make sure we're all good, we now sum the two half month payslip and compare the result with the full month one!
+        for rule, control_value in control_payslip_results.items():
+            self.assertEqual(
+                first_payslip_results[rule] + second_payslip_results[rule], control_value
+            )

@@ -13,6 +13,7 @@ from odoo.addons.base.models.ir_qweb import keep_query
 from odoo.addons.calendar.controllers.main import CalendarController
 from odoo.http import content_disposition, request, route
 from odoo.tools.misc import get_lang
+from odoo.tools import consteq
 
 
 class AppointmentCalendarController(CalendarController):
@@ -39,10 +40,12 @@ class AppointmentCalendarController(CalendarController):
         request.session['timezone'] = attendee.partner_id.tz
         if not attendee.event_id.access_token:
             attendee.event_id._generate_access_token()
-        return request.redirect(f'/calendar/view/{attendee.event_id.access_token}?partner_id={attendee.partner_id.id}')
+        return request.redirect(
+            f'/calendar/view/{attendee.event_id.access_token}?partner_id={attendee.partner_id.id}&attendee_token={token}'
+        )
 
     @route(['/calendar/view/<string:access_token>'], type='http', auth="public", website=True)
-    def appointment_view(self, access_token, partner_id=False, state=False, **kwargs):
+    def appointment_view(self, access_token, partner_id=False, state=False, attendee_token=None, **kwargs):
         """
         Render the validation of an appointment and display a summary of it
 
@@ -87,9 +90,13 @@ class AppointmentCalendarController(CalendarController):
         encoded_params = url_encode(params)
         google_url = 'https://www.google.com/calendar/render?' + encoded_params
 
+        attendee = event.attendee_ids.filtered(lambda attendee: attendee.partner_id.id == int(partner_id))
+        attendee = attendee_token and consteq(attendee.access_token or '', attendee_token) and attendee
+
         return request.render("appointment.appointment_validated", {
             'cancel_responsible': event.user_id if event.user_id.active and event.user_id._is_internal() else False,
             'event': event,
+            'event_attendee': attendee,
             'datetime_start': date_start,
             'google_url': google_url,
             'state': state,

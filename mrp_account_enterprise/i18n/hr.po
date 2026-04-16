@@ -6,13 +6,14 @@
 # Martin Trigaux, 2022
 # Bole <bole@dajmi5.com>, 2022
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.5alpha1+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-11-16 13:41+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-11 19:35+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "mrp_account_enterprise/hr/>\n"
 "Language: hr\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: mrp_account_enterprise
 #: model_terms:ir.ui.view,arch_db:mrp_account_enterprise.mrp_report_pivot_view
@@ -41,7 +42,7 @@ msgstr "Prosječni ukupni trošak / komad"
 #. module: mrp_account_enterprise
 #: model_terms:ir.ui.view,arch_db:mrp_account_enterprise.mrp_report_form_view
 msgid "Average Workcenter Cost / Unit"
-msgstr ""
+msgstr "Prosječan trošak radnog centra / jedinici"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__byproduct_cost
@@ -63,6 +64,8 @@ msgstr "Trošak komponente / jedinica"
 msgid ""
 "Component cost per unit produced (in product UoM) of manufacturing order"
 msgstr ""
+"Trošak komponente po proizvedenoj jedinici (u JM proizvoda) za nalog za "
+"proizvodnju"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__unit_cost
@@ -73,16 +76,17 @@ msgstr "Trošak / komad"
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__unit_cost
 msgid "Cost per unit produced (in product UoM) of manufacturing order"
 msgstr ""
+"Trošak po proizvedenoj jedinici (u JM proizvoda) za nalog za proizvodnju"
 
 #. module: mrp_account_enterprise
 #: model:account.analytic.account,name:mrp_account_enterprise.account_assembly_cycle
 msgid "Costing Account For Cycle of Assembly."
-msgstr ""
+msgstr "Konto troškova za ciklus montaže."
 
 #. module: mrp_account_enterprise
 #: model:account.analytic.account,name:mrp_account_enterprise.account_assembly_hours
 msgid "Costing Account For Hours of Assembly."
-msgstr ""
+msgstr "Konto troškova za sate montaže."
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__currency_id
@@ -92,7 +96,7 @@ msgstr "Valuta"
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__unit_duration
@@ -103,7 +107,7 @@ msgstr "Trajanje operacija / komad"
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__date_finished
 #: model_terms:ir.ui.view,arch_db:mrp_account_enterprise.mrp_report_search_view
 msgid "End Date"
-msgstr "Završni datum"
+msgstr "Datum završetka"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__expected_component_cost_unit
@@ -113,22 +117,22 @@ msgstr "Očekivani trošak komponente / jedinica"
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__expected_employee_cost_unit
 msgid "Expected Employee Cost / Unit"
-msgstr ""
+msgstr "Očekivani trošak zaposlenika / jedinici"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__expected_operation_cost_unit
 msgid "Expected Operation Cost / Unit"
-msgstr ""
+msgstr "Očekivani trošak operacije / jedinici"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__expected_total_cost_unit
 msgid "Expected Total Cost / Unit"
-msgstr ""
+msgstr "Očekivani ukupni trošak / jedinici"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__id
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__production_id
@@ -151,16 +155,19 @@ msgstr "Nema još podataka!"
 msgid ""
 "Operation cost per unit produced (in product UoM) of manufacturing order"
 msgstr ""
+"Trošak operacije po proizvedenoj jedinici (u JM proizvoda) za nalog za "
+"proizvodnju"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__unit_duration
 msgid "Operation duration (minutes) per unit produced of manufacturing order"
 msgstr ""
+"Trajanje operacije (minute) po proizvedenoj jedinici za nalog za proizvodnju"
 
 #. module: mrp_account_enterprise
 #: model_terms:ir.ui.view,arch_db:mrp_account_enterprise.mrp_report_pivot_view
 msgid "Order Overview"
-msgstr ""
+msgstr "Pregled naloga"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__product_id
@@ -188,7 +195,7 @@ msgstr "Proizvedena količina"
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__yield_rate
 msgid "Ratio of quantity produced over quantity demanded"
-msgstr ""
+msgstr "Omjer proizvedene količine i tražene količine"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__component_cost
@@ -218,7 +225,7 @@ msgstr "Ukupni trošak operacije / komad"
 #. module: mrp_account_enterprise
 #: model_terms:ir.ui.view,arch_db:mrp_account_enterprise.mrp_report_form_view
 msgid "Total Workcenter Cost"
-msgstr ""
+msgstr "Ukupan trošak radnog centra"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__component_cost
@@ -231,26 +238,28 @@ msgid ""
 "Total cost of manufacturing order (component + operation costs + "
 "subcontracting cost)"
 msgstr ""
+"Ukupan trošak naloga za proizvodnju (komponente + troškovi operacija + "
+"trošak podugovaratelja)"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__operation_cost
 msgid "Total cost of operations for manufacturing order"
-msgstr ""
+msgstr "Ukupan trošak operacija za nalog za proizvodnju"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__duration
 msgid "Total duration (minutes) of operations for manufacturing order"
-msgstr ""
+msgstr "Ukupno trajanje (minute) operacija za nalog za proizvodnju"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__qty_demanded
 msgid "Total quantity demanded in product's UoM"
-msgstr ""
+msgstr "Ukupna tražena količina u JM proizvoda"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,help:mrp_account_enterprise.field_mrp_report__qty_produced
 msgid "Total quantity produced in product's UoM"
-msgstr ""
+msgstr "Ukupna proizvedena količina u JM proizvoda"
 
 #. module: mrp_account_enterprise
 #: model:ir.model.fields,field_description:mrp_account_enterprise.field_mrp_report__yield_rate

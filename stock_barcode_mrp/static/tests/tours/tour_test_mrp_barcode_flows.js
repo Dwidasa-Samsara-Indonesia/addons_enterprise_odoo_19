@@ -1386,37 +1386,39 @@ registry.category("web_tour.tours").add("test_backorder_partial_completion_save_
     ],
 });
 
-registry.category("web_tour.tours").add("test_backorder_partial_completion_preserves_reserved_qty_on_exit", {
-    steps: () => [
-        { trigger: ".o_stock_barcode_main_menu", run: "scan TBPCSNS mo" },
-        {
-            trigger:
-                '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Final Product")) .o_add_quantity',
-            run: "click",
-        },
-        {
-            trigger:
-                '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Compo 01")) .o_edit',
-            run: "click",
-        },
-        { trigger: "input", run: "clear" },
-        { trigger: "input", run: "edit 1" },
-        { trigger: ".o_save", run: "click" },
-        { trigger: ".o_barcode_line" },
+registry
+    .category("web_tour.tours")
+    .add("test_backorder_partial_completion_preserves_reserved_qty_on_exit", {
+        steps: () => [
+            { trigger: ".o_stock_barcode_main_menu", run: "scan TBPCSNS mo" },
+            {
+                trigger:
+                    '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Final Product")) .o_add_quantity',
+                run: "click",
+            },
+            {
+                trigger:
+                    '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Compo 01")) .o_edit',
+                run: "click",
+            },
+            { trigger: "input", run: "clear" },
+            { trigger: "input", run: "edit 1" },
+            { trigger: ".o_save", run: "click" },
+            { trigger: ".o_barcode_line" },
 
-        { trigger: ".o_exit", run: "click" },
-        { trigger: ".o_stock_barcode_main_menu", run: "scan TBPCSNS mo" },
-        {
-            trigger:
-                '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Compo 01")) :contains("1/1")',
-        },
-        {
-            trigger:
-                '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Compo 01")) :contains("0/5")',
-            run: () => {},
-        },
-    ],
-});
+            { trigger: ".o_exit", run: "click" },
+            { trigger: ".o_stock_barcode_main_menu", run: "scan TBPCSNS mo" },
+            {
+                trigger:
+                    '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Compo 01")) :contains("1/1")',
+            },
+            {
+                trigger:
+                    '.o_barcode_line:has(.o_barcode_line_title .o_product_label:contains("Compo 01")) :contains("0/5")',
+                run: () => {},
+            },
+        ],
+    });
 
 registry.category("web_tour.tours").add("test_barcode_mo_creation_in_mo2", {
     steps: () => [
@@ -1909,9 +1911,74 @@ registry.category("web_tour.tours").add("test_picking_product_with_kit_and_compo
 registry.category("web_tour.tours").add("test_gs1_qty_final_product", {
     steps: () => [
         { trigger: ".o_barcode_client_action", run: "scan 01000000826558533000000002" },
-        { trigger: ".o_barcode_line:contains('Compo 01') .qty-done:contains(4)", run(){} },
+        { trigger: ".o_barcode_line:contains('Compo 01') .qty-done:contains(4)", run() {} },
         { trigger: ".o_barcode_client_action", run: "scan 01000000826558533000000002" },
-        { trigger: ".o_barcode_line:contains('Compo 01') .qty-done:contains(8)", run(){} },
+        { trigger: ".o_barcode_line:contains('Compo 01') .qty-done:contains(8)", run() {} },
         ...stepUtils.validateBarcodeOperation(),
+    ],
+});
+
+registry.category("web_tour.tours").add("test_barcode_production_create_bom_with_different_uom", {
+    steps: () => [
+        {
+            trigger: "button.o-kanban-button-new",
+            run: "click",
+        },
+        {
+            trigger: "button.o_add_line",
+            run: "click",
+        },
+        {
+            trigger: "input#product_id_0",
+            run: "edit Final",
+        },
+        {
+            trigger: ".ui-autocomplete a:contains('Final Product')",
+            run: "click",
+        },
+        {
+            trigger: "button.o_save",
+            run: "click",
+        },
+        {
+            trigger: "button[name='produceButton']",
+            run: "click",
+        },
+        {
+            trigger: ".o_barcode_line.o_header",
+            run: function () {
+                helper.assertLinesCount(3);
+                const [finalLine, compo01Line, compo02Line] = helper.getLines();
+                helper.assertLineProduct(finalLine, "Final Product");
+                helper.assertLineQty(finalLine, "1.2/1.2 Days");
+                helper.assertLineProduct(compo01Line, "Compo 01");
+                helper.assertLineQty(compo01Line, "3.4/3.4 kg");
+                helper.assertLineProduct(compo02Line, "Compo 02");
+                helper.assertLineQty(compo02Line, "5.6/5.6 m");
+            },
+        },
+        ...stepUtils.validateBarcodeOperation(
+            ".o_scan_message.o_scan_validate",
+            ".o_stock_barcode_list_kanban_view"
+        ),
+    ],
+});
+
+registry.category("web_tour.tours").add("test_barcode_production_disabled_uoms", {
+    steps: () => [
+        {
+            trigger: ".o_order_already_done",
+        },
+        {
+            trigger: ".o_barcode_line.o_header",
+            run: () => {
+                helper.assertLinesCount(1);
+                helper.assertLineQty(0, "1.2/1.2");
+            },
+        },
+        {
+            trigger: "button.o_exit",
+            run: "click",
+        },
     ],
 });

@@ -1,4 +1,7 @@
+import { localization } from "@web/core/l10n/localization";
 import { useAutofocus, useService } from "@web/core/utils/hooks";
+import { formatFloat } from "@web/core/utils/numbers";
+import { parseFloat } from "@web/views/fields/parsers";
 
 import { Component, useRef } from "@odoo/owl";
 
@@ -14,6 +17,7 @@ export class AccountReportEditPopover extends Component {
 
     setup() {
         this.orm = useService("orm");
+        this.editPopupData = JSON.parse(this.props.cell.edit_popup_data);
 
         if (this.props.cell.figure_type === 'boolean') {
             this.booleanTrue = useRef("booleanTrue");
@@ -24,17 +28,53 @@ export class AccountReportEditPopover extends Component {
         }
     }
 
+    get editableNumericValue() {
+        const { no_format } = this.props.cell.no_format;
+        if (no_format == null || no_format === "") {
+            return no_format;
+        }
+
+        const numericValue = Number(no_format);
+        if (Number.isNaN(numericValue)) {
+            return no_format;
+        }
+
+        return formatFloat(numericValue, {
+            digits: [0, this.editPopupData.rounding],
+            thousandsSep: "",
+            grouping: [],
+            trailingZeros: false,
+        });
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
     // Edit
     // -----------------------------------------------------------------------------------------------------------------
     async edit() {
         let editValue;
-        const editPopupData = JSON.parse(this.props.cell.edit_popup_data);
 
         if (this.props.cell.figure_type === 'boolean')
             editValue = Number(this.booleanTrue.el.checked && !this.booleanFalse.el.checked);
-        else
+        else if (this.props.cell.figure_type === 'string')
             editValue = this.input.el.value;
+        else {
+            const inputValue = this.input.el.value;
+            const otherDecimalSeparator = localization.decimalPoint === "." ? "," : ".";
+            const localeThousandsSeparator = localization.thousandsSep || "";
+
+            if (
+                inputValue.split(localization.decimalPoint || ".").length >= 3 // At least three parts means two decimal separators which would be wrong.
+                || (inputValue.includes(otherDecimalSeparator) && otherDecimalSeparator !== localeThousandsSeparator)
+            ) {
+                editValue = inputValue;
+            } else {
+                try {
+                    editValue = parseFloat(inputValue).toString();
+                } catch {
+                    editValue = inputValue;
+                }
+            }
+        }
 
         const res = await this.orm.call(
             "account.report",
@@ -43,10 +83,10 @@ export class AccountReportEditPopover extends Component {
                 this.props.controller.options.report_id,
                 this.props.line_id,
                 this.props.controller.options,
-                editPopupData.column_group_key,
+                this.editPopupData.column_group_key,
                 editValue,
-                editPopupData.target_expression_id,
-                editPopupData.rounding,
+                this.editPopupData.target_expression_id,
+                this.editPopupData.rounding,
                 this.props.controller.columnGroupsTotals,
             ],
             {

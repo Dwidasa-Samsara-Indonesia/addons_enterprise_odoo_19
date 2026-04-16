@@ -79,6 +79,8 @@ class ResConfigSettings(models.TransientModel):
         irreversible changes. """
         if not self.l10n_co_dian_test_environment or not self.l10n_co_dian_certification_process:
             raise ValidationError(self.env._("This action must only be called while in certification mode."))
+        if not self.l10n_co_dian_certificate_ids:
+            raise ValidationError(self.env._("Please set a certificate to begin the certification process."))
 
         journal_ids = self._l10n_co_dian_certify_create_or_update_journals()
         product_id = self._l10n_co_dian_certify_create_or_update_product()

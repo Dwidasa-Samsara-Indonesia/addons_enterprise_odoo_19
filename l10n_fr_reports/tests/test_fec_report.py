@@ -78,7 +78,7 @@ class TestAccountFrFec(AccountTestInvoicingCommon):
         )
 
     def test_generate_fec_sanitize_pieceref(self):
-        generated_content = self.env['l10n_fr.fec.export.wizard'].browse(self.wizard.id).generate_fec()['file_content'].decode()
+        generated_content = b''.join(self.env['l10n_fr.fec.export.wizard'].browse(self.wizard.id).with_context(fec_test_mode=True).generate_fec()['file_content']).decode()
         self.assertEqual(self.expected_report, generated_content)
 
     def test_generate_fec_exclude_journals(self):
@@ -100,7 +100,7 @@ class TestAccountFrFec(AccountTestInvoicingCommon):
             ]
         }).action_post()
 
-        generated_content = self.env['l10n_fr.fec.export.wizard'].browse(self.wizard.id).generate_fec()['file_content'].decode()
+        generated_content = b''.join(self.env['l10n_fr.fec.export.wizard'].browse(self.wizard.id).with_context(fec_test_mode=True).generate_fec()['file_content']).decode()
         expected_content = self.expected_report + (
             "\r\n"
             "MISC|Miscellaneous Operations|MISC/2021/05/0001|20210502|400000|Suppliers and related accounts|||-|20210502|/| 000000000000500,00|0,00|||20210502| 000000000000500,00|EUR\r\n"
@@ -109,5 +109,5 @@ class TestAccountFrFec(AccountTestInvoicingCommon):
         self.assertEqual(expected_content, generated_content)
 
         self.wizard.excluded_journal_ids = journal
-        generated_content = self.env['l10n_fr.fec.export.wizard'].browse(self.wizard.id).generate_fec()['file_content'].decode()
+        generated_content = b''.join(self.env['l10n_fr.fec.export.wizard'].browse(self.wizard.id).with_context(fec_test_mode=True).generate_fec()['file_content']).decode()
         self.assertEqual(self.expected_report, generated_content)

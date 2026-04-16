@@ -449,14 +449,14 @@ class L10n_Uy_EdiDocument(models.Model):
         now = fields.Datetime.now()
         company = extra_req.get('company') or self.company_id or self.env.company
         data = {
-            "CodComercio": company.l10n_uy_edi_ucfe_commerce_code,
-            "CodTerminal": company.l10n_uy_edi_ucfe_terminal_code,
+            "CodComercio": company.sudo().l10n_uy_edi_ucfe_commerce_code,
+            "CodTerminal": company.sudo().l10n_uy_edi_ucfe_terminal_code,
             "RequestDate": now.replace(microsecond=0).isoformat(),
             "Tout": "30000",
             "Req": {
                 "TipoMensaje": msg_type,
-                "CodComercio": company.l10n_uy_edi_ucfe_commerce_code,
-                "CodTerminal": company.l10n_uy_edi_ucfe_terminal_code,
+                "CodComercio": company.sudo().l10n_uy_edi_ucfe_commerce_code,
+                "CodTerminal": company.sudo().l10n_uy_edi_ucfe_terminal_code,
                 "IdReq": 1,
                 **extra_req,
             },

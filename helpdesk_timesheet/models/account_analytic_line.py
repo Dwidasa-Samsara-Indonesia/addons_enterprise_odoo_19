@@ -161,7 +161,7 @@ class AccountAnalyticLine(models.Model):
                     '|',
                         ('project_id.message_partner_ids', 'child_of', [self.env.user.partner_id.commercial_partner_id.id]),
                         ('helpdesk_ticket_id.message_partner_ids', 'child_of', [self.env.user.partner_id.commercial_partner_id.id]),
-                ('project_id.privacy_visibility', '=', 'portal')
+                ('project_id.privacy_visibility', 'in', ['portal', 'invited_users'])
         ]
 
     @api.model

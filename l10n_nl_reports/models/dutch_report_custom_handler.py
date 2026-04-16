@@ -4,6 +4,7 @@ from lxml import etree
 
 from odoo import _, fields, models
 from odoo.exceptions import RedirectWarning, UserError
+from odoo.tools import cleanup_xml_node
 
 
 class L10n_Nl_ReportsTaxReportHandler(models.AbstractModel):
@@ -84,7 +85,7 @@ class L10n_Nl_ReportsTaxReportHandler(models.AbstractModel):
 
         xbrl = self.env['ir.qweb']._render(report_template.id, data)
         xbrl_element = etree.fromstring(xbrl)
-        xbrl_file = etree.tostring(xbrl_element, xml_declaration=True, encoding='utf-8')
+        xbrl_file = etree.tostring(cleanup_xml_node(xbrl_element, remove_blank_nodes=False), xml_declaration=True, encoding='utf-8')
         xbrl_file_name = report.get_default_report_filename(options, 'xbrl')
         if options['l10n_nl_is_correction']:
             xbrl_file_name = xbrl_file_name.replace('.xbrl', '_suppletie.xbrl')

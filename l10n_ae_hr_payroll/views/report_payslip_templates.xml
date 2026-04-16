@@ -45,11 +45,9 @@
             id="contract_start" position="after">
             <div id="contract_start_ae">
                 <strong class="me-2">
-                    <span t-if="eos">First Contract Date:</span>
-                    <span t-else="">Contract Start Date:</span>
+                    <span>Entry Date:</span>
                 </strong>
-                <span t-if="eos" t-field="o.employee_id.contract_date_start" />
-                <span t-else="" t-field="o.employee_id.version_id.date_start" />
+                <span t-out="o.version_id.employee_id._get_first_contract_date()"/>
             </div>
         </div>
 
@@ -57,9 +55,9 @@
             <attribute name="class" separator=" " add="d-none" />
         </div> 
         <div id="contract_type" position="after">
-            <div id="contract_end_ae" t-if="o.employee_id.version_id.date_end">
+            <div id="contract_end_ae" t-if="o.version_id.date_end">
                 <strong class="me-2">Contract End Date:</strong>
-                <span t-field="o.employee_id.version_id.date_end" />
+                <span t-field="o.employee_id.date_end" />
             </div>
         </div>
 

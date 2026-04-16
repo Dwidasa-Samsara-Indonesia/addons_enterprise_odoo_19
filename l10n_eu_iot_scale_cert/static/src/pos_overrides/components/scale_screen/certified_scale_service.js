@@ -7,7 +7,6 @@ import { Reactive } from "@web/core/utils/reactive";
 // Having a separate copy allows us to keep a certified version that will only change
 // if absolutely necessary, whilst the base service is free to change.
 
-const TARE_TIMEOUT_MS = 3000;
 
 export class CertifiedScaleService extends Reactive {
     constructor(env, deps) {
@@ -33,12 +32,6 @@ export class CertifiedScaleService extends Reactive {
     }
 
     reset() {
-        if (this.isMeasuring) {
-            this._scaleDevice?.removeListener();
-            this._scaleDevice?.action({ action: "stop_reading" });
-        }
-        this.tare = 0;
-        this.tareRequested = false;
         this.loading = false;
         this.isMeasuring = false;
         this.product = null;
@@ -60,7 +53,6 @@ export class CertifiedScaleService extends Reactive {
             this.onError?.(error.message);
         }
         this.loading = false;
-        this._setTareIfRequested();
     }
 
     async _getWeightFromScale() {
@@ -90,7 +82,6 @@ export class CertifiedScaleService extends Reactive {
             try {
                 this.weight = this._handleScaleMessage(data);
                 this._clearLastWeightIfValid();
-                this._setTareIfRequested();
             } catch (error) {
                 this.onError?.(error.message);
             }
@@ -124,25 +115,9 @@ export class CertifiedScaleService extends Reactive {
         };
     }
 
-    _setTareIfRequested() {
-        if (this.tareRequested) {
-            this.tare = this.weight;
-            this.tareRequested = false;
-        }
-    }
-
     _clearLastWeightIfValid() {
         if (this.lastWeight && this.isWeightValid) {
             this.lastWeight = null;
-        }
-    }
-
-    requestTare() {
-        this.tareRequested = true;
-        if (this.isManualMeasurement && !this.loading) {
-            this.readWeight();
-        } else {
-            setTimeout(() => this._setTareIfRequested(), TARE_TIMEOUT_MS);
         }
     }
 
@@ -152,8 +127,7 @@ export class CertifiedScaleService extends Reactive {
         return (
             !this.lastWeight ||
             (!floatIsZero(this.lastWeight - this.weight, this.product.decimalAccuracy) &&
-                this.netWeight > 0 &&
-                this.tare >= 0)
+                this.netWeight > 0)
         );
     }
 
@@ -162,25 +136,11 @@ export class CertifiedScaleService extends Reactive {
     }
 
     get netWeight() {
-        return roundDecimals(this.weight - (this.tare || 0), this.product.decimalAccuracy);
+        return roundDecimals(this.weight, this.product.decimalAccuracy);
     }
 
     get netWeightString() {
         const weightString = formatFloat(this.netWeight, {
-            digits: [0, this.product.decimalAccuracy],
-        });
-        return `${weightString} ${this.product.unitOfMeasure}`;
-    }
-
-    get tareWeightString() {
-        const weightString = formatFloat(this.tare || 0, {
-            digits: [0, this.product.decimalAccuracy],
-        });
-        return `${weightString} ${this.product.unitOfMeasure}`;
-    }
-
-    get grossWeightString() {
-        const weightString = formatFloat(this.weight, {
             digits: [0, this.product.decimalAccuracy],
         });
         return `${weightString} ${this.product.unitOfMeasure}`;

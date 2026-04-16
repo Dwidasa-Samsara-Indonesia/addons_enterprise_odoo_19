@@ -61,7 +61,6 @@ class EsgCsrdReportController(KnowledgeAuditReportController):
                       JOIN account_move am ON move_payement_rel.invoice_id = am.id
                       JOIN account_payment ap ON move_payement_rel.payment_id = ap.id
                      WHERE ap.id IN %(ids)s
-                       AND am.active = TRUE
                      ORDER BY am.id, ap.date DESC
                 ) AS latest_payments
                 """,
@@ -78,7 +77,6 @@ class EsgCsrdReportController(KnowledgeAuditReportController):
                  WHERE ap.id IN %(ids)s
                    AND am.invoice_date_due IS NOT NULL
                    AND ap.date <= am.invoice_date_due
-                   AND am.active = TRUE
                 """,
                 ids=tuple(reconciled_payments.ids),
             ))

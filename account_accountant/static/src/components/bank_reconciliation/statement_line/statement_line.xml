@@ -67,9 +67,10 @@
                                     </span>
                                 </span>
                                 <div t-if="recordData.is_reconciled and !isUnfolded" class="text-start text-truncate text-muted" name="reconciled_line_name">
-                                    <t t-foreach="Object.entries(reconciledLineName)" t-as="line" t-key="line_index">
+                                    <t t-set="reconciledLineEntries" t-value="Object.entries(reconciledLineName)"/>
+                                    <t t-foreach="reconciledLineEntries" t-as="line" t-key="line_index">
                                         <BankRecReconciledLineName statementLine="record" linesToReconcile="linesToReconcile" moveLineId="line[0]" valueToDisplay="line[1]"/>
-                                        <t t-if="line_index &lt; Object.keys(reconciledLineName).length - 1">, </t>
+                                        <t t-if="line_index &lt; reconciledLineEntries.length - 1">, </t>
                                     </t>
                                 </div>
                             </div>
@@ -79,7 +80,7 @@
                                 </span>
                                 <span t-att-class="amountClasses" class="text-end text-nowrap" t-esc="formattedAmount"/>
                             </div>
-                            <div class="d-none d-md-block text-end" t-on-click="toggleUnfold" t-if="recordData.is_reconciled">
+                            <div class="d-none d-md-block text-end" t-on-click.stop="toggleUnfold" t-if="recordData.is_reconciled">
                                 <i class="oi" t-att-class="{'oi-chevron-up': isUnfolded, 'oi-chevron-down': !isUnfolded}"/>
                             </div>
                             <div class="d-none d-md-block" t-else=""/> <!-- To keep empty space if no chevron -->
@@ -104,7 +105,13 @@
                         <div class="o_row d-md-none">
                             <div class="o_button_line">
                                 <BankRecButtonList t-props="buttonListProps" suspenseAccountLine="suspenseAccountLine" t-if="!recordData.is_reconciled or (userCanReview and !recordData.checked)"/>
-                                <span t-if="recordData.is_reconciled and !isUnfolded" class="text-start text-muted" t-esc="reconciledLineName"/>
+                                <span t-if="recordData.is_reconciled and !isUnfolded" class="text-start text-muted">
+                                    <t t-set="reconciledLineEntries" t-value="Object.entries(reconciledLineName)"/>
+                                    <t t-foreach="reconciledLineEntries" t-as="line" t-key="line_index">
+                                        <BankRecReconciledLineName statementLine="record" linesToReconcile="linesToReconcile" moveLineId="line[0]" valueToDisplay="line[1]"/>
+                                        <t t-if="line_index &lt; reconciledLineEntries.length - 1">, </t>
+                                    </t>
+                                </span>
                             </div>
                         </div>
                     </div>

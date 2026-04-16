@@ -311,7 +311,11 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
                 item_group_key = tuple(item[prop] for prop in grouping_key)
                 grouped_items[item_group_key]['value'] += item['value']
                 if is_weight_required:
-                    grouped_items[item_group_key]['weight'] += float(item['weight'])
+                    item_weight = item['weight']
+                    if not item_weight:
+                        weightless_product = self.env['product.template'].search([["id", '=', item['product_id']]])
+                        raise UserError(_("%s requires a weight.", weightless_product.name))
+                    grouped_items[item_group_key]['weight'] += float(item.get('weight', '0').replace(',', '.'))
 
             # Convert the grouped_items dictionary back to a list of dictionaries
             items[regime] = [dict(zip(grouping_key, grouped_item_key)) | grouped_item_values
@@ -323,8 +327,9 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
         def round_half_up(value):
             return int(float_round(value, precision_digits=0, rounding_method='HALF-UP'))
 
-        for regime_items in items.values():
-            for item in regime_items:
+        for regime in items:
+            new_item_list = []
+            for item in items[regime]:
                 # The weight must be rounded off in kilograms.
                 # Weights below 1 kilogram should be rounded off above.
                 if item.get('weight'):
@@ -335,8 +340,10 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
                     item['supplementary_units'] = round_half_up(item['supplementary_units']) or 1
 
                 item['value'] = round_half_up(item['value'])
-                if item['value'] <= 0:
-                    regime_items.remove(item)
+                if item['value'] > 0:
+                    new_item_list.append(item)
+
+            items[regime] = new_item_list
 
     @api.model
     def _generate_envelope_data(self, options, company, values):

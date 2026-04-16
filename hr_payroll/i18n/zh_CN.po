@@ -11,14 +11,15 @@
 # Jeffery CHEN <jeffery9@gmail.com>, 2022
 # Emily Jia <eji@odoo.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# "Chloe Wang (chwa)" <chwa@odoo.com>, 2025.
+# "Chloe Wang (chwa)" <chwa@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# 张飞虎 <feihu.zhang@live.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2025-12-16 04:16+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-09 11:22+0000\n"
 "Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
 "projects/odoo-19/hr_payroll/zh_Hans/>\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -68,7 +69,6 @@ msgstr "# 工资单"
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
-#, fuzzy
 msgid "%(display_name)s %(duration_type)s"
 msgstr "%(display_name)s %(duration_type)s"
 
@@ -76,7 +76,7 @@ msgstr "%(display_name)s %(duration_type)s"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Correction %(date)s"
-msgstr ""
+msgstr "%(employee)s 更正 %(date)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -88,13 +88,13 @@ msgstr "%(employee)s 更正 %(date_start)s - %(date_end)s"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Revert %(date)s"
-msgstr ""
+msgstr "%(employee)s 冲销 %(date)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Revert %(date_start)s - %(date_end)s"
-msgstr ""
+msgstr "%(employee)s 冲销 %(date_start)s - %(date_end)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -124,7 +124,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "%(months)s months"
-msgstr ""
+msgstr "%(months)s 个月"
 
 #. module: hr_payroll
 #. odoo-python
@@ -142,7 +142,7 @@ msgstr "%(start_date_string)s 和 %(end_date_string)s"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "%(years)s years"
-msgstr ""
+msgstr "%(years)s 年"
 
 #. module: hr_payroll
 #. odoo-python
@@ -173,11 +173,11 @@ msgid ""
 "                \n"
 "* When the user cancels a payslip, the status is 'Canceled'."
 msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
+"* 工资单创建时状态为“草稿”\n"
+"                \n"
+"* 工资单确认后状态变为“已完成”。\n"
+"                \n"
+"* 用户取消工资单时状态为“已取消”。"
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
@@ -210,13 +210,13 @@ msgstr "%s的下半年"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_index_wizard.py:0
 msgid "<b>The following employee records will be modified:</b><br>"
-msgstr ""
+msgstr "<b>The following employee records will be modified:</b><br>"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_index_wizard.py:0
 msgid "<br><b>Modified on Versions:</b><br>"
-msgstr ""
+msgstr "<br><b>Modified on Versions:</b><br>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -224,33 +224,35 @@ msgid ""
 "<code>categories</code>: dict containing the computed salary rule categories "
 "(sum of amount of all rules belonging to that category)."
 msgstr ""
+"<code>categories</code>：包含已计算薪资规则类别的字典（属于该类别的所有规则金"
+"额之和）。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>employee</code>: hr.employee object"
-msgstr ""
+msgstr "<code>employee</code>：hr.employee 对象"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>inputs</code>: dict containing the computed inputs."
-msgstr ""
+msgstr "<code>inputs</code>：包含已计算输入项的字典。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>payslip</code>: hr.payslip object"
-msgstr ""
+msgstr "<code>payslip</code>：hr.payslip 对象"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid ""
 "<code>result</code>: boolean True if the rule should be calculated, False "
 "otherwise"
-msgstr ""
+msgstr "<code>result</code>：布尔值，如果应计算该规则则为 True，否则为 False"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>result</code>: float, base amount of the rule"
-msgstr ""
+msgstr "<code>result</code>：浮点数，规则的基础金额"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -259,11 +261,13 @@ msgid ""
 "name field of the salary rule (useful if the name depends or should depend "
 "on something computed in the rule)."
 msgstr ""
+"<code>result_name</code>：字符串，明细行名称，默认为薪资规则的名称字段（在名"
+"称需动态设置时有用）。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>result_qty</code>: float, quantity, which defaults to 1."
-msgstr ""
+msgstr "<code>result_qty</code>：浮点数，数量，默认为 1。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -271,6 +275,8 @@ msgid ""
 "<code>result_rate</code>: float, rate between -100.0 and 100.0, which "
 "defaults to 100.0 (%)."
 msgstr ""
+"<code>result_rate</code>：浮点数，比率在 -100.0 到 100.0 之间，默认为 100.0 "
+"(%)。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -278,21 +284,23 @@ msgid ""
 "<code>result_rules</code>: dict containing the rules amounts, quantities, "
 "rates and totals (previously computed)"
 msgstr ""
+"<code>result_rules</code>：包含规则金额、数量、比率和总计的字典（之前已计算"
+"的）"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>total = result * result_rate / 100 * result_qty</code>"
-msgstr ""
+msgstr "<code>total = result * result_rate / 100 * result_qty</code>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>version</code>: hr.version object"
-msgstr ""
+msgstr "<code>version</code>：hr.version 对象"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>worked_days</code>: dict containing the computed worked days"
-msgstr ""
+msgstr "<code>worked_days</code>：包含已计算出勤天数的字典"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_form
@@ -361,17 +369,17 @@ msgstr "<span class=\"o_stat_text\">薪资规则</span>"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<span invisible=\"input_unit != 'percentage'\">%</span>"
-msgstr ""
+msgstr "<span invisible=\"input_unit != 'percentage'\">%</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "<span invisible=\"is_quantity\">paid</span>"
-msgstr ""
+msgstr "<span invisible=\"is_quantity\">已付</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "<span invisible=\"not is_refund\" class=\"me-1\">-</span>"
-msgstr ""
+msgstr "<span invisible=\"not is_refund\" class=\"me-1\">-</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_contract_template_view_form
@@ -390,11 +398,24 @@ msgid ""
 "                <span invisible=\"schedule_pay != 'weekly'\">/ week</span>\n"
 "                <span invisible=\"schedule_pay != 'daily'\">/ day</span>"
 msgstr ""
+"<span invisible=\"schedule_pay != 'annually'\">/ 年</span>\n"
+"                <span invisible=\"schedule_pay != 'semi-annually'\">/ half-"
+"year</span>\n"
+"                <span invisible=\"schedule_pay != 'quarterly'\">/ 季度</"
+"span>\n"
+"                <span invisible=\"schedule_pay != 'bi-monthly'\">/ two "
+"months</span>\n"
+"                <span invisible=\"schedule_pay != 'semi-monthly'\">/ half-"
+"month</span>\n"
+"                <span invisible=\"schedule_pay != 'bi-weekly'\">/ two weeks</"
+"span>\n"
+"                <span invisible=\"schedule_pay != 'weekly'\">/ 周</span>\n"
+"                <span invisible=\"schedule_pay != 'daily'\">/ 天</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<span> Available variables: </span>"
-msgstr ""
+msgstr "<span> 可用变量：: </span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_contract_template_view_form
@@ -418,7 +439,7 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<span>Output:</span>"
-msgstr ""
+msgstr "<span>输出：</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -443,17 +464,17 @@ msgstr "<span>天（工作许可证到期前）。</span>"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "<span>employer cost</span>"
-msgstr ""
+msgstr "<span>雇主成本</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "<span>gross</span>"
-msgstr ""
+msgstr "<span>应发工资</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "<span>net</span>"
-msgstr ""
+msgstr "<span>实发工资</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -472,11 +493,6 @@ msgstr "<strong class=\"me-2\">计算日期</strong>："
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr "<strong class=\"me-2\">合约开始日期</strong>："
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr "<strong class=\"me-2\">合同类型：</strong>"
 
@@ -489,6 +505,11 @@ msgstr "<strong class=\"me-2\">部门：</strong>"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
 msgstr "<strong class=\"me-2\">电子邮件：</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr "<strong class=\"me-2\">入职日期：</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -572,11 +593,11 @@ msgstr ""
 "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; "
 "margin:0px auto;\"><tbody>\n"
 "    <tr><td valign=\"top\" style=\"text-align: left; font-size: 14px;\">\n"
-"        亲爱的 <t t-esc=\"object.employee_id.name\"/>：您的最新工资单已预备"
-"好，可供查阅。<br/><br/>\n"
-"        请在您的员工页面访问相关 PDF。<br/><br/>\n"
-"        祝生活愉快！<br/>\n"
-"        人力资源团队\n"
+"        Dear <t t-esc=\"object.employee_id.name\"/>, a new payslip is "
+"available for you.<br/><br/>\n"
+"        Please find the PDF in your employee portal.<br/><br/>\n"
+"        Have a nice day,<br/>\n"
+"        The HR Team\n"
 "    </td></tr>\n"
 "</tbody></table>\n"
 "            "
@@ -599,6 +620,9 @@ msgid ""
 "                Ex. Money recovery, Child support, Assessment of salary, ..."
 "<br><br>"
 msgstr ""
+"工资调整项是在员工层面定义的一笔周期性金额，会在每次发放工资时根据相应的时间"
+"段使用。<br>\n"
+"例如：款项追回、子女抚养费、工资评定……<br><br>"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_work_entry_type_is_unforeseen_is_leave
@@ -671,7 +695,7 @@ msgstr "活动类型"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Add Inputs"
-msgstr ""
+msgstr "添加输入项"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -693,7 +717,7 @@ msgstr "添加新的工资结构"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_list
 msgid "Add a salary adjustment"
-msgstr ""
+msgstr "添加薪资调整"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -718,7 +742,7 @@ msgstr "在工资单中添加一列，显示一年内为不同规则支付的累
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Adjust payslip"
-msgstr ""
+msgstr "调整工资单"
 
 #. module: hr_payroll
 #: model:res.groups,name:hr_payroll.group_hr_payroll_manager
@@ -728,7 +752,7 @@ msgstr "管理员"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__affected_version_ids
 msgid "Affected Version"
-msgstr ""
+msgstr "受影响的版本"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -745,13 +769,13 @@ msgstr "所有结构"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Allocated amounts are less than the net salary."
-msgstr ""
+msgstr "分配金额少于实发工资。"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Allocated amounts surpass the net salary."
-msgstr ""
+msgstr "分配金额超过实发工资。"
 
 #. module: hr_payroll
 #: model:hr.salary.rule.category,name:hr_payroll.ALW
@@ -794,7 +818,7 @@ msgstr "金额类型"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_light_payslip
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "Amount to be paid to"
-msgstr ""
+msgstr "应付金额至"
 
 #. module: hr_payroll
 #. odoo-python
@@ -855,7 +879,7 @@ msgstr "显示在工资单"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__condition_domain
 msgid "Applicability Domain"
-msgstr ""
+msgstr "适用范围域"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__condition_python
@@ -902,7 +926,7 @@ msgstr "您确定要删除此备注吗？所有内容都将丢失。"
 msgid ""
 "Are you sure you want to revert this payslip? This will create a negative of "
 "this payslip."
-msgstr ""
+msgstr "确定要冲销此工资单吗？这将创建一张负数工资单。"
 
 #. module: hr_payroll
 #: model:hr.payslip.input.type,name:hr_payroll.input_assignment_salary
@@ -965,7 +989,7 @@ msgstr "结构中的可用性"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_input_type__available_in_attachments
 msgid "Available in adjustments"
-msgstr ""
+msgstr "可用于调整"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_search
@@ -1087,13 +1111,13 @@ msgstr "已取消"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Cannot cancel a payslip that is validated."
-msgstr ""
+msgstr "无法取消已确认的工资单。"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_index_wizard.py:0
 msgid "Cannot index a wage with a null or negative percentage."
-msgstr ""
+msgstr "无法使用空值或负百分比进行工资调薪。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -1122,7 +1146,7 @@ msgstr "类别"
 msgid ""
 "Check if the value of the salary adjustment must be taken into account as "
 "negative (-X)"
-msgstr ""
+msgstr "检查薪资调整的值是否需要按负数 (-X) 计算"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1160,7 +1184,7 @@ msgstr "选择薪资本地化套餐"
 msgid ""
 "Choose whether to correct only the selected payslip or all payslips affected "
 "by the changes in this version."
-msgstr ""
+msgstr "选择是仅更正所选工资单还是更正此版本变更影响的所有工资单。"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1416,7 +1440,7 @@ msgstr "合同 - 您的员工设置如何？"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__appears_on_employee_cost_dashboard
 msgid "Contributes to Employer Cost"
-msgstr ""
+msgstr "计入雇主成本"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_line_view_search_register
@@ -1443,28 +1467,28 @@ msgstr "Gravie交通补贴"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_correction_wizard__correction_choice__multi
 msgid "Correct all affected payslips"
-msgstr ""
+msgstr "更正所有受影响的工资单"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "Correct payslip"
-msgstr ""
+msgstr "更正工资单"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_correction_wizard__correction_choice__single
 msgid "Correct this payslip only"
-msgstr ""
+msgstr "仅更正此工资单"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_correction_wizard__correction_choice
 msgid "Correction Choice"
-msgstr ""
+msgstr "更正选项"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Correction: %(payslip)s"
-msgstr ""
+msgstr "更正：%(payslip)s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_dashboard_warning__country_id
@@ -1505,7 +1529,7 @@ msgstr "创建SEPA付款"
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_new_salary_attachment
 msgid "Create Salary Adjustment"
-msgstr ""
+msgstr "创建薪资调整"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__create_uid
@@ -1526,12 +1550,12 @@ msgstr "创建工资单"
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_salary_attachment_action
 msgid "Create a Salary Adjustment"
-msgstr ""
+msgstr "创建薪资调整"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_salary_rule_section
 msgid "Create a new Salary Rule Section"
-msgstr ""
+msgstr "创建新的薪资规则分节"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_salary_rule_form
@@ -1697,7 +1721,7 @@ msgstr "开始日期"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__date_end
 msgid "Date at which this assignment has been set as completed."
-msgstr ""
+msgstr "此分配被设为完成的日期。"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days__full
@@ -1783,12 +1807,12 @@ msgstr "定义 <strong>工资</strong>。"
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_salary_rule_section
 msgid ""
 "Define sections to organize salary rule inputs within payroll structures."
-msgstr ""
+msgstr "定义分节以在薪资结构中组织薪资规则输入项。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__condition_domain
 msgid "Define the applicability rules for this rule."
-msgstr ""
+msgstr "定义此规则的适用条件。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__schedule_pay
@@ -1840,12 +1864,12 @@ msgstr "离职"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__dependent_input_id
 msgid "Dependent Salary Input"
-msgstr ""
+msgstr "依赖的薪资输入项"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Depends On"
-msgstr ""
+msgstr "依赖于"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__description
@@ -1865,7 +1889,7 @@ msgstr "描述"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Detach the payslip from the pay run to send it to the Off-Cycle"
-msgstr ""
+msgstr "将工资单从发薪批次中分离并发送到非周期发薪"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__disabled
@@ -1935,7 +1959,7 @@ msgstr "显示名称"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/fields/actionable_warnings/actionable_warnings.js:0
 msgid "Display first warning only"
-msgstr ""
+msgstr "仅显示第一条警告"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_work_entry_type_view_form_inherit
@@ -1968,7 +1992,7 @@ msgstr "已完成"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Done Pay Runs"
-msgstr ""
+msgstr "已完成的发薪批次"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
@@ -1999,7 +2023,7 @@ msgstr "工资单草稿"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Duplicate(s)"
-msgstr ""
+msgstr "重复项"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__duration_type
@@ -2016,7 +2040,7 @@ msgstr "收益"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "Edit Individual Salary Adjustment"
-msgstr ""
+msgstr "编辑个人薪资调整"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2035,7 +2059,7 @@ msgstr "编辑工资明细向导"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "Edit Salary Adjustment"
-msgstr ""
+msgstr "编辑薪资调整"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_edit_payslip_worked_days_line
@@ -2160,12 +2184,12 @@ msgstr "员工工资单"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Employee Record"
-msgstr ""
+msgstr "员工档案"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.hr_menu_versions
 msgid "Employee Records"
-msgstr ""
+msgstr "员工档案"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__registration_number
@@ -2207,7 +2231,7 @@ msgstr "员工月工资总额。"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Employee's record is not the latest version for this payslip period."
-msgstr ""
+msgstr "员工档案不是此工资单期间的最新版本。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__resource_calendar_id
@@ -2290,7 +2314,7 @@ msgstr "雇主成本 - 按月或按年随意划分每笔工资的金额。"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__empty_payslips
 msgid "Empty Payslips"
-msgstr ""
+msgstr "空工资单"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__hide_basic_on_pdf
@@ -2340,7 +2364,7 @@ msgstr "错误"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__error_count
 msgid "Error Count"
-msgstr ""
+msgstr "错误数"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2357,12 +2381,12 @@ msgstr "估计结束日期"
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_line__partner_id
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__partner_id
 msgid "Eventual third party involved in the salary payment of the employees."
-msgstr "偶然第三方参与的员工工资支付"
+msgstr "偶尔参与员工薪资支付的第三方。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Explain when it's applicable..."
-msgstr ""
+msgstr "说明何时适用..."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_employee_mixin__export_id
@@ -2408,7 +2432,7 @@ msgstr "导出工资单"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 msgid "External Codes"
-msgstr ""
+msgstr "外部编码"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__2
@@ -2481,7 +2505,7 @@ msgstr "来自"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__full_time_required_hours
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__full_time_required_hours
 msgid "Full Time Equivalent"
-msgstr ""
+msgstr "全职当量"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -2489,8 +2513,6 @@ msgid "General"
 msgstr "通用"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "生成"
@@ -2522,16 +2544,22 @@ msgid "Generate Payslips"
 msgstr "生成工资单"
 
 #. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
+
+#. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "Generate a Payment Report"
-msgstr ""
+msgstr "生成付款报告"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payroll_employee_declaration__state__pdf_generated
 msgid "Generated PDF"
-msgstr "产生PDF档案..."
+msgstr "生成PDF"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__gross_sum
@@ -2578,7 +2606,7 @@ msgstr "有错误"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Has Issues"
-msgstr ""
+msgstr "存在问题"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__has_message
@@ -2595,7 +2623,7 @@ msgstr "有负的净值报告"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry__has_payslip
 msgid "Has Payslip"
-msgstr ""
+msgstr "有工资单"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__has_similar_attachment
@@ -2615,7 +2643,7 @@ msgstr "有总金额"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__has_wrong_data
 msgid "Has Wrong Data"
-msgstr ""
+msgstr "数据有误"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payroll_headcount_action
@@ -2790,7 +2818,7 @@ msgstr "若员工被法定评估为残疾"
 msgid ""
 "If the employee is not a legal resident of the country where they are "
 "employed"
-msgstr ""
+msgstr "如果员工不是其工作所在国家的合法居民"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__image_1920
@@ -2811,7 +2839,7 @@ msgstr "无限期"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__indented
 msgid "Indented"
-msgstr ""
+msgstr "缩进"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_payroll_index
@@ -2843,7 +2871,7 @@ msgstr "个别账户"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__informative_message
 msgid "Informative Message"
-msgstr ""
+msgstr "提示消息"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -2853,12 +2881,12 @@ msgstr "输入数据"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_description
 msgid "Input Description"
-msgstr ""
+msgstr "输入项描述"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_suffix
 msgid "Input Suffix"
-msgstr ""
+msgstr "输入项后缀"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
@@ -2868,27 +2896,27 @@ msgstr "输入类型"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Input Type Code"
-msgstr ""
+msgstr "输入项类型编码"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_usage_employee
 msgid "Input Usage Employee"
-msgstr ""
+msgstr "输入项使用（员工）"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_usage_payslip
 msgid "Input Usage Payslip"
-msgstr ""
+msgstr "输入项使用（工资单）"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_used_in_definition
 msgid "Input Used In Definition"
-msgstr ""
+msgstr "定义中使用的输入项"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Input on"
-msgstr ""
+msgstr "输入于"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__note
@@ -2903,13 +2931,13 @@ msgstr "Internet订阅结算单"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_corrected
 msgid "Is Corrected"
-msgstr ""
+msgstr "是否已更正"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_current
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_current
 msgid "Is Current"
-msgstr ""
+msgstr "是否当前"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__message_is_follower
@@ -2928,13 +2956,13 @@ msgstr "是全职的"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_future
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_future
 msgid "Is Future"
-msgstr ""
+msgstr "是否未来"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_in_contract
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_in_contract
 msgid "Is In Contract"
-msgstr ""
+msgstr "是否在合同期内"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_worked_days__is_paid
@@ -2945,12 +2973,12 @@ msgstr "# 已支付"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_past
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_past
 msgid "Is Past"
-msgstr ""
+msgstr "是否过去"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_refund_payslip
 msgid "Is Refund payslip"
-msgstr ""
+msgstr "是否冲销工资单"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_refunded
@@ -2980,7 +3008,7 @@ msgstr "工期有误"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_wrong_version
 msgid "Is Wrong Version"
-msgstr ""
+msgstr "是否版本错误"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_input_type__is_quantity
@@ -2992,7 +3020,7 @@ msgstr "是数量？"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 msgid "Issue Count"
-msgstr ""
+msgstr "问题数"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -3069,12 +3097,12 @@ msgstr "六月"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__keep_wrong_version
 msgid "Keep Wrong Version"
-msgstr ""
+msgstr "保留错误版本"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Keep it as is"
-msgstr ""
+msgstr "保持原样"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3241,7 +3269,7 @@ msgstr "消息"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Missing bank account on employee"
-msgstr ""
+msgstr "员工缺少银行账户"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__mobile_invoice
@@ -3267,17 +3295,17 @@ msgstr "每月"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__monthly_running_attachments
 msgid "Monthly Running Attachments"
-msgstr ""
+msgstr "每月执行中的扣款"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_correction_wizard__is_multi_payslip
 msgid "Multiple Payslips"
-msgstr ""
+msgstr "多张工资单"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 msgid "Multiple employees are attached to this salary adjustment."
-msgstr ""
+msgstr "此薪资调整关联了多名员工。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__my_activity_date_deadline
@@ -3399,7 +3427,7 @@ msgstr "新的薪资单"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "New Salary Adjustment"
-msgstr ""
+msgstr "新建薪资调整"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_version_list_view_filter_payrun
@@ -3439,7 +3467,7 @@ msgstr "暂无批次"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "No ID number on the employee"
-msgstr ""
+msgstr "员工缺少身份证号"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_payslip_run
@@ -3455,7 +3483,7 @@ msgstr "工资单。"
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_payroll_hr_version_list_view_payrun
 msgid "No Records."
-msgstr ""
+msgstr "无记录。"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days__no
@@ -3465,7 +3493,7 @@ msgstr "没有舍入"
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_salary_attachment_action
 msgid "No Salary Adjustment ?"
-msgstr ""
+msgstr "无薪资调整？"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_employee_unique_registration_number
@@ -3495,18 +3523,20 @@ msgid ""
 "select another period and/or\n"
 "                salary structure type."
 msgstr ""
+"没有符合您选择的期间和薪资结构类型的记录，请返回选择其他期间和/或\n"
+"                薪资结构类型。"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_rule_parameter.py:0
 msgid "No rule parameter with code \"%(code)s\" was found for %(date)s"
-msgstr "未找到代码为\"%(code)s\"的规则参数。"
+msgstr "未找到代码为 \"%(code)s\" 的规则参数（%(date)s）"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "No running contract over payslip period"
-msgstr ""
+msgstr "工资单期间无执行中合同"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_non_resident
@@ -3612,7 +3642,7 @@ msgstr "发送错误的消息的数量"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__occurrences
 msgid "Number of times the salary adjustment will appear on the payslip."
-msgstr ""
+msgstr "薪资调整在工资单上出现的次数。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__occurrences
@@ -3632,7 +3662,7 @@ msgstr "十月"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Off-Cycle"
-msgstr ""
+msgstr "非周期发薪"
 
 #. module: hr_payroll
 #: model:res.groups,name:hr_payroll.group_hr_payroll_user
@@ -3667,12 +3697,12 @@ msgstr "在智能按钮上，您可以找到批处理中包含的所有 <strong>
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_search
 msgid "One Shots"
-msgstr ""
+msgstr "一次性"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_attachment__duration_type__one
 msgid "One Time"
-msgstr ""
+msgstr "一次性"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_salary_attachment_check_monthly_amount
@@ -3696,7 +3726,7 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "Optional reason, or reference"
-msgstr ""
+msgstr "可选原因或参考"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
@@ -3706,7 +3736,7 @@ msgstr "或专门针对此应用程序的智慧课堂"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__origin_payslip_id
 msgid "Origin Payslip"
-msgstr ""
+msgstr "原始工资单"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -3734,7 +3764,7 @@ msgstr "其他明细输入"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Other Input Type"
-msgstr ""
+msgstr "其他输入项类型"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_declaration_mixin__pdf_error
@@ -3751,12 +3781,6 @@ msgstr "PDF文件"
 #: code:addons/hr_payroll/models/hr_payroll_employee_declaration.py:0
 msgid "PDF generation started. It will be available shortly."
 msgstr "开始生成 PDF。很快就可以使用。"
-
-#. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr "PDF"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
@@ -3778,7 +3802,7 @@ msgstr "已付金额"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Paid Pay Runs"
-msgstr ""
+msgstr "已付款的发薪批次"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
@@ -3830,14 +3854,14 @@ msgstr "发薪操作工资单"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_calendar
 msgid "Pay Runs"
-msgstr ""
+msgstr "发薪批次"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__schedule_pay
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__schedule_pay
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__schedule_pay
 msgid "Pay Schedule"
-msgstr ""
+msgstr "发薪计划"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip
@@ -3883,7 +3907,7 @@ msgstr "付款日期"
 msgid ""
 "Payment Entry Date: the banking day on which you intend the payslip batch to "
 "be settled."
-msgstr ""
+msgstr "付款入账日期：您计划工资单批次结算的银行工作日。"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -3992,7 +4016,7 @@ msgstr "工资说明"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__payslip_properties
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__payroll_properties
 msgid "Payroll Properties"
-msgstr ""
+msgstr "薪资属性"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
@@ -4007,7 +4031,7 @@ msgstr "工资SEPA"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_salary_rule_section_list
 msgid "Payroll Structure"
-msgstr ""
+msgstr "薪资结构"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payroll_structure_filter
@@ -4076,19 +4100,19 @@ msgstr "薪资金额"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__monthly_amount_display
 msgid "Payslip Amount Display"
-msgstr ""
+msgstr "工资单金额显示"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "Payslip Correction"
-msgstr ""
+msgstr "工资单更正"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip_correction_wizard
 msgid "Payslip Correction Wizard"
-msgstr ""
+msgstr "工资单更正向导"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__payslip_count
@@ -4167,12 +4191,12 @@ msgstr "工资单名称"
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_input_action_report
 msgid "Payslip Other Inputs"
-msgstr ""
+msgstr "工资单其他输入项"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payslip_input_action_report
 msgid "Payslip Other Inputs Report"
-msgstr ""
+msgstr "工资单其他输入项报告"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4183,7 +4207,7 @@ msgstr "工资期"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__payslip_properties_definition
 msgid "Payslip Properties Definition"
-msgstr ""
+msgstr "工资单属性定义"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_payment_report_wizard__payslip_run_id
@@ -4242,7 +4266,7 @@ msgstr "上一份合同产生的工资单"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__payslips_with_issues
 msgid "Payslips With Issues"
-msgstr ""
+msgstr "有问题的工资单"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslips_negative_net
@@ -4425,7 +4449,7 @@ msgstr "就绪"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Ready Pay Runs"
-msgstr ""
+msgstr "就绪的发薪批次"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -4473,7 +4497,7 @@ msgstr "参考年份"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Refund Payslip"
-msgstr ""
+msgstr "冲销工资单"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4503,7 +4527,7 @@ msgstr "报销"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Related Payslip"
-msgstr ""
+msgstr "关联工资单"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__related_payslip_ids
@@ -4514,7 +4538,7 @@ msgstr "相关工资单"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__related_payslip_count
 msgid "Related payslip count"
-msgstr ""
+msgstr "关联工资单数量"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__remaining_amount
@@ -4539,7 +4563,7 @@ msgstr "剩余的要支付的金额。"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__remaining_time
 msgid "Remaining time to be paid."
-msgstr ""
+msgstr "剩余应付时间。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
@@ -4556,7 +4580,7 @@ msgstr "移除 “有冲突” 筛选器"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 msgid "Remove State"
-msgstr ""
+msgstr "移除状态"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -4596,7 +4620,7 @@ msgstr "责任用户"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_list
 msgid "Restart"
-msgstr ""
+msgstr "重新开始"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -4609,7 +4633,7 @@ msgstr "还原"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "Revert only"
-msgstr ""
+msgstr "仅冲销"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__round_days_type
@@ -4696,17 +4720,17 @@ msgstr "工资"
 #: model:ir.model,name:hr_payroll.model_hr_salary_attachment
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "Salary Adjustment"
-msgstr ""
+msgstr "薪资调整"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__salary_attachment_count
 msgid "Salary Adjustment Count"
-msgstr ""
+msgstr "薪资调整数量"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__salary_attachment_count
 msgid "Salary Adjustment count"
-msgstr ""
+msgstr "薪资调整数量"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4720,7 +4744,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Salary Adjustments"
-msgstr ""
+msgstr "薪资调整"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_category_form
@@ -4735,28 +4759,28 @@ msgstr "工资计算"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_rule__condition_select__property_input
 msgid "Salary Input"
-msgstr ""
+msgstr "薪资输入项"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_salary_rule_section
 msgid "Salary Input Section"
-msgstr ""
+msgstr "薪资输入项分节"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_salary_rule_section
 msgid "Salary Input Sections"
-msgstr ""
+msgstr "薪资输入项分节"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_view_hr_payslip_input_type
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_entry_type_view
 msgid "Salary Input Types"
-msgstr ""
+msgstr "薪资输入项类型"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Salary Inputs"
-msgstr ""
+msgstr "薪资输入项"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_salary_rule
@@ -4803,7 +4827,7 @@ msgstr "工资规则参数"
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_salary_rule_section
 msgid "Salary Rule Sections"
-msgstr ""
+msgstr "薪资规则分节"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_salary_rule_form
@@ -4890,7 +4914,7 @@ msgstr "搜索工资单明细"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Search Payslip Other Input"
-msgstr ""
+msgstr "搜索工资单其他输入项"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_work_days_view_search_report
@@ -4905,7 +4929,7 @@ msgstr "搜索工资单"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_search
 msgid "Search Salary Adjustment"
-msgstr ""
+msgstr "搜索薪资调整"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_rule_filter
@@ -4938,17 +4962,17 @@ msgstr "选择员工"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_benefit_selector_list
 msgid "Select your benefits"
-msgstr ""
+msgstr "选择您的福利"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_default_boolean
 msgid "Selected by Default"
-msgstr ""
+msgstr "默认选中"
 
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_hr_payroll_remove_from_payrun
 msgid "Send to Off-Cycle"
-msgstr ""
+msgstr "发送到非周期发薪"
 
 #. module: hr_payroll
 #: model:mail.template,description:hr_payroll.mail_template_new_payslip
@@ -5001,13 +5025,13 @@ msgstr "设置"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__show_schedule_pay
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__show_schedule_pay
 msgid "Show Schedule Pay"
-msgstr ""
+msgstr "显示计划发薪"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Similar payslips found"
-msgstr ""
+msgstr "发现类似工资单"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5021,12 +5045,12 @@ msgstr "某些工作条目存在冲突。请在导出之前解决冲突。"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "Some work entries could not be validated. Time intervals to look for:%s"
-msgstr ""
+msgstr "部分工时条目无法验证。需查看的时间段：%s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__space_above
 msgid "Space Above"
-msgstr ""
+msgstr "上方间距"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_list
@@ -5036,7 +5060,7 @@ msgstr "拆分"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 msgid "Split it in individual adjustment"
-msgstr ""
+msgstr "拆分为个人调整"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__standard_calendar_id
@@ -5076,7 +5100,7 @@ msgstr "状态"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 msgid "Status Bubble"
-msgstr ""
+msgstr "状态气泡"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__activity_state
@@ -5110,7 +5134,7 @@ msgstr "停止"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_section__struct_ids
 msgid "Struct"
-msgstr ""
+msgstr "结构"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_line__struct_id
@@ -5155,7 +5179,7 @@ msgstr "结构"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Suffix (e.g. per km)"
-msgstr ""
+msgstr "后缀（例如 每公里）"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__sum_worked_hours
@@ -5250,7 +5274,7 @@ msgstr "可以在工资规则中使用的代码"
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_line__amount_select
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__amount_select
 msgid "The computation method for the rule amount."
-msgstr "规则金额的计算方法"
+msgstr "规则金额的计算方法。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_worked_days__version_id
@@ -5262,7 +5286,7 @@ msgstr "这个工作日的合同应适用于"
 msgid ""
 "The current employee records for each employee will be indexed. All "
 "posterior records corresponding to the same contract will also be indexed."
-msgstr ""
+msgstr "每位员工的当前档案将被调薪。所有属于同一合同的后续档案也将同步调整。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
@@ -5279,12 +5303,12 @@ msgstr "根据结构类型，薪资单的期限并不准确。"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_correction_wizard__employee_id
 msgid "The employee for whom the payslip correction is being made."
-msgstr ""
+msgstr "正在进行工资单更正的员工。"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "The employee's data has been updated since this payslip was created."
-msgstr ""
+msgstr "自工资单创建以来，员工数据已更新。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5306,6 +5330,8 @@ msgid ""
 "The following %(model_name)s are missing a %(field_name)s:\n"
 "    • %(names)s"
 msgstr ""
+"以下 %(model_name)s 缺少 %(field_name)s：\n"
+"    • %(names)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5329,7 +5355,7 @@ msgstr "净额将从此后确定的第一个正数薪酬中收回。"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "The payslip's company doesn't match the batch's"
-msgstr ""
+msgstr "工资单的公司与批次的公司不一致"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5349,7 +5375,7 @@ msgstr "工资单现已添加到批次中"
 msgid ""
 "The salary adjustment you're trying to remove is still running. You can’t "
 "delete unless you change it to completed or cancelled."
-msgstr ""
+msgstr "您尝试删除的薪资调整仍在执行中。必须将其改为已完成或已取消才能删除。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5365,7 +5391,7 @@ msgstr "开始日期必须早于结束日期。"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "The total returned by the salary rule is calculated as:"
-msgstr ""
+msgstr "薪资规则返回的总额计算方式为："
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_input__version_id
@@ -5383,7 +5409,7 @@ msgstr "工作条目不会在工资单上给予员工任何金钱。"
 msgid ""
 "There are previous payslips with a negative amount for a total of %s to "
 "report."
-msgstr ""
+msgstr "存在之前的负金额工资单，合计 %s 需上报。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5396,7 +5422,7 @@ msgstr "在给定的时期内没有申报生成的数据"
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid ""
 "There is no valid payslip (validated and net wage > 0) to generate the file."
-msgstr ""
+msgstr "没有有效的工资单（已确认且实发工资 > 0）可用于生成文件。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5414,7 +5440,7 @@ msgstr "此动作在经过验证的工资单上被禁止。"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "This action is restricted to payroll officers only."
-msgstr ""
+msgstr "此操作仅限薪资专员执行。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_rule_parameter__code
@@ -5436,6 +5462,8 @@ msgid ""
 "This is a corrected payslip.\n"
 "Find the correction under this name: %(payslip)s"
 msgstr ""
+"这是一张已更正的工资单。\n"
+"在此名称下查找更正记录：%(payslip)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5478,7 +5506,7 @@ msgstr "该报表对你的工作条目进行分析。"
 msgid ""
 "This work entry cannot be modified because it is already associated with a "
 "generated payslip."
-msgstr ""
+msgstr "此工时条目无法修改，因为它已关联到已生成的工资单。"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -5529,12 +5557,12 @@ msgstr "金额总计"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__total_amount_display
 msgid "Total Amount Display"
-msgstr ""
+msgstr "总金额显示"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__total_employer_cost
 msgid "Total Employer Cost"
-msgstr ""
+msgstr "雇主成本合计"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -5561,7 +5589,7 @@ msgstr "待支付总金额。"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__sum_worked_hours
 msgid "Total hours of attendance and time off (paid or not)"
-msgstr "总的出勤时间和休息时间（带薪或不带薪）。"
+msgstr "总的出勤时间和休息时间（带薪或不带薪）"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
@@ -5645,7 +5673,7 @@ msgstr "结构中的未支付类型"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Unsupported operator %s"
-msgstr ""
+msgstr "不支持的运算符 %s"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_tree
@@ -5656,7 +5684,7 @@ msgstr "直到"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Untrusted bank accounts"
-msgstr ""
+msgstr "不受信任的银行账户"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days_type__up
@@ -5679,7 +5707,7 @@ msgstr "使用预定的序列排列"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__appears_on_employee_cost_dashboard
 msgid "Used to compute the employer cost of a payslip."
-msgstr ""
+msgstr "用于计算工资单的雇主成本。"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_line__appears_on_payslip
@@ -5740,7 +5768,7 @@ msgstr "版本名称"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__version_properties_definition
 msgid "Version Properties Definition"
-msgstr ""
+msgstr "版本属性定义"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_rule_parameter__parameter_version_ids
@@ -5797,7 +5825,7 @@ msgstr "警告颜色"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__warning_count
 msgid "Warning Count"
-msgstr ""
+msgstr "警告数"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6043,25 +6071,25 @@ msgstr "工作安排"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Wrong percentage base or quantity defined for:"
-msgstr "错误的百分比基数或数量定义。"
+msgstr "错误的百分比基数或数量定义："
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Wrong python code defined for:"
-msgstr "定义了错误的Python代码。"
+msgstr "错误的 Python 代码定义："
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Wrong python condition defined for:"
-msgstr "定义了错误的Python条件。"
+msgstr "错误的 Python 条件定义："
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Wrong quantity defined for:"
-msgstr "定义的数量错误。"
+msgstr "错误的数量定义："
 
 #. module: hr_payroll
 #. odoo-python
@@ -6130,26 +6158,26 @@ msgstr "“年初至今” 计算"
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid ""
 "You can only split a salary adjustment if it has more than one employee."
-msgstr ""
+msgstr "只有薪资调整关联多名员工时才能拆分。"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "You can't confirm cancelled payslips."
-msgstr ""
+msgstr "无法确认已取消的工资单。"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid ""
 "You can't delete a pay run with payslips if they are not draft or cancelled."
-msgstr ""
+msgstr "如果工资单不是草稿或已取消状态，则无法删除含有工资单的发薪批次。"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_structure.py:0
 msgid "You cannot add a Salary input without a section."
-msgstr ""
+msgstr "不能添加没有分节的薪资输入项。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6157,7 +6185,7 @@ msgstr ""
 msgid ""
 "You cannot archive an input type if there exists a running salary adjustment "
 "of this type."
-msgstr ""
+msgstr "如果存在此类型的执行中薪资调整，则无法归档该输入项类型。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6171,7 +6199,7 @@ msgstr "工资单薪酬没有进行支付，不可以取消付款。"
 msgid ""
 "You cannot change the country of category %s as it is used in existing "
 "Salary Rules"
-msgstr "您不能更改%s类别的国家/地区，因为已用于现有的薪金规则。"
+msgstr "您不能更改%s类别的国家/地区，因为已用于现有的薪金规则"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6185,13 +6213,13 @@ msgstr "由于%s在另一个模块中使用，因此无法删除，但可以将�
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "You cannot delete a salary adjustment that is linked to a payslip!"
-msgstr ""
+msgstr "无法删除已关联工资单的薪资调整！"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule_section.py:0
 msgid "You cannot delete a section currently used in a salary structure."
-msgstr ""
+msgstr "无法删除当前在薪资结构中使用的分节。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6211,7 +6239,7 @@ msgstr "您不能在多个员工附件上记录付款。"
 msgid ""
 "You cannot reset a pay run to draft if some of the payslips have already "
 "been paid."
-msgstr ""
+msgstr "如果部分工资单已付款，则无法将发薪批次重置为草稿。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6229,7 +6257,7 @@ msgstr "您必须登录 %s 公司才能使用此功能"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "You must select employee(s) version(s) to generate payslip(s)."
-msgstr ""
+msgstr "必须选择员工版本才能生成工资单。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6241,7 +6269,7 @@ msgstr "您必须设置一份合同以便创建工资核算单。"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "You must set a start and end date for the Pay Run"
-msgstr ""
+msgstr "必须为发薪批次设置开始和结束日期"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6293,7 +6321,7 @@ msgstr "如：正常工资"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payrun_card/payrun_card.xml:0
 msgid "employer cost"
-msgstr ""
+msgstr "雇主成本"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
@@ -6304,7 +6332,7 @@ msgstr "结束于"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "few days"
-msgstr ""
+msgstr "几天"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
@@ -6315,7 +6343,7 @@ msgstr "从"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "generates"
-msgstr ""
+msgstr "生成"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -6326,7 +6354,7 @@ msgstr "毛额"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "have been affected by this version's changes."
-msgstr ""
+msgstr "已受到此版本变更的影响。"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6367,7 +6395,7 @@ msgstr "的"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__done_date
 msgid "payslip confirmation Date"
-msgstr ""
+msgstr "工资单确认日期"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -6391,17 +6419,26 @@ msgstr "直到"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "used to"
-msgstr ""
+msgstr "用于"
 
 #. module: hr_payroll
 #: model:mail.template,subject:hr_payroll.mail_template_new_payslip
 msgid "{{ object.employee_id.name }}, a new payslip is available for you"
-msgstr "{{object.employee_id.name}}，新的工资单已为您提供。"
+msgstr "{{ object.employee_id.name }}，新的工资单已为您提供"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆看到顶部那个菜单了吗？"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "PDFs"
+#~ msgstr "PDF"
+
+#~ msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
+#~ msgstr "<strong class=\"me-2\">合约开始日期</strong>："
 
 #~ msgid "Other Input Types"
 #~ msgstr "其他输入类型"

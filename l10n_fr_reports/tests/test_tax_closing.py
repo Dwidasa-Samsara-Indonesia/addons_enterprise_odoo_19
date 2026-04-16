@@ -44,6 +44,7 @@ class TestFrenchTaxClosing(TestAccountReportsCommon):
             'partner_id': cls.env.company.partner_id.id,
             'acc_number': 'FR3410096000508334859773Z27',
             'bank_id': cls.bank.id,
+            'allow_out_payment': True,
         })
 
     @classmethod

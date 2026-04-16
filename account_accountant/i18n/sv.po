@@ -23,13 +23,14 @@
 # Martin Trigaux, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:41+0000\n"
-"PO-Revision-Date: 2025-11-08 19:31+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-03-13 18:44+0000\n"
+"PO-Revision-Date: 2026-04-14 14:49+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/sv/>\n"
 "Language: sv\n"
@@ -37,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -92,7 +93,7 @@ msgstr ""
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
 msgid "<i>Lock transactions up to specific dates, inclusive</i>"
-msgstr ""
+msgstr "<i>Lås transaktioner fram till ett visst datum, inklusive</i>"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_form_inherit
@@ -182,6 +183,12 @@ msgid ""
 "i>\n"
 "                                </span>"
 msgstr ""
+"<span class=\"text-muted\" "
+"invisible=\"min_fiscalyear_lock_date_exception_for_me_id or "
+"min_fiscalyear_lock_date_exception_for_everyone_id\">\n"
+"                                    <i class=\"ms-2\">men tillåt undantag</i>"
+"\n"
+"                                </span>"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
@@ -192,6 +199,11 @@ msgid ""
 "i>\n"
 "                                </span>"
 msgstr ""
+"<span class=\"text-muted\" invisible=\"min_tax_lock_date_exception_for_me_id "
+"or min_tax_lock_date_exception_for_everyone_id\">\n"
+"                                    <i class=\"ms-2\">efter skatteberäkning</"
+"i>\n"
+"                                </span>"
 
 #. module: account_accountant
 #: model_terms:digest.tip,tip_description:account_accountant.digest_tip_account_accountant_1
@@ -253,6 +265,8 @@ msgid ""
 msgstr ""
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model,name:account_accountant.model_account_account
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__account_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_list_bank_rec_widget
@@ -263,7 +277,7 @@ msgstr "Konto"
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_chart_template
 msgid "Account Chart Template"
-msgstr "Kontoplan"
+msgstr "Mall för kontoplan"
 
 #. module: account_accountant
 #: model:ir.actions.act_window,name:account_accountant.action_account_group_tree
@@ -275,7 +289,7 @@ msgstr "Kontogrupper"
 #: model:ir.actions.act_window,name:account_accountant.account_tag_action
 #: model:ir.ui.menu,name:account_accountant.account_tag_menu
 msgid "Account Tags"
-msgstr "Kontoetiketter"
+msgstr "Kontotaggar"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__transfer_from_account_id
@@ -295,12 +309,12 @@ msgstr "Guiden för kontoavstämning"
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_res_config_settings__deferred_expense_account_id
 msgid "Account used for deferred expenses"
-msgstr "Konto som används för förutbetalda kostnader"
+msgstr "Konto som används för periodiserade kostnader"
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_res_config_settings__deferred_revenue_account_id
 msgid "Account used for deferred revenues"
-msgstr "Konto som används för förutbetalda intäkter"
+msgstr "Konto som används för periodiserade intäkter"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_auto_reconcile_wizard__account_ids
@@ -311,7 +325,7 @@ msgstr "Konton"
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__message_needaction
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__message_needaction
 msgid "Action Needed"
-msgstr "Åtgärd Krävs"
+msgstr "Åtgärd krävs"
 
 #. module: account_accountant
 #. odoo-javascript
@@ -372,7 +386,7 @@ msgstr "Belopp"
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_list_bank_rec_widget
 msgid "Amount Due"
-msgstr "Utestående belopp"
+msgstr "Återstående saldo"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__amount
@@ -529,7 +543,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_create_statement_form_bank_rec_widget
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_form_bank_rec_widget
 msgid "Bank Statement"
-msgstr "Kontoutdrag från bank"
+msgstr "Bankkontoutdrag"
 
 #. module: account_accountant
 #. odoo-python
@@ -545,7 +559,7 @@ msgstr ""
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr "Bankutdrag-rad"
+msgstr "Rad på kontoutdrag"
 
 #. module: account_accountant
 #. odoo-python
@@ -631,7 +645,7 @@ msgstr ""
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_res_company
 msgid "Companies"
-msgstr "Bolag"
+msgstr "Företag"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_auto_reconcile_wizard__company_id
@@ -639,12 +653,12 @@ msgstr "Bolag"
 #: model:ir.model.fields,field_description:account_accountant.field_account_fiscal_year__company_id
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__company_id
 msgid "Company"
-msgstr "Bolag"
+msgstr "Företag"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__company_currency_id
 msgid "Company currency"
-msgstr "Bolagets valuta"
+msgstr "Företagets valuta"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_res_config_settings
@@ -661,7 +675,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/js/tours/account_accountant.js:0
 msgid "Connect your bank and get your latest transactions."
-msgstr "Anslut din bank och hämta dina senaste transaktioner."
+msgstr "Anslut till din bank för att hämta de senaste transaktionerna."
 
 #. module: account_accountant
 #. odoo-javascript
@@ -784,12 +798,12 @@ msgstr "Datum"
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_move_line__deferred_end_date
 msgid "Date at which the deferred expense/revenue ends"
-msgstr "Datum då upplupen kostnad/intäkt upphör"
+msgstr "Datum då den periodiserade kostnaden/intäkten avslutas"
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_move_line__deferred_start_date
 msgid "Date at which the deferred expense/revenue starts"
-msgstr "Datum då upplupen kostnad/intäkt påbörjas"
+msgstr "Datum då den periodiserade kostnaden/intäkten startar"
 
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__res_company__deferred_expense_amount_computation_method__day
@@ -831,25 +845,25 @@ msgstr "Typ av upplupen transaktion"
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_move__deferred_entry_type__expense
 msgid "Deferred Expense"
-msgstr "Uppskjutna kostnader"
+msgstr "Periodiserad kostnad"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__deferred_expense_account_id
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__deferred_expense_account_id
 msgid "Deferred Expense Account"
-msgstr "Konto för förutbetalda kostnader"
+msgstr "Konto för periodiserade kostnader"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__deferred_expense_amount_computation_method
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__deferred_expense_amount_computation_method
 msgid "Deferred Expense Based on"
-msgstr ""
+msgstr "Periodiserade kostnader baserat på"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__deferred_expense_journal_id
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__deferred_expense_journal_id
 msgid "Deferred Expense Journal"
-msgstr ""
+msgstr "Bokföringsjournal för periodiserade kostnader"
 
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_move__deferred_entry_type__misc
@@ -859,45 +873,45 @@ msgstr ""
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_move__deferred_entry_type__revenue
 msgid "Deferred Revenue"
-msgstr "Uppskjutna intäkter"
+msgstr "Periodiserad intäkt"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__deferred_revenue_account_id
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__deferred_revenue_account_id
 msgid "Deferred Revenue Account"
-msgstr "Konto för förutbetalda intäkter"
+msgstr "Konto för periodiserade intäkter"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__deferred_revenue_amount_computation_method
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__deferred_revenue_amount_computation_method
 msgid "Deferred Revenue Based on"
-msgstr ""
+msgstr "Periodiserade intäkter baserat på"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__deferred_revenue_journal_id
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__deferred_revenue_journal_id
 msgid "Deferred Revenue Journal"
-msgstr ""
+msgstr "Bokföringsjournal för periodiserade intäkter"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
 msgid "Deferred expense"
-msgstr "Uppskjutna kostnader"
+msgstr "Periodiserad kostnad"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
 msgid "Deferred expense entries:"
-msgstr ""
+msgstr "Bokföringsposter för periodiserade kostnader:"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
 msgid "Deferred revenue"
-msgstr "Uppskjutna intäkter"
+msgstr "Periodiserad intäkt"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
 msgid "Deferred revenue entries:"
-msgstr ""
+msgstr "Bokföringsposter för periodiserade intäkter:"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
@@ -918,7 +932,7 @@ msgstr "Insättningar"
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_digest_digest
 msgid "Digest"
-msgstr "Sammanställning"
+msgstr "Sammanfattning"
 
 #. module: account_accountant
 #. odoo-javascript
@@ -1118,7 +1132,7 @@ msgstr "Följare"
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__message_partner_ids
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
@@ -1178,13 +1192,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__generate_deferred_expense_entries_method
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__generate_deferred_expense_entries_method
 msgid "Generate Deferred Expense Entries"
-msgstr ""
+msgstr "Skapa bokföringsposter för periodiserade kostnader"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__generate_deferred_revenue_entries_method
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__generate_deferred_revenue_entries_method
 msgid "Generate Deferred Revenue Entries"
-msgstr ""
+msgstr "Skapa bokföringsposter för periodiserade intäkter"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
@@ -1194,7 +1208,7 @@ msgstr "Generera poster"
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__hard_lock_date
 msgid "Hard Lock"
-msgstr ""
+msgstr "Fast låsning"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_abnormal_deferred_dates
@@ -1249,7 +1263,7 @@ msgstr "ID"
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement__message_needaction
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
+msgstr "Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement__message_has_error
@@ -1257,7 +1271,7 @@ msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__message_has_error
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad, några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
@@ -1267,7 +1281,7 @@ msgstr "I valuta"
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_search_bank_rec_widget
 msgid "Income"
-msgstr "Inkomster"
+msgstr "Intäkt"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_search_bank_rec_widget
@@ -1378,7 +1392,7 @@ msgstr "Journal"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_search_bank_rec_widget
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Journal Entry"
-msgstr "Verifikat"
+msgstr "Bokföringspost"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_move_line
@@ -1386,12 +1400,12 @@ msgstr "Verifikat"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_search_bank_rec_widget
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_rec_edit_line
 msgid "Journal Item"
-msgstr "Journalpost"
+msgstr "Affärshändelse"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Journal Items"
-msgstr "Journalrader"
+msgstr "Affärshändelser"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_list_bank_rec_widget
@@ -1482,32 +1496,32 @@ msgstr "Rad"
 #. module: account_accountant
 #: model:ir.ui.menu,name:account_accountant.menu_action_change_lock_date
 msgid "Lock Dates…"
-msgstr ""
+msgstr "Låsningsdatum"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__fiscalyear_lock_date
 msgid "Lock Everything"
-msgstr ""
+msgstr "Lås allt"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__fiscalyear_lock_date_for_everyone
 msgid "Lock Everything For Everyone"
-msgstr ""
+msgstr "Lås allt för alla"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__fiscalyear_lock_date_for_me
 msgid "Lock Everything For Me"
-msgstr ""
+msgstr "Lås allt för mig"
 
 #. module: account_accountant
 #: model:ir.actions.act_window,name:account_accountant.action_view_account_change_lock_date
 msgid "Lock Journal Entries"
-msgstr ""
+msgstr "Lås bokföringsposter"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__purchase_lock_date
 msgid "Lock Purchases"
-msgstr ""
+msgstr "Lås inköp"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__purchase_lock_date_for_everyone
@@ -1522,7 +1536,7 @@ msgstr ""
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__sale_lock_date
 msgid "Lock Sales"
-msgstr ""
+msgstr "Lås försäljning"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__sale_lock_date_for_everyone
@@ -1537,7 +1551,7 @@ msgstr ""
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__tax_lock_date
 msgid "Lock Tax Return"
-msgstr ""
+msgstr "Lås skattedeklaration"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__tax_lock_date_for_everyone
@@ -1604,7 +1618,7 @@ msgstr "Meny"
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__message_has_error
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__message_ids
@@ -1700,7 +1714,7 @@ msgstr "Namn"
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
 msgid "Need an irreversible lock to ensure inalterability, for all users?"
-msgstr ""
+msgstr "Vill du aktivera en låsning som inte går att ändra, oavsett användare?"
 
 #. module: account_accountant
 #: model:ir.actions.act_window,name:account_accountant.action_bank_statement_line_form_bank_rec_widget
@@ -1730,7 +1744,7 @@ msgstr "Inget kontoutdrag"
 #: model_terms:ir.actions.act_window,help:account_accountant.action_bank_statement_line_transactions
 #: model_terms:ir.actions.act_window,help:account_accountant.action_bank_statement_line_transactions_kanban
 msgid "No transactions matching your filters were found."
-msgstr "Inga transaktioner som matchar era filter kunde hittas."
+msgstr "Inga transaktioner som matchar angivna filter hittades."
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_search_bank_rec_widget
@@ -1740,13 +1754,13 @@ msgstr "Ej Överensstämmande"
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
 msgid "Not locked"
-msgstr ""
+msgstr "Inte låst"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_search_bank_rec_widget
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_tree_bank_rec_widget
 msgid "Notes"
-msgstr "Noter"
+msgstr "Anteckningar"
 
 #. module: account_accountant
 #: model_terms:ir.actions.act_window,help:account_accountant.action_bank_statement_line_transactions
@@ -1782,7 +1796,7 @@ msgstr "Antal fel"
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement__message_needaction_counter
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement__message_has_error_counter
@@ -1865,6 +1879,8 @@ msgid "Outstanding debits"
 msgstr "Utestående debiteringar"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__to_partner_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget
@@ -1874,11 +1890,12 @@ msgstr "Partner"
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_auto_reconcile_wizard__partner_ids
 msgid "Partners"
-msgstr "Partner"
+msgstr "Partners"
 
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Payable"
 msgstr "Betalbara"
@@ -1966,7 +1983,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__rating_ids
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
@@ -1976,6 +1993,7 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Receivable"
 msgstr "Fordringar"
@@ -2094,7 +2112,7 @@ msgstr "Regler för avstämningsmodellen"
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__message_has_sms_error
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: account_accountant
 #. odoo-javascript
@@ -2110,7 +2128,7 @@ msgstr "Spara"
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_form_bank_rec_widget
 msgid "Save & Close"
-msgstr "Spara & stäng"
+msgstr "Spara och stäng"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_form_bank_rec_widget
@@ -2125,6 +2143,7 @@ msgstr "Sök transaktioner att stämma av"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Account"
 msgstr ""
 
@@ -2137,6 +2156,7 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Partner"
 msgstr ""
 
@@ -2150,12 +2170,14 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Account"
 msgstr ""
 
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Partner"
 msgstr ""
 
@@ -2221,6 +2243,13 @@ msgstr "Envalutaläge"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
+msgid ""
+"Some lines cannot be processed because they have already been reconciled."
+msgstr ""
+
+#. module: account_accountant
+#. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
 msgid "Some lines have invalid analytic distribution"
 msgstr ""
@@ -2259,6 +2288,12 @@ msgstr ""
 #: code:addons/account_accountant/demo/account_accountant_demo.py:0
 msgid "Subscription 12 months"
 msgstr ""
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+msgid "Suggestions"
+msgstr "Förslag"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -2748,7 +2783,7 @@ msgstr ""
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_journal_dashboard_kanban_view
 msgid "to reconcile"
-msgstr ""
+msgstr "att stämma av"
 
 #~ msgid "Models"
 #~ msgstr "Modeller"
@@ -2936,9 +2971,6 @@ msgstr ""
 
 #~ msgid "State"
 #~ msgstr "Status"
-
-#~ msgid "Suggestions"
-#~ msgstr "Förslag"
 
 #~ msgid "Tax Lock Date"
 #~ msgstr "Datum för skattelåsning"

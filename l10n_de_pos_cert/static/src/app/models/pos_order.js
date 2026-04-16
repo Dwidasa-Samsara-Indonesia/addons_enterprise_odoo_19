@@ -44,6 +44,7 @@ patch(PosOrder.prototype, {
                         name: "TSE-Transaktion",
                         value: this.l10n_de_fiskaly_transaction_number,
                     },
+                    number: { name: "Bonnummer", value: this.id },
                     time_start: { name: "TSE-Start", value: this.l10n_de_fiskaly_time_start },
                     time_end: { name: "TSE-Stop", value: this.l10n_de_fiskaly_time_end },
                     certificate_serial: {
@@ -67,12 +68,14 @@ patch(PosOrder.prototype, {
                         value: this.l10n_de_fiskaly_signature_public_key,
                     },
                     client_serial_number: {
-                        name: "ClientID / KassenID",
+                        name: "Client Serial No.",
                         value: this.l10n_de_fiskaly_client_serial_number,
                     },
                     erstBestellung: {
                         name: "TSE-Erstbestellung",
-                        value: this.getOrderlines()[0].getProduct().display_name,
+                        value: this.getOrderlines().length
+                            ? this.getOrderlines()[0].getProduct().display_name
+                            : "Deposit",
                     },
                 };
             } else {

@@ -15,7 +15,7 @@ class HrLeaveAllocation(models.Model):
                 continue
 
             number_of_days_field_id = self.env['ir.model.fields']._get(alloc._name, 'number_of_days').id
-            value_changes = alloc.message_ids.tracking_value_ids.filtered_domain([
+            value_changes = alloc.message_ids.sudo().tracking_value_ids.filtered_domain([
                 ('field_id', '=', number_of_days_field_id),
                 ('create_date', '<=', date + relativedelta(hour=23, minute=59, second=59)),
             ]).sorted(key=lambda x: x.create_date)

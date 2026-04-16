@@ -1,4 +1,5 @@
 import base64
+import logging
 
 from lxml import etree
 from markupsafe import Markup
@@ -9,6 +10,8 @@ from odoo.tools import html2plaintext
 from odoo.tools.xml_utils import cleanup_xml_node
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
@@ -135,8 +138,24 @@ class StockPicking(models.Model):
         return super().action_cancel()
 
     def l10n_uy_edi_action_update_dgi_state(self):
-        self.ensure_one()
+        """Action to update the DGI status of the picking, it will post a message in the chatter if the picking
+        has been rejected by DGI"""
         self.l10n_uy_edi_document_id.action_update_dgi_state()
+        rejected_pickings = self.filtered(lambda x: x.l10n_uy_edi_cfe_state == "rejected")
+        if rejected_pickings:
+            _logger.info(
+                "Rejected picking(s): %s",
+                [(rec.id, rec.name) for rec in rejected_pickings],
+            )
+            for picking in rejected_pickings:
+                picking.message_post(
+                    body=self.env._(
+                        "The CFE has been rejected by DGI. Please, manually check the reject reason "
+                        "and generate/send a new CFE with the fixes"
+                    ),
+                    message_type="comment",
+                    subtype_xmlid="mail.mt_note",
+                )
 
     def l10n_uy_edi_create_delivery_guide(self):
         """ Create the e-Remito (Delivery Guide) CFE and send it to DGI.
@@ -507,3 +526,13 @@ class StockPicking(models.Model):
                 }
             )
         return res
+
+    def _l10n_uy_edi_stock_cron_update_dgi_state(self, batch_size=10):
+        """Cron to update the DGI state of the stock pickings"""
+        domain = [("l10n_uy_edi_cfe_state", "=", "received")]
+        pickings = self.env["stock.picking"].search(domain, limit=batch_size + 1, order="id")
+        need_retrigger = len(pickings) > batch_size
+        pickings = pickings[:batch_size]
+        pickings.l10n_uy_edi_action_update_dgi_state()
+        if need_retrigger:
+            self.env.ref("l10n_uy_edi_stock.ir_cron_update_dgi_state_pickings")._trigger()

@@ -247,7 +247,7 @@ result = overtime_rate * inputs['OVT'].amount * compensation / number_of_days / 
 
         <record id="ksa_saudi_end_of_service_provision_salary_rule" model="hr.salary.rule">
             <field name="name">End of Service Provision</field>
-            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="category_id" ref="l10n_sa_hr_payroll.l10n_sa_category_provision"/>
             <field name="code">EOSP</field>
             <field name="appears_on_payslip" eval="False"/>
             <field name="sequence">45</field>
@@ -279,7 +279,7 @@ result = payslip.company_id.currency_id.round(result)
 
         <record id="ksa_saudi_employee_payroll_structure_annual_leave_provision" model="hr.salary.rule">
             <field name="name">Annual Leave Provision</field>
-            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="category_id" ref="l10n_sa_hr_payroll.l10n_sa_category_provision"/>
             <field name="code">ANNUALP</field>
             <field name="sequence">50</field>
             <field name="condition_select">python</field>
@@ -305,7 +305,7 @@ elif 'WORK100' in worked_days:
 
         <record id="ksa_saudi_employee_payroll_structure_remaining_leave_days_compensation" model="hr.salary.rule">
             <field name="name">Remaining leave days Compensation</field>
-            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="category_id" ref="hr_payroll.ALW"/>
             <field name="code">ANNUALCOMP</field>
             <field name="appears_on_payslip" eval="False"/>
             <field name="sequence">55</field>
@@ -619,11 +619,26 @@ result_name = inputs['EXPENSES'].name
             <field name="name">Net Salary</field>
             <field name="sequence">400</field>
             <field name="code">NET</field>
-            <field name="appears_on_employee_cost_dashboard" eval="True"/>
+            <field name="appears_on_employee_cost_dashboard" eval="False"/>
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 result = categories['BASIC'] + categories['ALW'] + categories['DED']
+            </field>
+            <field name="struct_id" ref="ksa_saudi_employee_payroll_structure"/>
+        </record>
+
+        <record id="l10n_sa_hr_payroll_ksa_saudi_employee_payroll_structure_net_cost" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_sa_hr_payroll.l10n_sa_category_net_cost"/>
+            <field name="name">Net Cost</field>
+            <field name="sequence">500</field>
+            <field name="code">NETCOST</field>
+            <field name="appears_on_payslip">never</field>
+            <field name="appears_on_employee_cost_dashboard" eval="True"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = abs(categories['COMP']) + NET + (('GOSI_EMP' in localdict) and abs(GOSI_EMP) or 0)
             </field>
             <field name="struct_id" ref="ksa_saudi_employee_payroll_structure"/>
         </record>

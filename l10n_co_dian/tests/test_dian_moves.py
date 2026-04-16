@@ -16,29 +16,6 @@ class TestDianMoves(TestCoDianCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Sugar Taxes (need to fill 'l10n_co_edi_ref_nominal_tax' on the product !)
-        cls.sugar_tax_1 = cls.env['account.tax'].create({
-            'name': "IBUA >10gr 3500ml",
-            'amount_type': 'fixed',
-            'amount': 35 * 35,  # rate of the tax = 35 (for a product with >10gr of sugar per 100ml)
-            'l10n_co_edi_type': cls.env.ref('l10n_co_edi.tax_type_20').id,  # IBUA
-        })
-        cls.sugar_tax_2 = cls.sugar_tax_1.copy({
-            'name': "IBUA >6gr & <10gr 100ml",
-            'amount': 36,  # rate of the tax = 36 (for a product with >10gr of sugar per 100ml)
-        })
-
-        # Products
-        cls.product_sugar_1 = cls._create_product(
-            name="Coca cola 3.5L",
-            l10n_co_edi_ref_nominal_tax=3500,
-            default_code='P1111',
-        )
-        cls.product_sugar_2 = cls._create_product(
-            name="Sprite 100mL",
-            l10n_co_edi_ref_nominal_tax=100,
-            default_code='P2222',
-        )
 
         # Alcohol Taxes
         cls.alcohol_tax_1 = cls.env['account.tax'].create({

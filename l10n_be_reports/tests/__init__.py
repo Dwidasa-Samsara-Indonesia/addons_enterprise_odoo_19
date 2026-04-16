@@ -8,3 +8,4 @@ from . import test_tax_report
 from . import test_partner_vat_listing
 from . import test_general_ledger
 from . import test_xbrl_export
+from . import test_tax_return

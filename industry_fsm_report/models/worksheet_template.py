@@ -72,7 +72,7 @@ class WorksheetTemplate(models.Model):
         # create demo data in batch for performance reasons (avoid multiple calls to _setup_models__)
         if not model_id:
             model_id = self.env.ref('industry_fsm_report.fsm_worksheet_template2').model_id.id
-        self.env['ir.model.fields'].with_context(_import_current_module='industry_fsm_report').create([{
+        self.env['ir.model.fields'].with_context(_import_current_module='industry_fsm_report', noupdate=True).create([{
             'id': 'fsm_template_field1',
             'name': 'x_intervention_type',
             'ttype': 'selection',

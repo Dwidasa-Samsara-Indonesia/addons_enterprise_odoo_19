@@ -53,7 +53,10 @@
                 </xpath>
 
                 <xpath expr="//page[@id='other_tab']//group[@name='sale_info_group']" position="inside">
-                    <field name="l10n_mx_edi_addenda_ids" invisible="not l10n_mx_edi_is_cfdi_needed" widget="many2many_tags"/>
+                    <field name="l10n_mx_edi_addenda_ids" 
+                           invisible="not l10n_mx_edi_is_cfdi_needed"
+                           widget="many2many_tags"
+                           groups="account.group_account_invoice"/>
                 </xpath>
 
                 <!-- Publico General -->
@@ -117,7 +120,7 @@
                                 <button name="action_force_payment_cfdi"
                                         type="object"
                                         string="Force CFDI"
-                                        invisible="state != 'payment_sent_pue' or not move_id"/>
+                                        invisible="1"/>
                                 <button name="action_cancel"
                                         type="object"
                                         string="Cancel"

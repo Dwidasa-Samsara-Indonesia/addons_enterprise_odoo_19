@@ -1,11 +1,13 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from lxml import etree
+import re
 
 from collections import defaultdict
 
 from odoo import api, fields, models, _
 from odoo.exceptions import RedirectWarning
+from odoo.tools import cleanup_xml_node
 
 
 class L10n_Nl_ReportsEcSalesReportHandler(models.AbstractModel):
@@ -146,7 +148,7 @@ class L10n_Nl_ReportsEcSalesReportHandler(models.AbstractModel):
 
         xbrl = self.env['ir.qweb']._render(report_template.id, data)
         xbrl_element = etree.fromstring(xbrl)
-        xbrl_file = etree.tostring(xbrl_element, xml_declaration=True, encoding='utf-8')
+        xbrl_file = etree.tostring(cleanup_xml_node(xbrl_element, remove_blank_nodes=False), xml_declaration=True, encoding='utf-8')
         return {
             'file_name': report.get_default_report_filename(options, 'xbrl'),
             'file_content': xbrl_file,
@@ -154,6 +156,31 @@ class L10n_Nl_ReportsEcSalesReportHandler(models.AbstractModel):
         }
 
     def _generate_codes_values(self, report, lines, options):
+
+        def get_country_and_vat(line, colname_to_idx):
+            country = line['columns'][colname_to_idx['country_code']].get('name')
+            vat = line['columns'][colname_to_idx['vat']].get('name')
+
+            country = (country or '').strip().upper()
+            vat = (vat or '').strip().upper()
+            vat = re.sub(r'[^A-Z0-9]', '', vat)
+
+            return country, vat
+
+        def update_icp_context(contexts_map, country, vat):
+            key = (country, vat)
+            if key in contexts_map:
+                return contexts_map[key]['contextRef']
+
+            ctx_id = f"ICP_{country}_{vat or 'NOVAT'}"
+
+            contexts_map[key] = {
+                'contextRef': ctx_id,
+                'country': country,
+                'VATIdentificationNumberNational': vat,
+            }
+            return ctx_id
+
         codes_values = options.get('codes_values', {})
         codes_values.update({
             'IntraCommunitySupplies': [],
@@ -162,26 +189,47 @@ class L10n_Nl_ReportsEcSalesReportHandler(models.AbstractModel):
             'VATIdentificationNumberNLFiscalEntityDivision': self.env.company.vat[2:] if self.env.company.vat.startswith('NL') else self.env.company.vat,
         })
 
+        icp_contexts_map = {}
+
         colname_to_idx = {col['expression_label']: idx for idx, col in enumerate(options.get('columns', []))}
         company_currency = self.env.company.currency_id
+
         for line in lines:
-            if report._get_markup(line['id']) != 'total':
-                if company_currency.compare_amounts(line['columns'][colname_to_idx['amount_product']].get('no_format', 0), 0):
-                    codes_values['IntraCommunitySupplies'].append({
-                        'CountryCodeISO': line['columns'][colname_to_idx['country_code']].get('name'),
-                        'SuppliesAmount': str(int(line['columns'][colname_to_idx['amount_product']].get('no_format'))),
-                        'VATIdentificationNumberNational': line['columns'][colname_to_idx['vat']].get('name'),
-                    })
-                if company_currency.compare_amounts(line['columns'][colname_to_idx['amount_service']].get('no_format', 0), 0):
-                    codes_values['IntraCommunityServices'].append({
-                        'CountryCodeISO': line['columns'][colname_to_idx['country_code']].get('name'),
-                        'ServicesAmount': str(int(line['columns'][colname_to_idx['amount_service']].get('no_format'))),
-                        'VATIdentificationNumberNational': line['columns'][colname_to_idx['vat']].get('name', 0),
-                    })
-                if company_currency.compare_amounts(line['columns'][colname_to_idx['amount_triangular']].get('no_format', 0), 0):
-                    codes_values['IntraCommunityABCSupplies'].append({
-                        'CountryCodeISO': line['columns'][colname_to_idx['country_code']].get('name'),
-                        'SuppliesAmount': str(int(line['columns'][colname_to_idx['amount_triangular']].get('no_format'))),
-                        'VATIdentificationNumberNational': line['columns'][colname_to_idx['vat']].get('name'),
-                    })
+            if not line['columns'][colname_to_idx['vat']].get('no_format', 0):
+                continue
+
+            country, vat = get_country_and_vat(line, colname_to_idx)
+
+            amount_product = line['columns'][colname_to_idx['amount_product']].get('no_format', 0)
+            if company_currency.compare_amounts(amount_product, 0):
+                ctx_id = update_icp_context(icp_contexts_map, country, vat)
+                codes_values['IntraCommunitySupplies'].append({
+                    'CountryCodeISO': country,
+                    'SuppliesAmount': str(int(amount_product)),
+                    'VATIdentificationNumberNational': vat,
+                    'contextRef': ctx_id,
+                })
+
+            amount_service = line['columns'][colname_to_idx['amount_service']].get('no_format', 0)
+            if company_currency.compare_amounts(amount_service, 0):
+                ctx_id = update_icp_context(icp_contexts_map, country, vat)
+                codes_values['IntraCommunityServices'].append({
+                    'CountryCodeISO': country,
+                    'ServicesAmount': str(int(amount_service)),
+                    'VATIdentificationNumberNational': vat,
+                    'contextRef': ctx_id,
+                })
+
+            amount_triangular = line['columns'][colname_to_idx['amount_triangular']].get('no_format', 0)
+            if company_currency.compare_amounts(amount_triangular, 0):
+                ctx_id = update_icp_context(icp_contexts_map, country, vat)
+                codes_values['IntraCommunityABCSupplies'].append({
+                    'CountryCodeISO': country,
+                    'SuppliesAmount': str(int(amount_triangular)),
+                    'VATIdentificationNumberNational': vat,
+                    'contextRef': ctx_id,
+                })
+
+        codes_values['contexts'] = list(icp_contexts_map.values())
+
         return codes_values

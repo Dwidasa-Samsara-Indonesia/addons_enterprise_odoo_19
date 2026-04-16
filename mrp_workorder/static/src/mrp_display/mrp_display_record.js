@@ -287,7 +287,6 @@ export class MrpDisplayRecord extends Component {
     }
 
     onClickHeader() {
-        this.env.searchModel.removeMOFilter();
         return this.startWorking(true);
     }
 
@@ -382,7 +381,9 @@ export class MrpDisplayRecord extends Component {
             }
             this.state.underValidation = false;
         }
-        this.env.searchModel.removeMOFilter();
+        if (!this.props.record.context.shouldKeepMoFilter) {
+            this.env.searchModel.removeMOFilter();
+        }
     }
 
     _doAction(action) {

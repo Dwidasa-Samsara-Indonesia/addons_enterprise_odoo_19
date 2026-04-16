@@ -10,6 +10,7 @@ export class BankRecButton extends Component {
         primary: { type: Boolean, optional: true },
         toReview: { type: Boolean, optional: true },
         classes: { type: String, optional: true },
+        isLarge: { type: Boolean, optional: true },
     };
     static defaultProps = {
         primary: false,

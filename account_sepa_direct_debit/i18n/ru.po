@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:45+0000\n"
-"PO-Revision-Date: 2026-02-14 09:54+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-02-20 21:55+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "account_sepa_direct_debit/ru/>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural="
-"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 "
-": n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Generator: Weblate 5.14.3\n"
 
 #. module: account_sepa_direct_debit
@@ -33,8 +33,8 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"                '%s_sdd_mandate_form_%s' % ((object.partner_id.name).replace"
-"(' ', '_'), object.name)\n"
+"                '%s_sdd_mandate_form_%s' % "
+"((object.partner_id.name).replace(' ', '_'), object.name)\n"
 "            "
 
 #. module: account_sepa_direct_debit
@@ -67,31 +67,6 @@ msgstr ""
 ".\n"
 "                        По правилам SEPA, уведомление должно быть отправлено "
 "за 5 дней."
-
-#. module: account_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
-msgid "123456789"
-msgstr "123456789"
-
-#. module: account_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
-msgid "2023-08-10"
-msgstr "2023-08-10"
-
-#. module: account_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
-msgid "2023-09-10"
-msgstr "2023-09-10"
-
-#. module: account_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
-msgid "380055"
-msgstr "380055"
-
-#. module: account_sepa_direct_debit
-#: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
-msgid "3956012345678"
-msgstr "3956012345678"
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,body_html:account_sepa_direct_debit.email_template_sdd_new_mandate
@@ -127,26 +102,26 @@ msgid ""
 "            "
 msgstr ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
-"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">"
-"\n"
-"                        Dear <t t-out="
-"\"object.partner_id.display_name or ''\">Azure Interior</t>\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;"
+"\">\n"
+"                        Dear <t t-out=\"object.partner_id.display_name or "
+"''\">Azure Interior</t>\n"
 "                        <br/>\n"
 "                        <br/>\n"
 "                        Here is your SEPA Direct Debit Mandate to sign to "
 "authorize\n"
-"                        <t t-out=\"object.company_id.display_name or ''\""
-">YourCompany</t>\n"
+"                        <t t-out=\"object.company_id.display_name or "
+"''\">YourCompany</t>\n"
 "                        to send instructions to your bank to debit your "
 "account in accordance with the instructions from\n"
-"                        <t t-out=\"object.company_id.display_name or ''\""
-">YourCompany</t>\n"
+"                        <t t-out=\"object.company_id.display_name or "
+"''\">YourCompany</t>\n"
 "                        Do not hesitate to contact us if you have any "
 "questions.\n"
 "                        <br/>\n"
 "                        Best regards,\n"
-"                        <t t-if=\"not is_html_empty(user.signature)\" data-o"
-"-mail-quote-container=\"1\">\n"
+"                        <t t-if=\"not is_html_empty(user.signature)\" data-o-"
+"mail-quote-container=\"1\">\n"
 "                            <br/><br/>\n"
 "                            <div data-o-mail-quote=\"1\">--<br data-o-mail-"
 "quote=\"1\"/><t t-out=\"user.signature\" data-o-mail-quote=\"1\">Mitchell "
@@ -2271,6 +2246,21 @@ msgstr ""
 #: model:mail.template,subject:account_sepa_direct_debit.email_template_sdd_new_mandate
 msgid "{{ object.partner_id.display_name }} SEPA Direct Debit Mandate"
 msgstr "Мандат прямого дебета SEPA для {{ object.partner_id.display_name }}"
+
+#~ msgid "123456789"
+#~ msgstr "123456789"
+
+#~ msgid "2023-08-10"
+#~ msgstr "2023-08-10"
+
+#~ msgid "2023-09-10"
+#~ msgstr "2023-09-10"
+
+#~ msgid "380055"
+#~ msgstr "380055"
+
+#~ msgid "3956012345678"
+#~ msgstr "3956012345678"
 
 #~ msgid ""
 #~ "<strong>Date and place of signature:</"

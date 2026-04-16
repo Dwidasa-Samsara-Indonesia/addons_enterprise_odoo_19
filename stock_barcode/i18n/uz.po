@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
 "PO-Revision-Date: 2025-10-08 18:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -32,6 +32,12 @@ msgid "%s can't be inventoried. Only storable products can be inventoried."
 msgstr ""
 "%s inventarizatsiya qilib bo‘lmaydi. Faqat saqlanishi mumkin bo‘lgan "
 "mahsulotlargina inventarizatsiya qilinadi."
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/count_screen_rfid.xml:0
+msgid "/s"
+msgstr ""
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.scrap_product_selector
@@ -157,7 +163,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
 #, fuzzy
 msgid "Add extra product?"
 msgstr "Qo‘shimcha mahsulot qo‘shilsinmi?"
@@ -783,6 +789,14 @@ msgstr "Quyidagi qoldiq buyurtma yaratildi:"
 #, fuzzy
 msgid "Following backorders were created:"
 msgstr "Quyidagi qoldiq buyurtmalar yaratildi:"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
+msgid ""
+"Following scanned products are not reserved for this transfer. Are you sure "
+"you want to add them?"
+msgstr ""
 
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_picking_type__barcode_allow_extra_product
@@ -2012,17 +2026,6 @@ msgstr "Manba joy yoki paketni skanerlang"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 #, fuzzy
-msgid ""
-"Scanned product %s is not reserved for this transfer. Are you sure you want "
-"to add it?"
-msgstr ""
-"Skanerlangan %s mahsuloti ushbu o‘tkazma uchun ajratilmagan. Uni "
-"qo‘shmoqchiliginizga ishonchingiz komilmi?"
-
-#. module: stock_barcode
-#. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
-#, fuzzy
 msgid "Scanning package"
 msgstr "Paketni skanerlash"
 
@@ -2190,6 +2193,12 @@ msgstr "Skanerlangan joy bu operatsiyaning belgilangan manziliga tegishli emas"
 #, fuzzy
 msgid "The scanned location doesn't belong to this operation's location"
 msgstr "Skanerlangan joy bu operatsiyaning joylashuviga tegishli emas"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+msgid "The scanned serial number %(lotName)s is already awaiting confirmation."
+msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2512,3 +2521,11 @@ msgstr "mahsulotlar umuman qayta ishlanmadi."
 #, fuzzy
 msgid "products were partially processed."
 msgstr "mahsulotlar qisman qayta ishlandi."
+
+#, fuzzy
+#~ msgid ""
+#~ "Scanned product %s is not reserved for this transfer. Are you sure you "
+#~ "want to add it?"
+#~ msgstr ""
+#~ "Skanerlangan %s mahsuloti ushbu o‘tkazma uchun ajratilmagan. Uni "
+#~ "qo‘shmoqchiliginizga ishonchingiz komilmi?"

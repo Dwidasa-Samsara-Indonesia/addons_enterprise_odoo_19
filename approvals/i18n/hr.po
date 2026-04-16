@@ -17,13 +17,14 @@
 # Martin Trigaux, 2022
 # Bole <bole@dajmi5.com>, 2022
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 19:32+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-10 20:20+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "approvals/hr/>\n"
 "Language: hr\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: approvals
 #. odoo-python
@@ -43,52 +44,37 @@ msgstr "%s (kopija)"
 #. module: approvals
 #: model:ir.actions.report,print_report_name:approvals.action_report_approval_request
 msgid "'Approval - %s' % object.name"
-msgstr ""
-
-#. module: approvals
-#: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
-msgid "07/07/2023 10:00:00"
-msgstr ""
-
-#. module: approvals
-#: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
-msgid "07/08/2023 10:00:00"
-msgstr ""
-
-#. module: approvals
-#: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
-msgid "1200"
-msgstr ""
+msgstr "'Odobrenje - %s' % object.name"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_kanban
 msgid "<i class=\"fa fa-check text-success me-1\"/>Approve"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success me-1\"/>Odobri"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_kanban
 msgid "<i class=\"fa fa-times text-danger me-1\"/>Refuse"
-msgstr ""
+msgstr "<i class=\"fa fa-times text-danger me-1\"/>Odbij"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "<span class=\"col-2 fw-bold\">Description:</span>"
-msgstr ""
+msgstr "<span class=\"col-2 fw-bold\">Opis:</span>"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_category_view_form
 msgid "<span class=\"fa fa-warning\" title=\"Invalid minimum approvals\"/>"
-msgstr ""
+msgstr "<span class=\"fa fa-warning\" title=\"Nevažeći minimum odobrenja\"/>"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "<span class=\"fw-bold\">To</span>"
-msgstr ""
+msgstr "<span class=\"fw-bold\">Za</span>"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_kanban
 msgid "<span class=\"mx-1\">-</span>"
-msgstr ""
+msgstr "<span class=\"mx-1\">-</span>"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__message_needaction
@@ -135,7 +121,7 @@ msgstr "Ikona tipa aktivnosti"
 #: model:ir.model.fields,help:approvals.field_approval_category__has_product
 #: model:ir.model.fields,help:approvals.field_approval_request__has_product
 msgid "Additional products that should be specified on the request."
-msgstr ""
+msgstr "Dodatni proizvodi koji bi trebali biti navedeni na zahtjevu."
 
 #. module: approvals
 #: model:res.groups,name:approvals.group_approval_manager
@@ -155,6 +141,8 @@ msgid ""
 "Allows you to define which documents you would like to create once the "
 "request has been approved"
 msgstr ""
+"Omogućuje definiranje dokumenata koje želite kreirati nakon što se zahtjev "
+"odobri"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__amount
@@ -171,18 +159,18 @@ msgstr "Iznos:"
 #: model:ir.model.fields,help:approvals.field_approval_category__has_reference
 #: model:ir.model.fields,help:approvals.field_approval_request__has_reference
 msgid "An additional reference that should be specified on the request."
-msgstr ""
+msgstr "Dodatna referenca koja bi trebala biti navedena na zahtjevu."
 
 #. module: approvals
 #: model:ir.model.constraint,message:approvals.constraint_approval_approver_unique_request_user
 msgid "An approver with the same user already exists for this request."
-msgstr ""
+msgstr "Odobravatelj s istim korisnikom već postoji za ovaj zahtjev."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_category.py:0
 msgid "An user may not be in the approver list multiple times."
-msgstr ""
+msgstr "Korisnik ne smije biti više puta na popisu odobravatelja."
 
 #. module: approvals
 #: model:mail.activity.type,name:approvals.mail_activity_data_approval
@@ -193,7 +181,7 @@ msgstr "Odobrenje"
 #: model:ir.actions.act_window,name:approvals.approval_category_action
 #: model:ir.ui.menu,name:approvals.approvals_category_menu_config
 msgid "Approval Categories"
-msgstr ""
+msgstr "Kategorije odobrenja"
 
 #. module: approvals
 #: model:ir.model,name:approvals.model_approval_category
@@ -205,12 +193,12 @@ msgstr "Kategorija odobrenja"
 #. module: approvals
 #: model:ir.model,name:approvals.model_approval_category_approver
 msgid "Approval Category Approver"
-msgstr ""
+msgstr "Odobravatelj kategorije odobrenja"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__approval_properties_definition
 msgid "Approval Properties"
-msgstr ""
+msgstr "Svojstva odobrenja"
 
 #. module: approvals
 #: model:ir.actions.report,name:approvals.action_report_approval_request
@@ -224,7 +212,7 @@ msgstr "Zahtjev za odobrenjem"
 #: model:mail.message.subtype,description:approvals.mt_approval_request_status
 #: model:mail.message.subtype,name:approvals.mt_approval_request_status
 msgid "Approval Status Change"
-msgstr ""
+msgstr "Promjena statusa odobrenja"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__name
@@ -283,6 +271,8 @@ msgstr "Odobravatelj"
 msgid ""
 "Approver Sequence can only be activated with at least 1 minimum approver."
 msgstr ""
+"Redoslijed odobravatelja može se aktivirati samo s barem jednim "
+"odobravateljem."
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__user_ids
@@ -374,7 +364,7 @@ msgstr "Posudba stvari"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Brussels"
-msgstr ""
+msgstr "Bruxelles"
 
 #. module: approvals
 #: model:approval.category,name:approvals.approval_category_data_business_trip
@@ -384,7 +374,7 @@ msgstr "Poslovni put"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__change_request_owner
 msgid "Can Change Request Owner"
-msgstr ""
+msgstr "Može promijeniti vlasnika zahtjeva"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_approver__can_edit
@@ -394,7 +384,7 @@ msgstr "Može uređivati"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_approver__can_edit_user_id
 msgid "Can Edit User"
-msgstr ""
+msgstr "Može uređivati korisnika"
 
 #. module: approvals
 #: model:ir.model.fields.selection,name:approvals.selection__approval_approver__status__cancel
@@ -423,7 +413,7 @@ msgstr "Kategorija"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_approver__category_approver
 msgid "Category Approver"
-msgstr ""
+msgstr "Odobravatelj kategorije"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__sequence_code
@@ -442,7 +432,7 @@ msgstr "Tvrtka"
 #. module: approvals
 #: model:ir.ui.menu,name:approvals.approvals_menu_config
 msgid "Configuration"
-msgstr "Postava"
+msgstr "Konfiguracija"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_tree
@@ -527,6 +517,8 @@ msgid ""
 "Define the components and finished products you wish to use in\n"
 "            bill of materials and manufacturing orders."
 msgstr ""
+"Definirajte komponente i gotove proizvode koje želite koristiti u\n"
+"            sastavnicama i radnim nalozima."
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__description
@@ -546,7 +538,7 @@ msgstr "Opis"
 #: model:ir.model.fields,field_description:approvals.field_mail_activity__display_name
 #: model:ir.model.fields,field_description:approvals.field_mail_activity_type__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_category_view_form
@@ -563,7 +555,7 @@ msgstr "Dokumenti"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Documents:"
-msgstr ""
+msgstr "Dokumenti:"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_form
@@ -583,12 +575,12 @@ msgstr "Voditelj zaposlenika"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_approver__existing_request_user_ids
 msgid "Existing Request User"
-msgstr ""
+msgstr "Postojeći korisnik zahtjeva"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category_approver__existing_user_ids
 msgid "Existing User"
-msgstr ""
+msgstr "Postojeći korisnik"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_category_view_form
@@ -613,7 +605,7 @@ msgstr "Font awesome ikona npr. fa-tasks"
 #. module: approvals
 #: model:ir.actions.server,name:approvals.model_approval_request_approve_admin
 msgid "Force Approval"
-msgstr ""
+msgstr "Prisilno odobrenje"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_form
@@ -623,7 +615,7 @@ msgstr "Od:"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_search_view_search
 msgid "Future Activities"
-msgstr ""
+msgstr "Buduće aktivnosti"
 
 #. module: approvals
 #: model:approval.category,name:approvals.approval_category_data_general_approval
@@ -633,7 +625,7 @@ msgstr "Opća odobrenja"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__has_access_to_request
 msgid "Has Access To Request"
-msgstr ""
+msgstr "Ima pristup zahtjevu"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__has_amount
@@ -705,6 +697,14 @@ msgid ""
 "approve the request.\n"
 "    "
 msgstr ""
+"Kako voditelj zaposlenika komunicira s ovom vrstom odobrenja.\n"
+"\n"
+"        Prazno: ne radi ništa\n"
+"        Je odobravatelj: voditelj zaposlenika bit će na popisu "
+"odobravatelja\n"
+"        Je obavezni odobravatelj: voditelj zaposlenika morat će odobriti "
+"zahtjev.\n"
+"    "
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_approver__id
@@ -746,6 +746,8 @@ msgid ""
 "If checked, the Approval Requests will have an automated generated name "
 "based on the given code."
 msgstr ""
+"Ako je označeno, zahtjevi za odobrenje imat će automatski generirani naziv "
+"na temelju dane šifre."
 
 #. module: approvals
 #: model:ir.model.fields,help:approvals.field_approval_category__approver_sequence
@@ -755,6 +757,9 @@ msgid ""
 "If Employee's Manager is selected as approver, they will be the first in "
 "line."
 msgstr ""
+"Ako je označeno, odobravatelji moraju odobriti po redoslijedu (jedan za "
+"drugim). Ako je voditelj zaposlenika odabran kao odobravatelj, bit će prvi "
+"na redu."
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__image
@@ -765,12 +770,12 @@ msgstr "Slika"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__invalid_minimum
 msgid "Invalid Minimum"
-msgstr ""
+msgstr "Nevažeći minimum"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__invalid_minimum_warning
 msgid "Invalid Minimum Warning"
-msgstr ""
+msgstr "Upozorenje o nevažećem minimumu"
 
 #. module: approvals
 #: model:ir.model.fields.selection,name:approvals.selection__approval_category__manager_approval__approver
@@ -813,13 +818,13 @@ msgstr "Vrijeme promjene"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_search_view_search
 msgid "Late Activities"
-msgstr ""
+msgstr "Zakašnjele aktivnosti"
 
 #. module: approvals
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action_all
 msgid "Let's go to the"
-msgstr ""
+msgstr "Idemo na"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__location
@@ -839,6 +844,8 @@ msgid ""
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "
 "tempor incididunt ut labore et dolore magna aliqua."
 msgstr ""
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "
+"tempor incididunt ut labore et dolore magna aliqua."
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__message_main_attachment_id
@@ -877,6 +884,8 @@ msgstr "Minimalno odobrenje"
 msgid ""
 "Minimum Approval must be equal or superior to the sum of required Approvers."
 msgstr ""
+"Minimalno odobrenje mora biti jednako ili veće od zbroja potrebnih "
+"odobravatelja."
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
@@ -952,12 +961,12 @@ msgstr "Tip sljedeće aktivnosti"
 #. module: approvals
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action_all
 msgid "No Approvals"
-msgstr ""
+msgstr "Nema odobrenja"
 
 #. module: approvals
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action
 msgid "No Approvals Requests"
-msgstr ""
+msgstr "Nema zahtjeva za odobrenje"
 
 #. module: approvals
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action_to_review
@@ -1011,17 +1020,17 @@ msgstr "Broj poruka sa greškama pri isporuci"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_category__request_to_validate_count
 msgid "Number of requests to validate"
-msgstr ""
+msgstr "Broj zahtjeva za provjeru"
 
 #. module: approvals
 #: model:res.groups,name:approvals.group_approval_user
 msgid "Officer: Approve all requests"
-msgstr ""
+msgstr "Službenik: odobri sve zahtjeve"
 
 #. module: approvals
 #: model:ir.actions.server,name:approvals.action_open_approval_category
 msgid "Open Approval Category"
-msgstr ""
+msgstr "Otvori kategoriju odobrenja"
 
 #. module: approvals
 #: model:ir.model.fields.selection,name:approvals.selection__approval_category__has_amount__optional
@@ -1056,7 +1065,7 @@ msgstr "Primjena plaćanja"
 #: model_terms:ir.ui.view,arch_db:approvals.approval_category_view_form
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_form
 msgid "Period"
-msgstr "Period"
+msgstr "Razdoblje"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
@@ -1087,7 +1096,7 @@ msgstr "Opis proizvoda"
 #: model:ir.model,name:approvals.model_approval_product_line
 #: model:ir.model.fields,field_description:approvals.field_approval_request__product_line_ids
 msgid "Product Line"
-msgstr ""
+msgstr "Linija proizvoda"
 
 #. module: approvals
 #: model:ir.actions.act_window,name:approvals.product_product_action
@@ -1166,7 +1175,7 @@ msgstr "Zahtjev"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Request By:"
-msgstr ""
+msgstr "Zahtjev od:"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__request_owner_id
@@ -1235,12 +1244,14 @@ msgid ""
 "Simple users should not be able to remove themselves as approvers because "
 "they will lose access to the record if they misclick."
 msgstr ""
+"Jednostavni korisnici ne bi trebali moći ukloniti sebe kao odobravatelje jer "
+"će izgubiti pristup zapisu ako pogrešno kliknu."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "Start date should precede the end date."
-msgstr ""
+msgstr "Datum početka mora biti prije datuma završetka."
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_approver__status
@@ -1279,34 +1290,34 @@ msgstr "Poslao"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Test Category"
-msgstr ""
+msgstr "Testna kategorija"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Test Document"
-msgstr ""
+msgstr "Testni dokument"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Test Product"
-msgstr ""
+msgstr "Testni proizvod"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.report_aprroval_request_document
 msgid "Test Reference"
-msgstr ""
+msgstr "Testna referenca"
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "The request %(request_name)s for %(request_owner)s has been approved"
-msgstr ""
+msgstr "Zahtjev %(request_name)s za %(request_owner)s je odobren"
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "The request %(request_name)s for %(request_owner)s has been refused"
-msgstr ""
+msgstr "Zahtjev %(request_name)s za %(request_owner)s je odbijen"
 
 #. module: approvals
 #. odoo-python
@@ -1315,6 +1326,7 @@ msgid ""
 "The request created on %(create_date)s by %(request_owner)s has been "
 "approved."
 msgstr ""
+"Zahtjev kreiran dana %(create_date)s od strane %(request_owner)s je odobren."
 
 #. module: approvals
 #. odoo-python
@@ -1322,22 +1334,23 @@ msgstr ""
 msgid ""
 "The request created on %(create_date)s by %(request_owner)s has been refused."
 msgstr ""
+"Zahtjev kreiran dana %(create_date)s od strane %(request_owner)s je odbijen."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "The request has been approved by an Approval Officer"
-msgstr ""
+msgstr "Zahtjev je odobren od strane službenika za odobrenja"
 
 #. module: approvals
 #: model:res.groups,comment:approvals.group_approval_user
 msgid "The user will be able to access all requests and approve/refuse them."
-msgstr ""
+msgstr "Korisnik će moći pristupiti svim zahtjevima i odobriti ih/odbiti."
 
 #. module: approvals
 #: model:res.groups,comment:approvals.group_approval_manager
 msgid "The user will have access to the approvals configuration."
-msgstr ""
+msgstr "Korisnik će imati pristup konfiguraciji odobrenja."
 
 #. module: approvals
 #. odoo-python
@@ -1346,6 +1359,8 @@ msgid ""
 "This request needs to be approved by your manager. There is no manager "
 "linked to your employee profile."
 msgstr ""
+"Ovaj zahtjev mora odobriti vaš voditelj. Na vašem profilu zaposlenika nema "
+"povezanog voditelja."
 
 #. module: approvals
 #. odoo-python
@@ -1354,6 +1369,8 @@ msgid ""
 "This request needs to be approved by your manager. There is no user linked "
 "to your manager."
 msgstr ""
+"Ovaj zahtjev mora odobriti vaš voditelj. Na vašem voditelju nema povezanog "
+"korisnika."
 
 #. module: approvals
 #. odoo-python
@@ -1362,6 +1379,8 @@ msgid ""
 "This request needs to be approved by your manager. Your manager is not in "
 "the approvers list."
 msgstr ""
+"Ovaj zahtjev mora odobriti vaš voditelj. Vaš voditelj nije na popisu "
+"odobravatelja."
 
 #. module: approvals
 #: model:ir.model.fields.selection,name:approvals.selection__approval_approver__status__pending
@@ -1381,7 +1400,7 @@ msgstr "Za slanje"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_search_view_search
 msgid "Today Activities"
-msgstr ""
+msgstr "Današnje aktivnosti"
 
 #. module: approvals
 #: model:ir.model.fields,help:approvals.field_approval_request__activity_exception_decoration
@@ -1413,7 +1432,7 @@ msgstr "Korisnik"
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__user_status
 msgid "User Status"
-msgstr ""
+msgstr "Status korisnika"
 
 #. module: approvals
 #: model:ir.model.fields,field_description:approvals.field_approval_request__user_ids
@@ -1439,31 +1458,31 @@ msgstr "Povijest komunikacije Web stranice"
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_form
 msgid "Withdraw"
-msgstr ""
+msgstr "Povuci"
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You are not allowed to approved or refused your own approval."
-msgstr ""
+msgstr "Ne smijete odobriti ili odbiti vlastito odobrenje."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You can't delete an approved request. Archive it instead."
-msgstr ""
+msgstr "Ne možete brisati odobreni zahtjev. Umjesto toga ga arhivirajte."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You cannot approve before the previous approver."
-msgstr ""
+msgstr "Ne možete odobriti prije prethodnog odobravatelja."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_approver.py:0
 msgid "You cannot change approval request."
-msgstr ""
+msgstr "Ne možete promijeniti zahtjev za odobrenje."
 
 #. module: approvals
 #. odoo-python
@@ -1472,30 +1491,32 @@ msgid ""
 "You cannot unlink an attachment which is linked to a validated, refused or "
 "cancelled approval request."
 msgstr ""
+"Ne možete odspojiti privitak koji je povezan s potvrđenim, odbijenim ili "
+"otkazanim zahtjevom za odobrenje."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You do not have the rights to execute that action."
-msgstr ""
+msgstr "Nemate prava za izvršenje te akcije."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You have to add at least %s approvers to confirm your request."
-msgstr ""
+msgstr "Morate dodati barem %s odobravatelja za potvrdu svog zahtjeva."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You have to attach at least one document."
-msgstr ""
+msgstr "Morate priložiti barem jedan dokument."
 
 #. module: approvals
 #. odoo-python
 #: code:addons/approvals/models/approval_request.py:0
 msgid "You must cancel and then back to draft the approval first."
-msgstr ""
+msgstr "Prvo morate otkazati, a zatim vratiti odobrenje u nacrt."
 
 #. module: approvals
 #: model_terms:ir.actions.act_window,help:approvals.product_product_action
@@ -1534,12 +1555,21 @@ msgstr "izbornik"
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action
 #: model_terms:ir.actions.act_window,help:approvals.approval_request_action_all
 msgid "new request"
-msgstr ""
+msgstr "novi zahtjev"
 
 #. module: approvals
 #: model_terms:ir.ui.view,arch_db:approvals.approval_request_view_form
 msgid "to:"
 msgstr "za:"
+
+#~ msgid "07/07/2023 10:00:00"
+#~ msgstr "07.07.2023. 10:00:00"
+
+#~ msgid "07/08/2023 10:00:00"
+#~ msgstr "07.08.2023. 10:00:00"
+
+#~ msgid "1200"
+#~ msgstr "1200"
 
 #~ msgid "<span>From: </span>"
 #~ msgstr "<span>od: </span>"

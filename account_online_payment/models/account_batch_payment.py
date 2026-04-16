@@ -1,5 +1,6 @@
 from odoo import api, fields, models, SUPERUSER_ID, _
-from odoo.addons.account.tools.structured_reference import is_valid_structured_reference
+from odoo.exceptions import UserError
+from odoo.addons.account.tools.structured_reference import is_valid_structured_reference_for_country
 
 STATUSES = [
     ('uninitiated', 'Uninitiated'),
@@ -84,6 +85,9 @@ class AccountBatchPayment(models.Model):
         statuses = {}
         for batch in self:
             account_online_account = batch.journal_id.account_online_account_id
+            if not account_online_account:
+                raise UserError(self.env._("This journal needs to be connected to a bank to check its status."))
+
             data = {
                 "payment_identifier": batch.payment_identifier,
                 "account_id": account_online_account.online_identifier,
@@ -156,6 +160,7 @@ class AccountBatchPayment(models.Model):
 
         payments = []
         for payment in self.payment_ids:
+            country_code = payment.partner_bank_id.sanitized_acc_number[:2]
             payments.append({
                 "amount": payment.amount,
                 "account_number": payment.partner_bank_id.sanitized_acc_number,
@@ -164,7 +169,7 @@ class AccountBatchPayment(models.Model):
                 "currency": payment.currency_id.display_name,
                 "date": fields.Date.to_string(payment.date),
                 "reference": payment.memo,
-                "structured_reference": is_valid_structured_reference(payment.memo),
+                "structured_reference": is_valid_structured_reference_for_country(payment.memo, country_code),
                 "end_to_end_uuid": payment.end_to_end_uuid,
             })
 

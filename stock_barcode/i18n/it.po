@@ -7,15 +7,15 @@
 # Martin Trigaux, 2022
 # Sergio Zanchetta <primes2h@gmail.com>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Marianna Ciofani (cima)" <cima@odoo.com>, 2025.
+# "Marianna Ciofani (cima)" <cima@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 19:49+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-14 08:57+0000\n"
+"Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "stock_barcode/it/>\n"
 "Language: it\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -32,6 +32,12 @@ msgstr ""
 msgid "%s can't be inventoried. Only storable products can be inventoried."
 msgstr ""
 "%s non può essere inventariato, è possibile solo per i prodotti stoccabili."
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/count_screen_rfid.xml:0
+msgid "/s"
+msgstr "/s"
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.scrap_product_selector
@@ -142,7 +148,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
 msgid "Add extra product?"
 msgstr "Aggiungere un prodotto aggiuntivo?"
 
@@ -288,12 +294,12 @@ msgstr "Conferma ordine residuo"
 #: model:ir.ui.menu,name:stock_barcode.stock_barcode_menu
 #: model_terms:ir.ui.view,arch_db:stock_barcode.view_picking_form
 msgid "Barcode"
-msgstr "Codice a barre"
+msgstr "Lettore barcode"
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.stock_barcode_view_picking_type_form
 msgid "Barcode App"
-msgstr "Applicazione codice a barre"
+msgstr "Applicazione Lettore barcode"
 
 #. module: stock_barcode
 #: model:ir.model.fields,field_description:stock_barcode.field_stock_location__barcode_img
@@ -324,7 +330,7 @@ msgstr "Codice a barre scansionato"
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/main_menu/main_menu.xml:0
 msgid "Barcode Scanner"
-msgstr "Lettore Codice a barre"
+msgstr "Lettore codici a barre"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -689,6 +695,16 @@ msgstr "È stato creato il seguente ordine residuo:"
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Following backorders were created:"
 msgstr "Sono stati creati i seguenti ordini residui:"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
+msgid ""
+"Following scanned products are not reserved for this transfer. Are you sure "
+"you want to add them?"
+msgstr ""
+"I seguenti prodotti scansionati non sono riservati per questo trasferimento. "
+"Sei sicuro di volerli aggiungere?"
 
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_picking_type__barcode_allow_extra_product
@@ -1762,16 +1778,6 @@ msgstr "Scansione l'ubicazione di origine o un collo"
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
-msgid ""
-"Scanned product %s is not reserved for this transfer. Are you sure you want "
-"to add it?"
-msgstr ""
-"Il prodotto scansionato %s non risulta riservato per il trasferimento. Sei "
-"sicuro di volerlo aggiungere?"
-
-#. module: stock_barcode
-#. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scanning package"
 msgstr "Scansione pacco in corso"
 
@@ -1919,6 +1925,13 @@ msgstr ""
 msgid "The scanned location doesn't belong to this operation's location"
 msgstr ""
 "L'ubicazione scansionata non appartiene all'ubicazione dell'operazione."
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+msgid "The scanned serial number %(lotName)s is already awaiting confirmation."
+msgstr ""
+"Il numero di serie scansionato %(lotName)s è gia in attesa di conferma."
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2203,6 +2216,13 @@ msgstr "i prodotti non sono stati elaborati."
 #: model_terms:ir.ui.view,arch_db:stock_barcode.view_backorder_confirmation
 msgid "products were partially processed."
 msgstr "i prodotti sono stati parzialmente elaborati."
+
+#~ msgid ""
+#~ "Scanned product %s is not reserved for this transfer. Are you sure you "
+#~ "want to add it?"
+#~ msgstr ""
+#~ "Il prodotto scansionato %s non risulta riservato per il trasferimento. "
+#~ "Sei sicuro di volerlo aggiungere?"
 
 #~ msgid "<i class=\"fa fa-lg fa-archive\" title=\"Package\"/>"
 #~ msgstr "<i class=\"fa fa-lg fa-archive\" title=\"Pacchetto\"/>"

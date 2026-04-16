@@ -595,7 +595,7 @@ class TestAvalaraBrInvoice(TestAvalaraBrInvoiceCommon):
         }])
 
     def test_12_service_invoice_with_installments(self):
-        """Test that service invoices with installments clear tax_ids when using Avalara. It's necessary because Avalara
+        """Test that service invoices with installments clear tax info when using Avalara. It's necessary because Avalara
         expects installments to be sent without taxes for service invoices."""
         invoice, response = self._create_invoice_01_and_expected_response()
         rio_city = self.env.ref("l10n_br.city_br_002")
@@ -619,24 +619,14 @@ class TestAvalaraBrInvoice(TestAvalaraBrInvoiceCommon):
         self.assertGreater(invoice.amount_tax, 0, "There should be a tax amount on this invoice.")
 
         with self._capture_request_br(return_value=response) as captured:
-            invoice._get_external_taxes()
+            invoice.button_external_tax_calculation()
 
-        expected_untaxed_terms = invoice.invoice_payment_term_id._compute_terms(
-            invoice.date,
-            invoice.currency_id,
-            invoice.company_id,
-            tax_amount=0,
-            tax_amount_currency=0,
-            sign=1,
-            untaxed_amount=invoice.amount_untaxed,
-            untaxed_amount_currency=invoice.amount_untaxed,
-        )
+        payload = captured.call_args.args[2]
 
-        self.assertEqual(
-            [installment['grossValue'] for installment in captured.call_args[0][2]['header']['payment']['installment']],
-            [term['company_amount'] for term in expected_untaxed_terms['line_ids']],
-            "Installments should be sent without taxes."
-        )
+        with self._capture_request_br(return_value=response) as captured:
+            invoice.button_external_tax_calculation()
+
+        self.assertEqual(payload, captured.call_args.args[2], "The payload of the second call should be the same")
 
     def test_11_service_invoice_with_discount(self):
         invoice, response = self._create_invoice_01_and_expected_response()

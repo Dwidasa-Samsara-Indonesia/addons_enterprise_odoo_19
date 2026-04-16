@@ -20,8 +20,8 @@ def _accounting_post_init(env):
             module_ids.sudo().button_install()
 
     for company in env['res.company'].search([('chart_template', '!=', False)], order="parent_path"):
-        company._get_tax_closing_journal()
         company._initiate_account_onboardings()
+        company.account_tax_return_journal_id.show_on_dashboard = True
 
 def uninstall_hook(env):
     try:

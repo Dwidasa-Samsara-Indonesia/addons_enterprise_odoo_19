@@ -1,6 +1,6 @@
 {
-    'name': 'Audit Reports',
-    'summary': 'Create Audit Reports with Knowledge',
+    'name': 'Annual Reports',
+    'summary': 'Create Annual Reports with Knowledge',
     'version': '1.0',
     'depends': [
         'accountant',

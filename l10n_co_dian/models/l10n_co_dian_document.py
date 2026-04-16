@@ -361,7 +361,7 @@ class L10n_Co_DianDocument(models.Model):
                 'soap_body_template': "l10n_co_dian.get_status_zip",
             },
             service="GetStatusZip",
-            company=self.move_id.company_id,
+            company=self._get_company(),
         )
         if response['status_code'] == 200:
             root = etree.fromstring(response['response'])
@@ -385,7 +385,7 @@ class L10n_Co_DianDocument(models.Model):
                 'soap_body_template': "l10n_co_dian.get_status",
             },
             service="GetStatus",
-            company=self.move_id.company_id,
+            company=self._get_company(),
         )
 
     @api.model
@@ -417,7 +417,7 @@ class L10n_Co_DianDocument(models.Model):
             'id': original_xml_etree.findtext('./{*}ID'),
             'uuid': self[-1].identifier,
             'uuid_attrs': {
-                'schemeName': self[-1].move_id.l10n_co_dian_identifier_type.upper() + "-SHA384",
+                'schemeName': self[-1]._get_identifier_type().upper() + "-SHA384",
             },
             'issue_date': original_xml_etree.findtext('./{*}IssueDate'),
             'issue_time': original_xml_etree.findtext('./{*}IssueTime'),
@@ -432,7 +432,7 @@ class L10n_Co_DianDocument(models.Model):
                 'id': idx,
                 'uuid': self[-idx].identifier,
                 'uuid_attrs': {
-                    'schemeName': self[-idx].move_id.l10n_co_dian_identifier_type.upper() + "-SHA384",
+                    'schemeName': self[-idx]._get_identifier_type().upper() + "-SHA384",
                 },
                 'issue_date': event_tree.findtext('./{*}IssueDate'),
                 'issue_time': event_tree.findtext('./{*}IssueTime'),
@@ -445,12 +445,13 @@ class L10n_Co_DianDocument(models.Model):
 
     def _demo_get_attached_document_values(self, original_xml_etree):
         # Demo mode version: use all values that do not require a DIAN response
+        identifier_type = self[-1]._get_identifier_type().upper()
         return {
             'profile_execution_id': original_xml_etree.findtext('./{*}ProfileExecutionID'),
             'id': original_xml_etree.findtext('./{*}ID'),
             'uuid': self[-1].identifier,
             'uuid_attrs': {
-                'schemeName': self[-1].move_id.l10n_co_dian_identifier_type.upper() + "-SHA384",
+                'schemeName': f"{identifier_type}-SHA384",
             },
             'issue_date': original_xml_etree.findtext('./{*}IssueDate'),
             'issue_time': original_xml_etree.findtext('./{*}IssueTime'),
@@ -460,7 +461,7 @@ class L10n_Co_DianDocument(models.Model):
                 'id': original_xml_etree.findtext('./{*}ID'),
                 'uuid': self[-1].identifier,
                 'uuid_attrs': {
-                    'schemeName': self[-1].move_id.l10n_co_dian_identifier_type.upper() + "-SHA384",
+                    'schemeName': f"{identifier_type}-SHA384",
                 },
                 'issue_date': 'Demo',
                 'issue_time': 'Demo',
@@ -472,17 +473,19 @@ class L10n_Co_DianDocument(models.Model):
 
     def _get_response_history(self, current_response=None):
         """
-        Return the responses of all the documents in 'self'
+        Return a tuple (history, error_msg) where:
+        - history: is the responses of all the documents in 'self'
+        - error_msg:  is set when we get a non 200 status code
         """
         if self.move_id.company_id.l10n_co_dian_demo_mode:
-            return [etree.fromstring('<ApplicationResponse></ApplicationResponse>')]
+            return [etree.fromstring('<ApplicationResponse></ApplicationResponse>')], ""
 
         if not current_response:
             # Should not enter this if statement when handling Commercial Events
             # call to GetStatus to get the ApplicationResponse
             current_response = self._get_status()
             if current_response['status_code'] != 200:
-                return "", self.env._(
+                return [], self.env._(
                     "Error %(code)s when calling the DIAN server: %(response)s",
                     code=current_response['status_code'],
                     response=current_response['response'],
@@ -503,7 +506,7 @@ class L10n_Co_DianDocument(models.Model):
             document_event_xml = document_line_ref.findtext('.//{*}Description').encode()
             history.append(document_event_xml)
 
-        return history
+        return history, ""
 
     def _get_attached_document(self, status_response=None):
         """ Return a tuple: (the attached document xml, an error message) """
@@ -512,11 +515,14 @@ class L10n_Co_DianDocument(models.Model):
             self.ensure_one()
 
         # all event xml's for every document in self in order
-        response_history = self._get_response_history(current_response=status_response)
+        response_history, error_msg = self._get_response_history(current_response=status_response)
+        if error_msg:
+            return "", error_msg
+
         current_attachment_raw = self[-1].attachment_id.raw
         original_xml_etree = etree.fromstring(current_attachment_raw)
 
-        if self.move_id.company_id.l10n_co_dian_demo_mode:
+        if self[0]._get_company().l10n_co_dian_demo_mode:
             vals = self._demo_get_attached_document_values(original_xml_etree=original_xml_etree)
         else:
             vals = self._get_attached_document_values(
@@ -556,16 +562,20 @@ class L10n_Co_DianDocument(models.Model):
         attached_document, error = self._get_attached_document()
         if error:
             raise UserError(error)
-        attachment = self.env['ir.attachment'].create({
-            'raw': attached_document,
-            'name': self.move_id._l10n_co_dian_get_attached_document_filename() + '_manual.xml',
-            'res_model': 'account.move',
-            'res_id': self.move_id.id,
-        })
+        attachment = self._create_attached_document(raw=attached_document)
         return {
             'type': 'ir.actions.act_url',
             'url': f'/web/content/{attachment.id}?download=true',
         }
+
+    def _create_attached_document(self, raw):
+        self.ensure_one()
+        return self.env['ir.attachment'].create([{
+            'raw': raw,
+            'name': self.move_id._l10n_co_dian_get_attached_document_filename() + '_manual.xml',
+            'res_model': 'account.move',
+            'res_id': self.move_id.id,
+        }])
 
     @api.model
     def _send_to_dian(self, xml, move):
@@ -672,3 +682,11 @@ class L10n_Co_DianDocument(models.Model):
             'type': 'ir.actions.act_url',
             'url': f'/web/content/{self.attachment_id.id}?download=true',
         }
+
+    def _get_company(self):
+        self.ensure_one()
+        return self.move_id.company_id
+
+    def _get_identifier_type(self):
+        self.ensure_one()
+        return self.move_id.l10n_co_dian_identifier_type

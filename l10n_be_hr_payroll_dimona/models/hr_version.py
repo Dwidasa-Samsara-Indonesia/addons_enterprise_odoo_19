@@ -81,6 +81,10 @@ class HrVersion(models.Model):
         expeditor_number = company.onss_expeditor_number
         if not expeditor_number:
             raise UserError(_('No expeditor number defined on the payroll settings.'))
+        if expeditor_number.isdigit():
+            expeditor = API_DATA['jwt']['user'] % (company.onss_expeditor_number)
+        else:
+            expeditor = expeditor_number
         certificate_sudo = company.sudo().onss_certificate_id
         if not certificate_sudo:
             raise UserError(_('No Certificate defined on the Payroll Configuration'))
@@ -90,9 +94,9 @@ class HrVersion(models.Model):
             # Unique jwt indentifier
             "jti": unique_id,
             # App supplying the jwt
-            "iss": API_DATA['jwt']['user'] % (company.onss_expeditor_number),
+            "iss": expeditor,
             # Main jwt subject
-            "sub": API_DATA['jwt']['user'] % (company.onss_expeditor_number),
+            "sub": expeditor,
             # jwt receiver (audience)
             "aud": API_DATA['jwt']['audiance'],
             # Expiration

@@ -154,3 +154,38 @@ class TestAccountReportsModelo390(TestAccountReportsCommon):
             expected_content = f.read().replace('\n', '')
 
         self._verify_mod_390_boe(boe_file, expected_content)
+
+    def test_export_boe_mod_390_negative_values(self):
+        """
+        Ensure the negative values on the required fields is indicated with N
+        """
+        self.env.user.company_id = self.es_company
+
+        self.env['account.move'].create({
+            'ref': 'EDI valid ref',
+            'move_type': 'in_invoice',
+            'invoice_date': '2020-12-01',
+            'partner_id': self.es_partner.id,
+            'invoice_line_ids': [
+                Command.create({
+                    'product_id': self.es_product.id,
+                    'quantity': 1,
+                    'price_unit': 100,
+                    'tax_ids': [Command.set([self.tax_purchase_21.id])],  # This tax will give negative value to 65
+                }),
+            ]
+        }).action_post()
+
+        wizard_context = {
+            'default_physical_person_name': "Test",
+            'default_principal_activity': "Testing",
+            'default_principal_code_activity': "TEST",
+        }
+        boe_file = self._generate_mod_390_boe(2020, wizard_context)
+
+        expected_content = ''
+        # The spaces are required to be exact to have a valid file
+        with file_open('l10n_es_reports/tests/data/mod_390_with_negative_values.txt') as f:
+            expected_content = f.read().replace('\n', '')
+
+        self._verify_mod_390_boe(boe_file, expected_content)

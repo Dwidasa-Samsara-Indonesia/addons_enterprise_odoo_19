@@ -90,6 +90,6 @@ class HrPayrollEmployeeDeclaration(models.Model):
             'tag': 'display_notification',
             'params': {
                 'type': 'success',
-                'message': _("PDFs are gonna be posted in Documents shortly"),
+                'message': _("PDFs are going to be posted in Documents shortly"),
             }
         }

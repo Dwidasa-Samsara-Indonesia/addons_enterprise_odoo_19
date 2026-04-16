@@ -275,14 +275,15 @@ class TestSignController(TestSignControllerCommon):
         # Create two sign requests. The second one will be returned as 'the next' to be signed.
         self.sign_request = self.create_sign_request_1_role(self.partner_1, self.env['res.partner'])
         self.next_sign_request = self.create_sign_request_1_role(self.partner_1, self.env['res.partner'])
+        self.sign_request_item = self.sign_request.request_item_ids[0]
 
         self.authenticate(None, None)  # Ensure the current user for the request is public
         response = self._json_url_open(
             '/sign/sign_request_items',
             {
                 'request_id': self.sign_request.id,
-                'token': self.sign_request.access_token,
-                'sign_item_id': self.sign_request.request_item_ids[0].id,
+                'token': self.sign_request_item.access_token,
+                'sign_item_id': self.sign_request_item.id,
             }
         )
         self.assertEqual(response.status_code, 200, f"Expected 200 OK, got {response.status_code}")
@@ -327,3 +328,29 @@ class TestSignController(TestSignControllerCommon):
         self.assertEqual(create_log.user_id, self.env.user, "The sign request is created by current user")
         self.assertEqual(signature_log.create_uid, self.user_1, "the signature is created by the signing user")
         self.assertEqual(signature_log.user_id, self.user_2, "the signature log user_id is the logged in user")
+
+    def test_sign_completed_redirection(self):
+        """ Test that internal users are redirected to the backend when a sign request is completed. """
+        sign_request = self.create_sign_request_1_role(self.partner_1, self.env['res.partner'])
+        sign_request_item = sign_request.request_item_ids[0]
+        sign_vals = self.create_sign_values(sign_request.template_id.sign_item_ids, sign_request_item.role_id.id)
+        sign_request_item._sign(sign_vals)
+        url = '/sign/document/%s/%s' % (sign_request.id, sign_request_item.access_token)
+
+        # Test redirection for a logged-in user with a sign.group_sign_user
+        self.authenticate("user_1", "user_1")
+        response = self.url_open(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(f'/odoo/sign.request/{sign_request.id}/action-sign.Document' in response.url)
+
+        # Test no redirection for a public user
+        self.authenticate(None, None)
+        response = self.url_open(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse('/odoo/sign.request/' in response.url)
+
+        # Test no redirection for an internal user without sign.group_sign_user
+        self.authenticate("user_5", "user_5")
+        response = self.url_open(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse('/odoo/sign.request/' in response.url)

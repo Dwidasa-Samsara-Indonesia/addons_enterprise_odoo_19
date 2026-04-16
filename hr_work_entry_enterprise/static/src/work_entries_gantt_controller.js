@@ -7,7 +7,7 @@ export class WorkEntriesGanttController extends GanttController {
         super.setup(...arguments);
         const { onRegenerateWorkEntries } = useWorkEntry({
             getEmployeeIds: () =>
-                this.model.data.rows
+                this.model.data.records
                     .filter((r) => r.groupedByField === "employee_id")
                     .map((e) => e.resId),
             getRange: () => this.model.getRange(),

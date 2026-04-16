@@ -598,3 +598,53 @@ class BelgiumTaxReportTest(AccountSalesReportCommon):
             self.get_xml_tree_from_string(self.env[report.custom_handler_model_name].export_tax_report_to_xml(options)['file_content']),
             self.get_xml_tree_from_string(expected_xml)
         )
+
+    @freeze_time('2026-02-15')
+    def test_carryover_negative_value_in_xml(self):
+        """ Test that negative values don't appear in the xml when the line is carried over the next period """
+        self._create_invoice(
+            move_type='in_refund',
+            invoice_date='2026-01-20',
+            post=True,
+            invoice_line_ids=[self._prepare_invoice_line(price_unit=100000, tax_ids=self.tax_purchase_a)]
+        )
+
+        report = self.env.ref('l10n_be.tax_report_vat')
+        options = self._generate_options(report, '2026-01-01', '2026-01-31')
+
+        # The partner id is changing between execution of the test so we need to append it manually to the reference.
+        ref = str(self.env.company.partner_id.id) + '012026'
+
+        expected_xml = """
+        <ns2:VATConsignment xmlns:ns2="http://www.minfin.fgov.be/VATConsignment" xmlns="http://www.minfin.fgov.be/InputCommon" VATDeclarationsNbr="1">
+
+            <ns2:VATDeclaration DeclarantReference="%s" SequenceNumber="1">
+                <ns2:Declarant>
+                    <VATNumber>0477472701</VATNumber>
+                    <Name>company_1_data</Name>
+                    <Street> </Street>
+                    <PostCode/>
+                    <City/>
+                    <CountryCode>BE</CountryCode>
+                    <EmailAddress>jsmith@mail.com</EmailAddress>
+                    <Phone>+32475123456</Phone>
+                </ns2:Declarant>
+                <ns2:Period>
+                    <ns2:Month>01</ns2:Month>
+                    <ns2:Year>2026</ns2:Year>
+                </ns2:Period>
+                <ns2:Data>
+                    <ns2:Amount GridNumber="63">21000.00</ns2:Amount>
+                    <ns2:Amount GridNumber="71">21000.00</ns2:Amount>
+                    <ns2:Amount GridNumber="85">100000.00</ns2:Amount>
+                </ns2:Data>
+                <ns2:ClientListingNihil>NO</ns2:ClientListingNihil>
+                <ns2:Ask Restitution="NO"/>
+            </ns2:VATDeclaration>
+        </ns2:VATConsignment>
+        """ % ref
+
+        self.assertXmlTreeEqual(
+            self.get_xml_tree_from_string(self.env[report.custom_handler_model_name].export_tax_report_to_xml(options)['file_content']),
+            self.get_xml_tree_from_string(expected_xml)
+        )

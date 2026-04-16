@@ -90,11 +90,11 @@
 
                 <!-- Units -->
                 <unit id="EUR">
-                    <measure>iso4217:EUR</measure>
+                    <measure t-translation="off">iso4217:EUR</measure>
                 </unit>
                 <t t-if="with_social_balance_sheet">
                     <unit id="pure">
-                        <measure>pure</measure>
+                        <measure t-translation="off">pure</measure>
                     </unit>
                 </t>
 
@@ -104,8 +104,8 @@
                 <met:dte1 contextRef="date" t-out="date" />
                 <met:dte1 contextRef="start_period" t-out="date_from" />
                 <met:dte1 contextRef="end_period" t-out="date_to" />
-                <met:bln1 contextRef="liquidation">false</met:bln1>
-                <met:bln1 contextRef="correction">false</met:bln1>
+                <met:bln1 contextRef="liquidation" t-translation="off">false</met:bln1>
+                <met:bln1 contextRef="correction" t-translation="off">false</met:bln1>
                 <met:str2 contextRef="company_name" t-out="company_name" />
                 <lgf-enum:list2 contextRef="company_type" t-out="company_type" />
                 <met:str2 contextRef="company_street" t-out="company_street" />

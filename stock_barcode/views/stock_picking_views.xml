@@ -45,6 +45,7 @@
                         class="btn btn-primary o_reception_report" icon="fa-list"
                         invisible="not show_allocation"
                         groups="stock.group_reception_report"/>
+                    <field name="display_name" invisible="1"/>
                     <field name="partner_id" readonly="state in ['cancel', 'done']"/>
                     <field name="scheduled_date" readonly="1" invisible="not scheduled_date"/>
                     <field name="origin" readonly="1" invisible="not origin"/>

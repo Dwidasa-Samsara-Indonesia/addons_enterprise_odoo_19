@@ -456,7 +456,7 @@ class TestPayrollCommon(TransactionCase):
             "l10n_au_tfn": contract_info.get('tfn', '999999661'),
             "is_non_resident": contract_info.get('non_resident', False),
             "l10n_au_nat_3093_amount": 0,
-            "l10n_au_child_support_garnishee_amount": 0,
+            "l10n_au_child_support_garnishee_amount": contract_info.get('l10n_au_child_support_garnishee_amount', 0),
             "l10n_au_medicare_exemption": contract_info.get('medicare_exemption', 'X'),
             "l10n_au_medicare_surcharge": contract_info.get('medicare_surcharge', 'X'),
             "l10n_au_medicare_reduction": contract_info.get('medicare_reduction', 'X'),

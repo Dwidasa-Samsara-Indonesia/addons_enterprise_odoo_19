@@ -2,3 +2,4 @@
 
 from . import test_contract_template_whitelist
 from . import test_p9_report_generation
+from . import test_salary_deductions

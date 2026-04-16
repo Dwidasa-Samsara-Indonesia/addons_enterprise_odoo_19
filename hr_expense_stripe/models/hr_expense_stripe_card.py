@@ -2,7 +2,7 @@ import datetime
 import logging
 from collections import defaultdict
 
-from odoo import _, _lt, api, fields, models
+from odoo import _lt, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools import format_date
 
@@ -211,7 +211,7 @@ class HrExpenseStripeCard(models.Model):
         """ Cards should never be deleted, unless the module is removed """
         for card in self:
             if card.stripe_id and not self.env.su:
-                raise ValidationError(_("You can't delete a card that already exists for Stripe, please block it instead"))
+                raise ValidationError(self.env._("You can't delete a card that already exists for Stripe, please block it instead"))
 
     @api.constrains('company_id')
     def _check_company_id(self):
@@ -250,7 +250,7 @@ class HrExpenseStripeCard(models.Model):
             if 'EU' not in (delivery_address.country_id.country_group_codes or []):
                 raise ValidationError(self.env._("The delivery address must be in the European Union."))
 
-    @api.depends('last_4')
+    @api.depends('last_4', 'state')
     def _compute_card_number(self):
         for card in self:
             last4 = card.last_4 if card.last_4 and card.state != 'pending' else '****'
@@ -281,7 +281,7 @@ class HrExpenseStripeCard(models.Model):
         stripe_limit = 50000 * STRIPE_CURRENCY_MINOR_UNITS.get(self.currency_id.name, 2)
         interval_multiplier_map = {'daily': 1, 'weekly': 7, 'monthly': 30, 'yearly': 365, 'all_time': 1}  # All time will be ignored
         for card in self:
-            interval = card.spending_policy_interval
+            interval = card.spending_policy_interval or 'all_time'
             interval_amount = card.spending_policy_interval_amount if interval != 'all_time' else 0
             card.has_limit_higher_than_stripe_warning = (
                 interval_amount > stripe_limit * interval_multiplier_map[interval]
@@ -343,7 +343,7 @@ class HrExpenseStripeCard(models.Model):
                     'payment_type': 'outbound',
                 }]).sudo(self.env.su)
             self.payment_method_line_id = self.env['account.payment.method.line'].sudo().create([{
-                 'name': _("Stripe Card ending with %(last_4)s", last_4=self.last_4),
+                 'name': self.env._("Stripe Card ending with %(last_4)s", last_4=self.last_4),
                 'journal_id': self.journal_id.id,
                 'payment_method_id': payment_method.id,
             }])
@@ -354,7 +354,7 @@ class HrExpenseStripeCard(models.Model):
         """
         self.ensure_one()
         if self.stripe_id and self.stripe_id != stripe_object['id']:
-            raise UserError(_("Failed to update card from Stripe. You are trying to update the wrong card."))
+            raise UserError(self.env._("Failed to update card from Stripe. You are trying to update the wrong card."))
         new_vals = {}
         emails_to_send = []
         if not self.stripe_id:
@@ -380,22 +380,23 @@ class HrExpenseStripeCard(models.Model):
             exp_year = stripe_object['exp_year'] % 100
             new_vals['expiration'] = f'{exp_month:02}/{exp_year:02}'
         if self.card_type == 'physical':
-            if stripe_object['shipping']['status'] != self.shipping_status:
+            shipping_object = stripe_object['shipping']
+            if shipping_object['status'] != self.shipping_status:
                 # Since it's not possible to go back in shipping status, we only update it if it's a progression.
                 # In case the webhooks are received out of order.
-                states = {False: 0, 'submitted': 1, 'pending': 2, 'shipped': 3, 'delivered': 4, 'failure': 4, 'returned': 4, 'canceled': 4}
-                if states[stripe_object['shipping']['status']] > states[self.shipping_status]:
-                    new_vals['shipping_status'] = stripe_object['shipping']['status']
+                states = {False: 0, 'pending': 1, 'submitted': 2, 'shipped': 3, 'delivered': 4, 'failure': 4, 'returned': 4, 'canceled': 4}
+                if states[shipping_object['status']] > states[self.shipping_status]:
+                    new_vals['shipping_status'] = shipping_object['status']
                     if new_vals['shipping_status'] in {'canceled', 'failure', 'returned'}:
                         emails_to_send.append('canceled')
                     elif new_vals['shipping_status'] == 'shipped':
                         emails_to_send.append('shipped')
             if not self.tracking_url:
-                new_vals['tracking_url'] = stripe_object['shipping']['tracking_url']
+                new_vals['tracking_url'] = shipping_object['tracking_url']
             if not self.tracking_number:
-                new_vals['tracking_number'] = stripe_object['shipping']['tracking_number']
-            shipping_eta = datetime.datetime.fromtimestamp(stripe_object['shipping']['eta'])
-            if stripe_object['shipping']['eta'] and shipping_eta != self.shipping_estimated_delivery:
+                new_vals['tracking_number'] = shipping_object['tracking_number']
+            shipping_eta = shipping_object['eta'] and datetime.datetime.fromtimestamp(shipping_object['eta'])
+            if shipping_object['eta'] and shipping_eta != self.shipping_estimated_delivery:
                 new_vals['shipping_estimated_delivery'] = shipping_eta
 
         self.write(new_vals)
@@ -473,32 +474,33 @@ class HrExpenseStripeCard(models.Model):
         card = self.ensure_one().with_company(self.company_id)
         # Validate employee
         if not card.employee_id.active:
-            return False, _("Invalid Employee")
+            return False, self.env._("Invalid Employee")
 
         # Validate transaction maximum
         if (
                 not card.currency_id.is_zero(card.spending_policy_transaction_amount)
                 and card.currency_id.compare_amounts(amount, card.spending_policy_transaction_amount) > 0
         ):
-            return False, _("Transaction amount exceeds the maximum allowed")
+            return False, self.env._("Transaction amount (%(amount)s) exceeds the maximum allowed",
+                                     amount=amount)
 
         # Validate Country
         card_country_ids = set(card.spending_policy_country_tag_ids.ids)
         if not country:
-            return False, _("No country found")
+            return False, self.env._("No country found")
         if card_country_ids and country.id not in card_country_ids:
-            return False, _("Country not allowed")
+            return False, self.env._("Country %(country_name)s not allowed", country_name=country.name)
 
         # Validate MCC
         if not mcc:
-            return False, _("No MCC found")
+            return False, self.env._("No MCC found")
 
         valid_mcc = card.env['product.mcc.stripe.tag'].search([('product_id', '!=', False)])
         if not valid_mcc:
             return False, self.env._("No MCC is properly set")
 
         if mcc not in (card.spending_policy_category_tag_ids or valid_mcc):  # If no MCC is set, we allow all valid MCCs
-            return False, _("MCC not allowed")
+            return False, self.env._("MCC %(mcc_code)s %(mcc_name)s not allowed", mcc_name=mcc.name, mcc_code=mcc.code)
 
         # Validate Limits
         existing_expenses_data = process_existing_expenses_data(card.env['hr.expense']._read_group(
@@ -510,13 +512,14 @@ class HrExpenseStripeCard(models.Model):
         if not card.currency_id.is_zero(card.spending_policy_interval_amount):
             total_spent = existing_expenses_data[card.spending_policy_interval] + amount
             if card.currency_id.compare_amounts(total_spent, card.spending_policy_interval_amount) > 0:
-                return False, _("Transaction amount exceeds the interval limit")
+                return False, self.env._("Transaction amount (%(total_spent)s) exceeds the interval limit",
+                                total_spent=total_spent)
 
-        return True, _("Transaction accepted")
+        return True, self.env._("Transaction accepted")
 
     def action_open_expenses(self):
         return self.expense_ids._get_records_action(
-            name=_("Expense") if len(self.expense_ids) == 1 else _("Expenses"),
+            name=self.env._("Expense") if len(self.expense_ids) == 1 else self.env._("Expenses"),
             context={'create': False},
         )
 
@@ -541,8 +544,11 @@ class HrExpenseStripeCard(models.Model):
             if not all([delivery_address.street, delivery_address.city, delivery_address.zip, delivery_address.country_id]):
                 raise ValidationError(self.env._("The delivery address must have a street, city, zip code and country set."))
 
-            if 'EU' not in (delivery_address.country_id.country_group_codes or []):
-                raise ValidationError(self.env._("The delivery address must be in the European Union."))
+            if (
+                'EU' not in (delivery_address.country_id.country_group_codes or [])
+                and delivery_address.country_id.code != 'GB'
+            ):
+                raise ValidationError(self.env._("The delivery address must be in the European Union or in the United Kingdom."))
 
             state = 'inactive'
             self.ordered_by = self.env.user
@@ -580,7 +586,7 @@ class HrExpenseStripeCard(models.Model):
 
         return self.env['hr.expense.stripe.card.block.wizard'].create([{'card_id': self.id}])._get_records_action(
             target='new',
-            name=_("Block a Card"),
+            name=self.env._("Block a Card"),
         )
 
     def action_pause_card(self):
@@ -594,13 +600,13 @@ class HrExpenseStripeCard(models.Model):
         self.ensure_one()
         employee_id = self.env.context.get('selected_employee_id', self.employee_id.id)
         if not employee_id:
-            raise UserError(_("No valid employee selected, please set an employee to be able to update its cardholder data"))
+            raise UserError(self.env._("No valid employee selected, please set an employee to be able to update its cardholder data"))
         wizard = self.env['hr.expense.stripe.cardholder.wizard']._create_from_card(
             company=self.company_id,
             employee=self.env['hr.employee'].browse(employee_id),
             card=self,
         )
-        return wizard._get_records_action(name=_("Cardholder Configuration"), target='new')
+        return wizard._get_records_action(name=self.env._("Cardholder Configuration"), target='new')
 
     def action_pause_card_warning_view(self):
         """ Warns the user to prevent it from pausing the card unexpectedly while messing around and find out they can't activate it again
@@ -661,7 +667,7 @@ class HrExpenseStripeCard(models.Model):
     def action_request_ephemeral_key(self, nonce, one_time_code, session):
         """ Request the client key for the direct connection to Stripe, in order to retrieve the sensitive information """
         if self.employee_id.user_id != self.env.user:
-            raise UserError(_("Request only allowed for the cardholder."))
+            raise UserError(self.env._("Request only allowed for the cardholder."))
 
         self.ensure_one()
         payload = {
@@ -682,13 +688,13 @@ class HrExpenseStripeCard(models.Model):
         }
         if len(self) == 1:
             action.update({
-                'name': _("Cardholder"),
+                'name': self.env._("Cardholder"),
                 'view_mode': 'form',
                 'res_id': self.sudo().employee_id.id,
             })
         else:
             action.update({
-                'name': _("Cardholders"),
+                'name': self.env._("Cardholders"),
                 'view_mode': 'list,form',
                 'domain': [('id', 'in', self.sudo().employee_id.ids)],
             })
@@ -698,16 +704,16 @@ class HrExpenseStripeCard(models.Model):
 
     def get_stripe_js_init_params(self):
         if self.employee_id.user_id != self.env.user:
-            raise UserError(_("Request only allowed for the cardholder."))
+            raise UserError(self.env._("Request only allowed for the cardholder."))
 
         account_id = self.company_id.sudo().stripe_id
         if not account_id:
-            raise UserError(_("You must create a Stripe account in order to use Stripe"))
+            raise UserError(self.env._("You must create a Stripe account in order to use Stripe"))
 
         public_key = self.env['ir.config_parameter'].sudo().get_param(f'hr_expense_stripe.{self.company_id.id}_stripe_issuing_pk', '')
 
         if not public_key:
-            raise UserError(_("The Stripe public key is missing"))
+            raise UserError(self.env._("The Stripe public key is missing"))
 
         return {
             'account': account_id,

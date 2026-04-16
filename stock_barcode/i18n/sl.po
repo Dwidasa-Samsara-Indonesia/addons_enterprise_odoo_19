@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
 "PO-Revision-Date: 2025-11-08 19:49+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-19/"
@@ -37,6 +37,12 @@ msgstr ""
 #: code:addons/stock_barcode/static/src/models/barcode_quant_model.js:0
 msgid "%s can't be inventoried. Only storable products can be inventoried."
 msgstr "%sni mogoče popisati. Popisati je mogoče le izdelke z zalogo."
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/count_screen_rfid.xml:0
+msgid "/s"
+msgstr ""
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.scrap_product_selector
@@ -135,7 +141,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
 msgid "Add extra product?"
 msgstr "Želite dodati dodaten izdelek?"
 
@@ -648,6 +654,14 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Following backorders were created:"
+msgstr ""
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
+msgid ""
+"Following scanned products are not reserved for this transfer. Are you sure "
+"you want to add them?"
 msgstr ""
 
 #. module: stock_barcode
@@ -1663,16 +1677,6 @@ msgstr "Skeniraj izvorno lokacijo ali paket"
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
-msgid ""
-"Scanned product %s is not reserved for this transfer. Are you sure you want "
-"to add it?"
-msgstr ""
-"Skenirani izdelek %s ni rezervirani za ta prenos. Ste prepričani, da ga "
-"želite dodati?"
-
-#. module: stock_barcode
-#. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scanning package"
 msgstr "Paket za skeniranje"
 
@@ -1809,6 +1813,12 @@ msgstr ""
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "The scanned location doesn't belong to this operation's location"
 msgstr "Skenirana lokacija ne pripada lokacije te operacije"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+msgid "The scanned serial number %(lotName)s is already awaiting confirmation."
+msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2078,6 +2088,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock_barcode.view_backorder_confirmation
 msgid "products were partially processed."
 msgstr ""
+
+#~ msgid ""
+#~ "Scanned product %s is not reserved for this transfer. Are you sure you "
+#~ "want to add it?"
+#~ msgstr ""
+#~ "Skenirani izdelek %s ni rezervirani za ta prenos. Ste prepričani, da ga "
+#~ "želite dodati?"
 
 #~ msgid "<i class=\"fa fa-print\"/> Print barcode commands"
 #~ msgstr "<i class=\"fa fa-print\"/> Natisnite ukaze črtne kode"

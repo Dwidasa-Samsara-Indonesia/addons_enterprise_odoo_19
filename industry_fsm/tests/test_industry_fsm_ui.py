@@ -12,5 +12,11 @@ class TestIndustryFsmUi(HttpCase):
         self.env.ref('base.user_admin').write({
             'email': 'mitchell.admin@example.com',
         })
+        if (Worksheet := self.env.get('worksheet.template')) is not None:
+            Worksheet.create({
+                'name': 'Test Worksheet',
+                'res_model': 'project.task',
+            })
+
         self.start_tour("/odoo", 'industry_fsm_tour', login="admin")
         self.start_tour('/odoo', 'fsm_task_form_tour', login="admin")

@@ -43,21 +43,29 @@
 	</Header>
 	<MasterFiles>
 		<GeneralLedgerAccounts>
+            <Account>
+                <AccountID>105000</AccountID>
+                <AccountDescription>Revaluation reserves</AccountDescription>
+                <StandardAccountID>___ignore___</StandardAccountID>
+                <AccountType>Pasiv</AccountType>
+                <OpeningDebitBalance>100.00</OpeningDebitBalance>
+                <ClosingDebitBalance>100.00</ClosingDebitBalance>
+            </Account>
 			<Account>
 				<AccountID>211100</AccountID>
 				<AccountDescription>Land</AccountDescription>
 				<StandardAccountID>___ignore___</StandardAccountID>
 				<AccountType>Activ</AccountType>
-				<OpeningDebitBalance>0.00</OpeningDebitBalance>
-				<ClosingCreditBalance>1573.33</ClosingCreditBalance>
+				<OpeningDebitBalance>400.00</OpeningDebitBalance>
+				<ClosingCreditBalance>1273.33</ClosingCreditBalance>
 			</Account>
 			<Account>
 				<AccountID>401100</AccountID>
 				<AccountDescription>Providers - resumed in a period of up to one year</AccountDescription>
 				<StandardAccountID>___ignore___</StandardAccountID>
 				<AccountType>Pasiv</AccountType>
-				<OpeningDebitBalance>0.00</OpeningDebitBalance>
-				<ClosingCreditBalance>1210.00</ClosingCreditBalance>
+                <OpeningCreditBalance>500.00</OpeningCreditBalance>
+				<ClosingCreditBalance>1710.00</ClosingCreditBalance>
 			</Account>
 			<Account>
 				<AccountID>401101</AccountID>
@@ -113,7 +121,7 @@
 				<StandardAccountID>___ignore___</StandardAccountID>
 				<AccountType>Bifunctional</AccountType>
 				<OpeningDebitBalance>0.00</OpeningDebitBalance>
-				<ClosingDebitBalance>10953.33</ClosingDebitBalance>
+				<ClosingDebitBalance>11053.33</ClosingDebitBalance>
 			</Account>
 			<Account>
 				<AccountID>601002</AccountID>
@@ -149,6 +157,49 @@
 		<Products></Products>
 		<Owners></Owners>
 		<Assets>
+            <Asset>
+                <AssetID>___ignore___</AssetID>
+                <AccountID>211100</AccountID>
+                <Description>Old Truck</Description>
+                <AssetSupplier>
+                    <SupplierName>Romanian Partner XYZ</SupplierName>
+                    <SupplierID>001234567897</SupplierID>
+                    <PostalAddress>
+                        <City>Bucharest</City>
+                        <PostalCode>010001</PostalCode>
+                        <Country>RO</Country>
+                    </PostalAddress>
+                </AssetSupplier>
+                <PurchaseOrderDate>2022-01-01</PurchaseOrderDate>
+                <DateOfAcquisition>2022-01-01</DateOfAcquisition>
+                <StartUpDate>2022-01-01</StartUpDate>
+                <Valuations>
+                    <Valuation>
+                        <AssetValuationType>contabil</AssetValuationType>
+                        <ValuationClass>1.1.2.1</ValuationClass>
+                        <AcquisitionAndProductionCostsBegin>500.00</AcquisitionAndProductionCostsBegin>
+                        <AcquisitionAndProductionCostsEnd>500.00</AcquisitionAndProductionCostsEnd>
+                        <InvestmentSupport>0.00</InvestmentSupport>
+                        <AssetLifeYear>5</AssetLifeYear>
+                        <AssetAddition>0.00</AssetAddition>
+                        <Transfers>0.00</Transfers>
+                        <AssetDisposal>0.00</AssetDisposal>
+                        <BookValueBegin>400.00</BookValueBegin>
+                        <DepreciationMethod>LINIARĂ</DepreciationMethod>
+                        <DepreciationPercentage>0.20</DepreciationPercentage>
+                        <DepreciationForPeriod>-100.00</DepreciationForPeriod>
+                        <AppreciationForPeriod>0.00</AppreciationForPeriod>
+                        <ExtraordinaryDepreciationsForPeriod>
+                            <ExtraordinaryDepreciationForPeriod>
+                                <ExtraordinaryDepreciationMethod>NULL</ExtraordinaryDepreciationMethod>
+                                <ExtraordinaryDepreciationAmountForPeriod>0.00</ExtraordinaryDepreciationAmountForPeriod>
+                            </ExtraordinaryDepreciationForPeriod>
+                        </ExtraordinaryDepreciationsForPeriod>
+                        <AccumulatedDepreciation>-200.00</AccumulatedDepreciation>
+                        <BookValueEnd>300.00</BookValueEnd>
+                    </Valuation>
+                </Valuations>
+            </Asset>
 			<Asset>
 				<AssetID>___ignore___</AssetID>
 				<AccountID>211100</AccountID>
@@ -373,7 +424,32 @@
 		<Payments></Payments>
 		<MovementOfGoods></MovementOfGoods>
 		<AssetTransactions>
-			<NumberOfAssetTransactions>17</NumberOfAssetTransactions>
+			<NumberOfAssetTransactions>18</NumberOfAssetTransactions>
+            <AssetTransaction>
+                <AssetTransactionID>___ignore___</AssetTransactionID>
+                <AssetID>___ignore___</AssetID>
+                <AssetTransactionType>30</AssetTransactionType>
+                <Description>MISC/2023/12/0001</Description>
+                <AssetTransactionDate>2023-12-31</AssetTransactionDate>
+                <AssetSupplier>
+                    <SupplierName>Romanian Partner XYZ</SupplierName>
+                    <SupplierID>001234567897</SupplierID>
+                    <PostalAddress>
+                        <City>Bucharest</City>
+                        <PostalCode>010001</PostalCode>
+                        <Country>RO</Country>
+                    </PostalAddress>
+                </AssetSupplier>
+                <TransactionID>___ignore___</TransactionID>
+                <AssetTransactionValuations>
+                    <AssetTransactionValuation>
+                        <AssetValuationType>contabil</AssetValuationType>
+                        <AcquisitionAndProductionCostsOnTransaction>0.00</AcquisitionAndProductionCostsOnTransaction>
+                        <BookValueOnTransaction>-100.00</BookValueOnTransaction>
+                        <AssetTransactionAmount>-100.00</AssetTransactionAmount>
+                    </AssetTransactionValuation>
+                </AssetTransactionValuations>
+            </AssetTransaction>
 			<AssetTransaction>
 				<AssetTransactionID>___ignore___</AssetTransactionID>
 				<AssetID>___ignore___</AssetID>
@@ -403,7 +479,7 @@
 				<AssetTransactionID>___ignore___</AssetTransactionID>
 				<AssetID>___ignore___</AssetID>
 				<AssetTransactionType>30</AssetTransactionType>
-				<Description>MISC/2023/12/0001</Description>
+				<Description>MISC/2023/12/0002</Description>
 				<AssetTransactionDate>2023-12-31</AssetTransactionDate>
 				<AssetSupplier>
 					<SupplierName>Romanian Partner</SupplierName>
@@ -503,7 +579,7 @@
 				<AssetTransactionID>___ignore___</AssetTransactionID>
 				<AssetID>___ignore___</AssetID>
 				<AssetTransactionType>30</AssetTransactionType>
-				<Description>MISC/2023/12/0006</Description>
+				<Description>MISC/2023/12/0007</Description>
 				<AssetTransactionDate>2023-12-31</AssetTransactionDate>
 				<AssetSupplier>
 					<SupplierName>Romanian Partner</SupplierName>
@@ -528,7 +604,7 @@
 				<AssetTransactionID>___ignore___</AssetTransactionID>
 				<AssetID>___ignore___</AssetID>
 				<AssetTransactionType>30</AssetTransactionType>
-				<Description>MISC/2023/12/0007</Description>
+				<Description>MISC/2023/12/0008</Description>
 				<AssetTransactionDate>2023-12-31</AssetTransactionDate>
 				<AssetSupplier>
 					<SupplierName>Romanian Partner</SupplierName>
@@ -628,7 +704,7 @@
 				<AssetTransactionID>___ignore___</AssetTransactionID>
 				<AssetID>___ignore___</AssetID>
 				<AssetTransactionType>30</AssetTransactionType>
-				<Description>MISC/2023/12/0008</Description>
+				<Description>MISC/2023/12/0009</Description>
 				<AssetTransactionDate>2023-12-31</AssetTransactionDate>
 				<AssetSupplier>
 					<SupplierName>Romanian Partner</SupplierName>

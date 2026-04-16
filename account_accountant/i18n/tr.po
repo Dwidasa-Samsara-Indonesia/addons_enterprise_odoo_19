@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:41+0000\n"
+"POT-Creation-Date: 2026-03-13 18:44+0000\n"
 "PO-Revision-Date: 2025-11-20 13:21+0000\n"
 "Last-Translator: Odoo Turkish Import <dyki+tr@odoo.com>\n"
 "Language-Team: Turkish <https://translate.odoo.com/projects/odoo-19/"
@@ -304,6 +304,8 @@ msgstr ""
 "isteyebilirsiniz."
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model,name:account_accountant.model_account_account
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__account_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_list_bank_rec_widget
@@ -1924,6 +1926,8 @@ msgid "Outstanding debits"
 msgstr "Denkleştirilmemiş Ödeme"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__to_partner_id
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget
@@ -1938,6 +1942,7 @@ msgstr "İş Ortakları"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Payable"
 msgstr "Borç"
@@ -2032,6 +2037,7 @@ msgstr "Gerekçe..."
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Receivable"
 msgstr "Alacak"
@@ -2183,6 +2189,7 @@ msgstr "Mutabakat için Yevmiye Kayıtları Ara"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Account"
 msgstr "Arama Hesap"
 
@@ -2195,6 +2202,7 @@ msgstr "Arama yapın: Eşleşecek Dergi Öğeleri"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Search: Partner"
 msgstr "Arama yapın: Ortak"
 
@@ -2210,12 +2218,14 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Account"
 msgstr "Hesap Ayarla"
 
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.js:0
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
 msgid "Set Partner"
 msgstr "Set Ortağı"
 
@@ -2281,6 +2291,13 @@ msgstr "Tek Para Birimi Modu"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/control_action/control_action.js:0
+msgid ""
+"Some lines cannot be processed because they have already been reconciled."
+msgstr ""
+
+#. module: account_accountant
+#. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
 msgid "Some lines have invalid analytic distribution"
 msgstr ""
@@ -2319,6 +2336,12 @@ msgstr "Açıklama Hatları"
 #: code:addons/account_accountant/demo/account_accountant_demo.py:0
 msgid "Subscription 12 months"
 msgstr "Abonelik 12 ay"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+msgid "Suggestions"
+msgstr "Öneriler"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -3147,9 +3170,6 @@ msgstr "denkleştirilecek"
 
 #~ msgid "State"
 #~ msgstr "İl/Eyalet"
-
-#~ msgid "Suggestions"
-#~ msgstr "Öneriler"
 
 #~ msgid "Tax Base Amount Currency"
 #~ msgstr "Vergi Matrahı Para Birimi"

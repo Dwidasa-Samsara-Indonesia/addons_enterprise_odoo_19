@@ -73,7 +73,7 @@ export class IoTPrinter extends BasePrinter {
      * @override
      */
     getResultsError(printResult) {
-        let title = _t("Printing failed");
+        const title = _t("Printing failed");
         let body;
         switch (printResult.status) {
             case "disconnected":
@@ -84,18 +84,13 @@ export class IoTPrinter extends BasePrinter {
                         "2/ for network printers, ensure the printer is connected to the internet."
                 );
                 break;
-            case "warning":
-                // e.g. "low_paper"
-                title = _t("Printing warning");
-                body = PRINTER_MESSAGES[printResult.message] ?? printResult.message;
-                break;
             default:
                 body = PRINTER_MESSAGES[printResult.message] ?? printResult.message;
                 break;
         }
         return {
             successful: false,
-            canRetry: printResult.status !== "warning",
+            canRetry: true,
             message: { title, body },
         };
     }

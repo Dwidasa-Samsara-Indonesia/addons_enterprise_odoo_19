@@ -50,7 +50,28 @@ defineActions([
         res_model: "documents.document",
         views: [[false, "kanban"]],
     },
+    {
+        id: 2,
+        name: "Documents",
+        res_model: "documents.document",
+        views: [[false, "kanban"]],
+        context: {
+            searchpanel_default_user_folder_id: 2,
+        },
+    },
 ]);
+
+async function clickUploadButton() {
+    await contains("button.btn.btn-primary.o-dropdown:contains('New')").click();
+    await contains("button.btn.btn-link.o_documents_kanban_upload").click();
+    // This step seems necessary to succeed everytime vs. clicking on "Upload" above...
+    await contains("input.o_input_file.o_hidden", {
+        visible: false,
+    }).click();
+    await animationFrame();
+    await setInputFiles([new File(["fake_file"], "fake_file.tiff", { type: "text/plain" })]);
+    await animationFrame();
+}
 
 test("Open share with edit user_permission", async function () {
     onRpc("/documents/touch/accessTokenFolder1", () => ({}));
@@ -113,15 +134,7 @@ test("Uploading from control panel", async () => {
     const serverData = getDocumentsTestServerModelsData();
     await makeDocumentsMockEnv({ serverData });
     await mountDocumentsKanbanView();
-    await contains("button.btn.btn-primary.o-dropdown:contains('New')").click();
-    await contains("button.btn.btn-link.o_documents_kanban_upload").click();
-    // This step seems necessary to succeed everytime vs. clicking on "Upload" above...
-    await contains("input.o_input_file.o_hidden", {
-        visible: false,
-    }).click();
-    await animationFrame();
-    await setInputFiles([new File(["fake_file"], "fake_file.tiff", { type: "text/plain" })]);
-    await animationFrame();
+    await clickUploadButton();
 
     expect.verifySteps(["doc uploaded"]);
 });
@@ -584,6 +597,44 @@ test("Document Request Upload", async function () {
     expect.verifySteps(["upload_done"]);
 });
 
+test("Document Request Upload no user_folder_id if access_token", async function () {
+    mockService("file_upload", {
+        upload: (route, files, params) => {
+            if (route === "/documents/upload/accessToken") {
+                expect.step("upload_done");
+                const data = new FormData();
+                params.buildFormData(data);
+                if (!data.get("user_folder_id")) {
+                    expect.step("no_user_folder_id");
+                }
+            }
+        },
+    });
+
+    const serverData = getDocumentsTestServerModelsData([
+        {
+            folder_id: 1,
+            id: 2,
+            name: "Test Request",
+            access_token: "accessToken",
+        },
+    ]);
+
+    const archWithRequest = basicDocumentsKanbanArch.replace(
+        '<field name="name"/>',
+        '<field name="name"/>\n' +
+            '<t t-set="isRequest" t-value="record.type.raw_value === \'binary\' and !record.attachment_id.raw_value"/>\n' +
+            '<input t-if="isRequest" type="file" class="o_hidden o_kanban_replace_document"/>\n'
+    );
+    await makeDocumentsMockEnv({ serverData });
+    await mountDocumentsKanbanView({ arch: archWithRequest });
+
+    const file = new File(["hello world"], "text.txt", { type: "text/plain" });
+    await inputFiles("input.o_kanban_replace_document", [file]);
+    await animationFrame();
+    expect.verifySteps(["upload_done", "no_user_folder_id"]);
+});
+
 test("focus when selecting all - ctrl + a", async function () {
     const serverData = getDocumentsTestServerModelsData([
         makeDocumentRecordData(2, "Test Document", { folder_id: 1 }),
@@ -889,7 +940,11 @@ test("Ensure previewer shows correct name after renaming a document", async func
 
     serverData["ir.attachment"] = [{ id: 1, name: "text_file.txt", mimetype: "image/webp" }];
 
+    onRpc("ir.model", "display_name_for", ({ args }) =>
+        args[0].map((model) => ({ model, display_name: model }))
+    );
     await makeDocumentsMockEnv({ serverData });
+
     await mountWithCleanup(WebClient);
     await getService("action").doAction({
         res_model: "documents.document",
@@ -906,4 +961,50 @@ test("Ensure previewer shows correct name after renaming a document", async func
     await contains(".o_kanban_record:contains('test1.txt') [name='document_preview']").click();
     await waitFor(".o-FileViewer");
     expect(".o-FileViewer-header span:contains('test1.txt')").toHaveCount(1);
+
+    // Document should open after renaming
+    await contains(".o_dropdown_title").click();
+    await waitFor(".fa-info-circle");
+    await contains(".fa-info-circle").click();
+    await waitFor(".o_documents_details_panel");
+    await contains(".o_documents_details_panel .o_documents_details_panel_name input").edit(
+        "Renamed_Test_file.txt"
+    );
+    await contains(".o_control_panel_navigation .fa-close").click();
+    await waitForNone(".o_documents_details_panel");
+    await contains(".o-FileViewer [aria-label='Close']").click();
+    await waitForNone(".o-FileViewer");
+    await contains(
+        ".o_kanban_record:contains('Renamed_Test_file.txt') [name='document_preview']"
+    ).click();
+    await waitFor(".o-FileViewer");
+    expect(".o-FileViewer-header").toHaveText("Renamed_Test_file.txt");
+});
+
+test("Uploading to 'All' from a bridge uploads to the bridge's default folder not 'My Drive'", async function () {
+    onRpc("/documents/touch/<access_token>", () => ({}));
+    const serverData = getDocumentsTestServerModelsData([
+        makeDocumentRecordData(2, "Test", { type: "folder", user_permission: "edit" }),
+    ]);
+
+    mockService("file_upload", {
+        upload: (route, ...args) => {
+            if (route.startsWith("/documents/upload/accessTokenTest")) {
+                expect.step("correct_folder");
+            }
+        },
+    });
+
+    DocumentsModels["DocumentsDocument"]._views = {
+        kanban: basicDocumentsKanbanArch,
+        search: getEnrichedSearchArch(),
+    };
+
+    await makeDocumentsMockEnv({ serverData });
+    await mountWithCleanup(WebClient);
+    await getService("action").doAction(2);
+
+    await contains("span.o_search_panel_label_title:contains('All')").click();
+    await clickUploadButton();
+    expect.verifySteps(["correct_folder"]);
 });

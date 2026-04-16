@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 10:03+0000\n"
+"PO-Revision-Date: 2026-04-04 10:48+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "account_online_synchronization/de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -31,9 +31,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Wenn Sie bereits ein Ticket für dieses Problem eröffnet haben, brauchen Sie "
-"es nicht erneut zu melden: Ein Support-Mitarbeiter wird sich in Kürze mit "
-"Ihnen in Verbindung setzen."
+"Wenn Sie bereits ein Ticket für dieses Problem geöffnet haben, müssen Sie es "
+"nicht erneut melden: Ein Support-Mitarbeiter wird sich in Kürze mit Ihnen in "
+"Verbindung setzen."
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -169,38 +169,38 @@ msgstr ""
 "                                    <tr>\n"
 "                                        <td align=\"center\" style=\"min-"
 "width: 590px;\">\n"
-"                                            <table border=\"0\" "
-"cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; "
-"background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;"
-"\">\n"
+"                                            <table border=\"0\" cellpadding="
+"\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-"
+"color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                                                <tr>\n"
-"                                                    <td valign=\"top\" "
-"style=\"font-size: 13px;\">\n"
+"                                                    <td valign=\"top\" style"
+"=\"font-size: 13px;\">\n"
 "                                                        <div>\n"
-"                                                            Hallo,<br/><br/"
-">\n"
+"                                                            Guten Tag,<br/><"
+"br/>\n"
 "                                                            die Verbindung "
-"zwischen <b><a t-att-href=\"object.get_base_url()\" t-"
-"out=\"object.get_base_url() or ''\">https://ihrunternehmen.odoo.com</a></b> "
-"und <t t-out=\"object.account_online_link_id.name or ''\">Belfius</t> <t t-"
-"if=\"not object.expiring_synchronization_due_day\"> ist abgelaufen.</t><t t-"
-"else=\"\">läuft in <t t-out=\"object.expiring_synchronization_due_day or "
-"''\">10</t> Tagen ab.</t><br/>\n"
-"                                                            <div "
-"style=\"margin: 16px 0px 16px 0px;\">\n"
+"zwischen <b><a t-att-href=\"object.get_base_url()\" t-out="
+"\"object.get_base_url() or ''\">https://ihrunternehmen.odoo.com</a></b> und "
+"<t t-out=\"object.account_online_link_id.name or ''\">Belfius</t> <t t-if="
+"\"not object.expiring_synchronization_due_day\"> ist abgelaufen.</t><t "
+"t-else=\"\">läuft in <t t-out=\"object.expiring_synchronization_due_day or ''"
+"\">10</t> Tagen ab.</t><br/>\n"
+"                                                            <div style="
+"\"margin: 16px 0px 16px 0px;\">\n"
 "                                                                <a t-attf-"
-"href=\"{{ website_url }}/renew_consent/{{ object.id }}?"
-"access_token={{object.access_token}}\" style=\"background-color: #4caf50; "
+"href=\"{{ website_url }}/renew_consent/{{ object.id "
+"}}?access_token={{object.access_token}}\" style=\"background-color: #4caf50; "
 "padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-"
 "radius: 5px; font-size:13px;\">\n"
-"                                                                    Zustimmung "
-"erneuern\n"
+"                                                                    "
+"Einverständnis erneuern\n"
 "                                                                </a>\n"
 "                                                            </div>\n"
-"                                                            Sicherheitshinweis: "
-"Vergewissern Sie sich, dass der Domainname, zu dem Sie weitergeleitet "
-"werden, auch der richtige ist: <b><a t-att-href=\"object.get_base_url()\" t-"
-"out=\"object.get_base_url() or ''\">https://ihrunternehmen.odoo.com</a></b>\n"
+"                                                            "
+"Sicherheitshinweis: Vergewissern Sie sich, dass der Domainname, zu dem Sie "
+"weitergeleitet werden, auch der richtige ist: <b><a t-att-href="
+"\"object.get_base_url()\" t-out=\"object.get_base_url() or ''\""
+">https://ihrunternehmen.odoo.com</a></b>\n"
 "                                                        </div>\n"
 "                                                    </td>\n"
 "                                                </tr>\n"
@@ -229,10 +229,11 @@ msgstr ""
 "                                <tr>\n"
 "                                    <td style=\"text-align: center; font-"
 "size: 13px;\">\n"
-"                                        Unterstützt durch <a "
-"target=\"_blank\" href=\"https://www.odoo.com?"
-"utm_source=db&amp;utm_medium=auth\" t-attf-style=\"color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
+"                                        Unterstützt durch <a target="
+"\"_blank\" href=\"https://www.odoo.com?utm_source=db&amp;utm_medium=auth\" t"
+"-attf-style="
+"\"color: {{object.company_id.email_secondary_color or '#875A7B'}};\">Odoo</a>"
+"\n"
 "                                    </td>\n"
 "                                </tr>\n"
 "                            </table>\n"
@@ -244,7 +245,7 @@ msgstr ""
 "size: 11px;\">\n"
 "                                        PS: Dies ist eine automatische E-"
 "Mail, die von Odoo Buchhaltung verschickt wird, um Sie daran zu erinnern, "
-"dass Ihre Zustimmung zur Banksynchronisation abläuft.\n"
+"dass Ihr Einverständnis zur Banksynchronisation abläuft.\n"
 "                                    </td>\n"
 "                                </tr>\n"
 "                            </table>\n"
@@ -285,7 +286,7 @@ msgstr "Kontonummer"
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__account_online_account_id
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__account_online_account_ids
 msgid "Account Online Account"
-msgstr "Konto Online-Konto"
+msgstr "Online-Konto"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__account_online_link_id
@@ -969,7 +970,7 @@ msgstr "Nicht verbunden"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__message_has_error_counter
@@ -1009,7 +1010,7 @@ msgstr "Online-Kennung"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__next_link_synchronization
 msgid "Online Link Next synchronization"
-msgstr "Online-Link Nächste Synchronisierung"
+msgstr "Nächste Synchronisierung des Online-Links"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line__online_partner_information
@@ -1069,20 +1070,19 @@ msgstr "Geplant"
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_journal_missing_transactions.py:0
 msgid "Please enter a valid Starting Date to continue."
-msgstr "Bitte geben Sie ein gültiges Startdatum an, um fortzufahren."
+msgstr "Geben Sie ein gültiges Startdatum ein, um fortzufahren."
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Please reconnect your online account."
-msgstr "Bitte verbinden Sie Ihr Online-Konto erneut."
+msgstr "Verbinden Sie Ihr Online-Konto erneut."
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_bank_statement_line.py:0
 msgid "Please select first the transactions you wish to import."
-msgstr ""
-"Bitte wählen Sie zuerst die Transaktionen, die Sie importieren möchten aus."
+msgstr "Wählen Sie zuerst die Transaktionen aus, die Sie importieren möchten."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_bank_statement_line_transient__state__posted

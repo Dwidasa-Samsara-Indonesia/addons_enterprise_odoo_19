@@ -3,13 +3,14 @@
 # * delivery_sendcloud
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-09-16 21:12+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-13 09:42+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "delivery_sendcloud/sv/>\n"
 "Language: sv\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -39,6 +40,14 @@ msgid ""
 "\n"
 "Try to distribute your products across your packages so that they weigh less "
 "than %(max_weight)s %(unit)s or choose another carrier."
+msgstr ""
+
+#. module: delivery_sendcloud
+#. odoo-python
+#: code:addons/delivery_sendcloud/models/sendcloud_service.py:0
+msgid ""
+" Please make sure there is an address with the same name under \"Address "
+"Name (optional)\" in your Sendcloud Address configuration."
 msgstr ""
 
 #. module: delivery_sendcloud
@@ -302,7 +311,7 @@ msgstr ""
 #. module: delivery_sendcloud
 #: model:ir.model.fields,field_description:delivery_sendcloud.field_sendcloud_shipping_product__max_weight
 msgid "Maximum Weight"
-msgstr ""
+msgstr "Maxvikt"
 
 #. module: delivery_sendcloud
 #: model:ir.model.fields,field_description:delivery_sendcloud.field_sendcloud_shipping_product__min_weight
@@ -403,7 +412,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:delivery_sendcloud.selection__delivery_carrier__delivery_type__sendcloud
 #: model:ir.model.fields.selection,name:delivery_sendcloud.selection__stock_package_type__package_carrier_type__sendcloud
 msgid "Sendcloud"
-msgstr ""
+msgstr "Sendcloud"
 
 #. module: delivery_sendcloud
 #: model:ir.model.fields,help:delivery_sendcloud.field_delivery_carrier__sendcloud_public_key
@@ -490,7 +499,7 @@ msgstr ""
 #. module: delivery_sendcloud
 #: model:ir.model,name:delivery_sendcloud.model_delivery_carrier
 msgid "Shipping Methods"
-msgstr "Leveranssätt"
+msgstr "Leveransmetoder"
 
 #. module: delivery_sendcloud
 #: model:ir.model.fields,field_description:delivery_sendcloud.field_sendcloud_shipping_product__name
@@ -697,4 +706,10 @@ msgstr "cm"
 msgid ""
 "created in Sendcloud. <br/>\n"
 "            <b>Tracking Numbers:</b>"
+msgstr ""
+
+#. module: delivery_sendcloud
+#. odoo-javascript
+#: code:addons/delivery_sendcloud/static/src/views/sendcloud_product_selection_widget.xml:0
+msgid "g"
 msgstr ""

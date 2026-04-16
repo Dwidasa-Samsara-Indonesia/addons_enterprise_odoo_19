@@ -589,8 +589,7 @@ class TestQualityCheck(TestQualityCommon):
 
     def test_check_no_serial(self):
         """
-        The tracked product without set lot should not open a quality check unless
-        the picking type does not need lot.
+        The tracked product without set lot should raise a user error stating that a lot should be set.
         """
         self.product.write({
             'tracking': 'serial',
@@ -626,10 +625,12 @@ class TestQualityCheck(TestQualityCommon):
         move = receipt.move_ids
         self.assertFalse(move.move_line_ids.lot_id)
         self.assertEqual(move.move_line_ids.mapped('lot_name'), [False] * 5)
-        # check that there is no check to do
-        self.assertEqual(receipt.check_quality(), True)
+        # check that a user error is raised if we try to check the quality without setting a lot
+        with self.assertRaises(UserError, msg="A UserError should be raised as lot/sn is needed."):
+            receipt.check_quality()
 
         move.move_line_ids[0].lot_name = "test_sn1"
+        move.move_line_ids[0].picked = True
         qc_wizard = Form.from_action(self.env, receipt.check_quality())
         # no quality check created yet
         quality_check = qc_wizard.save()
@@ -670,6 +671,8 @@ class TestQualityCheck(TestQualityCommon):
             'picking_type_ids': [(4, warehouse.store_type_id.id)],
         } for product in (p01, p02)])
 
+        # stock reference to simulate a common source document (e.g. PO)
+        reference = self.env['stock.reference'].create({'name': 'reference'})
         receipt = self.env['stock.picking'].create({
             'picking_type_id': self.picking_type_id,
             'partner_id': self.partner_id,
@@ -683,6 +686,7 @@ class TestQualityCheck(TestQualityCommon):
             'picking_id': receipt.id,
             'location_id': self.location_id,
             'location_dest_id': warehouse.wh_input_stock_loc_id.id,
+            'reference_ids': [Command.link(reference.id)],
         } for product in (p01, p02)])
         receipt.action_confirm()
         receipt.move_ids.quantity = 1
@@ -706,6 +710,7 @@ class TestQualityCheck(TestQualityCommon):
             'picking_id': receipt.id,
             'location_id': self.location_id,
             'location_dest_id': warehouse.wh_input_stock_loc_id.id,
+            'reference_ids': [Command.link(reference.id)],
         })
         receipt.action_confirm()
         receipt.move_ids.quantity = 1
@@ -1144,6 +1149,7 @@ class TestQualityCheck(TestQualityCommon):
         # Register a quantity of 2 units for your product_b and none for product_a
         move_tracked_product_a.quantity = 0
         move_tracked_product_b.quantity = 2
+        move_tracked_product_b.picked = True
         move_tracked_product_b._generate_serial_numbers("1", next_serial_count=2)
         tracked_check_ids_to_do = picking_in.check_ids.filtered(lambda qc: qc.product_id == self.product_4)
         self.env.invalidate_all()
@@ -1157,17 +1163,15 @@ class TestQualityCheck(TestQualityCommon):
         qc_wizard = Form.from_action(self.env, picking_in.check_quality()).save()
         self.assertEqual(qc_wizard.check_ids, tracked_check_ids_to_do)
 
-        # Set a quantity on the product_a but check only product_b
-        # Clicking on the Quality check button one should see both QC's
-        # -> At validation only the QC's for picked move should be seen
-        move_tracked_product_b.picked = True
+        # Checks related to picked products appear regardless of checking while Validating the picking
+        # or just doing the Quality Checks without validating the picking.
         move_tracked_product_a.quantity = 1
         move_tracked_product_a._generate_serial_numbers("1", next_serial_count=1)
         self.assertFalse(move_tracked_product_a.picked)
         qc_wizard = Form.from_action(self.env, picking_in.check_quality()).save()
-        self.assertEqual(qc_wizard.check_ids, picking_in.check_ids.filtered(lambda qc: qc.quality_state == 'none'))
+        self.assertEqual(qc_wizard.check_ids.lot_name, move_tracked_product_b.move_line_ids[1].lot_name)
 
-        # Validate incoming shipment.
+        # Validate incoming shipment, the same QCs should appear.
         wizard = Form.from_action(self.env, picking_in.button_validate()).save()
         qc_wizard = Form.from_action(self.env, wizard.process()).save()
         self.assertEqual(qc_wizard.check_ids, tracked_check_ids_to_do)
@@ -1551,4 +1555,88 @@ class TestQualityCheck(TestQualityCommon):
         self.assertRecordValues(self.receipt.check_ids, [
             {'quality_state': 'fail', 'product_id': self.product.id, 'qty_failed': 1.0},
             {'quality_state': 'fail', 'product_id': self.product.id, 'qty_failed': 1.0},
+        ])
+
+    def test_no_error_for_tracked_product_quality_check(self):
+        """Test that Quality Checks does not raise a UserError in 2 cases:
+        - A tracked product's lot/serial is not set but its quality point is not by quantity (measure_on != 'move_line')
+        - A quality point (measure_on='move_line') is configured for a non-tracked product with a tracked product whose
+        lot is not set in the same picking
+        """
+        self.product.write({
+            'tracking': 'serial',
+            'is_storable': True,
+        })
+        self.env['quality.point'].create([{
+            'picking_type_ids': [Command.link(self.picking_type_id)],
+            'measure_on': 'product',
+            'test_type_id': self.env.ref('quality_control.test_type_passfail').id,
+        }, {
+            'product_ids': [Command.link(self.product_2.id)],
+            'picking_type_ids': [Command.link(self.picking_type_id)],
+            'measure_on': 'move_line',
+            'test_type_id': self.env.ref('quality_control.test_type_passfail').id,
+        }])
+        picking = self.env['stock.picking'].create({
+            'picking_type_id': self.picking_type_id,
+            'location_id': self.location_id,
+            'location_dest_id': self.location_dest_id,
+            'move_ids': [Command.create({
+                    'product_id': p.id,
+                    'product_uom_qty': 2,
+                    'product_uom': p.uom_id.id,
+                    'location_id': self.location_id,
+                    'location_dest_id': self.location_dest_id,
+                }) for p in [self.product, self.product_2]],
+        })
+        picking.action_confirm()
+
+        qc_wizard = Form.from_action(self.env, picking.check_quality())
+        quality_check = qc_wizard.save()
+        self.assertEqual(len(quality_check.check_ids), 3)
+
+    def test_partial_quantity_failure_split(self):
+        """Test quantity failure splits move quantities correctly.
+        CASE-1: With total qty = 5 and failed qty = 3:
+        - Passed move: product_uom_qty = 2, move_line quantity = 2
+        - Failed move: product_uom_qty = 3, move_line quantity = 3
+        CASE-2: Failed qty > total qty (failed = 6):
+        - Passed move: product_uom_qty = 0, move_line quantity = 0
+        - Failed move: product_uom_qty = 5, move_line quantity = 6
+        """
+        self.env['quality.point'].create({
+            'picking_type_ids': [Command.link(self.picking_type_id)],
+            'measure_on': 'move_line',
+            'failure_location_ids': [Command.link(self.failure_location.id)],
+        })
+        self.product.is_storable = True
+        receipt1, receipt2 = self.env['stock.picking'].create([
+            {
+                'picking_type_id': self.picking_type_id,
+                'location_id': self.location_id,
+                'location_dest_id': self.location_dest_id,
+                'move_ids': [Command.create({
+                    'product_id': self.product.id,
+                    'product_uom_qty': 5,
+                    'location_id': self.location_id,
+                    'location_dest_id': self.location_dest_id,
+                })],
+            }
+            for _ in range(2)
+        ])
+        for picking, failed_qty in [(receipt1, 3), (receipt2, 6)]:
+            picking.action_confirm()
+            wizard_action = picking.check_ids.action_open_quality_check_wizard()
+            wizard = self.env[wizard_action['res_model']].with_context(wizard_action['context']).create({})
+            fail_action = wizard.do_fail()
+            fail_wizard = self.env[fail_action['res_model']].with_context(fail_action['context']).browse(fail_action['res_id'])
+            fail_wizard.qty_failed = failed_qty
+            fail_wizard.confirm_fail()
+        self.assertRecordValues(receipt1.move_ids, [
+            {'product_id': self.product.id, 'product_uom_qty': 2, 'quantity': 2},
+            {'product_id': self.product.id, 'product_uom_qty': 3, 'quantity': 3},
+        ])
+        self.assertRecordValues(receipt2.move_ids, [
+            {'product_id': self.product.id, 'product_uom_qty': 0, 'quantity': 0},
+            {'product_id': self.product.id, 'product_uom_qty': 5, 'quantity': 6},
         ])

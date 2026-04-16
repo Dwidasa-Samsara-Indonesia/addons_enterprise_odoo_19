@@ -323,6 +323,11 @@ class TestFsmFlowSale(TestFsmFlowSaleCommon):
             'name': 'Original Task for Copy Test',
             'project_id': normal_project.id,
             'partner_id': self.partner_1.id,
+            'timesheet_ids': [Command.create({
+                'employee_id': self.employee_user2.id,
+                'name': '/',
+                'unit_amount': 1,
+            })],
         })
         
         fsm_product = self.env['product.product'].create({
@@ -440,3 +445,38 @@ class TestFsmFlowSale(TestFsmFlowSaleCommon):
             'no',
             "Invoice status should be 'no' when the task's company has Anglo-Saxon accounting disabled and the price is zero."
         )
+
+    def test_sale_order_unlink_on_sale_item_removal(self):
+        """
+        When a sales order line is unlinked from a task, the sales order should also
+        be unlinked, unless the task is related to FSM.
+        """
+        fsm_product = self.env['product.product'].create(
+            {
+                'name': "Fsm Product",
+                'type': 'service',
+                'service_policy': 'ordered_prepaid',
+                'project_id': self.fsm_project.id,
+                'service_tracking': 'task_global_project',
+            }
+        )
+        self.service_timesheet.service_tracking = "task_in_project"
+        sale_order, fsm_order = self.env['sale.order'].create([
+            {
+                'partner_id': self.partner_1.id,
+                'order_line': [Command.create({'product_id': self.service_timesheet.id})]
+            },
+            {
+                'partner_id': self.partner_1.id,
+                'order_line': [Command.create({'product_id': fsm_product.id})]
+            }
+        ])
+        (sale_order | fsm_order).action_confirm()
+        self.assertEqual(len(sale_order.tasks_ids), 1)
+        self.assertEqual(len(fsm_order.tasks_ids), 1)
+
+        task = sale_order.tasks_ids
+        fsm_task = fsm_order.tasks_ids
+        (task | fsm_task).sale_line_id = False
+        self.assertFalse(task.sale_order_id.id)
+        self.assertTrue(fsm_task.sale_order_id.id)

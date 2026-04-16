@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 10:10+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-03-16 11:30+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "accountant_knowledge/de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -91,7 +91,7 @@ msgid ""
 msgstr ""
 "<strong>Komponentenbasierte Vermögenswerte</strong>: Das Unternehmen war "
 "nicht in der Lage, komponentenbasierte Vermögenswerte zu identifizieren, "
-"oder die Aufgliederung solcher Vermögenswerte hat keine wesentlichen "
+"oder die Aufgliederung solcher Vermögenswerte hatte keine wesentlichen "
 "Auswirkungen."
 
 #. module: accountant_knowledge
@@ -127,7 +127,7 @@ msgstr "<strong>Ausrüstung und Tools</strong>"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
 msgid "<strong>Intangible Assets</strong>"
-msgstr "<strong>Immaterielle Anlagewerte</strong>"
+msgstr "<strong>Immaterielle Vermögenswerte</strong>"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
@@ -189,7 +189,7 @@ msgstr "<strong>Anzahl Aktien</strong><br>"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
 msgid "<strong>Other Tangible Assets</strong>"
-msgstr "<strong>Andere materielle Anlagewerte</strong>"
+msgstr "<strong>Andere materielle Anlagen</strong>"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
@@ -276,9 +276,22 @@ msgid "Annexes"
 msgstr "Anhänge"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
 msgstr "Jahresbericht"
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_article_id
@@ -335,27 +348,9 @@ msgid "Attestation"
 msgstr "Nachweis"
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
 msgstr "Prüfungsbericht"
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr "Vorlage eines Prüfungsberichts"
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Prüfungsberichte"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
-msgstr "Prüfungsvorlage"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_balance_sheet
@@ -483,8 +478,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
-msgstr "Einen Prüfungsbericht erstellen"
+msgid "Create an Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_uid
@@ -696,8 +691,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr "Prüfungsbericht bearbeiten"
+msgid "Edit Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -1732,6 +1727,11 @@ msgid "Technical installations, equipment, and tools<br>"
 msgstr "Technische Anlagen, Ausrüstung und Werkzeuge<br>"
 
 #. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr ""
+
+#. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid ""
 "The annual financial statements have been prepared in accordance with "
@@ -2014,3 +2014,18 @@ msgstr "Während des Zeitraums beschäftigte Arbeitskräfte"
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr "z.B. Jährlicher Finanzüberblick"
+
+#~ msgid "Audit Report Template"
+#~ msgstr "Vorlage eines Prüfungsberichts"
+
+#~ msgid "Audit Reports"
+#~ msgstr "Prüfungsberichte"
+
+#~ msgid "Audit Template"
+#~ msgstr "Prüfungsvorlage"
+
+#~ msgid "Create an Audit Report"
+#~ msgstr "Einen Prüfungsbericht erstellen"
+
+#~ msgid "Edit Audit Report"
+#~ msgstr "Prüfungsbericht bearbeiten"

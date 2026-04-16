@@ -18,7 +18,7 @@ export class AILivechat extends Interaction {
                         'promptPlaceholder':  this.el.dataset.promptPlaceholder ? this.el.dataset.promptPlaceholder : _t('Ask AI'),
                         'hasFallbackButton':  this.el.dataset.hasFallbackButton === 'true' ? true : false,
                         'fallbackButtonText':  this.el.dataset.fallbackButtonText ? this.el.dataset.fallbackButtonText : _t('Contact Us'),
-                        'fallbackButtonURL':  this.el.dataset.fallbackButtonURL || '#',
+                        'fallbackButtonURL':  this.el.dataset.fallbackButtonURL || '',
                     }
                 ]
             }

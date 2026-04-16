@@ -70,7 +70,7 @@ class HrVersion(models.Model):
         ]
 
     l10n_us_old_w4 = fields.Boolean(
-        string="Filled in 2019 or Before",
+        string="Filed in 2019 or Before",
         groups="hr_payroll.group_hr_payroll_user",
         tracking=True,
         help="Check only if W4 was filed before 2020.")

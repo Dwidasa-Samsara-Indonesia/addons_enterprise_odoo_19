@@ -630,7 +630,7 @@ else:
         cycle_days = inputs['CYCLE'].amount if 'CYCLE' in inputs else 0
         # YTI NOTE: Changed nature of field (from missing dats to granting days)
         result_qty = max(payslip.private_car_missing_days - cycle_days, 0)
-        result = daily_amount
+        result = round(daily_amount, 2)
     else:
         result = 0
         </field>
@@ -639,7 +639,7 @@ else:
 
     <record id="cp200_employees_salary_cycle_transportation" model="hr.salary.rule">
         <field name="category_id" ref="hr_payroll_head_div_net"/>
-        <field name="name">Cycle Transportation (Days Count)</field>
+        <field name="name">Cycle Transportation Reimbursement</field>
         <field name="code">CYCLE</field>
         <field name="amount_select">code</field>
         <field name="sequence">170</field>
@@ -713,7 +713,7 @@ if 'REPFEESREGUL' in inputs:
         <field name="amount_select">code</field>
         <field name="sequence">174</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = version.l10n_be_canteen_cost</field>
+        <field name="condition_python">result = version.l10n_be_canteen_cost and 'WORK100' in worked_days and worked_days['WORK100'].amount</field>
         <field name="amount_python_compute">
 result = -version.l10n_be_canteen_cost if result_rules['BASIC']['total'] else 0
 salary_simulation = payslip.env.context.get('salary_simulation')

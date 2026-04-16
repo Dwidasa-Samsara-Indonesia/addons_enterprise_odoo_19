@@ -1,8 +1,9 @@
 from psycopg2 import IntegrityError
 from unittest.mock import patch
 
-from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+from odoo import Command
+from odoo.tests import tagged, new_test_user
+from odoo.tests.common import TransactionCase, users
 from odoo.tools import mute_logger
 
 
@@ -13,12 +14,19 @@ class TestProjectProject(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
 
+        cls.user_db_user = new_test_user(cls.env, login='db_user@company.tld', groups="databases.group_databases_user")
+        cls.user_db_manager = new_test_user(cls.env, login='db_manager@company.tld', groups="databases.group_databases_manager")
+
         # test create a db with just a url
         # this is in the setUpClass as we will reuse it in each test
         cls.database = cls.env['project.project'].create([{
             'name': 'An accounting DB',
             'database_hosting': 'saas',
             'database_url': 'https://anotherdb.that.doesnt.exist',
+            'database_user_ids': [
+                Command.create({'login': 'db_user@company.tld', 'name': 'User'}),
+                Command.create({'login': 'db_manager@company.tld', 'name': 'Manager'}),
+            ],
         }])
 
     def test_create_projects_without_a_url(self):
@@ -49,22 +57,24 @@ class TestProjectProject(TransactionCase):
         # once database_url is set, database_hosting can be set without error
         regular_project.database_hosting = 'other'
 
+    @users('db_user@company.tld', 'db_manager@company.tld')
     def test_action_database_connect_other(self):
         self.database.database_hosting = 'other'
 
-        action = self.database.action_database_connect()
+        action = self.database.with_user(self.env.user).action_database_connect()
         self.assertEqual(action, {
             'type': 'ir.actions.act_url',
             'url': self.database.database_url,
             'target': 'new',
         })
 
+    @users('db_user@company.tld', 'db_manager@company.tld')
     @patch('requests.sessions.Session.request')
     def test_action_database_connect_saas(self, mock_request):
         mock_request.return_value.status_code = 200
         mock_request.return_value.json.return_value = 'the_database_uuid'
 
-        action = self.database.action_database_connect()
+        action = self.database.with_user(self.env.user).action_database_connect()
         mock_request.assert_called_once()
         self.assertEqual(action, {
             'type': 'ir.actions.act_url',
@@ -72,12 +82,13 @@ class TestProjectProject(TransactionCase):
             'target': 'new',
         })
 
+    @users('db_user@company.tld', 'db_manager@company.tld')
     @patch('requests.sessions.Session.request')
     def test_action_database_connect_saas_with_error(self, mock_request):
         mock_request.return_value.status_code = 500
         mock_request.return_value.json.return_value = {'message': 'Some error'}
 
-        action = self.database.action_database_connect()
+        action = self.database.with_user(self.env.user).action_database_connect()
         mock_request.assert_called_once()
         self.assertEqual(action, {
             'type': 'ir.actions.act_url',
@@ -85,22 +96,24 @@ class TestProjectProject(TransactionCase):
             'target': 'new',
         })
 
+    @users('db_user@company.tld', 'db_manager@company.tld')
     def test_action_database_connect_premise_172(self):
         self.database.database_hosting = 'premise'
         self.database.database_version = 'saas~17.2'
 
-        action = self.database.action_database_connect()
+        action = self.database.with_user(self.env.user).action_database_connect()
         self.assertEqual(action, {
             'type': 'ir.actions.act_url',
             'url': 'https://anotherdb.that.doesnt.exist/odoo',
             'target': 'new',
         })
 
+    @users('db_user@company.tld', 'db_manager@company.tld')
     def test_action_database_connect_premise_171(self):
         self.database.database_hosting = 'premise'
         self.database.database_version = 'saas~17.1'
 
-        action = self.database.action_database_connect()
+        action = self.database.with_user(self.env.user).action_database_connect()
         self.assertEqual(action, {
             'type': 'ir.actions.act_url',
             'url': 'https://anotherdb.that.doesnt.exist/web',

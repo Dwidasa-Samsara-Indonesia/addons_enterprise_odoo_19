@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, models, fields
+from odoo import _, api, models, fields
 from odoo.exceptions import ValidationError
 
 
@@ -28,7 +28,8 @@ class EquityTransaction(models.Model):
         required=True,
         index='btree',
     )
-    equity_currency_id = fields.Many2one(comodel_name='res.currency', string="Currency", related='partner_id.equity_currency_id')
+    equity_currency_id = fields.Many2one(comodel_name='res.currency', string="Currency", related='partner_id.equity_currency_id', readonly=False)
+    can_change_currency = fields.Boolean(compute='_compute_can_change_currency')
     date = fields.Date(default=fields.Date.context_today, required=True)
     expiration_date = fields.Date(
         string="Expiration",
@@ -269,13 +270,23 @@ class EquityTransaction(models.Model):
             else:
                 transaction.display_name = ""
 
+    @api.depends('partner_id', 'partner_id.equity_transaction_ids')
+    def _compute_can_change_currency(self):
+        for transaction in self:
+            transaction.can_change_currency = not (transaction.partner_id.equity_transaction_ids - transaction)
+
     @api.model_create_multi
     def create(self, vals_list):
         transactions = super().create(vals_list)
+        if any(len(partner.equity_transaction_ids.equity_currency_id) > 1 for partner in transactions.partner_id):
+            raise ValidationError(_("A partner cannot have transactions in different currencies."))
         self.env['equity.cap.table'].invalidate_model()
         return transactions
 
     def write(self, vals):
+        if 'equity_currency_id' in vals:
+            if any(not transaction.can_change_currency and transaction.equity_currency_id.id != vals['equity_currency_id'] for transaction in self):
+                raise ValidationError(_("You cannot change the equity currency because this partner already has existing transactions."))
         transactions = super().write(vals)
         self.env['equity.cap.table'].invalidate_model()
         return transactions

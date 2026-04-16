@@ -19,7 +19,9 @@ class DocumentsSharing(models.TransientModel):
 
             error_partners = self.env['res.partner']
             is_inviting = wizard.invite_partner_ids
-            edit_access_partner = wizard.share_access_ids.filtered(lambda s: s.role.endswith('edit')).partner_id
+            edit_access_partner = wizard.share_access_ids.filtered(
+                lambda s: s.role.endswith('edit') and not s.is_deleted
+            ).partner_id
             has_edit = wizard.invite_role == 'edit' if is_inviting else (
                     wizard.access_internal.endswith('edit') or wizard.access_via_link.endswith('edit')
                     or edit_access_partner)
@@ -35,7 +37,9 @@ class DocumentsSharing(models.TransientModel):
             elif (sp_docs and (edit_partner_share := (
                     wizard.invite_partner_ids
                     if is_inviting and wizard.invite_role == 'edit'
-                    else wizard.share_access_ids.filtered(lambda s: s.role.endswith('edit')).partner_id
+                    else wizard.share_access_ids.filtered(
+                        lambda s: s.role.endswith('edit') and not s.is_deleted
+                    ).partner_id
             ).filtered(lambda p: p.partner_share))):
                 wizard.error_message_spreadsheet = _(
                     "You can not share spreadsheet(s) in edit mode (%(document_names)s) to non-internal users.",

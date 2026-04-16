@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_done'][1]" position="attributes">
-                <attribute name="invisible">state != 'in_progress' or quality_check_todo or show_check_availability</attribute>
+                <attribute name="invisible" separator="or" add="quality_check_todo"/>
             </xpath>
             <xpath expr="//button[@name='action_done'][2]" position="attributes">
-                <attribute name="invisible">state != 'in_progress' or not quality_check_todo and not show_check_availability</attribute>
+                <attribute name="invisible" separator="and" add="not quality_check_todo"/>
             </xpath>
             <xpath expr="//button[@name='action_done']" position="after">
                 <field name="quality_check_todo" invisible="1"/>

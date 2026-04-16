@@ -60,6 +60,7 @@ export class ThankYouDialog extends Component {
         this.message = this.props.message || defaultMessage;
         onWillStart(this.willStart);
         this.isMobileOS = isMobileOS();
+        this.env.dialogData.dismiss = () => this.onClickClose();
     }
 
     get suggestSignUp() {
@@ -92,7 +93,7 @@ export class ThankYouDialog extends Component {
             const result = await rpc("/sign/sign_request_items", {
                 request_id: this.signInfo.get("documentId"),
                 sign_item_id: this.signInfo.get("signRequestItemId"),
-                token: this.signInfo.get("signRequestToken"),
+                token: this.signInfo.get("signRequestItemToken"),
             });
             if (result && result.length) {
                 this.state.nextDocuments = result.map((doc) => {

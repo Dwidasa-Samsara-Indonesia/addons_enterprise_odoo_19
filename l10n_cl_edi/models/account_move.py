@@ -671,7 +671,8 @@ services reception has been received as well.
                 ('status', '=', 'in_use'), ('company_id', '=', self.company_id.id)], limit=1)
                 if not available_caf:
                     start_nb = self.l10n_latam_document_type_id._get_start_number()
-                    res = f"{self.l10n_latam_document_type_id.doc_code_prefix} {start_nb - 1:06d}"
+                    if start_nb:
+                        res = f"{self.l10n_latam_document_type_id.doc_code_prefix} {start_nb - 1:06d}"
         return res
 
     def _l10n_cl_create_dte(self):
@@ -992,7 +993,7 @@ services reception has been received as well.
 
     def _l10n_cl_ask_claim_status(self):
         for move in self.search([('l10n_cl_dte_acceptation_status', 'in', ['accepted', 'claimed']),
-                                 ('move_type', 'in', ['out_invoice', 'out_refund']),
+                                 ('move_type', '=', 'out_invoice'),
                                  ('l10n_cl_claim', '=', False)]):
             if move.company_id.l10n_cl_dte_service_provider in ['SIITEST', 'SIIDEMO']:
                 continue

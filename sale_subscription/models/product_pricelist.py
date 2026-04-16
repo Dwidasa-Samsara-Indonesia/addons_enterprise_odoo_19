@@ -35,6 +35,8 @@ class ProductPricelist(models.Model):
         self.ensure_one()
 
         recurring_rules = self.env['product.pricelist.item']
+        if plan_id is None:
+            plan_id = self.env.context.get("plan_id")
         if plan_id:
             # Prepend the recurring rules if a plan is given, as they are expected to take priority
             # over the standard rules.

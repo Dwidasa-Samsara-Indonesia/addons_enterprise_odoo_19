@@ -1,6 +1,6 @@
 import logging
 
-from odoo import _, fields, models
+from odoo import api, fields, models, _
 
 _logger = logging.getLogger(__name__)
 
@@ -64,3 +64,8 @@ class PosConfig(models.Model):
         if self.self_ordering_mode == 'mobile':
             return res
         return res or any(pm.iot_device_id for pm in self.payment_method_ids)
+
+    @api.model
+    def _load_pos_self_data_fields(self, pos_config_id):
+        fields = super()._load_pos_self_data_fields(pos_config_id)
+        return fields + ['self_ordering_iot_available_iot_box_ids', 'iface_printer_id']

@@ -532,18 +532,14 @@ class AccountReturnType(models.Model):
         return period_suffix
 
     def _get_periodicity(self, company):
-        self.ensure_one()
         return self.with_company(company).sudo().deadline_periodicity or company.sudo().account_return_periodicity
 
     def _get_start_date(self):
-        self.ensure_one()
-
         return self.sudo().deadline_start_date or fields.Date.from_string('2025-01-01')
 
     def _get_periodicity_months_delay(self, company, date=None):
         """ Returns the number of months separating two returns
         """
-        self.ensure_one()
         periodicity = self._get_periodicity(company)
         if periodicity == 'fiscalyear':
             if date:
@@ -576,7 +572,6 @@ class AccountReturnType(models.Model):
 
         This function needs to stay consistent with the one inside Javascript in the filters for the tax report
         """
-        self.ensure_one()
         if self._get_periodicity(company_id) == 'fiscalyear':
             fy_dates = company_id.compute_fiscalyear_dates(date)
             return fy_dates['date_from'], fy_dates['date_to']
@@ -1516,8 +1511,6 @@ class AccountReturn(models.Model):
 
     def action_mark_completed(self):
         self.ensure_one()
-        if self.state != 'new':
-            raise UserError(_("You can only revert a completed return if the previous state was new."))
         return self._mark_completed()
 
     def _mark_completed(self):
@@ -2139,9 +2132,10 @@ class AccountReturn(models.Model):
 
             checks.append({
                 'name': _lt("Company data"),
-                'message': _lt("""Missing company details (like VAT number or country) can cause errors in your report,
-such as using the wrong VAT rate, wrongly exempting transactions.
-                """),
+                'message': _lt(
+                    "Missing company details (like VAT number or country) can cause errors in your report, "
+                    "such as using the wrong VAT rate, wrongly exempting transactions."
+                ),
                 'code': 'check_company_data',
                 'records_count': invalid_fields_count,
                 'action': review_action,
@@ -2157,6 +2151,7 @@ such as using the wrong VAT rate, wrongly exempting transactions.
             )
 
         if 'check_draft_entries' not in check_codes_to_ignore:
+            check_codes_to_ignore.add('check_draft_entries')
             checks.append(self._check_draft_entries(
                     code='check_draft_entries',
                     name=_lt("Draft entries"),
@@ -2435,7 +2430,7 @@ such as using the wrong VAT rate, wrongly exempting transactions.
             checks.append({
                 'name': _lt("Valid VAT Numbers"),
                 'code': 'check_partner_vies',
-                'message': _lt("""All customer VAT numbers are valid under <a href="https://ec.europa.eu/taxation_customs/vies" target="_blank">VIES</a>."""),
+                'message': _lt("""All customer VAT numbers are valid under VIES."""),
                 'state': 'new',
                 'records_count': invalid_vies_partners_count,
                 'records_model': self.env['ir.model']._get('res.partner').id,
@@ -2494,17 +2489,18 @@ such as using the wrong VAT rate, wrongly exempting transactions.
                     },
                 })
 
-        if any(code not in check_codes_to_ignore for code in ('eu_cross_border', 'only_b2b', 'no_partners_without_vat')):
+        if any(code not in check_codes_to_ignore for code in ('eu_cross_border', 'no_partners_without_vat')):
             warnings = {}
             custom_handler = self.env[self.type_id.report_id._get_custom_handler_model()]
             options = self._get_closing_report_options()
             partner_results = custom_handler._query_partners(self.type_id.report_id, options, warnings)
 
             if 'eu_cross_border' not in check_codes_to_ignore:
-                cross_border_failure = 'account_reports.sales_report_warning_non_ec_country' in warnings or 'account_report.sales_report_warning_same_country' in warnings
+                cross_border_failure = 'account_reports.sales_report_warning_non_ec_country' in warnings or 'account_reports.sales_report_warning_same_country' in warnings
 
                 cross_border_action = False
                 if cross_border_failure:
+                    options['same_country_warning'] = self.company_id.country_id.code
                     same_country_action = custom_handler.get_warning_act_window(options, {'type': 'same_country', 'model': 'partner'})
                     non_ec_country_action = custom_handler.get_warning_act_window(options, {'type': 'non_ec_country', 'model': 'partner'})
                     cross_border_action = {
@@ -2519,21 +2515,6 @@ such as using the wrong VAT rate, wrongly exempting transactions.
                     'code': 'eu_cross_border',
                     'result': 'anomaly' if cross_border_failure else 'reviewed',
                     'action': cross_border_action,
-                })
-
-            if 'only_b2b' not in check_codes_to_ignore:
-                non_b2b_partners = self.env['res.partner'].browse(
-                    partner.id for partner, _partner_result in partner_results if not partner.is_company
-                )
-                checks.append({
-                    'name': _lt("Only business customers"),
-                    'message': _lt("Exclude any private customers."),
-                    'code': 'only_b2b',
-                    'result': 'anomaly' if non_b2b_partners else 'reviewed',
-                    'action': (
-                        non_b2b_partners._get_records_action(name=self.env._("Private Customers"))
-                        if non_b2b_partners else None
-                    ),
                 })
 
             if 'no_partners_without_vat' not in check_codes_to_ignore:

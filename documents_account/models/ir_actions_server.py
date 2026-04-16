@@ -114,34 +114,20 @@ class IrActionsServer(models.Model):
         raise NotImplementedError
 
     def _run_action_multi(self, eval_context=None):
-        """Override to ensure correct behaviour of the docs sync mechanism.
+        """Override to enforce visual execution order for specific accounting actions.
 
-        This is a stable-proof temporary solution to ensure a synced doc will end up
-        in the correct synced accounting journal folder. The issue is that there is
-        an unnecessary move action to a intermediate folder in some accounting multi-actions.
-
-        The solution is to ensure the move action happens *before* the record creation action.
-        This is done by modifying the order in which the multi-actions run.
-
-        Since the action is not naturally available on this intermediate folder, we
-        temporarily embed (pin) it there during execution to bypass permission checks.
+        This is a stable-proof temporary solution to ensure that sub-actions
+        (e.g., 'Move to Folder' followed by 'Create Invoice') execute in the same
+        order as visually shown in the frontend.
         """
         account_actions = self._get_documents_account_actions_map()
         if self.id not in account_actions:
             return super()._run_action_multi(eval_context=eval_context)
 
-        folder_id = account_actions[self.id]
-        extra_folder = self.env['documents.document'].browse(folder_id)
-        new_embedding_folders = extra_folder._embed_action(self.id) if extra_folder.exists() else []
-
         res = False
         # Order as viewed in action's form view, simplest contained change for stable.
         for act in self.child_ids.sorted('sequence,id'):
             res = act.run() or res
-
-        for folder in new_embedding_folders:
-            # Restore embedding state
-            folder.action_folder_embed_action(folder.id, self.id)
 
         return res
 
@@ -150,8 +136,12 @@ class IrActionsServer(models.Model):
     def _get_documents_account_actions_map(self):
         """Map actions that need custom handling to ensure correct syncing behaviour.
 
-        This configuration defines which actions require a custom execution order
-        and temporary pinning in specific folders during execution.
+        Returns a dictionary mapping Action IDs to their target Folder IDs.
+
+        - Keys: Actions that must execute in visual order.
+        - Values: The target folder for the move. (Note: These values were previously used
+          for temporary permission elevation but are currently unused as the security
+          logic has been relaxed).
 
         It is cached because the mapping relies on global data (XML IDs) and is
         independent of the current user.

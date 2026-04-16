@@ -83,7 +83,6 @@ class AmazonOffer(models.Model):
         help="The channel will be updated with the incomming orders or during the next stock"
         " synchronization.",
         selection=[('fbm', "Fulfilled by Merchant"), ('fba', "Fulfilled by Amazon")],
-        readonly=True,
     )
     sync_stock = fields.Boolean(
         string="Stock Synchronization", compute='_compute_sync_stock', store=True, readonly=False,

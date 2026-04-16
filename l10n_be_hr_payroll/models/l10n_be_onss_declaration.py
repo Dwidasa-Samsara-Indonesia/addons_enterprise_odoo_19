@@ -65,7 +65,6 @@ class L10nBeOnssDeclaration(models.Model):
         _logger.info("User %s starting ONSS SFTP connection for company %s",
                      self.env.user.login, self.env.company.name)
 
-    @api.model
     def action_test_sftp_connection(self):
         self.ensure_one()
         self._check_access_sftp_connection()

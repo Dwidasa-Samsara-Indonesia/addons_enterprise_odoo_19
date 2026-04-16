@@ -17,11 +17,10 @@ patch(PosStore.prototype, {
 
         return isUnidentifiedCustomer && exceedsLimit;
     },
-    createNewOrder() {
-        const order = super.createNewOrder(...arguments);
-        if (this.config.is_guatemalan_company && !order.partner_id) {
-            order.partner_id = this.config._consumidor_final_id;
+    getDefaultPartnerId() {
+        if (this.config.is_guatemalan_company) {
+            return this.config._consumidor_final_id;
         }
-        return order;
+        return super.getDefaultPartnerId();
     },
 });

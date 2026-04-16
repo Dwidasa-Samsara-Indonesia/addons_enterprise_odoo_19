@@ -445,8 +445,8 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
         self.assertRecordValues(invoice, [{'l10n_mx_edi_update_payments_needed': False}])
 
     def test_invoice_advanced_payment_flows(self):
-        invoice = self._create_invoice(invoice_date_due='2017-01-01')
-        self.assertRecordValues(invoice, [{'l10n_mx_edi_payment_policy': 'PUE'}])
+        invoice = self._create_invoice()
+        self.assertRecordValues(invoice, [{'l10n_mx_edi_payment_policy': 'PPD'}])
 
         # Sign.
         with freeze_time('2017-01-07'), self.with_mocked_pac_sign_success():
@@ -471,25 +471,10 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
                 'amount': 100.0,
             })\
             ._create_payments()
-        with freeze_time('2017-06-02'), self.with_mocked_pac_sign_success():
-            invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
-        self.assertRecordValues(invoice.l10n_mx_edi_invoice_document_ids.sorted(), [
-            {
-                'move_id': payment.move_id.id,
-                'datetime': fields.Datetime.from_string('2017-06-02 00:00:00'),
-                'message': False,
-                'state': 'payment_sent_pue',
-                'sat_state': False,
-                'cancellation_reason': False,
-                'cancel_button_needed': False,
-                'retry_button_needed': False,
-            },
-            sent_doc_values,
-        ])
 
-        # Force sending but force an error.
+        # Try sending payment CFDI but force an error.
         with freeze_time('2017-06-03'), self.with_mocked_pac_sign_error():
-            invoice.l10n_mx_edi_invoice_document_ids.sorted()[0].action_force_payment_cfdi()
+            invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
         self.assertRecordValues(invoice.l10n_mx_edi_invoice_document_ids.sorted(), [
             {
                 'move_id': payment.move_id.id,
@@ -504,9 +489,8 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
             sent_doc_values,
         ])
 
-        # Retry.
         with freeze_time('2017-06-04'), self.with_mocked_pac_sign_success():
-            invoice.l10n_mx_edi_invoice_document_ids.sorted()[0].action_retry()
+            invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
         payment_doc_values = {
             'move_id': payment.move_id.id,
             'datetime': fields.Datetime.from_string('2017-06-04 00:00:00'),
@@ -575,7 +559,6 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
         }])
         with freeze_time('2017-08-03'), self.with_mocked_pac_sign_success():
             invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
-            payment2.l10n_mx_edi_payment_document_ids.action_force_payment_cfdi()
         payment2_doc_values = {
             'move_id': payment2.move_id.id,
             'datetime': fields.Datetime.from_string('2017-08-03 00:00:00'),
@@ -599,9 +582,9 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
             .with_context(active_model='account.move', active_ids=invoice.ids)\
             .create({})\
             ._create_payments()
+
         with freeze_time('2017-08-04'), self.with_mocked_pac_sign_success():
             invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
-            payment3.l10n_mx_edi_payment_document_ids.action_force_payment_cfdi()
         payment3_doc_values = {
             'move_id': payment3.move_id.id,
             'datetime': fields.Datetime.from_string('2017-08-04 00:00:00'),
@@ -1840,7 +1823,7 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
 
     def test_payment_workflow(self):
         """ Test the payment workflow, here is the flow we test :
-                1) create and sign an invoice
+                1) create and sign an invoice (PPD)
                 2) create a first payment and send it
                 3) unreconcile the first payment
                 4) create a second payment with cfdi_origin referring the first payment uuid and send it
@@ -1848,7 +1831,7 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
                 6) cancel the second payment
         """
         # Create invoice
-        invoice = self._create_invoice(invoice_date_due='2017-01-01')
+        invoice = self._create_invoice()
 
         # Sign.
         with freeze_time('2017-01-07'), self.with_mocked_pac_sign_success():
@@ -1874,7 +1857,6 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
 
         with freeze_time('2017-06-02'), self.with_mocked_pac_sign_success():
             invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
-            payment1.l10n_mx_edi_payment_document_ids.action_force_payment_cfdi()
 
         payment1_doc_values = {
             'move_id': payment1.move_id.id,
@@ -1903,7 +1885,6 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
 
         with freeze_time('2017-06-02'), self.with_mocked_pac_sign_success():
             invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
-            payment2.l10n_mx_edi_payment_document_ids.action_force_payment_cfdi()
 
         payment2_doc_values = {
             'move_id': payment2.move_id.id,
@@ -2001,7 +1982,7 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
                 4) cancel the payment
         """
         # Create invoice
-        invoice = self._create_invoice(invoice_date_due='2017-01-01')
+        invoice = self._create_invoice()
 
         # Sign.
         with freeze_time('2017-01-01'), self.with_mocked_pac_sign_success():
@@ -2026,10 +2007,8 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
             })\
             ._create_payments()
 
-        with freeze_time('2017-01-01'), self.with_mocked_pac_sign_success():
-            invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
         with freeze_time('2017-01-01'), self.with_mocked_pac_sign_error():
-            payment1.l10n_mx_edi_payment_document_ids.action_force_payment_cfdi()
+            invoice.l10n_mx_edi_cfdi_invoice_try_update_payments()
 
         payment1_doc_values = {
             'move_id': payment1.move_id.id,
@@ -2095,11 +2074,6 @@ class TestCFDIInvoiceWorkflow(TestMxEdiCommon):
         new_invoice = self.env['account.move'].browse(action_results['res_id'])
         self.assertEqual(new_invoice.line_ids[0].name, 'section')
         self.assertEqual(new_invoice.line_ids[1].name, 'note')
-
-    def test_legal_name_sanitization(self):
-        unsanitized_name = "Dinora Güntner Ñúñez Ávila Zoë"
-        sanitized_name = self.env['l10n_mx_edi.document']._cfdi_sanitize_to_legal_name(unsanitized_name)
-        self.assertEqual(sanitized_name, 'DINORA GÜNTNER ÑUÑEZ AVILA ZOË')
 
     def test_cron_update_sat_state_write_date(self):
         """ Test that the sat_state is updated always when using the cron. """

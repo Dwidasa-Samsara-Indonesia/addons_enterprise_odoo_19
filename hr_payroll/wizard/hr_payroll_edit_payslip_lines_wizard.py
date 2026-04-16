@@ -186,7 +186,7 @@ class HrPayrollEditPayslipLine(models.TransientModel):
     def _export_to_payslip_line(self):
         return [{
             'sequence': line.sequence,
-            'code': line.code,
+            'code': line.salary_rule_id.code,
             'name': line.name,
             'salary_rule_id': line.salary_rule_id.id,
             'version_id': line.version_id.id,

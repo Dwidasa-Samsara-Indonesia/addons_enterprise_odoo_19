@@ -51,13 +51,13 @@
             </div>
             <div class="o_cell d-flex flex-column o_payrun_buttons gap-1 w-auto ms-auto">
                 <PayRunButtonBox>
-                    <t t-set-slot="compute" isVisible="payrun.state === '01_ready' &amp;&amp; payrun.empty_payslips">
+                    <t t-set-slot="compute" isVisible="payrun.state === '01_ready' &amp;&amp; payrun.empty_payslips > 0">
                         <ViewButton className="'btn btn-primary'"
                                     clickParams="{type: 'object', name: 'action_confirm'}"
                                     record="props.record"
                                     string.translate="Compute"/>
                     </t>
-                    <t t-set-slot="confirm" isVisible="payrun.state === '01_ready' &amp;&amp; !payrun.empty_payslips">
+                    <t t-set-slot="confirm" isVisible="payrun.state === '01_ready' &amp;&amp; payrun.payslip_count > 0 &amp;&amp; payrun.empty_payslips === 0">
                         <ViewButton className="'btn btn-primary'"
                                     clickParams="{type: 'object', name: 'action_validate'}"
                                     context="{'payslip_generate_pdf': True}"

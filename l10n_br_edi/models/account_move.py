@@ -774,9 +774,11 @@ class AccountMove(models.Model):
             return None, str(e)
 
     def _cron_l10n_br_get_invoice_statuses(self, batch_size=10):
-        pending_invoices = self.search([("l10n_br_last_edi_status", "=", "pending")], limit=batch_size)
+        pending_invoices = self.search([("l10n_br_last_edi_status", "=", "pending")], limit=batch_size + 1)
         for invoice in pending_invoices[:batch_size]:
             invoice.button_l10n_br_edi_get_service_invoice()
+            if self._can_commit():
+                self.env.cr.commit()
 
         if len(pending_invoices) > batch_size:
             self.env.ref("l10n_br_edi.ir_cron_l10n_br_edi_check_status")._trigger()

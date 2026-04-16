@@ -263,7 +263,20 @@ class L10nCHEmployeeYearlySnapshot(models.Model):
             groupby=["employee_id", "date_to:year", "date_to:month"],
             aggregates=["id:recordset"])
         yearly_values = self.env["l10n.ch.employee.yearly.values"].search([("year", '=', year), ('employee_id.company_id', '=', company_id.id)])
-        mapped_qst_institutions = self.env["l10n.ch.source.tax.institution"].search([('company_id', '=', company_id.id)]).grouped("canton")
+        qst_institutions = self.env["l10n.ch.source.tax.institution"].search([('company_id', '=', company_id.id)])
+        mapped_qst_institutions = qst_institutions.grouped("canton")
+
+        source_tax_commission = defaultdict(float)
+
+        for qst_institution in qst_institutions:
+            commission_rate = self.env['hr.rule.parameter']._get_parameter_from_code(f'l10n_ch_withholding_tax_rates_{qst_institution.canton.upper()}_PEL', date=datetime.date(year, month, 1), raise_if_not_found=False)
+            if commission_rate:
+                # Format : [(1.0, 999999.0, 0.0, 2.0)]
+                real_rate = commission_rate[0][3] / 100
+            else:
+                real_rate = 0
+            source_tax_commission[swissdec_declaration.get_institution_id_ref(institution=qst_institution)] = real_rate
+
         qst_ema = self.env["l10n.ch.is.mutation"]._read_group(
             domain=[("employee_id", 'in', yearly_values.mapped('employee_id').ids)],
             groupby=["employee_id", "valid_as_of:year", "valid_as_of:month"],
@@ -772,7 +785,7 @@ class L10nCHEmployeeYearlySnapshot(models.Model):
                 **staff_declaration,
                 **swissdec_declaration.get_institutions(institutions_to_process),
                 "SalaryCounters": swissdec_declaration.get_salary_tag_counter(staff_declaration),
-                "SalaryTotals": swissdec_declaration.get_salary_totals(staff, CurrentMonth=[XSD_YMONTH, year, month, False])
+                "SalaryTotals": swissdec_declaration.get_salary_totals(staff, CurrentMonth=[XSD_YMONTH, year, month, False], source_tax_commission_rates=source_tax_commission)
             }
             allowed_institutions = {
                 "QST": set(global_qst_institutions.ids),

@@ -18,7 +18,7 @@
             </div>
 
             <xpath expr="//button[@name='action_payslip_done']" position="replace">
-                <button string="Create Draft Entry" name="action_payslip_done" type="object" invisible="state != 'draft' or not line_ids" class="oe_highlight" context="{'payslip_generate_pdf': True}" confirm="Are you sure you want to proceed?"/>
+                <button string="Validate" name="action_payslip_done" type="object" invisible="state != 'draft' or not line_ids" class="oe_highlight" context="{'payslip_generate_pdf': True}" confirm="Are you sure you want to proceed?"/>
             </xpath>
             <button name="action_payslip_done" position="after">
                 <button

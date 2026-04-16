@@ -79,6 +79,11 @@ class L10n_InGstOtpValidation(models.TransientModel):
             "l10n_in_gstr_gst_token": self.gst_token,
             "l10n_in_gstr_gst_token_validity": fields.Datetime.now() + timedelta(hours=6)
         })
+        # trigger token refresh cron before expired
+        cron = self.env.ref("l10n_in_reports.ir_cron_auto_refresh_gst_token")
+        if cron.sudo().interval_type == 'hours':
+            cron.sudo().write({'interval_type': 'months', 'interval_number': 9999})
+        cron._trigger(fields.Datetime.now() + timedelta(hours=5, minutes=54))
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',

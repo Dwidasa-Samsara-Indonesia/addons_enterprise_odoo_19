@@ -9,15 +9,15 @@
 # Martin Trigaux, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# "Thi Huong Nguyen (thng)" <thng@odoo.com>, 2025.
+# "Thi Huong Nguyen (thng)" <thng@odoo.com>, 2025, 2026.
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2025-12-06 09:52+0000\n"
-"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:20+0000\n"
+"Last-Translator: \"Thi Huong Nguyen (thng)\" <thng@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/vi/>\n"
 "Language: vi\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -92,21 +92,9 @@ msgstr "%s đã chọn"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"Phạm vi ngày '%s' không thể được đánh giá cho một báo cáo được sử dụng bởi "
-"nhiều loại tờ khai khác nhau."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"Phạm vi ngày '%s' không thể được đánh giá cho một báo cáo không được sử dụng "
-"bởi bất kỳ loại tờ khai nào."
 
 #. module: account_reports
 #. odoo-python
@@ -493,6 +481,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr ""
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Bảng hệ thống tài khoản"
 
 #. module: account_reports
 #. odoo-python
@@ -917,13 +910,8 @@ msgstr ""
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"Tất cả mã số thuế GTGT của khách hàng đều hợp lệ theo hệ thống <a "
-"href=\"https://ec.europa.eu/taxation_customs/vies\" target=\"_blank\">VIES</"
-"a>."
 
 #. module: account_reports
 #. odoo-python
@@ -2441,6 +2429,7 @@ msgstr "Hiển thị trình soạn thư"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2873,12 +2862,6 @@ msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr ""
 "Loại trừ mọi doanh số bán hàng trong nước hoặc ngoài Liên minh Châu Âu khỏi "
 "Danh sách EC Sales List."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Loại trừ khách hàng cá nhân."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3421,6 +3404,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4251,14 +4235,9 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
-"Việc thiếu thông tin công ty (như mã số thuế GTGT hoặc quốc gia) có thể gây "
-"ra lỗi trong báo cáo của bạn,\n"
-"ví dụ như áp dụng sai thuế suất hoặc miễn thuế giao dịch không chính xác.\n"
-"                "
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4668,12 +4647,6 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Chỉ khách hàng doanh nghiệp"
 
 #. module: account_reports
 #. odoo-python
@@ -5186,12 +5159,6 @@ msgstr "Thu nhập chưa phân bổ của năm hiện tại"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "In & gửi"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Khách hàng cá nhân"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6179,7 +6146,7 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -7085,14 +7052,6 @@ msgstr "Bạn chỉ có thể có một mã kiểm tra duy nhất cho mỗi tờ
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Bạn chỉ có thể hoàn nguyên một tờ khai đã hoàn tất nếu trạng thái trước đó "
-"là mới."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr ""
 
@@ -7406,6 +7365,36 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Đặt lại về tỷ giá của Odoo"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "Phạm vi ngày '%s' không thể được đánh giá cho một báo cáo không được sử "
+#~ "dụng bởi bất kỳ loại tờ khai nào."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Tất cả mã số thuế GTGT của khách hàng đều hợp lệ theo hệ thống <a "
+#~ "href=\"https://ec.europa.eu/taxation_customs/vies\" "
+#~ "target=\"_blank\">VIES</a>."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Bạn chỉ có thể hoàn nguyên một tờ khai đã hoàn tất nếu trạng thái trước "
+#~ "đó là mới."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Loại trừ khách hàng cá nhân."
+
+#~ msgid "Only business customers"
+#~ msgstr "Chỉ khách hàng doanh nghiệp"
+
+#~ msgid "Private Customers"
+#~ msgstr "Khách hàng cá nhân"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7489,9 +7478,6 @@ msgstr "⇒ Đặt lại về tỷ giá của Odoo"
 #~ msgstr ""
 #~ "<span class=\"o_account_reports_footnote_icons\"><i class=\"fa fa-fw fa-"
 #~ "trash-o\" role=\"img\" aria-label=\"Delete\" title=\"Delete\"/></span>"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Bảng hệ thống tài khoản"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "Chân trang báo cáo tài khoản"

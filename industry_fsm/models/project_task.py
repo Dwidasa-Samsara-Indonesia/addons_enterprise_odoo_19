@@ -374,7 +374,7 @@ class ProjectTask(models.Model):
                 'allow_timesheets': allow_timesheets,
             },
             'domain': Domain.AND([
-                literal_eval(action.get('domain', [])),
+                literal_eval(action.get('domain') or '[]'),
                 [('has_template_ancestor', '=', False)]
             ]),
         }

@@ -1,5 +1,5 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-import werkzeug
+from types import GeneratorType
 from werkzeug.exceptions import InternalServerError
 
 from odoo.addons.account_reports.models.account_report import AccountReportFileDownloadException
@@ -37,7 +37,7 @@ class AccountReportController(http.Controller):
             else:
                 response = request.make_response(file_content, headers=response_headers)
 
-            if file_type in ('zip', 'xaf'):
+            if file_type in ('zip', 'xaf') or isinstance(file_content, GeneratorType):
                 # Adding direct_passthrough to the response and giving it a file
                 # as content means that we will stream the content of the file to the user
                 # Which will prevent having the whole file in memory
@@ -70,7 +70,7 @@ class AccountReportController(http.Controller):
             ('Content-Disposition', content_disposition(file_name)),
         ]
 
-        if file_type in ('xml', 'txt', 'csv', 'kvr', 'csv'):
+        if file_type in ('xml', 'txt', 'csv', 'kvr', 'csv') and not isinstance(file_content, GeneratorType):
             headers.append(('Content-Length', len(file_content)))
 
         return headers

@@ -175,6 +175,8 @@ class PosOrder(models.Model):
 
                         # Merge the two lines, so that if the quantity was changed it's also applied
                         old_quantity = quantity_data.pop(key, None)
+                        if not old_quantity:
+                            continue
                         quantity_data[key_new]["display"] += old_quantity["display"]
                         quantity_data[key_new]["order"] += old_quantity["order"]
 

@@ -271,6 +271,7 @@ class ProviderDHL(models.Model):
         if planned_date <= fields.Datetime.now():
             raise UserError(_("The planned date for the shipment must be in the future."))
         rating_request['plannedShippingDateAndTime'] = self._convert_to_utc_string(planned_date)
+        rating_request['nextBusinessDay'] = True
         rating_request['accounts'] = srm._get_billing_vals(account_number, "shipper")
         self._dhl_add_extra_data_to_request(rating_request, 'rate')
         rating_request['productsAndServices'] = [{

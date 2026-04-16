@@ -46,6 +46,7 @@ ResPartner._records = [
     {
         id: 5,
         name: "User on budget",
+        commercial_partner_id: 5,
         street: false,
         street2: false,
         city: false,

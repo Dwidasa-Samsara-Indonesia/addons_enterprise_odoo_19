@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
+"POT-Creation-Date: 2026-03-06 18:44+0000\n"
 "PO-Revision-Date: 2025-11-16 17:46+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
@@ -258,9 +258,21 @@ msgid "Credit Note"
 msgstr "貸記單"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Credit Notes"
+msgstr ""
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_invoice
 msgid "Customer Invoice"
 msgstr "客戶發票"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Invoices"
+msgstr ""
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
@@ -385,12 +397,6 @@ msgstr "識別號"
 #: model:ir.actions.server,name:documents_account.ir_actions_server_bank_statement_code
 msgid "Import Bank Statement"
 msgstr "匯入銀行結單"
-
-#. module: documents_account
-#. odoo-python
-#: code:addons/documents_account/models/documents_document.py:0
-msgid "Invoices"
-msgstr "發票"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_account_journal
@@ -586,9 +592,27 @@ msgid "Vendor Bill"
 msgstr "供應商賬單"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Bills"
+msgstr ""
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
 msgstr "供應商採購折讓單"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Receipts"
+msgstr ""
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Refunds"
+msgstr ""
 
 #. module: documents_account
 #. odoo-javascript
@@ -621,6 +645,9 @@ msgstr "賬戶預設資料夾"
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account
 msgid "to mark this invoice as paid."
 msgstr "將此憑單標記為已付款。"
+
+#~ msgid "Invoices"
+#~ msgstr "發票"
 
 #~ msgid "Accounting "
 #~ msgstr "會計 "

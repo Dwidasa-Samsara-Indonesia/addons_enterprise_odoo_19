@@ -70,3 +70,19 @@ class TestSelfOrderIoTKiosk(IotCommonTest, SelfOrderCommonTest):
             self.iot_websocket_messages[2],
             "Second ws message should be of type 'operation_confirmation'."
         )
+
+    def test_iot_payment_terminal(self):
+        worldline_payment_method = self.env['pos.payment.method'].create({
+            "name": "Worldline",
+            'journal_id': self.bank_journal.id,
+            "use_payment_terminal": "worldline",
+            "iot_device_id": self.iot_payment_terminal.id,
+        })
+        self.pos_config.write({
+            "is_posbox": False,
+            "payment_method_ids": [(4, worldline_payment_method.id)],
+        })
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.pos_config.current_session_id.set_opening_control(0, "")
+        self_route = self.pos_config._get_self_order_route()
+        self.start_tour(self_route, "self_order_kiosk_iot_worldline")

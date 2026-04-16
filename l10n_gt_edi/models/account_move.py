@@ -311,12 +311,17 @@ class AccountMove(models.Model):
             'phrases': self.l10n_gt_edi_phrase_ids.mapped('pdf_message'),
             'have_exportacion': self.l10n_gt_edi_doc_type == 'FACT' and self.commercial_partner_id.country_code != 'GT',
             'have_referencias': self.l10n_gt_edi_doc_type in ('NCRE', 'NDEB'),
+            'have_cambiaria': self.l10n_gt_edi_doc_type in ('FCAM', 'FCAP'),
+            'is_especial_fectura': self.l10n_gt_edi_doc_type == 'FESP',
         }
         if report_values['have_exportacion']:
             self._l10n_gt_edi_add_export_values(report_values)
         if report_values['have_referencias']:
             self._l10n_gt_edi_add_reference_values(report_values)
-
+        if report_values['have_cambiaria']:
+            self._l10n_gt_edi_add_payment_values(report_values)
+        if report_values['is_especial_fectura']:
+            self._l10n_gt_edi_add_withholding_values(report_values)
         return report_values
 
     def _get_l10n_gt_withhold_tax_groups_id(self):

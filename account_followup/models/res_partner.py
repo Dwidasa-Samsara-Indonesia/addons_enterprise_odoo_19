@@ -268,8 +268,8 @@ class ResPartner(models.Model):
         invoices_to_print = self.unreconciled_aml_ids.move_id.filtered(lambda l: l.is_invoice(include_receipts=True))
         if options.get('manual_followup'):
             # For manual reminders, only print invoices with the selected attachments
-            return invoices_to_print.filtered(lambda inv: inv.message_main_attachment_id.id in options.get('attachment_ids', []))
-        return invoices_to_print.filtered(lambda inv: inv.message_main_attachment_id)
+            return invoices_to_print.filtered(lambda inv: inv.invoice_pdf_report_id.id in options.get('attachment_ids', []))
+        return invoices_to_print.filtered(lambda inv: inv.invoice_pdf_report_id)
 
     @api.model
     def _get_first_followup_level(self):
@@ -471,7 +471,15 @@ class ResPartner(models.Model):
 
     def _get_followup_report(self, options):
         followup_report = self.env.ref('account_reports.followup_report')
-        return self._get_partner_account_report_attachment(followup_report).id
+        options = followup_report.get_options({
+            'forced_companies': self.env.company.search([('id', 'child_of', self.env.context.get('allowed_company_ids', self.env.company.id))]).ids,
+            'partner_ids': self.ids,
+            'unfold_all': True,
+            'unreconciled': True,
+            'all_entries': False,
+            'export_mode': 'print',
+        })
+        return self._get_partner_account_report_attachment(followup_report, options=options).id
 
     def _get_followup_attachments(self, options):
         res_attachment_ids = []
@@ -505,7 +513,7 @@ class ResPartner(models.Model):
             return res_attachment_ids
 
         # Add the PDFs from overdue invoices
-        res_attachment_ids += self._get_invoices_to_print(options).message_main_attachment_id.ids
+        res_attachment_ids += self._get_invoices_to_print(options).invoice_pdf_report_id.ids
         return res_attachment_ids
 
     def _execute_followup_partner(self, options=None):
@@ -604,11 +612,16 @@ class ResPartner(models.Model):
         if partners_with_missing_info:
             return partners_with_missing_info._create_followup_missing_information_wizard()
 
-    def _cron_execute_followup_company(self):
+    def _cron_execute_followup_company(self, batch_size=1000):
+        """Execute pending followups for the current company.
+        :param batch_size: maximum number of followup to process
+        :return: Return True if all followup were processed, False otherwise
+        :rtype: boolean
+        """
         followup_data = self._query_followup_data(all_partners=True)
         in_need_of_action = self.env['res.partner'].browse([d['partner_id'] for d in followup_data.values() if d['followup_status'] == 'in_need_of_action'])
         in_need_of_action_auto = in_need_of_action.filtered(lambda p: p.followup_line_id.auto_execute and p.followup_reminder_type == 'automatic')
-        for partner in in_need_of_action_auto[:1000]:
+        for partner in in_need_of_action_auto[:batch_size]:
             try:
                 partner._execute_followup_partner()
             except UserError as e:
@@ -616,13 +629,26 @@ class ResPartner(models.Model):
                 # i.e. partner missing email
                 partner._message_log(body=e)
                 _logger.warning(e, exc_info=True)
+        return bool(not in_need_of_action_auto[batch_size:])
 
-    def _cron_execute_followup(self):
-        for company in self.env["res.company"].search([]):
+    def _cron_execute_followup(self, batch_size=1000):
+        """Execute pending followups for all companies.
+        :param batch_size: maximum number of followup to process for each company
+        """
+        all_companies = self.env["res.company"].search([])
+        self.env["ir.cron"]._commit_progress(remaining=len(all_companies))
+        unfinished = 0
+        for company in all_companies:
             # Since the cache is done by database and not by company, we need to invalidate in this special case
             # where the context is changing in the same transaction
             self.env.cr.cache.pop('res_partner_all_followup', None)
-            self.with_context(allowed_company_ids=company.ids)._cron_execute_followup_company()
+            all_done = self.with_context(allowed_company_ids=company.ids)._cron_execute_followup_company(batch_size=batch_size)
+            if not all_done:
+                unfinished += 1
+            self.env["ir.cron"]._commit_progress(1)
+        if unfinished:
+            # if not all followups could be processed, let the cron be retriggered
+            self.env["ir.cron"]._commit_progress(remaining=unfinished)
 
     def _show_pay_now_button(self):
         invoice_online_payment = bool(self.env['ir.config_parameter'].sudo().get_param('account_payment.enable_portal_payment'))

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:45+0000\n"
+"POT-Creation-Date: 2026-03-06 18:45+0000\n"
 "PO-Revision-Date: 2025-11-20 13:21+0000\n"
 "Last-Translator: Odoo Turkish Import <dyki+tr@odoo.com>\n"
 "Language-Team: Turkish <https://translate.odoo.com/projects/odoo-19/"
@@ -173,14 +173,6 @@ msgstr "Şirketler"
 #: model:ir.model,name:hr_payroll_account.model_res_config_settings
 msgid "Config Settings"
 msgstr "Yapılandırma Ayarları"
-
-#. module: hr_payroll_account
-#. odoo-javascript
-#: code:addons/hr_payroll_account/static/src/components/payrun_card/payrun_card.xml:0
-#: model_terms:ir.ui.view,arch_db:hr_payroll_account.hr_payslip_run_view_kanban
-#: model_terms:ir.ui.view,arch_db:hr_payroll_account.hr_payslip_view_form
-msgid "Create Draft Entry"
-msgstr "Taslak Kaydı Onayla"
 
 #. module: hr_payroll_account
 #: model_terms:ir.actions.act_window,help:hr_payroll_account.action_res_partner_bank_account_form
@@ -534,6 +526,14 @@ msgid "This will replace the employee existing bank account."
 msgstr "Bu işlem, çalışanın mevcut banka hesabının yerini alacaktır."
 
 #. module: hr_payroll_account
+#. odoo-javascript
+#: code:addons/hr_payroll_account/static/src/components/payrun_card/payrun_card.xml:0
+#: model_terms:ir.ui.view,arch_db:hr_payroll_account.hr_payslip_run_view_kanban
+#: model_terms:ir.ui.view,arch_db:hr_payroll_account.hr_payslip_view_form
+msgid "Validate"
+msgstr ""
+
+#. module: hr_payroll_account
 #. odoo-python
 #: code:addons/hr_payroll_account/models/hr_payslip.py:0
 msgid "You can only register payment for posted journal entries."
@@ -556,6 +556,9 @@ msgstr "Ödenmiş bir bordro için yevmiye kaydı oluşturamazsınız."
 #: code:addons/hr_payroll_account/models/account_journal.py:0
 msgid "You cannot delete the journal linked to a Salary Structure"
 msgstr "Bir Ücret Yapısı'na bağlı olan yevmiyeyi silemezsiniz"
+
+#~ msgid "Create Draft Entry"
+#~ msgstr "Taslak Kaydı Onayla"
 
 #~ msgid ""
 #~ "Some contracts for these payslips have no structure type, employees: %s"

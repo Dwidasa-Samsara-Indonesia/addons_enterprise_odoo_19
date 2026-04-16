@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2026-01-09 18:43+0000\n"
+"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"PO-Revision-Date: 2026-04-03 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -195,12 +195,6 @@ msgid ""
 "        </t>\n"
 "    </p>\n"
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
-"        <t t-if=\"object.state != 'accepted'\">\n"
-"            <a t-attf-href=\"/calendar/meeting/accept?token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-style=\"display: inline-block; padding: 7px 14px; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; border-radius: 3px\">\n"
-"                Accept</a>\n"
-"            <a t-attf-href=\"/calendar/meeting/decline?token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; border-radius: 3px\">\n"
-"                Decline</a>\n"
-"        </t>\n"
 "        <a t-if=\"not target_responsible and not target_customer\" t-attf-href=\"/calendar/meeting/view?token={{object.access_token}}&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-left: 12px; padding: 5px 10px; color: #111827; text-decoration: none; background-color: #E7E9ED; border-radius: 3px; border-radius: 3px\">View</a>\n"
 "        <a t-elif=\"not target_customer\" t-attf-href=\"/mail/view?model=calendar.event&amp;res_id={{object.event_id.id}}\" t-attf-style=\"display: inline-block; margin-left: 12px; padding: 5px 10px; color: #111827; text-decoration: none; background-color: #E7E9ED; border-radius: 3px; border-radius: 3px\">View</a>\n"
 "    </div>\n"
@@ -793,6 +787,11 @@ msgstr ""
 msgid ""
 "A punctual appointment type should be limited between a start and end "
 "datetime."
+msgstr ""
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Accept"
 msgstr ""
 
 #. module: appointment
@@ -1791,6 +1790,11 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Dates"
+msgstr ""
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Decline"
 msgstr ""
 
 #. module: appointment

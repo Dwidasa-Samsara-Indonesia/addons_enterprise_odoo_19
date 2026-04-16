@@ -477,6 +477,17 @@ class TestAccountComposerPerformance(AccountTestInvoicingCommon, MailCommon):
             content='access_token=',
         )
 
+    def test_invoice_email_subtitle_from_sale_order(self):
+        """ Test email notification subtitle for Invoice created from Sale Order. """
+        self.ensure_installed('sale')
+        self.product_a.taxes_id = False
+        self.env.user.group_ids |= self.env.ref('sales_team.group_sale_salesman')
+        sale_order = self._create_sale_order_one_line(product_id=self.product_a.id, partner_id=self.partner_a.id)
+        invoice = sale_order._create_invoices()
+        context = invoice._notify_by_email_prepare_rendering_context(message=self.env['mail.message'])
+        self.assertEqual(context.get('subtitles')[0], f"{invoice.display_name} - {self.partner_a.name}")
+        self.assertIn('1,000', context.get('subtitles')[1])
+
 
 class TestAccountMoveSendCommon(AccountTestInvoicingCommon):
 
@@ -712,6 +723,14 @@ class TestAccountMoveSend(TestAccountMoveSendCommon):
         self.assertFalse(self._get_mail_message(invoice1, limit=None).partner_ids)
         self.assertTrue(invoice2.invoice_pdf_report_id)
         self.assertTrue(self._get_mail_message(invoice2, limit=None).partner_ids)
+
+    def test_invoice_multi_cron_disabled_alert(self):
+        invoice1 = self.init_invoice("out_invoice", partner=self.partner_a, amounts=[1000], post=True)
+        invoice2 = self.init_invoice("out_invoice", partner=self.partner_b, amounts=[1000], post=True)
+        self.env.ref('account.ir_cron_account_move_send').active = False
+        wizard = self.create_send_and_print(invoice1 + invoice2)
+        self.assertTrue('account_send_cron_archived' in wizard.alerts)
+        self.assertEqual(wizard.alerts['account_send_cron_archived']['level'], 'warning')
 
     def test_invoice_multi_with_edi(self):
         invoice1 = self.init_invoice("out_invoice", partner=self.partner_a, amounts=[1000], post=True)
@@ -1132,7 +1151,7 @@ class TestAccountMoveSend(TestAccountMoveSendCommon):
     def test_get_sending_settings(self):
         invoice = self.init_invoice("out_invoice", amounts=[1000], post=True)
         wizard = self.create_send_and_print(invoice, sending_methods=['email'])
-        
+
         expected_results = {
             'sending_methods': ['email'],
             'invoice_edi_format': False,
@@ -1250,3 +1269,23 @@ class TestAccountMoveSend(TestAccountMoveSendCommon):
                 'name': attachments_data[0][2]['name'],
                 'raw': attachments_data[0][2]['raw'],
             }])
+
+    def test_invoice_send_reply_to_persistence(self):
+        """ Test that the reply_to set on the mail template is correctly
+        propagated through the wizard to the final mail message. """
+        invoice = self.init_invoice("out_invoice", amounts=[1000], post=True)
+        custom_reply_to = "custom_reply_address@example.com"
+
+        template = self.env.ref('account.email_template_edi_invoice')
+        template.reply_to = custom_reply_to
+
+        wizard = self.create_send_and_print(
+            invoice,
+            sending_methods=['email'],
+            template_id=template.id
+        )
+
+        wizard.action_send_and_print()
+
+        message = self._get_mail_message(invoice)
+        self.assertEqual(message.reply_to, custom_reply_to)

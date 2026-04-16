@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:54+0000\n"
+"PO-Revision-Date: 2026-04-13 09:40+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/pl/>\n"
@@ -41,9 +41,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
-"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || "
-"(n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -992,7 +992,7 @@ msgstr "Pobierz szablon importu aktywów"
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__draft
 msgid "Draft"
-msgstr "Projekt"
+msgstr "Wersja robocza"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__draft_asset_exists
@@ -1065,12 +1065,12 @@ msgstr "Środki trwałe"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_follower_ids
 msgid "Followers"
-msgstr "Obserwatorzy"
+msgstr "Obserwujący"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Obserwatorzy (partnerzy)"
+msgstr "Obserwujący (partnerzy)"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__activity_type_icon
@@ -1402,7 +1402,7 @@ msgstr "Miesiące/lata"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__multiple_assets_per_line
 msgid "Multiple Assets per Line"
-msgstr "Wiele aktywów na linię"
+msgstr "Wiele aktywów na pozycję"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_account__multiple_assets_per_line
@@ -1410,7 +1410,7 @@ msgid ""
 "Multiple asset items will be generated depending on the bill line quantity "
 "instead of 1 global asset."
 msgstr ""
-"Zostanie wygenerowanych wiele pozycji środków w zależności od ilości linii "
+"Zostanie wygenerowanych wiele pozycji środków w zależności od ilości pozycji "
 "rachunku zamiast 1 globalnego środka."
 
 #. module: account_asset
@@ -1471,17 +1471,17 @@ msgstr "Następna Czynność wydarzenia w kalendarzu"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Termin kolejnej czynności"
+msgstr "Termin kolejnej aktywności"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_summary
 msgid "Next Activity Summary"
-msgstr "Podsumowanie kolejnej czynności"
+msgstr "Podsumowanie kolejnej aktywności"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_type_id
 msgid "Next Activity Type"
-msgstr "Typ następnej czynności"
+msgstr "Typ następnej aktywności"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_account__create_asset__no
@@ -1775,7 +1775,7 @@ msgstr "Zapisz model"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__select_invoice_line_id
 msgid "Select Invoice Line"
-msgstr "Wybierz linię fakturowania"
+msgstr "Wybierz pozycję fakturowania"
 
 #. module: account_asset
 #. odoo-python
@@ -1990,7 +1990,7 @@ msgstr "Liczba amortyzacji potrzebna do amortyzacji twojego środka"
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "The remaining value on the last depreciation line must be 0"
-msgstr "Pozostała wartość w ostatniej linii amortyzacji musi wynosić 0"
+msgstr "Pozostała wartość w ostatniej pozycji amortyzacji musi wynosić 0"
 
 #. module: account_asset
 #. odoo-python
@@ -2005,7 +2005,7 @@ msgstr ""
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__invoice_line_ids
 msgid "There are multiple lines that could be the related to this asset"
-msgstr "Istnieje wiele linii, które mogą być związane z tym środkiem"
+msgstr "Istnieje wiele pozycji, które mogą być związane z tym środkiem"
 
 #. module: account_asset
 #. odoo-python
@@ -2110,7 +2110,7 @@ msgid ""
 "By cancelling an asset, all depreciation entries will be reversed"
 msgstr ""
 "Gdy środek trwały jest tworzony, jego status to 'Szkic'.\n"
-"Jeśli środek jest potwierdzony, status przechodzi w 'W toku' i linie "
+"Jeśli środek jest potwierdzony, status przechodzi w 'W toku' i pozycje "
 "amortyzacji mogą być zaksięgowane w księgowości.\n"
 "Status \"W zawieszeniu\" może być ustawiony ręcznie, gdy chcesz wstrzymać "
 "amortyzację środka na jakiś czas.\n"
@@ -2186,7 +2186,7 @@ msgid ""
 "You cannot create an asset from lines containing credit and debit on the "
 "account or with a null amount"
 msgstr ""
-"Nie można utworzyć środka z linii zawierających kredyt i debet na rachunku "
+"Nie można utworzyć środka z pozycji zawierających kredyt i debet na rachunku "
 "lub z zerową kwotą (kwotami)"
 
 #. module: account_asset

@@ -2,7 +2,7 @@ from odoo import api, fields, models, Command
 from odoo.addons.l10n_mx_edi.models.l10n_mx_edi_document import GLOBAL_INVOICE_PERIODICITY_DEFAULT_VALUES
 
 
-class L10n_Mx_EdiGlobal_InvoiceCreate(models.Model):
+class L10n_Mx_EdiGlobal_InvoiceCreate(models.TransientModel):
     _name = 'l10n_mx_edi.global_invoice.create'
     _description = "Create a global invoice"
 

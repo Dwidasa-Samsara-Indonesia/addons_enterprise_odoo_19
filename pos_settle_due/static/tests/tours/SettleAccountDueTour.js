@@ -327,3 +327,29 @@ registry
                 Chrome.endTour(),
             ].flat(),
     });
+
+registry.category("web_tour.tours").add("test_pos_deposit_with_rounding", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            ProductScreen.clickPartnerButton(),
+            PartnerList.clickPartnerOptions("Partner Test 1"),
+            {
+                isActive: ["auto"],
+                trigger: "div.o_popover :contains('Deposit')",
+                content: "Check the popover opened",
+                run: "click",
+            },
+            Utils.selectButton("Cash"),
+            PaymentScreen.clickNumpad("1 0 . 0 2"),
+            // Cash methods should round the change
+            PaymentScreen.changeIs("10.00"),
+            PaymentScreen.clickPaymentlineDelButton("Cash", "10.02"),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickNumpad("1 0 . 0 2"),
+            PaymentScreen.selectedPaymentlineHas("Bank", "10.02"),
+            // Non-Cash methods should not round the change
+            PaymentScreen.changeIs("10.02"),
+        ].flat(),
+});

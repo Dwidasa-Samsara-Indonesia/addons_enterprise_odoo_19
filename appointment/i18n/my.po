@@ -3,15 +3,15 @@
 # * appointment
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Oakarmin Iron <oakarminiron@gmail.com>, 2025.
+# Oakarmin Iron <oakarminiron@gmail.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2025-11-10 08:22+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"PO-Revision-Date: 2026-02-28 09:53+0000\n"
+"Last-Translator: Oakarmin Iron <oakarminiron@gmail.com>\n"
 "Language-Team: Burmese <https://translate.odoo.com/projects/odoo-19/"
 "appointment/my/>\n"
 "Language: my\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -233,22 +233,6 @@ msgid ""
 "        </t>\n"
 "    </p>\n"
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
-"        <t t-if=\"object.state != 'accepted'\">\n"
-"            <a t-attf-href=\"/calendar/meeting/accept?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Accept</a>\n"
-"            <a t-attf-href=\"/calendar/meeting/decline?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Decline</a>\n"
-"        </t>\n"
 "        <a t-if=\"not target_responsible and not target_customer\" t-attf-"
 "href=\"/calendar/meeting/view?token={{object.access_token}}"
 "&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-left: "
@@ -1061,6 +1045,11 @@ msgid ""
 msgstr ""
 
 #. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Accept"
+msgstr ""
+
+#. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_calendar_event__access_token
 msgid "Access Token"
 msgstr "အသုံးပြုခွင့် တိုကင်"
@@ -1081,7 +1070,7 @@ msgstr "အက်တစ်"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "လှုပ်ရှားမှုများ"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_exception_decoration
@@ -1732,19 +1721,19 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Cancellation"
-msgstr ""
+msgstr "ပယ်ဖျက်ခြင်း"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__canceled_mail_template_id
 msgid "Cancellation Email"
-msgstr ""
+msgstr "ဖျက်သိမ်းခြင်း အီးမေးလ်"
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__calendar_event__appointment_status__cancelled
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_search_booking
 msgid "Cancelled"
-msgstr "ဖကြျသိမျးခဲ့သညျ"
+msgstr "ဖျက်သိမ်းခဲ့သည်"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_resource__capacity
@@ -1754,17 +1743,17 @@ msgstr "တတ်နိုင်စွမ်း"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__manual_confirmation_percentage
 msgid "Capacity Percentage"
-msgstr ""
+msgstr "တတ်နိုင်စွမ်း ရာခိုင်နှုန်း"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_booking_line__capacity_reserved
 msgid "Capacity Reserved"
-msgstr ""
+msgstr "ဉီးထားပြီး တတ်နိုင်စွမ်း"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_booking_line__capacity_used
 msgid "Capacity Used"
-msgstr ""
+msgstr "အသုံးပြုပြီး တတ်နိုင်စွမ်း"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_booking_line__capacity_reserved
@@ -1801,7 +1790,7 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form
 msgid "Checked in"
-msgstr ""
+msgstr "ချက်အင်"
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__calendar_event__appointment_status__attended
@@ -2060,6 +2049,11 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Dates"
+msgstr ""
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Decline"
 msgstr ""
 
 #. module: appointment
@@ -3017,7 +3011,7 @@ msgstr "ဖွင့်ချိန် နာရီများ"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_meeting_user
 msgid "Operator"
-msgstr ""
+msgstr "အော်ပရေတာ"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
@@ -3517,7 +3511,7 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Slots"
-msgstr ""
+msgstr "စလော့များ"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_intro

@@ -232,6 +232,38 @@ class TestAngloSaxonFlow(TestAngloSaxonCommon):
         self.assertEqual(pos_order_pos0.account_move.journal_id, self.pos_config.invoice_journal_id)
         self.assertEqual(line.debit, 27, 'As it is a fifo product, the move\'s value should be 5*5 + 2*1')
 
+    def test_fifo_valuation_with_invoice_when_pos_customer_is_delivery_type(self):
+        """Register a payment and validate a session after selling a fifo
+        product and make an invoice for the customer when a delivery address
+        has been set as the customer on the POS order"""
+        delivery_address = self.partner.copy({
+            'type': 'delivery',
+            'parent_id': self.partner.id,
+        })
+        pos_order_pos0 = self._prepare_pos_order()
+        pos_order_pos0.partner_id = delivery_address.id
+
+        context_make_payment = {"active_ids": [pos_order_pos0.id], "active_id": pos_order_pos0.id}
+        self.pos_make_payment_0 = self.PosMakePayment.with_context(context_make_payment).create({
+            'amount': 7 * 450.0,
+            'payment_method_id': self.cash_payment_method.id,
+        })
+
+        # register the payment
+        context_payment = {'active_id': pos_order_pos0.id}
+        self.pos_make_payment_0.with_context(context_payment).check()
+
+        # Create the customer invoice
+        pos_order_pos0.action_pos_order_invoice()
+
+        # check that the invoice address on the invoice is the parent_id of the delivery address
+        self.assertEqual(pos_order_pos0.partner_id.parent_id, pos_order_pos0.account_move.partner_id)
+
+        # check the anglo saxon move lines
+        line = pos_order_pos0.account_move.line_ids.filtered(lambda l: l.debit and l.account_id == self.category.property_account_expense_categ_id)
+        self.assertEqual(pos_order_pos0.account_move.journal_id, self.pos_config.invoice_journal_id)
+        self.assertEqual(line.debit, 27, 'As it is a fifo product, the move\'s value should be 5*5 + 2*1')
+
     @skip('Temporary to fast merge new valuation')
     def test_cogs_with_ship_later_no_invoicing(self):
         # This test will check that the correct journal entries are created when a product in real time valuation
@@ -352,6 +384,50 @@ class TestAngloSaxonFlow(TestAngloSaxonCommon):
         stock_output_amls = related_amls.filtered_domain([('account_id', '=', stock_output_account.id)])
 
         self.assertTrue(all(stock_output_amls.mapped('reconciled')))
+
+    def test_no_duplicate_picking_on_repeated_invoice_action(self):
+        """Calling action_pos_order_invoice multiple times (e.g. a backend user
+        clicking 'Customer Invoice' on an already-invoiced order) must not
+        create more than one stock picking for the same POS order.
+
+        Regression test for the guard added to _create_order_picking:
+        the condition at the top of action_pos_order_invoice (anglo_saxon +
+        update_stock_at_closing + session open) would previously call
+        _create_order_picking unconditionally, producing one extra picking on
+        every repeated click.
+        """
+        self.company.point_of_sale_update_stock_quantities = 'closing'
+
+        self.pos_config.open_ui()
+        order = self.PosOrder.create({
+            'company_id': self.company.id,
+            'partner_id': self.partner.id,
+            'session_id': self.pos_config.current_session_id.id,
+            'lines': [(0, 0, {
+                'product_id': self.product.id,
+                'price_unit': 450,
+                'qty': 1.0,
+                'price_subtotal': 450,
+                'price_subtotal_incl': 450,
+            })],
+            'amount_total': 450,
+            'amount_tax': 0,
+            'amount_paid': 0,
+            'amount_return': 0,
+        })
+        context_make_payment = {'active_ids': [order.id], 'active_id': order.id}
+        self.PosMakePayment.with_context(context_make_payment).create({
+            'amount': 450.0,
+            'payment_method_id': self.cash_payment_method.id,
+        }).with_context({'active_id': order.id}).check()
+
+        # First legitimate call: invoice + picking created
+        order.action_pos_order_invoice()
+        self.assertEqual(len(order.picking_ids), 1, "First call should create exactly one picking")
+
+        # Second call: simulates a backend user clicking 'Customer Invoice' again
+        order.action_pos_order_invoice()
+        self.assertEqual(len(order.picking_ids), 1, "Repeated call must not create a duplicate picking")
 
     def test_action_pos_order_invoice_with_discount(self):
         """This test make sure that the line containing 'Discoun from' is correctly added to the invoice"""

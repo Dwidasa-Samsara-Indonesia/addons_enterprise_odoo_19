@@ -9,7 +9,7 @@ from odoo.tools import format_duration
 import pytz
 from odoo.tools.misc import get_lang
 
-from odoo import tools
+from odoo import fields, tools
 
 _logger = logging.getLogger(__name__)
 
@@ -140,8 +140,13 @@ class ShiftController(http.Controller):
         }
         for slot in planning_slots:
             if slot.employee_id:
-                slot_start_datetime = pytz.utc.localize(slot.start_datetime).astimezone(employee_tz).replace(tzinfo=None)
-                slot_end_datetime = pytz.utc.localize(slot.end_datetime).astimezone(employee_tz).replace(tzinfo=None)
+                slots_vals = self._get_slots_vals(slot, employee_token, attendance_intervals, False)
+                # We add the slots start and stop into the list after converting it to the timezone of the employee
+                for val in slots_vals:
+                    slot_start_datetime = fields.Datetime.from_string(val['start'])
+                    slot_end_datetime = fields.Datetime.from_string(val['end'])
+                    slots_start_datetime.append(slot_start_datetime)
+                    slots_end_datetime.append(slot_end_datetime)
                 if slot.request_to_switch and (
                     not slot.role_id
                     or slot.employee_id == employee_sudo
@@ -153,9 +158,6 @@ class ShiftController(http.Controller):
                     employee_slots.append(slot)
                     vals = self._get_slots_vals(slot, employee_token, attendance_intervals, False)
                     employee_fullcalendar_data.extend(vals)
-                # We add the slot start and stop into the list after converting it to the timezone of the employee
-                slots_start_datetime.append(slot_start_datetime)
-                slots_end_datetime.append(slot_end_datetime)
             elif not slot.is_past and (
                 not employee_sudo.planning_role_ids
                 or not slot.role_id
@@ -210,8 +212,12 @@ class ShiftController(http.Controller):
                 checkout_max = max(checkout_max, end.hour)
         # We calculate the earliest/latest hour of the slots. It is used in the weekview.
         if slots_start_datetime and slots_end_datetime:
-            event_hour_min = min(map(lambda s: s.hour, slots_start_datetime)) # idem
-            event_hour_max = max(map(lambda s: s.hour, slots_end_datetime)) # idem
+            if any(start.date() != stop.date() for start, stop in zip(slots_start_datetime, slots_end_datetime)):
+                event_hour_min = 0
+                event_hour_max = 24
+            else:
+                event_hour_min = min(s.hour for s in slots_start_datetime)
+                event_hour_max = max(s.hour for s in slots_end_datetime)
             mintime_weekview, maxtime_weekview = self._get_hours_intervals(checkin_min, checkout_max, event_hour_min,
                                                                            event_hour_max)
         else:

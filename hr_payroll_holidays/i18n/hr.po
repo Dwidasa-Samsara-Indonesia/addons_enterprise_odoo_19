@@ -3,13 +3,14 @@
 # * hr_payroll_holidays
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 18:07+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-11 09:35+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll_holidays/hr/>\n"
 "Language: hr\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.actions.act_window,help:hr_payroll_holidays.hr_leave_work_entry_action
@@ -61,7 +62,7 @@ msgstr "Odgodi za sljedeći mjesec"
 #. module: hr_payroll_holidays
 #: model:ir.actions.server,name:hr_payroll_holidays.ir_actions_server_mark_as_reported
 msgid "Defer to next Payslip"
-msgstr ""
+msgstr "Odgodi za sljedeću isplatu"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
@@ -72,7 +73,7 @@ msgstr "Odgođeno odsustvo"
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_company__deferred_time_off_manager
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_config_settings__deferred_time_off_manager
 msgid "Deferred Time Off Manager"
-msgstr ""
+msgstr "Voditelj odgođenih odsustava"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_hr_employee__display_name
@@ -84,29 +85,29 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_company__display_name
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_config_settings__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: hr_payroll_holidays
 #: model:ir.model,name:hr_payroll_holidays.model_hr_employee
 msgid "Employee"
-msgstr "Djelatnik"
+msgstr "Zaposlenik"
 
 #. module: hr_payroll_holidays
 #: model:ir.model,name:hr_payroll_holidays.model_hr_version
 msgid "Employee Contract"
-msgstr "Ugovor djelatnika"
+msgstr "Ugovor zaposlenika"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_hr_leave__employee_registration_number
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.hr_leave_view_search
 msgid "Employee Reference"
-msgstr ""
+msgstr "Referenca zaposlenika"
 
 #. module: hr_payroll_holidays
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_payslip.py:0
 msgid "Employee has time off to defer"
-msgstr ""
+msgstr "Zaposlenik ima odsustva za odgodu"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_hr_employee__id
@@ -139,7 +140,7 @@ msgstr "Upoznajte se s nadzornom pločom odsustava."
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
 msgid "No one will be notified"
-msgstr ""
+msgstr "Nitko neće biti obaviješten"
 
 #. module: hr_payroll_holidays
 #. odoo-python
@@ -148,6 +149,8 @@ msgid ""
 "Not enough attendance work entries to report the time off %s. Please make "
 "the operation manually"
 msgstr ""
+"Nema dovoljno stavki rada prisutnosti za prijavu odsustva %s. Obavite "
+"operaciju ručno"
 
 #. module: hr_payroll_holidays
 #. odoo-python
@@ -205,6 +208,8 @@ msgid ""
 "The pay of the month is already validated with this day included. If you "
 "need to adapt, please refer to HR."
 msgstr ""
+"Plaća mjeseca je već potvrđena uključujući ovaj dan. Ako je potrebno "
+"prilagoditi, obratite se HR-u."
 
 #. module: hr_payroll_holidays
 #. odoo-python
@@ -218,19 +223,19 @@ msgstr "Odsustvo %s se ne može prijaviti jer se definira na više od 2 mjeseca"
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_leave.py:0
 msgid "There is no work entries linked to this time off to report"
-msgstr ""
+msgstr "Nema stavki rada povezanih s ovim odsustvom za prijavu"
 
 #. module: hr_payroll_holidays
 #: model:ir.actions.act_window,name:hr_payroll_holidays.hr_leave_work_entry_action
 #: model:ir.model,name:hr_payroll_holidays.model_hr_leave
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
 msgid "Time Off"
-msgstr "Odsustva"
+msgstr "Odsustvo"
 
 #. module: hr_payroll_holidays
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_holidays.hr_payroll_dashboard_warning_leaves_no_allocation
 msgid "Time Off Not Related To An Allocation"
-msgstr ""
+msgstr "Odsustvo nije povezano s dodjelom"
 
 #. module: hr_payroll_holidays
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_holidays.hr_payroll_dashboard_warning_leaves_to_defer
@@ -252,7 +257,7 @@ msgstr "Time Off To Defer"
 #: code:addons/hr_payroll_holidays/models/hr_payslip.py:0
 #: model:ir.ui.menu,name:hr_payroll_holidays.menu_work_entry_leave_to_approve
 msgid "Time Offs"
-msgstr ""
+msgstr "Odsustva"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.hr_leave_view_search

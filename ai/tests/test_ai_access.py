@@ -1,5 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+from unittest.mock import patch
 
+from odoo import Command
 from odoo.exceptions import AccessError
 from odoo.tests import new_test_user, TransactionCase, tagged, users
 
@@ -116,3 +118,37 @@ class TestAiFieldsAccess(TransactionCase):
             topic.write({'description': 'updated topic description'})
         with self.assertRaises(AccessError):
             topic.unlink()
+
+    @users('internal')
+    def test_generate_response_non_admin_tool_access(self):
+        """Test that non-admin users can call _generate_response without access errors on tool_ids."""
+
+        tool = self.env['ir.actions.server'].sudo().create({
+            'name': 'Test Tool',
+            'state': 'code',
+            'model_id': self.env.ref('base.model_res_partner').id,
+            'code': "",
+            'use_in_ai': True,
+        })
+
+        topic = self.env['ai.topic'].sudo().create({
+            'name': 'Test Topic',
+            'tool_ids': [Command.set([tool.id])],
+        })
+
+        agent = self.env['ai.agent'].sudo().create({
+            'name': 'Test Agent',
+            'topic_ids': [Command.set([topic.id])],
+        })
+
+        with patch('odoo.addons.ai.utils.llm_api_service.LLMApiService.request_llm') as mock_request_llm:
+            mock_request_llm.return_value = ['Hello!']
+
+            response = agent.with_user(self.env.user)._generate_response("hello")
+
+            self.assertEqual(response, ['Hello!'])
+            mock_request_llm.assert_called_once()
+            call_kwargs = mock_request_llm.call_args.kwargs
+            self.assertIn('tools', call_kwargs)
+            self.assertEqual(len(call_kwargs['tools']), 1)
+            self.assertEqual('Test Tool', next(iter(call_kwargs['tools'].values()))[0])

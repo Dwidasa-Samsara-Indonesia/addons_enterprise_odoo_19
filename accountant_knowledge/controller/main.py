@@ -184,7 +184,7 @@ def get_back_cover_pdf():
 def compute_total_assets(audit_report):
     balance_sheet_report = request.env.ref('account_reports.balance_sheet').with_company(audit_report.company_id)
     balance_sheet_report_options = balance_sheet_report.get_options({
-        'selected_variant_id': balance_sheet_report.id,
+        'forced_companies': audit_report.company_id.ids,
         'date': {
             'date_from': str(audit_report.start_date),
             'date_to': str(audit_report.end_date),
@@ -208,7 +208,7 @@ def compute_total_assets(audit_report):
 def compute_net_profit_and_total_revenue(audit_report):
     profit_and_loss_report = request.env.ref('account_reports.profit_and_loss').with_company(audit_report.company_id)
     profit_and_loss_report_options = profit_and_loss_report.get_options({
-        'selected_variant_id': profit_and_loss_report.id,
+        'forced_companies': audit_report.company_id.ids,
         'date': {
             'date_from': str(audit_report.start_date),
             'date_to': str(audit_report.end_date),
@@ -348,7 +348,7 @@ class KnowledgeAuditReportController(http.Controller):
                     except PdfReadError:
                         # version 1.26 of PyPDF2 is not capable of generating the outline / headers
                         # see https://github.com/py-pdf/pypdf/issues/193
-                        _logger.warning('Unable to generate Audit Report heading, please update your PyPDF version.')
+                        _logger.warning('Unable to generate Annual Report heading, please update your PyPDF version.')
                         generate_headings = False
 
                 body_pdfs.append(title_page_pdf)
@@ -380,7 +380,7 @@ class KnowledgeAuditReportController(http.Controller):
                     except PdfReadError:
                         # version 1.26 of PyPDF2 is not capable of generating the outline / headers
                         # see https://github.com/py-pdf/pypdf/issues/193
-                        _logger.warning('Unable to generate Audit Report heading, please update your PyPDF version.')
+                        _logger.warning('Unable to generate Annual Report heading, please update your PyPDF version.')
                         generate_headings = False
 
                 body_pdfs.append(article_pdf)

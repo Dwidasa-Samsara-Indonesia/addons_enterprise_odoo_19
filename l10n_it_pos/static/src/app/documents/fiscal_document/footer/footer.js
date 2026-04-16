@@ -2,7 +2,7 @@ import { Component } from "@odoo/owl";
 import { usePos } from "@point_of_sale/app/hooks/pos_hook";
 import { _t } from "@web/core/l10n/translation";
 import { formatDateTime } from "@web/core/l10n/dates";
-import { PrintRecMessage } from "@l10n_it_pos/app/fiscal_printer/commands";
+import { PrintRecMessage, PrintNormal } from "@l10n_it_pos/app/fiscal_printer/commands";
 import { Heading } from "@l10n_it_pos/app/documents/entities";
 
 export class Footer extends Component {
@@ -10,6 +10,7 @@ export class Footer extends Component {
 
     static components = {
         PrintRecMessage,
+        PrintNormal,
     };
 
     static props = {
@@ -17,7 +18,12 @@ export class Footer extends Component {
             type: Object,
             optional: true, // To keep backward compatibility
         },
+        isFiscal: {
+            type: Boolean,
+            optional: true,
+        },
     };
+    static defaultProps = { isFiscal: true };
 
     async setup() {
         this.pos = usePos();

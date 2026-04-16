@@ -357,5 +357,11 @@ class HrVersion(models.Model):
     def action_configure_template_inputs(self):
         self.ensure_one()
         action = self.structure_id.action_get_structure_inputs()
-        action['domain'].append(('input_usage_employee', '=', True))
+        existing_ids = [int(definition['name']) for definition in self.structure_id.version_properties_definition if definition.get('name', '').isdigit()]
+        action['domain'].extend([
+            ('input_usage_employee', '=', True),
+            ('id', 'not in', existing_ids),
+            '|',
+                ('dependent_input_id', '=', False),
+                ('dependent_input_id', 'in', existing_ids)])
         return action

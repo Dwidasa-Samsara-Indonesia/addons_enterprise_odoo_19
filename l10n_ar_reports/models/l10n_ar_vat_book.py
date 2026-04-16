@@ -115,6 +115,7 @@ class L10n_ArTaxReportHandler(models.AbstractModel):
             'action': 'export_file',
             'action_param': 'vat_book_export_files_to_zip',
             'file_export_type': _('ZIP'),
+            'branch_allowed': True,
         }
 
         options['buttons'].append(zip_export_button)
@@ -275,7 +276,7 @@ class L10n_ArTaxReportHandler(models.AbstractModel):
 
     @api.model
     def _vat_book_get_lines_domain(self, options):
-        company_ids = self.env.company.ids
+        company_ids = self.env['account.report'].get_report_company_ids(options)
         selected_journal_types = self._vat_book_get_selected_tax_types(options)
         domain = [('journal_id.type', 'in', selected_journal_types),
                   ('l10n_latam_use_documents', '=', True), ('company_id', 'in', company_ids)]

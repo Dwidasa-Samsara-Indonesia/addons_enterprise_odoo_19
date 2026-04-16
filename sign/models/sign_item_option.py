@@ -21,9 +21,16 @@ class SignItemOption(models.Model):
         returns a list of IDs corresponding to all provided options
         (both existing and newly created).
         """
-        options = list(set(options))
-        existing_values = {opt['value'] for opt in self.search_read([('value', 'in', options)], fields=['value'])}
+        options = list(dict.fromkeys(options))
+
+        existing_records = self.search([('value', 'in', options)])
+        val_to_id = {rec.value: rec.id for rec in existing_records}
+
+        existing_values = set(val_to_id.keys())
         new_options = [option for option in options if option not in existing_values]
         if new_options:
-            self.create([{'value': option} for option in new_options])
-        return self.search([('value', 'in', options)]).ids
+            created_records = self.create([{'value': option} for option in new_options])
+            for rec in created_records:
+                val_to_id[rec.value] = rec.id
+
+        return [val_to_id[option] for option in options]

@@ -391,8 +391,8 @@ class HelpdeskTicket(models.Model):
         self.ensure_one()
         if self.partner_id.email and self.partner_email and self.partner_email != self.partner_id.email:
             ticket_email_normalized = tools.email_normalize(self.partner_email) or self.partner_email or False
-            partner_email_normalized = tools.email_normalize(self.partner_id.email) or self.partner_id.email or False
-            return ticket_email_normalized != partner_email_normalized
+            partner_emails_normalized = tools.email_normalize_all(self.partner_id.email) or self.partner_id.email or False
+            return ticket_email_normalized not in partner_emails_normalized
         return False
 
     def _get_partner_phone_update(self):

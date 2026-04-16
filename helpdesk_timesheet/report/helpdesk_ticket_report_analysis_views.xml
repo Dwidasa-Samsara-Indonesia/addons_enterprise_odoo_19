@@ -16,6 +16,9 @@
         <field name="model">helpdesk.ticket.report.analysis</field>
         <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_pivot_analysis"/>
         <field name="arch" type="xml">
+            <xpath expr="//pivot" position="attributes">
+                <attribute name="js_class">hr_timesheet_helpdesk_ticket_analysis_pivot</attribute>
+            </xpath>
             <field name="ticket_open_hours" position="after">
                 <field name="total_hours_spent" widget="float_time" type="measure"/>
             </field>

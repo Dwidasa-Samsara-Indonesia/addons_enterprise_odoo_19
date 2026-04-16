@@ -20,7 +20,7 @@ class HelpdeskTicket(models.Model):
         export_string_translation=False,
         groups="stock.group_stock_user",
     )
-    has_partner_picking = fields.Boolean(compute='_compute_suitable_product_ids')
+    has_partner_picking = fields.Boolean(compute='_compute_suitable_product_ids', groups="stock.group_stock_user")
     tracking = fields.Selection(related='product_id.tracking')
     lot_id = fields.Many2one('stock.lot', string='Lot/Serial Number', domain="[('product_id', '=', product_id)]", tracking=True)
     pickings_count = fields.Integer('Return Orders Count', compute="_compute_pickings_count")

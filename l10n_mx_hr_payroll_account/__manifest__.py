@@ -14,6 +14,7 @@ Accounting Data for Mexico Payroll Rules
     'data': [
         'data/l10n_mx_hr_payroll_account_data.xml',
         'data/hr_salary_rule_data.xml',
+        'views/hr_payslip_views.xml',
     ],
     'demo': [
         'data/l10n_mx_hr_payroll_account_demo.xml',

@@ -15,3 +15,4 @@ from . import test_period_duplication
 from . import test_ui
 from . import test_controller
 from . import test_front_end
+from . import test_planning_report

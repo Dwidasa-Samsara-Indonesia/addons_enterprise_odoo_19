@@ -17,7 +17,7 @@
                         <field name="end_date" no_label="1"/>
                     </div>
                     <field name="responsible_user_ids" widget="many2many_avatar_user"/>
-                    <field name="knowledge_template_article_id" groups="base.group_no_one" string="Audit Template"/>
+                    <field name="knowledge_template_article_id" groups="base.group_no_one" string="Template"/>
                 </group>
                 <footer>
                     <button string="Save" class="btn-primary" special="save" data-hotkey="S"/>
@@ -107,7 +107,7 @@
     </record>
 
     <record id="action_audit_report_quick_create" model="ir.actions.act_window">
-        <field name="name">Create an Audit Report</field>
+        <field name="name">Create an Annual Report</field>
         <field name="res_model">audit.report</field>
         <field name="target">new</field>
         <field name="view_mode">form</field>
@@ -115,11 +115,11 @@
     </record>
 
     <record id="action_audit_report" model="ir.actions.act_window">
-        <field name="name">Audit Reports</field>
+        <field name="name">Annual Reports</field>
         <field name="res_model">audit.report</field>
         <field name="view_mode">kanban</field>
         <field name="help" type="html">
-            <h1>Create an Audit Report</h1>
+            <h1>Create an Annual Report</h1>
             <div class="d-flex o_view_accountant_knowledge_nocontent_helper_container">
                 <div class="flex-grow-1">
                     <img src="/accountant_knowledge/static/img/puzzle.svg"/>

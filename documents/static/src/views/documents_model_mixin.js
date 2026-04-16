@@ -16,6 +16,10 @@ export const DocumentsModelMixin = (component) =>
             this.dialogService = useService("dialog");
             this.documentService = useService("document.document");
             this.notification = useService("notification");
+
+            if (!this.defaultOrderBy?.length) {
+                this.defaultOrderBy = [{ name: "create_date", asc: false }];
+            }
         }
 
         exportSelection() {
@@ -380,8 +384,10 @@ export const DocumentsModelMixin = (component) =>
          * Open the permission panel of the selected document.
          */
         async onShare() {
-            const documents = this.targetRecords;
-            await this.documentService.openSharingDialog(documents.map((d) => d.data.id));
+            const selectedIds = this.isDomainSelected
+                ? await this.getResIds()
+                : this.targetRecords.map((d) => d.data.id);
+            await this.documentService.openSharingDialog(selectedIds);
         }
 
         /**

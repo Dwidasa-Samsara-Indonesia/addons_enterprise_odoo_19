@@ -15,6 +15,7 @@
     'data': [
         'data/se.bban.clear.range.csv',
         'security/ir.model.access.csv',
+        'views/account_journal_views.xml',
         'views/se_bban_clear_range.xml',
     ],
     'auto_install': ['l10n_se'],

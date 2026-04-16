@@ -13,7 +13,7 @@ class AccountMove(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if 'matched_payment_ids' in vals:
-            for move in self.filtered_domain([('payment_state', 'in', ['paid', 'in_payment'])]):
+            for move in self.filtered_domain([('payment_state', 'in', ['paid', 'in_payment']), ('move_type', '=', 'out_invoice')]):
                 move._reopen_paid_churned_subscription()
         return res
 

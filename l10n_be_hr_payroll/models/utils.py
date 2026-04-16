@@ -120,8 +120,11 @@ def open_sftp_connection(ssh_key, username):
     except Exception as e:  # noqa: BLE001
         error_msg = _("SFTP Connection Failed: %s", e)
         _logger.error(error_msg)
+        client, sftp = None, None
         raise UserError(error_msg)
     finally:
-        sftp.close()
-        client.close()
+        if sftp:
+            sftp.close()
+        if client:
+            client.close()
         _logger.info("Connection closed successfully.")

@@ -6,6 +6,7 @@ import { HelpdeskStage } from "./mock_server/mock_models/helpdesk_stage";
 import { HelpdeskTicket } from "./mock_server/mock_models/helpdesk_ticket";
 import { HelpdeskSla } from "./mock_server/mock_models/helpdesk_sla";
 import { HelpdeskSlaStatus } from "./mock_server/mock_models/helpdesk_sla_status";
+import { HelpdeskTicketReportAnalysis } from "./mock_server/mock_models/helpdesk_ticket_report_analysis";
 
 export function defineHelpdeskModels() {
     defineModels({
@@ -20,4 +21,5 @@ export const helpdeskModels = {
     HelpdeskSlaStatus,
     HelpdeskTeam,
     HelpdeskTicket,
+    HelpdeskTicketReportAnalysis,
 };

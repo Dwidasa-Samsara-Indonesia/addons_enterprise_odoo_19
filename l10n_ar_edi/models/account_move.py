@@ -499,7 +499,7 @@ class AccountMove(models.Model):
         """ Only when we want to skip ARCA validation in testing environment. Fill the ARCA fields with dummy values in
         order to continue with the invoice validation without passing to ARCA validations
         """
-        self.write({'l10n_ar_afip_auth_mode': 'CAE',
+        self.sudo().write({'l10n_ar_afip_auth_mode': 'CAE',
                     'l10n_ar_afip_auth_code': '68448767638166',
                     'l10n_ar_afip_auth_code_due': self.invoice_date,
                     'l10n_ar_afip_result': ''})
@@ -627,6 +627,8 @@ class AccountMove(models.Model):
         self.ensure_one()
         details = []
         afip_ws = self.journal_id.l10n_ar_afip_ws
+        uom_precision_digits = min(self.env['decimal.precision'].precision_get('Product Unit of Measure'), 2)
+        price_precision_digits = min(self.env['decimal.precision'].precision_get('Product Price'), 3)
         for line in self.invoice_line_ids.filtered(lambda x: x.display_type not in ('line_section', 'line_subsection', 'line_note')):
 
             # Unit of measure of the product if it sale in a unit of measures different from has been purchase
@@ -634,16 +636,18 @@ class AccountMove(models.Model):
                 raise UserError(_('No ARCA code in %s UOM', line.product_uom_id.name))
 
             Pro_umed = line.product_uom_id.l10n_ar_afip_code
+
+            unit_price_truncated_amount = float_repr(line.price_unit, precision_digits=price_precision_digits)
             values = {
                 'Pro_ds': line.name,
-                'Pro_qty': line.quantity,
+                'Pro_qty': float_repr(line.quantity, precision_digits=uom_precision_digits),
                 'Pro_umed': Pro_umed,
-                'Pro_precio_uni': line.price_unit,
+                'Pro_precio_uni': unit_price_truncated_amount,
             }
 
             # We compute bonus by substracting theoretical minus amount
             bonus = line.discount and \
-                float_repr(line.price_unit * line.quantity - line.price_subtotal, precision_digits=2) or 0.0
+                float_repr(float(unit_price_truncated_amount) * line.quantity - line.price_subtotal, precision_digits=2) or 0.0
 
             if afip_ws == 'wsbfe':
                 if not line.product_id.uom_id.l10n_ar_afip_code:
@@ -701,12 +705,12 @@ class AccountMove(models.Model):
         ARCA it_Sigd identification type (Sin Categoria / Venta Global)
         """
         partner_id_code = partner.l10n_latam_identification_type_id.l10n_ar_afip_code
+        final_consumer = self.env.ref('l10n_ar.res_CF')
+        partner_number = partner._get_id_number_sanitize()
+        if partner.l10n_ar_afip_responsibility_type_id == final_consumer and not partner_number:
+            return '99'
         if partner_id_code:
             return partner_id_code
-        final_consumer = self.env.ref('l10n_ar.res_CF')
-        if partner.l10n_ar_afip_responsibility_type_id == final_consumer:
-            return '99'
-        return partner_id_code
 
     def _prepare_return_msg(self, afip_ws, errors, obs, events, return_codes):
         self.ensure_one()

@@ -15,13 +15,14 @@
 # Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Marta (wacm)" <wacm@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 17:55+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-25 13:53+0000\n"
+"Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "project_timesheet_forecast/pl/>\n"
 "Language: pl\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_forecast_view_form_inherit_project_timesheet_forecast
@@ -45,16 +46,19 @@ msgid ""
 "                            <span invisible=\"not encode_uom_in_days\"> "
 "Days</span>"
 msgstr ""
+"<span invisible=\"encode_uom_in_days\"> Godziny</span>\n"
+"                            <span invisible=\"not encode_uom_in_days\"> "
+"Dni</span>"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__allocated_hours_cost
 msgid "Allocated Time Cost"
-msgstr ""
+msgstr "Kosz przydzielonego czasu"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,help:project_timesheet_forecast.field_planning_analysis_report__remaining_hours
 msgid "Allocated time minus the effective time."
-msgstr ""
+msgstr "Przydzielony czas minus czas rzeczywisty."
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_slot__allow_timesheets
@@ -89,24 +93,24 @@ msgstr "Nazwa wyświetlana"
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__effective_costs
 msgid "Effective Costs"
-msgstr ""
+msgstr "Rzeczywiste koszty"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_forecast_view_tree_inherit_project_timesheet_forecast
 msgid "Effective Hours"
-msgstr "Efektywne godziny"
+msgstr "Rzeczywiste godziny"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__effective_hours
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_slot__effective_hours
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__effective_hours
 msgid "Effective Time"
-msgstr ""
+msgstr "Rzeczywisty czas"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__effective_hours_cost
 msgid "Effective Time Cost"
-msgstr ""
+msgstr "Rzeczywisty koszt czasu"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__employee_id
@@ -131,7 +135,7 @@ msgstr "Opublikowane"
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_search
 msgid "Last Week"
-msgstr "Ostatni tydzień"
+msgstr "Zeszły tydzień"
 
 #. module: project_timesheet_forecast
 #: model:ir.model,name:project_timesheet_forecast.model_ir_ui_menu
@@ -170,16 +174,18 @@ msgid ""
 "Number of time recorded on the employee's Timesheets for this task (and its "
 "sub-tasks) during the timeframe of the shift."
 msgstr ""
+"Liczba godzin zarejestrowanych w ewidencji czasu pracy pracownika dla tego "
+"zadania (i jego podzadań) w okresie trwania zmiany."
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__planned_costs
 msgid "Planned Costs"
-msgstr ""
+msgstr "Planowane koszty"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__planned_hours
 msgid "Planned Time"
-msgstr ""
+msgstr "Planowany czas"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields.selection,name:project_timesheet_forecast.selection__project_timesheet_forecast_report_analysis__line_type__forecast
@@ -195,7 +201,7 @@ msgstr "Planowanie"
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_pivot
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_search
 msgid "Planning / Timesheets Analysis"
-msgstr ""
+msgstr "Planowanie / Analiza ewidencji czasu pracy"
 
 #. module: project_timesheet_forecast
 #: model:ir.model,name:project_timesheet_forecast.model_planning_analysis_report
@@ -246,7 +252,7 @@ msgstr "Suma różnic"
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_analysis_view_tree
 msgid "Sum of Effective Hours"
-msgstr "Suma godzin efektywnych"
+msgstr "Suma rzeczywistych godzin"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_analysis_view_tree
@@ -283,7 +289,7 @@ msgstr "Karty pracy mogą być rejestrowane na tym slocie."
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_search
 msgid "Today"
-msgstr "Na dzisiaj"
+msgstr "Dzisiaj"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.actions.act_window,help:project_timesheet_forecast.project_timesheet_forecast_report_action

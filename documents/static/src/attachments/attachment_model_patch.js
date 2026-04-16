@@ -55,6 +55,7 @@ const attachmentPatch = {
         return (
             this.documentId &&
             this.mimetype &&
+            !this.documentData.has_embedded_pdf &&
             (additionalMimeTypes.includes(this.mimetype) ||
                 (textMimeTypePattern.test(this.mimetype) &&
                     !excludedMimeTypes.some((type) => this.mimetype.startsWith(type))))

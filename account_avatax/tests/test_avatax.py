@@ -265,6 +265,16 @@ class TestAccountAvalaraInternal(TestAccountAvalaraInternalCommon):
 
         self.assertIsNone(capture.val, "Should not update taxes of posted invoices.")
 
+    def test_check_address_no_credentials(self):
+        """Address validation shouldn't crash when no company has Avatax credentials."""
+        with self._capture_request(return_value={'lines': [], 'summary': []}):
+            invoice = self._create_invoice(post=True)
+        self.env.company.write({
+            'avalara_api_id': False,
+            'avalara_api_key': False,
+        })
+        invoice._check_address()
+
     def test_check_address_constraint(self):
         invoice, _ = self._create_invoice_01_and_expected_response()
         partner_no_zip = self.env["res.partner"].create({
@@ -552,6 +562,24 @@ class TestAccountAvalaraInternal(TestAccountAvalaraInternalCommon):
                 {'name': 'Odoo User Initial Discount', 'balance': 295.00},  # Income account
             ]
         )
+
+    def test_other_move_type(self):
+        """ Test the system works as expected with receipts
+        """
+        move = self.env['account.move'].create({
+            'move_type': 'in_receipt',
+            'partner_id': self.partner_a.id,
+            'fiscal_position_id': self.fp_avatax.id,
+            'invoice_date': '2024-01-24',
+            'invoice_line_ids': [
+                Command.create({
+                    'product_id': self.product_user.id,
+                    'tax_ids': None,
+                    'price_unit': self.product_user.list_price,
+                }),
+            ]
+        })
+        move.action_post()
 
 
 @tagged("external_l10n", "external", "-at_install", "post_install", "-standard")

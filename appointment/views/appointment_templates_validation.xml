@@ -189,12 +189,26 @@
                                     <div t-out="event.description"/>
                                 </div>
                             </div>
+                            <div t-if="not appointment_type and event_attendee" class="col d-flex justify-content-lg-end justify-content-md-start justify-content-sm-end mt-md-0 mt-sm-3">
+                                <form t-if="event_attendee.state != 'accepted'" method="POST" t-attf-action="/calendar/meeting/accept?id={{event.id}}&amp;token={{event_attendee.access_token}}" class="me-1 d-inline-block">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" role="button" class="ms-1 btn btn-primary btn-block text-nowrap">Accept</button>
+                                </form>
+                                <form t-if="event_attendee.state != 'declined'" method="POST" t-attf-action="/calendar/meeting/decline?id={{event.id}}&amp;token={{event_attendee.access_token}}" class="ms-1 d-inline-block">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" role="button" class="btn btn-danger btn-block text-nowrap">Decline</button>
+                                </form>
+                            </div>
                             <div t-if="appointment_type and (not partner_id or event.appointment_booker_id.id == partner_id or not appointment_type.allow_guests) and not is_cancelled" class="row mb-4">
                                 <div class="col-12">
                                     <span>Not available anymore?</span>
-                                    <a class="ms-2 text-decoration-underline o_appointment_cancel_link"
-                                        t-attf-href="/calendar/#{event.access_token}/cancel?partner_id=#{partner_id}&amp;#{keep_query('*')}">
-                                        Cancel your appointment
+                                    <!--d-block anchor instead of div for compatibility with overrides in stable-->
+                                    <a class="my-1 text-decoration-underline o_appointment_cancel_link d-block">
+                                        <form method="POST" t-attf-action="/calendar/#{event.access_token}/cancel?#{keep_query()}">
+                                            <input type="hidden" name="partner_id" t-att-value="partner_id"/>
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" role="button" class="btn btn-danger btn-block">Cancel your appointment</button>
+                                        </form>
                                     </a>
                                 </div>
                             </div>

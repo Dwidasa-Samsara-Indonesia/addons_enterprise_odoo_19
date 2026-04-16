@@ -1,13 +1,34 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models, _
+from odoo import api, fields, models, _
+from odoo.tools.sql import column_exists, create_column
 from odoo.exceptions import UserError
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    l10n_ke_branch_code = fields.Char('eTIMS Branch Code', default='00')
+    l10n_ke_branch_code = fields.Char('eTIMS Branch Code', compute="_compute_l10n_ke_branch_code", store=True, readonly=False)
+
+    def _auto_init(self):
+        if not column_exists(self.env.cr, "res_partner", "l10n_ke_branch_code"):
+            create_column(self.env.cr, "res_partner", "l10n_ke_branch_code", "varchar")
+            self.env.cr.execute("""
+                UPDATE res_partner AS p
+                   SET l10n_ke_branch_code = '00'
+                  FROM res_country cc
+                 WHERE p.country_id = cc.id
+                   AND cc.code = 'KE'
+            """)
+        super()._auto_init()
+
+    @api.depends('country_id')
+    def _compute_l10n_ke_branch_code(self):
+        ke_partners_wo_branch_code = self.filtered(
+            lambda partner: not partner.l10n_ke_branch_code and partner.country_id.code == 'KE'
+        )
+        # set default branch code for Kenyan partners without a branch code
+        ke_partners_wo_branch_code.l10n_ke_branch_code = '00'
 
     def _l10n_ke_oscu_partner_content(self):
         """Returns a dict with the commonly required fields on partner for requests to the OSCU """

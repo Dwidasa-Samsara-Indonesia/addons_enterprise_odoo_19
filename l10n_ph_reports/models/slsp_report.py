@@ -17,6 +17,7 @@ class L10n_PhSlspReportHandler(models.AbstractModel):
                 'sequence': 5,
                 'action': 'print_report_to_dat',
                 'file_export_type': _('DAT'),
+                'branch_allowed': True,
             }
         )
         # Initialise the custom options for this report.

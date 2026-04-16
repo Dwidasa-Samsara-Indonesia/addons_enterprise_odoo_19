@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:35+0000\n"
-"PO-Revision-Date: 2026-02-02 13:44+0000\n"
+"POT-Creation-Date: 2026-04-10 18:37+0000\n"
+"PO-Revision-Date: 2026-04-09 11:26+0000\n"
 "Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/mail/ko/"
 ">\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_ir_actions_server__followers_type
@@ -423,6 +423,18 @@ msgstr "&amp;nbsp;&amp;nbsp;"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "(Keep formatting)"
+msgstr ""
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "(Remove formatting)"
+msgstr ""
+
+#. module: mail
+#. odoo-javascript
 #: code:addons/mail/static/src/core/common/message.js:0
 msgid "(Translated from: %(language)s)"
 msgstr "(번역 출발 언어: %(language)s)"
@@ -494,11 +506,6 @@ msgstr "1 새 메시지"
 #: code:addons/mail/static/src/discuss/core/common/thread_model_patch.js:0
 msgid "1 other"
 msgstr "1 명"
-
-#. module: mail
-#: model_terms:ir.ui.view,arch_db:mail.account_security_alert
-msgid "111.222.333.444"
-msgstr "111.222.333.444"
 
 #. module: mail
 #: model_terms:ir.actions.act_window,help:mail.action_email_server_tree
@@ -3005,6 +3012,12 @@ msgstr "콘텐츠"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Continue with Full Composer?"
+msgstr ""
+
+#. module: mail
+#. odoo-javascript
 #: code:addons/mail/static/src/core/common/search_message_input.js:0
 msgid "Conversations"
 msgstr "대화"
@@ -4548,19 +4561,22 @@ msgstr "메시지를 게시하지 못했습니다. 다시 시도하려면 클릭
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid ""
-"Failed to render QWeb template: %(template_src)s\n"
+"Failed to render QWeb template for %(template_label)s\n"
+"Target Model: %(model_name)s\n"
+"Language context: %(lang_context)s\n"
+"Error: %(error_details)s\n"
 "\n"
-"%(template_traceback)s)"
+"Template Source Snippet:\n"
+"%(template_src)s"
 msgstr ""
-"QWeb 서식 렌더링에 실패했습니다: %(template_src)s\n"
-"\n"
-"%(template_traceback)s)"
 
 #. module: mail
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
-msgid "Failed to render inline_template template: %(template_txt)s"
-msgstr "inline_template을 렌더링하지 못했습니다: %(template_txt)s"
+msgid ""
+"Failed to render inline_template template: %(template_txt)s\n"
+"Error details: %(error)s"
+msgstr ""
 
 #. module: mail
 #. odoo-python
@@ -4915,6 +4931,12 @@ msgstr "필수 언어:"
 #: model:ir.model.fields,field_description:mail.field_res_company__email_formatted
 msgid "Formatted Email"
 msgstr "서식있는 이메일"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Formatting can only be restored in Full Composer."
+msgstr ""
 
 #. module: mail
 #. odoo-javascript
@@ -5578,7 +5600,7 @@ msgid ""
 "If you don't recognize it, you should change your password immediately via "
 "this link:<br/>"
 msgstr ""
-"확인할 수 없는 경우에는, 이 링크를 통해 즉시 비밀번호를 변경하세요:<br/>"
+"본인이 로그인하지 않은 경우, 다음 링크로 즉시 비밀번호를 변경하세요:<br/>"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings__alias_domain_id
@@ -6773,6 +6795,12 @@ msgid "Mail Template Reset"
 msgstr "메일 서식 재설정"
 
 #. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Mail Template: '%(name)s' (ID: %(record_id)s)"
+msgstr ""
+
+#. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.model_search_view
 msgid "Mail Thread"
 msgstr "메일 스레드"
@@ -6931,6 +6959,12 @@ msgstr "안읽음 표시"
 #: code:addons/mail/static/src/core/web/activity_list_popover_item.xml:0
 msgid "Mark as done"
 msgstr "완료"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Mass Mailing Template: '%(name)s' (ID: %(record_id)s)"
+msgstr ""
 
 #. module: mail
 #. odoo-javascript
@@ -7597,6 +7631,7 @@ msgstr "다음 활동 가능"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
 #: code:addons/mail/static/src/core/web/message_patch.js:0
 msgid "No"
 msgstr "아니오"
@@ -7674,6 +7709,12 @@ msgstr "선택한 레코드에 대한 문서를 찾을 수 없습니다."
 #: code:addons/mail/static/src/core/web/thread_patch.xml:0
 msgid "No history messages"
 msgstr "이전 메시지 내역이 없습니다."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "No language detected in context"
+msgstr ""
 
 #. module: mail
 #. odoo-javascript
@@ -8253,11 +8294,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/mail/models/mail_template.py:0
 msgid ""
-"Oops! We couldn't save your template due to an issue with this value: %"
-"(template_txt)s. Correct it and try again."
+"Oops! We couldn't save your template due to an issue.\n"
+"\n"
+"Error: %(error_details)s\n"
+"\n"
+"Correct it and try again."
 msgstr ""
-"죄송합니다! 템플릿을 저장할 수 없습니다. %(template_txt)s 값에 문제가 있습니"
-"다. 값을 수정한 후 다시 시도하세요."
 
 #. module: mail
 #. odoo-javascript
@@ -8379,6 +8421,10 @@ msgid ""
 "usually be a placeholder expression that provides the appropriate language, "
 "e.g. {{ object.partner_id.lang }}."
 msgstr ""
+"이메일 전송 시 번역할 언어 (ISO 코드)를 선택할 수 있습니다. 선택하지 않을 경"
+"우, 기본 파트너의 사용 언어가 기본 언어로 적용됩니다. 알맞은 언어로 표시되는 "
+"자리표지자가 나타나며, 예를 들어 {{ object.partner_id.lang }} 와 같이 표시됩"
+"니다."
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.email_template_form
@@ -8421,7 +8467,7 @@ msgstr "기타 작업"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.account_security_alert
 msgid "Otherwise, you can safely ignore this email."
-msgstr "그렇지 않은 경우 이 이메일은 무시하셔도 됩니다."
+msgstr "본인이 로그인한 것이 맞으면 이 이메일은 무시하셔도 됩니다."
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_res_users__out_of_office_from
@@ -11030,6 +11076,12 @@ msgstr "컴포저에서 서식을 작성하려면 유효한 모델이 필요합�
 #. module: mail
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Template name not identified"
+msgstr ""
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
 msgid ""
 "Template rendering should only be called with a list of IDs. Received “%"
 "(res_ids)s” instead."
@@ -12189,6 +12241,18 @@ msgid "Unnamed %(record_model_name)s (%(record_id)s)"
 msgstr "이름 없는 %(record_model_name)s (%(record_id)s)"
 
 #. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Unnamed Mail Template"
+msgstr ""
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Unnamed Mailing"
+msgstr ""
+
+#. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/core/common/message_card_list.xml:0
 #: code:addons/mail/static/src/discuss/message_pin/common/message_actions.js:0
@@ -13003,6 +13067,7 @@ msgstr "네, 핀 고정합니다."
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
 #: code:addons/mail/static/src/core/web/message_patch.js:0
 msgid "Yes"
 msgstr "예"
@@ -13429,6 +13494,14 @@ msgstr "대화"
 #: code:addons/mail/models/discuss/discuss_channel.py:0
 msgid "created this channel."
 msgstr "이 채널을 생성했습니다."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/js/rotting_mixin/rotting_statusbar.xml:0
+#, fuzzy
+#| msgid "id"
+msgid "d"
+msgstr "id"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.account_security_alert
@@ -13975,6 +14048,24 @@ msgstr "별칭"
 #: code:addons/mail/models/discuss/discuss_channel_member.py:0
 msgid "“%(member_name)s” in “%(channel_name)s”"
 msgstr "“%(member_name)s”의 “%(channel_name)s”"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/web/activity.js:0
+msgid "“%s”"
+msgstr ""
+
+#~ msgid "111.222.333.444"
+#~ msgstr "111.222.333.444"
+
+#~ msgid ""
+#~ "Failed to render QWeb template: %(template_src)s\n"
+#~ "\n"
+#~ "%(template_traceback)s)"
+#~ msgstr ""
+#~ "QWeb 서식 렌더링에 실패했습니다: %(template_src)s\n"
+#~ "\n"
+#~ "%(template_traceback)s)"
 
 #~ msgid "%(user)s connected. This is their first connection. Wish them luck."
 #~ msgstr ""

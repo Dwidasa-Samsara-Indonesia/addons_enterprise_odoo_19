@@ -41,6 +41,7 @@ class AccountMove(models.Model):
             ("3", "Reviewable Price"),
             ("4", "Own goods to customs exclaves"),
             ("90", "General Regime - exportation of services"),
+            ("91", "Export under Mandate"),
             ("99", "Other transactions"),
         ],
         help="This field is used in the XML to create an Export e-Invoice",
@@ -397,7 +398,7 @@ class AccountMove(models.Model):
                 "NroLinDR": k,  # D1
                 "TpoMovDR": "D",  # D2
                 "TpoDR": 1,  # D3
-                "GlosaDR": line.name[:50] if line.name else _('Discount'),  # D5
+                "GlosaDR": line.name[:100] if line.name else _('Discount'),  # D5
                 "ValorDR": abs(line.price_unit),  # D6
                 "IndFactDR": invoice_ind,  # D7
             })
@@ -416,6 +417,10 @@ class AccountMove(models.Model):
                     "TpoDocRef": int(related_cfe.l10n_latam_document_type_id.code),  # F3
                     "Serie": cfe_serie,  # F4
                     "NroCFERef": cfe_number,  # F5
+                    "FechaCFEref": related_cfe.invoice_date,  # F7
+                    "MntCFEref": related_cfe.amount_total,  # F8
+                    "TpoMonedaRef": related_cfe.currency_id.name,  # F9
+                    "TpoCambioRef": related_cfe._l10n_uy_edi_get_used_rate(),  # F10
                 })
         return res
 
@@ -989,8 +994,11 @@ class AccountMove(models.Model):
         created by 'UY: Create vendor bills (sync from Uruware)' cron. """
         self.ensure_one()
         latam_document = self._l10n_uy_edi_get_cfe_document_type(xml_tree)
-        if not latam_document or latam_document.code in ['124', '181', '182', '224', '281', '282']:
+        is_cobranza = xml_tree.findtext('.//{*}IndCobPropia')
+        if not latam_document or latam_document.code in ['124', '181', '182', '224', '281', '282'] or is_cobranza:
             latam_document_name = latam_document.name if latam_document else xml_tree.findtext('.//{*}TipoCFE') or xml_tree.findtext('.//{*}TipoCfe') or 'undefined'
+            if is_cobranza:
+                latam_document_name += " (Cobranza)"
             msg = _("For now it is not possible to create %(latam_document_name)s documents",
                     latam_document_name=latam_document_name)
             self.message_post(body=msg)

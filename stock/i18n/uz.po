@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:35+0000\n"
+"POT-Creation-Date: 2026-04-10 18:37+0000\n"
 "PO-Revision-Date: 2025-10-08 18:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -74,6 +74,14 @@ msgid ""
 "\n"
 "(%(serial_number)s) exists in location %(location)s"
 msgstr "(%(serial_number)s) %(location)s joylashuvida mavjud"
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+msgid ""
+"\n"
+"Package: %s"
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -508,53 +516,10 @@ msgid "1 Week"
 msgstr "1 hafta"
 
 #. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
-#: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_aggregated_move_lines
-msgid "1.00"
-msgstr ""
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
-msgid "12.0"
-msgstr ""
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_generic_barcode
-msgid "1234567890"
-msgstr ""
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_lot_label
-msgid "12345678901"
-msgstr ""
-
-#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__product_label_format__2x7xprice
 #, fuzzy
 msgid "2 x 7 with price"
 msgstr "2 x 7 narx bilan"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode
-msgid "2021-09-01"
-msgstr ""
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_small
-msgid "2023-01-01"
-msgstr ""
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_picking
-msgid "2023-09-24"
-msgstr ""
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
-#: model_terms:ir.ui.view,arch_db:stock.report_picking
-msgid "3.00"
-msgstr ""
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__lot_label_layout__print_format__4x12
@@ -586,11 +551,6 @@ msgstr "4 x 12 narx bilan"
 #, fuzzy
 msgid "4 x 7 with price"
 msgstr "4 x 7 narx bilan"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
-msgid "54326786758"
-msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_warn_insufficient_qty_form_view
@@ -925,13 +885,6 @@ msgstr "<span class=\"text-muted small\">Mavjud</span><span> / </span>"
 #, fuzzy
 msgid "<span class=\"text-muted small\"> On Hand</span>"
 msgstr "<span class=\"text-muted small\">Qo‘lda mavjud</span>"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.product_form_view_procurement_button
-#: model_terms:ir.ui.view,arch_db:stock.product_template_form_view_procurement_button
-#, fuzzy
-msgid "<span groups=\"!uom.group_uom\">On Hand</span>"
-msgstr "<span groups=\"!uom.group_uom\">Qo‘lda mavjud</span>"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
@@ -7312,7 +7265,9 @@ msgstr "Ofis stuli"
 #: code:addons/stock/static/src/stock_forecasted/forecasted_header.xml:0
 #: model:ir.model.fields,field_description:stock.field_stock_quant__on_hand
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__qty_on_hand
+#: model_terms:ir.ui.view,arch_db:stock.product_form_view_procurement_button
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
+#: model_terms:ir.ui.view,arch_db:stock.product_template_form_view_procurement_button
 #: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_product_template_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_product_tree
@@ -14065,6 +14020,11 @@ msgid "units"
 msgstr "birlik"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_replenishment_info
+msgid "x"
+msgstr ""
+
+#. module: stock
 #: model:mail.template,subject:stock.mail_template_data_delivery_confirmation
 #, fuzzy
 msgid ""
@@ -14072,3 +14032,7 @@ msgid ""
 msgstr ""
 "{{ object.company_id.name }} Yetkazib berish buyurtmasi (Havola "
 "{{ object.name or 'mavjud emas' }})"
+
+#, fuzzy
+#~ msgid "<span groups=\"!uom.group_uom\">On Hand</span>"
+#~ msgstr "<span groups=\"!uom.group_uom\">Qo‘lda mavjud</span>"

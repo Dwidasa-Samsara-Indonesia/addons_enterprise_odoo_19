@@ -225,7 +225,7 @@ class L10n_AuStp(models.Model):
     def _compute_file_replacement_message(self):
         for report in self:
             report.file_replacement_message = False
-            replacement_report = self.search([("previous_report_id", "=", report.id), ("ffr", "=", True)])
+            replacement_report = self.search([("previous_report_id", "in", report.ids), ("ffr", "=", True)])
             if report.ffr:
                 report.file_replacement_message = _("This report is a Full File Replacement for %s.\n", (report.previous_report_id.name))
             elif replacement_report or (report.is_replaced and report.previous_report_id):

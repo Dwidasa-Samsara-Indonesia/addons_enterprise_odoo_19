@@ -4,13 +4,13 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Dawid Gacek <dawid.gacek@adapt-it.pl>, 2025.
-# "Marta (wacm)" <wacm@odoo.com>, 2025.
+# "Marta (wacm)" <wacm@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-10-21 09:22+0000\n"
+"POT-Creation-Date: 2026-02-20 18:45+0000\n"
+"PO-Revision-Date: 2026-03-05 09:42+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "pos_self_order_iot/pl/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: pos_self_order_iot
 #: model:ir.model.fields,field_description:pos_self_order_iot.field_pos_config__self_ordering_iot_available_iot_box_ids
@@ -36,12 +36,12 @@ msgstr "Może być Kioskiem"
 #. module: pos_self_order_iot
 #: model:ir.model,name:pos_self_order_iot.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ustawienia konfiguracji"
+msgstr "Konfiguracja ustawień"
 
 #. module: pos_self_order_iot
 #: model:ir.model,name:pos_self_order_iot.model_auto_config_pos_iot
 msgid "Configure Automatically IoT Box In PoS"
-msgstr ""
+msgstr "Skonfiguruj automatycznie urządzenie IoT Box w PoS"
 
 #. module: pos_self_order_iot
 #: model:ir.model.fields,field_description:pos_self_order_iot.field_auto_config_pos_iot__display_name
@@ -64,7 +64,7 @@ msgstr "ID"
 #. module: pos_self_order_iot
 #: model:ir.model.fields.selection,name:pos_self_order_iot.selection__iot_box__screen_orientation__inverted
 msgid "Inverted"
-msgstr ""
+msgstr "Odwrócony"
 
 #. module: pos_self_order_iot
 #: model:ir.model,name:pos_self_order_iot.model_iot_box
@@ -95,7 +95,7 @@ msgstr "Zwykły"
 #. odoo-python
 #: code:addons/pos_self_order_iot/models/pos_config.py:0
 msgid "Opening the kiosk on %s"
-msgstr ""
+msgstr "Otwarcie kiosku na %s"
 
 #. module: pos_self_order_iot
 #: model:ir.model,name:pos_self_order_iot.model_pos_config
@@ -126,7 +126,25 @@ msgstr "Orientacja wyświetlacza zaaktualizowana."
 #. module: pos_self_order_iot
 #: model:ir.model.fields,help:pos_self_order_iot.field_iot_box__screen_orientation
 msgid "Select the orientation of the screen for the Kiosk mode"
-msgstr ""
+msgstr "Wybierz orientację ekranu dla trybu kiosku."
+
+#. module: pos_self_order_iot
+#. odoo-javascript
+#: code:addons/pos_self_order_iot/static/src/pages/payment_page/payment_page.js:0
+msgid "Terminal disconnected"
+msgstr "Terminal odłączony"
+
+#. module: pos_self_order_iot
+#. odoo-javascript
+#: code:addons/pos_self_order_iot/static/src/pages/payment_page/payment_page.js:0
+msgid "Terminal transaction failed "
+msgstr "Transakcja terminalowa nie powiodła się "
+
+#. module: pos_self_order_iot
+#. odoo-javascript
+#: code:addons/pos_self_order_iot/static/src/pages/payment_page/payment_page.js:0
+msgid "Transaction cancelled"
+msgstr "Transakcja anulowana"
 
 #. module: pos_self_order_iot
 #: model_terms:ir.ui.view,arch_db:pos_self_order_iot.res_config_settings_view_form_menu_iot

@@ -1,5 +1,13 @@
 import { _t } from "@web/core/l10n/translation";
-import { onMounted, onWillStart, useState, Component, useSubEnv, onWillUnmount } from "@odoo/owl";
+import {
+    onMounted,
+    onWillStart,
+    useState,
+    Component,
+    useSubEnv,
+    onWillUnmount,
+    useExternalListener,
+} from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { useSetupAction } from "@web/search/action_hook";
 import { downloadFile } from "@web/core/network/download";
@@ -149,6 +157,7 @@ export class AbstractSpreadsheetAction extends Component {
                 .setAttribute("content", this.originalMetaViewportContent);
             this.model.off("unexpected-revision-id", this);
         });
+        useExternalListener(window, "afterprint", this.logExport.bind(this));
     }
 
     get navbarProps() {
@@ -209,7 +218,12 @@ export class AbstractSpreadsheetAction extends Component {
             this.model.dispatch("EVALUATE_CELLS");
         });
         return {
-            custom: { env: this.env, orm: this.orm, odooDataProvider },
+            custom: {
+                env: this.env,
+                orm: this.orm,
+                odooDataProvider,
+                isFrozenSpreadsheet: this.env.isFrozenSpreadsheet?.(),
+            },
             external: {
                 fileStore: this.fileStore,
                 loadCurrencies: this.loadCurrencies,
@@ -294,6 +308,10 @@ export class AbstractSpreadsheetAction extends Component {
         });
         const id = ids[0];
         this._openSpreadsheet(id);
+    }
+
+    logExport() {
+        this.model.dispatch("LOG_DATASOURCE_EXPORT", { action: "print" });
     }
 
     /**
@@ -392,12 +410,14 @@ export class AbstractSpreadsheetAction extends Component {
         this.ui.block();
         try {
             await waitForDataLoaded(this.model);
+            const sources = this.model.getters.getLoadedDataSources();
             await this.actionService.doAction({
                 type: "ir.actions.client",
                 tag: "action_download_spreadsheet",
                 params: {
                     name: this.state.spreadsheetName,
                     xlsxData: this.model.exportXLSX(),
+                    sources,
                 },
             });
         } finally {

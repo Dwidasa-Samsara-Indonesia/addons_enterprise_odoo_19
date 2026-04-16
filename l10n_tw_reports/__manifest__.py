@@ -19,7 +19,6 @@ Accounting reports for Taiwan
     ],
     'auto_install': True,
     'installable': True,
-    "icon": "/base/static/img/country_flags/tw.png",
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',
 }

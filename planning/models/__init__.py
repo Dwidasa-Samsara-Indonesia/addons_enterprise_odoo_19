@@ -2,6 +2,7 @@
 
 from . import hr
 from . import hr_employee_public
+from . import ir_actions_report
 from . import planning_recurrency
 from . import planning_planning
 from . import planning_role

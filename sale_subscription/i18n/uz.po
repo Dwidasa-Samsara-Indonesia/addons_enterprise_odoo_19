@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
 "PO-Revision-Date: 2025-10-08 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -3594,8 +3594,6 @@ msgid "Quantity"
 msgstr "Miqdor"
 
 #. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log__subscription_state__1_draft
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_order_log_report__state__draft
@@ -4746,6 +4744,16 @@ msgid "The start date indicate when the subscription periods begin."
 msgstr "Boshlanish sanasi obuna muddatlari qachon boshlanishini ko‘rsatadi."
 
 #. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/sale_order.py:0
+msgid ""
+"The start date of an upsell cannot be greater or equal to the next invoice "
+"date of the subscription %s.\n"
+"You should first invoice the original subscription, use an earlier start "
+"date for the upsell or create a renewal quotation."
+msgstr ""
+
+#. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
 #, fuzzy
 msgid "The subscription was renewed with a new plan"
@@ -5419,17 +5427,6 @@ msgstr "Obunani boshqa valyutada qo‘shimcha sotolmaysiz."
 #: code:addons/sale_subscription/models/sale_order.py:0
 #, fuzzy
 msgid ""
-"You cannot upsell a subscription whose next invoice date is in the past.\n"
-"Please, invoice directly the %s contract."
-msgstr ""
-"Keyingi hisob-kitob sanasi o‘tgan obunani qo‘shimcha sotolmaysiz. Iltimos, "
-"%s shartnomasiga to‘g‘ridan-to‘g‘ri hisob-faktura yuboring."
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-#, fuzzy
-msgid ""
 "You cannot validate a renewal quotation starting before the next invoice "
 "date of the parent contract. Please update the start date after the %s."
 msgstr ""
@@ -5713,3 +5710,11 @@ msgstr ""
 "talab qilmoqda. Agar bu borada qandaydir savollaringiz yoki muammolaringiz "
 "bo‘lsa, iltimos, sizning aloqa shaxsingiz {{ object.user_id.name }} bilan "
 "bog‘laning."
+
+#, fuzzy
+#~ msgid ""
+#~ "You cannot upsell a subscription whose next invoice date is in the past.\n"
+#~ "Please, invoice directly the %s contract."
+#~ msgstr ""
+#~ "Keyingi hisob-kitob sanasi o‘tgan obunani qo‘shimcha sotolmaysiz. "
+#~ "Iltimos, %s shartnomasiga to‘g‘ridan-to‘g‘ri hisob-faktura yuboring."

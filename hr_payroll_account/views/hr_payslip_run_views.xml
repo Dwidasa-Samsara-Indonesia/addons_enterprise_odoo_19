@@ -20,7 +20,7 @@
                 </button>
             </t>
             <button name='action_validate' position="replace">
-                <button name="action_validate" type="object" string="Create Draft Entry" invisible="state != '01_ready' or empty_payslips or not payslip_count"
+                <button name="action_validate" type="object" string="Validate" invisible="state != '01_ready' or empty_payslips or not payslip_count"
                         class="oe_highlight" context="{'payslip_generate_pdf': True}" confirm="Are you sure you want to proceed?"/>
             </button>
         </field>

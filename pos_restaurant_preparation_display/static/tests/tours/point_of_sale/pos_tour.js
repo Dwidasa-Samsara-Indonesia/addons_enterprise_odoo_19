@@ -182,10 +182,7 @@ registry.category("web_tour.tours").add("PreparationDisplayPaymentNotCancelDispl
 function clickOrderButton() {
     return [
         ProductScreen.clickOrderButton(),
-        {
-            trigger: ".oe_status .fa.fa-spin",
-        },
-        Chrome.isSynced(),
+        Chrome.waitRequest(),
         ProductScreen.orderlinesHaveNoChange(),
     ].flat();
 }

@@ -187,9 +187,11 @@ class SendCloud:
             if not weight:
                 params['weight'] = shipping_method['properties']['max_weight'] - 1  # the weight of a shipping_method is always in gram
             # the API response is an Array of 1 dict with price and currency (usually EUR)
-            res = self._send_request('shipping-price', params=params)[0]
-            if res.get('price'):
-                shipping_prices[shipping_id] = res
+            res = self._send_request('shipping-price', params=params)
+            if not res:
+                continue
+            if res[0].get('price'):
+                shipping_prices[shipping_id] = res[0]
             elif shipping_id == 8:  # Sendcloud Unstamped Letter
                 # shipping id 8 is a test shipping and does not provide a price, but we still need the flow to continue
                 # the check is done after the request since in the future if price is actually returned it will be passed correctly
@@ -318,7 +320,7 @@ class SendCloud:
                 parcel_items[key] = {
                     'description': commodity.product_id.name,
                     'quantity': commodity.qty,
-                    'weight': float_repr(carrier.sendcloud_convert_weight(commodity.product_id.weight), 3),
+                    'weight': float_repr(max(0.001, carrier.sendcloud_convert_weight(commodity.product_id.weight)), 3),
                     'value': round(value, 2),
                     'hs_code': hs_code[:12],
                     'origin_country': commodity.country_of_origin or '',
@@ -653,5 +655,7 @@ class SendCloud:
                 res_id = addr['id']
                 break
         if not res_id:
-            raise UserError(_('No address found with contact name %s on your sendcloud account.', picking.location_id.warehouse_id.name))
+            error_message = _('No address found with contact name %s on your sendcloud account.', picking.location_id.warehouse_id.name)
+            error_message += _(' Please make sure there is an address with the same name under "Address Name (optional)" in your Sendcloud Address configuration.')
+            raise UserError(error_message)
         return res_id

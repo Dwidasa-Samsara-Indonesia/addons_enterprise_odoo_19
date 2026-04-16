@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 18:36+0000\n"
+"POT-Creation-Date: 2026-04-10 18:38+0000\n"
 "PO-Revision-Date: 2026-01-30 07:44+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
@@ -47,11 +47,6 @@ msgstr "%(quantity)s %(uom)s プロダクトの原価で"
 
 #. module: stock_account
 #: model_terms:ir.ui.view,arch_db:stock_account.stock_account_report_invoice_document
-msgid "6.00"
-msgstr "6.00"
-
-#. module: stock_account
-#: model_terms:ir.ui.view,arch_db:stock_account.stock_account_report_invoice_document
 msgid "<span>Product</span>"
 msgstr "<span>プロダクト</span>"
 
@@ -64,6 +59,14 @@ msgstr "<span>数量</span>"
 #: model_terms:ir.ui.view,arch_db:stock_account.stock_account_report_invoice_document
 msgid "<span>SN/LN</span>"
 msgstr "<span>シリアル番号/ロット番号</span>"
+
+#. module: stock_account
+#. odoo-python
+#: code:addons/stock_account/models/stock_move.py:0
+msgid ""
+"A lot/serial number is required for product '%s' as it has lot valuation "
+"enabled."
+msgstr ""
 
 #. module: stock_account
 #: model:ir.model.fields,field_description:stock_account.field_stock_avco_report__avco_value
@@ -1110,19 +1113,6 @@ msgstr ""
 "　販売オーダのマージンを計算するために使用されます。"
 
 #. module: stock_account
-#: model:ir.model.fields,help:stock_account.field_stock_move__standard_price
-msgid ""
-"Value of the product (automatically computed in AVCO).\n"
-"        Used to value the product when the purchase cost is not known (e.g. "
-"inventory adjustment).\n"
-"        Used to compute margins on sale orders."
-msgstr ""
-"プロダクトの価値（AVCO で自動的に計算される）。\n"
-"　仕入原価が不明な場合（在庫調整など）に、プロダクトの価値を算出するために使"
-"用されます。\n"
-"　販売オーダのマージンを計算するために使用されます。"
-
-#. module: stock_account
 #: model:ir.model.fields,field_description:stock_account.field_account_account__account_stock_variation_id
 msgid "Variation Account"
 msgstr "在庫差額勘定"
@@ -1179,13 +1169,20 @@ msgstr "評価フィールドの検索には '=' 演算子しか使えません�
 
 #. module: stock_account
 #. odoo-python
+#: code:addons/stock_account/models/product.py:0
+msgid ""
+"You cannot enable lot valuation because the following products have on-hand "
+"quantities without a lot/serial number:\n"
+"%s"
+msgstr ""
+
+#. module: stock_account
+#. odoo-python
 #: code:addons/stock_account/models/stock_picking.py:0
 msgid ""
-"You cannot modify the scheduled date of this operation because it falls "
-"within a locked fiscal period."
+"You cannot modify the scheduled date of operation %s because it falls within "
+"a locked fiscal period."
 msgstr ""
-"このオペレーションの予定日は、ロックされた会計期間内であるため、変更できませ"
-"ん。"
 
 #. module: stock_account
 #: model:ir.model.fields,field_description:stock_account.field_stock_move__account_move_id
@@ -1196,6 +1193,27 @@ msgstr "stock_move_id"
 #: model_terms:ir.ui.view,arch_db:stock_account.stock_account_report_invoice_document
 msgid "units"
 msgstr "単位"
+
+#~ msgid "6.00"
+#~ msgstr "6.00"
+
+#~ msgid ""
+#~ "Value of the product (automatically computed in AVCO).\n"
+#~ "        Used to value the product when the purchase cost is not known "
+#~ "(e.g. inventory adjustment).\n"
+#~ "        Used to compute margins on sale orders."
+#~ msgstr ""
+#~ "プロダクトの価値（AVCO で自動的に計算される）。\n"
+#~ "　仕入原価が不明な場合（在庫調整など）に、プロダクトの価値を算出するために"
+#~ "使用されます。\n"
+#~ "　販売オーダのマージンを計算するために使用されます。"
+
+#~ msgid ""
+#~ "You cannot modify the scheduled date of this operation because it falls "
+#~ "within a locked fiscal period."
+#~ msgstr ""
+#~ "このオペレーションの予定日は、ロックされた会計期間内であるため、変更できま"
+#~ "せん。"
 
 #~ msgid "%(quantity)s %(uom)s at product's standard price %(price)s"
 #~ msgstr "%(quantity)s %(uom)s プロダクトの標準価格： %(price)s"

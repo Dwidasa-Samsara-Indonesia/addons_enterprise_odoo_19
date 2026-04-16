@@ -2,14 +2,14 @@
 # This file contains the translation of the following modules:
 # * accountant_knowledge
 #
-# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-12-06 10:18+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-04-14 08:57+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "accountant_knowledge/ru/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -64,6 +64,8 @@ msgid ""
 "<strong class=\"o-upload-link\">Upload files</strong> to include in the PDF "
 "report."
 msgstr ""
+"<strong class=\"o-upload-link\">Загрузите файлы</strong> для включения в PDF-"
+"отчет."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_non_standard_transactions
@@ -88,6 +90,8 @@ msgid ""
 "componentized assets, or the decomposition of such assets does not have a "
 "material impact."
 msgstr ""
+"<strong>Компонентные активы</strong>: Компания не выявила компонентных "
+"активов либо их выделение не оказывает существенного влияния."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_commitments_and_guarantees
@@ -171,6 +175,9 @@ msgid ""
 "measures, the company has chosen to maintain the existing useful life "
 "periods for the depreciation of non-componentized assets."
 msgstr ""
+"<strong>Некомпонентные активы</strong>: В рамках допустимых упрощений "
+"компания приняла решение сохранить действующие сроки полезного использования "
+"для амортизации некомпонентных активов."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
@@ -234,6 +241,11 @@ msgid ""
 "interest expenses are recorded as liabilities under \"Loans and Other "
 "Financial Debts.\""
 msgstr ""
+"Авансы, полученные от государственных или частных организаций для "
+"финансирования деятельности компании, возврат которых является условным, "
+"отражаются в бухгалтерском балансе в составе капитала по статье «Прочий "
+"капитал». Соответствующие процентные расходы учитываются в составе "
+"обязательств по статье «Займы и прочие финансовые обязательства»."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -261,8 +273,21 @@ msgid "Annexes"
 msgstr "Приложения"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -277,6 +302,9 @@ msgid ""
 "unable to confirm the overall consistency and plausibility of the interim "
 "financial statements attached to this statement."
 msgstr ""
+"В связи с указанными обстоятельствами и их существенным влиянием мы не можем "
+"подтвердить общую согласованность и достоверность представленной "
+"промежуточной бухгалтерской отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -285,6 +313,9 @@ msgid ""
 "financial statements of {{ company name }} for the period from {{ start of "
 "period }} to {{ end of period }}, which include the following key figures:"
 msgstr ""
+"В качестве дипломированных бухгалтеров мы выполнили компиляцию промежуточной "
+"бухгалтерской отчетности компании {{ company name }} за период с {{ start of "
+"period }} по {{ end of period }}, включая следующие ключевые показатели:"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -301,6 +332,11 @@ msgid ""
 "criteria are no longer met, an impairment loss or exceptional amortization "
 "is recorded accordingly."
 msgstr ""
+"На каждую отчетную дату, а также при наличии признаков обесценения, "
+"капитализированные расходы на разработку пересматриваются для подтверждения "
+"того, что проект продолжает соответствовать критериям признания актива. Если "
+"данные критерии более не выполняются, признается убыток от обесценения или "
+"производится внеплановая амортизация."
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -309,26 +345,8 @@ msgid "Attestation"
 msgstr ""
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Аудиторские отчеты"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -343,6 +361,9 @@ msgid ""
 "into question the overall consistency and plausibility of the interim "
 "financial statements as attached to this statement."
 msgstr ""
+"На основании выполненных процедур нами не выявлено обстоятельств, которые "
+"ставили бы под сомнение общую согласованность и достоверность представленной "
+"промежуточной бухгалтерской отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_commitments_and_guarantees
@@ -360,6 +381,8 @@ msgid ""
 "Capital increase costs are recorded directly on the balance sheet as a "
 "deduction from the share premium."
 msgstr ""
+"Расходы на увеличение уставного капитала отражаются непосредственно в "
+"бухгалтерском балансе как уменьшение добавочного капитала."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_research_and_development_costs
@@ -375,6 +398,8 @@ msgstr ""
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
 msgid "Cash on hand and bank balances are recorded at their nominal value"
 msgstr ""
+"Денежные средства в кассе и на банковских счетах отражаются по номинальной "
+"стоимости"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_cash_flow_statement
@@ -430,7 +455,7 @@ msgstr "Настроить"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid "Consistency of accounting methods from one period to another;"
-msgstr ""
+msgstr "Сопоставимость учетной политики от одного отчетного периода к другому;"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_contextual_information
@@ -446,11 +471,13 @@ msgstr ""
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
 msgid "Costs related to under-activity are excluded from the inventory value."
 msgstr ""
+"Затраты, связанные с недозагрузкой мощностей, исключаются из стоимости "
+"запасов."
 
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
+msgid "Create an Annual Report"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -516,6 +543,8 @@ msgid ""
 "Depreciation is calculated using either the straight-line or declining "
 "balance method, based on the estimated useful life of the assets."
 msgstr ""
+"Амортизация рассчитывается линейным методом или методом уменьшаемого остатка "
+"исходя из предполагаемого срока полезного использования активов."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_commitments_and_guarantees
@@ -523,6 +552,7 @@ msgid ""
 "Describe the nature and amounts of commitments given, received, and "
 "reciprocal"
 msgstr ""
+"Опишите характер и суммы предоставленных, полученных и взаимных обязательств"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
@@ -532,6 +562,10 @@ msgid ""
 "amounts reversed (reprises), and the closing balance at the end of the "
 "period."
 msgstr ""
+"Опишите характер каждого оценочного обязательства (резерва), отраженного в "
+"течение периода. Для каждого из них укажите начальное сальдо, начисления за "
+"период (отчисления), восстановленные суммы (использованные резервы) и "
+"конечное сальдо на конец периода."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -549,6 +583,9 @@ msgid ""
 "Detail and explain the key changes in fixed assets — purchases, sales, and "
 "adjustments — over the period for clear tracking of asset value evolution."
 msgstr ""
+"Детализируйте и поясните основные изменения в основных средствах – "
+"поступления, выбытия и корректировки – за период для прозрачного "
+"отслеживания изменения их стоимости."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -556,6 +593,8 @@ msgid ""
 "Detail the factors affecting future tax liabilities and the impact of tax "
 "valuation adjustments."
 msgstr ""
+"Подробно раскройте факторы, влияющие на будущие налоговые обязательства, а "
+"также влияние корректировок налоговой оценки."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -568,6 +607,8 @@ msgid ""
 "Directly attributable costs incurred to bring the asset to working condition "
 "for its intended use;"
 msgstr ""
+"Прямые затраты, непосредственно относящиеся к приведению актива в состояние, "
+"пригодное для использования по назначению;"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -617,6 +658,9 @@ msgid ""
 "that significantly impact the overall consistency and reliability of the "
 "financial statements:"
 msgstr ""
+"В ходе выполнения задания нами были выявлены следующие обстоятельства, "
+"существенно влияющие на общую согласованность и надежность бухгалтерской "
+"отчетности:"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
@@ -625,6 +669,9 @@ msgid ""
 "{{ net accounting result }}, broken down as follows between domestic and "
 "international operations."
 msgstr ""
+"За данный отчетный период компания получила чистую бухгалтерскую прибыль в "
+"размере  {{ net accounting result }}, с разбивкой между внутренней и "
+"международной деятельностью."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -632,11 +679,13 @@ msgid ""
 "During this period, the company benefited from the following tax credits, "
 "which have contributed to optimizing its tax position:"
 msgstr ""
+"В течение данного периода компания воспользовалась следующими налоговыми "
+"кредитами, что позволило оптимизировать ее налоговую нагрузку:"
 
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
+msgid "Edit Annual Report"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -677,6 +726,9 @@ msgid ""
 "anything that would call into question the overall consistency and "
 "plausibility of the interim financial statements attached to this statement."
 msgstr ""
+"За исключением влияния вопроса, описанного выше, нами не выявлено "
+"обстоятельств, которые ставили бы под сомнение общую согласованность и "
+"достоверность представленной промежуточной бухгалтерской отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
@@ -705,6 +757,9 @@ msgid ""
 "Explain how tax changes made between the balance sheet date and the "
 "financial statement date affect this period's results."
 msgstr ""
+"Поясните, каким образом изменения налогового законодательства, произошедшие "
+"между отчетной датой и датой составления отчетности, повлияли на результаты "
+"текущего периода."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -712,6 +767,7 @@ msgid ""
 "Explain the impact of the correction on the current period's financial "
 "statements."
 msgstr ""
+"Объясните влияние исправлений на финансовую отчетность текущего периода."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -773,6 +829,10 @@ msgid ""
 "end. Any resulting exchange differences are recognized immediately in the "
 "income statement as foreign exchange gains or losses."
 msgstr ""
+"Денежные средства в иностранной валюте пересчитываются в евро по курсу, "
+"действующему на последний рабочий день, предшествующий окончанию отчетного "
+"года. Возникающие курсовые разницы немедленно признаются в отчете о "
+"финансовых результатах как доходы или расходы от курсовых разниц."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_transactions_with_management
@@ -780,6 +840,8 @@ msgid ""
 "For each member, indicate the retirement commitments and similar benefits "
 "granted to them."
 msgstr ""
+"Для каждого участника укажите обязательства по пенсионному обеспечению и "
+"аналогичные предоставленные выплаты."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_transactions_with_management
@@ -788,6 +850,9 @@ msgid ""
 "the terms agreed upon and repayments made during the period, as well as the "
 "amount of commitments made on their behalf."
 msgstr ""
+"Для каждого участника укажите предоставленные ему авансы и займы, включая "
+"согласованные условия и произведенные в течение периода выплаты, а также "
+"объем обязательств, принятых в его пользу."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -795,6 +860,8 @@ msgid ""
 "For tax-consolidated entities, explain the tax allocation method, tax "
 "differences, loss carryforwards, and related accounting specifics."
 msgstr ""
+"Для компаний, входящих в налоговую консолидацию, опишите метод распределения "
+"налога, налоговые разницы, перенос убытков и связанные особенности учета."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -802,6 +869,8 @@ msgid ""
 "From the Equity app, print the Capitalization Table and insert it <strong "
 "class=\"o-upload-link\">here</strong>"
 msgstr ""
+"В модуле Капитал распечатайте таблицу капитализации и вставьте ее <strong "
+"class=\"o-upload-link\">сюда</strong>"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -814,6 +883,8 @@ msgid ""
 "General accounting principles have been applied with due regard to the "
 "prudence principle, based on the following assumptions:"
 msgstr ""
+"Общие принципы бухгалтерского учета применяются с соблюдением принципа "
+"осмотрительности на основе следующих допущений:"
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -827,6 +898,9 @@ msgid ""
 "portion of its expenses pertains to development costs as defined by "
 "applicable accounting standards"
 msgstr ""
+"С учетом инновационного характера деятельности компании значительная часть "
+"расходов относится к затратам на разработку в соответствии с применимыми "
+"стандартами бухгалтерского учета"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
@@ -852,6 +926,8 @@ msgid ""
 "determined at the opening of the period, including which financial statement "
 "items are affected."
 msgstr ""
+"При необходимости укажите влияние нового бухгалтерского регулирования, "
+"определенное на начало периода, включая затронутые статьи отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -860,6 +936,8 @@ msgid ""
 "prospective application and indicate the impact on key items for the period, "
 "unless impracticable to determine."
 msgstr ""
+"Если изменение применено перспективно, поясните причины такого подхода и "
+"укажите влияние на ключевые показатели периода, если его возможно определить."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -867,6 +945,8 @@ msgid ""
 "If the change has been applied retrospectively, present the main items from "
 "prior periods restated under the new accounting method."
 msgstr ""
+"Если изменение применено ретроспективно, представьте основные показатели "
+"прошлых периодов, пересчитанные по новому методу учета."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -875,6 +955,9 @@ msgid ""
 "impact on the key items of the current period, unless such information is "
 "impracticable to obtain."
 msgstr ""
+"Если изменение применено <strong>перспективно</strong>, опишите его влияние "
+"на ключевые показатели текущего периода, если такую информацию возможно "
+"получить."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -883,6 +966,9 @@ msgid ""
 "items from prior periods that have been restated in accordance with the new "
 "method."
 msgstr ""
+"Если изменение применено <strong>ретроспективно</strong>, представьте "
+"ключевые показатели прошлых периодов, пересчитанные в соответствии с новым "
+"методом учета."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -890,6 +976,8 @@ msgid ""
 "If this is the first year the company holds inventories, specify the "
 "valuation method used and provide a breakdown of the products concerned."
 msgstr ""
+"Если это первый год учета запасов в компании, укажите применяемый метод "
+"оценки и приведите расшифровку по видам продукции."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -898,6 +986,9 @@ msgid ""
 "work performed for {{ company name }} for the period from {{ start of "
 "period }} to {{ end of period }}"
 msgstr ""
+"В соответствии с условиями нашего задания мы подготовили сводную информацию "
+"о выполненных работах для компании {{ company name }} за период с {{ start "
+"of period }} по {{ end of period }}"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -939,6 +1030,9 @@ msgid ""
 "Include acquisitions, disposals, cancellations, and the reason for holding "
 "these shares (e.g. employee plans, market operations)."
 msgstr ""
+"Укажите количество и стоимость акций, находившихся в собственности компании "
+"в течение года. Включите приобретения, выбытия, аннулирования, а также цели "
+"владения (например, программы для сотрудников, рыночные операции)."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -946,6 +1040,8 @@ msgid ""
 "Indicate the total book value of inventories as well as the book value by "
 "relevant categories."
 msgstr ""
+"Укажите общую балансовую стоимость запасов, а также их стоимость по "
+"существенным категориям."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
@@ -977,6 +1073,10 @@ msgid ""
 "use. This valuation is net of any trade discounts, rebates, or settlement "
 "discounts obtained."
 msgstr ""
+"Нематериальные активы оцениваются по первоначальной стоимости приобретения "
+"или создания, включая все расходы, необходимые для приведения актива в "
+"состояние, пригодное для использования. Оценка производится за вычетом "
+"торговых скидок, бонусов и скидок за досрочную оплату."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -984,6 +1084,8 @@ msgid ""
 "Interest on borrowings specifically related to the production of tangible "
 "assets is not included in the production cost of these assets."
 msgstr ""
+"Проценты по заемным средствам, непосредственно связанным с производством "
+"основных средств, не включаются в их производственную себестоимость."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1047,6 +1149,8 @@ msgid ""
 "Loan issuance costs, where applicable, are recognized as expenses in the "
 "financial year during which the loans are granted."
 msgstr ""
+"Затраты на получение займов, при наличии, признаются расходами в том "
+"отчетном периоде, в котором займы были получены."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -1065,6 +1169,9 @@ msgid ""
 "Management has chosen not to disclose remuneration information, as doing so "
 "would effectively reveal the individual compensation of executives."
 msgstr ""
+"Руководство приняло решение не раскрывать информацию о вознаграждении, так "
+"как это приведет к раскрытию индивидуального уровня оплаты труда "
+"руководителей."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_workforce
@@ -1078,6 +1185,9 @@ msgid ""
 "consumables, direct and indirect production expenses, and depreciation of "
 "assets used in production."
 msgstr ""
+"Готовая продукция оценивается по производственной себестоимости, включающей "
+"материалы, прямые и косвенные производственные расходы, а также амортизацию "
+"используемых в производстве активов."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -1107,7 +1217,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_subventions
 msgid "Non-Pro Rata Recognition"
-msgstr ""
+msgstr "Непропорциональное признание"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_non_standard_transactions
@@ -1141,11 +1251,14 @@ msgid ""
 "the date the financial statements are approved, if they are significant "
 "enough to affect the fair presentation of the accounts."
 msgstr ""
+"Отражайте только события, произошедшие между отчетной датой и датой "
+"утверждения отчетности, если они являются существенными и влияют на "
+"достоверное представление отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_subventions
 msgid "Operating subsidies are recorded as income as soon as they are granted."
-msgstr ""
+msgstr "Операционные субсидии признаются доходом по мере их предоставления."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_significant_events
@@ -1185,6 +1298,10 @@ msgid ""
 "chartered accountants. This engagement is however not an audit or a limited "
 "review."
 msgstr ""
+"Наша работа выполнена в соответствии с профессиональным стандартом, "
+"применимым к заданиям по компиляции отчетности, установленным "
+"профессиональной организацией бухгалтеров. Данное задание не является "
+"аудитом или обзорной проверкой."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
@@ -1212,6 +1329,8 @@ msgid ""
 "Please provide details of your share of results from joint operations of a "
 "specific nature"
 msgstr ""
+"Пожалуйста, укажите долю участия в результатах совместной деятельности "
+"специфического характера"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1235,6 +1354,8 @@ msgid ""
 "Present the main items of prior period's financial statements that have been "
 "restated to correct the error."
 msgstr ""
+"Представьте основные статьи финансовой отчетности предыдущего периода, "
+"пересчитанные для исправления ошибки."
 
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_kanban
@@ -1267,12 +1388,16 @@ msgid ""
 "Provide details of any significant off-balance-sheet transactions or "
 "commitments not recorded in the financial statements"
 msgstr ""
+"Предоставьте информацию о существенных внебалансовых операциях или "
+"обязательствах, не отраженных в финансовой отчетности"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 msgid ""
 "Provide details on loan issuance costs and any loan redemption premiums."
 msgstr ""
+"Предоставьте информацию о расходах на получение займов и возможных премиях "
+"при их погашении."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -1280,6 +1405,9 @@ msgid ""
 "Provide details on the carryback and carryforward of tax losses, and the "
 "split of income tax between current and exceptional results."
 msgstr ""
+"Предоставьте информацию о переносе налоговых убытков на будущие и прошлые "
+"периоды, а также о распределении налога на прибыль между текущими и прочими "
+"результатами."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -1287,6 +1415,9 @@ msgid ""
 "Provide information on the estimated value of long-term investments held in "
 "the portfolio and any changes in their value over the financial year."
 msgstr ""
+"Предоставьте информацию об оценочной стоимости долгосрочных финансовых "
+"вложений, находящихся в портфеле, а также об изменениях их стоимости за "
+"отчетный год."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
@@ -1314,6 +1445,8 @@ msgid ""
 "Receivables and payables denominated in foreign currencies are converted "
 "into euros using the exchange rate at the invoice date."
 msgstr ""
+"Дебиторская и кредиторская задолженность, выраженная в иностранной валюте, "
+"пересчитывается в евро по курсу на дату выставления счета."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -1376,6 +1509,8 @@ msgid ""
 "Research and development costs are recognized as expenses in the period in "
 "which they are incurred."
 msgstr ""
+"Затраты на исследования и разработки признаются расходами того периода, в "
+"котором они были понесены."
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__responsible_user_ids
@@ -1461,6 +1596,8 @@ msgid ""
 "Specify details for executives, subsidiaries, investments, related "
 "companies, and others."
 msgstr ""
+"Укажите информацию по руководителям, дочерним компаниям, инвестициям, "
+"связанным сторонам и прочим."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
@@ -1468,6 +1605,8 @@ msgid ""
 "Specify the impact of the change as determined at the opening of the period, "
 "identifying the affected financial statement items."
 msgstr ""
+"Укажите влияние изменения, определенное на начало периода, с указанием "
+"затронутых статей отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1526,11 +1665,15 @@ msgstr "Вспомогательные документы"
 msgid ""
 "Tangible assets are also valued at their production cost where applicable."
 msgstr ""
+"Материальные активы, при необходимости, также оцениваются по "
+"производственной себестоимости."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
 msgid "Tangible assets are valued at their acquisition cost, which includes:"
 msgstr ""
+"Материальные активы оцениваются по первоначальной стоимости, которая "
+"включает:"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_tax_and_compliance
@@ -1560,11 +1703,18 @@ msgid "Technical installations, equipment, and tools<br>"
 msgstr ""
 
 #. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr ""
+
+#. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid ""
 "The annual financial statements have been prepared in accordance with "
 "applicable accounting standards."
 msgstr ""
+"Годовая бухгалтерская отчетность подготовлена в соответствии с применимыми "
+"стандартами бухгалтерского учета."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_subventions
@@ -1574,6 +1724,11 @@ msgid ""
 "may be recorded when the grant agreement is signed and eligible expenses "
 "have been incurred, even if the funds have not yet been received."
 msgstr ""
+"Компания получила субсидии, которые признаются в составе операционных "
+"доходов пропорционально понесенным расходам. Соответственно, дебиторская "
+"задолженность по субсидиям может признаваться на дату подписания соглашения "
+"о предоставлении субсидии и при наличии подтвержденных расходов, даже если "
+"денежные средства еще не поступили."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
@@ -1591,12 +1746,14 @@ msgid ""
 "The exemption for valuation of securities in case of abnormal and temporary "
 "decline is applied."
 msgstr ""
+"Применяется освобождение от переоценки ценных бумаг при аномальном и "
+"временном снижении их стоимости."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_preamble
 msgid ""
 "The fiscal year ended on {{ end of period }} covers a period of 12 months."
-msgstr ""
+msgstr "Отчетный год, завершившийся {{ end of period }}, составляет 12 месяцев."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -1604,12 +1761,13 @@ msgid ""
 "The following decisions have been made regarding the presentation of the "
 "annual financial statements:"
 msgstr ""
+"По представлению годовой бухгалтерской отчетности приняты следующие решения:"
 
 #. module: accountant_knowledge
 #. odoo-javascript
 #: code:addons/accountant_knowledge/static/src/editor/embedded_components/core/account_report/account_report.xml:0
 msgid "The full report will be included in the final document."
-msgstr ""
+msgstr "Полный отчет будет включен в итоговый документ."
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -1618,6 +1776,8 @@ msgid ""
 "The full report will be included in the final document. Feel free to tailor "
 "the result using filters and options from the report."
 msgstr ""
+"Полный отчет будет включен в итоговый документ. Вы можете настроить "
+"результат с помощью фильтров и параметров отчета."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
@@ -1626,6 +1786,9 @@ msgid ""
 "expenses. When the inventory value is lower than the gross value, a "
 "provision for impairment is recorded for the amount of the difference."
 msgstr ""
+"Первоначальная стоимость запасов определяется по стоимости приобретения без "
+"учета сопутствующих расходов. Если стоимость запасов ниже первоначальной, "
+"создается резерв под обесценение на сумму разницы."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1633,6 +1796,8 @@ msgid ""
 "The gross value of goods and supplies includes the purchase price and "
 "related incidental costs."
 msgstr ""
+"Первоначальная стоимость товаров и материалов включает цену приобретения и "
+"сопутствующие расходы."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -1642,7 +1807,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_preamble
 msgid "The net accounting result is a {{ net accounting result }}."
-msgstr ""
+msgstr "Чистый финансовый результат составляет {{ net accounting result }}."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_preamble
@@ -1650,6 +1815,8 @@ msgid ""
 "The notes and tables provided below form an integral part of the annual "
 "financial statements."
 msgstr ""
+"Примечания и таблицы, приведенные ниже, являются неотъемлемой частью годовой "
+"бухгалтерской отчетности."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_subventions
@@ -1659,6 +1826,10 @@ msgid ""
 "assets. The acquired portion not yet recognized in income is recorded under "
 "equity as investment grants."
 msgstr ""
+"Часть субсидий, направленных на финансирование капитальных вложений, "
+"признается в составе операционных доходов в течение срока амортизации "
+"соответствующих активов. Неотраженная в доходах часть учитывается в составе "
+"капитала как инвестиционные субсидии."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
@@ -1666,6 +1837,8 @@ msgid ""
 "The primary method used to value the items recorded in the accounts is the "
 "historical cost method."
 msgstr ""
+"Основным методом оценки статей, отраженных в учете, является метод оценки по "
+"первоначальной стоимости."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -1673,6 +1846,8 @@ msgid ""
 "The purchase price (including customs duties and non-recoverable taxes, less "
 "any trade discounts, rebates, or settlement discounts);"
 msgstr ""
+"Цена приобретения (включая таможенные пошлины и невозмещаемые налоги, за "
+"вычетом торговых скидок, бонусов и скидок за досрочную оплату);"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_preamble
@@ -1680,16 +1855,19 @@ msgid ""
 "The total balance sheet amount before allocation of the result is {{ total "
 "balance sheet }}."
 msgstr ""
+"Общая сумма баланса до распределения прибыли составляет {{ total balance "
+"sheet }}."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
 msgid "This company is part of a group, and owns the following subsidiaries"
 msgstr ""
+"Данная компания входит в группу и владеет следующими дочерними организациями"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
 msgid "This company is part of a group, under the following parent company."
-msgstr ""
+msgstr "Данная компания входит в группу со следующей материнской компанией."
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__title
@@ -1759,6 +1937,8 @@ msgid ""
 "We are making the following comment regarding a matter that may affect the "
 "overall consistency and reliability of the financial statements:"
 msgstr ""
+"Мы делаем следующее замечание по вопросу, который может повлиять на общую "
+"согласованность и надежность бухгалтерской отчетности:"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1771,6 +1951,8 @@ msgid ""
 "When applicable, the initial estimate of dismantling, removal, and site "
 "restoration costs related to the asset's location."
 msgstr ""
+"При необходимости – первоначальная оценка затрат на демонтаж, вывоз и "
+"восстановление объекта, связанных с местом его эксплуатации."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
@@ -1780,6 +1962,10 @@ msgid ""
 "determined by comparing the acquisition value with the probable realizable "
 "value."
 msgstr ""
+"При необходимости дебиторская задолженность корректируется за счет создания "
+"резервов с учетом возможных трудностей взыскания. Такие резервы определяются "
+"как разница между первоначальной стоимостью и предполагаемой стоимостью "
+"реализации."
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_workforce
@@ -1796,3 +1982,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr ""
+
+#~ msgid "Audit Reports"
+#~ msgstr "Аудиторские отчеты"

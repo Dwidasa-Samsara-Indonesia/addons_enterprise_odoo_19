@@ -4,21 +4,22 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 20:09+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
-"Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/esg/sv/"
-">\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-13 09:42+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
+"Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/esg/sv/>"
+"\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: esg
 #. odoo-python
@@ -85,12 +86,12 @@ msgstr "Konto"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__account_move_line_ids
 msgid "Account Move Line"
-msgstr "Konto Flytta linje"
+msgstr "Kontorörelserad"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.carbon_emission_report_search_view
 msgid "Accounting"
-msgstr "Redovisning"
+msgstr "Bokföring"
 
 #. module: esg
 #. odoo-javascript
@@ -116,10 +117,14 @@ msgid "Activity Flow"
 msgstr ""
 
 #. module: esg
-#: model:ir.model,name:esg.model_esg_activity_type
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__activity_type_id
 msgid "Activity Type"
 msgstr "Aktivitetstyp"
+
+#. module: esg
+#: model:ir.model,name:esg.model_esg_activity_type
+msgid "Activity Type ESG"
+msgstr ""
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__activity_type_ids
@@ -526,7 +531,7 @@ msgstr "Valuta"
 #: model:ir.actions.client,name:esg.ir_actions_esg_dashboard_action
 #: model:ir.ui.menu,name:esg.menu_esg_dashboard
 msgid "Dashboard"
-msgstr "Instrumentpanel"
+msgstr "Anslagstavla"
 
 #. module: esg
 #: model:ir.model,name:esg.model_esg_database
@@ -616,7 +621,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:esg.database_form_view
 #: model_terms:ir.ui.view,arch_db:esg.database_kanban_view
 msgid "Download"
-msgstr "Nedladdningar"
+msgstr "Ladda ner"
 
 #. module: esg
 #: model_terms:ir.actions.act_window,help:esg.action_view_database
@@ -835,7 +840,7 @@ msgstr "Följare"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_partner_ids
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: esg
 #: model:esg.activity.type,name:esg.esg_activity_type_8
@@ -1084,7 +1089,8 @@ msgstr ""
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_needaction
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
+msgstr ""
+"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_has_error
@@ -1092,7 +1098,7 @@ msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_has_error
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad, några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_database__image
@@ -1155,7 +1161,7 @@ msgstr ""
 #: model:ir.model,name:esg.model_account_move
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__move_id
 msgid "Journal Entry"
-msgstr "Verifikat"
+msgstr "Bokföringspost"
 
 #. module: esg
 #: model:ir.model,name:esg.model_account_move_line
@@ -1252,7 +1258,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_has_error
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_ids
@@ -1386,7 +1392,7 @@ msgstr "Antal fel"
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_needaction_counter
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_has_error_counter
@@ -1549,7 +1555,7 @@ msgstr "Antal"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__rating_ids
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__region
@@ -1581,7 +1587,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_has_sms_error
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: esg
 #: model:account.account,name:esg.account_salary
@@ -1593,7 +1599,7 @@ msgstr "Lön"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__scope
 #: model:ir.model.fields,field_description:esg.field_esg_emission_source__scope
 msgid "Scope"
-msgstr "Omfattning"
+msgstr "Omfång"
 
 #. module: esg
 #. odoo-javascript
@@ -1943,7 +1949,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__website_message_ids
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__website_message_ids
 msgid "Website Messages"
-msgstr "Webbplatsmeddelanden"
+msgstr "Hemsidesmeddelanden"
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__website_message_ids

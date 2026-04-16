@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.5a1+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 19:01+0000\n"
+"POT-Creation-Date: 2026-04-10 19:15+0000\n"
 "PO-Revision-Date: 2026-01-10 09:39+0000\n"
 "Last-Translator: Marco Antonio Iribe Sepulveda <masi@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
@@ -49,41 +49,6 @@ msgstr "033 - Aceptado por el Cliente"
 #: model:ir.model.fields.selection,name:l10n_co_dian.selection__l10n_co_dian_document__commercial_state__accepted_by_issuer
 msgid "034 - Accepted by Issuer"
 msgstr "034 - Aceptado por el Emisor"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "1018418009"
-msgstr "1018418009"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "18760000001"
-msgstr "18760000001"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "2019-01-01"
-msgstr "2019-01-01"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "2024-03-15 15:43:50"
-msgstr "2024-03-15 15:43:50"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "2024-03-15 15:43:58"
-msgstr "2024-03-15 15:43:58"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "2030-12-31"
-msgstr "2030-12-31"
-
-#. module: l10n_co_dian
-#: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
-msgid "4390"
-msgstr "4390"
 
 #. module: l10n_co_dian
 #: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
@@ -818,6 +783,14 @@ msgid "Every lines should have non zero price units."
 msgstr "Todas las líneas deben tener un precio unitario diferente de 0."
 
 #. module: l10n_co_dian
+#. odoo-python
+#: code:addons/l10n_co_dian/models/account_edi_xml_ubl_dian.py:0
+msgid ""
+"Exportation invoices require custom code in all the products, please fill in "
+"this information before validating the invoice"
+msgstr ""
+
+#. module: l10n_co_dian
 #: model_terms:ir.ui.view,arch_db:l10n_co_dian.report_invoice_document
 msgid "Factura de venta"
 msgstr "Factura de venta"
@@ -1058,6 +1031,12 @@ msgstr "No coinciden los modos de operación de la DIAN"
 
 #. module: l10n_co_dian
 #. odoo-python
+#: code:addons/l10n_co_dian/models/account_edi_xml_ubl_dian.py:0
+msgid "No DIAN certificate is configured on the company."
+msgstr ""
+
+#. module: l10n_co_dian
+#. odoo-python
 #: code:addons/l10n_co_dian/models/account_journal.py:0
 msgid ""
 "No matching numbering range found for journal with short code '%(actual)s'. "
@@ -1124,6 +1103,12 @@ msgstr "Pendiente"
 #: code:addons/l10n_co_dian/models/res_config_settings.py:0
 msgid "Please click below to check the status of your documents."
 msgstr "Dar clic abajo para consultar el estado de tus documentos."
+
+#. module: l10n_co_dian
+#. odoo-python
+#: code:addons/l10n_co_dian/models/res_config_settings.py:0
+msgid "Please set a certificate to begin the certification process."
+msgstr ""
 
 #. module: l10n_co_dian
 #. odoo-python
@@ -1465,6 +1450,12 @@ msgstr "El documento soporte vinculado a esta nota de crédito no tiene CUDS."
 #. module: l10n_co_dian
 #. odoo-python
 #: code:addons/l10n_co_dian/models/account_edi_xml_ubl_dian.py:0
+msgid "There is no Colombian code on the unit of measure: %s"
+msgstr ""
+
+#. module: l10n_co_dian
+#. odoo-python
+#: code:addons/l10n_co_dian/models/account_edi_xml_ubl_dian.py:0
 msgid ""
 "There is no invoice linked to this credit note but the operation type is "
 "'20'."
@@ -1653,6 +1644,27 @@ msgid ""
 "{{ object.company_id.name }};{{ object.name }};{{ (object.l10n_co_edi_type "
 "or '') }};{{ object.company_id.partner_id.l10n_co_edi_commercial_name }}"
 msgstr ""
+
+#~ msgid "1018418009"
+#~ msgstr "1018418009"
+
+#~ msgid "18760000001"
+#~ msgstr "18760000001"
+
+#~ msgid "2019-01-01"
+#~ msgstr "2019-01-01"
+
+#~ msgid "2024-03-15 15:43:50"
+#~ msgstr "2024-03-15 15:43:50"
+
+#~ msgid "2024-03-15 15:43:58"
+#~ msgstr "2024-03-15 15:43:58"
+
+#~ msgid "2030-12-31"
+#~ msgstr "2030-12-31"
+
+#~ msgid "4390"
+#~ msgstr "4390"
 
 #~ msgid ""
 #~ "The issue date can not be older than 5 days or more than 5 days in the "

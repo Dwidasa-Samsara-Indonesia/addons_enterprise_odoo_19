@@ -1,9 +1,8 @@
-from odoo.addons.documents.tests.test_documents_common import TransactionCaseDocuments
-from odoo.addons.documents.tests.test_documents_sharing import TestDocumentsSharing
+from odoo.addons.documents.tests.test_documents_sharing import TestDocumentsSharingCommon
 from odoo.tests import Form, users
 
 
-class TestSpreadsheetDocumentsSharing(TransactionCaseDocuments):
+class TestSpreadsheetDocumentsSharing(TestDocumentsSharingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -31,10 +30,6 @@ class TestSpreadsheetDocumentsSharing(TransactionCaseDocuments):
         (cls.frozen_spreadsheets | cls.spreadsheet | cls.non_spreadsheet).action_update_access_rights(
             partners={cls.doc_user.partner_id: ('view', False), cls.portal_user.partner_id: ('view', False)})
         cls.partners = cls.frozen_spreadsheets[0].access_ids.partner_id
-
-    def create_documents_sharing(self, documents):
-        return self.env['documents.sharing'].browse(
-            [self.env['documents.sharing'].action_open(documents.ids)['res_id']])
 
     @staticmethod
     def get_display_names(records):
@@ -70,7 +65,7 @@ class TestSpreadsheetDocumentsSharing(TransactionCaseDocuments):
             with self.subTest(operation=operation), Form(self.create_documents_sharing(self.docs)) as form:
                 self.assertFalse(form.error_message_spreadsheet)
                 if operation == 'set_doc_user_edit':
-                    with TestDocumentsSharing.form_get_access_edit(form, self.doc_user.partner_id) as access_edit_form:
+                    with self.form_get_access_edit(form, self.doc_user.partner_id) as access_edit_form:
                         access_edit_form.role = 'edit'
                 elif operation == 'set_access_internal_edit':
                     form.access_internal = 'edit'
@@ -93,7 +88,7 @@ class TestSpreadsheetDocumentsSharing(TransactionCaseDocuments):
                   Form(self.create_documents_sharing(self.spreadsheet | self.non_spreadsheet)) as form):
                 self.assertFalse(form.error_message_spreadsheet)
                 if operation == 'set_portal_user_edit':
-                    with TestDocumentsSharing.form_get_access_edit(form, self.portal_user.partner_id) as access_form:
+                    with self.form_get_access_edit(form, self.portal_user.partner_id) as access_form:
                         access_form.role = 'edit'
                 elif operation == 'set_access_via_link_edit':
                     form.access_via_link = 'edit'
@@ -101,3 +96,30 @@ class TestSpreadsheetDocumentsSharing(TransactionCaseDocuments):
                     self.assertIn(expected_error, form.error_message_spreadsheet)
                 self.assertIn(self.get_display_names(self.spreadsheet), form.error_message_spreadsheet)
                 self.assertIn(self.get_display_names(expected_partner_error), form.error_message_spreadsheet)
+
+    @users("dtdm")
+    def test_removing_illegal_access_after_user_deactivation(self):
+        action = self.env["documents.sharing"].action_open(self.spreadsheet.ids)
+        doc_sharing = self.assert_open_wizard(action, self.spreadsheet)
+        with Form(doc_sharing) as form:
+            form.invite_partner_ids = (self.doc_user).partner_id
+            form.invite_role = "edit"
+        doc_sharing.action_invite_members()
+        self.doc_user.action_archive()
+        with Form(self.create_documents_sharing(self.spreadsheet)) as form:
+            self.assertIn(
+                "You can not share spreadsheet(s) in edit mode",
+                form.error_message_spreadsheet,
+            )
+            self.assertIn("to non-internal users.", form.error_message_spreadsheet)
+            self.assertIn(
+                self.get_display_names(self.spreadsheet), form.error_message_spreadsheet
+            )
+            self.assertIn(self.doc_user.partner_id.name, form.error_message_spreadsheet)
+            with self.form_get_access_edit(
+                form, self.doc_user.partner_id
+            ) as access_edit_form:
+                access_edit_form.is_deleted = True
+
+            self.assertFalse(form.error_message_spreadsheet)
+            self.assertFalse(form.has_warning_partners_without_access)

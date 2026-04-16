@@ -6503,6 +6503,25 @@ registry.category("web_tour.tours").add("test_sml_sort_order_by_product_category
     ],
 });
 
+registry.category("web_tour.tours").add("test_scan_package_with_decimal", {
+    steps: () => [
+        {
+            content: "Scan package with more than 3.6 kg (275.86 kg)",
+            trigger: ".o_barcode_lines",
+            run: "scan P00001",
+        },
+        {
+            trigger: ".o_barcode_line.o_line_completed",
+            run: () => {
+                helper.assertLinesCount(2);
+                helper.assertLineQty(0, "3.6/3.6");
+                helper.assertLineQty(1, "272.24");
+            },
+        },
+        ...stepUtils.validateBarcodeOperation(),
+    ],
+});
+
 registry.category("web_tour.tours").add("test_barcode_signature_flow", {
     steps: () => [
         {
@@ -6945,6 +6964,69 @@ registry.category("web_tour.tours").add("test_scan_packaging_on_picking_with_mix
                 helper.assertLineQty(1, "3 Units");
                 helper.assertLineQty(2, "2 Pack of 6");
                 helper.assertLineQty(3, "1/1 Pack of 6");
+            },
+        },
+        {
+            trigger: ".o_validate_page",
+            run: "click",
+        },
+        {
+            trigger: ".o_notification:has(.bg-success) .o_notification_close",
+            run: "click",
+        },
+        // receipt 4: 1 pack of 6 for lot 12345 and 2 Dozens for lot 54321
+        {
+            trigger: "button.o_button_operations",
+            run: "click",
+        },
+        {
+            trigger: ".o_kanban_record:contains(receipts)",
+            run: "click",
+        },
+        {
+            trigger: "button.o-kanban-button-new",
+            run: "click",
+        },
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan 6lotprod",
+        },
+        {
+            trigger: ".o_barcode_line .qty-done:contains('1')",
+            run: "scan lot12345",
+        },
+        {
+            trigger: ".o_barcode_line .o_line_lot_name:contains('lot12345')",
+            run: () => {
+                helper.assertLinesCount(1);
+                helper.assertLineQty(0, "1 Pack of 6");
+                helper.assertLineTrackingNumber(0, "lot12345");
+            },
+        },
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan 12lotprod",
+        },
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan 12lotprod",
+        },
+        {
+            trigger: ".o_barcode_line .qty-done:contains('5')",
+            run: "scan lot54321",
+        },
+        {
+            trigger: ".o_barcode_line.o_selected .o_line_button.o_toggle_sublines",
+            run: "click",
+        },
+        {
+            trigger: ".o_barcode_line .o_line_lot_name:contains('lot54321')",
+            run: () => {
+                const sublines = helper.getSublines();
+                helper.assertLineQty(sublines[0], "1 Pack of 6");
+                helper.assertLineQty(sublines[1], "2 Dozens");
+                helper.assertLineTrackingNumber(sublines[0], "lot12345");
+                helper.assertLineTrackingNumber(sublines[1], "lot54321");
             },
         },
         {
@@ -7739,5 +7821,63 @@ registry.category("web_tour.tours").add("test_no_validate_multiple_times", {
         {
             trigger: ".o_notification_bar.bg-success",
         },
+    ],
+});
+
+registry.category("web_tour.tours").add("test_quantity_updates_on_exit_spam", {
+    steps: () => [
+        {
+            trigger: ".o_stock_barcode_main_menu",
+            run: "scan Lovely Delivery"
+        },
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan product1",
+        },
+        {
+            trigger: ".o_barcode_line.o_selected",
+            run: () => {
+                helper.assertLinesCount(1);
+                helper.assertLineQty(0, "1");
+            },
+        },
+        {
+            trigger: "button.o_exit",
+            run: () => {
+                const exitBtn = document.querySelector("button.o_exit");
+                exitBtn.click();
+                exitBtn.click();
+                exitBtn.click();
+            },
+        },
+        {
+            trigger: ".o_stock_barcode_main_menu",
+        },
+    ]
+});
+
+registry.category("web_tour.tours").add("test_confirm_picking_with_archived_product", {
+    steps: () => [
+        {
+            content: "Scan barcode location to enable edit button.",
+            trigger: ".o_barcode_line",
+            run: "scan LOC-01-00-00",
+        },
+        {
+            content: "Click the edit button and open the product selector",
+            trigger: ".o_line_button.o_edit.btn.btn-secondary",
+            run: "click",
+        },
+        {
+            content: "Fulfill the product quantity",
+            trigger: ".o_digipad_fufill.btn",
+            run: "click",
+        },
+        {
+            content: "Press the confirm button and save the changes",
+            trigger: ".o_save",
+            run: "click",
+        },
+        ...stepUtils.validateBarcodeOperation(),
     ],
 });

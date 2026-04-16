@@ -140,6 +140,9 @@
                             <Category category="category_value" />
                         </t>
                     </div>
+                    <div t-if="this.prepDisplay.selectedStageId and this.prepDisplay.filteredOrders.length" class="btn btn-secondary btn-lg m-2" t-on-click="() => this.prepDisplay.clearAllOrders()">
+                        Clear All Orders
+                    </div>
                     <div class="w-100">
                         <div class="border-top w-100">
                             <button class="btn px-4 rounded-0 border-end w-50" t-on-click="() => this.changeZoom(-0.25)"

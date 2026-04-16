@@ -1,6 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, SUPERUSER_ID, _
 from odoo.exceptions import UserError
 
 
@@ -38,5 +38,5 @@ class HrWorkEntryType(models.Model):
 
     @api.ondelete(at_uninstall=False)
     def _unlink_except_work_entry_type(self):
-        if self:
+        if self and self.env.uid != SUPERUSER_ID:
             raise UserError(_("You cannot delete work entry type(s). Instead archive it."))

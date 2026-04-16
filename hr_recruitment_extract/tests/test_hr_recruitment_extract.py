@@ -165,6 +165,91 @@ class TestRecruitmentExtractProcess(TestHrCommon, TestExtractMixin):
 
         self.assertEqual(self.applicant.extract_state, 'done')
 
+    def test_ocr_skipped_when_resume_email_differs_from_sender(self):
+        # when the extracted CV email does not match the sender, OCR-derived contact fields must not be written to the applicant
+        self.applicant.email_from = 'forwarder@company.com'
+        self.applicant.partner_name = 'Forwarder Name'
+
+        # The CV contains a different candidate email
+        extract_response = self.get_result_success_response()
+
+        with self._mock_iap_extract(extract_response=extract_response):
+            self.applicant._check_ocr_status()
+
+        # None of the OCR values should have been applied
+        self.assertEqual(self.applicant.email_from, 'forwarder@company.com')
+        self.assertEqual(self.applicant.partner_name, 'Forwarder Name')
+        self.assertFalse(self.applicant.partner_phone)
+
+    def test_ocr_applied_when_resume_email_matches_sender(self):
+        # when the extracted CV email match the sender, OCR-derived contact fields should be written to the applicant
+        self.applicant.email_from = 'john@doe.com'
+        self.applicant.partner_name = 'John Doe'
+
+        # The CV email matches email_from
+        extract_response = self.get_result_success_response()
+
+        with self._mock_iap_extract(extract_response=extract_response):
+            self.applicant._check_ocr_status()
+
+        # The OCR values should have been applied
+        self.assertEqual(self.applicant.partner_name, 'Johnny Doe')
+        self.assertEqual(self.applicant.email_from, 'john@doe.com')
+        self.assertEqual(self.applicant.partner_phone, '+32488888888')
+
+    def test_ocr_skipped_for_contact_linked_to_company(self):
+        # test OCR does not update a contact that belongs to a company
+        company_partner = self.env['res.partner'].create({'name': 'Acme Corp', 'is_company': True})
+        contact = self.env['res.partner'].create({
+            'name': 'Employee',
+            'email': 'employee@acme.com',
+            'phone': '+1111111111',
+            'parent_id': company_partner.id,
+        })
+        self.applicant.write({
+            'partner_id': contact.id,
+            'email_from': 'employee@acme.com',
+            'partner_name': 'Employee',
+        })
+
+        # email matches sender
+        extract_response = self.get_result_success_response()
+        extract_response['results'][0]['email']['selected_value']['content'] = 'employee@acme.com'
+
+        with self._mock_iap_extract(extract_response=extract_response):
+            self.applicant._check_ocr_status()
+
+        # The contact record itself must be untouched
+        self.assertEqual(contact.name, 'Employee')
+        self.assertEqual(contact.phone, '+1111111111')
+
+    def test_ocr_skipped_for_contact_linked_to_user(self):
+        # test OCR does not update a contact tied to a user account
+        user = self.env['res.users'].create({
+            'name': 'Test User',
+            'login': 'test_user_ocr@example.com',
+            'email': 'test_user_ocr@example.com',
+        })
+        user.partner_id.phone = '+1234567890'
+        user_partner = user.partner_id
+
+        self.applicant.write({
+            'partner_id': user_partner.id,
+            'email_from': user_partner.email,
+            'partner_name': user_partner.name,
+        })
+
+        # email matches sender
+        extract_response = self.get_result_success_response()
+        extract_response['results'][0]['email']['selected_value']['content'] = user_partner.email
+
+        with self._mock_iap_extract(extract_response=extract_response):
+            self.applicant._check_ocr_status()
+
+        # The user's partner record must remain unchanged
+        self.assertEqual(user_partner.name, 'Test User')
+        self.assertEqual(user_partner.phone, '+1234567890')
+
     def test_skill_search_on_ocr_results(self):
         if not self.env['ir.module.module']._get('hr_recruitment_skills').state == 'installed':
             self.skipTest("If the 'hr_recruitment_skills' module isn't installed we don't extract skills!")

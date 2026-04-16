@@ -12,7 +12,7 @@ from ..models.fedex_request import FedexRequest
 
 
 @contextmanager
-def _mock_request_call():
+def _mock_request_call(specific_fedex_check=None):
     def _mock_request(*args, **kwargs):
         url = kwargs.get('url', args[2])
         responses = {
@@ -56,6 +56,8 @@ def _mock_request_call():
 
         for endpoint, content in responses.items():
             if endpoint in url:
+                if specific_fedex_check:
+                    specific_fedex_check(endpoint, kwargs['json'])
                 response = requests.Response()
                 response.request = requests.Request(kwargs.get('method'), url, kwargs.get('headers'))
                 response.request.body = str(kwargs.get('json')).encode('utf-8')
@@ -128,6 +130,18 @@ class TestDeliveryFedex(TransactionCase):
             'zip': '999077',
             'state_id': self.env.ref('base.state_hk_hk').id,
             'country_id': self.env.ref('base.hk').id,
+        })
+        self.swiss_partner = self.env['res.partner'].create({
+            'name': "Watch Maker",
+            'phone': "+41123456789",
+            'street': "Patek Philippe Avenue 100",
+            'street2': "",
+            'city': "Genève",
+            'zip': "1204",
+            'state_id': self.env.ref('base.state_ch_ge_fr').id,
+            'country_id': self.env.ref('base.ch').id,
+            'is_company': True,
+            'vat': 'CHE-123.456.788 TVA',
         })
         self.stock_location = self.env.ref('stock.stock_location_stock')
         self.customer_location = self.env.ref('stock.stock_location_customers')
@@ -386,3 +400,37 @@ class TestDeliveryFedex(TransactionCase):
             with _mock_request_call():
                 choose_delivery_carrier.update_price()
                 self.assertEqual(choose_delivery_carrier.delivery_price, 10)
+
+    def test_07_fedex_delivery_partner_with_long_vat_number(self):
+        '''
+        Ensure long vat numbers are correctly sanitized before being sent to Fedex.
+        '''
+        def vat_length_check(endpoint, payload):
+            if endpoint == 'ship':
+                vat_number = payload['requestedShipment']['recipients'][0].get('tins', [{}])[0].get('number', '')
+                self.assertTrue(len(vat_number) > 0 and len(vat_number) <= 18)
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.swiss_partner.id,
+            'order_line':  [Command.create({
+                'product_id': self.iPadMini.id,
+                'name': "[A1232] iPad Mini",
+                'product_uom_qty': 1.0,
+            })],
+        })
+        delivery_wizard = Form(self.env['choose.delivery.carrier'].with_context({
+            'default_order_id': sale_order.id,
+            'default_carrier_id': self.env.ref('delivery_fedex_rest.delivery_carrier_fedex_inter').id
+        }))
+        choose_delivery_carrier = delivery_wizard.save()
+        with _mock_request_call(vat_length_check):
+            choose_delivery_carrier.update_price()
+            choose_delivery_carrier.button_confirm()
+
+            sale_order.action_confirm()
+            self.assertEqual(len(sale_order.picking_ids), 1)
+
+            picking = sale_order.picking_ids[0]
+            self.assertEqual(picking.carrier_id.id, sale_order.carrier_id.id)
+
+            picking._action_done()

@@ -142,7 +142,7 @@ export class DocumentService {
         } else {
             // Document was renamed
             if ("attachment" in data && data.name !== document.name) {
-                document.attachment = this.store.Attachment.insert(data.attachment);
+                document.attachment = this.store["ir.attachment"].insert(data.attachment);
             }
         }
         // return reactive version

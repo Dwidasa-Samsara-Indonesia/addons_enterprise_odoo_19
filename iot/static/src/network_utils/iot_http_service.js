@@ -7,12 +7,9 @@ import { IotWebRtc } from "./iot_webrtc";
 
 export const PRINTER_MESSAGES = {
     ERROR_FAILED: _t("Failed to initiate print"),
-    ERROR_OFFLINE: _t("Printer is not ready"),
     ERROR_TIMEOUT: _t("Printing timed out"),
-    ERROR_NO_PAPER: _t("Out of paper"),
     ERROR_UNREACHABLE: _t("Printer is unreachable"),
     ERROR_UNKNOWN: _t("Unknown printer error occurred"),
-    WARNING_LOW_PAPER: _t("Paper is low"),
 };
 
 export const FDM_MESSAGES = {
@@ -45,7 +42,6 @@ export const FDM_MESSAGES = {
  * HTTP POST method and then using the websocket.
  */
 export class IotHttpService {
-    longpollingFailedTimestamp = null;
     webRtcFailedTimestamp = null;
     connectionStatus = "webrtc"; // webrtc, longpolling, websocket, offline
     connectionTypes = [
@@ -88,15 +84,6 @@ export class IotHttpService {
         return record;
     }
 
-    _ensureLongpollingEnabled() {
-        if (
-            this.longpollingFailedTimestamp &&
-            Date.now() - this.longpollingFailedTimestamp < 5 * 60 * 1000
-        ) {
-            throw new Error("Longpolling is temporarily disabled due to a recent failure.");
-        }
-    }
-
     _ensureWebRtcEnabled() {
         if (
             this.webRtcFailedTimestamp &&
@@ -127,19 +114,13 @@ export class IotHttpService {
     }
 
     async _longpolling({ ip, deviceIdentifier, data, messageId, onSuccess, onFailure }) {
-        this._ensureLongpollingEnabled();
-        try {
-            this.longpolling.onMessage(ip, deviceIdentifier, onSuccess, onFailure, messageId);
-            if (data) {
-                const response =
-                    await this.longpolling.sendMessage(ip, { device_identifier: deviceIdentifier, data }, messageId, true);
-                if (response?.result === false || response?.result?.status === "disconnected") {  // compat. v19.1+ IoT Boxes
-                    onFailure({ status: "disconnected" }, deviceIdentifier, messageId);
-                }
+        this.longpolling.onMessage(ip, deviceIdentifier, onSuccess, onFailure, messageId);
+        if (data) {
+            const response =
+                await this.longpolling.sendMessage(ip, { device_identifier: deviceIdentifier, data }, messageId, true);
+            if (response?.result === false || response?.result?.status === "disconnected") {  // compat. v19.1+ IoT Boxes
+                onFailure({ status: "disconnected" }, deviceIdentifier, messageId);
             }
-        } catch (e) {
-            this.longpollingFailedTimestamp = Date.now();
-            throw e;
         }
         this.connectionStatus = "longpolling";
     }

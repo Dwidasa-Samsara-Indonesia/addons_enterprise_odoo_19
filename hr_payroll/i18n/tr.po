@@ -27,13 +27,14 @@
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # DeepL <noreply-mt-deepl@weblate.org>, 2025.
 # Odoo Turkish Import <dyki+tr@odoo.com>, 2025.
+# "Deniz Guvener Unal (degu)" <degu@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-21 14:20+0000\n"
-"Last-Translator: Odoo Turkish Import <dyki+tr@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-09 11:22+0000\n"
+"Last-Translator: \"Deniz Guvener Unal (degu)\" <degu@odoo.com>\n"
 "Language-Team: Turkish <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/tr/>\n"
 "Language: tr\n"
@@ -41,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -194,11 +195,6 @@ msgstr ""
 "Maaş bordrosu onaylanırsa durum 'Bitti' olarak ayarlanır.\n"
 "                \n"
 "* Kullanıcı bir maaş bordrosunu iptal ettiğinde, durum 'İptal Edildi' olur."
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
@@ -520,11 +516,6 @@ msgstr "<strong class=\"me-2\">Hesaplanma Tarihi:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr "<strong class=\"me-2\">Sözleşme Başlangıç Tarihi:</strong>"
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr "<strong class=\"me-2\">Sözleşme Türü:</strong>"
 
@@ -537,6 +528,11 @@ msgstr "<strong class=\"me-2\">Departman:</strong>"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
 msgstr "<strong class=\"me-2\">E-posta:</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -2578,8 +2574,6 @@ msgid "General"
 msgstr "Genel"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Oluştur"
@@ -2609,6 +2603,12 @@ msgstr "Ödeme Çalışması Oluştur"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "Generate Payslips"
 msgstr "Ücret Bordrolarını Oluştur"
+
+#. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
 
 #. module: hr_payroll
 #. odoo-python
@@ -3867,12 +3867,6 @@ msgstr "PDF dosyası"
 #: code:addons/hr_payroll/models/hr_payroll_employee_declaration.py:0
 msgid "PDF generation started. It will be available shortly."
 msgstr "PDF oluşturma başlatıldı. Kısa süre içinde hazır olacaktır."
-
-#. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr "PDF'ler"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
@@ -6587,6 +6581,15 @@ msgstr "{{ object.employee_id.name }}, sizin için yeni bir maaş bordrosu hazı
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆Üstteki menüyü görüyor musun?"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "PDFs"
+#~ msgstr "PDF'ler"
+
+#~ msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
+#~ msgstr "<strong class=\"me-2\">Sözleşme Başlangıç Tarihi:</strong>"
 
 #~ msgid "Other Input Types"
 #~ msgstr "Diğer Girdi Türleri"

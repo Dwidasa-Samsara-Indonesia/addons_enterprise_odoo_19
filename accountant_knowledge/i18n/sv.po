@@ -3,13 +3,14 @@
 # * accountant_knowledge
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-17 03:47+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-04-14 13:04+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "accountant_knowledge/sv/>\n"
 "Language: sv\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -100,7 +101,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_transactions_with_management
 msgid "<strong>Description</strong><br>"
-msgstr ""
+msgstr "<strong>Beskrivning</strong><br>"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
@@ -140,7 +141,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_non_standard_transactions
 msgid "<strong>Name</strong><br>"
-msgstr ""
+msgstr "<strong>Namn</strong><br>"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_non_standard_transactions
@@ -205,7 +206,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:knowledge.article.template.category,name:accountant_knowledge.knowledge_article_template_category_accounting
 msgid "Accounting"
-msgstr "Redovisning"
+msgstr "Bokföring"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
@@ -236,12 +237,12 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 msgid "Aged Payable"
-msgstr "Förfallna Leverantörsskulder"
+msgstr "Leverantörsskulder"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 msgid "Aged Receivable"
-msgstr "Förfallna kundfordringar"
+msgstr "Kundfordringar"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -259,9 +260,22 @@ msgid "Annexes"
 msgstr ""
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
-msgstr ""
+msgstr "Årsrapport"
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr "Mall för årsrapport"
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
+msgstr "Årsrapporter"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_article_id
@@ -307,26 +321,8 @@ msgid "Attestation"
 msgstr ""
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr ""
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Revisionsrapporter"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -423,7 +419,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_kanban
 msgid "Configure"
-msgstr "Ställ in"
+msgstr "Konfigurera"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
@@ -448,7 +444,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
+msgid "Create an Annual Report"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -459,7 +455,7 @@ msgstr "Skapad av"
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_date
 msgid "Created on"
-msgstr "Skapad på"
+msgstr "Skapad den"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -481,12 +477,12 @@ msgstr "Datum"
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
 msgid "Deferred Expenses"
-msgstr ""
+msgstr "Periodiserade kostnader"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
 msgid "Deferred Revenues"
-msgstr ""
+msgstr "Periodiserade intäkter"
 
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_kanban
@@ -539,7 +535,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
 msgid "Description<br>"
-msgstr ""
+msgstr "Beskrivning<br>"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -593,7 +589,7 @@ msgstr "Klar"
 #: code:addons/accountant_knowledge/static/src/components/export_audit_report_to_pdf_dialog/export_audit_report_to_pdf_dialog.xml:0
 #: code:addons/accountant_knowledge/static/src/components/options_dropdown/options_dropdown.xml:0
 msgid "Download Annual Report"
-msgstr ""
+msgstr "Ladda ner årsrapport"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -634,8 +630,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr ""
+msgid "Edit Annual Report"
+msgstr "Redigera årsrapport"
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -1001,7 +997,7 @@ msgstr "Värdering av lager"
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_journal_audit
 msgid "Journal Audit"
-msgstr ""
+msgstr "Revision av journaler"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -1050,7 +1046,7 @@ msgstr ""
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
 msgid "Loans"
-msgstr ""
+msgstr "Lån"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -1192,7 +1188,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 msgid "Partner Ledger"
-msgstr "Kund/leverantörsreskontra"
+msgstr "Kund- och leverantörsreskontra"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -1351,7 +1347,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.model,name:accountant_knowledge.model_ir_actions_report
 msgid "Report Action"
-msgstr "Rapportaktivitet"
+msgstr "Rapporteringsåtgärd"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -1555,6 +1551,11 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_commitments_and_guarantees
 msgid "Technical installations, equipment, and tools<br>"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
 msgstr ""
 
 #. module: accountant_knowledge
@@ -1794,3 +1795,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr ""
+
+#~ msgid "Audit Reports"
+#~ msgstr "Revisionsrapporter"

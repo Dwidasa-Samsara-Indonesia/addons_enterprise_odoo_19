@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2026-01-06 18:53+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-03-16 14:31+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/equity/ar/"
 ">\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__securities
@@ -37,19 +37,19 @@ msgstr ""
 #. odoo-python
 #: code:addons/equity/models/equity_valuation.py:0
 msgid "%(partner_name)s %(amount)s"
-msgstr ""
+msgstr "%(partner_name)s %(amount)s"
 
 #. module: equity
 #. odoo-python
 #: code:addons/equity/models/equity_ubo.py:0
 msgid "%(partner_name)s (%(holder_name)s)"
-msgstr ""
+msgstr "%(partner_name)s (%(holder_name)s)"
 
 #. module: equity
 #. odoo-python
 #: code:addons/equity/models/res_partner.py:0
 msgid "%(partner_name)s's Transactions"
-msgstr ""
+msgstr "معاملات %(partner_name)s"
 
 #. module: equity
 #. odoo-python
@@ -309,6 +309,12 @@ msgstr ""
 "                            الاقتصادية الأوروبية؛ أو"
 
 #. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid "A partner cannot have transactions in different currencies."
+msgstr ""
+
+#. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
 msgid ""
 "According to laws related to anti money laundering, the notary must identify "
@@ -430,6 +436,11 @@ msgstr "المشتري"
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__ceo
 msgid "CEO"
 msgstr "المدير التنفيذي"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__can_change_currency
+msgid "Can Change Currency"
+msgstr ""
 
 #. module: equity
 #. odoo-python
@@ -1378,7 +1389,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/equity/static/src/components/ubo_form/ubo_form.xml:0
 msgid "Position"
-msgstr "المنصب الوظيفي"
+msgstr "الموضع"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form
@@ -1927,6 +1938,14 @@ msgstr "نعم"
 msgid ""
 "You can remove any shareholder holding less than 25% of the shares or voting "
 "rights."
+msgstr ""
+
+#. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid ""
+"You cannot change the equity currency because this partner already has "
+"existing transactions."
 msgstr ""
 
 #. module: equity

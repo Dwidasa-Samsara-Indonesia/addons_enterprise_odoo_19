@@ -620,3 +620,17 @@ class TestApprovalsPurchase(TestApprovalsCommon):
             'price': 250,
         })]
         request_purchase.action_create_purchase_orders()  # Should not raise any error as we added a vendor
+
+    def test_cancel_approval_request_without_purchase_orders(self):
+        """ Check that canceling an approval request without purchase orders doesn't create an empty chatter message. """
+        request_purchase = self.env['approval.request'].create({
+            'category_id': self.purchase_category.id,
+            'approver_ids': [Command.create({'user_id': self.user_approver.id})],
+            'product_line_ids': [Command.create({'product_id': self.product_computer.id, 'quantity': 5})],
+        })
+        request_purchase.action_confirm()
+        messages_before_cancel = len(request_purchase.message_ids)
+        request_purchase.action_cancel()
+        messages_after_cancel = len(request_purchase.message_ids)
+
+        self.assertEqual(messages_before_cancel, messages_after_cancel)

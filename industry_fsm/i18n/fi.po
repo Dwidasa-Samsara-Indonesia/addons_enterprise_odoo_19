@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:04+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-14 14:49+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "industry_fsm/fi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__nbr
@@ -49,16 +49,6 @@ msgstr "(ml."
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
 msgid "10 days"
 msgstr "10 päivää"
-
-#. module: industry_fsm
-#: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
-msgid "10:00"
-msgstr "10:00"
-
-#. module: industry_fsm
-#: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
-msgid "2023-01-01"
-msgstr "2023-01-01"
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
@@ -299,7 +289,7 @@ msgstr "Keskimääräinen arvosana (1-5)"
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__dependent_ids
 msgid "Block"
-msgstr "Lohko"
+msgstr "Estä"
 
 #. module: industry_fsm
 #: model:ir.ui.menu,name:industry_fsm.project_task_menu_planning_by_location_fsm
@@ -1034,7 +1024,7 @@ msgstr "Edistyminen"
 #: model:ir.model.fields,field_description:industry_fsm.field_rating_rating__project_id
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__project_id
 msgid "Project"
-msgstr "Projektit"
+msgstr "Projekti"
 
 #. module: industry_fsm
 #: model:ir.actions.act_window,name:industry_fsm.project_project_action_only_fsm
@@ -1065,7 +1055,7 @@ msgstr ""
 #. module: industry_fsm
 #: model:ir.model,name:industry_fsm.model_ir_actions_report
 msgid "Report Action"
-msgstr "Raporttin"
+msgstr "Raporttitoiminto"
 
 #. module: industry_fsm
 #: model:ir.ui.menu,name:industry_fsm.fsm_menu_reporting
@@ -1185,7 +1175,7 @@ msgstr "Vaiheet"
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.project_task_view_search_fsm
 msgid "Start Date"
-msgstr "Alkupäivä"
+msgstr "Aloituspäivä"
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__planned_date_begin
@@ -1213,7 +1203,7 @@ msgstr "Katuosoite"
 #: model:ir.model.fields,field_description:industry_fsm.field_project_task__partner_street2
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__partner_street2
 msgid "Street2"
-msgstr "Katuosoite2"
+msgstr "Katu2"
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.report_project_task_user_fsm_view_tree
@@ -1524,10 +1514,10 @@ msgid ""
 "lang_code=object.partner_id.lang) or '' }}"
 msgstr ""
 "Toimenpiteesi on aikataulutettu {{ object.planned_date_begin and "
-"object.date_deadline and 'from the ' + format_datetime("
-"object.planned_date_begin, tz=object.partner_id.tz, "
-"lang_code=object.partner_id.lang) + ' to the ' + format_datetime("
-"object.date_deadline, tz=object.partner_id.tz, "
+"object.date_deadline and 'from the ' + "
+"format_datetime(object.planned_date_begin, tz=object.partner_id.tz, "
+"lang_code=object.partner_id.lang) + ' to the ' + "
+"format_datetime(object.date_deadline, tz=object.partner_id.tz, "
 "lang_code=object.partner_id.lang) or '' }}"
 
 #. module: industry_fsm
@@ -1553,3 +1543,9 @@ msgid ""
 "on\n"
 "                        <span class=\"fw-bold text-dark\"> Sub-tasks</span>)"
 msgstr "<span class=\"fw-bold text-dark\"> Alitehtävässä</span>)"
+
+#~ msgid "10:00"
+#~ msgstr "10:00"
+
+#~ msgid "2023-01-01"
+#~ msgstr "2023-01-01"

@@ -175,4 +175,13 @@ export class AppointmentBookingGanttRenderer extends GanttRenderer {
         });
         return popoverProps;
     }
+
+    /**
+     * @override
+     */
+    async undoDragDropAction(resId, dragAction, fallbackData, messages) {
+        const cleanFallbackData = { ...fallbackData };
+        delete cleanFallbackData?.originId;
+        return await super.undoDragDropAction(resId, dragAction, cleanFallbackData, messages);
+    }
 }

@@ -71,6 +71,24 @@ class QualityCheck(models.Model):
             return 1
         return 0
 
+    def _can_move_to_failure_location(self):
+        self.ensure_one()
+        if self.repair_id and self.quality_state == 'fail':
+            return True
+        return super()._can_move_to_failure_location()
+
+    def _move_to_failure_location_operation(self, failure_location_id):
+        self.ensure_one()
+        if self.repair_id and failure_location_id:
+            self.repair_id.product_location_dest_id = failure_location_id
+        return super()._move_to_failure_location_operation(failure_location_id)
+
+    def _move_to_failure_location_product(self, failure_location_id):
+        self.ensure_one()
+        if self.repair_id and failure_location_id:
+            self.repair_id.product_location_dest_id = failure_location_id
+        return super()._move_to_failure_location_product(failure_location_id)
+
 
 class QualityAlert(models.Model):
     _inherit = "quality.alert"

@@ -141,6 +141,11 @@ class TestKnowledgeArticleConstraints(KnowledgeCommon):
         readonly_article = self.article_shared.with_env(self.env)
 
         _title = 'Fthagn, private'
+        next_sequence = 1 + self.env['knowledge.article'].sudo().search_read(
+            domain=[('parent_id', '=', False)],
+            fields=['sequence'],
+            order='sequence desc',
+            limit=1)[0]['sequence']
         private = self.env['knowledge.article'].create({
             'article_member_ids': [
                 (0, 0, {'partner_id': self.env.user.partner_id.id,
@@ -153,7 +158,7 @@ class TestKnowledgeArticleConstraints(KnowledgeCommon):
         self.assertMembers(private, 'none', {self.env.user.partner_id: 'write'})
         self.assertEqual(private.category, 'private')
         self.assertFalse(private.parent_id)
-        self.assertEqual(private.sequence, 23)
+        self.assertEqual(private.sequence, next_sequence)
 
         _title = 'Fthagn, with parent (workspace)'
         children = self.env['knowledge.article'].create([

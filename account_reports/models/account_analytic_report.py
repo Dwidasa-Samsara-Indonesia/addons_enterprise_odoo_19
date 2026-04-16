@@ -1,4 +1,5 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import ast
 
 from odoo import _, models, fields, api
 from odoo.fields import Domain
@@ -168,7 +169,17 @@ class AccountReport(models.AbstractModel):
         column_group_options = self._get_column_group_options(options, params['column_group_key'])
 
         if not column_group_options.get('analytic_groupby_option'):
-            return super(AccountReport, self).action_audit_cell(options, params)
+            action = super().action_audit_cell(options, params)
+            if options.get('column_percent_comparison') == 'analytic_coverage':
+                context = action.get('context', {})
+                context.update({
+                    'selected_analytic_plan': options['analytic_plans_groupby'][0],
+                })
+                action['context'] = context
+                view_id = self.env.ref('account_reports.view_analytic_move_line_tree', raise_if_not_found=False) or False
+                if view_id:
+                    action['views'] = [(view_id.id, 'list')]
+            return action
         else:
             # Start by getting the domain from the options. Note that this domain is targeting account.move.line
             report_line = self.env['account.report.line'].browse(params['report_line_id'])
@@ -187,9 +198,11 @@ class AccountReport(models.AbstractModel):
                 if field.split('.')[0] == 'account_id':
                     field = field.replace('account_id', 'general_account_id')
                     expression = [(field, operator, right_term)]
-                # Replace the 'analytic_distribution' by the account_id domain as we expect for analytic lines.
                 elif field == 'analytic_distribution':
-                    expression = [('auto_account_id', 'in', right_term)]
+                    if options.get('column_percent_comparison') == 'analytic_coverage':
+                        expression = [(1, '=', 1)]
+                    else:
+                        expression = [('auto_account_id', 'in', right_term)]
                 # For other fields not present in on the analytic line model, map them to get the info from the move_line.
                 # Or ignore these conditions if there is no move lines.
                 elif field.split('.')[0] not in AccountAnalyticLine._fields:
@@ -205,6 +218,18 @@ class AccountReport(models.AbstractModel):
 
             action = clean_action(self.env.ref('analytic.account_analytic_line_action_entries')._get_action_dict(), env=self.env)
             action['domain'] = domain
+            if options.get('column_percent_comparison') == 'analytic_coverage':
+                context = ast.literal_eval(action.get('context', "{}"))
+                context.update({
+                    'selected_analytic_plan': options['analytic_plans_groupby'][0],
+                    'group_by': 'move_line_id',
+                })
+                action['context'] = context
+                action['display_name'] += ' - ' + options['selected_analytic_plan_groupby_names'][0]
+                view_id = self.env.ref('account_reports.view_analytic_line_tree', raise_if_not_found=False) or False
+                if view_id:
+                    action['views'] = [(view_id.id, 'list')]
+
             return action
 
     @api.model

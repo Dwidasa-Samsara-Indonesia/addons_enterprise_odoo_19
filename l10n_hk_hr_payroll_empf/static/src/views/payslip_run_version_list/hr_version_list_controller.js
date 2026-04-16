@@ -17,6 +17,6 @@ patch(VersionPayrunListController.prototype, {
                 l10n_hk_payroll_scheme_id: rawRecord.l10n_hk_payroll_scheme_id?.id,
             };
         }
-        return super.selectEmployees(...arguments);
+        return super.buildRawRecord(rawRecord);
     }
 });

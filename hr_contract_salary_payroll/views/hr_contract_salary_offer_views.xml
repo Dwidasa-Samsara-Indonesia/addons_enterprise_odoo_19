@@ -166,6 +166,10 @@
         </field>
     </record>
 
+    <record id="hr_contract_salary.hr_contract_salary_offer_recruitment_action" model="ir.actions.act_window">
+        <field name="domain">[('employee_id', '=', False), ('is_simulation_offer', '=', False)]</field>
+    </record>
+
     <record id="action_hr_salary_simulator" model="ir.actions.act_window">
         <field name="name">Gross-Net Salary Calculator</field>
         <field name="res_model">hr.contract.salary.offer</field>

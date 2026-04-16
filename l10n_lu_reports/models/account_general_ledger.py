@@ -18,7 +18,8 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 'sequence': 50,
                 'action': 'export_file',
                 'action_param': 'l10n_lu_export_saft_to_xml',
-                'file_export_type': _('XML')
+                'file_export_type': _('XML'),
+                'branch_allowed': True,
             })
 
     @api.model
@@ -70,7 +71,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             for product_code, grouped_products in groupby(product_vals_list, key=lambda product: product['default_code']):
                 product_list = list(grouped_products)
                 if not product_code:
-                    empty_product_ids.add(product_list[0]['id'])
+                    empty_product_ids.update(product_list_item['id'] for product_list_item in product_list)
                 elif len(product_list) > 1:
                     for product in product_list:
                         duplicate_product_ids.add(product['id'])
@@ -126,6 +127,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 if line_vals['tax_line_id']:
                     move_vals['tax_detail_vals_list'].append({
                         'currency_id': line_vals['currency_id'],
+                        'currency_code': line_vals['currency_code'],
                         'tax_id': line_vals['tax_line_id'],
                         'tax_name': line_vals['tax_name'],
                         'tax_amount': line_vals['tax_amount'],

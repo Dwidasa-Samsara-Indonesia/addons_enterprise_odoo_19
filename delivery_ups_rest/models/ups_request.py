@@ -388,6 +388,7 @@ class UPSRequest:
                                                                                ship_to, is_return)
             shipment_service_options['InternationalForms']['PurchaseOrderNumber'] = shipment_info.get('purchase_order_number')
             shipment_service_options['InternationalForms']['TermsOfShipment'] = shipment_info.get('terms_of_shipment')
+            shipment_service_options['InternationalForms']['FreightCharges'] = {'MonetaryValue': float_repr(shipment_info.get('freight_charge', 0.0), 2)}
         if saturday_delivery:
             shipment_service_options['SaturdayDeliveryIndicator'] = saturday_delivery
         if carrier.ups_require_signature:

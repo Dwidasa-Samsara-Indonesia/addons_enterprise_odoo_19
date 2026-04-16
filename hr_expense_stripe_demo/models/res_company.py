@@ -45,7 +45,7 @@ class ResCompany(models.Model):
             'business_profile[name]': self.name or 'match_name_relationships',
             'business_profile[product_description]': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'business_profile[support_phone]': '0000000000',
-            'business_type': 'company',
+            'business_type': 'individual',
             'company[address][city]': 'City',
             'company[address][country]': country_code,
             'company[address][line1]': 'address_full_match',

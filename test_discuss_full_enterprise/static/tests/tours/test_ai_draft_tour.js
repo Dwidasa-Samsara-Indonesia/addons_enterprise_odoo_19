@@ -336,5 +336,6 @@ registry.category("web_tour.tours").add("test_ai_draft_html_field", {
             content: "Check the the AI response was actually inserted in the HTML field ",
             trigger: ".note-editable:has(div:contains('This is dummy ai response'))",
         },
+        ...stepUtils.discardForm(),
     ],
 });

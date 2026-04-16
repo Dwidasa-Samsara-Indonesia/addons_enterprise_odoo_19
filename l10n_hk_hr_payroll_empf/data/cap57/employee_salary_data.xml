@@ -4,9 +4,10 @@
     <record id="l10n_hk_hr_payroll.cap57_employees_salary_eemc" model="hr.salary.rule">
         <field name="condition_select">python</field>
         <field name="condition_python">
+cumulative_gross = l10n_hk_payrun_totals['MPF_GROSS'] + result_rules['MPF_GROSS']['total']
 first_mpf_date = employee._get_first_version_date() + relativedelta(days=30)
-is_above_mpf_threshold = result_rules['MPF_GROSS']['total'] &gt;= payslip._rule_parameter('l10n_hk_mpf_threshold')
-is_allowed_to_contribute = not employee.birthday or employee.birthday &gt; date.today() - relativedelta(years=65)
+is_above_mpf_threshold = cumulative_gross &gt;= payslip._rule_parameter('l10n_hk_mpf_threshold')
+is_allowed_to_contribute = not employee.birthday or employee.birthday &gt; payslip.date_to - relativedelta(years=65)
 result = is_above_mpf_threshold and first_mpf_date &lt;= payslip.date_from and not version.l10n_hk_mpf_exempt and is_allowed_to_contribute
         </field>
     </record>
@@ -14,7 +15,7 @@ result = is_above_mpf_threshold and first_mpf_date &lt;= payslip.date_from and n
     <record id="l10n_hk_hr_payroll.cap57_employees_salary_ermc" model="hr.salary.rule">
         <field name="condition_select">python</field>
         <field name="condition_python">
-result = not version.l10n_hk_mpf_exempt and (not employee.birthday or employee.birthday &gt; date.today() - relativedelta(years=65))
+result = not version.l10n_hk_mpf_exempt and (not employee.birthday or employee.birthday &gt; payslip.date_to - relativedelta(years=65))
         </field>
     </record>
 
@@ -23,21 +24,19 @@ result = not version.l10n_hk_mpf_exempt and (not employee.birthday or employee.b
         <field name="condition_python">result = version.l10n_hk_member_class_ct_eevc_id</field>
         <field name="amount_python_compute">
 contribution_type = version.l10n_hk_member_class_ct_eevc_id
+base_code = 'BASIC' if contribution_type.definition_of_income == 'basic_salary' else 'MPF_GROSS'
 
-if contribution_type.definition_of_income == 'basic_salary':
-    mpf_base = result_rules['BASIC']['total']
-else:  # Relevant Wages
-    mpf_base = result_rules['MPF_GROSS']['total']
-
+mpf_base = l10n_hk_payrun_totals[base_code] + result_rules[base_code]['total']
 is_exempt = version.l10n_hk_mpf_exempt
+
 if contribution_type.contribution_option == 'percentage':
     contribution_amount = -((contribution_type.amount / 100) * mpf_base)
+    result = -(abs(contribution_amount) - abs(l10n_hk_payrun_totals['EEVC']))
 elif contribution_type.contribution_option == 'fixed':
-    contribution_amount = -contribution_type.amount
+    result = -contribution_type.amount * worked_days_prorata_rate
 else:  # Top up
     contribution_amount = -max(((contribution_type.amount / 100) * mpf_base) - (0 if is_exempt else payslip._rule_parameter('l10n_hk_mpf_maximum')), 0)
-
-result = contribution_amount
+    result = -(abs(contribution_amount) - abs(l10n_hk_payrun_totals['EEVC']))
         </field>
     </record>
 
@@ -45,22 +44,21 @@ result = contribution_amount
         <field name="condition_python">result = version.l10n_hk_member_class_ct_ervc_id</field>
         <field name="amount_python_compute">
 contribution_type = version.l10n_hk_member_class_ct_ervc_id
+base_code = 'BASIC' if contribution_type.definition_of_income == 'basic_salary' else 'MPF_GROSS'
 
-if contribution_type.definition_of_income == 'basic_salary':
-    mpf_base = result_rules['BASIC']['total']
-else:  # Relevant Wages
-    mpf_base = result_rules['MPF_GROSS']['total']
+mpf_base = l10n_hk_payrun_totals[base_code] + result_rules[base_code]['total']
+is_exempt = version.l10n_hk_mpf_exempt
 
 if contribution_type.contribution_option == 'percentage':
     contribution_amount = -((contribution_type.amount / 100) * mpf_base)
+    result = -(abs(contribution_amount) - abs(l10n_hk_payrun_totals['ERVC']))
 elif contribution_type.contribution_option == 'fixed':
-    contribution_amount = -contribution_type.amount
+    result = -contribution_type.amount * worked_days_prorata_rate
 elif contribution_type.contribution_option == 'match':
-    contribution_amount = result_rules['EEVC']['total']
+    result = result_rules['EEVC']['total']
 else:  # Top up
-    contribution_amount = -max(((contribution_type.amount / 100) * mpf_base) - payslip._rule_parameter('l10n_hk_mpf_maximum'), 0)
-
-result = contribution_amount
+    contribution_amount = -max(((contribution_type.amount / 100) * mpf_base) - (0 if is_exempt else payslip._rule_parameter('l10n_hk_mpf_maximum')), 0)
+    result = -(abs(contribution_amount) - abs(l10n_hk_payrun_totals['ERVC']))
         </field>
     </record>
 
@@ -74,23 +72,21 @@ result = contribution_amount
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 contribution_type = version.l10n_hk_member_class_ct_ervc2_id
+base_code = 'BASIC' if contribution_type.definition_of_income == 'basic_salary' else 'MPF_GROSS'
 
-if contribution_type.definition_of_income == 'basic_salary':
-    mpf_base = result_rules['BASIC']['total']
-else:  # Relevant Wages
-    mpf_base = result_rules['MPF_GROSS']['total']
-
+mpf_base = l10n_hk_payrun_totals[base_code] + result_rules[base_code]['total']
 is_exempt = version.l10n_hk_mpf_exempt
+
 if contribution_type.contribution_option == 'percentage':
     contribution_amount = -((contribution_type.amount / 100) * mpf_base)
+    result = -(abs(contribution_amount) - abs(l10n_hk_payrun_totals['ERVC2']))
 elif contribution_type.contribution_option == 'fixed':
-    contribution_amount = -contribution_type.amount
+    result = -contribution_type.amount * worked_days_prorata_rate
 elif contribution_type.contribution_option == 'match':
-    contribution_amount = result_rules['EEVC']['total']
+    result = result_rules['EEVC']['total']
 else:  # Top up
     contribution_amount = -max(((contribution_type.amount / 100) * mpf_base) - (0 if is_exempt else payslip._rule_parameter('l10n_hk_mpf_maximum')), 0)
-
-result = contribution_amount
+    result = -(abs(contribution_amount) - abs(l10n_hk_payrun_totals['ERVC2']))
         </field>
         <field name="struct_id" ref="l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary" />
         <field name="appears_on_payslip" eval="False"/>

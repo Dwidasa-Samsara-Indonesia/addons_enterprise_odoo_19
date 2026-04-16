@@ -10,6 +10,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/account_return_data.xml',
+        'views/account_return_views.xml',
         'wizard/l10n_es_return_submission_wizards.xml',
         'wizard/l10n_es_boe_wizard_validation.xml',
     ],

@@ -18,37 +18,84 @@ class TestAppointmentNotificationCommon(AppointmentCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        attendee_ids = cls.env['res.partner'].create([
+        cls.attendee_ids = cls.env['res.partner'].create([
             {'name': f'p{n}', 'email': f'p{n}@test.lan'} for n in range(2)
         ])
 
-        cls.calendar_event = cls.env['calendar.event'].create({
-            'name': 'Test Notification Appointment',
-            'appointment_type_id': cls.apt_type_bxls_2days.id,
-            'start': datetime(2020, 2, 1, 10),
-            'stop': datetime(2020, 2, 1, 11),
-            'user_id': cls.apt_manager.id,
-            'partner_ids': [(4, cls.apt_manager.partner_id.id)] + [(4, attendee.id) for attendee in attendee_ids],
-        })
+        # admin is just a user that follows the appointment type and is making the booking
+        # apt_user is the person assigned to the booking, not a follower of the apt type.
+        # apt_manager is just a follower of the appointment type who doesn't otherwise have anything to do with the booking
+        cls.apt_type_bxls_2days.message_partner_ids = cls.admin_user.partner_id + cls.apt_manager.partner_id
+        (cls.admin_user + cls.apt_manager + cls.apt_user).notification_type = 'email'
 
         cls.apt_type_resource.booked_mail_template_id = cls._create_template('calendar.attendee', {
             'body_html': 'Thanks for booking!',
             'subject': 'Thanks for booking, {{object.common_name}}',
         })
 
+    def _create_event(self, additional_values=None):
+        additional_values = additional_values or {}
+        return self._create_meetings(
+            self.apt_user, [(datetime(2020, 2, 1, 10), datetime(2020, 2, 1, 11), False)],
+            appointment_type_id=self.apt_type_bxls_2days.id, suppress_mail=False, partners=self.attendee_ids,
+            meeting_values={'name': 'Test Notification Appointment', 'appointment_status': 'booked'} | additional_values
+        )
+
 
 @tagged('post_install', '-at_install', 'mail_flow')
 class TestAppointmentNotificationsMail(TestAppointmentNotificationCommon):
     @freeze_time('2020-02-01 09:00:00')
-    def test_appointment_cancel_notification_mail(self):
-        appointment = self.calendar_event
-        self.env.flush_all()
-        self.cr.precommit.run()
+    @users('admin')
+    def test_appointment_notification_templates_mail(self):
+        """Check that booking and cancelation notifications are sent to the right people when only using mail."""
+        with self.mock_mail_gateway():
+            appointment = self._create_event()
+            self.env.flush_all()
+            self.cr.precommit.run()
+        booked_mail = self.assertMailMail(
+            self.apt_manager.partner_id,
+            'sent',
+            author=self.apt_user.partner_id,  # author: synchronized with email_from of template
+            email_values={
+                'subject': 'Appointment Booked: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_booked'),
+                'notified_partner_ids': self.apt_manager.partner_id,
+            },
+        )
+        self.assertFalse(
+            any(mail.subtype_id == self.env.ref('appointment.mt_calendar_event_booked') for mail in self._new_mails - booked_mail),
+            "Only internal users should receive the booking notification mail",
+        )
         with self.mock_mail_gateway():
             appointment.action_archive()
             self.env.flush_all()
             self.cr.precommit.run()
-        self.assertMailMail(appointment.partner_id, 'sent', author=appointment.partner_id)
+        # one email for users, including followers of the apt type
+        self.assertMailMail(
+            (self.apt_manager.partner_id + self.apt_user.partner_id),
+            'sent',
+            author=self.apt_user.partner_id,
+            email_values={
+                'subject': 'Appointment Canceled: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_canceled'),
+            },
+        )
+        # one email for other attendees
+        self.assertMailMail(
+            appointment.partner_ids - self.apt_user.partner_id,
+            'sent',
+            author=self.apt_user.partner_id,
+            email_values={
+                'subject': 'Appointment Canceled: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_canceled'),
+            },
+        )
         self.assertMailMail(appointment.partner_ids - appointment.partner_id, 'sent', author=appointment.partner_id)
 
 
@@ -56,19 +103,45 @@ class TestAppointmentNotificationsMail(TestAppointmentNotificationCommon):
 class TestSyncOdoo2GoogleMail(TestSyncGoogle, TestAppointmentNotificationCommon):
     @freeze_time('2020-02-01 09:00:00')
     @patch.object(GoogleUser, '_get_google_calendar_token', lambda user: 'some-token')
-    def test_appointment_cancel_notification_gcalendar(self):
-        self.env['res.users.settings'].create({'user_id': self.env.user.id})
+    @users('admin')
+    def test_appointment_notification_templates_gcalendar(self):
+        """Check that booking and cancelation notifications are sent to the right people when syncing with google calendar."""
         self.env.user.res_users_settings_id._set_google_auth_tokens('some-token', '123', 10000)
-        appointment = self.calendar_event
-        appointment.google_id = 'test_google_id'
-        self.env.flush_all()
-        self.cr.precommit.run()
+        with self.mock_mail_gateway(mail_unlink_sent=False), self.mock_google_sync():
+            appointment = self._create_event()
+            appointment.google_id = 'test_google_id'  # would normally be set by insert
+            self.env.flush_all()
+            self.cr.precommit.run()
+        self.assertGoogleEventInserted({'id': False, 'summary': 'Test Notification Appointment'})
+        self.assertMailMail(
+            self.apt_manager.partner_id + self.apt_user.partner_id,
+            'sent',
+            author=self.apt_user.partner_id,  # author: synchronized with email_from of template
+            email_values={
+                'subject': 'Appointment Booked: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_booked'),
+            },
+        )
+        self.assertNotSentEmail(appointment.partner_ids - self.apt_user.partner_id)
         with self.mock_mail_gateway(mail_unlink_sent=False), self.mock_google_sync():
             appointment.action_archive()
             self.env.flush_all()
             self.cr.precommit.run()
         self.assertGoogleEventPatched('test_google_id', {'status': 'cancelled'}, timeout=3)
-        self.assertNotSentEmail()
+        self.assertMailMail(
+            self.apt_manager.partner_id + self.apt_user.partner_id,
+            'sent',
+            author=self.apt_user.partner_id,  # author: synchronized with email_from of template
+            email_values={
+                'subject': 'Appointment Canceled: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_canceled'),
+            },
+        )
+        self.assertNotSentEmail(appointment.partner_ids - self.apt_user.partner_id)
 
 
 @tagged('post_install', '-at_install', 'mail_flow')
@@ -95,16 +168,47 @@ class TestAppointmentNotificationsMicrosoftCalendar(MsftTestCommon, TestAppointm
 
     @freeze_time('2020-02-01 09:00:00')
     @patch.object(MsftUser, '_get_microsoft_calendar_token', lambda user: 'some-token')
-    def test_appointment_cancel_notification_msftcalendar(self):
-        appointment = self.calendar_event
-        appointment.microsoft_id = 'test_msft_id'
+    @users('admin')
+    def test_appointment_cancel_notification_templates_msftcalendar(self):
+        """Check that booking and cancelation notifications are sent to the right people when syncing with microsoft calendar."""
+        with self.mock_mail_gateway(), patch.object(MicrosoftCalendarService, 'insert') as mock_insert:
+            mock_insert.return_value = ('test_msft_id', 'test_msft_uid')
+            appointment = self._create_event()
+            appointment.microsoft_id = 'test_msft_id'  # would normally be set by insert
+            self.env.flush_all()
+            self.cr.precommit.run()
+            self.env.cr.postcommit.run()
+        mock_insert.assert_called_once()
+        self.assertMailMail(
+            self.apt_manager.partner_id + self.apt_user.partner_id,
+            'sent',
+            author=self.apt_user.partner_id,  # author: synchronized with email_from of template
+            email_values={
+                'subject': 'Appointment Booked: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_booked'),
+            },
+        )
+        self.assertNotSentEmail(appointment.partner_ids - self.apt_user.partner_id)
         with self.mock_mail_gateway(), patch.object(MicrosoftCalendarService, 'delete') as mock_delete:
             appointment.action_archive()
             self.env.flush_all()
             self.cr.precommit.run()
             self.env.cr.postcommit.run()
         mock_delete.assert_called_once_with('test_msft_id', token='some-token', timeout=5)
-        self.assertNotSentEmail()
+        self.assertMailMail(
+            self.apt_manager.partner_id + self.apt_user.partner_id,
+            'sent',
+            author=self.apt_user.partner_id,  # author: synchronized with email_from of template
+            email_values={
+                'subject': 'Appointment Canceled: Bxls Appt Type',
+            },
+            fields_values={
+                'subtype_id': self.env.ref('appointment.mt_calendar_event_canceled'),
+            },
+        )
+        self.assertNotSentEmail(appointment.partner_ids - self.apt_user.partner_id)
 
     @freeze_time('2020-02-01 09:00:00')
     @users('mike@organizer.com', 'john@attendee.com', 'ms_sync_paused_user', 'user_public')
@@ -137,11 +241,19 @@ class TestAppointmentNotificationsMicrosoftCalendar(MsftTestCommon, TestAppointm
                 # synced with the organizer (who can always sync in this test), but checked against the create user
                 if meeting._check_microsoft_sync_status() and self.env.user._get_microsoft_sync_status() == "sync_active":
                     mock_insert.assert_called_once()
-                    self.assertNotSentEmail()
+                    # no mail sent to non-organizer partners, if any exists
+                    if meeting.partner_ids - meeting.partner_id:
+                        self.assertNotSentEmail(meeting.partner_ids - meeting.partner_id)
                 else:
                     mock_insert.assert_not_called()
                     self.assertMailMail(
                         booking_partner, 'sent',
                         author=expected_author,
                         fields_values={'subject': f'Thanks for booking, {booking_partner.name}'}
+                    )
+                if with_organizer:
+                    self.assertMailMail(
+                        meeting.partner_id, 'sent',
+                        author=expected_author,
+                        fields_values={'subject': 'Appointment Booked: Test'}
                     )

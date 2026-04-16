@@ -48,6 +48,7 @@ class TestCoDianCommon(AccountTestInvoicingCommon):
             'street': "CL 12A",
             'city': city_bogota.name,
             'state_id': city_bogota.state_id.id,
+            'country_id': cls.env.ref('base.co').id,
             'l10n_co_edi_header_actividad_economica': '0114',
             'l10n_co_dian_operation_mode_ids': [
                 Command.create({
@@ -135,9 +136,31 @@ class TestCoDianCommon(AccountTestInvoicingCommon):
         cls.tax_ret_ica_0414 = cls.env["account.chart.template"].ref('l10n_co_tax_57')
         cls.tax_ret_iva_2_85 = cls.env["account.chart.template"].ref('l10n_co_tax_12')
 
-        # Other
+        # Sugar Taxes (need to fill 'l10n_co_edi_ref_nominal_tax' on the product !)
+        cls.sugar_tax_1 = cls.env['account.tax'].create({
+            'name': "IBUA >10gr 3500ml",
+            'amount_type': 'fixed',
+            'amount': 35 * 35,  # rate of the tax = 35 (for a product with >10gr of sugar per 100ml)
+            'l10n_co_edi_type': cls.env.ref('l10n_co_edi.tax_type_20').id,  # IBUA
+        })
+        cls.sugar_tax_2 = cls.sugar_tax_1.copy({
+            'name': "IBUA >6gr & <10gr 100ml",
+            'amount': 36,  # rate of the tax = 36 (for a product with >10gr of sugar per 100ml)
+        })
+
+        # Products
         cls.product_a.barcode = "562438192"
         cls.product_b.default_code = "prod_b"
+        cls.product_sugar_1 = cls._create_product(
+            name="Coca cola 3.5L",
+            l10n_co_edi_ref_nominal_tax=3500,
+            default_code='P1111',
+        )
+        cls.product_sugar_2 = cls._create_product(
+            name="Sprite 100mL",
+            l10n_co_edi_ref_nominal_tax=100,
+            default_code='P2222',
+        )
 
     @classmethod
     def _create_move(cls, **kwargs):
@@ -226,6 +249,15 @@ class TestCoDianCommon(AccountTestInvoicingCommon):
         with patch(f'{self.utils_path}._uuid1', lambda: uuid.UUID(int=rnd.getrandbits(128))):
             yield
 
+    @contextmanager
+    def patched_document(self, method_name, return_value):
+        with patch.object(
+            self.registry['l10n_co_dian.document'],
+            method_name,
+            return_value=return_value,
+        ):
+            yield
+
     def _mocked_request(self, response_file, status_code):
         mock_response = Mock(spec=requests.Response)
         mock_response.status_code = status_code
@@ -239,7 +271,7 @@ class TestCoDianCommon(AccountTestInvoicingCommon):
         }
 
     def _mock_get_status(self):
-        return patch(f'{self.document_path}._get_status', return_value=self._mocked_response('GetStatus_invoice.xml', 200))
+        return self.patched_document('_get_status', self._mocked_response('GetStatus_invoice.xml', 200))
 
     def _mock_build_and_send_request(self, response_file, status_code=200):
         return patch(f'{self.utils_path}._build_and_send_request', return_value=self._mocked_response(response_file, status_code))

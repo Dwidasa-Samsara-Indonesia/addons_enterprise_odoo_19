@@ -2,7 +2,6 @@
 
 from odoo import models, api
 from itertools import groupby
-from operator import itemgetter
 
 
 class PosOrder(models.Model):
@@ -93,8 +92,10 @@ class PosOrder(models.Model):
         :param order_lines: The list of lines in a dictionary format
         :return: {(id[int], price[int], discount[int]): {'qty': float, 'text': string, 'price_per_unit': float} }
         """
+        def keys(line):
+            return (line['product_id'], line['price_unit'], line.get('discount', 0))
+
         line_dict = {}
-        keys = itemgetter('product_id', 'price_unit', 'discount')
         for k, g in groupby(sorted(order_lines, key=keys), key=keys):
             group = list(g)
             unit_price = group[0]['price_subtotal_incl']/group[0]['qty']

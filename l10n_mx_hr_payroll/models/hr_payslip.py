@@ -29,7 +29,10 @@ class HrPayslip(models.Model):
     @api.depends('l10n_mx_days_of_year', 'date_from', 'date_to', 'version_id')
     def _compute_integration_factor(self):
         for payslip in self:
-            start_date = payslip.employee_id.contract_date_start
+            start_date = (
+                payslip.employee_id.with_context(before_date=payslip.date_from)._get_first_contract_date()
+                or payslip.employee_id._get_first_contract_date()
+            )
             payslip.l10n_mx_years_worked = payslip.date_to.year - start_date.year
             if start_date <= payslip.date_to + relativedelta(year=start_date.year):
                 payslip.l10n_mx_years_worked += 1

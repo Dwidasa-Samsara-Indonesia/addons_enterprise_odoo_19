@@ -7,7 +7,41 @@ from odoo.addons.mail.tests.common import MockEmail
 from odoo.tests import Form, freeze_time, users
 
 
-class TestDocumentsSharing(TransactionCaseDocuments, MockEmail):
+class TestDocumentsSharingCommon(TransactionCaseDocuments):
+
+    @staticmethod
+    def form_get_access_edit(form, partner):
+        """Get a sub-form of the form to edit the share_access_id of the given partner."""
+        access_idx = next(idx for idx, a in enumerate(form.share_access_ids._records) if a['partner_id'] == partner.id)
+        return form.share_access_ids.edit(access_idx)
+
+    def create_documents_sharing(self, documents):
+        return self.env['documents.sharing'].browse(
+            [self.env['documents.sharing'].action_open(documents.ids)['res_id']])
+
+    def assert_open_wizard(self, action, documents):
+        """Assert the action will open the wizard with the given documents and return the wizard instance."""
+        res_id = action['res_id']
+        document0 = documents[0]
+        self.assertEqual(self.env['documents.sharing'].browse([res_id]).document_ids, documents)
+        self.assertEqual(
+            action,
+            {
+                'context': {
+                    'dialog_size': 'medium',
+                },
+                'name': f'Share: {document0.name}' if len(documents) == 1 else f"Share: {len(documents)} files",
+                'res_id': res_id,
+                'res_model': 'documents.sharing',
+                'target': 'new',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'views': [[False, 'form']],
+            })
+        return self.env['documents.sharing'].browse([action['res_id']])
+
+
+class TestDocumentsSharing(TestDocumentsSharingCommon, MockEmail):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -45,37 +79,6 @@ class TestDocumentsSharing(TransactionCaseDocuments, MockEmail):
         self.user_doc_shortcut = self.user_doc_shortcut.with_user(self.env.user)
         self.folder_a = self.folder_a.with_user(self.env.user)
         self.folder_b = self.folder_b.with_user(self.env.user)
-
-    @staticmethod
-    def form_get_access_edit(form, partner):
-        """Get a sub-form of the form to edit the share_access_id of the given partner."""
-        access_idx = next(idx for idx, a in enumerate(form.share_access_ids._records) if a['partner_id'] == partner.id)
-        return form.share_access_ids.edit(access_idx)
-
-    def create_documents_sharing(self, documents):
-        return self.env['documents.sharing'].browse(
-            [self.env['documents.sharing'].action_open(documents.ids)['res_id']])
-
-    def assert_open_wizard(self, action, documents):
-        """Assert the action will open the wizard with the given documents and return the wizard instance."""
-        res_id = action['res_id']
-        document0 = documents[0]
-        self.assertEqual(self.env['documents.sharing'].browse([res_id]).document_ids, documents)
-        self.assertEqual(
-            action,
-            {
-                'context': {
-                    'dialog_size': 'medium',
-                },
-                'name': f'Share: {document0.name}' if len(documents) == 1 else f"Share: {len(documents)} files",
-                'res_id': res_id,
-                'res_model': 'documents.sharing',
-                'target': 'new',
-                'type': 'ir.actions.act_window',
-                'view_mode': 'form',
-                'views': [[False, 'form']],
-            })
-        return self.env['documents.sharing'].browse([action['res_id']])
 
     @freeze_time('2025-02-26 15:02:00')
     def test_filtered_relevant_access(self):
@@ -464,18 +467,23 @@ class TestDocumentsSharing(TransactionCaseDocuments, MockEmail):
 
     @users("documents@example.com")
     def test_update_access_rights_warning_link_with_more_rights(self):
-        """Test the warning about sharing documents with more rights when having the link than the internal users."""
+        """Test the warning about gaining indirectly "edit" permission through access_via_link being "edit"."""
         self.set_documents_env_user_to_current()
         for documents in (self.user_doc, self.user_doc.copy() | self.user_doc.copy()):
+            documents.action_update_access_rights(partners={self.portal_partner: ('view', False)})
             with self.subTest(documents=documents):
                 documents.access_internal = 'edit'
                 documents.access_via_link = 'edit'
-                doc_sharing = self.create_documents_sharing(documents)
-                with Form(doc_sharing) as form:
-                    self.assertFalse(form.has_warning_link_with_more_rights)
-                    form.access_internal = 'write_view'
-                    self.assertTrue(form.has_warning_link_with_more_rights)
-                action = doc_sharing.action_update_rights()
+
+                action = self.env['documents.sharing'].action_open(documents.ids)
                 doc_sharing = self.assert_open_wizard(action, documents)
-                self.assertEqual(set(documents.mapped('access_internal')), {'view'})
-                self.assertTrue(doc_sharing.has_warning_link_with_more_rights)
+
+                with Form(doc_sharing) as form:
+                    # portal user gains indirectly "edit" access as access_via_link = "edit"
+                    self.assertTrue(form.has_warning_link_with_more_rights)
+                    with self.form_get_access_edit(form, self.portal_partner) as access_edit_form:
+                        access_edit_form.is_deleted = True
+                    self.assertFalse(form.has_warning_link_with_more_rights)
+                    # internal users gain indirectly "edit" access as access_via_link = "edit"
+                    form.access_internal = 'view'
+                    self.assertTrue(form.has_warning_link_with_more_rights)

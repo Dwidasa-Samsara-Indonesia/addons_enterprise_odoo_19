@@ -11,10 +11,11 @@ _logger = logging.getLogger(__name__)
 
 @tagged('post_install', '-at_install')
 class TestPickingBarcodeClientAction(TestBarcodeClientAction):
-    def setUp(self):
-        super().setUp()
-        self.productlot1.use_expiration_date = True
-        self.product_tln_gtn8.write({
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.productlot1.use_expiration_date = True
+        cls.product_tln_gtn8.write({
             'use_expiration_date': True,
             'expiration_time': 10,
             'use_time': 1,

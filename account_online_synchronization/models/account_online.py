@@ -448,11 +448,12 @@ class AccountOnlineLink(models.Model):
                 'bic': data.get('swift_code'),
             })
 
-        bank_account = self.env['res.partner.bank'].sudo().create({
-            'acc_number': data.get('account_number'),
-            'bank_id': bank.id,
-            'partner_id': self.company_id.partner_id.id,
-        })
+        bank_account = self.env['res.partner.bank']._find_or_create_bank_account(
+            account_number=data.get('account_number'),
+            partner=self.company_id.partner_id, allow_company_account_creation=True,
+            company=self.company_id,
+            extra_create_vals={'bank_id': bank.id},
+        )
 
         self.env['account.journal'].sudo().create({
             'name': data.get('account_number'),

@@ -29,7 +29,7 @@ class AccountExternalTaxMixin(models.AbstractModel):
     @api.constrains('partner_id', 'fiscal_position_id')
     def _check_address(self):
         incomplete_partner_to_records = {}
-        for record in self.filtered(lambda r: r.is_avatax and r._get_avatax_service_params()['perform_address_validation']):
+        for record in self.filtered(lambda r: r.is_avatax and r.is_tax_computed_externally and r._get_avatax_service_params()['perform_address_validation']):
             partner = record.partner_id
             country = partner.country_id
             if (

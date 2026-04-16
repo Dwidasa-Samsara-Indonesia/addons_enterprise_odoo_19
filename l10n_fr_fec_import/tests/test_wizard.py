@@ -177,7 +177,9 @@ class AccountTestFecImport(AccountTestInvoicingCommon):
             # and we don't care about comparing partner.id
             fields[1:] = [[*field[:6], '', *field[7:]] for field in fields[1:]]
             return fields
-        exported_content = split_fields(export_wizard.generate_fec()['file_content'].decode())
+        fec_stream = export_wizard.with_context(fec_test_mode=True).generate_fec()['file_content']
+        content = b''.join(fec_stream).decode()
+        exported_content = split_fields(content)
         with tools.file_open('l10n_fr_fec_import/static/tests/fec_test_files/fec_crlf_pipe_utf8_export.txt', mode='rb') as raw_file:
             expected_export = split_fields(raw_file.read().decode())
             self.assertEqual(exported_content, expected_export)

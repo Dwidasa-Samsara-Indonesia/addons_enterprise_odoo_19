@@ -45,6 +45,15 @@
                         </t>
                     </t>
 
+                    <!-- Analytic coverage column -->
+                    <t t-if="controller.needsAnalyticCoverageColumn">
+                        <t t-if="columnHeader_index == 1">
+                            <th>
+                                <t>Analytic coverage</t>
+                            </th>
+                        </t>
+                    </t>
+
                     <!-- Debug column -->
                     <t t-if="controller.hasDebugColumn">
                         <!-- We only want to display it once on the first row -->

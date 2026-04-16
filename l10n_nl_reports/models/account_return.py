@@ -35,6 +35,13 @@ class AccountReturnType(models.Model):
 class AccountReturn(models.Model):
     _inherit = 'account.return'
 
+    def action_submit(self):
+        self._check_all_branches_allowed()
+        if self.type_external_id == 'l10n_nl_reports.nl_tax_return_type':
+            options = self._get_closing_report_options()
+            return self.env['l10n_nl_reports.tax.report.handler'].open_xbrl_wizard(options)
+        return super().action_submit()
+
     def _evaluate_deadline(self, company, return_type, return_type_external_id, date_from, date_to):
         months_per_period = return_type._get_periodicity_months_delay(company)
         if return_type_external_id == 'l10n_nl_reports.nl_tax_return_type' and not return_type.with_company(company).deadline_days_delay:

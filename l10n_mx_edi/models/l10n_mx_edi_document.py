@@ -16,8 +16,8 @@ from pytz import timezone
 from werkzeug.urls import url_quote_plus
 
 from odoo import _, api, models, modules, fields, tools, SUPERUSER_ID
+from odoo.exceptions import UserError
 from odoo.fields import Domain
-from odoo.tools import frozendict, remove_accents
 from odoo.tools.float_utils import float_is_zero, float_round
 from odoo.addons.base.models.ir_qweb import keep_query
 
@@ -396,8 +396,7 @@ class L10n_Mx_EdiDocument(models.Model):
 
     def action_force_payment_cfdi(self):
         """ Force the CFDI for the PUE payment document."""
-        self.ensure_one()
-        self.move_id.l10n_mx_edi_cfdi_payment_force_try_send()
+        raise UserError(_("You can no longer send a CFDI for a PUE payment."))
 
     def action_cancel(self):
         """ Cancel the document. """
@@ -498,15 +497,13 @@ class L10n_Mx_EdiDocument(models.Model):
 
     @api.model
     def _cfdi_sanitize_to_legal_name(self, name):
-        """ We remove the SA de CV / SL de CV / S de RL de CV and accents as they are never in the official name in the XML.
+        """ We remove the SA de CV / SL de CV / S de RL de CV as they are never in the official name in the XML.
 
         :param name: The name to clean.
         :return: The formatted name.
         """
         regex = r"(?i:\s+(s\.?\s?(a\.?)( de c\.?v\.?|)|(s\.?\s?(a\.?s\.?)|s\.? en c\.?( por a\.?)?|s\.?\s?c\.?\s?(l\.?(\s?\(?limitada)?\)?|s\.?(\s?\(?suplementada\)?)?)|s\.? de r\.?l\.?)))\s*$"
-        unaccented = remove_accents(re.sub(regex, "", name or ''))
-        # some characters should stay as-is because the mexican government saves these letters that way...
-        return ''.join(c if name[i] not in 'üÜñÑëË' else name[i] for i, c in enumerate(unaccented)).upper()
+        return re.sub(regex, "", name or '').upper()
 
     @api.model
     def _add_base_cfdi_values(self, cfdi_values):
@@ -795,7 +792,6 @@ class L10n_Mx_EdiDocument(models.Model):
         """
         receptor = cfdi_values['receptor']
         customer = receptor['customer']
-        ieps_breakdown = receptor['to_public'] or customer.l10n_mx_edi_ieps_breakdown
         if 'tax_objected' not in base_line:
             taxes = base_line['tax_ids'].flatten_taxes_hierarchy().filtered(lambda tax: tax.l10n_mx_tax_type != 'local')
             if not taxes:
@@ -818,14 +814,18 @@ class L10n_Mx_EdiDocument(models.Model):
                 # No VAT
                 and all(tax.l10n_mx_tax_type != 'iva' for tax in taxes if tax.amount >= 0.0)
                 # Partner IEPS breakdown
-                and ieps_breakdown
+                and customer.l10n_mx_edi_ieps_breakdown
             ):
                 tax_objected = '07'
             else:
                 tax_objected = '02'
             base_line['tax_objected'] = tax_objected
 
-        base_line['ieps_breakdown'] = base_line['tax_objected'] != '08' and ieps_breakdown
+        base_line['ieps_breakdown'] = (
+            cfdi_values.get('is_global')
+            or base_line['tax_objected'] == '07'
+            or customer.l10n_mx_edi_ieps_breakdown and base_line['tax_objected'] != '08'
+        )
 
     @api.model
     def _add_tax_objected_cfdi_values(self, cfdi_values, base_lines):
@@ -1342,6 +1342,7 @@ class L10n_Mx_EdiDocument(models.Model):
                     rates.append(1 / line['rate'])
         rate = sum(rates) / len(rates) if rates else None
 
+        cfdi_values['is_global'] = True
         self._add_base_cfdi_values(cfdi_values)
         self._add_currency_cfdi_values(cfdi_values, currency)
         self._add_document_origin_cfdi_values(cfdi_values, origin)
@@ -1726,7 +1727,7 @@ class L10n_Mx_EdiDocument(models.Model):
                 data=payload,
                 headers=headers,
                 verify=True,
-                timeout=20,
+                timeout=(20, 120),
             )
         except requests.exceptions.RequestException as req_e:
             return {'status': 'error', 'message': str(req_e)}

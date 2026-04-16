@@ -1,9 +1,15 @@
-import { DiscussChannel } from "@mail/../tests/mock_server/mock_models/discuss_channel";
-import { Command } from "@web/../tests/web_test_helpers";
-import { patch } from "@web/core/utils/patch";
+import { mailModels } from "@mail/../tests/mail_test_helpers";
+import { Command, fields } from "@web/../tests/web_test_helpers";
 
-/** @type {DiscussChannel} */
-const discussChannelPatch = {
+export class DiscussChannel extends mailModels.DiscussChannel {
+    ai_agent_id = fields.Many2one({
+        relation: "ai.agent",
+    });
+
+    _channel_basic_info_fields() {
+        return [...super._channel_basic_info_fields(), "ai_agent_id"];
+    }
+
     /** @param {import("@mail/../tests/mock_server/mock_models/res_partner").ResPartner} partner */
     _get_or_create_ai_chat(partner) {
         const channels = this.env["discuss.channel"].search([
@@ -28,7 +34,5 @@ const discussChannelPatch = {
         }
 
         return channels[0];
-    },
-};
-
-patch(DiscussChannel.prototype, discussChannelPatch);
+    }
+}

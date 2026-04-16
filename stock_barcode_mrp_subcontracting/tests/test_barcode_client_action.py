@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from unittest import skip
@@ -10,26 +9,27 @@ from odoo.tests import Form, tagged
 
 @tagged('post_install', '-at_install')
 class TestSubcontractingBarcodeClientAction(TestBarcodeClientAction):
-    def setUp(self):
-        super(TestSubcontractingBarcodeClientAction, self).setUp()
-
-        self.subcontractor_partner = self.env['res.partner'].create({'name': 'Pastry Cook'})
-        self.subcontracted_product = self.env['product.product'].create({
-            'name': 'Chocolate Eclairs',
-            'is_storable': True,
-            'barcode': 'product_subcontracted',
-        })
-        self.subcontracted_component = self.env['product.product'].create({
-            'name': 'Chocolate',
-            'is_storable': True,
-        })
-        self.bom = self.env['mrp.bom'].create({
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.subcontractor_partner = cls.env['res.partner'].create({'name': 'Pastry Cook'})
+        cls.subcontracted_product, cls.subcontracted_component = cls.env['product.product'].create([
+            {
+                'name': 'Chocolate Eclairs',
+                'is_storable': True,
+                'barcode': 'product_subcontracted',
+            }, {
+                'name': 'Chocolate',
+                'is_storable': True,
+            },
+        ])
+        cls.bom = cls.env['mrp.bom'].create({
             'type': 'subcontract',
             'consumption': 'strict',
-            'subcontractor_ids': [Command.link(self.subcontractor_partner.id)],
-            'product_tmpl_id': self.subcontracted_product.product_tmpl_id.id,
+            'subcontractor_ids': [Command.link(cls.subcontractor_partner.id)],
+            'product_tmpl_id': cls.subcontracted_product.product_tmpl_id.id,
             'bom_line_ids': [Command.create({
-                'product_id': self.subcontracted_component.id,
+                'product_id': cls.subcontracted_component.id,
                 'product_qty': 1,
             })]
         })

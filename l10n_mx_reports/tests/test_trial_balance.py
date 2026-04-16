@@ -176,7 +176,9 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="102.02" NumCta="102.02" Desc="Foreign banks" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="105" NumCta="105" Desc="Clients" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="105.01" NumCta="105.01" Desc="National customers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="105.02" NumCta="105.02" Desc="Foreign customers" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="107" NumCta="107" Desc="Sundry debtors" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="107.01" NumCta="107.01" Desc="Officials and employees" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="107.05" NumCta="107.05" Desc="Other sundry debtors" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="108" NumCta="108" Desc="Allowance for doubtful accounts" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="108.01" NumCta="108.01" Desc="Allowance for doubtful accounts national" Nivel="2" Natur="D"/>
@@ -205,11 +207,40 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="120" NumCta="120" Desc="Advances to suppliers" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="120.01" NumCta="120.01" Desc="Advance to national suppliers" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="120.02" NumCta="120.02" Desc="Advance payment to foreign suppliers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="153" NumCta="153" Desc="Machinery and equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="153.01" NumCta="153.01" Desc="Machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="154" NumCta="154" Desc="Automobiles, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="154.01" NumCta="154.01" Desc="Automobiles, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="155" NumCta="155" Desc="Office furniture and equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="155.01" NumCta="155.01" Desc="Office furniture and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="156" NumCta="156" Desc="Computer equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="156.01" NumCta="156.01" Desc="Computer equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="168" NumCta="168" Desc="Machinery and equipment for the generation of energy from renewable sources or efficient combined heat and power (CHP) systems" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="168.01" NumCta="168.01" Desc="Machinery and equipment for the generation of energy from renewable sources or efficient combined heat and power (CHP) systems" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="169" NumCta="169" Desc="Other machinery and equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="169.01" NumCta="169.01" Desc="Other machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="170" NumCta="170" Desc="Adaptations and improvements" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="170.01" NumCta="170.01" Desc="Adaptations and improvements" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171" NumCta="171" Desc="Accumulated depreciation of fixed assets" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.02" NumCta="171.02" Desc="Accumulated depreciation of machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.03" NumCta="171.03" Desc="Accumulated depreciation of cars, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.04" NumCta="171.04" Desc="Accumulated depreciation of office furniture and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.05" NumCta="171.05" Desc="Accumulated depreciation of computer equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.16" NumCta="171.16" Desc="Accumulated depreciation of machinery and equipment for power generation from renewable sources or efficient co-generation systems" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.17" NumCta="171.17" Desc="Accumulated depreciation of adaptations and improvements" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.18" NumCta="171.18" Desc="Accumulated depreciation of other machinery and equipment" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="173" NumCta="173" Desc="Deferred expenditure" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="173.01" NumCta="173.01" Desc="Deferred expenditure" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="179" NumCta="179" Desc="Trademarks and patents" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="179.01" NumCta="179.01" Desc="Trademarks and patents" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="183" NumCta="183" Desc="Accumulated amortisation of deferred assets" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="183.01" NumCta="183.01" Desc="Accumulated amortisation of deferred expenses" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="183.07" NumCta="183.07" Desc="Accumulated amortisation of trademarks and patents" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="201" NumCta="201" Desc="Suppliers" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="201.01" NumCta="201.01" Desc="National suppliers" Nivel="2" Natur="A"/>
+            <catalogocuentas:Ctas CodAgrup="201.02" NumCta="201.02" Desc="Foreign suppliers" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="205" NumCta="205" Desc="Short-term sundry creditors" Nivel="1" Natur="A"/>
+            <catalogocuentas:Ctas CodAgrup="205.02" NumCta="205.02" Desc="Domestic short-term sundry creditors" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="205.06" NumCta="205.06" Desc="Other short-term sundry creditors" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="206" NumCta="206" Desc="Customer advance" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="206.01" NumCta="206.01" Desc="Domestic customer advance" Nivel="2" Natur="A"/>
@@ -259,6 +290,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="403.01" NumCta="403.01" Desc="Other Income" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="501" NumCta="501" Desc="Cost of sale and/or service" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="501.01" NumCta="501.01" Desc="Cost of sales" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="501.02" NumCta="501.02" Desc="Cost of services (labour)" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="503" NumCta="503" Desc="Returns, discounts or rebates on purchases" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="503.01" NumCta="503.01" Desc="Returns, discounts or rebates on purchases" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="505" NumCta="505" Desc="Cost of fixed assets" Nivel="1" Natur="D"/>
@@ -274,11 +306,45 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="601.26" NumCta="601.26" Desc="IMSS contributions" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.27" NumCta="601.27" Desc="Infonavit contributions" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.28" NumCta="601.28" Desc="SAR contributions" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.32" NumCta="601.32" Desc="Administrative services" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.34" NumCta="601.34" Desc="Fees to domestic resident individuals" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.38" NumCta="601.38" Desc="Fees to domestic resident legal entities" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.45" NumCta="601.45" Desc="Leasing to domestic resident individuals" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.46" NumCta="601.46" Desc="Leasing to domestic resident legal entities" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.48" NumCta="601.48" Desc="Fuels and lubricants" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.49" NumCta="601.49" Desc="Per diems and travel expenses" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.50" NumCta="601.50" Desc="Telephone, internet" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.51" NumCta="601.51" Desc="Water" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.52" NumCta="601.52" Desc="Electric power" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.54" NumCta="601.54" Desc="Cleaning" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.55" NumCta="601.55" Desc="Stationery and office supplies" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.56" NumCta="601.56" Desc="Maintenance and upkeep" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.57" NumCta="601.57" Desc="Insurance and bonds" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.58" NumCta="601.58" Desc="Other taxes and duties" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.60" NumCta="601.60" Desc="Fees and subscriptions" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.62" NumCta="601.62" Desc="Staff training" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.64" NumCta="601.64" Desc="Technical assistance" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.73" NumCta="601.73" Desc="Import charges" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.74" NumCta="601.74" Desc="Commissions on sales" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.83" NumCta="601.83" Desc="Non-deductible expenses (without fiscal requirements)" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.84" NumCta="601.84" Desc="Other overheads" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602" NumCta="602" Desc="Cost of sales" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602.61" NumCta="602.61" Desc="Propaganda and advertising" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602.72" NumCta="602.72" Desc="Freight and haulage" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613" NumCta="613" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.02" NumCta="613.02" Desc="Depreciation of machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.03" NumCta="613.03" Desc="Depreciation of cars, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.04" NumCta="613.04" Desc="Depreciation of office furniture and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.05" NumCta="613.05" Desc="Depreciation of computer equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.16" NumCta="613.16" Desc="Depreciation of machinery and equipment for the generation of energy from renewable sources or efficient cogeneration systems" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.17" NumCta="613.17" Desc="Depreciation of adaptations and improvements" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.18" NumCta="613.18" Desc="Depreciation of other machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614" NumCta="614" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614.01" NumCta="614.01" Desc="Amortisation of deferred expenses" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614.07" NumCta="614.07" Desc="Amortisation of trademarks and patents" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="701" NumCta="701" Desc="Financial expenses" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="701.01" NumCta="701.01" Desc="Foreign exchange loss" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="701.10" NumCta="701.10" Desc="Bank charges" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="702" NumCta="702" Desc="Financial products" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="702.01" NumCta="702.01" Desc="Exchange profit" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="811" NumCta="811" Desc="Tax gain or loss on sale and/or derecognition of fixed assets" Nivel="1" Natur="D"/>
@@ -311,7 +377,9 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="102.02" NumCta="102.02" Desc="Foreign banks" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="105" NumCta="105" Desc="Clients" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="105.01" NumCta="105.01" Desc="National customers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="105.02" NumCta="105.02" Desc="Foreign customers" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="107" NumCta="107" Desc="Sundry debtors" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="107.01" NumCta="107.01" Desc="Officials and employees" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="107.05" NumCta="107.05" Desc="Other sundry debtors" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="108" NumCta="108" Desc="Allowance for doubtful accounts" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="108.01" NumCta="108.01" Desc="Allowance for doubtful accounts national" Nivel="2" Natur="D"/>
@@ -340,11 +408,40 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="120" NumCta="120" Desc="Advances to suppliers" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="120.01" NumCta="120.01" Desc="Advance to national suppliers" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="120.02" NumCta="120.02" Desc="Advance payment to foreign suppliers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="153" NumCta="153" Desc="Machinery and equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="153.01" NumCta="153.01" Desc="Machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="154" NumCta="154" Desc="Automobiles, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="154.01" NumCta="154.01" Desc="Automobiles, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="155" NumCta="155" Desc="Office furniture and equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="155.01" NumCta="155.01" Desc="Office furniture and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="156" NumCta="156" Desc="Computer equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="156.01" NumCta="156.01" Desc="Computer equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="168" NumCta="168" Desc="Machinery and equipment for the generation of energy from renewable sources or efficient combined heat and power (CHP) systems" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="168.01" NumCta="168.01" Desc="Machinery and equipment for the generation of energy from renewable sources or efficient combined heat and power (CHP) systems" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="169" NumCta="169" Desc="Other machinery and equipment" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="169.01" NumCta="169.01" Desc="Other machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="170" NumCta="170" Desc="Adaptations and improvements" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="170.01" NumCta="170.01" Desc="Adaptations and improvements" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171" NumCta="171" Desc="Accumulated depreciation of fixed assets" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.02" NumCta="171.02" Desc="Accumulated depreciation of machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.03" NumCta="171.03" Desc="Accumulated depreciation of cars, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.04" NumCta="171.04" Desc="Accumulated depreciation of office furniture and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.05" NumCta="171.05" Desc="Accumulated depreciation of computer equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.16" NumCta="171.16" Desc="Accumulated depreciation of machinery and equipment for power generation from renewable sources or efficient co-generation systems" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.17" NumCta="171.17" Desc="Accumulated depreciation of adaptations and improvements" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="171.18" NumCta="171.18" Desc="Accumulated depreciation of other machinery and equipment" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="173" NumCta="173" Desc="Deferred expenditure" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="173.01" NumCta="173.01" Desc="Deferred expenditure" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="179" NumCta="179" Desc="Trademarks and patents" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="179.01" NumCta="179.01" Desc="Trademarks and patents" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="183" NumCta="183" Desc="Accumulated amortisation of deferred assets" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="183.01" NumCta="183.01" Desc="Accumulated amortisation of deferred expenses" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="183.07" NumCta="183.07" Desc="Accumulated amortisation of trademarks and patents" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="201" NumCta="201" Desc="Suppliers" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="201.01" NumCta="201.01" Desc="National suppliers" Nivel="2" Natur="A"/>
+            <catalogocuentas:Ctas CodAgrup="201.02" NumCta="201.02" Desc="Foreign suppliers" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="205" NumCta="205" Desc="Short-term sundry creditors" Nivel="1" Natur="A"/>
+            <catalogocuentas:Ctas CodAgrup="205.02" NumCta="205.02" Desc="Domestic short-term sundry creditors" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="205.06" NumCta="205.06" Desc="Other short-term sundry creditors" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="206" NumCta="206" Desc="Customer advance" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="206.01" NumCta="206.01" Desc="Domestic customer advance" Nivel="2" Natur="A"/>
@@ -394,6 +491,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="403.01" NumCta="403.01" Desc="Other Income" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="501" NumCta="501" Desc="Cost of sale and/or service" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="501.01" NumCta="501.01" Desc="Cost of sales" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="501.02" NumCta="501.02" Desc="Cost of services (labour)" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="503" NumCta="503" Desc="Returns, discounts or rebates on purchases" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="503.01" NumCta="503.01" Desc="Returns, discounts or rebates on purchases" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="505" NumCta="505" Desc="Cost of fixed assets" Nivel="1" Natur="D"/>
@@ -409,11 +507,45 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="601.26" NumCta="601.26" Desc="IMSS contributions" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.27" NumCta="601.27" Desc="Infonavit contributions" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.28" NumCta="601.28" Desc="SAR contributions" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.32" NumCta="601.32" Desc="Administrative services" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.34" NumCta="601.34" Desc="Fees to domestic resident individuals" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.38" NumCta="601.38" Desc="Fees to domestic resident legal entities" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.45" NumCta="601.45" Desc="Leasing to domestic resident individuals" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.46" NumCta="601.46" Desc="Leasing to domestic resident legal entities" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.48" NumCta="601.48" Desc="Fuels and lubricants" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.49" NumCta="601.49" Desc="Per diems and travel expenses" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.50" NumCta="601.50" Desc="Telephone, internet" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.51" NumCta="601.51" Desc="Water" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.52" NumCta="601.52" Desc="Electric power" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.54" NumCta="601.54" Desc="Cleaning" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.55" NumCta="601.55" Desc="Stationery and office supplies" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.56" NumCta="601.56" Desc="Maintenance and upkeep" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.57" NumCta="601.57" Desc="Insurance and bonds" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.58" NumCta="601.58" Desc="Other taxes and duties" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.60" NumCta="601.60" Desc="Fees and subscriptions" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.62" NumCta="601.62" Desc="Staff training" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.64" NumCta="601.64" Desc="Technical assistance" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.73" NumCta="601.73" Desc="Import charges" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.74" NumCta="601.74" Desc="Commissions on sales" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="601.83" NumCta="601.83" Desc="Non-deductible expenses (without fiscal requirements)" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.84" NumCta="601.84" Desc="Other overheads" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602" NumCta="602" Desc="Cost of sales" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602.61" NumCta="602.61" Desc="Propaganda and advertising" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602.72" NumCta="602.72" Desc="Freight and haulage" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613" NumCta="613" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.02" NumCta="613.02" Desc="Depreciation of machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.03" NumCta="613.03" Desc="Depreciation of cars, buses, cargo trucks, tractor-trailers, forklifts and trailers" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.04" NumCta="613.04" Desc="Depreciation of office furniture and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.05" NumCta="613.05" Desc="Depreciation of computer equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.16" NumCta="613.16" Desc="Depreciation of machinery and equipment for the generation of energy from renewable sources or efficient cogeneration systems" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.17" NumCta="613.17" Desc="Depreciation of adaptations and improvements" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="613.18" NumCta="613.18" Desc="Depreciation of other machinery and equipment" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614" NumCta="614" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614.01" NumCta="614.01" Desc="Amortisation of deferred expenses" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614.07" NumCta="614.07" Desc="Amortisation of trademarks and patents" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="701" NumCta="701" Desc="Financial expenses" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="701.01" NumCta="701.01" Desc="Foreign exchange loss" Nivel="2" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="701.10" NumCta="701.10" Desc="Bank charges" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="702" NumCta="702" Desc="Financial products" Nivel="1" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="702.01" NumCta="702.01" Desc="Exchange profit" Nivel="2" Natur="A"/>
             <catalogocuentas:Ctas CodAgrup="702.02" NumCta="702.02" Desc="Domestic foreign exchange gain related party" Nivel="2" Natur="A"/>

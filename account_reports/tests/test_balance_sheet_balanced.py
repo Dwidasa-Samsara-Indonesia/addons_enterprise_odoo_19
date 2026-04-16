@@ -109,17 +109,9 @@ REPORT_CONFIG = {
         'asset_line_ref': 'l10n_de_reports.skr_asset_total',
         'liability_line_ref': 'l10n_de_reports.skr_liabilities_total',
     },
-    'l10n_dk_reports.account_balance_report_l10n_dk_balance': {
-        'asset_line_ref': 'l10n_dk_reports.account_balance_report_l10n_dk_active',
-        'liability_line_ref': 'l10n_dk_reports.account_balance_report_l10n_dk_passiv',
-    },
-    'l10n_dk_reports.account_balance_report_l10n_dk_balance_minimal': {
-        'asset_line_ref': 'l10n_dk_reports.account_balance_report_minimal_l10n_dk_active',
-        'liability_line_ref': 'l10n_dk_reports.account_balance_report_minimal_l10n_dk_passive',
-    },
-    'l10n_dk_reports.account_balance_report_2026_l10n_dk_balance': {
-        'asset_line_ref': 'l10n_dk_reports.account_balance_report_2026_l10n_dk_active',
-        'liability_line_ref': 'l10n_dk_reports.account_balance_report_2026_l10n_dk_passiv',
+    'l10n_dk_reports.account_report_bs': {
+        'asset_line_ref': 'l10n_dk_reports.account_report_bs_a',
+        'liability_line_ref': 'l10n_dk_reports.account_report_bs_el',
     },
     'l10n_do_reports.l10n_do_bs': {
         'asset_line_ref': 'l10n_do_reports.l10n_do_bs_assets',
@@ -302,6 +294,11 @@ REPORT_CONFIG = {
         'asset_line_ref': 'l10n_si_reports.l10n_si_balance_sheet_resources',
         'liability_line_ref': 'l10n_si_reports.l10n_si_balance_sheet_liabilities',
     },
+    'l10n_sk_reports.l10n_sk_reports_balance_sheet': {
+        'asset_line_ref': 'l10n_sk_reports.l10n_sk_reports_bs_total_assets',
+        'liability_line_ref': 'l10n_sk_reports.l10n_sk_reports_bs_total_equity_liabilities',
+        'balance_col_label': 'net',
+    },
     'l10n_syscohada_reports.account_financial_report_syscohada_bilan': {
         'asset_line_ref': 'l10n_syscohada_reports.account_financial_report_line_03_3_11_syscohada_bilan_actif',
         'liability_line_ref': 'l10n_syscohada_reports.account_financial_report_line_03_3_11_syscohada_bilan_passif',
@@ -335,6 +332,10 @@ REPORT_CONFIG = {
     'l10n_us_reports.balance_sheet': {
         'asset_line_ref': 'l10n_us_reports.assets',
         'liability_line_ref': 'l10n_us_reports.liabilities_equity',
+    },
+    'l10n_uz_reports.balance_sheet_l10n_uz': {
+        'asset_line_ref': 'l10n_uz_reports.account_financial_report_l10n_uz_bs_to_assets',
+        'liability_line_ref': 'l10n_uz_reports.account_financial_report_l10n_uz_bs_eq_and_obl',
     },
     'l10n_vn_reports.balance_sheet_l10n_vn': {
         'asset_line_ref': 'l10n_vn_reports.account_financial_report_l10n_vn_bs_ta',

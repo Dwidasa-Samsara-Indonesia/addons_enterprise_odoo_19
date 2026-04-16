@@ -189,6 +189,7 @@ class GeneralLedgerCustomHandler(models.AbstractModel):
         common_domain = [
             ('account_id.include_initial_balance', '=', False),
             ('display_type', 'not in', ('line_section', 'line_subsection', 'line_note')),
+            ('move_id.state', '!=', 'cancel'),
         ]
         prev_year_domain = common_domain + [('date', '>=', dates['prev_date_from']), ('date', '<=', dates['prev_date_to'])]
         curr_year_domain = common_domain + [('date', '>=', dates['curr_date_from']), ('date', '<=', dates['curr_date_to'])]

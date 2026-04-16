@@ -472,34 +472,18 @@ class TestCFDIInvoice(TestMxEdiCommon):
                 'product_id': self.product.id,
                 'tax_ids': [Command.set((self.tax_10_ret_isr + self.tax_8_ieps).ids)],
             })])
+            # When not specified, tax object should be 07 if ieps breakdown
+            self.assertRecordValues(invoice.invoice_line_ids, [{'l10n_mx_edi_tax_object': '07'}])
+            self.partner_mx.l10n_mx_edi_ieps_breakdown = False
             with self.with_mocked_pac_sign_success():
                 invoice._l10n_mx_edi_cfdi_invoice_try_send()
+            # Generated cfdi should have tax object '07' and breakdown IEPS, even if it is not specified
             self._assert_invoice_cfdi(invoice, 'test_tax_objected_07_inv')
 
             payment = self._create_payment(invoice)
             with self.with_mocked_pac_sign_success():
                 payment.move_id._l10n_mx_edi_cfdi_payment_try_send()
             self._assert_invoice_payment_cfdi(payment.move_id, 'test_tax_objected_07_pay')
-
-    def test_tax_objected_07_to_public(self):
-        with self.mx_external_setup(self.frozen_today):
-            invoice = self._create_invoice(
-                l10n_mx_edi_cfdi_to_public=True,
-                invoice_line_ids=[
-                    Command.create({
-                        'product_id': self.product.id,
-                        'tax_ids': [Command.set((self.tax_10_ret_isr + self.tax_8_ieps).ids)],
-                    })
-                ],
-            )
-            with self.with_mocked_pac_sign_success():
-                invoice._l10n_mx_edi_cfdi_invoice_try_send()
-            self._assert_invoice_cfdi(invoice, 'test_tax_objected_07_to_public_inv')
-
-            payment = self._create_payment(invoice)
-            with self.with_mocked_pac_sign_success():
-                payment.move_id._l10n_mx_edi_cfdi_payment_try_send()
-            self._assert_invoice_payment_cfdi(payment.move_id, 'test_tax_objected_07_to_public_pay')
 
     def test_tax_objected_08(self):
         with self.mx_external_setup(self.frozen_today):
@@ -511,12 +495,25 @@ class TestCFDIInvoice(TestMxEdiCommon):
             })])
             with self.with_mocked_pac_sign_success():
                 invoice._l10n_mx_edi_cfdi_invoice_try_send()
+            # No IEPS breakdown even if specified
             self._assert_invoice_cfdi(invoice, 'test_tax_objected_08_inv')
 
             payment = self._create_payment(invoice)
             with self.with_mocked_pac_sign_success():
                 payment.move_id._l10n_mx_edi_cfdi_payment_try_send()
             self._assert_invoice_payment_cfdi(payment.move_id, 'test_tax_objected_08_pay')
+
+    def test_global_invoice_ieps_breakdown(self):
+        with self.mx_external_setup(self.frozen_today):
+            invoice = self._create_invoice(invoice_line_ids=[Command.create({
+                'product_id': self.product.id,
+                'tax_ids': [Command.set((self.tax_10_ret_isr + self.tax_8_ieps).ids)]
+            })])
+
+            with self.with_mocked_pac_sign_success():
+                invoice._l10n_mx_edi_cfdi_global_invoice_try_send()
+            # IEPS should display even if not set
+            self._assert_global_invoice_cfdi_from_invoices(invoice, 'test_global_invoice_ieps_breakdown')
 
     def test_invoice_addenda(self):
         # The test data for complementos in this test are not recognized by the SAT as valid.
@@ -2990,3 +2987,12 @@ class TestCFDIInvoice(TestMxEdiCommon):
             document = credit_note.l10n_mx_edi_invoice_document_ids.filtered(lambda x: x.state == 'invoice_sent')
             cfdi_infos = self.env['l10n_mx_edi.document']._decode_cfdi_attachment(document.attachment_id.raw)
             self.assertEqual(cfdi_infos['usage'], 'G02')
+
+    def test_extra_invoice_report_values(self):
+        with self.mx_external_setup(self.frozen_today):
+            invoice = self._create_invoice(invoice_date_due=self.frozen_today + relativedelta(months=1))
+            with self.with_mocked_pac_sign_success():
+                invoice._l10n_mx_edi_cfdi_invoice_try_send()
+            report_values = invoice._l10n_mx_edi_get_extra_invoice_report_values()
+            self.assertEqual(report_values['payment_method'], 'PPD')
+            self.assertEqual(report_values['payment_way'], '99 - Por definir')

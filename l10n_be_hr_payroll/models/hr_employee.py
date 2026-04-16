@@ -20,7 +20,7 @@ class HrEmployee(models.Model):
 
     start_notice_period = fields.Date("Start notice period", groups="hr.group_hr_user", copy=False, tracking=True)
     end_notice_period = fields.Date("End notice period", groups="hr.group_hr_user", copy=False, tracking=True)
-    first_contract_in_company = fields.Date("First contract in company", groups="hr.group_hr_user", copy=False)
+    first_contract_in_company = fields.Date("First contract in company", groups="hr.group_hr_user", copy=False, store=True, compute='_compute_first_contract_in_company')
 
     l10n_be_scale_seniority = fields.Integer(string="Seniority at Hiring", groups="hr.group_hr_user", tracking=True)
 
@@ -298,17 +298,28 @@ Earnings are made of professional income, remuneration, unemployment allocations
         return versions.filtered(
             lambda c: c.company_id.country_id.code != 'BE' or (c.company_id.country_id.code == 'BE' and c.contract_type_id != pfi))
 
-    def write(self, vals):
-        res = super().write(vals)
-        if vals.get('current_version_id'):
-            self.current_version_id.sudo().filtered('contract_date_start')._trigger_l10n_be_next_activities()
-        return res
-
     @api.model_create_multi
     def create(self, vals_list):
-        employees = super().create(vals_list)
-        employees.current_version_id.sudo().filtered('contract_date_start')._trigger_l10n_be_next_activities()
-        return employees
+        employees = super(HrEmployee, self.with_context(pending_employee_creation=True)).create(vals_list)
+        updated_context = dict(employees.env.context)
+        updated_context.pop('pending_employee_creation')
+        created_employees = employees.with_context(updated_context)
+        created_employees.current_version_id.sudo().filtered(
+            lambda v: v._is_struct_from_country('BE') and v.contract_date_start
+        )._trigger_l10n_be_next_activities()
+        return created_employees
+
+    def _compute_current_version_id(self):
+        prev_current_version_id_by_employee = self.current_version_id.grouped('employee_id')
+        super()._compute_current_version_id()
+        to_trigger_next_activities = self.current_version_id.filtered(
+            lambda v: not prev_current_version_id_by_employee.get(v.employee_id) or
+                prev_current_version_id_by_employee.get(v.employee_id) != v
+        )
+        if to_trigger_next_activities:
+            to_trigger_next_activities.sudo().filtered(
+                lambda v: v._is_struct_from_country('BE') and v.contract_date_start
+            )._trigger_l10n_be_next_activities()
 
     def action_employee_work_schedule_change_wizard(self):
         if len(self) != 1:
@@ -404,3 +415,17 @@ Earnings are made of professional income, remuneration, unemployment allocations
             'non_equivalent_days': non_equivalent_days
         })
         return occupations
+
+    @api.depends('version_ids', 'version_ids.contract_date_start', 'version_ids.active')
+    def _compute_first_contract_in_company(self):
+        employee_earliest_contract = self.env['hr.version']._read_group(
+            domain=[
+                ('employee_id', 'in', self.ids),
+                ('active', '!=', False),
+            ],
+            groupby=['employee_id'],
+            aggregates=['contract_date_start:min'],
+        )
+        earliest_by_employee = {employee.id: earliest for employee, earliest in employee_earliest_contract}
+        for employee in self:
+            employee.first_contract_in_company = earliest_by_employee.get(employee.id)

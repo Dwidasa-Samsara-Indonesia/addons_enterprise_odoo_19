@@ -8,11 +8,11 @@
                 <div class="col-6">
                     <div class="d-flex">
                         <h6 class="col-3 fw-bold">Request By:</h6>
-                        <h6 t-field="o.request_owner_id">Marc Demo</h6>
+                        <h6 class="col-9" t-field="o.request_owner_id">Marc Demo</h6>
                     </div>
                     <div class="d-flex">
                         <h6 class="col-3 fw-bold">Approvers:</h6>
-                        <div>
+                        <div class="col-9">
                             <h6 t-foreach="o.approver_ids" t-as="approver_id" class="mb-2">
                                 <span t-field="approver_id.user_id.name">Mitchell Admin</span>
                                 <span t-if="approver_id.status == 'approved'">(&#10004;)</span>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="d-flex mt-1" t-if="o.partner_id">
                         <h6 class="col-3 fw-bold">Contact:</h6>
-                        <h6 t-field="o.partner_id">Mitchell Admin</h6>
+                        <h6 class="col-9" t-field="o.partner_id">Mitchell Admin</h6>
                     </div>
                     <div class="d-flex mt-1" t-if="o.amount">
                         <h6 class="col-3 fw-bold">Amount:</h6>

@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import fields, models
-from odoo.exceptions import RedirectWarning
 
 
 class ResCompany(models.Model):
@@ -32,17 +31,3 @@ class ResCompany(models.Model):
             self.sudo().l10n_in_gstr_gst_token_validity
             and self.sudo().l10n_in_gstr_gst_token_validity > fields.Datetime.now()
         )
-
-    def _check_tax_return_configuration(self):
-        """
-        Check if the e-filling feature is enabled in configuration for tax returns.
-        :raises RedirectWarning: if something is wrong configured.
-        """
-
-        if self.country_code != 'IN':
-            return super()._check_tax_return_configuration()
-
-        if not self.l10n_in_gst_efiling_feature:
-            msg = self.env._("First enable GST e-Filing feature from configuration for company %s.", (self.name))
-            action = self.env.ref("account.action_account_config")
-            raise RedirectWarning(msg, action.id, self.env._('Go to configuration'))

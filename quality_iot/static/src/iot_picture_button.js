@@ -5,6 +5,17 @@ import { IotActionButton } from "./iot_action_button/iot_action_button";
 
 export class IotPictureWidget extends IotActionButton {
     async onClick() {
+        if (!this.iotDevice) {
+            this.notification.add(
+                _t(
+                    "No IoT device set on this quality check. Add one or use the edit button to upload a picture."
+                ),
+                {
+                    type: "warning",
+                }
+            );
+            return;
+        }
         const { iotBoxId, deviceIdentifier } = this.iotDevice;
         this.notification.add(_t('Capturing image...'));
         this.iotHttpService.action(

@@ -10,6 +10,8 @@ class PosOrder(models.Model):
         if self.company_id.country_id.code == 'EC':
             if len(self.payment_ids) > 1:
                 vals['l10n_ec_sri_payment_id'] = self.env['l10n_ec.sri.payment'].search([("code", "=", "mpm")]).id
-            else:
+            elif self.payment_ids:
                 vals['l10n_ec_sri_payment_id'] = self.payment_ids.payment_method_id.l10n_ec_sri_payment_id.id
+            else:
+                vals['l10n_ec_sri_payment_id'] = self.env['l10n_ec.sri.payment'].search([("code", "=", "01")]).id
         return vals

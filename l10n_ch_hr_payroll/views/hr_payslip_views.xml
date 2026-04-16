@@ -102,7 +102,9 @@
                 </field>
                 </page>
             </page>
-
+            <button name='action_configure_payslip_inputs' position="attributes">
+                <attribute name="invisible">country_code == 'CH'</attribute>
+            </button>
             <page name="account_info" position="after">
                 <page name="is_log_lines" string="IS Log Lines" groups="base.group_no_one">
                     <group>

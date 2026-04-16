@@ -36,7 +36,7 @@ test("upload image", async () => {
     mockService("orm", fakeORMService);
     const env = await makeSpreadsheetMockEnv();
     const fileStore = new RecordFileStore("res.partner", 1, env.services.http, env.services.orm);
-    const path = await fileStore.upload(new File(["image"], "image_name.png", { type: "image/*" }));
+    const path = await fileStore.upload(new File(["image"], "image_name.png", { type: "image/png" }));
     expect(path).toBe("/web/image/10?access_token=the-image-access-token");
     expect.verifySteps(["image uploaded", "access token generated"]);
 });

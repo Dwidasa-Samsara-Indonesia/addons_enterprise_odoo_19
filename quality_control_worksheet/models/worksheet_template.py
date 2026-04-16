@@ -62,7 +62,7 @@ class WorksheetTemplate(models.Model):
     def _create_demo_data_quality(self):
         # create demo data in batch for performance reasons (avoid multiple calls to _setup_models__)
         model_id = self.env.ref('quality_control_worksheet.quality_control_worksheet_template1').model_id.id
-        self.env['ir.model.fields'].with_context(_import_current_module='quality_control_worksheet').create([{
+        self.env['ir.model.fields'].with_context(_import_current_module='quality_control_worksheet', noupdate=True).create([{
             'id': 'quality_control_worksheet_template_field1',
             'name': 'x_date',
             'ttype': 'date',

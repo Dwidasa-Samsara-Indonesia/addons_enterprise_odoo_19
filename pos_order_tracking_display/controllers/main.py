@@ -4,6 +4,7 @@ import werkzeug
 
 from odoo import http
 from odoo.http import request
+from odoo.tools import consteq
 
 
 class PosOrderTrackingDisplay(http.Controller):
@@ -27,3 +28,12 @@ class PosOrderTrackingDisplay(http.Controller):
                 },
             },
         )
+
+    @http.route("/pos-order-tracking/get_orders", auth="public", type="jsonrpc")
+    def get_orders(self, id, access_token):
+        pdis_sudo = request.env["pos.prep.display"].sudo().browse(id)
+
+        if not pdis_sudo.exists() or not consteq(pdis_sudo.access_token, access_token):
+            raise werkzeug.exceptions.NotFound()
+
+        return {'orders': pdis_sudo._get_pos_orders()}

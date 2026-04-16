@@ -32,6 +32,8 @@ class AccountEdiXmlCii(models.AbstractModel):
         return super()._find_value(xpath, tree, CII_NAMESPACES)
 
     def _export_invoice_filename(self, invoice):
+        if invoice.commercial_partner_id.country_code == 'DE':
+            return f"{invoice.name.replace('/', '_')}_zugferd.xml"
         return f"{invoice.name.replace('/', '_')}_factur_x.xml"
 
     def _export_invoice_ecosio_schematrons(self):

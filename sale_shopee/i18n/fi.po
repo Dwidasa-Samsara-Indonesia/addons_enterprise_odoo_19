@@ -3,13 +3,13 @@
 # * sale_shopee
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Saara Hakanen <sahak@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-12-30 13:00+0000\n"
+"PO-Revision-Date: 2026-03-14 09:40+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "sale_shopee/fi/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_shopee
 #: model:mail.template,body_html:sale_shopee.order_sync_failure
@@ -48,26 +48,25 @@ msgid ""
 "        "
 msgstr ""
 "<div>\n"
-"                <p>Shopee-tilauksen, jonka viite on <t t-"
-"out=\"ctx.get('shopee_order_ref') or ''\">REF</t>, synkronoinnissa tapahtui "
-"virhe ja sitä ei suoritettu loppuun.</p>\n"
-"                <p>Jollei tilausta peruuteta Shopee:ssa, synkronointia ei "
-"yritetä uudelleen.</p>\n"
-"                <p>Uuden synkronoinnin varaamiseksi tee seuraavat "
-"toimenpiteet:\n"
+"                <p>Shopee-tilauksen synkronointi viitteellä <t t-"
+"out=\"ctx.get('shopee_order_ref') or ''\">REF</t> epäonnistui ja jäi "
+"kesken.</p>\n"
+"                <p>Ellei tilausta peruuteta Lazadassa, muita "
+"synkronointiyrityksiä ei tehdä.</p>\n"
+"                <p>Voit ajoittaa uuden synkronointiyrityksen seuraavasti:\n"
 "                    </p><ol>\n"
-"                        <li>Siirry Ohjelmistokehittäjien työkaluihin.</li>\n"
-"                        <li>Avaa sen Shopee-myymälän lomake, josta tilaus "
+"                        <li>Siirry kehittäjätyökaluihin.</li>\n"
+"                        <li>Avaa Shopee-myymälän lomake, jossa tilaus "
 "tehtiin.</li>\n"
 "                        <li>Navigoi Tilauksen seuranta -välilehteen.</li>\n"
-"                        <li>Aseta päivämäärä kohtaan <em>Viimeisin tilausten "
-"synkronoinnin päivämäärä</em>, joka ei kuitenkaan ole ennen viimeisintä "
-"tilauksen tilapäivitystä.</li>\n"
-"                        <li>Tallenna muutokset ja klikkaa <em>SYNC ORDERS</"
-"em> -painiketta.</li>\n"
+"                        <li>Määritä <em>Viimeinen tilauksen "
+"synkronointipäivä</em> joka on ennen tilauksen viimeisintä tilapäivitystä.</"
+"li>\n"
+"                        <li>Tallenna muutokset ja klikkaa <em>SYNKRONOI "
+"TILAUKSET</em> -painiketta.</li>\n"
 "                    </ol>\n"
 "                \n"
-"                <p>Jos ongelma yhä jatkuu, ota yhteyttä <a href=\"https://"
+"                <p>Jos ongelma jatkuu, ota yhteyttä <a href=\"https://"
 "www.odoo.com/help/\">Odoo-tukipalveluun</a>.</p>\n"
 "            </div>\n"
 "        "
@@ -654,7 +653,7 @@ msgstr "Täytetty vastapuolen myyjän toimesta"
 #. module: sale_shopee
 #: model_terms:ir.ui.view,arch_db:sale_shopee.view_order_form
 msgid "Fulfilled by Merchant"
-msgstr "Täytetty myyjän toimesta"
+msgstr "Kauppiaan täyttämä"
 
 #. module: sale_shopee
 #: model_terms:ir.ui.view,arch_db:sale_shopee.view_order_form
@@ -712,7 +711,7 @@ msgstr "Jos kenttä on tyhjä, kaikki yrityksen sallitaan."
 #: model:ir.model.fields.selection,name:sale_shopee.selection__shopee_shop__status__inactive
 #: model_terms:ir.ui.view,arch_db:sale_shopee.shopee_shop_view_search
 msgid "Inactive"
-msgstr "Passiivinen"
+msgstr "Epäaktiivinen"
 
 #. module: sale_shopee
 #: model:ir.model.constraint,message:sale_shopee.constraint_shopee_item_unique_shopee_item_and_model_identifiers
@@ -830,7 +829,7 @@ msgstr "Tuotteen tarjous"
 #. module: sale_shopee
 #: model:ir.model,name:sale_shopee.model_product_product
 msgid "Product Variant"
-msgstr "Tuotevariantti"
+msgstr "Tuotevariaatio"
 
 #. module: sale_shopee
 #: model:ir.model.fields.selection,name:sale_shopee.selection__stock_picking__shopee_label_status__ready

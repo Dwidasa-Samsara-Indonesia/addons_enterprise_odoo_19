@@ -105,7 +105,7 @@ class AccountBatchPayment(models.Model):
             f"{bank.acc_number:17.17}",  # DFI Account Number
             f"{self._get_total_cents(payment):010d}",  # Amount
             f"{payment.partner_id.vat or '':15.15}",  # Individual Identification Number (optional)
-            f"{'OFFSET' if is_offset else payment.partner_id.name:22.22}",  # Individual Name
+            f"{'OFFSET' if is_offset else (bank.acc_holder_name or payment.partner_id.name):22.22}",  # Individual Name
             "  ",  # Discretionary Data Field
             "0",  # Addenda Record Indicator
             f"{self.journal_id.nacha_origination_dfi_identification:8.8}",  # Trace Number (80-87)

@@ -25,6 +25,8 @@
         <field name="name">Appraisal Campaign wizard Responsible</field>
         <field name="model_id" ref="model_hr_appraisal_campaign_wizard"/>
         <field name="domain_force">[
+            '|',
+            ('employee_ids', '=', False),
             ('employee_ids', 'child_of', user.employee_ids.ids)
         ]</field>
         <field name="perm_read" eval="True"/>
@@ -58,7 +60,13 @@
     <record id="hr_appraisal_emp_rule" model="ir.rule">
         <field name="name">Employee Appraisal</field>
         <field name="model_id" ref="model_hr_appraisal"/>
-        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('manager_ids', 'in', user.employee_ids.ids)]</field>
+        <field name="domain_force">[
+            '|',
+            '|',
+            ('employee_id.user_id', '=', user.id),
+            ('manager_ids', 'in', user.employee_ids.ids),
+            ('employee_id', 'child_of', user.employee_ids.ids)
+        ]</field>
         <field name="perm_unlink" eval="False"/>
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>
     </record>
@@ -69,8 +77,10 @@
         <field name="domain_force">[
             ('state', '=', '1_new'),
             '|',
+            '|',
             ('employee_id.user_id', '=', user.id),
-            ('manager_ids', 'in', user.employee_ids.ids)
+            ('manager_ids', 'in', user.employee_ids.ids),
+            ('employee_id', 'child_of', user.employee_ids.ids)
         ]</field>
         <field name="perm_unlink" eval="True"/>
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>

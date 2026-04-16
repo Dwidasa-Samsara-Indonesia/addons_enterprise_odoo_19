@@ -91,7 +91,31 @@ export class BankRecKanbanController extends KanbanController {
                 supplier_rank: makeActiveField(),
             },
         };
-
+        params.config.activeFields.currency_id = makeActiveField();
+        params.config.activeFields.currency_id.related = {
+            fields: {
+                id: { name: "id", type: "int" },
+                display_name: { name: "display_name", type: "char" },
+                decimal_places: { name: "decimal_places", type: "int" },
+            },
+            activeFields: {
+                id: makeActiveField(),
+                display_name: makeActiveField(),
+                decimal_places: makeActiveField(),
+            },
+        };
+        params.config.activeFields.foreign_currency_id.related = {
+            fields: {
+                id: { name: "id", type: "int" },
+                display_name: { name: "display_name", type: "char" },
+                decimal_places: { name: "decimal_places", type: "int" },
+            },
+            activeFields: {
+                id: makeActiveField(),
+                display_name: makeActiveField(),
+                decimal_places: makeActiveField(),
+            },
+        };
         params.config.activeFields.line_ids = makeActiveField();
         params.config.activeFields.line_ids.related = {
             fields: {
@@ -306,11 +330,13 @@ export class BankRecKanbanController extends KanbanController {
                 id: { name: "id", type: "int" },
                 display_name: { name: "display_name", type: "char" },
                 account_type: { name: "account_type", type: "char" },
+                reconcile: { name: "reconcile", type: "boolean" },
             },
             activeFields: {
                 id: makeActiveField(),
                 display_name: makeActiveField(),
                 account_type: makeActiveField(),
+                reconcile: makeActiveField(),
             },
         };
         params.config.activeFields.journal_id = makeActiveField();

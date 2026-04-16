@@ -76,7 +76,10 @@ class L10nKeHrPayrollNssfReportWizard(models.TransientModel):
             result = [(5, 0, 0)]
             for payslip in payslips:
                 for line in payslip.line_ids:
-                    if line.code.startswith('NSSF_EMPLOYEE_TIER_'):
+                    if (line.code == 'NSSF_EMPLOYEE_TIER_1') or \
+                        (line.code == 'NSSF_EMPLOYEE_TIER_2' and payslip.employee_id.l10n_ke_tier_2_remit == 'nssf') or \
+                        (line.code == 'NSSF_EMPLOYEE_TIER_3' and payslip.employee_id.l10n_ke_pension_remit == 'nssf'):
+
                         nssf_code = "10" + line.code[-1]
                         result.append((0, 0, {
                             'employee_id': payslip.employee_id.id,

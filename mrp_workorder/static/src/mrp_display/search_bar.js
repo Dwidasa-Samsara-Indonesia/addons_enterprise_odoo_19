@@ -1,18 +1,6 @@
-import { onRendered } from "@odoo/owl";
 import { SearchBar } from "@web/search/search_bar/search_bar";
 
 export class MrpDisplaySearchBar extends SearchBar {
-    setup() {
-        super.setup();
-        onRendered(() => {
-            setTimeout(() => {
-                if (!this.inputDropdownState.isOpen) {
-                    this.inputRef.el.blur();
-                }
-            }, 100);
-        });
-    }
-
     removeFacet(facet) {
         if (facet.color === "info") {
             this.env.searchModel.state.workorderFilters.forEach((f) => {

@@ -1174,7 +1174,7 @@ class KnowledgeArticle(models.Model):
                 context.update({"active_id": self.id, "default_parent_id": self.id})
                 element.set("data-embedded-props", json.dumps(embedded_props))
 
-        return html.tostring(fragment, encoding="unicode")
+        return "".join(html.tostring(node, encoding="unicode") for node in fragment)
 
     # ------------------------------------------------------------
     # ACTIONS

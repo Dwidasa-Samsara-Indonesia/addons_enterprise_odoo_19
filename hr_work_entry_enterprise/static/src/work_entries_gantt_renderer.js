@@ -231,6 +231,7 @@ export class WorkEntriesGanttRenderer extends HrGanttRenderer {
     getCellsInfoInContract(cellsInfo) {
         return cellsInfo.filter((c) => {
             const { employee_id } = JSON.parse(c.rowId)[0];
+            if (!employee_id) return;
             const start = serializeDate(c.start);
             const contracts = this.contractsByEmployee.get(employee_id[0]);
             return (contracts || []).some(
@@ -270,6 +271,12 @@ export class WorkEntriesGanttRenderer extends HrGanttRenderer {
     updateMultiSelection() {
         super.updateMultiSelection(...arguments);
         this.multiSelectionButtonsReactive.userFavoritesWorkEntries = this.model.userFavoritesWorkEntries || [];
+        const hasEmployees = (this.model.data.rows || []).some(
+            (row) => row.resId
+        );
+        if (!hasEmployees) {
+            this.multiSelectionButtonsReactive.visible = false;
+        }
     }
 
     /**

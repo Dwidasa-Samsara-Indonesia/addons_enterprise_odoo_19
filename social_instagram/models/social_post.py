@@ -49,3 +49,16 @@ class SocialPost(models.Model):
             return Domain.OR([domain, [('instagram_post_id', 'in', instagram_post_ids)]])
         else:
             return domain
+
+    @api.model
+    def _cron_publish_scheduled(self):
+        super()._cron_publish_scheduled()
+
+        instagram_live_posts = self.env['social.live.post'].search([
+            ('account_id.media_type', '=', 'instagram'),
+            ('state', '=', 'posting'),
+            ('instagram_post_id', '=like', 'containerID-%'),
+        ])
+
+        for live_post in instagram_live_posts:
+            live_post._post_instagram()

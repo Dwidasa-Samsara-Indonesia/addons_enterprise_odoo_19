@@ -90,7 +90,7 @@ class FiskalyClient:
         })
         retry = requests.adapters.HTTPAdapter(max_retries=requests.adapters.Retry(
             total=3,
-            status_forcelist=[400, 403, 404],  # Exclude 401 as we handle it specially
+            status_forcelist=range(500, 600),  # Retry on all server errors per Fiskaly docs
         ))
         session.mount('https://', retry)
 
@@ -147,8 +147,12 @@ class FiskalyClient:
         _is_valid, error = scu_schema(data)
         if error:
             raise ValidationError(_("Fiskaly schema validation error, %s", error))
-        scuid = str(uuid.uuid4())
         with self._make_session(bearer_token) as req:
+            # Reuse existing active SCU if limit is already reached
+            existing = req("GET", endpoint='signature-creation-unit', params={"states[]": ["INITIALIZED", "OUTAGE"]})
+            if existing.get('data'):
+                return existing['data'][0]['_id']
+            scuid = str(uuid.uuid4())
             req("PUT", endpoint=f'signature-creation-unit/{scuid}', data=data)
             req("PATCH", endpoint=f'signature-creation-unit/{scuid}', data={"state": "INITIALIZED"})
         return scuid

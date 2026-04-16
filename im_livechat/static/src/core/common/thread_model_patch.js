@@ -12,6 +12,7 @@ patch(Thread.prototype, {
         this.livechat_lang_id = fields.One("res.lang");
         this.livechat_operator_id = fields.One("res.partner");
         this.livechat_conversation_tag_ids = fields.Many("im_livechat.conversation.tag");
+        this.chatbot = fields.One("Chatbot");
         this.livechatVisitorMember = fields.One("discuss.channel.member", {
             compute() {
                 if (this.channel_type !== "livechat") {
@@ -77,7 +78,7 @@ patch(Thread.prototype, {
 
     get composerDisabledText() {
         return this.channel_type === "livechat" && this.livechat_end_dt
-            ? _t("This livechat conversation has ended")
+            ? _t("This livechat conversation has ended.")
             : "";
     },
 

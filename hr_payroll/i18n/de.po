@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 09:59+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-09 11:20+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/de/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -179,11 +179,6 @@ msgstr ""
 "* Wenn die Gehaltsabrechnung storniert wird, ist der Status „Storniert“."
 
 #. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
-
-#. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
 msgid "13th month - End of the year bonus"
 msgstr "13. Monat - Endjahresbonus"
@@ -322,7 +317,7 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "<span class=\"h1-fs\"><strong>Hello there,</strong></span>"
-msgstr "<span class=\"h1-fs\"><strong>Hallo zusammen,</strong></span>"
+msgstr "<span class=\"h1-fs\"><strong>Guten Tag zusammen,</strong></span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
@@ -506,11 +501,6 @@ msgstr "<strong class=\"me-2\">Berechnet am:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr "<strong class=\"me-2\">Startdatum des Vertrags:</strong>"
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
 msgstr "<strong class=\"me-2\">Vertragsart:</strong>"
 
@@ -523,6 +513,11 @@ msgstr "<strong class=\"me-2\">Abteilung:</strong>"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
 msgstr "<strong class=\"me-2\">E-Mail:</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr "<strong class=\"me-2\">Eintrittsdatum:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -607,7 +602,7 @@ msgstr ""
 "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; "
 "margin:0px auto;\"><tbody>\n"
 "    <tr><td valign=\"top\" style=\"text-align: left; font-size: 14px;\">\n"
-"        Hallo <t t-esc=\"object.employee_id.name\"/>, eine neue "
+"        Guten Tag <t t-esc=\"object.employee_id.name\"/>, eine neue "
 "Gehaltsabrechnung liegt für Sie bereit.<br/><br/>\n"
 "        Das PDF finden Sie in Ihrem Mitarbeiterportal.<br/><br/>\n"
 "        Einen schönen Tag,<br/>\n"
@@ -1050,7 +1045,7 @@ msgstr "BIC"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/views/payslip_run_version_list/hr_version_list_controller.xml:0
 msgid "Back"
-msgstr "Hintergrund"
+msgstr "Zurück"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2594,8 +2589,6 @@ msgid "General"
 msgstr "Allgemein"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Generieren"
@@ -2625,6 +2618,12 @@ msgstr "Abrechnungslauf generieren"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "Generate Payslips"
 msgstr "Gehaltsabrechnungen generieren"
+
+#. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
 
 #. module: hr_payroll
 #. odoo-python
@@ -3692,7 +3691,7 @@ msgstr "November"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_needaction_counter
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3891,12 +3890,6 @@ msgstr "PDF-Datei"
 #: code:addons/hr_payroll/models/hr_payroll_employee_declaration.py:0
 msgid "PDF generation started. It will be available shortly."
 msgstr "PDF-Generierung gestartet. Es wird bald verfügbar sein."
-
-#. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr "PDF-Dateien"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
@@ -5350,7 +5343,7 @@ msgid ""
 "You can use this field for quick search."
 msgstr ""
 "ISO-Ländercode in zwei Zeichen. \n"
-"Sie können dieses Feld auch für eine Schnellsuche einsetzen."
+"Sie können dieses Feld auch für eine Schnellsuche verwenden."
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -6659,6 +6652,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆Sehen Sie das Menü da oben?"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "PDFs"
+#~ msgstr "PDF-Dateien"
+
+#~ msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
+#~ msgstr "<strong class=\"me-2\">Startdatum des Vertrags:</strong>"
 
 #~ msgid "Other Input Types"
 #~ msgstr "Andere Eingabetypen"

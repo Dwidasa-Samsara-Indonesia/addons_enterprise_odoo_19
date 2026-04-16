@@ -10,7 +10,7 @@
 # Martin Trigaux, 2023
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2023, 2025, 2026.
 # Jolien De Paepe, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # Bren Driesen <brdri@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Maxime Taillieu <maxime@taillieuconsultancy.com>, 2026.
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:35+0000\n"
-"PO-Revision-Date: 2026-02-11 17:41+0000\n"
+"POT-Creation-Date: 2026-04-10 18:37+0000\n"
+"PO-Revision-Date: 2026-04-08 07:35+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/account/nl/"
 ">\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal__type
@@ -74,6 +74,16 @@ msgstr ""
 "        Bijv. 180 / (1 - 10%) = 200 (exclusief btw)\n"
 "        Bijv. 200 * (1 - 10%) = 180 (inclusief btw)\n"
 "        "
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid ""
+"\n"
+"Please contact your administrator."
+msgstr ""
+"\n"
+"Neem contact op met je beheerder."
 
 #. module: account
 #. odoo-python
@@ -181,7 +191,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
 msgid "%(name)s - Draft at (%(currency_amount)s)"
-msgstr ""
+msgstr "%(name)s - Ontwerp bij (%(currency_amount)s)"
 
 #. module: account
 #. odoo-python
@@ -193,7 +203,17 @@ msgstr "%(name)s termijn #%(number)s"
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
 msgid "%(name)s%(ref)s at %(currency_amount)s"
+msgstr "%(name)s%(ref)s bij %(currency_amount)s"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid ""
+"%(order)s - %(order_line)s; %(qty_invoiced)s invoiced, %(qty_delivered)s "
+"delivered at %(unit_price)s"
 msgstr ""
+"%(order)s - %(order_line)s; %(qty_invoiced)s gefactureerd, %(qty_delivered)s "
+"geleverd aan %(unit_price)s"
 
 #. module: account
 #. odoo-python
@@ -214,6 +234,12 @@ msgid ""
 msgstr ""
 "%(order)s - %(order_line)s; %(quantity_invoiced)s Gefactureerd, %"
 "(quantity_delivered)s Geleverd voor %(unit_price)s elk"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "%(order)s - %(order_line)s; price difference for %(product)s"
+msgstr "%(order)s - %(order_line)s; prijsverschil voor %(product)s"
 
 #. module: account
 #. odoo-python
@@ -301,20 +327,6 @@ msgstr "'%(filename)s' (geëxtraheerd uit '%(root_filename)s', type=%(type)s)"
 #: code:addons/account/models/account_document_import_mixin.py:0
 msgid "'%(filename)s' (type=%(type)s)"
 msgstr "'%(filename)s' (type=%(type)s)"
-
-#. module: account
-#. odoo-python
-#: code:addons/account/wizard/accrued_orders.py:0
-msgid "(*) Goods Delivered not Invoiced (perpetual valuation)"
-msgstr ""
-"(*) Geleverde goederen die niet gefactureerd zijn (permanente waardering)"
-
-#. module: account
-#. odoo-python
-#: code:addons/account/wizard/accrued_orders.py:0
-msgid "(*) Goods Invoiced not Delivered (perpetual valuation)"
-msgstr ""
-"(*) Geleverde goederen die niet gefactureerd zijn (permanente waardering)"
 
 #. module: account
 #: model:ir.actions.server,name:account.action_move_block_payment
@@ -435,24 +447,9 @@ msgid "0% Imports"
 msgstr "0% Import"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "1.00"
-msgstr "1,00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-msgid "1.05"
-msgstr "1.05"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_30_days_end_month_the_10
 msgid "10 Days after End of Next Month"
 msgstr "10 dagen na het einde van de volgende maand"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "100.0"
-msgstr "100,0"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
@@ -460,103 +457,14 @@ msgid "100.00 USD"
 msgstr "100,00 USD"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "1000.0"
-msgstr "1000,0"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "11.05"
-msgstr "11.05"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "12345"
-msgstr "12345"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_15days
 msgid "15 Days"
 msgstr "15 dagen"
 
 #. module: account
-#: model:account.tax,name:account.1_purchase_tax_template
-#: model:account.tax,name:account.1_sale_tax_template
-msgid "15%"
-msgstr "15%"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "1500.0"
-msgstr "1500,0"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_2_9
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_2_9
-#: model:account.tax,name:account.2_account_tax_us_purchase_2_9
-#: model:account.tax,name:account.2_account_tax_us_sale_2_9
-msgid "2.9%"
-msgstr "2,9%"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_30days_early_discount
 msgid "2/7 Net 30"
 msgstr "2/7 netto 30"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "20.00"
-msgstr "20.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2021-09-19"
-msgstr "19-09-2021"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
-msgid "2023-01-01"
-msgstr "01-01-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
-msgid "2023-01-05"
-msgstr "05-01-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "2023-08-11"
-msgstr "11-08-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "2023-08-15"
-msgstr "15-08-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "2023-08-31"
-msgstr "31-08-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2023-09-12"
-msgstr "12-09-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2023-09-25"
-msgstr "25-09-2023"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2023-10-31"
-msgstr "2023-10-31"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "2024-01-01"
-msgstr "01-01-2024"
 
 #. module: account
 #: model:account.payment.term,name:account.account_payment_term_21days
@@ -574,18 +482,6 @@ msgid "25.00 USD"
 msgstr "25,00 USD"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_company_currency_template
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "27.00"
-msgstr "27.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "3.00"
-msgstr "3.00"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_30days
 msgid "30 Days"
 msgstr "30 Dagen"
@@ -601,99 +497,9 @@ msgid "30% Now, Balance 60 Days"
 msgstr "30% direct, resterend saldo na 60 dagen"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "30.00"
-msgstr "30.00"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_company_currency_template
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "31.05"
-msgstr "31.05"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_company_currency_template
-#: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
-msgid "4.05"
-msgstr "4.05"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_2
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_2
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_2
-#: model:account.tax,name:account.2_account_tax_us_sale_4_2
-msgid "4.2%"
-msgstr "4,2%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_225
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_225
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_225
-#: model:account.tax,name:account.2_account_tax_us_sale_4_225
-msgid "4.225%"
-msgstr "4,225%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_5
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_5
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_5
-#: model:account.tax,name:account.2_account_tax_us_sale_4_5
-msgid "4.5%"
-msgstr "4,5%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_75
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_75
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_75
-#: model:account.tax,name:account.2_account_tax_us_sale_4_75
-msgid "4.75%"
-msgstr "4,75%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_4_875
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_4_875
-#: model:account.tax,name:account.2_account_tax_us_purchase_4_875
-#: model:account.tax,name:account.2_account_tax_us_sale_4_875
-msgid "4.875%"
-msgstr "4,875%"
-
-#. module: account
 #: model:account.payment.term,name:account.account_payment_term_45days
 msgid "45 Days"
 msgstr "45 dagen"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_3
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_3
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_3
-#: model:account.tax,name:account.2_account_tax_us_sale_5_3
-msgid "5.3%"
-msgstr "5,3%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_5
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_5
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_5
-#: model:account.tax,name:account.2_account_tax_us_sale_5_5
-msgid "5.5%"
-msgstr "5,5%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_6
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_6
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_6
-#: model:account.tax,name:account.2_account_tax_us_sale_5_6
-msgid "5.6%"
-msgstr "5,6%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_5_75
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_5_75
-#: model:account.tax,name:account.2_account_tax_us_purchase_5_75
-#: model:account.tax,name:account.2_account_tax_us_sale_5_75
-msgid "5.75%"
-msgstr "5,75%"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
@@ -704,80 +510,6 @@ msgstr "50 USD"
 #: model_terms:ir.ui.view,arch_db:account.report_payment_receipt_document
 msgid "50.00 EUR"
 msgstr "50,00 EUR"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_statement
-msgid "534677881234"
-msgstr "534677881234"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_1
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_1
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_1
-#: model:account.tax,name:account.2_account_tax_us_sale_6_1
-msgid "6.1%"
-msgstr "6,1%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_25
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_25
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_25
-#: model:account.tax,name:account.2_account_tax_us_sale_6_25
-msgid "6.25%"
-msgstr "6,25%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_35
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_35
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_35
-#: model:account.tax,name:account.2_account_tax_us_sale_6_35
-msgid "6.35%"
-msgstr "6,35%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_5
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_5
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_5
-#: model:account.tax,name:account.2_account_tax_us_sale_6_5
-msgid "6.5%"
-msgstr "6,5%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_625
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_625
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_625
-#: model:account.tax,name:account.2_account_tax_us_sale_6_625
-msgid "6.625%"
-msgstr "6,625%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_85
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_85
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_85
-#: model:account.tax,name:account.2_account_tax_us_sale_6_85
-msgid "6.85%"
-msgstr "6,85%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_6_875
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_6_875
-#: model:account.tax,name:account.2_account_tax_us_purchase_6_875
-#: model:account.tax,name:account.2_account_tax_us_sale_6_875
-msgid "6.875%"
-msgstr "6,875%"
-
-#. module: account
-#: model:account.tax,invoice_label:account.2_account_tax_us_purchase_7_25
-#: model:account.tax,invoice_label:account.2_account_tax_us_sale_7_25
-#: model:account.tax,name:account.2_account_tax_us_purchase_7_25
-#: model:account.tax,name:account.2_account_tax_us_sale_7_25
-msgid "7.25%"
-msgstr "7,25%"
-
-#. module: account
-#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid "9.00"
-msgstr "9.00"
 
 #. module: account
 #: model:account.payment.term,name:account.account_payment_term_90days_on_the_10th
@@ -1376,6 +1108,12 @@ msgid ""
 "                            <span class=\"text-danger\" "
 "invisible=\"duplicated_ref_ids.length &gt; 1\">Delete duplicate</span>"
 msgstr ""
+"<i class=\"fa fa-trash text-danger\"/>\n"
+"                            <span class=\"text-danger\" "
+"invisible=\"duplicated_ref_ids.length == 1\">Alle duplicaten verwijderen</"
+"span>\n"
+"                            <span class=\"text-danger\" "
+"invisible=\"duplicated_ref_ids.length &gt; 1\">Duplicaten verwijderen</span>"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_terms_conditions_setting_banner
@@ -1748,14 +1486,8 @@ msgstr "<span>$<span class=\"oe_currency_value\">19,250.00</span></span>"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_invoice_document
-msgid ""
-"<span>1.00</span>\n"
-"                                                        <span "
-"groups=\"uom.group_uom\">Units</span>"
-msgstr ""
-"<span>1.00</span>\n"
-"                                                        <span "
-"groups=\"uom.group_uom\">Eenheden</span>"
+msgid "<span>1.00</span>"
+msgstr "<span>1,00</span>"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
@@ -3605,7 +3337,7 @@ msgstr "Totaal overlopende boekingen"
 #. module: account
 #: model:account.account,name:account.2_account_account_us_acc_depreciation
 msgid "Accumulated Depreciation"
-msgstr "Geaccumuleerde afschrijving"
+msgstr "Gecumuleerde afschrijving"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_automatic_entry_wizard__action
@@ -3708,13 +3440,13 @@ msgstr "Activiteitsfase"
 #: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__activity_type_icon
 #: model:ir.model.fields,field_description:account.field_res_partner_bank__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Activiteitensoort icoon"
+msgstr "Activiteitstype icoon"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account.view_account_journal_search
 msgid "Activity type"
-msgstr "Soort activiteit"
+msgstr "Activiteitstype"
 
 #. module: account
 #. odoo-javascript
@@ -5109,6 +4841,12 @@ msgid "Bank of odoo"
 msgstr "Bank van Odoo"
 
 #. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "Bank settings"
+msgstr "Bankinstellingen"
+
+#. module: account
 #: model:ir.model,name:account.model_account_setup_bank_manual_config
 msgid "Bank setup manual config"
 msgstr "Bank installatie handmatige configuratie"
@@ -5448,6 +5186,12 @@ msgid ""
 msgstr ""
 "Door het veld actief uit te vinken kun je deze INCOTERM verbergen zonder "
 "deze te verwijderen."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_automatic_entry_wizard.py:0
+msgid "C"
+msgstr ""
 
 #. module: account
 #. odoo-python
@@ -5920,6 +5664,8 @@ msgid "Chart of accounts set!"
 msgstr "Grootboekschema ingesteld!"
 
 #. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
 #: model_terms:ir.ui.view,arch_db:account.report_hash_integrity
 msgid "Check"
 msgstr "Controleren"
@@ -7298,6 +7044,12 @@ msgid "Cut-off {label} {percent}%"
 msgstr "Afsnijding {label} {percent}%"
 
 #. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_automatic_entry_wizard.py:0
+msgid "D"
+msgstr ""
+
+#. module: account
 #: model:account.incoterms,name:account.incoterm_DAP
 msgid "DELIVERED AT PLACE"
 msgstr "AFGELEVERD OP ADRES"
@@ -8503,7 +8255,7 @@ msgid ""
 "between the standard price and the bill price."
 msgstr ""
 "Bij permanente waardering bevat deze rekening het prijsverschil tussen de "
-"standaardprijs en de factuurprijs."
+"standaard kostprijs en de factuurprijs."
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_res_config_settings__module_account_reports
@@ -9270,7 +9022,7 @@ msgstr "Eerste nieuwe reeks"
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__auto_post_origin_id
 #: model:ir.model.fields,field_description:account.field_account_move__auto_post_origin_id
 msgid "First recurring entry"
-msgstr "Eerste herhalende invoer"
+msgstr "Eerste terugkerende invoer"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_res_company__account_fiscal_country_id
@@ -9318,7 +9070,7 @@ msgstr "Fiscale lokalisatie"
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
 msgid "Fiscal Periods"
-msgstr "Fiscale perioden"
+msgstr "Boekhoudperiodes"
 
 #. module: account
 #: model:ir.model,name:account.model_account_fiscal_position
@@ -9530,8 +9282,8 @@ msgid ""
 "Forces all journal items in this account to have a specific currency (i.e. "
 "bank journals). If no currency is set, entries can use any currency."
 msgstr ""
-"Dwingt alle boekinsgregels in deze rekening om een specifieke valuta te "
-"hebben (d.w.z. bankjournalen). Als er geen valuta is ingesteld, kunnen "
+"Dwingt alle boekingsregels in deze rekening om een specifieke valuta te "
+"hebben (d.w.z. bankdagboeken). Als er geen valuta is ingesteld, kunnen "
 "boekingen elke valuta gebruiken."
 
 #. module: account
@@ -9837,6 +9589,18 @@ msgstr "Goede betaler"
 #: model_terms:ir.ui.view,arch_db:account.view_account_tax_search
 msgid "Goods"
 msgstr "Goederen"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "Goods Delivered not Invoiced (perpetual valuation)"
+msgstr "Geleverde, niet-gefactureerde goederen (permanente waardering)"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "Goods Invoiced not Delivered (perpetual valuation)"
+msgstr "Gefactureerde, niet-geleverde goederen (permanente waardering)"
 
 #. module: account
 #: model:account.account,name:account.2_account_account_us_ground_transportation
@@ -11307,7 +11071,7 @@ msgstr "Gefactureerd"
 #: model_terms:ir.ui.view,arch_db:account.view_invoice_tree
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
 msgid "Invoices"
-msgstr "Verkoopfacturen"
+msgstr "Facturen"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_my_home_menu_invoice
@@ -11451,7 +11215,7 @@ msgstr "Is binnenlands"
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__is_draft_duplicated_ref_ids
 #: model:ir.model.fields,field_description:account.field_account_move__is_draft_duplicated_ref_ids
 msgid "Is Draft Duplicated Ref"
-msgstr ""
+msgstr "Is Concept gedupliceerd Ref"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_send_wizard__is_mail_template_editor
@@ -11830,6 +11594,7 @@ msgstr "Dagboek:"
 #: model:ir.model.fields,field_description:account.field_account_reconcile_model__match_journal_ids
 #: model:ir.model.fields,field_description:account.field_account_report__filter_journals
 #: model:ir.ui.menu,name:account.menu_action_account_journal_form
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
 msgid "Journals"
 msgstr "Dagboeken"
 
@@ -15195,7 +14960,7 @@ msgstr "Inkoopvergrendelingsdatum"
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__account_move__move_type__in_receipt
 msgid "Purchase Receipt"
-msgstr "Kassabon"
+msgstr "Inkoopbewijs"
 
 #. module: account
 #. odoo-python
@@ -15281,7 +15046,7 @@ msgstr "QR codes"
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_line__quantity
 msgid "Quantity"
-msgstr "Aantal"
+msgstr "Hoeveelheid"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
@@ -15361,12 +15126,12 @@ msgstr "Reden welke wordt weergegeven op creditfactuur"
 #: code:addons/account/static/src/components/receipt_selector/receipt_selector.js:0
 #: model_terms:ir.ui.view,arch_db:account.view_account_bill_filter
 msgid "Receipt"
-msgstr "Ontvangstbewijs"
+msgstr "Kassabon"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_filter
 msgid "Receipts"
-msgstr "Ontvangsten"
+msgstr "Ontvangstbewijzen"
 
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__account_account__account_type__asset_receivable
@@ -15802,11 +15567,6 @@ msgid "Responsible User"
 msgstr "Verantwoordelijke gebruiker"
 
 #. module: account
-#: model:ir.model.fields,help:account.field_account_tax__tax_scope
-msgid "Restrict the use of taxes to a type of product."
-msgstr "Beperk het gebruik van btw tot een soort product."
-
-#. module: account
 #: model_terms:ir.ui.view,arch_db:account.report_hash_integrity
 #: model_terms:ir.ui.view,arch_db:account.view_message_tree_audit_log_search
 msgid "Restricted"
@@ -16169,7 +15929,7 @@ msgstr "Btw Verkoop"
 #: model:account.account,description:account.2_account_account_us_sales_tax
 msgid "Sales and use tax paid on purchases where not otherwise recoverable"
 msgstr ""
-"Betaalde omzetbelasting en gebruiksbelasting op aankopen die niet anderszins "
+"Betaalde omzetbelasting en gebruiksbelasting op inkopen die niet anderszins "
 "terugvorderbaar zijn"
 
 #. module: account
@@ -17092,7 +16852,7 @@ msgid ""
 "and any similar recurring invoices."
 msgstr ""
 "Geef op of deze boeking automatisch wordt geboekt op de boekhouddatum en "
-"eventuele soortgelijke herhalende facturen."
+"eventuele soortgelijke terugkerende facturen."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_cash_rounding__strategy
@@ -18310,6 +18070,16 @@ msgstr ""
 "(%s)."
 
 #. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"The bank account of your company is not trusted. Please ask an admin or "
+"someone with approval rights to check it."
+msgstr ""
+"De bankrekening van je bedrijf is niet vertrouwd. Vraag een beheerder of "
+"iemand met goedkeuringsrechten om dit te controleren."
+
+#. module: account
 #: model:ir.model.fields,help:account.field_account_move_line__statement_id
 msgid "The bank statement used for bank reconciliation"
 msgstr "Het rekeningafschrift dat wordt gebruikt voor bankaflettering"
@@ -18385,6 +18155,19 @@ msgstr ""
 msgid ""
 "The commercial partner has been updated for all related accounting entries."
 msgstr "De commerciële partner is bijgewerkt voor alle gerelateerde boekingen."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"The company bank account (%(account_number)s) linked to this invoice is not "
+"trusted. Go to the Bank Settings, double-check that it is yours or correct "
+"the number, and click on Send Money to trust it."
+msgstr ""
+"De bedrijfsbankrekening (%(account_number)s) die aan deze verkoopfactuur is "
+"gekoppeld is niet vertrouwd. Ga naar de bankinstellingen, controleer "
+"nogmaals of het jouw correcte nummer is en klik op 'Geld overmaken' om de "
+"rekening te vertrouwen."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_tax_repartition_line__company_id
@@ -18559,6 +18342,8 @@ msgid ""
 "The entry is using accounts (%(accounts_codes_names)s) from a different "
 "company."
 msgstr ""
+"De boeking maakt gebruik van rekeningen (%(accounts_codes_names)s) van een "
+"ander bedrijf."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_product_category__property_account_expense_categ_id
@@ -18926,6 +18711,16 @@ msgstr "Het lopende saldo (%s) komt niet overeen met het opgegeven eindsaldo."
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid ""
+"The scheduled action 'Send Invoices automatically' is archived. You won't be "
+"able to send invoices in batch."
+msgstr ""
+"De geplande actie 'Facturen automatisch verzenden' is gearchiveerd. Je kunt "
+"geen facturen in batch verzenden."
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/account_report.py:0
 msgid "The sections defined on a report cannot have sections themselves."
 msgstr ""
@@ -19262,6 +19057,14 @@ msgstr ""
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_document_import_mixin.py:0
+msgid ""
+"There was an error while importing the bill, you can find attached the "
+"incoming XML"
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/wizard/account_payment_register.py:0
 msgid ""
 "There's nothing left to pay for the selected journal items, so no payment "
@@ -19565,7 +19368,7 @@ msgstr "Dit aflettermodel heeft tot dusver geen boeking opgeleverd"
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
 msgid "This recurring entry originated from %s"
-msgstr "Deze herhalende boeking is afkomstig van %s"
+msgstr "Deze terugkerende boeking is afkomstig van %s"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_bank_statement_line__auto_post_until
@@ -19977,6 +19780,11 @@ msgid "Transfer to %s"
 msgstr "Overboeken naar %s"
 
 #. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__translated_product_name
+msgid "Translated Product Name"
+msgstr "Vertaalde productnaam"
+
+#. module: account
 #: model:account.group,name:account.2_us_group_661
 msgid "Travel Expenses"
 msgstr "Reiskosten"
@@ -20133,6 +19941,11 @@ msgstr "Prijs"
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
 msgid "Unit Price:"
 msgstr "Prijs:"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
+msgid "Units"
+msgstr "Stuk(s)"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
@@ -20583,17 +20396,35 @@ msgid ""
 "needed. For instance if you want to extract the amount from\n"
 "R:9672938 10/07 AX 9415126318 T:5L:NA BRT: 3358,07 C:\n"
 "You could enter\n"
-"BRT: ([\\d,]+)"
+"BRT: ([\\d,]+)\n"
+"    If the label is \"01870912 0009065 00115\" and you need the amount in "
+"decimal\n"
+"    format (e.g. 90.65), you can use a regex with capturing groups, for "
+"example:\n"
+"        \\s+0*(\\d+?)(\\d{2})(?=\\s)\n"
+"    In this case:\n"
+"    • the first group captures the integer part\n"
+"    • the second group captures the decimal part (last two digits)\n"
+"    "
 msgstr ""
 "Waarde voor het bedrag van de afschrijvingsregel\n"
-"* Percentage: percentage van het saldo, tussen 0 en 100.\n"
-"* Vast: de vaste waarde van de afschrijving. Het aantal telt als een "
-"afschrijving als het negatief is, als een krediet als het positief is.\n"
-"* Van label: er is geen regex-scheidingsteken nodig, alleen de regex is "
-"nodig. Als je bijvoorbeeld het aantal wilt extraheren\n"
-"R:9672938 10/07 AX 9415126318 T: 5L:NA BRT: 3358,07 C:\n"
-"Zou je moeten schrijven\n"
-"BRT: ([\\ d,]+)"
+"    * Percentage: Percentage van het saldo, tussen 0 and 100.\n"
+"    * Vast: De vaste waarde van de afschrijving. Het bedrag wordt als debet "
+"geboekt als het negatief is en als credit als het positief is.\n"
+"    * Uit label: Er is geen regex-scheidingsteken nodig, alleen de regex is "
+"nodig. Als je bijvoorbeeld het bedrag wilt extraheren uit\n"
+"R:9672938 10/07 AX 9415126318 T:5L:NA BRT: 3358,07 C:\n"
+"Dan kan je dit ingeven\n"
+"BRT: ([\\d,]+)\n"
+"    Als het label \"01870912 0009065 00115\" is en je het bedag nodig hebt "
+"in decimalen\n"
+"    (bv. 90,65), dan kun je een regex gebruiken met capturing groups, "
+"bijvoorbeeld:\n"
+"        \\s+0*(\\d+?)(\\d{2})(?=\\s)\n"
+"    In dit geval:\n"
+"    • legt de eerste groep het gehele getal vast\n"
+"    • legt de tweede groep het decimale deel vast (de laatste twee cijfers)\n"
+"    "
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_partial_reconcile__draft_caba_move_vals
@@ -20841,7 +20672,7 @@ msgstr "Websiteberichten"
 #: model:ir.model.fields,help:account.field_res_company__website_message_ids
 #: model:ir.model.fields,help:account.field_res_partner_bank__website_message_ids
 msgid "Website communication history"
-msgstr "Website communicatie geschiedenis"
+msgstr "Website communicatiegeschiedenis"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_payment__paired_internal_transfer_payment_id
@@ -21266,6 +21097,8 @@ msgstr ""
 msgid ""
 "You cannot change the amount of a payment with multiple liquidity lines."
 msgstr ""
+"Je kunt het bedrag van een betaling met meerdere liquiditeitslijnen niet "
+"wijzigen."
 
 #. module: account
 #. odoo-python
@@ -21347,6 +21180,16 @@ msgstr ""
 msgid "You cannot delete journal items belonging to a locked journal entry."
 msgstr ""
 "Je kunt geen boekingen verwijderen die horen bij een vergrendeld boeking."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_tax.py:0
+msgid ""
+"You cannot delete taxes that are currently in use. Consider archiving them "
+"instead."
+msgstr ""
+"Je kunt belastingen die momenteel in gebruik zijn niet verwijderen. Overweeg "
+"in plaats daarvan om ze te archiveren."
 
 #. module: account
 #. odoo-python
@@ -21544,6 +21387,13 @@ msgstr "Je kunt geen item in een gearchiveerd dagboek (%(journal)s) plaatsen"
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "You cannot post an entry with an archived analytic account: %s"
+msgstr ""
+"Je kunt geen boeking maken met een gearchiveerde analytische rekening: %s"
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/res_currency.py:0
 msgid ""
 "You cannot reduce the number of decimal places of a currency which has "
@@ -21657,7 +21507,7 @@ msgstr ""
 #: code:addons/account/models/account_move.py:0
 msgid ""
 "You cannot switch the type of a document with an existing sequence number."
-msgstr ""
+msgstr "Je kunt het type document met een bestaand volgnummer niet wijzigen."
 
 #. module: account
 #. odoo-python
@@ -21776,6 +21626,8 @@ msgid ""
 "You may only use samples in demo mode, try uploading one of your invoices "
 "instead."
 msgstr ""
+"Je kunt samples alleen gebruiken in demomodus. Probeer het door een van je "
+"facturen te uploaden."
 
 #. module: account
 #. odoo-python
@@ -22165,7 +22017,7 @@ msgstr "factu(u)r(en)"
 #: code:addons/account/controllers/download_docs.py:0
 #: model_terms:ir.ui.view,arch_db:account.validate_account_move_view
 msgid "invoices"
-msgstr "verkoopfacturen"
+msgstr "facturen"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_partner_bank_form_inherit_account
@@ -22480,6 +22332,187 @@ msgid ""
 msgstr ""
 "{{ object.company_id.name }} Self-billing verkoopfactuur (Ref {{ object.name "
 "or 'n/a' }})"
+
+#~ msgid "1.00"
+#~ msgstr "1,00"
+
+#~ msgid "1.05"
+#~ msgstr "1.05"
+
+#~ msgid "100.0"
+#~ msgstr "100,0"
+
+#~ msgid "1000.0"
+#~ msgstr "1000,0"
+
+#~ msgid "11.05"
+#~ msgstr "11.05"
+
+#~ msgid "12345"
+#~ msgstr "12345"
+
+#~ msgid "15%"
+#~ msgstr "15%"
+
+#~ msgid "1500.0"
+#~ msgstr "1500,0"
+
+#~ msgid "2.9%"
+#~ msgstr "2,9%"
+
+#~ msgid "20.00"
+#~ msgstr "20.00"
+
+#~ msgid "2021-09-19"
+#~ msgstr "19-09-2021"
+
+#~ msgid "2023-01-01"
+#~ msgstr "01-01-2023"
+
+#~ msgid "2023-01-05"
+#~ msgstr "05-01-2023"
+
+#~ msgid "2023-08-11"
+#~ msgstr "11-08-2023"
+
+#~ msgid "2023-08-15"
+#~ msgstr "15-08-2023"
+
+#~ msgid "2023-08-31"
+#~ msgstr "31-08-2023"
+
+#~ msgid "2023-09-12"
+#~ msgstr "12-09-2023"
+
+#~ msgid "2023-09-25"
+#~ msgstr "25-09-2023"
+
+#~ msgid "2023-10-31"
+#~ msgstr "2023-10-31"
+
+#~ msgid "2024-01-01"
+#~ msgstr "01-01-2024"
+
+#~ msgid "27.00"
+#~ msgstr "27.00"
+
+#~ msgid "3.00"
+#~ msgstr "3.00"
+
+#~ msgid "30.00"
+#~ msgstr "30.00"
+
+#~ msgid "31.05"
+#~ msgstr "31.05"
+
+#~ msgid "4.05"
+#~ msgstr "4.05"
+
+#~ msgid "4.2%"
+#~ msgstr "4,2%"
+
+#~ msgid "4.225%"
+#~ msgstr "4,225%"
+
+#~ msgid "4.5%"
+#~ msgstr "4,5%"
+
+#~ msgid "4.75%"
+#~ msgstr "4,75%"
+
+#~ msgid "4.875%"
+#~ msgstr "4,875%"
+
+#~ msgid "5.3%"
+#~ msgstr "5,3%"
+
+#~ msgid "5.5%"
+#~ msgstr "5,5%"
+
+#~ msgid "5.6%"
+#~ msgstr "5,6%"
+
+#~ msgid "5.75%"
+#~ msgstr "5,75%"
+
+#~ msgid "534677881234"
+#~ msgstr "534677881234"
+
+#~ msgid "6.1%"
+#~ msgstr "6,1%"
+
+#~ msgid "6.25%"
+#~ msgstr "6,25%"
+
+#~ msgid "6.35%"
+#~ msgstr "6,35%"
+
+#~ msgid "6.5%"
+#~ msgstr "6,5%"
+
+#~ msgid "6.625%"
+#~ msgstr "6,625%"
+
+#~ msgid "6.85%"
+#~ msgstr "6,85%"
+
+#~ msgid "6.875%"
+#~ msgstr "6,875%"
+
+#~ msgid "7.25%"
+#~ msgstr "7,25%"
+
+#~ msgid "9.00"
+#~ msgstr "9.00"
+
+#~ msgid "Restrict the use of taxes to a type of product."
+#~ msgstr "Beperk het gebruik van btw tot een soort product."
+
+#~ msgid "(*) Goods Delivered not Invoiced (perpetual valuation)"
+#~ msgstr ""
+#~ "(*) Geleverde goederen die niet gefactureerd zijn (permanente waardering)"
+
+#~ msgid "(*) Goods Invoiced not Delivered (perpetual valuation)"
+#~ msgstr ""
+#~ "(*) Gefactureerde, maar niet geleverde goederen (permanente waardering)"
+
+#~ msgid ""
+#~ "The company bank account linked to this invoice is not trusted, please "
+#~ "double-check and trust it before confirming, or remove it"
+#~ msgstr ""
+#~ "De bedrijfsbankrekening die aan deze factuur is gekoppeld, is niet "
+#~ "vertrouwd. Controleer en vertrouw de rekening voordat je bevestigt, of "
+#~ "verwijder de rekening"
+
+#~ msgid ""
+#~ "Value for the amount of the writeoff line\n"
+#~ "    * Percentage: Percentage of the balance, between 0 and 100.\n"
+#~ "    * Fixed: The fixed value of the writeoff. The amount will count as a "
+#~ "debit if it is negative, as a credit if it is positive.\n"
+#~ "    * From Label: There is no need for regex delimiter, only the regex is "
+#~ "needed. For instance if you want to extract the amount from\n"
+#~ "R:9672938 10/07 AX 9415126318 T:5L:NA BRT: 3358,07 C:\n"
+#~ "You could enter\n"
+#~ "BRT: ([\\d,]+)"
+#~ msgstr ""
+#~ "Waarde voor het bedrag van de afschrijvingsregel\n"
+#~ "* Percentage: percentage van het saldo, tussen 0 en 100.\n"
+#~ "* Vast: de vaste waarde van de afschrijving. Het aantal telt als een "
+#~ "afschrijving als het negatief is, als een krediet als het positief is.\n"
+#~ "* Van label: er is geen regex-scheidingsteken nodig, alleen de regex is "
+#~ "nodig. Als je bijvoorbeeld het aantal wilt extraheren\n"
+#~ "R:9672938 10/07 AX 9415126318 T: 5L:NA BRT: 3358,07 C:\n"
+#~ "Zou je moeten schrijven\n"
+#~ "BRT: ([\\ d,]+)"
+
+#~ msgid ""
+#~ "<span>1.00</span>\n"
+#~ "                                                        <span "
+#~ "groups=\"uom.group_uom\">Units</span>"
+#~ msgstr ""
+#~ "<span>1.00</span>\n"
+#~ "                                                        <span "
+#~ "groups=\"uom.group_uom\">Eenheden</span>"
 
 #~ msgid ""
 #~ "<br/>\n"

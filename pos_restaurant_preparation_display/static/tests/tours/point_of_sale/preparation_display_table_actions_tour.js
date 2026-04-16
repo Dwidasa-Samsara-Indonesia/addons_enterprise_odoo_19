@@ -4,6 +4,7 @@ import * as Dialog from "@point_of_sale/../tests/generic_helpers/dialog_util";
 import * as ProductScreenResto from "@pos_restaurant/../tests/tours/utils/product_screen_util";
 import * as ChromePos from "@point_of_sale/../tests/pos/tours/utils/chrome_util";
 import * as ChromeRestaurant from "@pos_restaurant/../tests/tours/utils/chrome";
+import * as NumberPopup from "@point_of_sale/../tests/generic_helpers/number_popup_util";
 import { registry } from "@web/core/registry";
 
 const Chrome = { ...ChromePos, ...ChromeRestaurant };
@@ -279,5 +280,28 @@ registry.category("web_tour.tours").add("table_action_unlink", {
             updateOrderlines(["Champagne"], "5", "1"),
             ProductScreen.clickOrderButton(),
             wait(100),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_table_merge_with_unsynced_order", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            // ----- Order 1 ----- //
+            FloorScreen.clickTable("4"),
+            addOrderlines(["Coca-Cola", "Water"], "3"),
+            ProductScreen.clickOrderButton(),
+            // ----- Order 2 (Empty Order) ----- //
+            FloorScreen.clickTable("5"),
+            ProductScreen.clickControlButton("Guests"),
+            NumberPopup.enterValue("21"),
+            NumberPopup.isShown("21"),
+            Dialog.confirm(),
+            Chrome.clickPlanButton(),
+            // ----- Link Table 4 and Table 5 ----- //
+            FloorScreen.linkTables("4", "5"),
+            FloorScreen.isChildTable("4"),
+            FloorScreen.clickTable("5"),
         ].flat(),
 });

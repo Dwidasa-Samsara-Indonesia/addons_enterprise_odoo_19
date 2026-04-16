@@ -462,9 +462,14 @@ function useDocumentsViewFileUpload() {
      * the document's attachment by the given single file (binary accessToken).
      */
     const uploadFiles = async ({ files, accessToken, context }) => {
-        const selectedUserFolderId = env.searchModel.getSelectedFolderId() || "MY"; // False='ALL'
-        if (["COMPANY", "MY"].includes(selectedUserFolderId)) {
-            context.default_user_folder_id = selectedUserFolderId;
+        const selectedUserFolderId =
+            env.searchModel.getSelectedFolderId() || context.documents_unique_folder_id || "MY"; // False='ALL'
+        if (!accessToken) {
+            if (["COMPANY", "MY"].includes(selectedUserFolderId)) {
+                context.default_user_folder_id = selectedUserFolderId;
+            } else {
+                accessToken = env.searchModel.getFolderById(selectedUserFolderId)?.access_token;
+            }
         }
         await documentService.uploadDocument(files, accessToken, context);
     };

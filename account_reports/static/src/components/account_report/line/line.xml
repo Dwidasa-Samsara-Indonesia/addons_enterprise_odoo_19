@@ -40,7 +40,7 @@
             </t>
 
             <!-- Growth comparison column -->
-            <t t-if="controller.needsColumnPercentComparison">
+            <t t-if="controller.needsColumnPercentComparison || controller.needsAnalyticCoverageColumn">
                 <t t-if="controller.lineHasGrowthComparisonData(props.lineIndex)">
                     <td t-att-class="growthComparisonClasses">
                         <t t-out="props.line.column_percent_comparison_data.name"/>

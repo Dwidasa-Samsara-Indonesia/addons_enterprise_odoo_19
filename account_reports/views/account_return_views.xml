@@ -84,12 +84,12 @@
 
                                     <t t-if="!record.report_opened_once.raw_value and record.show_submit_button.raw_value and record.is_report_set.raw_value">
                                         <button class="btn btn-primary" type="object" name="action_open_report"><field name="report_name"/></button>
-                                        <button invisible="not context.get('in_checks_view') or not type_external_id or is_completed or not is_main_company_active"
+                                        <button invisible="not context.get('in_checks_view') or is_completed or not is_main_company_active"
                                                 class="btn btn-secondary" type="object" name="action_submit">Submit</button>
                                     </t>
                                     <t t-else="">
                                         <button invisible="not is_report_set" class="btn btn-secondary" type="object" name="action_open_report"><field name="report_name"/></button>
-                                        <button invisible="not context.get('in_checks_view') or not type_external_id or is_completed or not show_submit_button or not is_main_company_active"
+                                        <button invisible="not context.get('in_checks_view') or is_completed or not show_submit_button or not is_main_company_active"
                                                 class="btn btn-primary" type="object" name="action_submit">Submit</button>
                                     </t>
 
@@ -97,7 +97,7 @@
                                     </t>
                                     <t id="default_buttons" t-else="">
                                         <button invisible="not context.get('in_checks_view') or next_state != 'reviewed' or is_completed or not is_main_company_active or unresolved_check_count or not active" class="btn btn-primary" type="object" name="action_validate">Validate</button>
-                                        <button invisible="not context.get('in_checks_view') or not type_external_id or next_state != 'paid' or is_completed or not is_main_company_active" class="btn btn-primary" type="object" name="action_pay">Pay</button>
+                                        <button invisible="not context.get('in_checks_view') or next_state != 'paid' or is_completed or not is_main_company_active" class="btn btn-primary" type="object" name="action_pay">Pay</button>
                                     </t>
 
                                     <div class="dropdown show dropdown-sm" invisible="not is_main_company_active">
@@ -106,7 +106,7 @@
                                         </button>
 
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu">
-                                            <a invisible="state != 'new' or is_completed or not active" class="dropdown-item" type="object" name="action_mark_completed" string="Mark as Completed"/>
+                                            <a invisible="is_completed or not active" class="dropdown-item" type="object" name="action_mark_completed" string="Mark as Completed"/>
                                             <a invisible="not has_move_entries or state not in ('reviewed', 'submitted', 'paid')" class="dropdown-item" type="object" name="action_view_entry" string="View Entry"/>
                                             <a invisible="context.get('in_checks_view') or not active or state != 'new' or is_completed" class="dropdown-item" type="object" name="action_archive" string="Archive"/>
                                             <a invisible="active" class="dropdown-item" type="object" name="action_unarchive" string="Unarchive"/>

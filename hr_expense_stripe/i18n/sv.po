@@ -3,13 +3,14 @@
 # * hr_expense_stripe
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 20:11+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
+"PO-Revision-Date: 2026-04-10 14:44+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense_stripe/sv/>\n"
 "Language: sv\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -573,7 +574,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_chart_template
 msgid "Account Chart Template"
-msgstr "Kontoplan"
+msgstr "Mall för kontoplan"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -595,7 +596,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_needaction
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_needaction
 msgid "Action Needed"
-msgstr "Åtgärd Krävs"
+msgstr "Åtgärd krävs"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_receive_wizard_form
@@ -766,7 +767,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__bic
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.bail_and_bond_payments
@@ -786,7 +787,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr "Bankutdrag-rad"
+msgstr "Rad på kontoutdrag"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__statement_description
@@ -1205,7 +1206,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_res_company
 msgid "Companies"
-msgstr "Bolag"
+msgstr "Företag"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__company_id
@@ -1269,7 +1270,7 @@ msgstr "Inställningar"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "Configure"
-msgstr "Ställ in"
+msgstr "Konfigurera"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1323,14 +1324,14 @@ msgid "Country"
 msgstr "Land"
 
 #. module: hr_expense_stripe
-#: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
-msgid "Country Clubs"
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
+msgid "Country Clubs"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -1375,7 +1376,7 @@ msgstr "Skapad av"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__create_date
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__create_date
 msgid "Created on"
-msgstr "Skapad på"
+msgstr "Skapad den"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.credit_reporting_agencies
@@ -1861,7 +1862,7 @@ msgstr "Följare"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_partner_ids
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_product_product__stripe_mcc_ids
@@ -2098,7 +2099,8 @@ msgstr "ID"
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__message_needaction
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
+msgstr ""
+"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__message_has_error
@@ -2106,7 +2108,7 @@ msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_has_error
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad, några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
@@ -2222,7 +2224,7 @@ msgstr ""
 #: model:ir.model,name:hr_expense_stripe.model_account_journal
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "Journal"
-msgstr "Verifikat"
+msgstr "Bokföringskonto"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
@@ -2336,7 +2338,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -2423,7 +2425,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_has_error
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_ids
@@ -2661,7 +2663,7 @@ msgstr "Antal fel"
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__message_needaction_counter
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__message_has_error_counter
@@ -2697,14 +2699,24 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
 msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -2997,7 +3009,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__rating_ids
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.real_estate_agents_and_managers_rentals
@@ -3022,7 +3034,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "Refresh"
-msgstr "Ladda om"
+msgstr "Uppdatera"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__user_id
@@ -3092,7 +3104,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__message_has_sms_error
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_cardholder_wizard_form
@@ -3220,7 +3232,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__billing_state_id
 msgid "State"
-msgstr "Läge"
+msgstr "Status"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.stationery_stores_office_and_school_supply_stores
@@ -3373,6 +3385,14 @@ msgstr ""
 msgid ""
 "Stripe Issuing configuration invalid, please set it as 'live' or 'test' in "
 "the configurations."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -3712,6 +3732,13 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr ""
 
@@ -3937,21 +3964,21 @@ msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
-msgstr ""
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr ""
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -4181,7 +4208,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__website_message_ids
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__website_message_ids
 msgid "Website Messages"
-msgstr "Webbplatsmeddelanden"
+msgstr "Hemsidesmeddelanden"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__website_message_ids

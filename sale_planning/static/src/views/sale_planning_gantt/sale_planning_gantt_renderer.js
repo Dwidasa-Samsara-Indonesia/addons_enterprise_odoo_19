@@ -30,6 +30,7 @@ patch(PlanningGanttRenderer.prototype, {
             default_start_datetime: props.context.start_datetime,
             default_end_datetime: props.context.end_datetime,
             planning_slots_to_schedule: true,
+            search_default_resource_id: false,
         });
         props.noContentHelp = markup`
             <p class="o_view_nocontent_smiling_face">${_t("No shifts found!")}</p>

@@ -37,6 +37,7 @@
                        options="{'end_date_field': 'rental_return_date'}"
                        invisible="not is_rental_order"
                        required="has_rented_products"/>
+                <field name="show_update_duration" invisible="1"/>
                 <label for="duration_days" string="Duration" invisible="not is_rental_order and not rental_start_date"/>
                 <div class="o_row" invisible="not is_rental_order and not rental_start_date">
                     <field class="oe_inline" style="max-width: 2rem" name="duration_days" invisible="duration_days == 0"/>

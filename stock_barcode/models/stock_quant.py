@@ -14,6 +14,12 @@ class StockQuant(models.Model):
     def _inverse_dummy_id(self):
         pass
 
+    @api.depends_context('barcode_view')
+    def _compute_display_name(self):
+        if not self.env.context.get('barcode_view'):
+            return super()._compute_display_name()
+        self.display_name = "Inventory Count"
+
     @api.model
     def barcode_write(self, vals):
         """ Specially made to handle barcode app saving. Avoids overriding write method because pickings in barcode

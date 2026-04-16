@@ -156,3 +156,27 @@ class TestStockBarcodeController(HttpCase):
         result = response.json()['result']
         self.assertEqual(result['action']['res_model'], 'stock.quant')
         self.assertIn(['product_id', '=', product.id], result['action']['domain'])
+
+    def test_barcode_with_weight_default_nomenclature(self):
+        self.env.company.nomenclature_id = self.env.ref('barcodes.default_barcode_nomenclature')
+        self.authenticate('admin', 'admin')
+        product = self.env['product.product'].create({
+            'name': 'Super product',
+            'barcode': '2155555000000',
+        })
+        payload = json.dumps({
+            'jsonrpc': '2.0',
+            'method': 'call',
+            'id': 0,
+            'params': {
+                "barcode": '2155555050005',
+            }
+        })
+        response = self.url_open(
+            '/stock_barcode/scan_from_main_menu',
+            data=payload,
+            headers={'Content-Type': 'application/json'},
+        )
+        result = response.json()['result']
+        self.assertEqual(result['action']['res_model'], 'stock.quant')
+        self.assertIn(['product_id', '=', product.id], result['action']['domain'])

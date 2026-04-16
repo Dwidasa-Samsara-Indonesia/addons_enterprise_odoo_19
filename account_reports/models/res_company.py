@@ -28,7 +28,6 @@ class ResCompany(models.Model):
     account_tax_return_journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Journal',
-        inverse='_inverse_account_tax_return_journal_id',
         domain=[('type', '=', 'general')],
         check_company=True,
     )
@@ -52,9 +51,6 @@ class ResCompany(models.Model):
         for company in self:
             company.totals_below_sections = company.anglo_saxon_accounting
 
-    def _inverse_account_tax_return_journal_id(self):
-        self.account_tax_return_journal_id.show_on_dashboard = True
-
     def _get_countries_allowing_tax_representative(self):
         """ Returns a set containing the country codes of the countries for which
         it is possible to use a representative to submit the tax report.
@@ -76,14 +72,13 @@ class ResCompany(models.Model):
                     ('type', '=', 'general'),
                 ], limit=1)
             if not closing_journal:
-                closing_journal = self.env['account.journal'].sudo().create([{
-                    'name': self.env._('Tax Returns'),
-                    'code': 'TAX',
-                    'type': 'general',
-                    'company_id': self.id,
-                    'currency_id': self.currency_id.id,
-                    'show_on_dashboard': True,
-                }])
+                # Try reloading the chart template data to create the tax return journal with translations.
+                ChartTemplate = self.env['account.chart.template'].with_company(self)
+                ChartTemplate._load_data({
+                    'account.journal': ChartTemplate._get_account_reports_journal(self.chart_template),
+                    'res.company': ChartTemplate._get_account_reports_res_company(self.chart_template),
+                })
+                closing_journal = ChartTemplate.ref('tax_returns')
             self.account_tax_return_journal_id = closing_journal
         return self.account_tax_return_journal_id
 

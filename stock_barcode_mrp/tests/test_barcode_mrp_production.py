@@ -6,46 +6,41 @@ from odoo.addons.stock_barcode.tests.test_barcode_client_action import TestBarco
 
 
 class TestMRPBarcodeClientAction(TestBarcodeClientAction):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.component01, cls.component_lot, cls.final_product, cls.final_product_lot, cls.by_product = cls.env['product.product'].create([
+            {
+                'name': 'Compo 01',
+                'is_storable': True,
+                'barcode': 'compo01',
+            }, {
+                'name': 'Compo Lot',
+                'is_storable': True,
+                'barcode': 'compo_lot',
+                'tracking': 'lot',
+            }, {
+                'name': 'Final Product',
+                'is_storable': True,
+                'barcode': 'final',
+            }, {
+                'name': 'Final Product2',
+                'is_storable': True,
+                'barcode': 'final_lot',
+                'tracking': 'lot',
+            }, {
+                'name': 'By Product',
+                'is_storable': True,
+                'barcode': 'byproduct'
+            },
+        ])
 
-        self.component01 = self.env['product.product'].create({
-            'name': 'Compo 01',
-            'is_storable': True,
-            'barcode': 'compo01',
-        })
-        self.component_lot = self.env['product.product'].create({
-            'name': 'Compo Lot',
-            'is_storable': True,
-            'barcode': 'compo_lot',
-            'tracking': 'lot',
-        })
-
-        self.final_product = self.env['product.product'].create({
-            'name': 'Final Product',
-            'is_storable': True,
-            'barcode': 'final',
-        })
-
-        self.final_product_lot = self.env['product.product'].create({
-            'name': 'Final Product2',
-            'is_storable': True,
-            'barcode': 'final_lot',
-            'tracking': 'lot',
-        })
-
-        self.by_product = self.env['product.product'].create({
-            'name': 'By Product',
-            'is_storable': True,
-            'barcode': 'byproduct'
-        })
-
-        self.bom_lot = self.env['mrp.bom'].create({
-            'product_tmpl_id': self.final_product_lot.product_tmpl_id.id,
+        cls.bom_lot = cls.env['mrp.bom'].create({
+            'product_tmpl_id': cls.final_product_lot.product_tmpl_id.id,
             'product_qty': 2.0,
             'bom_line_ids': [
-                (0, 0, {'product_id': self.component01.id, 'product_qty': 2.0}),
-                (0, 0, {'product_id': self.component_lot.id, 'product_qty': 2.0}),
+                Command.create({'product_id': cls.component01.id, 'product_qty': 2.0}),
+                Command.create({'product_id': cls.component_lot.id, 'product_qty': 2.0}),
             ],
         })
 
@@ -1127,3 +1122,53 @@ class TestMRPBarcodeClientAction(TestBarcodeClientAction):
         url = '/web#action=%s&active_id=%s' % (action.id, mo.id)
         self.start_tour(url, 'test_gs1_qty_final_product', login='admin')
         self.assertEqual(mo.state, 'done')
+
+    def test_barcode_production_create_bom_with_different_uom(self):
+        """Check that an MO with a BoM whose components have UoMs that are
+           distinct from their product UoMs will add the moves with the
+           correct UoMs."""
+        self.env.user.group_ids += self.env.ref('uom.group_uom')
+
+        uom_day_id = self.ref('uom.product_uom_day')
+        uom_m_id = self.ref('uom.product_uom_meter')
+        uom_kg_id = self.ref('uom.product_uom_kgm')
+
+        component01, component02 = self.env['product.product'].create([
+            {'name': 'Compo 01', 'uom_id': self.ref('uom.product_uom_gram')},
+            {'name': 'Compo 02', 'uom_id': self.ref('uom.product_uom_cm')},
+        ])
+        self.final_product.uom_id = self.ref('uom.product_uom_hour')
+
+        bom = self.env['mrp.bom'].create({
+            'product_tmpl_id': self.final_product.product_tmpl_id.id,
+            'product_qty': 1.2,
+            'product_uom_id': uom_day_id,
+            'bom_line_ids': [
+                Command.create({
+                    'product_id': component01.id,
+                    'product_qty': 3.4,
+                    'product_uom_id': uom_kg_id,
+                }),
+                Command.create({
+                    'product_id': component02.id,
+                    'product_qty': 5.6,
+                    'product_uom_id': uom_m_id,
+                }),
+            ],
+        })
+
+        self.start_tour('/odoo/barcode-mo', 'test_barcode_production_create_bom_with_different_uom', login='admin')
+
+        mo = self.env['mrp.production'].search([('bom_id', '=', bom.id)], limit=1)
+        self.assertRecordValues(mo, [
+            {'product_qty': 1.2, 'product_uom_id': uom_day_id},
+        ])
+        self.assertRecordValues(mo.move_raw_ids.sorted('product_uom_qty'), [
+            {'product_uom_qty': 3.4, 'product_uom': uom_kg_id},
+            {'product_uom_qty': 5.6, 'product_uom': uom_m_id},
+        ])
+
+        # Make sure we can still view the MO with the UoMs disabled without triggering an error.
+        self.env.user.group_ids -= self.env.ref('uom.group_uom')
+        url = f'odoo/{mo.id}/action-stock_barcode_mrp.stock_barcode_mo_client_action'
+        self.start_tour(url, 'test_barcode_production_disabled_uoms', login='admin')

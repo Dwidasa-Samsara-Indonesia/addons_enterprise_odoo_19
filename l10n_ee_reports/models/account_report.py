@@ -394,6 +394,16 @@ class L10n_EeKmdInfReportHandler(models.AbstractModel):
         """
         return self._report_custom_engine_kmd_inf(options, current_groupby, next_groupby, 'b')
 
+    def _convert_threshold_to_company_currency(self, threshold, options):
+        """ Returns a EUR threshold to company currency, using the options' date_to for conversion """
+        threshold_currency = self.env.ref('base.EUR')
+
+        if not threshold_currency.active:
+            raise UserError(_("Currency %s, used for a threshold in this report, is either nonexistent or inactive. Please create or activate it.", threshold_currency.name))
+
+        company_currency = self.env.company.currency_id
+        return threshold_currency._convert(threshold, company_currency, self.env.company, options['date']['date_to'])
+
     def _report_custom_engine_kmd_inf(self, options, current_groupby, next_groupby, kmd_inf_part):
         """ Builds the query and dictionary necessary to display the report lines for the KMD INF.
 
@@ -406,7 +416,86 @@ class L10n_EeKmdInfReportHandler(models.AbstractModel):
         # Build parameters for query
         report = self.env['account.report'].browse(options['report_id'])
         report._check_groupby_fields((next_groupby.split(',') if next_groupby else []) + ([current_groupby] if current_groupby else []))
-        query = report._get_report_query(options, 'strict_range')
+        partners_to_exclude = []
+
+        # First get all the partners that match the domain but don't reach the threshold. We'll have to exclude them
+        # Skip when current_groupby == 'id' because when you expand an invoice to see its tax details,
+        # Odoo's report engine automatically filters the query to show only that one invoice's lines.
+        # This would wrongly exclude the partner if that single invoice is below €1,000, even when
+        # the partner's total for the month is above €1,000.
+        if current_groupby != 'id':
+            domain = [
+                ('partner_id', '!=', False),
+                ('account_type', 'not in', ('asset_receivable', 'liability_payable')),
+            ]
+            domain += [('move_id.move_type', 'in', ('in_invoice', 'in_refund'))] if kmd_inf_part == 'b' else [('move_id.move_type', 'in', ('out_invoice', 'out_refund'))]
+            query = report._get_report_query(options, 'strict_range', domain)
+            threshold_value = self._convert_threshold_to_company_currency(1000, options)
+
+            if kmd_inf_part == 'a':
+                extra_where = SQL("""
+                    AND res_partner.is_company
+                    AND EXISTS (
+                        SELECT 1
+                        FROM account_move_line_account_tax_rel rel
+                        JOIN account_tax ON account_tax.id = rel.account_tax_id
+                        WHERE rel.account_move_line_id = account_move_line.id
+                        AND account_tax.amount != 0
+                    )
+                """)
+            else:
+                xmlids = ['tax_report_line_5_tag', 'tax_report_line_5_1_tag', 'tax_report_line_5_2_tag', 'tax_report_line_5_3_tag', 'tax_report_line_5_4_tag']
+                tag_ids = self._get_tag_ids_from_report_lines(xmlids)
+
+                extra_where = SQL("""
+                    AND EXISTS (
+                        SELECT 1
+                        FROM account_move_line aml
+                        LEFT JOIN account_account_tag_account_move_line_rel AS tag_rel ON tag_rel.account_move_line_id = aml.id
+                        WHERE aml.move_id = account_move_line__move_id.id
+                        AND aml.display_type = 'tax'
+                        AND tag_rel.account_account_tag_id = ANY(%(tag_ids)s)
+                        GROUP BY aml.move_id
+                        HAVING SUM(aml.balance) != 0
+                    )
+                """, tag_ids=tag_ids)
+
+            partners_to_exclude_query = SQL("""
+                SELECT account_move_line.partner_id
+                FROM %(table_references)s
+                %(ct_query)s
+                LEFT JOIN res_partner ON res_partner.id = account_move_line__move_id.commercial_partner_id
+                LEFT JOIN res_country ON res_country.id = res_partner.country_id
+                WHERE %(search_condition)s
+                AND account_move_line.partner_id IS NOT NULL
+                AND (res_country.code = 'EE' OR res_partner.vat ILIKE %(country_code)s)
+                %(extra_where)s
+                GROUP BY account_move_line.partner_id
+                HAVING
+                    COALESCE(
+                        ABS(SUM(%(balance_select)s)
+                            FILTER (WHERE account_move_line__move_id.move_type IN ('out_invoice', 'in_invoice') AND account_move_line.tax_line_id IS NULL)),
+                        0
+                    ) < %(threshold_value)s
+                AND
+                    COALESCE(
+                        ABS(SUM(%(balance_select)s)
+                            FILTER (WHERE account_move_line__move_id.move_type IN ('out_refund', 'in_refund') AND account_move_line.tax_line_id IS NULL)),
+                        0
+                    ) < %(threshold_value)s
+            """,
+            table_references=query.from_clause,
+            ct_query=report._currency_table_aml_join(options),
+            search_condition=query.where_clause,
+            country_code='EE%',
+            extra_where=extra_where,
+            balance_select=report._currency_table_apply_rate(SQL('account_move_line.balance')),
+            threshold_value=threshold_value,
+            )
+            self.env.cr.execute(partners_to_exclude_query)
+            partners_to_exclude = [row[0] for row in self.env.cr.fetchall()]
+
+        query = report._get_report_query(options, 'strict_range', [('partner_id', 'not in', partners_to_exclude)])
 
         # Additional lines in the query depending on the group by
         if current_groupby == 'id':

@@ -2,13 +2,13 @@
 # This file contains the translation of the following modules:
 # * l10n_ar_edi
 #
-# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.4a1+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 19:03+0000\n"
-"PO-Revision-Date: 2025-12-06 01:43+0000\n"
+"POT-Creation-Date: 2026-04-10 19:11+0000\n"
+"PO-Revision-Date: 2026-03-14 04:14+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19-l10n/l10n_ar_edi/es_419/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -128,12 +128,6 @@ msgstr ""
 "última factura y mostrarlo en el campo de número."
 
 #. module: l10n_ar_edi
-#. odoo-python
-#: code:addons/l10n_ar_edi/models/afip_errors.py:0
-msgid "17"
-msgstr "17"
-
-#. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.custom_header_inherit
 msgid ""
 "<br/>\n"
@@ -143,15 +137,6 @@ msgstr ""
 "<br/>\n"
 "                <span class=\"d-block small mt-1 lh-1\">OPERACIÓN SUJETA A "
 "RETENCIÓN</span>"
-
-#. module: l10n_ar_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
-msgid ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" groups=\"base.group_multi_company\"/>"
-msgstr ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Los valores configurados aquí "
-"son específicos de la compañía.\" groups=\"base.group_multi_company\"/>"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
@@ -400,6 +385,10 @@ msgid ""
 "www.afip.gob.ar/facturadecreditoelectronica/preguntasFrecuentes/emisor-"
 "factura.asp"
 msgstr ""
+"Al informar notas de débito o crédito MiPyMEs (FCE) en ARCA es necesario "
+"enviar la información sobre si el comprador rechazó de forma explícita el "
+"documento original. Obtén más información en http://www.afip.gob.ar/"
+"facturadecreditoelectronica/preguntasFrecuentes/emisor-factura.asp"
 
 #. module: l10n_ar_edi
 #: model:ir.model.fields,help:l10n_ar_edi.field_account_bank_statement_line__l10n_ar_afip_auth_code
@@ -408,6 +397,8 @@ msgid ""
 "Argentina: authorization code given by ARCA after electronic invoice is "
 "created and valid."
 msgstr ""
+"Código de autorización otorgado por ARCA después de crear y validar la "
+"factura electrónica."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -495,7 +486,7 @@ msgstr "Certificado"
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_account_journal_form
 msgid "Check Available ARCA PoS"
-msgstr ""
+msgstr "Verificar PdV disponibles en ARCA"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
@@ -503,6 +494,8 @@ msgid ""
 "Click here to create a Resquest Certificate file. This file need to be "
 "uploaded to your ARCA Portal in order to ask ARCA for a certificate"
 msgstr ""
+"Haz clic aquí para crear un archivo de certificado de solicitud, debes subir "
+"este archivo a tu portal de ARCA para solicitar un certificado"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_move_form
@@ -539,12 +532,12 @@ msgstr "Conexiones"
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.l10n_ar_afip_ws_consult_form
 msgid "Consult Data in ARCA"
-msgstr ""
+msgstr "Consultar datos en ARCA"
 
 #. module: l10n_ar_edi
 #: model:ir.model,name:l10n_ar_edi.model_l10n_ar_afip_ws_consult
 msgid "Consult Invoice Data in ARCA"
-msgstr ""
+msgstr "Consultar datos de facturas en ARCA"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_account_journal_form
@@ -552,12 +545,14 @@ msgid ""
 "Consult in ARCA the available numbers we can use to configure the electronic "
 "journal"
 msgstr ""
+"Consulta en ARCA los números disponibles que puedes usar para configurar el "
+"diario electrónico"
 
 #. module: l10n_ar_edi
 #: model:ir.actions.act_window,name:l10n_ar_edi.action_l10n_ar_afip_ws_consult
 #: model:ir.ui.menu,name:l10n_ar_edi.menu_l10n_ar_afip_ws_consult
 msgid "Consult invoice in ARCA"
-msgstr ""
+msgstr "Consultar factura en ARCA"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -679,6 +674,10 @@ msgid ""
 "real fiscal invoices in ARCA, Testing is for testing invoice creation in "
 "ARCA (commonly named in ARCA as Homologation environment)."
 msgstr ""
+"Entorno utilizado para conectar con los Web Services de ARCA. Producción "
+"sirve para crear facturas fiscales reales en ARCA, Prueba sirve para "
+"comprobar la creación de facturas en ARCA (entorno que ARCA suele llamar "
+"\"Homologación\")."
 
 #. module: l10n_ar_edi
 #: model:ir.model.fields,field_description:l10n_ar_edi.field_l10n_ar_afipws_connection__expiration_time
@@ -751,6 +750,10 @@ msgid ""
 "infomation. Please go to Other Info Tab and select the corresponding value "
 "in the Incoterm field"
 msgstr ""
+"Para las facturas de tipo \"(19) FACTURAS DE EXPORTACION\" y el concepto "
+"\"Productos / Exportación definitiva de bienes\" de ARCA es necesario enviar "
+"la información del Incoterm. Ve a la pestaña \"Otra información\" y "
+"selecciona el valor correspondiente en el campo Incoterm."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -765,6 +768,13 @@ msgid ""
 " * For the case of the Debit or Credit Notes of type \"Services\" the rate "
 "should be the same as the related invoice."
 msgstr ""
+"En el caso de las facturas, si intentas validar una factura con el "
+"\"Concepto de ARCA: Servicios\" y la moneda de la factura no es ARS, el tipo "
+"de cambio debe ser el del día hábil anterior a la fecha de emisión de la "
+"factura. Si la solicitud tiene una fecha anterior a la de la factura, usa el "
+"tipo de cambio del día hábil anterior a la fecha de la solicitud.\n"
+" * En el caso de notas de débito o crédito de tipo \"Servicios\", el tipo de "
+"cambio debe ser el mismo que el de la factura relacionada."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -796,6 +806,8 @@ msgstr "Fecha de generación"
 #: code:addons/l10n_ar_edi/models/res_currency.py:0
 msgid "Get ARCA currency rate not implemented for webservice %(afip_ws)s"
 msgstr ""
+"No se implementó la obtención del tipo de cambio de ARCA para el web service "
+"%(afip_ws)s"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.l10n_ar_afip_ws_consult_form
@@ -814,12 +826,15 @@ msgid ""
 "invoice number or you can get the last number used in ARCA for a specific "
 "Document Type and POS Number."
 msgstr ""
+"Obtén la información almacenada en ARCA. Puedes obtener información "
+"detallada de un número de factura o el último número utilizado en ARCA para "
+"un tipo de documento y un número de PdV específicos."
 
 #. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/account_move.py:0
 msgid "Go to ARCA page"
-msgstr ""
+msgstr "Ir a la página de ARCA"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -862,6 +877,17 @@ msgid ""
 "Localization > Countries, activate the developer mode and add the ARCA code "
 "in the corresponding field"
 msgstr ""
+"Si el cliente pertenece a una zona franca, entonces debes indicar el número "
+"de CUIT del cliente para continuar.\n"
+" * Si se trata de un cliente extranjero, es posible que Odoo no tenga "
+"configurado el número para el país del cliente.\n"
+"\n"
+"\t 1. Ve a la página de ARCA y busca el código en la sección \"Tablas del "
+"sistema > Países\" que se encuentra en la parte inferior derecha de la "
+"página y obtén el código correspondiente al país\n"
+"\t 2. Regresa a Odoo, en el menú Ventas > Ajustes > Libreta de direcciones > "
+"Localización > Países, activa el modo de desarrollador y agrega el código "
+"ARCA en el campo correspondiente"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -885,6 +911,23 @@ msgid ""
 "\tID number: Empty\n"
 "\tARCA Responsibility \"Final Consumer\""
 msgstr ""
+"Si el importe de la factura es:\n"
+"- MAYOR que el importe mínimo que indica ARCA, entonces debes informar la "
+"información de contacto. Asegúrate de que el contacto de la factura tenga "
+"nombre y apellido, tipo de documento, número de documento y su "
+"responsabilidad ARCA sea Consumidor Final. Por ejemplo:\n"
+"\tMario Nuñez\n"
+"\tTipo de documento: DNI\n"
+"\tNúmero de documento: 34.345.954\n"
+"\tResponsabilidad ARCA: \"Consumidor Final\"\n"
+"- MENOR que el importe mínimo que indica ARCA, entonces es opcional y puedes "
+"registrar la factura como \"Consumidor Final Anónimo\" o como \"Consumidor "
+"Final\" con su información fiscal.\n"
+"* Si quieres informar la factura como \"Consumidor Final Anónimo\", verifica "
+"que la configuración del contacto sea la siguiente:\n"
+"  Tipo de documento: Sigd,\n"
+"  Número de documento: vacío\n"
+"  Responsabilidad ARCA: \"Consumidor Final\""
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -952,6 +995,19 @@ msgid ""
 "are the ones that  we are automatically validating https://"
 "serviciosweb.afip.gob.ar/genericos/comprobantes/Default.aspx"
 msgstr ""
+"Agrega una opción a las facturas para verificarlas en ARCA si tienen números "
+"CAE, CAI o CAEA.\n"
+"\n"
+"* No disponible: El botón \"Verificar en ARCA\" NO aparecerá en las "
+"facturas.\n"
+"* Disponible: Muestra el botón \"Verificar en ARCA\" en las facturas para "
+"que el usuario pueda revisar las facturas de proveedor de forma manual.\n"
+"* Obligatorio: El sistema verificará las facturas de proveedor en ARCA de "
+"manera automática antes de registrarlas en Odoo. Esto garantizará que "
+"verifiques todas las facturas de proveedor que informas en el libro IVA de "
+"compras. NOTA: No es posible validar todos los tipos de documento en ARCA. "
+"Solo se validan de forma automática los que están definidos en el siguiente "
+"enlace: https://serviciosweb.afip.gob.ar/genericos/comprobantes/Default.aspx"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -962,10 +1018,10 @@ msgid ""
 "of electronic credit invoice document (this documents containt the string "
 "MiPyME)"
 msgstr ""
-"No es un comprobante valido bajo el Régimen de la Ley N° 27.440, es decir, "
-"debe elaborar una factura de crédito en vez de una factura convencional. "
-"Elija un tipo de documento de factura de crédito electrónica (estos "
-"documentos contienen la palabra MiPyME)"
+"No es un comprobante válido bajo el régimen de la Ley N.º 27.440. Debes "
+"emitir una factura de crédito electrónica en lugar de una factura "
+"convencional. Elige un tipo de documento de factura de crédito electrónica "
+"(estos comprobantes contienen la palabra MiPyME)."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -978,13 +1034,21 @@ msgid ""
 "\t * \"OK - Comprobante electrónico autorizado pero fue rechazado por el "
 "comprador\" it means that the \"FCE: Is cancellation\" should be set."
 msgstr ""
+"Es posible que estés creando una nota de crédito o débito, pero estés "
+"definiendo un valor incorrecto en el campo \"FCE: ¿Es una cancelación?\". Si "
+"el mensaje de ARCA indica:\n"
+"\t * \"OK - Comprobante electrónico autorizado, NO rechazado por el "
+"Comprador\" significa que NO debes seleccionar \"FCE: ¿Es una cancelación?"
+"\"\n"
+"\t * \"OK - Comprobante electrónico autorizado pero fue rechazado por el "
+"comprador\" significa que debes seleccionar \"FCE: ¿Es una cancelación?\""
 
 #. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/l10n_ar_afipws_connection.py:0
 msgid ""
 "It seems like the certificate has expired. Please renew your ARCA certificate"
-msgstr ""
+msgstr "Parece que el certificado venció. Renueva tu certificado ARCA."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1047,13 +1111,13 @@ msgstr "No"
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/res_company.py:0
 msgid "No ARCA WS selected"
-msgstr ""
+msgstr "No hay ningún web service de ARCA seleccionado"
 
 #. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/wizards/l10n_ar_afip_ws_consult.py:0
 msgid "No ARCA WS selected on point of sale %s"
-msgstr ""
+msgstr "No hay un web service de ARCA seleccionado en el punto de venta %s"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1062,12 +1126,14 @@ msgid ""
 "No ARCA code for currency %s. Please configure the ARCA code consulting "
 "information in ARCA page"
 msgstr ""
+"No hay un código ARCA para la moneda %s, configura el código ARCA según la "
+"información de la página de ARCA"
 
 #. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/account_move.py:0
 msgid "No ARCA code in %s UOM"
-msgstr ""
+msgstr "No hay un código ARCA en la unidad de medida %s"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1091,7 +1157,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/res_currency.py:0
 msgid "No rate for ARS (is the base currency for ARCA)"
-msgstr ""
+msgstr "No hay una tasa para ARS (es la moneda base para ARCA)"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
@@ -1139,6 +1205,10 @@ msgid ""
 "defined by ARCA for this type of document\n"
 "    * Review that the customer is a MiPYME"
 msgstr ""
+"Verifica las siguientes condiciones:\n"
+"    * Revisa que el total de la factura sea mayor que el importe que define "
+"ARCA para este tipo de documento\n"
+"    * Revisa que el cliente sea una MiPyME"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1156,6 +1226,17 @@ msgid ""
 "You can go to 'Consult invoice in ARCA' menu and get the information about "
 "the last invoice.\n"
 msgstr ""
+"Ten en cuenta que si intentas validar una factura con una fecha distinta a "
+"la de hoy deberás verificar si está dentro del rango de fechas según el "
+"concepto ARCA o el tipo de documento:\n"
+" a) Si es Productos: N+5 o N-5, donde N es la fecha de hoy.\n"
+" b) Si es Servicios o Productos y Servicios: N+10 o N-10, donde N es la "
+"fecha de hoy.\n"
+" c) Si es una factura MiPyME: N-5 o N+1, donde N es la fecha de hoy. Para "
+"notas de débito o crédito, solo N-5\n"
+"\n"
+"Puedes ir al menú \"Consultar factura en ARCA\" y obtener la información de "
+"la última factura.\n"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1177,7 +1258,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/account_move.py:0
 msgid "Please set AFIP Authorization Mode and Code to continue!"
-msgstr ""
+msgstr "Agrega el modo y código de autorización AFIP para continuar"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1243,6 +1324,8 @@ msgid ""
 "Recently ARCA changed the types VAT Conditions available. Please verify the "
 "ARCA Responsibility in the partner is Deprecated and set a valid one."
 msgstr ""
+"Hace poco, ARCA cambió los tipos de condiciones de IVA disponibles. Verifica "
+"si la responsabilidad ARCA del contacto es obsoleta y define una válida."
 
 #. module: l10n_ar_edi
 #: model:ir.model.fields.selection,name:l10n_ar_edi.selection__account_move__l10n_ar_afip_verification_result__r
@@ -1270,12 +1353,12 @@ msgstr "SCA - TRANSFERENCIA AL SISTEMA DE CIRCULACIÓN ABIERTA"
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
 msgid "Select the Certificate that you downloaded from ARCA"
-msgstr ""
+msgstr "Selecciona el certificado que descargaste de ARCA"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
 msgid "Select the Key used to sign your ARCA documents"
-msgstr ""
+msgstr "Selecciona la clave que usas para firmar tus documentos de ARCA"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form_demo
@@ -1305,6 +1388,13 @@ msgid ""
 "* These documents weren't validated:\n"
 "%(invalide_invoices)s\n"
 msgstr ""
+"Algunos documentos se validaron en ARCA, pero el sistema detuvo la "
+"validación en lote por un error en uno de ellos\n"
+"\n"
+"* Estos documentos se validaron:\n"
+"%(validate_invoices)s\n"
+"* Estos documentos no se validaron:\n"
+"%(invalide_invoices)s\n"
 
 #. module: l10n_ar_edi
 #: model:ir.model.fields.selection,name:l10n_ar_edi.selection__l10n_ar_afip_ws_consult__consult_type__specific
@@ -1337,7 +1427,7 @@ msgstr "Prueba"
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/l10n_ar_afipws_connection.py:0
 msgid "The ARCA certificate is expired, please renew in order to continue"
-msgstr ""
+msgstr "El certificado ARCA venció, renuévalo para continuar"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1395,8 +1485,10 @@ msgstr ""
 #. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/afip_errors.py:0
-msgid "The invoice date cannot be after the last invoice validated in ARCA."
+msgid "The invoice date cannot be before the last invoice validated in ARCA."
 msgstr ""
+"La fecha de la factura no puede ser anterior a la última factura validada en "
+"ARCA."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1404,7 +1496,7 @@ msgstr ""
 msgid ""
 "The invoice has not been accepted by ARCA, please fix the errors and try "
 "again"
-msgstr ""
+msgstr "ARCA no aceptó la factura, corrige los errores e inténtalo de nuevo"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1444,6 +1536,19 @@ msgid ""
 "You can go to \"Consult invoice in ARCA\" menu and get the information about "
 "the last invoice."
 msgstr ""
+"El número o la fecha del documento no corresponden al siguiente que se debe "
+"autorizar.\n"
+" * La fecha de la factura no puede ser posterior a la última factura "
+"validada en ARCA.\n"
+" * Verifica que el próximo número de factura en el diario coincida con el "
+"siguiente en ARCA.\n"
+" * Si el concepto de ARCA es \"Servicios\" o \"Productos y Servicios\", el "
+"problema puede deberse a la fecha de la factura: puede estar vacía o debe "
+"encontrarse dentro del rango N-10 y N+10 días, donde N es la fecha de envío "
+"de la solicitud de autorización.\n"
+"\n"
+"Puedes ir al menú \"Consultar factura en ARCA\" y obtener la información de "
+"la última factura."
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_move_form
@@ -1458,9 +1563,9 @@ msgid ""
 "Remember that if you pay in foreign currency you must use the same rate of "
 "the last business day of ARCA (%(arca_rate)s - %(arca_date)s)"
 msgstr ""
-"La cotizacion a informar (%(currency_rate)s) difere de la de ARCA. Recuerde "
-"que si paga en moneda extranjera que debe utilizar la misma cotización del "
-"ultimo dia hábil de ARCA (%(arca_rate)s - %(arca_date)s)"
+"La cotización a informar (%(currency_rate)s) difiere de la de ARCA. Recuerda "
+"que, si pagas en moneda extranjera, debes usar la misma cotización del "
+"último día hábil de ARCA (%(arca_rate)s - %(arca_date)s)"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1477,6 +1582,16 @@ msgid ""
 "View image https://www.adhoc.com.ar/web/content/162597?"
 "unique=202798c78764e1c1d31b35d46556a7947ac511e8&download=true"
 msgstr ""
+"El empadronamiento para la factura en línea de exportación (factura desde la "
+"página de ARCA) es distinta al empadronamiento de la factura electrónica de "
+"exportación. Por lo tanto, también es necesario configurarlo para esta, ya "
+"que de otro modo no podrás crear las facturas de este tipo en Odoo.\n"
+"\n"
+"Durante la configuración, selecciona la opción \"Factura Electrónica "
+"Exportación de Servicios\" y luego \"Web Service/Facturador Plus\"\n"
+"\n"
+"Consulta esta imagen: https://www.adhoc.com.ar/web/content/162597?"
+"unique=202798c78764e1c1d31b35d46556a7947ac511e8&download=true"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1518,6 +1633,8 @@ msgid ""
 "There may have been a mismatch in the numbering of this type of document "
 "between Odoo and ARCA."
 msgstr ""
+"Es posible que haya existido una diferencia en la numeración de este tipo de "
+"documento entre Odoo y ARCA."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1534,7 +1651,7 @@ msgstr ""
 msgid ""
 "This QR code is mandatory by the ARCA in the electronic invoices when this "
 "ones are printed."
-msgstr ""
+msgstr "ARCA exige este código QR en las facturas electrónicas al imprimirlas."
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_currency_form
@@ -1542,6 +1659,8 @@ msgid ""
 "This button let you view the last rate in ARCA for this currency. You can "
 "use this info to create manually your own rates in Odoo"
 msgstr ""
+"Este botón te permite ver la última tasa en ARCA para esta moneda, puedes "
+"usar esta información para crear tus propias tasas de forma manual en Odoo"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1557,6 +1676,9 @@ msgid ""
 "Please select here the ARCA certificate in PEM format. You can get your "
 "certificate from your ARCA Portal"
 msgstr ""
+"Este certificado permite la conexión con ARCA para validar facturas "
+"electrónicas; selecciona aquí el certificado de ARCA en formato PEM, puedes "
+"obtener tu certificado desde tu portal de ARCA"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1572,11 +1694,11 @@ msgid ""
 msgstr ""
 "Este error puede indicar alguna de las siguientes opciones:\n"
 "\n"
-"   * “Campo Tipo_doc invalido”: El bono fiscal solo crea facturas de "
+"   * \"Campo Tipo_doc inválido\": El bono fiscal solo crea facturas para "
 "clientes con CUIT.\n"
-"   * “Campo Cmp.Items.Pro_codigo_ncm invalido”: Debe enviar los códigos NCM "
-"de los productos en la factura. Verifique que ingresó los códigos NCM "
-"correctos en los productos de esta factura para continuar."
+"   * \"Campo Cmp.Items.Pro_codigo_ncm inválido\": Debes enviar el código NCM "
+"de todos los productos en la factura. Verifica que indiques los códigos NCM "
+"correctos en los productos de la factura para continuar."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1630,6 +1752,8 @@ msgid ""
 "This information will be sent to ARCA by default when validating electronic "
 "FCE documents. RG 4919/2021 requirement."
 msgstr ""
+"Esta información se envía a ARCA de forma predeterminada al validar "
+"documentos electrónicos FCE. Requisito de la RG 4919/2021."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1639,6 +1763,9 @@ msgid ""
 "let it know that is happening and to investigate what is going on with the "
 "ARCA service"
 msgstr ""
+"Este es un error interno de ARCA. Contacta a tu proveedor de Odoo para "
+"informarle lo que está ocurriendo y para que investigue qué sucede con el "
+"servicio de ARCA."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1647,6 +1774,7 @@ msgid ""
 "This is an internal error in ARCA. Please wait a couple of minutes and try "
 "again"
 msgstr ""
+"Este es un error interno de ARCA, espera unos minutos e inténtalo de nuevo"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1675,6 +1803,23 @@ msgid ""
 "with one unique CAEA. Select this option only when verifying in ARCA a "
 "vendor bill that have CAEA (invoices with CAEA will not have CAE)"
 msgstr ""
+"Este es el tipo de autorización de ARCA. El modo cambia según la forma en la "
+"que se crea la factura:\n"
+"\n"
+" * CAE (Código de Autorización Electrónico): indica que se trata de una "
+"factura electrónica. Al validar una factura de cliente, este campo se "
+"completa solo con la opción CAE. También puedes usar esta opción si "
+"verificas una factura de proveedor electrónica en ARCA.\n"
+" * CAI (Código de Autorización Impreso): indica que se trata de una factura "
+"preimpresa. Con esta opción puedes registrar y verificar facturas de "
+"proveedor preimpresas en ARCA.\n"
+" * CAEA (Código de Autorización Electrónico Anticipado): indica que se trata "
+"de una factura electrónica. Este tipo de facturas se genera con un código "
+"que ARCA emite con anticipación para empresas con facturación masiva "
+"mensual, lo que permite procesar todas las facturas de la quincena en una "
+"sola operación con un único CAEA. Selecciona esta opción solo al verificar "
+"una factura de proveedor con CAEA (las facturas con CAEA no tienen CAE) en "
+"ARCA."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1702,6 +1847,13 @@ msgid ""
 " * if you have not then Odoo will automatically create a new one when you "
 "click in 'Generate Request' or 'Generate Renewal Request' button"
 msgstr ""
+"Esta clave privada es obligatoria porque se envía a ARCA al intentar crear "
+"una conexión para validar tu identidad.\n"
+" \n"
+" * Si ya tienes una, puedes subirla aquí (para que sea válida, la clave "
+"privada debe estar en formato PEM)\n"
+" * Si no tienes una, Odoo creará una nueva cuando hagas clic en el botón "
+"\"Generar solicitud\" o \"Generar solicitud de renovación\""
 
 #. module: l10n_ar_edi
 #: model:ir.model.fields,field_description:l10n_ar_edi.field_l10n_ar_afipws_connection__token
@@ -1720,6 +1872,11 @@ msgid "Unique ID"
 msgstr "ID único"
 
 #. module: l10n_ar_edi
+#: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
+msgid "Values set here are company-specific."
+msgstr "Los valores establecidos aquí son específicos de la empresa."
+
+#. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/l10n_ar_afipws_connection.py:0
 msgid "Verification of Invoices (WSCDC)"
@@ -1728,7 +1885,7 @@ msgstr "Verificación de facturas (WSCDC)"
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.res_config_settings_view_form
 msgid "Verify Vendor Bills validity in ARCA"
-msgstr ""
+msgstr "Verificar la validez de las facturas de los proveedores en ARCA"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1739,6 +1896,10 @@ msgid ""
 "Please verify in ARCA manually and review the bill chatter for more "
 "information"
 msgstr ""
+"No podemos registrar estas facturas de proveedor en Odoo porque la "
+"verificación en ARCA falló: %s\n"
+"Verifica de forma manual en ARCA y revisa el chatter de la factura para "
+"obtener más información"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1749,6 +1910,10 @@ msgid ""
 "Please verify in ARCA manually and review the bill chatter for more "
 "information"
 msgstr ""
+"No podemos registrar esta factura de proveedor en Odoo porque la "
+"verificación en ARCA falló: %s\n"
+"Verifica de forma manual en ARCA y revisa el chatter de la factura para "
+"obtener más información"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1757,12 +1922,14 @@ msgid ""
 "We couldn't validate the document \"%(partner_name)s\" (Draft Invoice *%"
 "(invoice)s) in ARCA"
 msgstr ""
+"No pudimos validar el documento \"%(partner_name)s\" (Factura en borrador *%"
+"(invoice)s) en ARCA"
 
 #. module: l10n_ar_edi
 #. odoo-python
 #: code:addons/l10n_ar_edi/models/account_move.py:0
 msgid "We couldn't validate the invoice in ARCA."
-msgstr ""
+msgstr "No pudimos validar la factura en ARCA."
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1771,6 +1938,9 @@ msgid ""
 "We receive this error trying to consult the last invoice number to ARCA:\n"
 "%s"
 msgstr ""
+"Recibimos este error al intentar consultar el último número de factura en "
+"ARCA:\n"
+"%s"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1787,6 +1957,15 @@ msgid ""
 "> Countries, activate developer mode and add the ARCA code in the "
 "corresponding field"
 msgstr ""
+"Buscamos el país de destino de la factura y no encontramos un código ARCA.\n"
+"\n"
+"Ingresa a la página de ARCA y busca el código en la sección Tablas del "
+"Sistema > Países que se encuentra en la parte inferior derecha y localiza el "
+"código correspondiente.\n"
+"\n"
+"Después, regresa a Odoo, ve al menú Ventas > Ajustes > Libreta de "
+"direcciones > Localización > Países, activa el modo de desarrollador y "
+"agrega el código ARCA al campo correspondiente"
 
 #. module: l10n_ar_edi
 #. odoo-python
@@ -1857,6 +2036,10 @@ msgid ""
 "Please set a valid NCM code to continue. You can go to ARCA page and review "
 "the list of available NCM codes"
 msgstr ""
+"Parece que el producto \"%s\" no tiene un código NCM válido.\n"
+"\n"
+"Configura un código NCM válido para continuar, puedes ir a la página de ARCA "
+"y revisar la lista de códigos NCM disponibles"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.l10n_ar_afip_ws_consult_form
@@ -1878,9 +2061,25 @@ msgstr "wsfex"
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_currency_form
 msgid "⇒ Show latest ARCA Rate"
-msgstr ""
+msgstr "⇒ Mostrar la última tasa de ARCA"
 
 #. module: l10n_ar_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ar_edi.view_move_form
 msgid "⇒ Verify on ARCA"
-msgstr ""
+msgstr "⇒ Verificar en ARCA"
+
+#~ msgid "17"
+#~ msgstr "17"
+
+#~ msgid ""
+#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
+#~ "company-specific.\" groups=\"base.group_multi_company\"/>"
+#~ msgstr ""
+#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Los valores configurados "
+#~ "aquí son específicos de la compañía.\" "
+#~ "groups=\"base.group_multi_company\"/>"
+
+#~ msgid "The invoice date cannot be after the last invoice validated in ARCA."
+#~ msgstr ""
+#~ "La fecha de la factura no puede ser posterior a la última factura "
+#~ "validada en ARCA."

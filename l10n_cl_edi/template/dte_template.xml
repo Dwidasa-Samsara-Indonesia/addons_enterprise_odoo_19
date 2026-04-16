@@ -83,11 +83,11 @@
                     <MntExeOtrMnda t-if="amounts['second_currency']['subtotal_amount_exempt']" t-out="float_rr(amounts['second_currency']['subtotal_amount_exempt'], round_currency)"/>
                     <IVAOtrMnda t-if="amounts['second_currency']['vat_amount']" t-out="float_repr(amounts['second_currency']['vat_amount'], round_currency)"/>
                 <t t-foreach="withholdings" t-as="tax">
-                    <ImptRetOtrMnda>
+                    <ImpRetOtrMnda>
                         <TipoImpOtrMnda t-out="tax['tax_code']"/>
                         <TasaImpOtrMnda t-out="tax['tax_percent']"/>
-                        <ValorImpOtrMnda t-out="move.currency_id._convert(tax['tax_amount'], move.currency_id, move.company_id, move.date)"/>
-                    </ImptRetOtrMnda>
+                        <VlrImpOtrMnda t-out="move.currency_id._convert(tax['tax_amount'], move.currency_id, move.company_id, move.date)"/>
+                    </ImpRetOtrMnda>
                 </t>
                     <MntTotOtrMnda t-out="float_repr(amounts['second_currency']['total_amount'], round_currency)"/>
                 </OtraMoneda>

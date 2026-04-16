@@ -3,13 +3,13 @@
 # * sale_renting_planning
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Saara Hakanen <sahak@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 18:45+0000\n"
-"PO-Revision-Date: 2025-11-14 08:32+0000\n"
+"PO-Revision-Date: 2026-02-17 12:43+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting_planning/fi/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,help:sale_renting_planning.field_planning_role__sync_shift_rental
@@ -31,11 +31,11 @@ msgid ""
 "- The order's rental period and the shift dates are synchronized."
 msgstr ""
 "- Luo vuokratilauksia työvuoroillesi.\n"
-"- Rooliin liitettyjen tuotteiden tilauksia ei voida vahvistaa, jos "
+"- Rooliin liitettyjen tuotteiden tilauksia ei voi vahvistaa, jos "
 "työvuoroihin ei ole saatavilla tekijöitä.\n"
 "- Käyttäjät eivät voi valita verkkosivulla päivämääriä, joina resursseja ei "
 "ole saatavilla.\n"
-"- Tilauksen vuokra-aika ja työvuorojen päivät synkronoidaa"
+"- Tilauksen vuokra-aika ja työvuorojen päivät synkronoidaan."
 
 #. module: sale_renting_planning
 #: model_terms:ir.ui.view,arch_db:sale_renting_planning.planning_view_form_in_gantt_inherit
@@ -62,7 +62,7 @@ msgstr "Tunnus"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Impossible to generate a rental order for a shift in conflict."
-msgstr ""
+msgstr "Vuokraustilausta luominen ristiriitaiselle vuorolle on mahdotonta."
 
 #. module: sale_renting_planning
 #: model_terms:ir.ui.view,arch_db:sale_renting_planning.planning_view_form_in_gantt_inherit
@@ -111,7 +111,7 @@ msgstr "Vuoro lisätty viimeiseen tilaukseen"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Shift not rescheduled due to conflicts"
-msgstr ""
+msgstr "Vuoroa ei aikataulutettu uudelleen päällekkäisyyksien takia"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_role__sync_shift_rental
@@ -126,6 +126,8 @@ msgid ""
 "The shift should not be in conflict to be able to correctly add it to an "
 "existing rental order."
 msgstr ""
+"Vuoro ei saisi olla ristiriidassa, jotta sen voi lisätä oikein olemassa "
+"olevaan vuokraustilaukseen."
 
 #. module: sale_renting_planning
 #. odoo-python

@@ -44,6 +44,9 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
         help='Responsible delivery provider for test order, e.g., UberEats, Zomato.'
     )
 
+    def _get_urban_piper_controller(self):
+        return PosUrbanPiperController()
+
     def test_order_json(self, data):
         taxes = data['product_id'].taxes_id.compute_all(
             data['product_id'].list_price, data['product_id'].currency_id, data['quantity']
@@ -53,6 +56,7 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
         )['total_excluded']
         price_with_tax = taxes['total_included']
         price_without_tax = taxes['total_excluded']
+        delivery_datetime = data['delivery_datetime']
         payload = {
             "customer": {
                 "username": "meet_jivani",
@@ -104,7 +108,7 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
                     "state": "Placed",
                     "discount": 0.0,
                     "channel": data['delivery_provider_id'].technical_name,
-                    "delivery_datetime": int((datetime.now() + timedelta(minutes=25)).timestamp() * 1000),
+                    "delivery_datetime": int((datetime.now() + timedelta(minutes=delivery_datetime)).timestamp() * 1000),
                     "item_level_total_charges": 0,
                     "item_taxes": 0.0,
                     "modified_to": None,
@@ -164,7 +168,7 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
                         'value': (data['packaging_charge'] * 15) / 100,
                         'title': 'VAT'
                     }
-                ],
+                ] if data['has_tax'] else [],
                 'value': data['packaging_charge'],
                 'title': 'Packaging Charge'
             })
@@ -177,7 +181,7 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
                         'value': (data['delivery_charge'] * 15) / 100,
                         'title': 'VAT'
                     }
-                ],
+                ] if data['has_tax'] else [],
                 'value': data['delivery_charge'],
                 'title': 'Delivery Charge'
             })
@@ -193,9 +197,18 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
         payload['order']['details']['ext_platforms'][0]['discounts'] = discounts
         if data['delivery_instruction']:
             payload['order']['details']['instructions'] = data['delivery_instruction']
+        line_discounts = []
+        if data['line_discount'] > 0:
+            line_discounts.append({
+                'is_merchant_discount': True,
+                'code': 'TEST',
+                'value': data['line_discount'],
+                'title': 'Merchant Discount'
+            })
+        payload['order']['items'][0]['discounts'] = line_discounts
         return payload
 
-    def make_test_order(self, delivery_identifier=False):
+    def make_test_order(self, delivery_identifier=False, delivery_datetime=25):
         msg = ''
         user_name = self.env['ir.config_parameter'].sudo().get_param('pos_urban_piper.urbanpiper_username', False)
         if not user_name:
@@ -215,15 +228,18 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
             'product_id': self.product_id,
             'quantity': self.quantity,
             'discount_amount': self.discount_amount,
+            'line_discount': self.env.context.get('line_discount', 0),
             'packaging_charge': self.packaging_charge,
             'delivery_charge': self.delivery_charge,
             'delivery_instruction': self.delivery_instruction,
             'delivery_provider_id': self.delivery_provider_id,
             'delivery_identifier': delivery_identifier or str(uuid.uuid4()),
-            'options_to_add': self.env.context.get('options_to_add', [])
+            'options_to_add': self.env.context.get('options_to_add', []),
+            'has_tax': self.env.context.get('has_tax', True),
+            'delivery_datetime': delivery_datetime
         }
         order_json = self.test_order_json(data)
-        UpController = PosUrbanPiperController()
+        UpController = self._get_urban_piper_controller()
         UpController._create_order(order_json)
         return self._display_notification(_('Test order generated successfully.'))
 

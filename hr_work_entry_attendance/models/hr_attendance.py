@@ -21,8 +21,18 @@ class HrAttendance(models.Model):
         # Upon creating or closing an attendance, create the work entry directly if the attendance
         # was created within an already generated period
         # This code assumes that attendances are not created/written in big batches
+        dates = self.mapped('check_in') + [x for x in self.mapped('check_out') if x]
+        start_window = datetime.combine(min(dates, default=datetime.max).date(), time.min)
+        stop_window = datetime.combine(max(dates, default=datetime.min).date(), time.max)
+        attendances = self.search([
+            ('employee_id', 'in', self.employee_id.ids),
+            ('check_in', '>=', start_window),
+            ('check_in', '<=', stop_window),
+            ('check_out', '!=', False),
+        ])
+
         work_entries_vals_list = []
-        for attendance in self:
+        for attendance in attendances:
             # Filter closed attendances
             if not attendance.check_out:
                 continue
@@ -37,12 +47,12 @@ class HrAttendance(models.Model):
             new_work_entries = self.env['hr.work.entry'].sudo().create(work_entries_vals_list)
             if new_work_entries:
                 # Fetch overlapping work entries, grouped by employees
-                start = min((datetime.combine(a.check_in, time.min) for a in self if a.check_in), default=False)
-                stop = max((datetime.combine(a.check_out, time.max) for a in self if a.check_out), default=False)
+                start = min((datetime.combine(a.check_in, time.min) for a in attendances if a.check_in), default=False)
+                stop = max((datetime.combine(a.check_out, time.max) for a in attendances if a.check_out), default=False)
                 work_entry_groups = self.env['hr.work.entry'].sudo()._read_group([
                     ('date', '<=', stop),
                     ('date', '>=', start),
-                    ('employee_id', 'in', self.employee_id.ids),
+                    ('employee_id', 'in', attendances.employee_id.ids),
                 ], ['employee_id'], ['id:recordset'])
                 work_entries_by_employee = {
                     employee.id: records

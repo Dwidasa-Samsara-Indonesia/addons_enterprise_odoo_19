@@ -185,6 +185,7 @@
                     <field name="start_date" groups="!sales_team.group_sale_manager"
                            readonly="subscription_state in ['2_renewal', '3_progress', '4_paused']"/>
                     <field name="start_date" groups="sales_team.group_sale_manager"
+                           required="subscription_state in ['3_progress', '4_paused']"
                            readonly="subscription_state == '2_renewal'"/>
                     <field name="first_contract_date" invisible="not origin_order_id"/>
                     <field name="origin_order_id" readonly="1" invisible="not origin_order_id"/>

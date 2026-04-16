@@ -471,6 +471,7 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
             default_qty_done: 0,
             final_product_id: this.record.product_id.id,
             newByProduct: this.displayByProduct,
+            display_name: this.record.name,
         };
     }
 

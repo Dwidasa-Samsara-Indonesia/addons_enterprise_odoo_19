@@ -2,18 +2,18 @@
 
 from datetime import datetime
 from unittest.mock import patch
+from urllib.parse import urlencode
 
-from odoo.tests.common import tagged
+from odoo.tests.common import HttpCase, tagged, users
 from odoo.tools import mute_logger
 
-from odoo.addons.sale_amazon.tests.common import (
-    OPERATIONS_RESPONSES_MAP,
-    TestAmazonCommon,
-)
+from odoo.addons.http_routing.tests.common import MockRequest
+from odoo.addons.sale_amazon.controllers.onboarding import compute_oauth_signature
+from odoo.addons.sale_amazon.tests.common import OPERATIONS_RESPONSES_MAP, TestAmazonCommon
 
 
 @tagged('post_install', '-at_install')
-class TestAmazonMultiCompany(TestAmazonCommon):
+class TestAmazonMultiCompany(TestAmazonCommon, HttpCase):
 
     def setUp(self):
         super().setUp()
@@ -101,3 +101,40 @@ class TestAmazonMultiCompany(TestAmazonCommon):
                 lambda l: l.product_id.default_code == 'WRAP-CODE'
             )
             self.assertEqual(gift_wrapping_line.tax_ids, self.parent_tax)
+
+    @users('admin')
+    def test_onboarding_return_not_restricted_to_website_company(self):
+        if self.env['ir.module.module']._get('website').state != 'installed':
+            self.skipTest("Website module is not installed")
+
+        user = self.env.user
+        company_1 = self.env.company
+        company_2 = self.branch_company
+        website = self.env['website'].search([], limit=1)
+        account = self.other_amazon_account
+
+        self.assertIn(company_1, user.company_ids)
+        user.company_ids += company_2
+        self.assertEqual(account.company_id, company_2)
+        self.assertEqual(website.company_id, company_1)
+
+        self.authenticate(user.login, user.login)
+        with MockRequest(self.env):
+            query_params = {
+                'selling_partner_id': "dummy",
+                'spapi_oauth_code': "dummy",
+                'state': (
+                    f'{{"account_id":{account.id},'
+                    f'"signature":"{compute_oauth_signature(account.id)}"}}'
+                ),
+            }
+
+        with (
+            patch('odoo.addons.sale_amazon.utils.exchange_authorization_code'),
+            patch.object(
+                self.env.registry['amazon.account'], 'action_update_available_marketplaces'
+            ),
+        ):
+            response = self.url_open(f'/amazon/return?{urlencode(query_params)}')
+
+        self.assertNotEqual(response.status_code, 403, msg="Should be able to access the account")

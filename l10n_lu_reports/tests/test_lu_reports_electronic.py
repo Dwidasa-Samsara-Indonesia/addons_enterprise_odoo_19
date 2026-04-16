@@ -671,6 +671,41 @@ class LuxembourgElectronicReportTest(TestAccountReportsCommon):
             self.get_xml_tree_from_string(expected_xml)
         )
 
+    @freeze_time('2019-12-31')
+    def test_xml_export_with_annotations(self):
+        """Test that annotations on the P&L report are exported as references when the checkbox is checked."""
+        pl_report = self.env.ref('l10n_lu_reports.account_financial_report_l10n_lu_pl')
+        options = pl_report.get_options({})
+        options['date'].update({
+            'date_from': '2019-01-01',
+            'date_to': '2019-12-31',
+            'mode': 'range',
+            'filter': 'custom',
+        })
+
+        account = self.company_data['default_account_revenue']
+        message = self.env['mail.message'].create({
+            'model': account._name,
+            'res_id': account.id,
+            'body': 'NoteRef',
+            'date': '2019-06-01',
+            'author_id': self.env.user.partner_id.id,
+            'message_type': 'comment',
+            'subtype_id': self.env.ref('mail.mt_note').id,
+        })
+        self.env['account.report.annotation'].create({
+            'date': '2019-06-01',
+            'message_id': message.id,
+        })
+
+        wizard = self.env['l10n_lu.generate.accounts.report'].create({
+            'import_notes_as_references': True,
+        })
+        wizard.with_context(report_generation_options=options).get_xml()
+        xml_content = b64decode(wizard.report_data.decode("utf-8")).decode('utf-8')
+        self.assertIn('id="1701"', xml_content)
+        self.assertIn('NoteRef', xml_content)
+
     @freeze_time('2025-12-31')
     def test_generate_xml_post_2025(self):
         """From 2025, the tax report must contain tags 491, 492 and 493 for OSS, IOSS and SME."""

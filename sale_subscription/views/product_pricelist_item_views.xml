@@ -20,7 +20,7 @@
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
             <field name="product_tmpl_id" position="attributes">
-                <attribute name="domain">[('recurring_invoice', '=', False)]</attribute>
+                <attribute name="domain">['|', ('recurring_invoice', '=', False), ('allow_one_time_sale', '=', True)]</attribute>
             </field>
         </field>
     </record>

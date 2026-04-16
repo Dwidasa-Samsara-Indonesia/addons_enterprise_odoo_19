@@ -286,23 +286,42 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         # Fill 'tax_vals_list'.
         values['tax_vals_list'] = list(tax_vals_map.values())
 
+    def _get_all_partners(self, values, balance_result):
+        return self.env['res.partner'].browse([partner_id for partner_id, *__ in balance_result])
+
     @api.model
     def _saft_fill_report_partner_ledger_values(self, report, options, values):
         res = {
             'customer_vals_list': [],
             'supplier_vals_list': [],
             'partner_detail_map': defaultdict(lambda: {
-                'type': False,
+                'type': False,  # TODO: remove in master
+                'types': [],
                 'addresses': [],
                 'contacts': [],
             }),
         }
 
         # Fill 'customer_vals_list' and 'supplier_vals_list'
-        query = report._get_report_query(options, 'from_beginning', domain=[
+        all_entries = options.get('all_entries')
+        domain = [
+            '&', '|', '&',
             ('account_id.account_type', 'in', ('asset_receivable', 'liability_payable')),
-            ('partner_id', '!=', False)
-        ])
+            ('parent_state', '!=', 'cancel') if all_entries else ('parent_state', '=', 'posted'),
+            ('account_id.account_type', 'in', ('asset_fixed', 'asset_current', 'asset_non_current')),
+            ('partner_id', '!=', False),
+        ]
+        # If "all_entries" option is not True, "_get_report_query" adds a condition to include
+        # posted entries only.
+        # However depreciation lines could still be in draft for the desired period and need
+        # to be retrieved to populate the customers/suppliers list.
+        # "all_entries" should be forced to True in the options when calling "_get_report_query"
+        # in order to retrieve entries that are not posted.
+        # Use a copy of the options to do so to not impact subsequent use of the options.
+        options_copy = options.copy()
+        options_copy['all_entries'] = True
+        query = report._get_report_query(options_copy, 'from_beginning', domain=domain)
+        alias = query.join(lhs_alias=query.table, lhs_column='account_id', rhs_table='account_account', rhs_column='id', link='account')
         query.groupby = SQL.identifier(query.table, "partner_id")
         query.having = SQL(
             "MIN(date) FILTER (WHERE date >= %(date_from)s AND date <= %(date_to)s) IS NOT NULL",
@@ -311,20 +330,35 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         )
         balance_result = self.env.execute_query(query.select(
             SQL.identifier(query.table, "partner_id"),
-            SQL("COALESCE(SUM(balance) FILTER (WHERE date < %s), 0) AS opening_balance", options['date']['date_from']),
-            SQL("COALESCE(SUM(balance), 0) AS closing_balance"),
+            SQL("COALESCE(SUM(balance) FILTER (WHERE date < %s AND %s = 'asset_receivable'), 0) AS opening_receivable", options['date']['date_from'], SQL.identifier(alias, "account_type")),
+            SQL("COALESCE(SUM(balance) FILTER (WHERE %s = 'asset_receivable'), 0) AS closing_receivable", SQL.identifier(alias, "account_type")),
+            SQL("COALESCE(SUM(balance) FILTER (WHERE date < %s AND %s = 'liability_payable'), 0) AS opening_payable", options['date']['date_from'], SQL.identifier(alias, "account_type")),
+            SQL("COALESCE(SUM(balance) FILTER (WHERE %s = 'liability_payable'), 0) AS closing_payable", SQL.identifier(alias, "account_type")),
         ))
-        all_partners = self.env['res.partner'].browse([partner_id for partner_id, *__ in balance_result])
-        for partner_id, opening_balance, closing_balance in balance_result:
+        all_partners = self._get_all_partners(values, balance_result)
+        for partner_id, opening_receivable, closing_receivable, opening_payable, closing_payable in balance_result:
             partner = self.env['res.partner'].browse(partner_id).with_prefetch(all_partners._prefetch_ids)
-            balance = closing_balance - opening_balance
-            partner_type = 'customer' if balance >= 0.0 else 'supplier'
+
+            # TODO: remove in master: keeping a valid value in type in case the users does not have the updated xml
+            partner_type = 'customer' if partner.customer_rank >= partner.supplier_rank else 'supplier'
             res['partner_detail_map'][partner_id]['type'] = partner_type
-            res[partner_type + '_vals_list'].append({
-                'partner': partner,
-                'opening_balance': opening_balance,
-                'closing_balance': closing_balance,
-            })
+            company_currency = values['company'].currency_id
+
+            if not company_currency.is_zero(opening_payable) or not company_currency.is_zero(closing_payable):
+                res['partner_detail_map'][partner_id]['types'].append('supplier')
+                res['supplier_vals_list'].append({
+                    'partner': partner,
+                    'opening_balance': opening_payable,
+                    'closing_balance': closing_payable,
+                })
+
+            if not company_currency.is_zero(opening_receivable) or not company_currency.is_zero(closing_receivable) or not res['partner_detail_map'][partner_id]['types']:
+                res['partner_detail_map'][partner_id]['types'].append('customer')
+                res['customer_vals_list'].append({
+                    'partner': partner,
+                    'opening_balance': opening_receivable,
+                    'closing_balance': closing_receivable,
+                })
 
         # Fill 'partner_detail_map'.
         all_partners |= values['company'].partner_id
@@ -383,7 +417,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         values.update(res)
 
     @api.model
-    def _saft_prepare_report_values(self, report, options):
+    def _saft_prepare_report_initial_values(self, options, values):
         def format_float(amount, digits=2):
             return float_repr(amount or 0.0, precision_digits=digits)
 
@@ -391,16 +425,8 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             date_obj = fields.Date.to_date(date_str)
             return date_obj.strftime(formatter)
 
-        if len(options["column_groups"]) > 1:
-            raise UserError(_("SAF-T is only compatible with one column group."))
-
-        report._init_currency_table(options)
-
-        company = self.env.company
-        options["single_column_group"] = tuple(options["column_groups"].keys())[0]
-
-        template_values = {
-            'company': company,
+        values.update({
+            'company': self.env.company,
             'xmlns': '',
             'file_version': 'undefined',
             'accounting_basis': 'undefined',
@@ -411,7 +437,19 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             'format_float': format_float,
             'format_date': format_date,
             'errors': {},
-        }
+        })
+
+    @api.model
+    def _saft_prepare_report_values(self, report, options):
+
+        if len(options["column_groups"]) > 1:
+            raise UserError(_("SAF-T is only compatible with one column group."))
+
+        report._init_currency_table(options)
+        options["single_column_group"] = next(iter(options["column_groups"].keys()))
+
+        template_values = {}
+        self._saft_prepare_report_initial_values(options, template_values)
         self._saft_fill_report_general_ledger_accounts(report, options, template_values)
         self._saft_fill_report_general_ledger_entries(report, options, template_values)
         self._saft_fill_report_tax_details_values(report, options, template_values)

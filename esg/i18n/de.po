@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:06+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-09 11:26+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/esg/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: esg
 #. odoo-python
@@ -41,8 +41,8 @@ msgid ""
 "value, duplicate the factor."
 msgstr ""
 "<i class=\"fa fa-exclamation-triangle me-2\"/>\n"
-"                    Sie bearbeiten einen Emissionsfaktor, der bereits "
-"Emissionen zugewiesen wurde.\n"
+"                    Sie bearbeiten einen Emissionsfaktor, dem bereits "
+"Emissionen zugewiesen wurden.\n"
 "                    Die Änderung wird diese Emissionen anpassen. Duplizieren "
 "Sie den Faktor, um den alten Wert beizubehalten."
 
@@ -123,10 +123,14 @@ msgid "Activity Flow"
 msgstr "Aktivitätsablauf"
 
 #. module: esg
-#: model:ir.model,name:esg.model_esg_activity_type
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__activity_type_id
 msgid "Activity Type"
 msgstr "Aktivitätstyp"
+
+#. module: esg
+#: model:ir.model,name:esg.model_esg_activity_type
+msgid "Activity Type ESG"
+msgstr ""
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__activity_type_ids
@@ -181,7 +185,7 @@ msgstr "Beliebiges Produkt"
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.factors_auto_assignment_wizard_form_view
 msgid "Application Period"
-msgstr "Anwendungszeitrau"
+msgstr "Anwendungszeitraum"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.emission_factor_search_view
@@ -364,7 +368,7 @@ msgid ""
 "Categorize your data into Scope 1, 2, and 3 to structure your carbon "
 "emission reporting."
 msgstr ""
-"Kategorisieren Sie Ihre Daten in Rahmen 1,2 und 3, um einen Bericht über "
+"Kategorisieren Sie Ihre Daten in Rahmen 1, 2 und 3, um einen Bericht über "
 "Ihre CO2-Emissionen zu erhalten."
 
 #. module: esg
@@ -837,7 +841,7 @@ msgstr "Energieverbrauch"
 #. module: esg
 #: model:ir.ui.menu,name:esg.menu_esg_environment
 msgid "Environment"
-msgstr "Umgebung"
+msgstr "Umwelt"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__esg_other_emission_ids
@@ -1410,7 +1414,7 @@ msgstr "Notiz"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_needaction_counter
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_has_error_counter

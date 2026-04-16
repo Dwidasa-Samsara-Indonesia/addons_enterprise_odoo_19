@@ -5,7 +5,7 @@
             <field name="wage_type">monthly</field>
             <field name="default_schedule_pay">monthly</field>
             <field name="country_id" ref="base.ae"/>
-            <field name="default_resource_calendar_id" ref="resource.resource_calendar_std"/>
+            <field name="default_resource_calendar_id" eval="ref('resource.resource_calendar_std', raise_if_not_found=False)"/>
         </record>
     </data>
 </odoo>

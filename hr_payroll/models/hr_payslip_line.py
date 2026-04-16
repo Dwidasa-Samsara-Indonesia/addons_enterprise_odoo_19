@@ -13,7 +13,7 @@ class HrPayslipLine(models.Model):
     name = fields.Char(required=True)
     sequence = fields.Integer(required=True, index=True, default=5,
                               help='Use to arrange calculation sequence')
-    code = fields.Char(required=True,
+    code = fields.Char(related="salary_rule_id.code", store=True, readonly=True,
                        help="The code of salary rules can be used as reference in computation of other rules. "
                        "In that case, it is case sensitive.")
     slip_id = fields.Many2one('hr.payslip', string='Pay Slip', required=True, index=True, ondelete='cascade')

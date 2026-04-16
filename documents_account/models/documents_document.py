@@ -10,6 +10,7 @@ from xml.etree import ElementTree
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Domain
+from odoo.tools import SQL
 
 
 class DocumentsDocument(models.Model):
@@ -47,7 +48,7 @@ class DocumentsDocument(models.Model):
         """
         self.ensure_one()
 
-        if not self.mimetype:
+        if not self.mimetype or not self.raw:
             return False
 
         if not (self.mimetype.endswith('/xml')
@@ -132,6 +133,13 @@ class DocumentsDocument(models.Model):
         # loop (because of the "multi" server action). When it is the case, we try
         # to redirect to a list of all created invoices instead of just the last
         # one, using the context.
+        action_name_ref = {
+            'in_invoice': self.env._("Vendor Bills"),
+            'in_refund': self.env._("Vendor Refunds"),
+            'in_receipt': self.env._("Vendor Receipts"),
+            'out_invoice': self.env._("Customer Invoices"),
+            'out_refund': self.env._("Customer Credit Notes"),
+        }
         context = dict(self.env.context, default_move_type=move_type)
         documents_active_ids = context.get('documents_active_ids')
         if context.get('active_model') != 'documents.document' or not documents_active_ids:
@@ -141,7 +149,7 @@ class DocumentsDocument(models.Model):
         action = {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move',
-            'name': _("Invoices"),
+            'name': action_name_ref[move_type],
             'view_id': False,
             'view_mode': 'list',
             'views': [(False, "list"), (False, "form")],
@@ -241,4 +249,13 @@ class DocumentsDocument(models.Model):
                     "sequence": 200,
                 }
             },
+        ])
+
+    def _get_gc_clear_bin_domain(self):
+        query_folder_id = self.env['documents.account.folder.setting']._search(
+            [('folder_id', '!=', False)]
+        ).select('folder_id')
+        return Domain.AND([
+            super()._get_gc_clear_bin_domain(),
+            [('id', 'not in', SQL("(%s)", query_folder_id))],
         ])

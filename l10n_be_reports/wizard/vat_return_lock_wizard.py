@@ -108,9 +108,11 @@ class L10n_BeVatReturnLockWizard(models.TransientModel):
     def action_proceed_with_locking(self):
         self.ensure_one()
 
+        submission_options = self._get_submission_options_to_inject()
+
         # Generate the XML file that will be needed for the submission
         options = self.return_id._get_closing_report_options()
-        options.update(self._get_submission_options_to_inject())
+        options.update(submission_options)
         self.return_id._add_attachment(self.env['l10n_be.tax.report.handler'].export_tax_report_to_xml(options))
 
-        return self.return_id._proceed_with_locking()
+        return self.return_id._proceed_with_locking(options_to_inject=submission_options)

@@ -131,3 +131,15 @@ class TestSubscriptionMultiCompany(TestSubscriptionCommon):
 
         moves = sub._create_recurring_invoice()
         self.assertEqual(False, moves.invoice_line_ids.sale_line_ids.id)
+
+    def test_add_recurring_plan_to_company_product(self):
+        """
+        Test that adding a recurring plan to a product(_tmpl) with a
+        company_id set computes the company_id correctly
+        """
+        self.product.product_tmpl_id.company_id = self.env.company.id
+        recurring_plan = self.env['product.pricelist.item'].create({
+            'pricelist_id': False,
+            'product_tmpl_id': self.product.product_tmpl_id.id,
+        })
+        self.assertEqual(recurring_plan.company_id, self.env.company)

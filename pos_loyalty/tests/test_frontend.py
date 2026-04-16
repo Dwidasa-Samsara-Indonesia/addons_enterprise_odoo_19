@@ -596,6 +596,37 @@ class TestUi(TestPointOfSaleHttpCommon):
         # Check final balance after consumption and refund eWallet for partner_bbb.
         self.assertAlmostEqual(ewallet_bbb.points, 20, places=2)
 
+    def test_ewallet_refund_credit_note_line_quantity(self):
+        """Reproduce: sell+invoice product, refund order, use eWallet refund payment.
+        The generated credit note must keep refunded product quantity positive."""
+        LoyaltyProgram = self.env['loyalty.program']
+        (LoyaltyProgram.search([])).write({'pos_ok': False})
+        self.env.ref('loyalty.ewallet_product_50').product_tmpl_id.write({'active': True})
+        self.create_programs([('arbitrary_name', 'ewallet')])
+        partner_aaa = self.env['res.partner'].create({'name': 'Ewal'})
+
+        self.pos_user.write({
+            'group_ids': [
+                (4, self.env.ref('stock.group_stock_user').id),
+            ],
+        })
+        self.start_pos_tour("EWalletRefundCreditNoteQtyTour")
+
+        refund_orders = self.main_pos_config.current_session_id.order_ids.filtered(
+            lambda o: o.partner_id == partner_aaa and o.refunded_order_id and o.account_move and o.account_move.move_type == 'out_refund'
+        )
+        self.assertEqual(len(refund_orders), 1, "A single invoiced refund order should be created.")
+
+        refund_order = refund_orders[0]
+        refunded_product_line = refund_order.lines.filtered('refunded_orderline_id')[:1]
+        self.assertTrue(refunded_product_line, "Refund order should contain a refunded product line.")
+
+        invoice_product_line = refund_order.account_move.invoice_line_ids.filtered(
+            lambda l: l.product_id == refunded_product_line.product_id,
+        )
+        self.assertTrue(invoice_product_line, "Credit note should contain the refunded product line.")
+        self.assertEqual(invoice_product_line[:1].quantity, 1, "Refunded product quantity on credit note must be positive (1).")
+
     def test_multiple_gift_wallet_programs(self):
         """
         Test for multiple gift_card and ewallet programs.
@@ -639,8 +670,10 @@ class TestUi(TestPointOfSaleHttpCommon):
         self.assertEqual(len(ewallet_1_bbb), 1)
         self.assertAlmostEqual(ewallet_1_bbb.points, 50, places=2)
         ewallet_2_bbb = self.env['loyalty.card'].search([('partner_id', '=', partner_bbb.id), ('program_id', '=', programs['ewallet_2'].id)])
-        self.assertEqual(len(ewallet_2_bbb), 1)
-        self.assertAlmostEqual(ewallet_2_bbb.points, 0, places=2)
+        # Before the tour there's no card for partner B and ewallet 2
+        # During the tour the ewallet 2 is not used for partner 2 and no "points" are granted
+        # We don't create cards when there's no point and there's no history on it
+        self.assertEqual(len(ewallet_2_bbb), 0)
 
     def test_coupon_change_pricelist(self):
         """Test coupon program with different pricelists."""
@@ -3642,3 +3675,22 @@ class TestUi(TestPointOfSaleHttpCommon):
             })
 
         self.start_tour(f"/pos/ui?config_id={self.main_pos_config.id}", 'test_race_conditions_update_program', login="pos_user")
+
+    def test_multiple_physical_gift_card_sale(self):
+        """
+        Test that the manual gift card sold has been correctly generated.
+        """
+        LoyaltyProgram = self.env['loyalty.program']
+        # Deactivate all other programs to avoid interference and activate the gift_card_product_50
+        LoyaltyProgram.search([]).write({'pos_ok': False})
+        self.env.ref('loyalty.gift_card_product_50').product_tmpl_id.write({'active': True})
+        # Create gift card program
+        gift_card_program = self.create_programs([('arbitrary_name', 'gift_card')])['arbitrary_name']
+
+        # Run the tour
+        self.start_tour(
+            "/pos/web?config_id=%d" % self.main_pos_config.id,
+            "test_multiple_physical_gift_card_sale",
+            login="pos_user",
+        )
+        self.assertEqual(len(gift_card_program.coupon_ids), 2)

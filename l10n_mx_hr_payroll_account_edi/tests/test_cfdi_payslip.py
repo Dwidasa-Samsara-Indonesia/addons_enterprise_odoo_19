@@ -53,7 +53,7 @@ class TestMxEdiHrPayrollCommon(TestMxEdiCommon):
             'contract_date_start': '2015-01-01',
             'l10n_mx_regime_type': '03',
             'contract_type_id': cls.env.ref('l10n_mx_hr_payroll_account_edi.l10n_mx_contract_type_01').id,
-            'wage': 5000,
+            'wage': 50000,
             'schedule_pay': 'bi-weekly',
         })
 
@@ -110,7 +110,7 @@ class TestMxEdiHrPayrollCommon(TestMxEdiCommon):
         self._assert_payslip_cfdi(payslip, 'test_cfdi_nomina')
 
     def test_cfdi_nomina_con_bonos_fondo_ahorro_y_deducciones(self):
-        self.employee.wage = 3000
+        self.employee.wage = 30000
         self.employee.l10n_mx_savings_fund = 500
         payslip = self._generate_payslip_with_cfdi(
             lines_values={

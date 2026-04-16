@@ -240,10 +240,19 @@ class TestSwissIsoCreditTransfer(TestISO20022CommonCreditTransfer):
         })
 
     @freeze_time('2024-03-04')
-    def test_swiss_iso_xml(self):
+    def test_swiss_iso_xml_pain_03(self):
+        self.company_data['default_journal_bank'].sepa_pain_version = 'pain.001.001.03'
         batch = self.generate_iso20022_batch_payment(self.swiss_partner)
         sct_doc = self.get_sct_doc_from_batch(batch)
         xml_file_path = file_path('account_iso20022/tests/xml_files/pain.001.001.03.ch.02.xml')
+        expected_tree = etree.parse(xml_file_path)
+        self.assertXmlTreeEqual(sct_doc, expected_tree.getroot())
+
+    @freeze_time('2024-03-04')
+    def test_swiss_iso_xml_pain_09(self):
+        batch = self.generate_iso20022_batch_payment(self.swiss_partner, memo="210000000003139471430009017")
+        sct_doc = self.get_sct_doc_from_batch(batch)
+        xml_file_path = file_path('account_iso20022/tests/xml_files/pain.001.001.09.ch.03.xml')
         expected_tree = etree.parse(xml_file_path)
         self.assertXmlTreeEqual(sct_doc, expected_tree.getroot())
 

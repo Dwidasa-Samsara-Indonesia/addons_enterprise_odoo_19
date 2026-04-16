@@ -138,6 +138,16 @@ class HrEmployee(models.Model):
                 if not employee.l10n_ch_legal_first_name:
                     employee.l10n_ch_legal_first_name = first_name
 
+    @api.depends('l10n_ch_legal_first_name', 'l10n_ch_legal_last_name')
+    def _compute_legal_name(self):
+        ch_employees = self.filtered(lambda e: e.company_id.country_code == 'CH')
+        for employee in ch_employees:
+            if employee.l10n_ch_legal_first_name and employee.l10n_ch_legal_last_name:
+                employee.legal_name = f'{employee.l10n_ch_legal_first_name} {employee.l10n_ch_legal_last_name}'
+            else:
+                employee.legal_name = employee.name
+        super(HrEmployee, self - ch_employees)._compute_legal_name()
+
     @api.model
     def _create_or_update_snapshot(self):
 

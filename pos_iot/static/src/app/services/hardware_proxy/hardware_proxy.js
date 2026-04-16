@@ -66,4 +66,16 @@ patch(HardwareProxy.prototype, {
             this.setConnectionInfo({ status: "connected" });
         }
     },
+    /**
+     * @override remove connection check as v19.1+ IoT Boxes can be reached by websocket:
+     * ping connection check doesn't make sense.
+     */
+    async openCashbox(action = false) {
+        if (this.pos.config.iface_cashdrawer && this.printer) {
+            this.printer.openCashbox();
+            if (action) {
+                this.pos.logEmployeeMessage(action, "CASH_DRAWER_ACTION");
+            }
+        }
+    },
 });

@@ -21,7 +21,7 @@ registry.category("web_tour.tours").add("helpdesk_tour", {
             run: "click",
         },
         {
-            trigger: ".o_helpdesk_ticket_kanban_view",
+            trigger: ".o_helpdesk_ticket_kanban_view  .o_kanban_group",
         },
         {
     trigger: '.o-kanban-button-new',

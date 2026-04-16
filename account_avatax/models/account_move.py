@@ -43,13 +43,14 @@ class AccountMove(models.Model):
             'entry': 'Any',
         }[self.move_type]
 
+        avatax_company = self._find_avatax_credentials_company(self.company_id)
         res.update({
             'is_refund': self.move_type == 'out_refund',
             'document_type': document_type,
             'document_date': self.invoice_date,
             'tax_date': (self.reversed_entry_id.avatax_tax_date or self.reversed_entry_id.invoice_date) if self.reversed_entry_id else self.avatax_tax_date,
             'perform_address_validation': self.fiscal_position_id.is_avatax and self.move_type in ('out_invoice', 'out_refund') and not self.origin_payment_id,
-            'commit': self.state == 'posted' and self._find_avatax_credentials_company(self.company_id).avalara_commit,
+            'commit': self.state == 'posted' and avatax_company and avatax_company.avalara_commit,
         })
 
         return res

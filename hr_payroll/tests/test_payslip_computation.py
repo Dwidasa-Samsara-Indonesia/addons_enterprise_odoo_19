@@ -665,3 +665,49 @@ class TestPayslipComputation(TestPayslipContractBase):
             exp_days, exp_hours = expectations[payslip.name]
             self.assertAlmostEqual(line.number_of_days, exp_days, places=2, msg=f"Wrong days for {payslip.name}")
             self.assertAlmostEqual(line.number_of_hours, exp_hours, places=2, msg=f"Wrong hours for {payslip.name}")
+
+    def test_payslip_fully_flexible_employee_without_calendar(self):
+        """
+        Test that payslips and worked days lines are computed for fully flexible employees.
+        """
+        flexible_employee = self.env['hr.employee'].create({
+            'name': 'Fully Flexible Employee',
+            'company_id': self.env.company.id,
+            'resource_calendar_id': False,
+        })
+        flexible_contract = self.env['hr.version'].create({
+            'name': 'Contract - Fully Flexible Employee',
+            'employee_id': flexible_employee.id,
+            'contract_date_start': date(2024, 1, 1),
+            'date_version': date(2024, 1, 1),
+            'wage': 5000.0,
+            'structure_type_id': self.structure_type.id,
+            'resource_calendar_id': False,
+        })
+        # Create a payslip for the flexible employee
+        payslip = self.env['hr.payslip'].create({
+            'name': 'Test Payslip - Fully Flexible Employee',
+            'employee_id': flexible_employee.id,
+            'version_id': flexible_contract.id,
+            'struct_id': self.developer_pay_structure.id,
+            'date_from': date(2024, 1, 1),
+            'date_to': date(2024, 1, 31),
+        })
+        payslip._compute_worked_days_line_ids()
+        self.assertIsNotNone(
+            payslip.worked_days_line_ids,
+            "Worked days lines should be generated for fully flexible employees"
+        )
+        payslip.compute_sheet()
+        self.assertTrue(
+            payslip.line_ids,
+            "Payslip lines should be generated for fully flexible employees"
+        )
+        self.assertEqual(payslip.basic_wage, 5000.0,
+                     "Basic wage should equal contract wage for flexible employees")
+        self.assertGreater(payslip.net_wage, 0,
+                      "Net wage should be greater than 0 for flexible employees")
+        self.assertGreater(payslip.gross_wage, 0,
+                        "Gross wage should be computed for flexible employees")
+        self.assertAlmostEqual(payslip.net_wage, 7905.0, places=2,
+                          msg="Net wage computation changed for flexible employees - possible regression")

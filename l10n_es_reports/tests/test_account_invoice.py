@@ -73,7 +73,7 @@ class TestAccountInvoice(TestAccountReportsCommon):
             [
                 ["Total number of persons and entities",                         1],
                 ["España",                                                       1],
-                ["B - Sales of goods and services greater than 3.005,06 €", 5000.0],
+                ["B - Sales of goods and services greater than 3,005.06 €", 5000.0],
                 ["España",                                                  5000.0],
             ],
             options,
@@ -97,7 +97,7 @@ class TestAccountInvoice(TestAccountReportsCommon):
         expected_lines = [
             ["Total number of persons and entities",                         1],
             ["España",                                                       1],
-            ["B - Sales of goods and services greater than 3.005,06 €", 5000.0],
+            ["B - Sales of goods and services greater than 3,005.06 €", 5000.0],
             ["España",                                                  5000.0],
         ]
 
@@ -162,7 +162,7 @@ class TestAccountInvoice(TestAccountReportsCommon):
         expected_lines = [
             ["Total number of persons and entities",                         1],
             ["España",                                                       1],
-            ["B - Sales of goods and services greater than 3.005,06 €", 5000.0],
+            ["B - Sales of goods and services greater than 3,005.06 €", 5000.0],
             ["España",                                                  5000.0],
         ]
 
@@ -305,17 +305,123 @@ class TestAccountInvoice(TestAccountReportsCommon):
             ('Total number of persons and entities',                              1),
             ('España',                                                            1),
             ('Insurance operations',                                             ''),
-            ('B - Sales of goods and services greater than 3.005,06 €',     48400.0),
+            ('A - Purchases of goods and services greater than 3,005.06 €', 48400.0),
             ('España',                                                      48400.0),
             ('Other operations',                                                 ''),
-            ('A - Purchases of goods and services greater than 3.005,06 €',     0.0),
-            ('B - Sales of goods and services greater than 3.005,06 €',         0.0),
+            ('A - Purchases of goods and services greater than 3,005.06 €',     0.0),
+            ('B - Sales of goods and services greater than 3,005.06 €',         0.0),
         ]
         lines = report._get_lines(options)
 
         self.assertLinesValues(
-            lines[0:3] + lines[-6:],
+            lines[0:3] + lines[-7:-4] + lines[-3:],
             [0, 1],
             expected_values,
+            options,
+        )
+
+    def test_mod347_include_negative_threshold(self):
+        self.init_invoice(
+            'out_invoice',
+            partner=self.partner_es,
+            amounts=[4000],
+            invoice_date='2025-11-25',
+            post=True,
+        )
+
+        self.init_invoice(
+            'out_refund',
+            partner=self.partner_es,
+            amounts=[10000],
+            invoice_date='2025-11-25',
+            post=True,
+        )
+
+        partner_es_2 = self.partner_es.copy()
+
+        self.init_invoice(
+            'in_invoice',
+            partner=partner_es_2,
+            amounts=[2000],
+            invoice_date='2025-11-25',
+            post=True,
+        )
+
+        self.init_invoice(
+            'in_refund',
+            partner=partner_es_2,
+            amounts=[5500],
+            invoice_date='2025-11-25',
+            post=True,
+        )
+
+        report = self.env.ref('l10n_es_reports.mod_347')
+        options = self._generate_options(
+            report, "2025-11-01", "2025-11-30", default_options={"unfold_all": True}
+        )
+
+        lines = report._get_lines(options)
+        lines = lines[1:4] + lines[-5:]
+
+        self.assertLinesValues(
+            lines,
+            [0, 1],
+            [
+                ("Total number of persons and entities",                              2),
+                ("España",                                                            2),
+                ("España (copy)",                                                     2),
+                ('Other operations',                                                 ''),
+                ('A - Purchases of goods and services greater than 3,005.06 €', -4235.0),
+                ('España (copy)',                                               -4235.0),
+                ("B - Sales of goods and services greater than 3,005.06 €",     -6000.0),
+                ("España",                                                      -6000.0),
+            ],
+            options,
+        )
+
+    def test_mod347_separate_purchase_and_sale_thresholds(self):
+        """
+        Ensure Sales and Purchases are checked separately against the 3,005.06 € threshold.
+        The partner must appear if either group exceeds the limit, even if they cancel
+        each other out.
+        """
+        # 1. Create a Vendor Bill (Purchase) of 5,000 €
+        self.init_invoice(
+            'in_invoice',
+            partner=self.partner_es,
+            amounts=[5000],
+            invoice_date='2025-11-27',
+            post=True,
+        )
+
+        # 2. Create a Customer Credit Note (Sale Refund) of 7,000 €
+        self.init_invoice(
+            'out_refund',
+            partner=self.partner_es,
+            amounts=[7000],
+            invoice_date='2025-11-27',
+            post=True,
+        )
+
+        report = self.env.ref('l10n_es_reports.mod_347')
+        options = self._generate_options(
+            report, "2025-11-01", "2025-11-30", default_options={"unfold_all": True}
+        )
+
+        lines = report._get_lines(options)
+        lines = lines[1:3] + lines[-5:]
+
+        self.assertLinesValues(
+            lines,
+            [0, 1],
+            [
+                ("Total number of persons and entities",                             1),
+                ("España",                                                           2),
+                ('Other operations',                                                ''),
+                ("A - Purchases of goods and services greater than 3,005.06 €", 6050.0),
+                ("España",                                                      6050.0),
+                ("B - Sales of goods and services greater than 3,005.06 €",    -7000.0),
+                ("España",                                                     -7000.0),
+            ],
             options,
         )

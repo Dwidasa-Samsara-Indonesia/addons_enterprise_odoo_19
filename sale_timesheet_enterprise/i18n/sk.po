@@ -10,74 +10,77 @@
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2022
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2022
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:47+0000\n"
-"PO-Revision-Date: 2025-11-17 03:32+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-04 10:54+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "sale_timesheet_enterprise/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
+"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.js:0
 msgid "%(billableTime)s / %(billable_time_target)s (%(billingRate)s%)"
-msgstr ""
+msgstr "%(billableTime)s / %(billable_time_target)s (%(billingRate)s%)"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/timesheet_leaderboard/timesheet_leaderboard.js:0
 msgid "%(currentBillableTimeText)s / %(currentTargetTotalTimeText)s "
-msgstr ""
+msgstr "%(currentBillableTimeText)s / %(currentTargetTotalTimeText)s "
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_analysis_pivot/timesheet_analysis_pivot_model.js:0
 msgid "%(employee_name)s (%(target)sh / month)"
-msgstr ""
+msgstr "%(employee_name)s (%(target)sh / mesiac)"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/timesheet_leaderboard/timesheet_leaderboard.js:0
 msgid "%(percentage)s%"
-msgstr ""
+msgstr "%(percentage)s%"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/timesheet_leaderboard/timesheet_leaderboard.js:0
 msgid "(%(percentage)s%)"
-msgstr ""
+msgstr "(%(percentage)s%)"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_kanban
 msgid ""
 "<i class=\"fa fa-fw me-2 fa-birthday-cake text-primary\" title=\"Birthday\"/>"
 msgstr ""
+"<i class=\"fa fa-fw me-2 fa-birthday-cake text-primary\" "
+"title=\"Narodeniny\"/>"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_kanban
 msgid "<i class=\"fa fa-fw me-2 fa-envelope text-primary\" title=\"Email\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-fw me-2 fa-envelope text-primary\" title=\"E-mail\"/>"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_kanban
 msgid "<i class=\"fa fa-fw me-2 fa-phone text-primary\" title=\"Phone\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-fw me-2 fa-phone text-primary\" title=\"Telefón\"/>"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_employee_form
 msgid "<span class=\"m-14 w-100\">per month</span>"
-msgstr ""
+msgstr "<span class=\"m-14 w-100\">mesačne</span>"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.sale_timesheet_enterprise_advance_payment_inv_timesheet_view_form
@@ -89,11 +92,17 @@ msgid ""
 "these timers.\n"
 "                        </span>"
 msgstr ""
+"<span>\n"
+"                            Niektorí zamestnanci majú v súčasnosti aktívne "
+"časomiery v pracovných výkazov, ktoré sa snažíte fakturovať.\n"
+"                            Vytvorenie faktúry automaticky zastaví tieto "
+"časomiery.\n"
+"                       </span>"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__active
 msgid "Active"
-msgstr ""
+msgstr "Aktívne"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields.selection,name:sale_timesheet_enterprise.selection__res_config_settings__invoiced_timesheet__all
@@ -103,7 +112,7 @@ msgstr "Všetky zaznamenané pracovné výkazy"
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_account_analytic_line
 msgid "Analytic Line"
-msgstr ""
+msgstr "Analytický riadok"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_7
@@ -111,69 +120,71 @@ msgid ""
 "Any time spent interacting with others—whether it’s a quick call, a meeting, "
 "or an informal chat—is valuable and should be recorded."
 msgstr ""
+"Každý čas strávený interakciou s ostatnými – či už ide o rýchly telefonát, "
+"stretnutie alebo neformálny rozhovor – je cenný a mal by sa zaznamenať."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Archived"
-msgstr ""
+msgstr "Archivované"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/many2one_avatar_rank_field/many2one_avatar_rank_field.xml:0
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__avatar_128
 msgid "Avatar 128"
-msgstr ""
+msgstr "Avatar 128"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__avatar_1920
 msgid "Avatar 1920"
-msgstr ""
+msgstr "Avatar 1920"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.sale_timesheet_employee_list_inherit
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_tree
 msgid "Average"
-msgstr ""
+msgstr "Priemer"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_employee_public__billable_time_target
 msgid "Billable Time Target"
-msgstr ""
+msgstr "Cieľový čas na fakturáciu"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_res_config_settings__timesheet_show_rates
 msgid "Billing Rate Indicators"
-msgstr ""
+msgstr "Ukazovatele miery fakturácie"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.js:0
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_res_config_settings__timesheet_show_leaderboard
 msgid "Billing Rate Leaderboard"
-msgstr ""
+msgstr "Rebríček miery fakturácie"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_employee__billable_time_target
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Billing Time Target"
-msgstr ""
+msgstr "Cieľový čas fakturácie"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.ui.menu,name:sale_timesheet_enterprise.hr_timesheet_menu_employee
 #: model:ir.ui.menu,name:sale_timesheet_enterprise.hr_timesheet_menu_employee_billable_time_target
 msgid "Billing Time Targets"
-msgstr ""
+msgstr "Cieľový časy fakturácie"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/timesheet_leaderboard/timesheet_leaderboard.xml:0
 msgid "Billing:"
-msgstr ""
+msgstr "Fakturácia:"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.res_config_settings_view_form
@@ -181,6 +192,8 @@ msgid ""
 "Boost productivity and competitiveness by displaying a leaderboard based on "
 "the billing rates."
 msgstr ""
+"Zvýšte produktivitu a konkurencieschopnosť zobrazením rebríčka založeného na "
+"miere fakturácie."
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_15
@@ -188,27 +201,29 @@ msgid ""
 "By maintaining clear timesheets, you demonstrate your dedication and help "
 "build trust—your effort truly matters!"
 msgstr ""
+"Vedením prehľadných pracovných výkazov preukazujete svoje odhodlanie a "
+"pomáhate budovať dôveru – vaše úsilie naozaj má význam!"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.xml:0
 msgid "Close"
-msgstr ""
+msgstr "Zatvoriť"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__coach_id
 msgid "Coach"
-msgstr ""
+msgstr "Tréner"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Spoločnosti"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__company_id
 msgid "Company"
-msgstr ""
+msgstr "Spoločnost"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_res_config_settings
@@ -218,7 +233,7 @@ msgstr "Nastavenia konfigurácie"
 #. module: sale_timesheet_enterprise
 #: model:ir.ui.menu,name:sale_timesheet_enterprise.hr_timesheet_menu_configuration_settings
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurácia"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_9
@@ -226,27 +241,29 @@ msgid ""
 "Consistently tracking your time ensures no effort, big or small, goes "
 "unnoticed."
 msgstr ""
+"Konzistentné sledovanie času zaručuje, že žiadna snaha, či už veľká alebo "
+"malá, nezostane nepovšimnutá."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__create_date
 msgid "Create Date"
-msgstr ""
+msgstr "Dátum vytvorenia"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,website_form_label:sale_timesheet_enterprise.model_project_task
 msgid "Create a Task"
-msgstr ""
+msgstr "Vytvoriť úlohu"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__create_uid
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_timesheet_tip__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Vytvoril"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_timesheet_tip__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Vytvorené"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.timesheet_view_grid_by_invoice_type
@@ -257,7 +274,7 @@ msgstr "Deň"
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__department_id
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "Department"
-msgstr ""
+msgstr "Oddelenie"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
@@ -267,11 +284,14 @@ msgid ""
 "order line and the %(uom)s spent (%(worked_hours)s) on all related projects "
 "and tasks"
 msgstr ""
+"Rozdiel medzi prideleným časom ( %(uom)s ) (%(allocated_hours)s) v riadku "
+"predajnej objednávky a vynaloženým časom ( %(uom)s ) (%(worked_hours)s) na "
+"všetkých súvisiacich projektoch a úlohách"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__child_ids
 msgid "Direct subordinates"
-msgstr ""
+msgstr "Priamy podriadení"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_account_analytic_line__display_name
@@ -288,12 +308,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_sale_advance_payment_inv__display_name
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_sale_order_line__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný názov"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_project_task__portal_progress
 msgid "Display progress of current task."
-msgstr "Zobrazí pokrok aktuálnej úlohy"
+msgstr "Zobrazí pokrok aktuálnej úlohy."
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_10
@@ -301,11 +321,13 @@ msgid ""
 "Don’t second-guess whether something “counts”—if you’ve spent time on it, it "
 "belongs in your timesheet."
 msgstr ""
+"Nerozmýšľajte nad tým, či niečo „sa počíta“ – ak ste tomu venovali čas, "
+"patrí to do vášho pracovného výkazu."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_tree
 msgid "Edit Billable Time Target"
-msgstr ""
+msgstr "Upraviť cieľ fakturovateľného času"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_edit_billable_time_target
@@ -313,6 +335,8 @@ msgid ""
 "Edit Billable Time Target wizard from Timesheet for users without employee "
 "access"
 msgstr ""
+"Sprievodca úpravou cieľom fakturovateľného času z pracovného výkazu pre "
+"užívateľov bez prístupu k záznamu zamestnanca"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_hr_employee
@@ -320,34 +344,34 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Employee"
-msgstr ""
+msgstr "Zamestnanec"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Employee Name"
-msgstr ""
+msgstr "Meno zamestnanca"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_kanban
 msgid "Employee's Name"
-msgstr ""
+msgstr "Meno zamestnanca"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.actions.act_window,name:sale_timesheet_enterprise.action_open_edit_billable_time_target
 #: model:ir.actions.act_window,name:sale_timesheet_enterprise.action_open_view_employee
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "Employees"
-msgstr ""
+msgstr "Zamestnanci"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__hr_icon_display
 msgid "Hr Icon Display"
-msgstr ""
+msgstr "Zobrazenie ikony Hr"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__hr_presence_state
 msgid "Hr Presence State"
-msgstr ""
+msgstr "Stav prítomnosti Hr"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_account_analytic_line__id
@@ -364,23 +388,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_sale_advance_payment_inv__id
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_sale_order_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_6
 msgid ""
 "If you’re unsure if something is billable, just log it. You deserve credit."
 msgstr ""
+"Ak si nie ste istí, či je niečo fakturovateľné, jednoducho to zaznamenajte. "
+"Zaslúžite si kredit."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__image_1024
 msgid "Image 1024"
-msgstr ""
+msgstr "Obrázok 1024"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__image_128
 msgid "Image 128"
-msgstr ""
+msgstr "Obrázok 128"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.res_config_settings_view_form
@@ -390,7 +416,7 @@ msgstr "Faktúra"
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.res_config_settings_view_form
 msgid "Invoicing Policy"
-msgstr "Postup fakturácie"
+msgstr "Fakturácia na základe"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_3
@@ -398,13 +424,15 @@ msgid ""
 "It's part of the job to search for information. These hours should also be "
 "billable."
 msgstr ""
+"Hľadanie informácií je súčasťou práce. Tieto hodiny by mali byť tiež "
+"fakturovateľné."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__job_id
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Job Position"
-msgstr ""
+msgstr "Pracovná pozícia"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_account_move_line
@@ -415,46 +443,46 @@ msgstr "Položka účtovnej knihy"
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__write_uid
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_timesheet_tip__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Naposledy upravoval"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__write_date
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_timesheet_tip__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Naposledy upravované"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Location"
-msgstr ""
+msgstr "Umiestnenie"
 
 #. module: sale_timesheet_enterprise
 #. odoo-python
 #: code:addons/sale_timesheet_enterprise/models/res_company.py:0
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_4
 msgid "Make it a habit to record timesheets every day."
-msgstr ""
+msgstr "Zvyknite si zaznamenávať pracovné výkazy každý deň ."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__parent_id
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "Manager"
-msgstr ""
+msgstr "Manažér"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__member_of_department
 msgid "Member of department"
-msgstr ""
+msgstr "Člen oddelenia"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_ir_ui_menu
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__mobile_phone
 msgid "Mobile Phone"
-msgstr ""
+msgstr "Mobilný telefón"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.timesheet_view_grid_by_invoice_type
@@ -465,49 +493,50 @@ msgstr "Mesiac"
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__billable_time_target
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.sale_timesheet_employee_list_inherit
 msgid "Monthly Billing Time Target"
-msgstr ""
+msgstr "Cieľový čas mesačnej fakturácie"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.actions.act_window,help:sale_timesheet_enterprise.hr_timesheet_tip_action
 msgid "Motivate employees to fill timesheets with these tips."
 msgstr ""
+"Motivujte zamestnancov, aby vyplňovali pracovné výkazy pomocou týchto tipov."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "My Department"
-msgstr ""
+msgstr "Moje oddelenie"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "My Team"
-msgstr ""
+msgstr "Môj tím"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__name
 msgid "Name"
-msgstr ""
+msgstr "Názov"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__newly_hired
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "Newly Hired"
-msgstr ""
+msgstr "Novoprijatý"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.actions.act_window,help:sale_timesheet_enterprise.action_open_edit_billable_time_target
 #: model_terms:ir.actions.act_window,help:sale_timesheet_enterprise.action_open_view_employee
 msgid "No employees found"
-msgstr ""
+msgstr "Nenašli sa žiadni zamestnanci"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.actions.act_window,help:sale_timesheet_enterprise.hr_timesheet_tip_action
 msgid "No tips found. Let's create one!"
-msgstr ""
+msgstr "Nenašli sa žiadne tipy. Vytvorme jeden!"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Organization Chart"
-msgstr ""
+msgstr "Organizačná štruktúra"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_11
@@ -515,6 +544,8 @@ msgid ""
 "Organizing, planning, or reviewing your work is part of the job and should "
 "be logged like any other task."
 msgstr ""
+"Organizácia, plánovanie alebo kontrola vašej práce je súčasťou práce a mala "
+"by sa zaznamenávať ako akákoľvek iná úloha."
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_12
@@ -522,6 +553,8 @@ msgid ""
 "Preparation is crucial for successful meetings. Always include the time you "
 "spend getting ready in your timesheet."
 msgstr ""
+"Príprava je kľúčová pre úspešné stretnutia. Vždy zahrňte čas, ktorý strávite "
+"prípravou, do svojho pracovného výkazu."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_form
@@ -537,34 +570,36 @@ msgstr "Projekt"
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__birthday_public_display_string
 msgid "Public Date of Birth"
-msgstr ""
+msgstr "Dátum narodenia (verejné)"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_hr_employee_public
 msgid "Public Employee"
-msgstr ""
+msgstr "Zamestnanec (verejné)"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/timesheet_leaderboard/timesheet_leaderboard.xml:0
 msgid "Record timesheets to determine your billing rate!"
 msgstr ""
+"Zaznamenávajte pracovné výkazy, aby ste mohli určiť svoju fakturačnú sadzbu!"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/components/timesheet_leaderboard/timesheet_leaderboard.xml:0
 msgid "Record timesheets to earn your rank!"
 msgstr ""
+"Zaznamenávajte si pracovné výkazy, aby ste si zaslúžili svoje hodnotenie!"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
-msgstr ""
+msgstr "Zálohová faktúra predaja"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Položka objednávok"
+msgstr "Riadok predajnej objednávky"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.res_config_settings_view_form
@@ -572,22 +607,26 @@ msgid ""
 "Set a billable time target for your employees. If their current rate falls "
 "below their target, it will be highlighted in red."
 msgstr ""
+"Nastavte cieľový čas fakturovateľnej práce pre svojich zamestnancov. Ak ich "
+"aktuálna miera klesne pod cieľovú hodnotu, bude zvýraznená červenou farbou."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.actions.act_window,help:sale_timesheet_enterprise.action_open_edit_billable_time_target
 #: model_terms:ir.actions.act_window,help:sale_timesheet_enterprise.action_open_view_employee
 msgid "Set a billing time target for employees whose timesheets you approve."
 msgstr ""
+"Nastavte cieľový čas fakturácie pre zamestnancov, ktorých pracovné výkazy "
+"schvaľujete."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.res_config_settings_view_form
 msgid "Set employee billing time targets"
-msgstr ""
+msgstr "Nastavte ciele fakturovaného času zamestnancov"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_employee_public__show_billable_time_target
 msgid "Show Billable Time Target"
-msgstr ""
+msgstr "Zobraziť cieľ fakturovaného času"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__show_hr_icon_display
@@ -598,23 +637,23 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.xml:0
 msgid "Show less"
-msgstr ""
+msgstr "Zobraziť menej"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.xml:0
 msgid "Show more"
-msgstr ""
+msgstr "Zobraziť viac"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_res_config_settings__timesheet_show_rates
 msgid "Show the billing indicators on My Timesheets view"
-msgstr ""
+msgstr "Zobraziť fakturačné indikátory v zobrazení Moje pracovné výkazy"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_res_config_settings__timesheet_show_leaderboard
 msgid "Show the leaderboard on My Timesheets view"
-msgstr ""
+msgstr "Zobraziť rebríček v zobrazení Moje pracovné výkazy"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_13
@@ -622,68 +661,69 @@ msgid ""
 "Small administrative tasks keep operations running smoothly. Don’t forget to "
 "include them in your timesheet."
 msgstr ""
+"Malé administratívne úlohy zabezpečujú hladký chod prevádzky. Nezabudnite "
+"ich zahrnúť do svojho pracovného výkazu."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_filter
 msgid "Start Date"
-msgstr ""
+msgstr "Dátum začiatku"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_project_task
 msgid "Task"
-msgstr "Požiadavka"
+msgstr "Úloha"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.constraint,message:sale_timesheet_enterprise.constraint_hr_employee_check_billable_time_target
 msgid "The billable time target cannot be negative."
-msgstr ""
+msgstr "Cieľový čas na fakturáciu nemôže byť záporný."
 
 #. module: sale_timesheet_enterprise
 #. odoo-python
 #: code:addons/sale_timesheet_enterprise/models/project_task.py:0
 msgid "This Sale Order Item doesn't have a target value of planned hours."
 msgstr ""
+"Táto položka predajnej objednávky nemá cieľovú hodnotu plánovaných hodín."
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.xml:0
 msgid "This month"
-msgstr ""
+msgstr "Tento mesiac"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_form
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_tree
 msgid "Time Remaining"
-msgstr ""
+msgstr "Zostávajúci čas"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_form
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_tree
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.timesheet_view_grid_by_invoice_type
 msgid "Time Spent"
-msgstr ""
+msgstr "Vykázaný čas"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_tree
 msgid "Time Spent on Sub-tasks"
-msgstr ""
+msgstr "Vykázaný čas na podúlohách"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_project_task__portal_subtask_effective_hours
 msgid "Time spent on the sub-tasks (and their own sub-tasks) of this task."
-msgstr ""
-"Čas strávený vykonaním čiastkových úloh (a ich vlastných čiastkových úloh) "
-"tejto úlohy."
+msgstr "Čas strávený vykonaním podúloh (a ich vlastných podúloh) tejto úlohy."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_project_task__portal_effective_hours
 msgid "Time spent on this task, excluding its sub-tasks."
-msgstr "Čas strávený touto úlohou, s výnimkou jej čiastkových úloh."
+msgstr "Čas strávený touto úlohou, s výnimkou jej podúloh."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_project_task__portal_total_hours_spent
 msgid "Time spent on this task, including its sub-tasks."
-msgstr "Čas strávený touto úlohou vrátane jej čiastkových úloh."
+msgstr "Čas strávený touto úlohou vrátane jej podúloh."
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_8
@@ -691,18 +731,20 @@ msgid ""
 "Time spent troubleshooting or resolving unexpected issues is still work. "
 "Don’t forget to include it in your timesheet."
 msgstr ""
+"Vykázaný čas strávený riešením neočakávaných problémov je stále prácou. "
+"Nezabudnite ho zahrnúť do svojho pracovného výkazu."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__timesheet_manager_id
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.sale_timesheet_employee_list_inherit
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_tree
 msgid "Timesheet Approver"
-msgstr ""
+msgstr "Schvaľovateľ pracovných výkazov"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_employee__show_billable_time_target
 msgid "Timesheet Show Rates"
-msgstr ""
+msgstr "Zobraziť ciel miery fakturácie"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
@@ -721,7 +763,7 @@ msgstr "Faktúrovanie pacovných výkazov"
 #. module: sale_timesheet_enterprise
 #: model:ir.model,name:sale_timesheet_enterprise.model_hr_timesheet_tip
 msgid "Timesheets Leaderboard Tip"
-msgstr ""
+msgstr "Tipy k rebríčku pracovných výkazov"
 
 #. module: sale_timesheet_enterprise
 #: model:hr.timesheet.tip,name:sale_timesheet_enterprise.timesheet_tip_1
@@ -729,22 +771,24 @@ msgid ""
 "Timesheets are the lifeblood of our company; they have a direct impact on "
 "revenues."
 msgstr ""
+"Pracovné výkazy sú životnou silou našej spoločnosti; majú priamy vplyv na "
+"tržby."
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.res_config_settings_view_form
 msgid "Timesheets taken into account when invoicing your time"
-msgstr ""
+msgstr "Pracovné výkazy, ktoré sa zohľadní pri fakturácii vášho času"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_hr_timesheet_tip__name
 msgid "Tip Name"
-msgstr ""
+msgstr "Názov tipu"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.xml:0
 msgid "Tip of the day"
-msgstr ""
+msgstr "Tip dňa"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.actions.act_window,name:sale_timesheet_enterprise.hr_timesheet_tip_action
@@ -752,18 +796,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.hr_timesheet_tip_view_form
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.hr_timesheet_tip_view_tree
 msgid "Tips"
-msgstr ""
+msgstr "Tipy"
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript
 #: code:addons/sale_timesheet_enterprise/static/src/views/timesheet_leaderboard_dialog/timesheet_leaderboard_dialog.js:0
 msgid "Total Time Leaderboard"
-msgstr ""
+msgstr "Rebríček celkového času"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.project_sharing_inherit_project_task_view_tree
 msgid "Total Time Spent"
-msgstr ""
+msgstr "Celkový vykázaný čas"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_project_task__portal_remaining_hours
@@ -789,16 +833,27 @@ msgid ""
 "        Make sure to use the right format and order e.g. Improve the "
 "configuration screen 5h #feature #v16 @Mitchell !"
 msgstr ""
+"Na nastavenie nových úloh použite tieto kľúčové slová v názve:\n"
+"\n"
+"        30h Prideliť úlohe 30 hodín\n"
+"        #tags Nastaviť štítky úlohy\n"
+"        @user Prideliť úlohu používateľovi\n"
+"        ! Nastaviť úlohu ako strednú prioritu\n"
+"        !! Nastaviť úlohu ako vysokú prioritu\n"
+"        !!! Nastavte úlohe naliehavú prioritu\n"
+"\n"
+"        Uistite sa, že používate správny formát a poradie, napr. Vylepšiť "
+"konfiguračnú obrazovku 5h #bug #v16 @Jano !"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__user_id
 msgid "User"
-msgstr ""
+msgstr "Užívateľ"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields.selection,name:sale_timesheet_enterprise.selection__res_config_settings__invoiced_timesheet__approved
 msgid "Validated timesheets only"
-msgstr ""
+msgstr "Iba schválené pracovné výkazy"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.timesheet_view_grid_by_invoice_type
@@ -811,6 +866,8 @@ msgid ""
 "When you share your knowledge with clients or teammates, that time is "
 "valuable. Be sure to track it accurately."
 msgstr ""
+"Keď zdieľate svoje vedomosti s klientmi alebo kolegami, je tento čas cenný. "
+"Nezabudnite ho presne sledovať."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_edit_billable_time_target__member_of_department
@@ -818,6 +875,8 @@ msgid ""
 "Whether the employee is a member of the active user's department or one of "
 "it's child department."
 msgstr ""
+"Či je zamestnanec členom oddelenia aktívneho užívateľa alebo jedného z jeho "
+"pododdelení."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,help:sale_timesheet_enterprise.field_res_config_settings__invoiced_timesheet
@@ -828,51 +887,56 @@ msgid ""
 "When you choose the 'validated timesheets only' option, only the validated "
 "timesheets will be invoiced and appear in your customers' portal."
 msgstr ""
+"S voľbou „všetky zaznamenané pracovné výkazy“ budú všetky pracovné výkazy "
+"fakturované bez rozdielu, aj keď neboli schválení. Navyše budú všetky "
+"pracovné výkazy dostupné v portáli vašich zákazníkov. \n"
+"Ak zvolíte voľbu „len schválené pracovné výkazy“, budú fakturované a "
+"zobrazia sa v portáli vašich zákazníkov len overené pracovné výkazy."
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__address_id
 msgid "Work Address"
-msgstr ""
+msgstr "Adresa pracoviska"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__work_email
 msgid "Work Email"
-msgstr ""
+msgstr "Pracovný e-mail"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "Work Information"
-msgstr ""
+msgstr "Pracovné informácie"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__work_location_id
 msgid "Work Location"
-msgstr ""
+msgstr "Miesto práce"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__work_location_name
 msgid "Work Location Name"
-msgstr ""
+msgstr "Názov pracoviska"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__work_phone
 msgid "Work Phone"
-msgstr ""
+msgstr "Pracovný telefón"
 
 #. module: sale_timesheet_enterprise
 #: model:ir.model.fields,field_description:sale_timesheet_enterprise.field_edit_billable_time_target__resource_calendar_id
 msgid "Working Hours"
-msgstr ""
+msgstr "Pracovný čas"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.view_edit_billable_time_target_update_form
 msgid "e.g. John Doe"
-msgstr ""
+msgstr "napr. Jožko Mrkvička"
 
 #. module: sale_timesheet_enterprise
 #: model_terms:ir.ui.view,arch_db:sale_timesheet_enterprise.hr_timesheet_tip_view_tree
 msgid "e.g. Make it a habit to record timesheets every day."
-msgstr ""
+msgstr "napr. Zvyknite si zaznamenávať pracovné výkazy každý deň."
 
 #. module: sale_timesheet_enterprise
 #. odoo-javascript

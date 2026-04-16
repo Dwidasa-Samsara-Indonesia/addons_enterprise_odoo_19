@@ -1,7 +1,18 @@
+.o_link_color {
+    background-color: $btn-link-color;
+    color: var(--o-navbar-badge-color, $o-navbar-badge-color);
+}
+
 .o_bank_reconciliation_container {
     padding: 0;
     font-size: $o-font-size-base;
-    overflow: hidden;
+
+    // To show the chatter below the page.
+    @include media-breakpoint-between(md, xl) {
+        flex-direction: column;
+        height: 100dvh;
+        overflow: auto;
+    }
 
     .user-select-text {
         user-select: text;
@@ -9,11 +20,22 @@
 
     .o_bank_rec_widget_chatter_container {
         overflow: auto;
+        @include media-breakpoint-between(md, xl) {
+            height: 50%;
+            width: 100%;
+        }
+    }
+
+    .o_bank_reconciliation_kanban_renderer_mobile {
+        @include media-breakpoint-between(md, xl) {
+            min-height: 50%;
+        }
     }
 
     .o_bank_reconciliation_kanban_renderer {
         --Kanban-padding: 0;
 
+        height: 100%;
         overflow: auto;
 
         .o_statement_line {
@@ -39,6 +61,15 @@
                         color: var(--o-navbar-badge-color, $o-navbar-badge-color);
                         text-shadow: var(--o-navbar-badge-text-shadow, #{$o-navbar-badge-text-shadow});
                         transform: translate(-0.6em, -30%);
+                    }
+
+                    .suggestion-dot {
+                        position: absolute;
+                        margin-right: -.5em;
+                        padding: ($o-navbar-badge-padding * .5) $o-navbar-badge-padding;
+                        text-shadow: var(--o-navbar-badge-text-shadow, #{$o-navbar-badge-text-shadow});
+                        transform: translate(-0.6em, -30%);
+                        height: 12px;
                     }
 
                     .o_payment_ref {
@@ -158,9 +189,18 @@
                 margin: 0;
                 width: 100%;
 
-                &:hover {
-                    .o_statement_btn {
-                        opacity: 1;
+                @media (hover: hover) {
+                    &:hover {
+                        .o_statement_btn {
+                            opacity: 1;
+                        }
+                    }
+                }
+                @media (hover: none) {
+                    &:focus-within {
+                        .o_statement_btn {
+                            opacity: 1;
+                        }
                     }
                 }
             }

@@ -117,7 +117,7 @@ class HrEmployee(models.Model):
     @api.depends('ongoing_appraisal_count', 'company_id.appraisal_plan', 'company_id.duration_after_recruitment', 'company_id.duration_first_appraisal', 'company_id.duration_next_appraisal')
     def _compute_next_appraisal_date(self):
         self.filtered('ongoing_appraisal_count').next_appraisal_date = False
-        employees_without_appraisal = self.filtered(lambda e: e.ongoing_appraisal_count == 0 and e.company_id.appraisal_plan)
+        employees_without_appraisal = self.filtered(lambda e: e.ongoing_appraisal_count == 0 and e.company_id.appraisal_plan and e.active)
         dates = employees_without_appraisal._upcoming_appraisal_creation_date()
         for employee in employees_without_appraisal:
             employee.next_appraisal_date = dates[employee.id]
@@ -174,6 +174,11 @@ class HrEmployee(models.Model):
             }
         # Reuse the action in hr.appraisal to open the employee's previous appraisals
         return self.appraisal_ids[:1].action_open_employee_appraisals()
+
+    def action_archive(self):
+        res = super().action_archive()
+        self.next_appraisal_date = False
+        return res
 
     @api.ondelete(at_uninstall=False)
     def _unlink_expect_goal_manager(self):

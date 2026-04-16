@@ -28,6 +28,10 @@ const tags = [
     "printDuplicateReceipt",
     "openDrawer",
     "printContentByNumbers",
+    "printerNonFiscal",
+    "printNormal",
+    "beginNonFiscal",
+    "endNonFiscal",
 ];
 
 const attributes = [

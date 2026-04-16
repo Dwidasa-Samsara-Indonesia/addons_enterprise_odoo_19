@@ -372,8 +372,8 @@ class HrPayslipEmployeeDepatureHolidayAttests(models.TransientModel):
         legal_time_off_lines_leave = self.time_off_line_ids.filtered(
             lambda t: t.year == current_year.year and t.leave_type_id.id in legal_time_off_types
         )
-        time_off_allocated = legal_time_off_lines_allocation.leave_allocation_count
-        time_off_taken = legal_time_off_lines_leave.leave_count
+        time_off_allocated = sum(legal_time_off_lines_allocation.mapped('leave_allocation_count'))
+        time_off_taken = sum(legal_time_off_lines_leave.mapped('leave_count'))
         european_wds = payslip_n1.mapped('worked_days_line_ids').filtered(lambda wd: wd.code == 'LEAVE216')
         european_leaves_amount = sum(european_wds.mapped('amount'))
         european_leaves_days = sum(european_wds.mapped('number_of_days'))

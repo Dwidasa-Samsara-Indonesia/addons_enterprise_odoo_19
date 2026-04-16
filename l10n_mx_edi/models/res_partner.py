@@ -98,7 +98,7 @@ class ResPartner(models.Model):
             return 'MX'
         return super()._deduce_country_code()
 
-    @api.depends('country_id', 'zip')
+    @api.depends('country_id', 'zip', 'vat')
     def _compute_l10n_mx_edi_partner_address_complete(self):
         for partner in self:
-            partner.l10n_mx_edi_partner_address_complete = bool(partner.country_id and partner.zip)
+            partner.l10n_mx_edi_partner_address_complete = bool(partner.country_id and partner.zip and partner.vat)

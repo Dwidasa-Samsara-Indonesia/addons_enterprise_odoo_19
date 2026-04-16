@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
 "PO-Revision-Date: 2026-01-05 18:39+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/pos_iot/"
@@ -366,12 +366,6 @@ msgstr "IoT Boxがまだ接続されているかどうかを確認してくだ�
 
 #. module: pos_iot
 #. odoo-javascript
-#: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
-msgid "Please check if the terminal is still connected."
-msgstr "端末がまだ接続されているか確認して下さい。"
-
-#. module: pos_iot
-#. odoo-javascript
 #: code:addons/pos_iot/static/src/app/services/pos_store.js:0
 msgid "Please process or cancel the current transaction."
 msgstr "現在の取引を処理またはキャンセルして下さい。"
@@ -406,12 +400,6 @@ msgstr "プロキシ経由で印刷"
 #: code:addons/pos_iot/static/src/app/utils/printer/iot_printer.js:0
 msgid "Printing failed"
 msgstr "印刷に失敗しました"
-
-#. module: pos_iot
-#. odoo-javascript
-#: code:addons/pos_iot/static/src/app/utils/printer/iot_printer.js:0
-msgid "Printing warning"
-msgstr "印刷警告"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_printer__proxy_ip
@@ -454,6 +442,14 @@ msgstr "Six決済端末"
 #: model:ir.model.fields,help:pos_iot.field_pos_printer__proxy_ip
 msgid "The IP Address or hostname of the Printer's hardware proxy"
 msgstr "プリンタのハードウェアプロキシのIPアドレスまたはホスト名"
+
+#. module: pos_iot
+#. odoo-javascript
+#: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
+msgid ""
+"The IoT Box cannot detect the payment terminal. Please check if the terminal "
+"is still connected."
+msgstr ""
 
 #. module: pos_iot
 #. odoo-javascript
@@ -550,6 +546,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "none"
 msgstr "なし"
+
+#~ msgid "Please check if the terminal is still connected."
+#~ msgstr "端末がまだ接続されているか確認して下さい。"
+
+#~ msgid "Printing warning"
+#~ msgstr "印刷警告"
 
 #~ msgid "Amount:"
 #~ msgstr "金額:"

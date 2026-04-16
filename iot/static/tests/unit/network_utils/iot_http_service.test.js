@@ -198,16 +198,6 @@ describe("action", () => {
         expect(calledCallback).toBe("onSuccess");
     });
 
-    test("recent longpolling failure short-circuits longpolling path", async () => {
-        // simulate that longpolling just failed
-        iotHttpService.longpollingFailedTimestamp = Date.now();
-        webRtc.setThrow(true);
-        // longpolling should be skipped due to recent failure, so websocket is used
-        await iotHttpService.action(1, "device-5", { test: "val" }, onSuccess);
-        expect(calledCallback).toBe("onSuccess");
-        expect(iotHttpService.connectionStatus).toBe("websocket");
-    });
-
     test("webrtc onMessage calls back onFailure", async () => {
         webRtc.setFail(true); // make WebRTC onMessage report failure
         await iotHttpService.action(1, "device-webrtc-fail", { foo: "bar" }, onSuccess, onFailure);

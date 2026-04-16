@@ -1,5 +1,6 @@
 from odoo.tests import HttpCase, tagged, Form
 from ...product_barcodelookup.tests.common import MockAPIBarcodelookup
+from odoo import Command
 
 
 @tagged('post_install', '-at_install')
@@ -52,3 +53,14 @@ class TestBarcodelookup(HttpCase, MockAPIBarcodelookup):
             new_form.barcode = "497105359773"  # can't create 2 product with same barcode
             product_wo_variant = new_form.save()
             self._verify_product_data(product_wo_variant, variant_rights=False)
+
+    def test_copy_product_template_defaults_to_unpublished(self):
+        if 'public_categ_ids' in self.env['product.template']:
+            public_category = self.env['product.template'].public_categ_ids.create({'name': 'Website Category'})
+            original_product = self.env['product.template'].create({
+                'name': 'Test Product',
+                'public_categ_ids': [Command.link(public_category.id)],
+            })
+            self.assertTrue(original_product.is_published, "Created product with category should be published by default")
+            copied_product = original_product.copy()
+            self.assertFalse(copied_product.is_published, "Copied product should not be published by default")

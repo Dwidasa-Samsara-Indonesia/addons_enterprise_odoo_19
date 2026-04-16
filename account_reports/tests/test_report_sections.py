@@ -206,3 +206,18 @@ class TestReportSections(AccountTestInvoicingHttpCommon):
         tax_return._proceed_with_locking()
         tax_return.action_submit()
         self.assertEqual(tax_return.total_amount_to_pay, 150)
+
+    def test_composite_report_with_journal_report_pdf_export(self):
+        """
+        Test that exporting a composite report containing a journal report to PDF
+        works correctly.
+        """
+        journal_report = self.env.ref('account_reports.journal_report')
+        composite_with_journal = self.env['account.report'].create({
+            'name': 'Test Composite with Journal Report',
+            'section_report_ids': [Command.set([journal_report.id])],
+        })
+        options = composite_with_journal.get_options({})
+        result = composite_with_journal.export_to_pdf(options)
+        self.assertTrue(result.get('file_content'), 'PDF should be generated successfully')
+        self.assertEqual(result.get('file_type'), 'pdf', 'File type should be PDF')

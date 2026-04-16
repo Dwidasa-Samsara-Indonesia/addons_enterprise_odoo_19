@@ -25,6 +25,7 @@ class TestDKReportCommon(TestAccountReportsCommon):
             'acc_type': 'iban',
             'partner_id': cls.company_data['company'].partner_id.id,
             'acc_number': 'DK5000400440116243',
+            'allow_out_payment': True,
         })
         cls.env['res.partner'].create({
             'name': 'Mr Big CEO',
@@ -185,11 +186,11 @@ class TestDKReport(TestDKReportCommon):
         expected_values = (
             # _20230131 is not the export date, but rather the date at which the norm of this csv export was enforced
             ('KONTONUMMER_20230131', 'KONTONAVN_20230131', 'VAERDI_20230131'),
-            ('6190', 'Trade and other receivables', '6250'),
-            ('6560', 'Revaluation reserve', '3000'),
-            ('7441', 'Suppliers of goods and services (short-term) (copy)', '-10000'),
-            ('7680', 'Sales tax', '-1250'),
-            ('7740', 'VAT on purchases', '2000'),
+            ('619000', 'Trade receivables', '6250'),
+            ('656000', 'Reserve for revaluations', '3000'),
+            ('744001', 'Trade payables (short-term) (copy)', '-10000'),
+            ('768000', 'Output VAT', '-1250'),
+            ('774000', 'Input VAT', '2000'),
         )
         for idx, content in enumerate(reader):
             self.assertSequenceEqual(expected_values[idx], content)

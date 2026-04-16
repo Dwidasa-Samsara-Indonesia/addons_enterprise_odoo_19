@@ -2,6 +2,8 @@
 import json
 from json import JSONDecodeError
 
+import re
+
 import requests
 from requests import RequestException
 
@@ -330,16 +332,23 @@ class FedexRequest:
         return res
 
     def _get_tins_from_partner(self, partner, custom_vat=False):
+        def _transform_vat_to_fedex_format(vat_number):
+            if not vat_number:
+                return ''
+            if len(vat_number) > 18:
+                return re.sub(r'[^A-Za-z0-9 ]', '', vat_number)
+            return vat_number
+
         res = []
         if custom_vat:
             res.append({
-                'number': self.vat_override,
+                'number': _transform_vat_to_fedex_format(self.vat_override),
                 'tinType': 'BUSINESS_UNION'
             })
         if partner.vat and partner.is_company:
-            res.append({'number': partner.vat, 'tinType': 'BUSINESS_NATIONAL'})
+            res.append({'number': _transform_vat_to_fedex_format(partner.vat), 'tinType': 'BUSINESS_NATIONAL'})
         elif partner.parent_id and partner.parent_id.vat and partner.parent_id.is_company:
-            res.append({'number': partner.parent_id.vat, 'tinType': 'BUSINESS_NATIONAL'})
+            res.append({'number': _transform_vat_to_fedex_format(partner.parent_id.vat), 'tinType': 'BUSINESS_NATIONAL'})
         return res
 
     def _get_shipping_price(self, ship_from, ship_to, packages, currency):

@@ -316,7 +316,7 @@ class L10nCHEmployeeMonthlySnapshot(models.Model):
 
         for snapshot in self:
             existing_declaration = [r for m, r in mapped_bvg_lpp_declarations[snapshot.employee_id.company_id][snapshot.year].items() if r]
-            existing_declaration = max(existing_declaration, key=lambda r: r.month) if existing_declaration else False
+            existing_declaration = max(existing_declaration, key=lambda r: r[0].month) if existing_declaration else False
             existing_employee_declaration = False
             if existing_declaration:
                 lpp_line = existing_declaration.lpp_basis_line_ids.filtered(lambda l: l.employee_id == snapshot.employee_id)

@@ -124,6 +124,15 @@ class ResCompany(models.Model):
             params['company_name'] = company_name
             params["language"] = report_language
 
+        is_neutralized = self.env['ir.config_parameter'].sudo().get_param('database.is_neutralized')
+        if route in ['declare_salary',
+                     'get_status_from_declare_salary',
+                     'get_result_from_declare_salary',
+                     'get_dialog',
+                     'reply_dialog',
+                     'create_eiv_file'] and is_neutralized:
+            raise ValidationError(_("This feature is only allowed in production environments."))
+
         if route in ['generate_tax_accounting_report']:
             params['from_person'] = kwargs.get('from_person', 1)
             params['to_person'] = kwargs.get('to_person', 1)

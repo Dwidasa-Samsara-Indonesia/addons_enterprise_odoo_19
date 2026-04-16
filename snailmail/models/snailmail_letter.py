@@ -165,9 +165,9 @@ class SnailmailLetter(models.Model):
                 self.env.ref(f'web.external_layout_{layout}')
                 for layout in ('bubble', 'wave', 'folder')
             }:
-                self.company_id.external_report_layout_id = self.env.ref('web.external_layout_standard')
+                self.company_id.sudo().external_report_layout_id = self.env.ref('web.external_layout_standard')
             filename, pdf_bin = self._generate_report_pdf(report)
-            self.company_id.external_report_layout_id = prev
+            self.company_id.sudo().external_report_layout_id = prev
 
             pdf_bin = self._overwrite_margins(pdf_bin)
             if self.cover:
@@ -230,7 +230,7 @@ class SnailmailLetter(models.Model):
             }
         }
         """
-        account_token = self.env['iap.account'].get('snailmail').sudo().account_token
+        account_token = self.env['iap.account'].sudo().get('snailmail').account_token
         dbuuid = self.env['ir.config_parameter'].sudo().get_param('database.uuid')
         documents = []
 
@@ -324,6 +324,8 @@ class SnailmailLetter(models.Model):
             return _('One or more required fields are empty.')
         if error == 'FORMAT_ERROR':
             return _('The attachment of the letter could not be sent. Please check its content and contact the support if the problem persists.')
+        if error == 'TOO_MANY_PAGES':
+            return _('The document to be sent exceeds the maximum allowed limit of 8 pages.')
         else:
             return _('An unknown error happened. Please contact the support.')
         return error

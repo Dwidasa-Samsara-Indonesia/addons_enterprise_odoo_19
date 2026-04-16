@@ -20,13 +20,14 @@
 # Mikael Åkerberg <mikael.akerberg@mariaakerberg.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-08 19:44+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-13 11:42+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/helpdesk/"
 "sv/>\n"
 "Language: sv\n"
@@ -34,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__answered_customer_message_count
@@ -262,47 +263,47 @@ msgid ""
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
 "        <t t-if=\"hasattr(object.team_id, 'website_id') and "
 "object.team_id.use_website_helpdesk_form\">\n"
-"            <a t-attf-style=\"background-color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
-"8px 16px; text-decoration: none; color: "
-"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; "
-"font-size: 13px;\" t-att-href=\"'%s%s' % (object.team_id.website_id.domain "
+"            <a class=\"btn btn-fill-primary\" t-attf-style=\"background-"
+"color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; "
+"padding: 5px 10px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; "
+"font-size: 14px;\" t-att-href=\"'%s%s' % (object.team_id.website_id.domain "
 "or '', object.get_portal_url())\" target=\"_blank\">View Ticket</a>\n"
 "        </t>\n"
 "        <t t-else=\"\">\n"
-"            <a t-attf-style=\"background-color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
-"8px 16px; text-decoration: none; color: "
-"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; "
-"font-size:13px;\" t-att-href=\"object.get_portal_url()\" "
+"            <a class=\"btn btn-fill-primary\" t-attf-style=\"background-"
+"color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; "
+"padding: 5px 10px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; "
+"font-size: 14px;\" t-att-href=\"object.get_portal_url()\" "
 "target=\"_blank\">View Ticket</a>\n"
 "        </t>\n"
 "        <t t-if=\"hasattr(object.team_id, 'website_id') and "
 "object.team_id.allow_portal_ticket_closing\">\n"
-"            <a t-attf-style=\"background-color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
-"8px 16px; text-decoration: none; color: "
-"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; "
-"font-size:13px;\" t-att-href=\"'%s/my/ticket/close/%s/%s' % "
+"            <a class=\"btn btn-fill-primary\" t-attf-style=\"background-"
+"color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; "
+"padding: 5px 10px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; "
+"font-size: 14px;\" t-att-href=\"'%s/my/ticket/close/%s/%s' % "
 "(object.team_id.website_id.domain or '', object.id, object.access_token)\" "
 "target=\"_blank\">Close Ticket</a>\n"
 "        </t>\n"
 "        <t t-elif=\"object.team_id.allow_portal_ticket_closing\">\n"
-"            <a t-attf-style=\"background-color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
-"8px 16px; text-decoration: none; color: "
-"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; "
-"font-size:13px;\" t-att-href=\"'/my/ticket/close/%s/%s' % (object.id, "
+"            <a class=\"btn btn-fill-primary\" t-attf-style=\"background-"
+"color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; "
+"padding: 5px 10px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; "
+"font-size: 14px;\" t-att-href=\"'/my/ticket/close/%s/%s' % (object.id, "
 "object.access_token)\" target=\"_blank\">Close Ticket</a>\n"
 "        </t>\n"
 "        <t t-if=\"object.team_id.use_website_helpdesk_forum or "
 "object.team_id.use_website_helpdesk_knowledge or "
 "object.team_id.use_website_helpdesk_slides\">\n"
-"            <a t-attf-style=\"background-color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
-"8px 16px; text-decoration: none; color: "
-"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; "
-"font-size:13px;\" t-att-href=\"object.team_id.feature_form_url\" "
+"            <a class=\"btn btn-fill-primary\" t-attf-style=\"background-"
+"color: {{object.company_id.email_secondary_color or 'rgb(113, 75, 103)'}}; "
+"padding: 5px 10px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 4px; "
+"font-size: 14px;\" t-att-href=\"object.team_id.feature_form_url\" "
 "target=\"_blank\">Visit Help Center</a>\n"
 "        </t><br/><br/>\n"
 "    </div>\n"
@@ -602,12 +603,12 @@ msgstr "Aktiviteter"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Aktivitet undantaget dekoration"
+msgstr "Undantagsaktiviteter dekoration"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_state
 msgid "Activity State"
-msgstr "Aktivitetsläge"
+msgstr "Aktivitetsstatus"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_type_icon
@@ -1002,7 +1003,7 @@ msgstr "Avsluta ärende"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__close_date
 msgid "Close date"
-msgstr "Slutdatum"
+msgstr "Stängningsdatum"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
@@ -1160,7 +1161,7 @@ msgstr "Skapa en kund"
 #. module: helpdesk
 #: model:ir.model,website_form_label:helpdesk.model_helpdesk_ticket
 msgid "Create a Ticket"
-msgstr ""
+msgstr "Skapa ett ärende"
 
 #. module: helpdesk
 #: model_terms:ir.actions.act_window,help:helpdesk.email_template_action_helpdesk
@@ -1222,7 +1223,7 @@ msgstr "Skapad den"
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search_base
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_tree
 msgid "Creation Date"
-msgstr "Skapad datum"
+msgstr "Skapad den"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
@@ -1387,7 +1388,7 @@ msgstr "Policybeskrivning..."
 #. module: helpdesk
 #: model:ir.model,name:helpdesk.model_digest_digest
 msgid "Digest"
-msgstr "Sammanställning"
+msgstr "Sammanfattning"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.tickets_followup
@@ -1591,7 +1592,7 @@ msgstr "Följare"
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__message_partner_ids
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__activity_type_icon
@@ -1908,7 +1909,8 @@ msgstr "Ikon för att indikera en undantagsaktivitet."
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__message_needaction
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
+msgstr ""
+"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__message_has_error
@@ -1916,7 +1918,7 @@ msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__message_has_error
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad, några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__alias_bounced_content
@@ -2078,7 +2080,7 @@ msgstr "Senast uppdaterad den"
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Late Activities"
-msgstr "Sena aktiviteter"
+msgstr "Försenade aktiviteter"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.team_rating_data
@@ -2196,7 +2198,7 @@ msgstr "Meddelande"
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__message_has_error
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__message_ids
@@ -2307,7 +2309,7 @@ msgstr "Senaste"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "Nästa Kalenderhändelse för aktivitet"
+msgstr "Nästa aktivitetshändelse i kalendern"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_date_deadline
@@ -2427,7 +2429,7 @@ msgstr "Antal fel"
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__message_needaction_counter
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__message_has_error_counter
@@ -2761,7 +2763,7 @@ msgstr "Betyg antal"
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__rating_ids
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
@@ -2824,7 +2826,7 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__use_credit_notes
 msgid "Refunds"
-msgstr "Återbetalning"
+msgstr "Återbetalningar"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
@@ -3014,7 +3016,7 @@ msgstr "SLA:er"
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__message_has_sms_error
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: helpdesk
 #. odoo-javascript
@@ -3851,7 +3853,7 @@ msgstr ""
 #. module: helpdesk
 #: model:helpdesk.tag,name:helpdesk.tag_website
 msgid "Website"
-msgstr "Webbplats"
+msgstr "Hemsida"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__use_website_helpdesk_form
@@ -3861,7 +3863,7 @@ msgstr "Formulär för webbplats"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__website_message_ids
 msgid "Website Messages"
-msgstr "Webbplatsmeddelanden"
+msgstr "Hemsidesmeddelanden"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__website_message_ids
@@ -3925,6 +3927,11 @@ msgstr ""
 "Skulle du vilja avarkivera alla ärenden som ingår i dessa etapper också?"
 
 #. module: helpdesk
+#: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__use_twitter
+msgid "X"
+msgstr ""
+
+#. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.view_helpdesk_stage_delete_wizard
 msgid ""
 "You cannot delete stages containing tickets. You can either archive them or "
@@ -3982,7 +3989,7 @@ msgstr "alias"
 #. odoo-python
 #: code:addons/helpdesk/controllers/portal.py:0
 msgid "close_date"
-msgstr ""
+msgstr "close_date"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
@@ -4034,7 +4041,7 @@ msgstr "teamsökning"
 #. odoo-python
 #: code:addons/helpdesk/models/helpdesk_team.py:0
 msgid "team_id"
-msgstr ""
+msgstr "team_id"
 
 #. module: helpdesk
 #. odoo-python
@@ -4046,7 +4053,7 @@ msgstr "tickets"
 #. odoo-python
 #: code:addons/helpdesk/controllers/portal.py:0
 msgid "user_id"
-msgstr ""
+msgstr "user_id"
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.rating_ticket_request_email_template

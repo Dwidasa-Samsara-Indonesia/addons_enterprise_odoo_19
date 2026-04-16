@@ -192,3 +192,11 @@ class TestPayrollSuperStreamApi(TestPayrollSuperStream, TestL10nAUPayrollAPIComm
         self.assertEqual(refund_payment.payment_type, "inbound")
         self.assertEqual(refund_payment.amount, superstream.amount_total)
         self.assertEqual(refund_payment.state, "in_process")
+
+    def test_06_no_lines_no_crash(self):
+        stream = self.env['l10n_au.super.stream'].create({
+            'journal_id': self.bank_journal.id,
+        })
+
+        result_message = stream.l10n_au_super_stream_lines._get_employee_mandatory_fields()
+        self.assertEqual(result_message, "", "Should return empty string when there are no lines.")

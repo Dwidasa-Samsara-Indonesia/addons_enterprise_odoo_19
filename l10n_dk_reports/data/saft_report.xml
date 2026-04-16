@@ -24,6 +24,11 @@
             <TaxEntity t-out="company.name[:70]"/>
         </xpath>
 
+        <!-- Map to the basic 4-digit account code -->
+        <xpath expr="//MasterFiles/GeneralLedgerAccounts/Account/StandardAccountID" position="attributes">
+            <attribute name="t-out">account.code[:4]</attribute>
+        </xpath>
+
         <xpath expr="//TaxTable//TaxTableEntry//TaxCodeDetails" position="before">
             <TaxType>VAT</TaxType>
             <Description>Moms</Description>

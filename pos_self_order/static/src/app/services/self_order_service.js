@@ -17,11 +17,15 @@ import {
     constructFullProductName,
     deduceUrl,
     random5Chars,
+    isValidPhone,
+    isValidEmail,
     orderUsageUTCtoLocalUtil,
 } from "@point_of_sale/utils";
 import { getOrderLineValues } from "./card_utils";
 import { EpsonPrinter } from "@point_of_sale/app/utils/printer/epson_printer";
 import { initLNA } from "@point_of_sale/app/utils/init_lna";
+
+const { DateTime } = luxon;
 
 export class SelfOrder extends Reactive {
     constructor(...args) {
@@ -52,7 +56,7 @@ export class SelfOrder extends Reactive {
         this.currency = this.config.currency_id;
 
         this.markupDescriptions();
-        this.access_token = this.config.access_token;
+        this.access_token = odoo.access_token;
         this.lastEditedProductId = null;
         this.currentProduct = 0;
         this.priceLoading = false;
@@ -435,7 +439,9 @@ export class SelfOrder extends Reactive {
     }
 
     initProducts() {
-        this.productCategories = this.models["pos.category"].getAll();
+        this.productCategories = this.config.limit_categories
+            ? this.config.iface_available_categ_ids
+            : this.models["pos.category"].getAll();
         this.productByCategIds = this.models["product.template"].getAllBy("pos_categ_ids");
 
         const excludedProductTemplateIds = new Set(
@@ -499,20 +505,26 @@ export class SelfOrder extends Reactive {
     }
 
     _getKioskPrintingCategoriesChanges(order, categories) {
-        return order.lines.filter((orderline) => {
-            const baseProductId = orderline.combo_parent_id
-                ? orderline.combo_parent_id.product_id.id
-                : orderline.product_id.id;
-            return categories.some((category) =>
-                this.models["product.product"]
-                    .get(baseProductId)
-                    .pos_categ_ids.map((categ) => categ.id)
-                    .includes(category.id)
-            );
+        const prepCategoryIds = new Set(categories.map((c) => c.id));
+        const hasPreparationCategory = (product) => {
+            if (!product) {
+                return false;
+            }
+            return product.parentPosCategIds.some((id) => prepCategoryIds.has(id));
+        };
+        return order.lines.filter((line) => {
+            if (line.combo_line_ids?.length) {
+                return line.combo_line_ids.some((line) => hasPreparationCategory(line.product_id));
+            }
+            return hasPreparationCategory(line.product_id);
         });
     }
 
     async printKioskChanges(access_token = "") {
+        if (!this.kioskMode) {
+            return;
+        }
+
         const d = new Date();
         let hours = "" + d.getHours();
         hours = hours.length < 2 ? "0" + hours : hours;
@@ -609,6 +621,25 @@ export class SelfOrder extends Reactive {
         this.models["pos.order"]
             .filter((o) => orderAccessTokens.includes(o.access_token))
             .forEach((o) => this.data.localDeleteCascade(o));
+    }
+
+    isValidSelection(slot, partner) {
+        const preset = this.currentOrder.preset_id || {};
+        const { id, name, email, phone, street, city, country_id, state_id, zip } = partner || {};
+        const country = this.models["res.country"].get(country_id);
+        const hasStates = country?.state_ids?.length || 0;
+        const validState = !hasStates || state_id;
+        const partnerInfo = name && phone && street && city && country_id && validState && zip;
+        const selectedPartner = typeof id === "number" && !isNaN(id);
+        const validPartnerInfos = partnerInfo || selectedPartner;
+
+        return (
+            (!preset.needsSlot || DateTime.fromSQL(slot).isValid) &&
+            (!preset.needsName || name) &&
+            (!preset.needsEmail || selectedPartner || isValidEmail(email)) &&
+            (!preset.needsPartner || validPartnerInfos) &&
+            (!phone || selectedPartner || isValidPhone(phone))
+        );
     }
 
     cancelOrder() {
@@ -808,6 +839,8 @@ export class SelfOrder extends Reactive {
                 access_token: this.access_token,
             });
             return;
+        } else if (typeof error === "string") {
+            message = error;
         }
 
         this.notification.add(message, {
@@ -945,10 +978,10 @@ export class SelfOrder extends Reactive {
                     if (!line.combo_parent_id) {
                         acc.count += qty;
                     }
-                    const { total_included, total_excluded } = line.unitPrices;
-                    acc.priceWithTax += total_included * qty;
-                    acc.priceWithoutTax += total_excluded * qty;
-                    acc.tax += (total_included - total_excluded) * qty;
+                    const prices = line.prices;
+                    acc.priceWithTax += prices.total_included;
+                    acc.priceWithoutTax += prices.total_excluded;
+                    acc.tax += prices.taxes_data.reduce((acc, tax) => (acc += tax.tax_amount), 0);
                 }
                 return acc;
             },

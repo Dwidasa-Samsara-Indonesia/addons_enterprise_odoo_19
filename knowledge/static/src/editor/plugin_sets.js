@@ -1,4 +1,5 @@
 import { MAIN_PLUGINS } from "@html_editor/plugin_sets";
+import { EmbeddedFilePlugin } from "@html_editor/others/embedded_components/plugins/embedded_file_plugin/embedded_file_plugin";
 import { AutofocusPlugin } from "@knowledge/editor/plugins/autofocus_plugin/autofocus_plugin";
 import { KnowledgeArticlePlugin } from "@knowledge/editor/plugins/article_plugin/article_plugin";
 import { KnowledgeCommentsPlugin } from "@knowledge/editor/plugins/comments_plugin/comments_plugin";
@@ -24,5 +25,6 @@ export const KNOWLEDGE_EMBEDDED_COMPONENT_PLUGINS = [
     ArticleIndexPlugin,
     EmbeddedClipboardPlugin,
     EmbeddedViewPlugin,
+    EmbeddedFilePlugin,
     FoldableSectionPlugin,
 ];

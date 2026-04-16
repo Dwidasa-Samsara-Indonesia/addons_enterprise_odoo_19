@@ -54,7 +54,6 @@ class AccountMove(models.Model):
                                                   ('16', 'Venta Divisas'),
                                                   ('20', 'Nota Crédito que referencia una factura electrónica'),
                                                   ('22', 'Nota Crédito sin referencia a facturas'),
-                                                  ('23', 'Nota Crédito para facturación electrónica V1 (Decreto 2242)'),
                                                   ('30', 'Nota Débito que referencia una factura electrónica'),
                                                   ('32', 'Nota Débito sin referencia a facturas'),
                                                   ('23', 'Inactivo: Nota Crédito para facturación electrónica V1 (Decreto 2242)'),

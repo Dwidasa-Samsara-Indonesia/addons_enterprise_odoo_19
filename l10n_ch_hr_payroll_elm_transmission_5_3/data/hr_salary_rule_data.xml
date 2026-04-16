@@ -17,12 +17,13 @@
         <field name="code">LPPSALARY</field>
         <field name="sequence">340</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = version.l10n_ch_lpp_insurance_id and version.l10n_ch_lpp_in_percentage</field>
+        <field name="condition_python">result = version.l10n_ch_lpp_insurance_id and version.l10n_ch_lpp_in_percentage and not version.l10n_ch_lpp_not_insured</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 minimum_salary = version.l10n_ch_lpp_insurance_id._get_minimum_lpp_salary(payslip.date_from)
 coordination_deduction, max_amount = version.l10n_ch_lpp_insurance_id._find_coordination_amount(payslip.date_from)
-base = sum(result_rules[rule.code]['total'] for rule in payslip.struct_id.rule_ids if rule.l10n_ch_lpp_retroactive or rule.l10n_ch_lpp_forecast)
+additional_wage_types = ['1200', '1205', '1207', '1208'] # 13th and 14th month should be computed in the base
+base = sum(result_rules[rule.code]['total'] for rule in payslip.struct_id.rule_ids if rule.l10n_ch_lpp_retroactive or rule.l10n_ch_lpp_forecast or rule.l10n_ch_code in additional_wage_types)
 result = min(max((coordination_deduction - minimum_salary) if base >= minimum_salary else 0, base - coordination_deduction), max_amount)
         </field>
         <field name="struct_id" ref="l10n_ch_hr_payroll.hr_payroll_structure_ch_elm"/>

@@ -33,17 +33,22 @@ class AccountReturnType(models.Model):
 
         return rslt
 
+    def _get_periodicity(self, company):
+        if not self.deadline_periodicity and self.get_external_id().get(self.id) == 'l10n_it_reports.it_withh_tax_return_type':
+            return 'monthly'
+        return super()._get_periodicity(company)
+
 
 class AccountReturn(models.Model):
     _inherit = 'account.return'
     is_quarter_month = fields.Boolean(compute='_compute_is_quarter_month')
     country_code = fields.Char(related='company_id.country_id.code', depends=['company_id.country_id'])
 
-    @api.depends('date_from')
+    @api.depends('date_to')
     def _compute_is_quarter_month(self):
         for record in self:
-            if record.date_from:
-                month = record.date_from.month
+            if record.date_to:
+                month = record.date_to.month
                 record.is_quarter_month = month in [3, 6, 9, 12]
             else:
                 record.is_quarter_month = False
@@ -174,7 +179,7 @@ class AccountReturn(models.Model):
     def _get_vat_closing_entry_additional_domain(self):
         # EXTENDS account_reports
         domain = super()._get_vat_closing_entry_additional_domain()
-        if self.type_external_id in ('l10n_it_reports.it_tax_return_type', 'l10n_it_edi_withholding_reports.it_withh_tax_return_type'):
+        if self.type_external_id in ('l10n_it_reports.it_tax_return_type', 'l10n_it_reports.it_withh_tax_return_type'):
             tax_tags = self.type_id.report_id.line_ids.expression_ids._get_matching_tags()
             domain.append(('tax_tag_ids', 'in', tax_tags.ids))
         return domain
@@ -187,3 +192,6 @@ class AccountReturn(models.Model):
             return date_to + relativedelta(days=25)
 
         return super()._evaluate_deadline(company, return_type, return_type_external_id, date_from, date_to)
+
+    def _get_amount_to_pay_additional_tax_domain(self):
+        return super()._get_amount_to_pay_additional_tax_domain() + [('l10n_it_pension_fund_type', '=', False)]

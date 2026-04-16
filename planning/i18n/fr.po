@@ -10,14 +10,14 @@
 # Martin Trigaux, 2022
 # Jolien De Paepe, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025.
+# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2025-12-10 10:26+0000\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"PO-Revision-Date: 2026-03-04 20:53+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/planning/"
 "fr/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: planning
 #. odoo-python
@@ -1260,6 +1260,7 @@ msgstr "Ignorer"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__display_name
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_planning__display_name
@@ -1525,6 +1526,7 @@ msgstr "Je suis indisponible"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__id
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__id
 #: model:ir.model.fields,field_description:planning.field_planning_planning__id
@@ -2265,6 +2267,11 @@ msgid "Repetitions"
 msgstr "Répétitions"
 
 #. module: planning
+#: model:ir.model,name:planning.model_ir_actions_report
+msgid "Report Action"
+msgstr "Signaler l'action"
+
+#. module: planning
 #: model:ir.ui.menu,name:planning.planning_menu_reporting
 msgid "Reporting"
 msgstr "Analyse"
@@ -2597,6 +2604,8 @@ msgstr "Postes des membres de votre équipe"
 #: code:addons/planning/wizard/planning_send.py:0
 msgid "Shifts published — employees without a work email were skipped"
 msgstr ""
+"Postes publiés — les employés sans adresse e-mail professionnelle ont été "
+"ignorés"
 
 #. module: planning
 #. odoo-python
@@ -2654,6 +2663,28 @@ msgstr "Date d'arrêt"
 #: model:ir.model.fields.selection,name:planning.selection__res_company__planning_employee_unavailabilities__switch
 msgid "Switch shifts with other employees"
 msgstr "Changer de postes avec d'autres employés"
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be added to the print menu. Please use the Print "
+"action available in the Planning calendar and Gantt views."
+msgstr ""
+"Le rapport de planification ne peut pas être ajouté au menu d'impression. "
+"Veuillez utiliser l'action ''Imprimer'' disponible dans les vues Calendrier "
+"et Gantt de la planification."
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be printed from here. Please use the Print action "
+"available in the Planning calendar and Gantt views."
+msgstr ""
+"Le rapport de planification ne peut pas être imprimé à partir d'ici. "
+"Veuillez utiliser l'action ''Imprimer'' disponible dans les vues Calendrier "
+"et Gantt de la planification."
 
 #. module: planning
 #: model:ir.model.constraint,message:planning.constraint_res_company_planning_self_unassign_days_before_positive

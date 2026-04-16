@@ -5,13 +5,14 @@
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Nagy Géza <geza.nagy@oregional.hu>, 2026.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2026-01-27 22:48+0000\n"
-"Last-Translator: Nagy Géza <geza.nagy@oregional.hu>\n"
+"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"PO-Revision-Date: 2026-04-09 11:26+0000\n"
+"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Hungarian <https://translate.odoo.com/projects/odoo-19/"
 "appointment/hu/>\n"
 "Language: hu\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -148,8 +149,8 @@ msgid ""
 "                                <span class=\"fw-light\">To Confirm</span>"
 msgstr ""
 "<br/>\n"
-"                                <span class=\"fw-light\">Jóváhagyásra "
-"vár</span>"
+"                                <span class=\"fw-light\">Jóváhagyásra vár</"
+"span>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_kanban
@@ -246,22 +247,6 @@ msgid ""
 "        </t>\n"
 "    </p>\n"
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
-"        <t t-if=\"object.state != 'accepted'\">\n"
-"            <a t-attf-href=\"/calendar/meeting/accept?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Accept</a>\n"
-"            <a t-attf-href=\"/calendar/meeting/decline?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Decline</a>\n"
-"        </t>\n"
 "        <a t-if=\"not target_responsible and not target_customer\" t-attf-"
 "href=\"/calendar/meeting/view?token={{object.access_token}}"
 "&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-left: "
@@ -1113,6 +1098,11 @@ msgstr ""
 "időpontot, amelyek közé az időpontfoglalásnak esnie kell."
 
 #. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Accept"
+msgstr ""
+
+#. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_calendar_event__access_token
 msgid "Access Token"
 msgstr "Hozzáférési token"
@@ -1561,7 +1551,8 @@ msgstr ""
 #: code:addons/appointment/models/appointment_slot.py:0
 msgid ""
 "At least one slot duration is shorter than the meeting duration (%s hours)"
-msgstr "Legalább egy időablak hossza rövidebb, mint a találkozó hossza (%s óra)"
+msgstr ""
+"Legalább egy időablak hossza rövidebb, mint a találkozó hossza (%s óra)"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_attachment_count
@@ -2125,6 +2116,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Dates"
 msgstr "Dátumok"
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Decline"
+msgstr ""
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -4467,10 +4463,10 @@ msgid ""
 "'resources'\">resource</span>"
 msgstr ""
 "egyidejű időpontfoglalást \n"
-"                                    <span invisible="
-"\"schedule_based_on != 'users'\">felhasználónként</span>\n"
-"                                    <span invisible="
-"\"schedule_based_on != 'resources'\">erőforrásonként</span>"
+"                                    <span invisible=\"schedule_based_on != "
+"'users'\">felhasználónként</span>\n"
+"                                    <span invisible=\"schedule_based_on != "
+"'resources'\">erőforrásonként</span>"
 
 #. module: appointment
 #. odoo-python

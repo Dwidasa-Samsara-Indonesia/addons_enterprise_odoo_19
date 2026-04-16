@@ -87,7 +87,7 @@ export class StockMove extends QualityCheck {
             return [];
         }
         const { move_line_ids, picking_type_prefill_shop_floor_lots } = this.props.record.data;
-        return picking_type_prefill_shop_floor_lots
+        return picking_type_prefill_shop_floor_lots && !this.byproduct
             ? move_line_ids.records
             : move_line_ids.records.filter((ml) => ml.data.picked);
     }
@@ -165,7 +165,7 @@ export class StockMove extends QualityCheck {
                 await this.markAsDone(); // check button: accept prefilled values and confirm QC
             } else {
                 if (this.byproduct) {
-                    this.createQuant(); // plus button: create a new move line. Create a new quant for the byproduct.
+                    return this.createQuant(); // plus button: create a new move line. Create a new quant for the byproduct.
                 } else {
                     this.addMoveLine(); // plus button: create a new move line. Show a list of quants  to take from.
                 }
@@ -195,6 +195,8 @@ export class StockMove extends QualityCheck {
                 form_view_ref: "stock.view_stock_quant_form",
                 default_product_id: this.props.record.data.product_id.id,
                 default_location_id: defaultLocationId,
+                from_shopfloor: true,
+                active_mo_id: this.props.record.data.raw_material_production_id.id,
             },
             immediate: true,
             title: _t("Create Move Line for %(product)s", {

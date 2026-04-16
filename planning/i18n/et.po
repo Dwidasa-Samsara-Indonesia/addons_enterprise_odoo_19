@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
 "PO-Revision-Date: 2025-11-08 20:23+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Estonian <https://translate.odoo.com/projects/odoo-19/"
@@ -1060,6 +1060,7 @@ msgstr "Loobu"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__display_name
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_planning__display_name
@@ -1322,6 +1323,7 @@ msgstr "Ma ei ole saadaval"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__id
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__id
 #: model:ir.model.fields,field_description:planning.field_planning_planning__id
@@ -2058,6 +2060,11 @@ msgid "Repetitions"
 msgstr "Kordused"
 
 #. module: planning
+#: model:ir.model,name:planning.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: planning
 #: model:ir.ui.menu,name:planning.planning_menu_reporting
 msgid "Reporting"
 msgstr "Aruandlus"
@@ -2443,6 +2450,22 @@ msgstr "Lõpetamise kuupäev"
 #: model:ir.model.fields.selection,name:planning.selection__res_company__planning_employee_unavailabilities__switch
 msgid "Switch shifts with other employees"
 msgstr "Vaheta vahetusi teiste töötajatega"
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be added to the print menu. Please use the Print "
+"action available in the Planning calendar and Gantt views."
+msgstr ""
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be printed from here. Please use the Print action "
+"available in the Planning calendar and Gantt views."
+msgstr ""
 
 #. module: planning
 #: model:ir.model.constraint,message:planning.constraint_res_company_planning_self_unassign_days_before_positive

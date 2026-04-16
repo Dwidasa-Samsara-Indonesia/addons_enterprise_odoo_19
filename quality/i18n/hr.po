@@ -19,13 +19,14 @@
 # Martin Trigaux, 2022
 # Bole <bole@dajmi5.com>, 2022
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 17:56+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-11 19:35+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/quality/"
 "hr/>\n"
 "Language: hr\n"
@@ -34,7 +35,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alert_count
@@ -62,7 +63,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_needaction
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_needaction
 msgid "Action Needed"
-msgstr "Potrebna dodatna radnja"
+msgstr "Potrebna radnja"
 
 #. module: quality
 #: model:quality.alert.stage,name:quality.quality_alert_stage_2
@@ -72,7 +73,7 @@ msgstr "Predložena radnja"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__active
 msgid "Active"
-msgstr "Aktivan"
+msgstr "Aktivno"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_ids
@@ -319,12 +320,12 @@ msgstr "Opis"
 #: model:ir.model.fields,field_description:quality.field_quality_reason__display_name
 #: model:ir.model.fields,field_description:quality.field_quality_tag__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Done"
-msgstr "Riješeno"
+msgstr "Dovršeno"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_email
@@ -339,7 +340,7 @@ msgstr "Email cc"
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_domain
 msgid "Email domain e.g. 'example.com' in 'odoo@example.com'"
-msgstr ""
+msgstr "Domena e-pošte, npr. 'example.com' u 'odoo@example.com'"
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_check__quality_state__fail
@@ -375,7 +376,7 @@ msgstr "Pratitelji"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_partner_ids
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Pratitelji (Partneri)"
+msgstr "Pratitelji (partneri)"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__activity_type_icon
@@ -440,7 +441,7 @@ msgstr "Ikona za prikaz iznimki."
 #: model:ir.model.fields,help:quality.field_quality_check__message_needaction
 #: model:ir.model.fields,help:quality.field_quality_point__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Ako je označeno, nove poruke zahtijevaju Vašu pažnju."
+msgstr "Ako je označeno, nove poruke zahtijevaju vašu pažnju."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__message_has_error
@@ -452,7 +453,7 @@ msgstr "Ako je označeno, nove poruke zahtijevaju Vašu pažnju."
 #: model:ir.model.fields,help:quality.field_quality_point__message_has_error
 #: model:ir.model.fields,help:quality.field_quality_point__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Ako je označeno neke poruke mogu imati grešku u dostavi."
+msgstr "Ako je označeno, neke poruke imaju pogrešku u dostavi."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_point__failure_location_ids
@@ -462,6 +463,12 @@ msgid ""
 " /- all quantities of a product if control is per product\n"
 " /- all quantities of products in the operation if control is per operation"
 msgstr ""
+"Ako kontrola kvalitete ne uspije, odabire se odredišna lokacija s ovog "
+"popisa za\n"
+"- svaku količinu neuspjelog specifičnog proizvoda ako je kontrola po "
+"količini\n"
+" /- sve količine proizvoda ako je kontrola po proizvodu\n"
+" /- sve količine proizvoda u operaciji ako je kontrola po operaciji"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_bounced_content
@@ -501,7 +508,7 @@ msgstr "Je pratitelj"
 #: model:ir.model.fields,field_description:quality.field_quality_reason__write_uid
 #: model:ir.model.fields,field_description:quality.field_quality_tag__write_uid
 msgid "Last Updated by"
-msgstr "Promijenio"
+msgstr "Posljednju izmjenu izvršio"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__write_date
@@ -513,7 +520,7 @@ msgstr "Promijenio"
 #: model:ir.model.fields,field_description:quality.field_quality_reason__write_date
 #: model:ir.model.fields,field_description:quality.field_quality_tag__write_date
 msgid "Last Updated on"
-msgstr "Vrijeme promjene"
+msgstr "Posljednja izmjena"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
@@ -528,12 +535,12 @@ msgstr "Otkrivanje dolazne pošte temeljeno na lokalnom dijelu adrese"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__lot_ids
 msgid "Lot"
-msgstr "Lot"
+msgstr "Serija"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__lot_ids
 msgid "Lot/Serial"
-msgstr "Lot/Serija"
+msgstr "Serija/Serijski broj"
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_alert__priority__1
@@ -546,7 +553,7 @@ msgstr "Nizak"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_has_error
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_has_error
 msgid "Message Delivery error"
-msgstr "Greška pri isporuci poruke"
+msgstr "Pogreška u dostavi poruke"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_ids
@@ -586,7 +593,7 @@ msgstr "Naziv"
 #: code:addons/quality/models/quality.py:0
 #: model:quality.alert.stage,name:quality.quality_alert_stage_0
 msgid "New"
-msgstr "Novi"
+msgstr "Novo"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_calendar_event_id
@@ -619,6 +626,8 @@ msgid ""
 "No quality teams found for this company! Head over to the configuration menu "
 "to create your first quality team."
 msgstr ""
+"Za ovu tvrtku nisu pronađeni timovi kvalitete! Idite na izbornik "
+"konfiguracije za kreiranje prvog tima kvalitete."
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_alert__priority__0
@@ -643,7 +652,7 @@ msgstr "Bilješke"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_needaction_counter
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Broj akcija"
+msgstr "Broj radnji"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_has_error_counter
@@ -651,7 +660,7 @@ msgstr "Broj akcija"
 #: model:ir.model.fields,field_description:quality.field_quality_check__message_has_error_counter
 #: model:ir.model.fields,field_description:quality.field_quality_point__message_has_error_counter
 msgid "Number of errors"
-msgstr "Broj grešaka"
+msgstr "Broj pogrešaka"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__message_needaction_counter
@@ -667,7 +676,7 @@ msgstr "Broj poruka koje zahtijevaju radnju"
 #: model:ir.model.fields,help:quality.field_quality_check__message_has_error_counter
 #: model:ir.model.fields,help:quality.field_quality_point__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Broj poruka sa greškama pri isporuci"
+msgstr "Broj poruka s pogreškom u dostavi"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__picking_type_ids
@@ -813,7 +822,7 @@ msgstr "Tim upozorenja kvalitete"
 #. module: quality
 #: model:ir.model,name:quality.model_quality_check
 msgid "Quality Check"
-msgstr "Test kvalitete"
+msgstr "Kontrola kvalitete"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_point
@@ -831,11 +840,13 @@ msgid ""
 "Quality Point will apply to every Products in the selected Product "
 "Categories."
 msgstr ""
+"Točka kvalitete primijenit će se na svaki proizvod u odabranim kategorijama "
+"proizvoda."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_point__product_ids
 msgid "Quality Point will apply to every selected Products."
-msgstr ""
+msgstr "Točka kvalitete primijenit će se na svaki odabrani proizvod."
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_tag
@@ -904,12 +915,12 @@ msgstr "Greška u slanju SMSa"
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__sequence
 #: model:ir.model.fields,field_description:quality.field_quality_point__sequence
 msgid "Sequence"
-msgstr "Sekvenca"
+msgstr "Redoslijed"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__show_failure_location
 msgid "Show Failure Location"
-msgstr ""
+msgstr "Prikaži lokaciju neuspjeha"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search

@@ -1,4 +1,5 @@
 import { Component } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { getEmbeddedProps } from "@html_editor/others/embedded_component_utils";
 import { useService } from "@web/core/utils/hooks";
 
@@ -11,6 +12,7 @@ export class AccountReportComponent extends Component {
     };
     setup() {
         this.actionService = useService("action");
+        this.props.name = _t(this.props.name);
     }
     /** @returns {Promise} */
     openAccountReport() {

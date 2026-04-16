@@ -18,7 +18,7 @@ class BudgetLine(models.Model):
         # Override in order to do only one read_group
         grouped = {
             line: (committed, achieved)
-            for line, committed, achieved in self.env['budget.report']._read_group(
+            for line, committed, achieved in self.env['budget.report'].with_context(budget_report_budget_line_ids=self.ids)._read_group(
                 domain=[('budget_line_id', 'in', self.ids)],
                 groupby=['budget_line_id'],
                 aggregates=['committed:sum', 'achieved:sum'],

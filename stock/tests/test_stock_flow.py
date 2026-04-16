@@ -2643,6 +2643,55 @@ class TestStockFlow(TestStockCommon):
         bo = self.env['stock.picking'].search([('backorder_id', '=', picking.id)])
         self.assertEqual(bo.state, 'assigned')
 
+    def test_multiple_moves_with_different_destinations_putaway_strategy(self):
+        '''
+        Ensure that, when assigning a batch of moves with different destinations,
+        putaway strategy correctly defaults to child locations.
+        '''
+        view_a, view_b = self.env['stock.location'].create([{
+            'name': 'View A',
+            'usage': 'view',
+            'location_id': self.stock_location.id,
+        }, {
+            'name': 'View B',
+            'usage': 'view',
+            'location_id': self.stock_location.id,
+        }])
+        child_a, child_b = self.env['stock.location'].create([{
+            'name': 'Child A',
+            'usage': 'internal',
+            'location_id': view_a.id,
+        }, {
+            'name': 'Child B',
+            'usage': 'internal',
+            'location_id': view_b.id,
+        }])
+        picking_1, picking_2 = self.env['stock.picking'].create([{
+            'location_id': self.supplier_location.id,
+            'location_dest_id': view_a.id,
+            'picking_type_id': self.picking_type_in.id,
+            'move_ids': [Command.create({
+                'location_id': self.supplier_location.id,
+                'location_dest_id': view_a.id,
+                'product_id': self.productA.id,
+                'product_uom_qty': 1.0,
+            })],
+        }, {
+            'location_id': self.supplier_location.id,
+            'location_dest_id': view_b.id,
+            'picking_type_id': self.picking_type_in.id,
+            'state': 'draft',
+            'move_ids': [Command.create({
+                'location_id': self.supplier_location.id,
+                'location_dest_id': view_b.id,
+                'product_id': self.productB.id,
+                'product_uom_qty': 1.0,
+            })],
+        }])
+        (picking_1 | picking_2).action_confirm()
+        self.assertEqual(picking_1.move_ids.move_line_ids.location_dest_id, child_a)
+        self.assertEqual(picking_2.move_ids.move_line_ids.location_dest_id, child_b)
+
 
 @tagged('-at_install', 'post_install')
 class TestStockFlowTourPostInstall(TestStockCommon, HttpCase):
@@ -2815,3 +2864,29 @@ class TestStockFlowPostInstall(TestStockCommon):
 
         new_location_complete_name = self.env['stock.location'].name_create('NoPrefixLocation')[1]
         self.assertEqual(new_location_complete_name, 'NoPrefixLocation')
+
+    def test_past_qty_available(self):
+        """
+        Test that available quantity at a date (not datetime) is computed at the end of
+        that date.
+        """
+        TEST_DATE = fields.Datetime.to_datetime('2026-01-01 11:11:11')
+
+        # .date() simulates behavior of "As of" in the Stock Valuation report
+        # (Specifies date but no time)
+        self.assertEqual(0, self.productA.with_context(to_date=TEST_DATE.date()).qty_available)
+
+        receipt = self.env['stock.picking'].create({
+            'picking_type_id': self.picking_type_in.id,
+            'move_ids': [Command.create({
+                'product_id': self.productA.id,
+                'product_uom_qty': 10,
+            })]
+        })
+
+        receipt.action_confirm()
+        receipt.button_validate()
+
+        receipt.write({'date_done': TEST_DATE})
+
+        self.assertEqual(10, self.productA.with_context(to_date=TEST_DATE.date()).qty_available)

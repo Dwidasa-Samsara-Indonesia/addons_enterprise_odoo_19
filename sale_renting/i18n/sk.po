@@ -4,13 +4,14 @@
 #
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-17 03:15+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-03-18 02:26+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting/sk/>\n"
 "Language: sk\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_renting
 #. odoo-python
@@ -28,33 +29,33 @@ msgid ""
 "%(from_date)s to %(to_date)s"
 msgstr ""
 "\n"
-"%(from_date)s od %(to_date)s"
+"%(from_date)s do %(to_date)s"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_template.py:0
 msgid "%(amount)s (fixed)"
-msgstr ""
+msgstr "%(amount)s (pevná)"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_pricing.py:0
 msgid "%(amount)s / %(duration)s"
-msgstr ""
+msgstr "%(amount)s / %(duration)s"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_template.py:0
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "%(duration)s %(unit)s"
-msgstr ""
+msgstr "%(duration)s %(unit)s"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_product.py:0
 #: code:addons/sale_renting/models/product_template.py:0
 msgid "%s (Rental)"
-msgstr ""
+msgstr "%s (Prenájom)"
 
 #. module: sale_renting
 #: model:ir.actions.report,print_report_name:sale_renting.action_report_rental_saleorder
@@ -62,59 +63,49 @@ msgid ""
 "(object.rental_status not in ('draft', 'sent') and 'Delivery or Return "
 "Receipt - %s' %(object.name)) or 'Order - %s' % (object.name)"
 msgstr ""
-"(object.rental_status not in ('draft', 'sent') and 'Delivery or Return "
-"Receipt - %s' %(object.name)) or 'Order - %s' % (object.name)"
+"(object.rental_status not in ('draft', 'sent') and 'Potvrdenie o doručení "
+"alebo vrátení - %s' %(object.name)) or 'Objednávka - %s' % (object.name)"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "123 Main St"
-msgstr ""
+msgstr "Hlavná ul. 123"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_2_weeks
 msgid "2 Weeks"
-msgstr ""
-
-#. module: sale_renting
-#: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
-msgid "2023-08-01"
-msgstr ""
-
-#. module: sale_renting
-#: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
-msgid "2023-08-10"
-msgstr ""
+msgstr "2 týždne"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_3_hours
 msgid "3 Hours"
-msgstr ""
+msgstr "3 hodiny"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_3_year
 msgid "3 years"
-msgstr ""
+msgstr "3 roky"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "456 Other St"
-msgstr ""
+msgstr "Iná ulica 456"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence5_year
 msgid "5 Years"
-msgstr ""
+msgstr "5 rokov"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_kanban
 msgid "<i class=\"fa fa-warning\"/> Late"
-msgstr ""
+msgstr "<i class=\"fa fa-warning\"/> Oneskorené"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_product_form_view_rental_gantt
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental_gantt
 msgid "<span class=\"o_stat_text\">In Rental</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Prenajaté</span>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
@@ -125,6 +116,10 @@ msgid ""
 "                    <span invisible=\"duration_days == 0 or remaining_hours "
 "== 0\">and </span>"
 msgstr ""
+"<span invisible=\"duration_days != 1\"> deň</span>\n"
+"                    <span invisible=\"duration_days in [0,1]\"> dni </span>\n"
+"                    <span invisible=\"duration_days == 0 or remaining_hours "
+"== 0\">a </span>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
@@ -133,41 +128,45 @@ msgid ""
 "                    <span invisible=\"remaining_hours in [0,1]\"> hours </"
 "span>"
 msgstr ""
+"<span invisible=\"remaining_hours != 1\"> hodina </span>\n"
+"                    <span invisible=\"remaining_hours in [0,1]\"> hodiny</"
+"span>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental
 msgid "<span> per day late</span>"
-msgstr ""
+msgstr "<span> za deň oneskorenia</span>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental
 msgid "<span> per hour late</span>"
-msgstr ""
+msgstr "<span> za hodinu oneskorenia</span>"
 
 #. module: sale_renting
 #: model_terms:web_tour.tour,rainbow_man_message:sale_renting.rental_tour
 msgid "<span><b>Good job!</b> You went through all steps of this tour.</span>"
 msgstr ""
+"<span><b>Dobrý práca!</b> Prešli ste všetkými krokmi tejto prehliadky.</span>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "<strong class=\"d-block mt-3\">Shipping Address</strong>"
-msgstr ""
+msgstr "<strong class=\"d-block mt-3\">Dodacia adresa</strong>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "<strong>Order # — </strong>"
-msgstr ""
+msgstr "<strong>Objednávka # — </strong>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "<strong>Pickup — </strong>"
-msgstr ""
+msgstr "<strong>Vyzdvihnutie — </strong>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "<strong>Return — </strong>"
-msgstr ""
+msgstr "<strong>Vrátenie — </strong>"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
@@ -177,13 +176,15 @@ msgstr "<strong>Obchodník:</strong>"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "<strong>Status — </strong>"
-msgstr ""
+msgstr "<strong>Stav — </strong>"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_template.py:0
 msgid "A rental combo product can only contain rental products."
 msgstr ""
+"Kombinovaný produkt na zapožičanie/prenájom môže obsahovať iba produkty "
+"určené na zapožičanie/prenájom."
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__active
@@ -198,20 +199,20 @@ msgstr "Pridať cenu"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 msgid "Additional costs for late returns"
-msgstr "Dodatočné náklady na oneskorené vrátenie"
+msgstr "Doplatok za oneskorené vrátenie"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_product_product__rent_ok
 #: model:ir.model.fields,help:sale_renting.field_product_template__rent_ok
 #: model:ir.model.fields,help:sale_renting.field_sale_order_line__is_product_rentable
 msgid "Allow renting of this product."
-msgstr "Povoliť vypožičanie tohto produktu."
+msgstr "Povoliť prenájom tohto produktu."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_line.py:0
 msgid "An error occured. Please try again."
-msgstr ""
+msgstr "Došlo k chybe. Skúste to prosím znova."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
@@ -222,7 +223,7 @@ msgstr "Použiť po"
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "At first, let's create some products to rent."
-msgstr "Najprv vytvorme niektoré produkty na prenájom."
+msgstr "Najprv vytvorme produkty na prenájom."
 
 #. module: sale_renting
 #: model:ir.model.fields.selection,name:sale_renting.selection__sale_order_line__rental_status__pickup
@@ -235,7 +236,7 @@ msgstr "Rezervované"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_wizard_view_form
 msgid "Cancel"
-msgstr "Zrušené"
+msgstr "Zrušiť"
 
 #. module: sale_renting
 #: model:ir.model.fields.selection,name:sale_renting.selection__sale_order__rental_status__cancel
@@ -246,18 +247,18 @@ msgstr "Zrušené"
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__pickup_time
 msgid "Check-in"
-msgstr ""
+msgstr "Príchod"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__return_time
 msgid "Check-out"
-msgstr ""
+msgstr "Odchod"
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Click here to create a new quotation."
-msgstr "Kliknite sem a vytvotíte novú ponuku."
+msgstr "Kliknite sem a vytvoríte novú ponuku."
 
 #. module: sale_renting
 #. odoo-javascript
@@ -269,7 +270,7 @@ msgstr "Kliknite sem a zaregistrujte vyzdvihnutie."
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Click here to set up your first rental product."
-msgstr "Kliknutím sem nastavíte svoj prvý produkt na vypožičanie."
+msgstr "Kliknutím sem nastavíte svoj prvý produkt na prenájom."
 
 #. module: sale_renting
 #. odoo-javascript
@@ -280,7 +281,7 @@ msgstr "Kliknutím sem začnete vyplňovať cenovú ponuku."
 #. module: sale_renting
 #: model:product.template,description_sale:sale_renting.rental_product_3_template
 msgid "Compact laser printer with fast output"
-msgstr ""
+msgstr "Kompaktná laserová tlačiareň s rýchlou tlačou"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_res_company
@@ -293,7 +294,7 @@ msgstr "Spoločnosti"
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_report_search_view
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_search_schedule
 msgid "Company"
-msgstr "Spoločnost"
+msgstr "Spoločnosť"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_res_config_settings
@@ -309,13 +310,13 @@ msgstr "Konfigurácia"
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Confirm the order when the customer agrees with the terms."
-msgstr "Potvrdenie objednávky, keď zákazník súhlasí s podmienkami."
+msgstr "Potvrdiť objednávku, keď zákazník súhlasí s obchodnými podmienkami."
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Confirm the returned quantities and hit Validate."
-msgstr "Potvrďte vrátené množstvá a stlačte Overiť."
+msgstr "Skontrolujte vrátené množstvá a stlačte Potvrdiť."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_report_search_view
@@ -326,37 +327,37 @@ msgstr "Potvrdené objednávky"
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__country_id
 msgid "Country"
-msgstr "Štát"
+msgstr "Krajina"
 
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.action_create_rental_order
 msgid "Create Rental Orders"
-msgstr ""
+msgstr "Vytvoriť objednávky prenájmu"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.sale_temporal_recurrence_action
 msgid "Create a new period"
-msgstr ""
+msgstr "Vytvoriť nové obdobie"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_order_action
 msgid "Create a new quotation, the first step of a new rental!"
-msgstr "Vytvorte novú ponuku, prvý krok novej  pôžičky!"
+msgstr "Vytvorte novú ponuku, prvý krok nového prenájmu!"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.product_pricing_action
 msgid "Create a new recurrence"
-msgstr ""
+msgstr "Vytvoriť nové opakovanie"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.action_rental_report
 msgid "Create a new rental order"
-msgstr ""
+msgstr "Vytvoriť novú objednávku prenájmu"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_product_template_action
 msgid "Create a new rental product!"
-msgstr "Vytvorte nový produkt na prenájom!"
+msgstr "Vytvorte nový produkt na prenájom alebo požičanie!"
 
 #. module: sale_renting
 #. odoo-javascript
@@ -368,7 +369,7 @@ msgstr "Tu vytvorte alebo vyberte zákazníka."
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__is_rental_order
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__order_is_rental
 msgid "Created In App Rental"
-msgstr "Vytvorené v aplikácií Rental"
+msgstr "Vytvorené v aplikácií Prenájom"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_pricing__create_uid
@@ -396,7 +397,7 @@ msgstr "Mena"
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__product_pricing_ids
 #: model:ir.model.fields,field_description:sale_renting.field_product_template__product_pricing_ids
 msgid "Custom Pricings"
-msgstr ""
+msgstr "Vlastné ceny"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__partner_id
@@ -430,7 +431,7 @@ msgstr "Denná suma"
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__extra_daily
 #: model:ir.model.fields,field_description:sale_renting.field_product_template__extra_daily
 msgid "Daily Fine"
-msgstr ""
+msgstr "Penále za deň"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__quantity
@@ -469,12 +470,12 @@ msgstr "Dni"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 msgid "Default Delay Costs"
-msgstr ""
+msgstr "Predvolená cena za omeškanie"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_res_config_settings__extra_product
 msgid "Delay Product"
-msgstr "Oneskorenie produktu"
+msgstr "Produktu oneskorenia"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_pricing__description
@@ -496,24 +497,24 @@ msgstr "Popis"
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__display_name
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__display_name
 msgid "Display Name"
-msgstr "Zobrazovaný Názov"
+msgstr "Zobrazovaný názov"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__displayed_unit
 msgid "Displayed Unit"
-msgstr ""
+msgstr "Zobrazená jednotka"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__duration
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid "Duration"
-msgstr "Obdobie"
+msgstr "Trvanie"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_pricing__name
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__duration_display
 msgid "Duration Display"
-msgstr ""
+msgstr "Zobraziť Trvanie"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__duration_days
@@ -535,19 +536,19 @@ msgstr "Očakávané vrátenie"
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_line.py:0
 msgid "Expected: %(date)s"
-msgstr ""
+msgstr "Očakávané: %(date)s"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_product_product__extra_daily
 #: model:ir.model.fields,help:sale_renting.field_product_template__extra_daily
 msgid "Fine per day late"
-msgstr ""
+msgstr "Poplatok za deň meškania"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_product_product__extra_hourly
 #: model:ir.model.fields,help:sale_renting.field_product_template__extra_hourly
 msgid "Fine per hour late"
-msgstr ""
+msgstr "Poplatok za hodinu meškania"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_product_product__display_price
@@ -564,39 +565,39 @@ msgstr "Prejdite do ponuky objednávok."
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__show_update_duration
 msgid "Has Duration Changed"
-msgstr ""
+msgstr "Má zmenené trvanie"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__has_pickable_lines
 msgid "Has Pickable Lines"
-msgstr "Položky na vyzdvihnutie"
+msgstr "Má položky na vyzdvihnutie"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__has_rented_products
 msgid "Has Rented Products"
-msgstr ""
+msgstr "Má prenajaté produkty"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__has_returnable_lines
 msgid "Has Returnable Lines"
-msgstr "Položky na vrátenie"
+msgstr "Má položky na vrátenie"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "Hour"
-msgstr ""
+msgstr "Hodina"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_hourly
 msgid "Hourly"
-msgstr ""
+msgstr "Hodinovo"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__extra_hourly
 #: model:ir.model.fields,field_description:sale_renting.field_product_template__extra_hourly
 msgid "Hourly Fine"
-msgstr ""
+msgstr "Penále za hodinu"
 
 #. module: sale_renting
 #: model:ir.model.fields.selection,name:sale_renting.selection__sale_temporal_recurrence__displayed_unit__hour
@@ -633,23 +634,23 @@ msgstr "Fakturačná a dodacia adresa:"
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard__is_late
 msgid "Is Late"
-msgstr "Je neskoro"
+msgstr "Je oneskorené"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__is_rental
 msgid "Is Rental"
-msgstr "je Rental"
+msgstr "Je prenájom"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__is_late
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__is_late
 msgid "Is overdue"
-msgstr "Je oneskorené"
+msgstr "Je prekročené"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "Jane Doe"
-msgstr ""
+msgstr "Janka Mrkvičková"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
@@ -676,19 +677,19 @@ msgstr "Naposledy upravované"
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_search_schedule
 msgid "Late"
-msgstr "Meškajúci"
+msgstr "Oneskorené"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "Late Pickup"
-msgstr "Oneskorené dodanie"
+msgstr "Oneskorené vyzdvihnutie"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "Late Return"
-msgstr "Oneskorene vrátenie"
+msgstr "Oneskorené vrátenie"
 
 #. module: sale_renting
 #. odoo-javascript
@@ -718,6 +719,8 @@ msgid ""
 "Minimum duration before this rule is applied. If set to 0, it represents a "
 "fixedrental price."
 msgstr ""
+"Minimálna doba, po ktorej sa toto pravidlo uplatní. Ak je nastavená hodnota "
+"0, ide o pevnú cenu pôžičky/prenájmu."
 
 #. module: sale_renting
 #. odoo-python
@@ -745,36 +748,37 @@ msgstr "Moje objednávky"
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__name
 msgid "Name"
-msgstr "Meno"
+msgstr "Názov"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__next_action_date
 msgid "Next Action"
-msgstr "Ďalšie akcie"
+msgstr "Dátum ďalšej akcie"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "Night"
-msgstr ""
+msgstr "Noc"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_nightly
 msgid "Nightly"
-msgstr ""
+msgstr "Nočne"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_pricing.py:0
 msgid "Nightly periods cannot be mixed with other rental periods."
 msgstr ""
+"Nočné obdobia nie je možné kombinovať s inými obdobiami prenájmu/pôžičky."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 #: model:ir.model.fields.selection,name:sale_renting.selection__sale_temporal_recurrence__displayed_unit__night
 msgid "Nights"
-msgstr ""
+msgstr "Noci"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.action_rental_report
@@ -784,7 +788,7 @@ msgstr "Zatiaľ žiadne údaje!"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_form_schedule
 msgid "Ok"
-msgstr "Ok"
+msgstr "OK"
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_order_action
@@ -792,18 +796,20 @@ msgid ""
 "Once the quotation is confirmed, it becomes a rental order.<br> You will be "
 "able to create an invoice and collect the payment."
 msgstr ""
+"Po potvrdení cenovej ponuky sa táto ponuka stáva objednávkou prenájmu. "
+"Budete môcť vystaviť faktúru a vybrať platbu."
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Once the rental is done, you can register the return."
-msgstr ""
+msgstr "Po dokončení prenájmu môžete zaregistrovať vrátenie."
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard__order_id
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search
 msgid "Order"
-msgstr "Poradie"
+msgstr "Objednávka"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__order_id
@@ -824,7 +830,7 @@ msgstr "Objednávky"
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__overnight
 msgid "Overnight"
-msgstr ""
+msgstr "Cez noc"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_res_company__extra_day
@@ -842,7 +848,7 @@ msgstr "Za hodinu"
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricelist_view
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental
 msgid "Period"
-msgstr "Obdobie"
+msgstr "Trvanie"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_temporal_recurrence_view_form
@@ -853,7 +859,7 @@ msgstr "Periodicita"
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.sale_temporal_recurrence_action
 msgid "Periods"
-msgstr "Periody"
+msgstr "Periódy"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_rental_order_wizard
@@ -884,7 +890,7 @@ msgstr "Vyzdvihnuté"
 #: model:ir.ui.menu,name:sale_renting.rental_orders_pickup
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid "Pickup"
-msgstr "Výzdvih"
+msgstr "Vyzdvihnutie"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search
@@ -901,12 +907,12 @@ msgstr "Potvrdenie o vyzdvihnutí #"
 #. module: sale_renting
 #: model:ir.actions.report,name:sale_renting.action_report_rental_saleorder
 msgid "Pickup and Return Receipt"
-msgstr "Potvrdenie o vyzdvihnuti a vrátení"
+msgstr "Potvrdenie o vyzdvihnutí a vrátení"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__reservation_begin
 msgid "Pickup date - padding time"
-msgstr ""
+msgstr "Dátum vyzdvihnutia - časový odstup"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_kanban
@@ -928,17 +934,17 @@ msgstr "Cenník"
 #: model:ir.actions.act_window,name:sale_renting.product_pricing_action
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricing_tree
 msgid "Prices"
-msgstr ""
+msgstr "Ceny"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental
 msgid "Pricing"
-msgstr "Oceňovanie"
+msgstr "Cenotvorba"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_product_pricing
 msgid "Pricing rule of rental products"
-msgstr ""
+msgstr "Cenové pravidlá pre produkty na prenájom"
 
 #. module: sale_renting
 #: model:product.template,name:sale_renting.rental_product_3_template
@@ -961,7 +967,7 @@ msgstr "Produkt"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "Product A"
-msgstr ""
+msgstr "Produkt A"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__categ_id
@@ -1003,7 +1009,7 @@ msgstr "Projektor"
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__qty_in_rent
 #: model:ir.model.fields,field_description:sale_renting.field_product_template__qty_in_rent
 msgid "Quantity currently in rent"
-msgstr "Množstvo v súčasnosti v prenájme"
+msgstr "Aktuálne prenajaté množstvo"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_quarterly
@@ -1032,12 +1038,12 @@ msgstr "Cenové ponuky"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid "Recompute all prices based on this duration"
-msgstr ""
+msgstr "Prepočítajte všetky ceny na základe tejto dĺžky trvania"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__remaining_hours
 msgid "Remaining duration in hours"
-msgstr ""
+msgstr "Zostávajúca doba v hodinách"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__rent_ok
@@ -1048,7 +1054,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "Rental"
-msgstr "Požičovňa"
+msgstr "Prenájom"
 
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.action_rental_report
@@ -1063,104 +1069,104 @@ msgstr "Analýza prenájmu"
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_sale_rental_report
 msgid "Rental Analysis Report"
-msgstr "Správa o analýze výpožičky"
+msgstr "Správa o analýze prenájmu"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__rental_color
 msgid "Rental Color"
-msgstr ""
+msgstr "Farba prenájmu"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard_line__rental_order_wizard_id
 msgid "Rental Order Wizard"
-msgstr "Sprievodca objednávkami na vypožičanie"
+msgstr "Sprievodca objednávkou prenájmu/výpožičky"
 
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.rental_order_action
 #: model:ir.actions.act_window,name:sale_renting.rental_order_today_pickup_action
 #: model:ir.actions.act_window,name:sale_renting.rental_order_today_return_action
 msgid "Rental Orders"
-msgstr ""
+msgstr "Objednávky prenájmu"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricelist_view
 msgid "Rental Pricelist Rules"
-msgstr ""
+msgstr "Cenové pravidlá prenájmu/výpožičiek"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__rental_return_date
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__return_date
 msgid "Rental Return Date"
-msgstr ""
+msgstr "Dátum vrátenia"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__rental_start_date
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__start_date
 msgid "Rental Start Date"
-msgstr ""
+msgstr "Dátum začiatku prenájmu"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order__rental_status
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__rental_status
 msgid "Rental Status"
-msgstr ""
+msgstr "Stav prenájmu"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard__rental_wizard_line_ids
 msgid "Rental Wizard Line"
-msgstr ""
+msgstr "Riadok sprievodcu prenájmom/pôžičkami"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid "Rental period"
-msgstr ""
+msgstr "Obdobie prenájmu"
 
 #. module: sale_renting
 #: model:ir.ui.menu,name:sale_renting.menu_sale_renting_periods
 msgid "Rental periods"
-msgstr ""
+msgstr "Obdobia prenájmu"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__display_price
 #: model:ir.model.fields,field_description:sale_renting.field_product_template__display_price
 msgid "Rental price"
-msgstr ""
+msgstr "Cena prenájmu"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental
 msgid "Rental prices"
-msgstr ""
+msgstr "Ceny prenájmu"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order.py:0
 msgid "Rental prices have been recomputed with the new period."
-msgstr ""
+msgstr "Ceny prenájmu boli prepočítané na nové obdobie."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricelist_view
 msgid "Rental rules"
-msgstr ""
+msgstr "Pravidla prenájmu"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_rental_order_wizard_line
 msgid "RentalOrderLine transient representation"
-msgstr ""
+msgstr "Riadok objednávky prenájmu - prechodná reprezentácia"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search
 msgid "Rentals"
-msgstr ""
+msgstr "Prenájmy"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_pricing__recurrence_id
 msgid "Renting Period"
-msgstr ""
+msgstr "Obdobie prenájmu"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_pricelist__product_pricing_ids
 msgid "Renting Price Rules"
-msgstr ""
+msgstr "Cenová pravidlá prenájmu"
 
 #. module: sale_renting
 #: model:ir.ui.menu,name:sale_renting.menu_rental_reporting
@@ -1183,18 +1189,18 @@ msgstr "Rezervované"
 #: model:ir.ui.menu,name:sale_renting.rental_orders_return
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid "Return"
-msgstr "Návrat"
+msgstr "Vrátenie"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_search_schedule
 msgid "Return Date"
-msgstr ""
+msgstr "Dátum vrátenia"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_kanban
 msgid "Return:"
-msgstr ""
+msgstr "Vrátenie:"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard_line__qty_returned
@@ -1211,7 +1217,7 @@ msgstr "Vrátené"
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_line.py:0
 msgid "Returned: %(date)s"
-msgstr ""
+msgstr "Vrátené: %(date)s"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_sale_temporal_recurrence
@@ -1222,12 +1228,12 @@ msgstr ""
 #: model:ir.model,name:sale_renting.model_sale_order
 #: model:ir.model.fields.selection,name:sale_renting.selection__sale_rental_report__state__sale
 msgid "Sales Order"
-msgstr "Objednávka"
+msgstr "Predajná objednávka"
 
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Položka objednávok"
+msgstr "Riadok predajnej objednávky"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_order_line__team_id
@@ -1251,13 +1257,13 @@ msgstr "Obchodník"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "Sample Document"
-msgstr ""
+msgstr "Vzorový dokument"
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Save the product."
-msgstr ""
+msgstr "Uložte produkt."
 
 #. module: sale_renting
 #: model:ir.ui.menu,name:sale_renting.menu_rental_schedule
@@ -1267,7 +1273,7 @@ msgstr "Rozvrh"
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.action_rental_order_schedule
 msgid "Scheduled Rentals"
-msgstr ""
+msgstr "Naplánovať prenájmy"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_product_pricing__product_variant_ids
@@ -1275,23 +1281,25 @@ msgid ""
 "Select Variants of the Product for which this rule applies.Leave empty if "
 "this rule applies for any variant of this template."
 msgstr ""
+"Vyberte varianty produktu, na ktoré sa toto pravidlo vzťahuje. Ak sa toto "
+"pravidlo vzťahuje na všetky varianty tejto šablóny, pole nechajte prázdne."
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_product_pricing__product_template_id
 msgid "Select products on which this pricing will be applied."
-msgstr ""
+msgstr "Vyberte produkty, na ktoré sa táto cena bude vzťahovať."
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Select the rental dates and check the price."
-msgstr ""
+msgstr "Zvoľte termín prenájmu a skontrolujte cenu."
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Select your rental product."
-msgstr ""
+msgstr "Vyberte produkt na prenájom."
 
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.action_rental_config_settings
@@ -1302,12 +1310,12 @@ msgstr "Nastavenia"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_wizard_view_form
 msgid "Some delay cost will be added to the sales order."
-msgstr ""
+msgstr "K objednávke budú pripočítané náklady spojené s oneskorením."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_report_search_view
 msgid "State"
-msgstr "Štát"
+msgstr "Stav"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard__status
@@ -1320,54 +1328,54 @@ msgstr "Stav"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_rental_report_view_tree
 msgid "Sum of Daily Amount"
-msgstr ""
+msgstr "Súčet dennej čiastky"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_rental_report_view_tree
 msgid "Sum of Daily Ordered Qty"
-msgstr ""
+msgstr "Súčet denných objednaných množstiev"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_rental_report_view_tree
 msgid "Sum of Daily Picked-Up Qty"
-msgstr ""
+msgstr "Súčet denných vyzdvihnutých množstiev"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_sale_order__duration_days
 msgid "The duration in days of the rental period."
-msgstr ""
+msgstr "Dĺžka prenájmu v dňoch."
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_sale_order__remaining_hours
 msgid "The leftover hours of the rental period."
-msgstr ""
+msgstr "Zostávajúce hodiny doby prenájmu."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_line.py:0
 msgid "The order is already picked-up."
-msgstr ""
+msgstr "Objednávka už bola vyzdvihnutá."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_line.py:0
 msgid "The order is already returned."
-msgstr ""
+msgstr "Objednávka už bola vrátená."
 
 #. module: sale_renting
 #: model:ir.model.constraint,message:sale_renting.constraint_sale_temporal_recurrence_check_pickup_time
 msgid "The pickup time has to be between 0 and 24."
-msgstr ""
+msgstr "Čas vyzdvihnutia musí byť v rozmedzí od 0 do 24."
 
 #. module: sale_renting
 #: model:ir.model.constraint,message:sale_renting.constraint_sale_temporal_recurrence_temporal_recurrence_duration
 msgid "The pricing duration has to be greater or equal to 0."
-msgstr ""
+msgstr "Doba platnosti ceny musí byť väčšia alebo rovná 0."
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_res_company__extra_product
 msgid "The product is used to add the cost to the sales order"
-msgstr ""
+msgstr "Tento produkt sa používa na priradenie nákladov k predajnej objednávke"
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_sale_order__is_late
@@ -1376,34 +1384,38 @@ msgid ""
 "The products haven't been picked-up or returned in time. This excludes any "
 "grace period before late fees apply."
 msgstr ""
+"Produkty neboli včas vyzdvihnuté alebo vrátené. Nezahŕňa tolerančnú lehotu "
+"pred uplatnením poplatkov za oneskorenie."
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "The rental configuration is available here."
-msgstr ""
+msgstr "Konfigurácia prenájmu je k dispozícii tu."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order_line.py:0
 msgid "The rental prices have been updated."
-msgstr ""
+msgstr "Ceny prenájmu boli aktualizované."
 
 #. module: sale_renting
 #: model:ir.model.constraint,message:sale_renting.constraint_sale_order_rental_period_coherence
 msgid "The rental start date must be before the rental return date if any."
 msgstr ""
+"Dátum začiatku prenájmu musí byť skorší ako dátum vrátenia prenajatého "
+"tovaru, ak je stanovený."
 
 #. module: sale_renting
 #: model:ir.model.constraint,message:sale_renting.constraint_sale_temporal_recurrence_check_return_time
 msgid "The return time has to be between 0 and 24."
-msgstr ""
+msgstr "Hodnota návratu musí byť v rozmedzí od 0 do 24."
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_order_today_pickup_action
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_order_today_return_action
 msgid "There isn't any scheduled pickup or return."
-msgstr ""
+msgstr "Nie je stanovený žiadny čas vyzdvihnutia ani vrátenia."
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_res_config_settings__extra_day
@@ -1411,6 +1423,9 @@ msgid ""
 "This is the default extra cost per day set on newly created products.You can "
 "change this value for existing products directly on the product itself."
 msgstr ""
+"Toto je predvolená výška dodatočných nákladov za deň nastavená pre novo "
+"vytvorené produkty. Túto hodnotu môžete u existujúcich produktov zmeniť "
+"priamo v detaile daného produktu."
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_res_config_settings__extra_hour
@@ -1418,11 +1433,14 @@ msgid ""
 "This is the default extra cost per hour set on newly created products.You "
 "can change this value for existing products directly on the product itself."
 msgstr ""
+"Toto je predvolený hodinový príplatok nastavený pre novo vytvorené produkty. "
+"Túto hodnotu môžete u existujúcich produktov zmeniť priamo v detaile "
+"produktu."
 
 #. module: sale_renting
 #: model:ir.model.fields,help:sale_renting.field_res_config_settings__extra_product
 msgid "This product will be used to add fines in the Rental Order."
-msgstr ""
+msgstr "Tento produkt sa použije na pridanie penále do objednávky prenájmu."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
@@ -1430,6 +1448,8 @@ msgid ""
 "This will update the unit price of all rental products based on the new "
 "period."
 msgstr ""
+"Týmto sa aktualizuje jednotková cena všetkých prenajímaných produktov na "
+"základe nového obdobia."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
@@ -1437,6 +1457,8 @@ msgid ""
 "Those values are applied to any new rental product and can be changed on "
 "product forms."
 msgstr ""
+"Tieto hodnoty sa uplatňujú na všetky nové produkty v ponuke a je možné ich "
+"zmeniť v formulároch produktov."
 
 #. module: sale_renting
 #: model:ir.ui.menu,name:sale_renting.rental_orders_today
@@ -1448,17 +1470,17 @@ msgstr "Úlohy na dnes"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search_without_searchpanel
 msgid "To Pickup"
-msgstr ""
+msgstr "Na vyzdvihnutie"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_search_without_searchpanel
 msgid "To Return"
-msgstr ""
+msgstr "Na vrátenie"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_view_tree
 msgid "Total Tax Included"
-msgstr "Spolu vrátane DPH"
+msgstr "Spolu vrátane dane"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__product_uom_id
@@ -1470,7 +1492,7 @@ msgstr "Jednotka"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view
 msgid "Update Rental Prices"
-msgstr ""
+msgstr "Aktualizovať ceny prenájmu"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_wizard_view_form
@@ -1481,19 +1503,19 @@ msgstr "Potvrdiť"
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order.py:0
 msgid "Validate a pickup"
-msgstr ""
+msgstr "Potvrdiť vyzdvihnutie"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/sale_order.py:0
 msgid "Validate a return"
-msgstr ""
+msgstr "Potvrdiť vrátenie"
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "Validate the operation after checking the picked-up quantities."
-msgstr ""
+msgstr "Po overení vyzdvihnutých množstiev potvrďte operáciu."
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricelist_view
@@ -1507,6 +1529,8 @@ msgid ""
 "Want to <b>rent products</b>? \n"
 " Let's discover Odoo Rental App."
 msgstr ""
+"Chcete <b>prenajímať produkty</b> ? \n"
+" Pozrime sa na aplikáciu Odoo Prenájom."
 
 #. module: sale_renting
 #. odoo-python
@@ -1548,12 +1572,16 @@ msgid ""
 "You can also create additional products or services to sell by checking *Can "
 "be Sold* in the product form (e.g. insurance)."
 msgstr ""
+"Môžete tiež vytvoriť ďalšie produkty alebo služby na predaj tak, že v "
+"formulári produktu zaškrtnete políčko *Predaj* (napr. poistenie)."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_pricelist.py:0
 msgid "You can not have a time-based rule for products that are not rentable."
 msgstr ""
+"Pre produkty, ktoré nie je možné prenajať, nemôžete nastaviť pravidlo "
+"založené na čase."
 
 #. module: sale_renting
 #: model_terms:ir.actions.act_window,help:sale_renting.rental_order_today_pickup_action
@@ -1563,12 +1591,15 @@ msgid ""
 "                <br>\n"
 "                or create a new rental order."
 msgstr ""
+"Pomocou filtrov uvedených vyššie môžete vyhľadávať v dlhšom časovom období\n"
+"                <br>\n"
+"                alebo vytvoriť novú objednávku prenájmu."
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/wizard/rental_processing.py:0
 msgid "You can't return more than what's been picked-up."
-msgstr ""
+msgstr "Nemôžete vrátiť viac, než bolo vyzdvihnuté."
 
 #. module: sale_renting
 #. odoo-python
@@ -1576,21 +1607,27 @@ msgstr ""
 msgid ""
 "You cannot have multiple pricing for the same variant, recurrence and "
 "pricelist"
-msgstr ""
+msgstr "Pre tú istú variantu, periódu a cenník nemôžete mať viacero cien"
 
 #. module: sale_renting
 #. odoo-javascript
 #: code:addons/sale_renting/static/src/js/tours/rental.js:0
 msgid "You're done with your fist rental. Congratulations!"
-msgstr ""
+msgstr "Prvý prenájom máte za sebou. Gratulujeme!"
 
 #. module: sale_renting
 #. odoo-python
 #: code:addons/sale_renting/models/product_pricing.py:0
 msgid "all variants"
-msgstr ""
+msgstr "všetky varianty"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 msgid "hours"
 msgstr "hodiny"
+
+#~ msgid "2023-08-01"
+#~ msgstr "1. 8. 2023"
+
+#~ msgid "2023-08-10"
+#~ msgstr "10. 8. 2023"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 18:43+0000\n"
-"PO-Revision-Date: 2026-01-15 14:29+0000\n"
+"POT-Creation-Date: 2026-03-13 18:47+0000\n"
+"PO-Revision-Date: 2026-04-08 14:23+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "pos_enterprise/pl/>\n"
@@ -23,9 +23,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
-"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || "
-"(n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: pos_enterprise
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_view_kanban
@@ -80,6 +80,16 @@ msgid "All categories"
 msgstr "Wszystkie kategorie"
 
 #. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid ""
+"All orders are in the last stage. This action will mark all orders as Done. "
+"Would you like to continue?"
+msgstr ""
+"Wszystkie zamówienia są na ostatnim etapie. Ta czynność oznaczy wszystkie "
+"zamówienia jako Zrealizowane. Czy chcesz kontynuować?"
+
+#. module: pos_enterprise
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_reset_wizard
 msgid ""
 "Archive all preparation display's orders for a fresh start. This will not "
@@ -127,6 +137,22 @@ msgstr "Wyczyść wszystkie filtry"
 #. module: pos_enterprise
 #. odoo-javascript
 #: code:addons/pos_enterprise/static/src/app/components/preparation_display/preparation_display.xml:0
+msgid "Clear All Orders"
+msgstr "Wyczyść wszystkie zamówienia"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid ""
+"Clearing all orders will move all the orders of the current stage to the "
+"next one. Would you like to continue?"
+msgstr ""
+"Wyczyszczenie wszystkich zamówień przeniesie wszystkie zamówienia z "
+"bieżącego etapu do następnego. Czy chcesz kontynuować?"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/components/preparation_display/preparation_display.xml:0
 msgid "Close"
 msgstr "Zamknij"
 
@@ -153,12 +179,18 @@ msgstr "Czas ukończenia"
 #. module: pos_enterprise
 #: model:ir.model,name:pos_enterprise.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ustawienia konfiguracji"
+msgstr "Konfiguracja ustawień"
 
 #. module: pos_enterprise
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_view_kanban
 msgid "Configure"
 msgstr "Konfiguruj"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid "Continue"
+msgstr "Kontynuuj"
 
 #. module: pos_enterprise
 #: model:ir.model.fields,field_description:pos_enterprise.field_pos_prep_display__create_uid
@@ -211,6 +243,8 @@ msgid ""
 msgstr "Różne produkty i kategorie są wysyłane do różnych tabletów i ekranów."
 
 #. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_reset_wizard
 msgid "Discard"
 msgstr "Odrzuć"
@@ -398,7 +432,7 @@ msgstr "Data ostatniej aktualizacji"
 #. odoo-javascript
 #: code:addons/pos_enterprise/static/src/app/components/orderline/orderline.xml:0
 msgid "Line Customer Note"
-msgstr "Uwaga klienta dotycząca linii"
+msgstr "Uwaga klienta dotycząca pozycji"
 
 #. module: pos_enterprise
 #. odoo-javascript
@@ -427,7 +461,7 @@ msgstr "Potrzebujesz interfejsu dotykowego do zarządzania zamówieniami?"
 #. odoo-javascript
 #: code:addons/pos_enterprise/static/src/app/components/preparation_display/preparation_display.xml:0
 msgid "No data available."
-msgstr "Brak dostępnych danych"
+msgstr "Brak dostępnych danych."
 
 #. module: pos_enterprise
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.preparation_display_view_form
@@ -737,7 +771,7 @@ msgstr "Etapy"
 #. module: pos_enterprise
 #: model:ir.model.fields,field_description:pos_enterprise.field_pos_prep_state__todo
 msgid "Status of the orderline"
-msgstr "Status linii zamówień"
+msgstr "Status pozycji zamówień"
 
 #. module: pos_enterprise
 #. odoo-javascript
@@ -789,8 +823,8 @@ msgstr ""
 #: model:ir.model.fields,help:pos_enterprise.field_pos_prep_order__completion_time
 msgid "Time in minutes to complete the order (preparation + service time)"
 msgstr ""
-"Czas w minutach potrzebny do realizacji zamówienia "
-"(przygotowanie + czas obsługi)"
+"Czas w minutach potrzebny do realizacji zamówienia (przygotowanie + czas "
+"obsługi)"
 
 #. module: pos_enterprise
 #: model:ir.model.fields,help:pos_enterprise.field_pos_order_line__preparation_time
@@ -822,6 +856,12 @@ msgstr "Terminal płatniczy Tyro"
 #: model_terms:ir.ui.view,arch_db:pos_enterprise.res_config_settings_view_form
 msgid "Urban Piper"
 msgstr "Urban Piper"
+
+#. module: pos_enterprise
+#. odoo-javascript
+#: code:addons/pos_enterprise/static/src/app/services/preparation_display_service.js:0
+msgid "Warning"
+msgstr "Ostrzeżenie"
 
 #. module: pos_enterprise
 #: model:ir.model,name:pos_enterprise.model_resource_calendar_attendance

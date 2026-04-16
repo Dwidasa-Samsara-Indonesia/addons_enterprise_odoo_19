@@ -595,7 +595,7 @@
                                 <field name="name@it">Riserve / Utili e perdite a riportate</field>
                                 <field name="name@de">Reserven und Jahresgewinn oder Jahresverlust</field>
                                 <field name="code">CH_290</field>
-                                <field name="aggregation_formula">CH_290_A.balance + CH_290_B.balance</field>
+                                <field name="aggregation_formula">CH_290_A.balance + CH_290_B.balance + CH_290_C.balance</field>
                                 <field name="children_ids">
                                     <record id="account_financial_report_line_ch_290_a" model="account.report.line">
                                         <field name="name">Legal reserves</field>
@@ -610,7 +610,7 @@
                                                 <field name="label">balance</field>
                                                 <field name="engine">domain</field>
                                                 <field name="date_scope">from_beginning</field>
-                                                <field name="formula">[('account_id.code', '&gt;=', '290'), ('account_id.code', '&lt;', '2970')]</field>
+                                                <field name="formula">[('account_id.code', '&gt;=', '290'), ('account_id.code', '&lt;=', '2970')]</field>
                                                 <field name="subformula">-sum</field>
                                             </record>
                                         </field>
@@ -640,6 +640,24 @@
                                                 <field name="label">balance</field>
                                                 <field name="engine">aggregation</field>
                                                 <field name="formula">CH_290_B.domain + CH_290_B.cross_report</field>
+                                            </record>
+                                        </field>
+                                    </record>
+                                    <record id="account_financial_report_line_ch_290_c" model="account.report.line">
+                                        <field name="name">Treasury shares</field>
+                                        <field name="name@fr">Actions propres</field>
+                                        <field name="name@it">Azioni proprie</field>
+                                        <field name="name@de">Eigene Aktien</field>
+                                        <field name="code">CH_290_C</field>
+                                        <field name="groupby">account_id</field>
+                                        <field name="foldable" eval="True"/>
+                                        <field name="expression_ids">
+                                            <record id="account_financial_report_line_ch_290_c_balance" model="account.report.expression">
+                                                <field name="label">balance</field>
+                                                <field name="engine">domain</field>
+                                                <field name="date_scope">from_beginning</field>
+                                                <field name="formula">[('account_id.code', '=', '2980')]</field>
+                                                <field name="subformula">-sum</field>
                                             </record>
                                         </field>
                                     </record>

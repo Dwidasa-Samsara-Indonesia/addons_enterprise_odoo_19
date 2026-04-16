@@ -18,3 +18,17 @@ class TestDEPoSCert(TestPoSCommon):
 
         statements = current_session.get_cash_statement_cases([])
         self.assertEqual([statement for statement in statements if len(statement['name']) > 40], [])
+
+    def test_get_cash_statement_cases_keep_casing(self):
+        self.basic_config.open_ui()
+        current_session = self.basic_config.current_session_id
+        current_session.try_cash_in_out(
+            "in",
+            10,
+            "reaSoNwithUpPerCase-reason",
+            self.partner.id,
+            {"formattedAmount": "10.00 €", "translatedType": "in"},
+        )
+
+        statements = current_session.get_cash_statement_cases([])
+        self.assertEqual(statements[2]['type'], "ReaSoNwithUpPerCase")

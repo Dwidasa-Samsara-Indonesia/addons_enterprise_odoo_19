@@ -8,21 +8,20 @@ definePosModels();
 describe("pos_store", () => {
     test("manageBookings", async () => {
         const store = await setupPosEnv();
-        onRpc("calendar.event", "action_open_booking_gantt_view", () => ({
-            type: "ir.actions.act_window",
-            name: "Gantt View",
-        }));
-        let actionCalled = null;
-        patchWithCleanup(store.action, {
-            async doAction(action) {
-                actionCalled = action;
+        let screenName = null;
+        let params = null;
+        patchWithCleanup(store.router, {
+            navigate(routeName, routeParams) {
+                if (routeName === "ActionScreen") {
+                    screenName = routeName;
+                    params = routeParams;
+                }
+                return super.navigate(...arguments);
             },
         });
         await store.manageBookings();
-        expect(actionCalled).toEqual({
-            type: "ir.actions.act_window",
-            name: "Gantt View",
-        });
+        expect(screenName).toEqual("ActionScreen");
+        expect(params).toEqual({ actionName: "manage-booking" });
     });
 
     test("editBooking", async () => {

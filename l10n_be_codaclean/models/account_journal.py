@@ -111,7 +111,10 @@ class AccountJournal(models.Model):
                     journal = next((
                         journal
                         for journal in acc_journal_map.get(sanitize_account_number(account_number), [])
-                        if journal.currency_id.name or journal.company_id.currency_id.name == currency
+                        if (
+                            (journal.currency_id and journal.currency_id.name == currency)
+                            or not journal.currency_id
+                        )
                     ), False)
                     if journal:
                         journal.bank_statements_source = "l10n_be_codaclean"

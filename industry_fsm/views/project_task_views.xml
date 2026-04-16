@@ -99,7 +99,8 @@
                 <field name="is_task_phone_update" invisible="1"/>
                 <label for="partner_phone" invisible="not is_fsm or has_template_ancestor or has_project_template"/>
                 <div name="partner_phone" class="o_row o_row_readonly" invisible="not is_fsm or has_template_ancestor or has_project_template">
-                    <field name="partner_phone" widget="phone"/>
+                    <field name="partner_phone" widget="phone" groups="base.group_partner_manager"/>
+                    <field name="partner_phone" widget="phone" readonly="1" groups="!base.group_partner_manager"/>
                     <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
                         title="By saving this change, the customer contact number will also be updated." invisible="not partner_id or not is_task_phone_update"/>
                 </div>

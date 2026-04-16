@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
+"POT-Creation-Date: 2026-03-06 18:44+0000\n"
 "PO-Revision-Date: 2025-11-16 05:28+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Serbian (Latin script) <https://translate.odoo.com/projects/"
@@ -264,9 +264,21 @@ msgid "Credit Note"
 msgstr "Knjižno odobrenje"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Credit Notes"
+msgstr ""
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_invoice
 msgid "Customer Invoice"
 msgstr "Faktura kupca"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Customer Invoices"
+msgstr ""
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
@@ -391,12 +403,6 @@ msgstr "ID"
 #: model:ir.actions.server,name:documents_account.ir_actions_server_bank_statement_code
 msgid "Import Bank Statement"
 msgstr "Uvezi bankovni izvod"
-
-#. module: documents_account
-#. odoo-python
-#: code:addons/documents_account/models/documents_document.py:0
-msgid "Invoices"
-msgstr "Fakture"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_account_journal
@@ -582,9 +588,27 @@ msgid "Vendor Bill"
 msgstr "Faktura dobavljača"
 
 #. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Bills"
+msgstr ""
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
 msgstr "Kredit nota dobavljača"
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Receipts"
+msgstr ""
+
+#. module: documents_account
+#. odoo-python
+#: code:addons/documents_account/models/documents_document.py:0
+msgid "Vendor Refunds"
+msgstr ""
 
 #. module: documents_account
 #. odoo-javascript
@@ -617,6 +641,9 @@ msgstr "podrazumevani folder naloga"
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account
 msgid "to mark this invoice as paid."
 msgstr "da označite ovu fakturu kao plaćenu."
+
+#~ msgid "Invoices"
+#~ msgstr "Fakture"
 
 #~ msgid ""
 #~ "A set of condition and actions which will be available to all attachments "

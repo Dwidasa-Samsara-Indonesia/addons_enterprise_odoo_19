@@ -668,16 +668,6 @@ class PlanningSlot(models.Model):
                 end = resource.calendar_id.plan_days(template_id.duration_days, start, compute_leaves=True)
             end = end.replace(hour=int(h), minute=int(m))
 
-            if resource and not resource._is_flexible():
-                work_interval, _dummy = resource._get_valid_work_intervals(
-                    start,
-                    end
-                )
-                start = start.astimezone(pytz.utc).replace(tzinfo=None)
-                end = work_interval[resource.id]._items[-1][1].astimezone(pytz.utc).replace(tzinfo=None) \
-                    if work_interval[resource.id]._items \
-                    else end
-
         # Need to remove the tzinfo in start and end as without these it leads to a traceback
         # when the start time is empty
         start = start.astimezone(pytz.utc).replace(tzinfo=None) if start.tzinfo else start
@@ -1530,7 +1520,9 @@ class PlanningSlot(models.Model):
         result = {False: []}
         for resource in resources:
             # return no unavailability if the resource is fully flexible hours (both material and employee).
-            if (resource.id not in res_ids) or (resource and resource._is_fully_flexible()):
+            if ((resource.id not in res_ids)
+                or (resource and resource._is_fully_flexible())
+                or (resource.id not in leaves_mapping and resource and resource._is_flexible())):
                 continue
             calendar = leaves_mapping.get(resource.id, company_leaves)
             # remove intervals smaller than a cell, as they will cause half a cell to turn grey
@@ -1678,7 +1670,7 @@ class PlanningSlot(models.Model):
 
     def _print_planning_get_slot_title(self, slot_start, slot_end, tz_info, group_by):
         def print_planning_format_time(date, tz_info):
-            return format_time(self.env, date.time(), tz_info, 'HH:mm')
+            return format_time(self.env, date.time(), tz_info, 'short')
 
         allocated_hours_formatted = ""
         if self.allocated_percentage != 100:
@@ -1829,7 +1821,7 @@ class PlanningSlot(models.Model):
 
         for group_id, slots in sorted(group_by_slots, key=lambda x: x[0].display_name if x[0] else ''):
             group = group_id.id if group_id else False
-            for slot in slots:
+            for slot in slots.sorted(key=lambda s: (s.start_datetime, s.id)):
                 resource_id = slot.resource_id
                 slot_start = slot.start_datetime.astimezone(tz_info)
                 slot_end = slot.end_datetime.astimezone(tz_info)
@@ -1884,7 +1876,7 @@ class PlanningSlot(models.Model):
             for week, data in group_by_slots_per_day_per_week.items()
         }
 
-        return self.env.ref('planning.report_planning_slot').with_context(discard_logo_check=True).report_action(None,
+        return self.env.ref('planning.report_planning_slot').with_context(discard_logo_check=True, allow_printing_planning_report=True).report_action(None,
             data={
                 'group_by_slots_per_day_per_week': group_by_slots_per_day_per_week_formatted,
                 'weeks': weeks,
@@ -2356,6 +2348,7 @@ class PlanningSlot(models.Model):
             allocated_hours = timedelta(hours=self.allocated_hours).total_seconds()
             formatted_allocated_hours = "%d:%02d" % (allocated_hours // 3600, round(allocated_hours % 3600 / 60))
             allocated_percentage = float_utils.float_repr(self.allocated_percentage, precision_digits=0)
+            lang = employee.user_partner_id.lang or employee.work_contact_id.lang or self.env.context.get('lang')
             # update context to build a link for view in the slot
             view_context.update({
                 'link': employee_url_map[employee.id],
@@ -2365,7 +2358,8 @@ class PlanningSlot(models.Model):
                 'work_email': employee.work_email,
                 'allocated_hours': formatted_allocated_hours,
                 'allocated_percentage': allocated_percentage,
-                'unassign_deadline': unassign_deadline
+                'unassign_deadline': unassign_deadline,
+                'lang': lang,
             })
             mail_id = template.with_context(view_context).send_mail(self.id, email_layout_xmlid='mail.mail_notification_light')
             mails_to_send_ids.append(mail_id)
@@ -2638,10 +2632,16 @@ class PlanningSlot(models.Model):
         )
         work_interval_per_resource = defaultdict(list)
         for resource_id, resource_work_intervals_per_resource in resource_work_intervals.items():
+            calendar_tz = pytz.timezone(resources.browse(resource_id).calendar_id.tz) if resources.browse(resource_id).calendar_id else pytz.UTC
             for resource_work_interval in resource_work_intervals_per_resource:
-                work_interval_per_resource[resource_id].append(
-                    (resource_work_interval[0].replace(tzinfo=pytz.UTC), resource_work_interval[1].replace(tzinfo=pytz.UTC))
-                )
+                def fix_tz(dt, target_tz):
+                    # Strip existing tz, localize with target_tz, then convert to UTC
+                    return target_tz.localize(dt.replace(tzinfo=None)).astimezone(pytz.UTC)
+
+                start_utc = fix_tz(resource_work_interval[0], calendar_tz)
+                end_utc = fix_tz(resource_work_interval[1], calendar_tz)
+                work_interval_per_resource[resource_id].append((start_utc, end_utc))
+
         # Add average daily work hours per resource calendar to the output
         avg_hours_per_resource = {False: 0}
         for resource in set(resources):

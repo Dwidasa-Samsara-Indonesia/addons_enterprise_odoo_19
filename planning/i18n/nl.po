@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2026-01-27 22:48+0000\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"PO-Revision-Date: 2026-03-26 14:50+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/planning/"
 "nl/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: planning
 #. odoo-python
@@ -329,7 +329,7 @@ msgid ""
 "from this shift."
 msgstr ""
 "<i class=\"fa fa-exclamation-circle\"/> Je kunt jezelf niet langer losmaken "
-"van deze verschuiving."
+"van deze shift."
 
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_slot_template_view_form
@@ -1212,7 +1212,7 @@ msgid ""
 "those shifts to available resources."
 msgstr ""
 "Bepaal de rollen die je resources zullen uitvoeren (bv. Chef, barman, ober). "
-"Maak open staande shifts op basis van rollen die nodig zijn voor een missie. "
+"Maak openstaande shifts op basis van rollen die nodig zijn voor een missie. "
 "Voeg die shifts vervolgens toe aan beschikbare resources."
 
 #. module: planning
@@ -1228,7 +1228,7 @@ msgstr "Verwijderen"
 #. odoo-javascript
 #: code:addons/planning/static/src/components/address_recurrency_confirmation_dialog/address_recurrency_confirmation_dialog.js:0
 msgid "Delete Recurring Shift"
-msgstr "Herhalende dienst verwijderen"
+msgstr "Terugkerende shift verwijderen"
 
 #. module: planning
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__department_id
@@ -1259,6 +1259,7 @@ msgstr "Negeren"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__display_name
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_planning__display_name
@@ -1522,6 +1523,7 @@ msgstr "Ik ben niet beschikbaar"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__id
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__id
 #: model:ir.model.fields,field_description:planning.field_planning_planning__id
@@ -2056,7 +2058,7 @@ msgstr "Planning: opnieuw toegewezen dienst"
 #. module: planning
 #: model:ir.actions.server,name:planning.ir_cron_forecast_schedule_ir_actions_server
 msgid "Planning: generate next recurring shifts"
-msgstr "Planning: genereer volgende herhalende diensten"
+msgstr "Planning: genereer volgende terugkerende shifts"
 
 #. module: planning
 #. odoo-python
@@ -2142,7 +2144,7 @@ msgstr "Eigenschappen"
 #. module: planning
 #: model:ir.model,name:planning.model_hr_employee_public
 msgid "Public Employee"
-msgstr "Openbare werknemer"
+msgstr "Ambtenaar"
 
 #. module: planning
 #. odoo-javascript
@@ -2199,13 +2201,13 @@ msgstr "Herhaling"
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.res_config_settings_view_form
 msgid "Recurring Shifts"
-msgstr "Herhalende diensten"
+msgstr "Terugkerende shifts"
 
 #. module: planning
 #. odoo-javascript
 #: code:addons/planning/static/src/views/planning_form/planning_form_view.js:0
 msgid "Recurring shifts created"
-msgstr "Herhalende diensten aangemaakt"
+msgstr "Terugkerende shifts aangemaakt"
 
 #. module: planning
 #: model:ir.model.fields,field_description:planning.field_planning_recurrency__slot_ids
@@ -2259,6 +2261,11 @@ msgstr "Herhaal elke"
 #: model:ir.model.fields,field_description:planning.field_planning_slot__repeat_number
 msgid "Repetitions"
 msgstr "Herhalingen"
+
+#. module: planning
+#: model:ir.model,name:planning.model_ir_actions_report
+msgid "Report Action"
+msgstr "Rapportactie"
 
 #. module: planning
 #: model:ir.ui.menu,name:planning.planning_menu_reporting
@@ -2653,6 +2660,26 @@ msgstr "Einddatum"
 #: model:ir.model.fields.selection,name:planning.selection__res_company__planning_employee_unavailabilities__switch
 msgid "Switch shifts with other employees"
 msgstr "Diensten ruilen met andere werknemers"
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be added to the print menu. Please use the Print "
+"action available in the Planning calendar and Gantt views."
+msgstr ""
+"Het planningsrapport kan niet worden toegevoegd aan het afdrukmenu. Gebruik "
+"de afdrukfunctie die beschikbaar is in de planningsagenda en Gantt-weergaven."
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be printed from here. Please use the Print action "
+"available in the Planning calendar and Gantt views."
+msgstr ""
+"Het planningsrapport kan hier niet worden afgedrukt. Gebruik de "
+"afdrukfunctie in de planningsagenda en Gantt-weergaven."
 
 #. module: planning
 #: model:ir.model.constraint,message:planning.constraint_res_company_planning_self_unassign_days_before_positive

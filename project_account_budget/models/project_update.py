@@ -22,16 +22,19 @@ class ProjectUpdate(models.Model):
                 budgets = {
                     'data': budget_items['data'],
                     'total': budget_items['total'],
+                    'budget_type': budget_items['data'][0]['budget_type'] if budget_items['data'] else False,
                 }
             for budget in budgets['data']:
                 budget['progress'] = budget['allocated'] and (budget['spent'] - budget['allocated']) / abs(budget['allocated'])
             vals['show_activities'] = bool(project.total_budget_amount) or vals.get('show_activities', False)
             budget = project.total_budget_amount
-            cost = -project._get_budget_items()['total']['spent']
+            amount_spent = project._get_budget_items()['total']['spent']
+            remaining_budget = budget - abs(amount_spent)
             vals['budget'] = {
-                'percentage': round((cost / budget) * 100 if budget != 0 and cost else 0, 0),
+                'percentage': abs(round((amount_spent / budget) * 100 if budget != 0 and amount_spent else 0, 0)),
                 'data': budgets['data'],
                 'total': budgets['total'],
-                'remaining_budget_percentage': round(((budget - cost) / budget) * 100 if budget != 0 else 0, 0),
+                'remaining_budget_percentage': abs(round((remaining_budget / budget) * 100 if budget != 0 else 0, 0)),
+                'budget_type': budgets['budget_type']
             }
         return vals

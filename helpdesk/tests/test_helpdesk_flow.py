@@ -738,6 +738,33 @@ Content-Transfer-Encoding: quoted-printable
         })
         self.assertEqual(self.helpdesk_user.partner_id.phone, '123')
 
+    def test_partner_multi_email_not_overwritten(self):
+        """Test that a partner with multiple comma-separated emails does not
+        get their email overwritten when a ticket is created with one of those
+        emails as the partner_email (e.g. from an incoming mail).
+        """
+        multi_email = 'primary@example.com, secondary@example.com'
+        partner = self.env['res.partner'].create({
+            'name': 'Multi Email Partner',
+            'email': multi_email,
+        })
+        ticket = self.env['helpdesk.ticket'].create({
+            'name': 'Ticket from primary email',
+            'partner_id': partner.id,
+            'partner_email': '"Multi Email Partner" <primary@example.com>',
+        })
+        self.assertEqual(partner.email, multi_email)
+        self.assertFalse(ticket.is_partner_email_update)
+
+        # Same test with the secondary email
+        ticket2 = self.env['helpdesk.ticket'].create({
+            'name': 'Ticket from secondary email',
+            'partner_id': partner.id,
+            'partner_email': 'secondary@example.com',
+        })
+        self.assertEqual(partner.email, multi_email)
+        self.assertFalse(ticket2.is_partner_email_update)
+
     def test_ticket_display_name(self):
         """
         Test to verify that the display_name should not display the ID of its record when

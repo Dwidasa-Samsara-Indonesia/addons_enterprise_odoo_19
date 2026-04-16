@@ -44,9 +44,8 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
     def _l10n_pe_get_file_txt(self, options, data, report_number):
         txt_result = ""
         if data:
-            csv.register_dialect("pipe_separator", delimiter="|", skipinitialspace=True, lineterminator='|\n')
             output = StringIO()
-            writer = csv.DictWriter(output, dialect="pipe_separator", fieldnames=data[0].keys())
+            writer = csv.DictWriter(output, delimiter="|", skipinitialspace=True, lineterminator='\n', fieldnames=[*data[0], object()])
             writer.writerows(data)
             txt_result = output.getvalue()
 

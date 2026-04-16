@@ -13,7 +13,7 @@ class L10n_LuTaxReportHandler(models.AbstractModel):
     def _custom_options_initializer(self, report, options, previous_options):
         super()._custom_options_initializer(report, options, previous_options=previous_options)
         options.setdefault('buttons', []).append(
-            {'name': _('XML'), 'sequence': 30, 'action': 'open_report_export_wizard', 'file_export_type': _('XML')}
+            {'name': _('XML'), 'sequence': 30, 'action': 'open_report_export_wizard', 'file_export_type': _('XML'), 'branch_allowed': True}
         )
 
     def _get_field_values(self, lines):

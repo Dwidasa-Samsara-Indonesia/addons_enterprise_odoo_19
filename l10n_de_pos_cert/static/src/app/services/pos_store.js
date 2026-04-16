@@ -4,6 +4,7 @@ import { patch } from "@web/core/utils/patch";
 import { AlertDialog, ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { ask } from "@point_of_sale/app/utils/make_awaitable_dialog";
 import { _t } from "@web/core/l10n/translation";
+import { roundCurrency } from "@point_of_sale/app/models/utils/currency";
 import { uuidv4 } from "@point_of_sale/utils";
 
 const RATE_ID_MAPPING = {
@@ -24,25 +25,8 @@ patch(PosStore.prototype, {
     },
     // @Override
     async _onBeforeDeleteOrder(order) {
-        try {
-            if (this.isCountryGermanyAndFiskaly() && order.isTransactionStarted()) {
-                await this.cancelTransaction(order);
-            }
-            return super._onBeforeDeleteOrder(...arguments);
-        } catch (error) {
-            const message = {
-                noInternet: _t(
-                    "Check the internet connection then try to validate or cancel the order. " +
-                        "Do not delete your browsing, cookies and cache data in the meantime!"
-                ),
-                unknown: _t(
-                    "An unknown error has occurred! Try to validate this order or cancel it again. " +
-                        "Please contact Odoo for more information."
-                ),
-            };
-            this.fiskalyError(error, message);
-            return false;
-        }
+        await this.handleFiskalyCancellation(order);
+        return super._onBeforeDeleteOrder(...arguments);
     },
     //@Override
     async afterProcessServerData() {
@@ -95,40 +79,37 @@ patch(PosStore.prototype, {
         order.transactionStarted();
     },
     _createAmountPerVatRateArray(order) {
-        const vatRateMap = {
-            "VAT 0%": "NULL",
-            "VAT 7%": "REDUCED_1",
-            "VAT 19%": "NORMAL",
-            "VAT 10,7%": "SPECIAL_RATE_1",
-            "VAT 5,5%": "SPECIAL_RATE_2",
-        };
-
-        const orderSign = order.prices.taxDetails.order_sign;
         const expectedBase = order.prices.taxDetails.base_amount;
         let baseAmountSum = 0;
         const result = order.prices.taxDetails.subtotals[0].tax_groups.map((group) => {
-            const amount = parseFloat((group.tax_amount + group.base_amount) * orderSign);
+            const amount = parseFloat((group.tax_amount + group.base_amount) * order.orderSign);
             baseAmountSum += group.base_amount;
+            const tax_id = Object.values(group.involved_tax_ids)[0];
+            let tax_amount = 0;
+            if (tax_id) {
+                tax_amount = this.data.models["account.tax"].get(tax_id).amount;
+            }
             return {
-                vat_rate: vatRateMap[group.group_name] || "NULL",
+                vat_rate: roundCurrency(tax_amount, this.currency).toString(),
                 amount: amount.toFixed(5),
             };
         });
 
         // Adjustments (e.g., gift cards, tips) may lack tax info, default it to 0% to avoid mismatches.
         const difference = parseFloat(
-            (expectedBase + order.requiredSettlementAmount() - baseAmountSum) * orderSign
+            (expectedBase + order.requiredSettlementAmount() - baseAmountSum) * order.orderSign
         );
         if (difference) {
-            const existingNullEntry = result.find((item) => item.vat_rate === "NULL");
+            const existingNullEntry = result.find((item) => item.vat_rate === "0");
             if (existingNullEntry) {
-                existingNullEntry.amount = this.currency
-                    .round(parseFloat(existingNullEntry.amount) + difference)
-                    .toFixed(2);
+                existingNullEntry.amount = roundCurrency(
+                    parseFloat(existingNullEntry.amount) + difference,
+                    this.currency
+                ).toFixed(2);
             } else {
                 result.push({
-                    vat_rate: "NULL",
-                    amount: this.currency.round(difference).toFixed(2),
+                    vat_rate: "0",
+                    amount: roundCurrency(difference, this.currency).toFixed(2),
                 });
             }
         }
@@ -178,10 +159,11 @@ patch(PosStore.prototype, {
         return await this.transactionCall(payload, data, order);
     },
     async transactionCall(payload, data, order, retryCount = 0) {
-        const token = this.getApiToken();
+        let token = this.getApiToken();
         try {
             if (!token) {
                 await this._authenticate();
+                token = this.getApiToken();
             }
             const response = await fetch(
                 `${this.getApiUrl()}/tss/${this.getTssId()}/tx/${payload}`,
@@ -196,7 +178,17 @@ patch(PosStore.prototype, {
             );
             const result = await response.json();
             if (!response.ok) {
-                const errorCode = await this.handleRequestError(result, order, retryCount);
+                let errorCode;
+                try {
+                    errorCode = await this.handleRequestError(result, order, retryCount);
+                } catch {
+                    // Non-retryable error (e.g. revision conflict, terminal state mismatch).
+                    // For API v2, GET the current transaction state and recover if possible.
+                    if (this.isUsingApiV2()) {
+                        return await this._handleTransactionStateConflict(payload, data, order);
+                    }
+                    throw result;
+                }
                 if (errorCode === "retry") {
                     return await this.transactionCall(payload, data, order, retryCount + 1);
                 }
@@ -208,6 +200,52 @@ patch(PosStore.prototype, {
             logPosMessage("Store", "transactionCall", "Error", CONSOLE_COLOR, [error]);
             return Promise.reject(error);
         }
+    },
+    /**
+     * Called when a PUT to Fiskaly fails with a non-retryable error (revision conflict or
+     * "transaction already CANCELLED/FINISHED"). GETs the actual transaction state and resolves
+     * the conflict based on what we were trying to do (data.state) vs what Fiskaly has:
+     *
+     * - Cancelling a transaction that is already CANCELLED → ignore, nothing to do
+     * - Finishing a transaction that is already FINISHED → return the existing data so the
+     *   caller can update the order's TSS info
+     * - Finishing a transaction that is CANCELLED (cancelled externally, e.g. by another session
+     *   closing) → create a fresh transaction and finish it
+     */
+    async _handleTransactionStateConflict(payload, data, order) {
+        const txId = payload.split("?")[0];
+        try {
+            const token = this.getApiToken();
+            const response = await fetch(`${this.getApiUrl()}/tss/${this.getTssId()}/tx/${txId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                method: "GET",
+            });
+            if (response.ok) {
+                const tx = await response.json();
+                if (data.state === "CANCELLED" && tx.state === "CANCELLED") {
+                    return tx;
+                }
+                if (data.state === "FINISHED") {
+                    if (tx.state === "FINISHED") {
+                        return tx;
+                    }
+                    if (tx.state === "CANCELLED") {
+                        await this.createTransaction(order);
+                        return await this.transactionCall(
+                            `${order.l10n_de_fiskaly_transaction_uuid}?tx_revision=2`,
+                            data,
+                            order
+                        );
+                    }
+                }
+            }
+        } catch {
+            // GET failed — fall through and reject
+        }
+        return Promise.reject(data);
     },
     async handleRequestError(result, order, retryCount) {
         if (result.status_code === 401) {
@@ -221,12 +259,90 @@ patch(PosStore.prototype, {
                 await new Promise((resolve) => setTimeout(resolve, delay));
                 return "retry";
             } else {
-                order.uiState.fiskalyServerError = true; // server unreachable after retries
+                // while closing remained active orders on fiskaly no orders will be available in odoo
+                if (order) {
+                    order.fiskalyServerError = true; // server unreachable after retries
+                }
                 return;
             }
         }
         // Need for keeping track of rejected orders in syncAllOrders
         return Promise.reject(result);
+    },
+    async addLineToCurrentOrder(vals, opts = {}, configure = true) {
+        if (!this.isCountryGermanyAndFiskaly()) {
+            return await super.addLineToCurrentOrder(vals, opts, configure);
+        }
+        const order = this.getOrder();
+        // If same product added multiple times it will be better to check before adding line if there was an empty order or not
+        const isNewOrder = order.isEmpty();
+        const newLine = await super.addLineToCurrentOrder(vals, opts, configure);
+        if (isNewOrder && order.isTransactionInactive()) {
+            try {
+                await this.createTransaction(order);
+            } catch (error) {
+                this.fiskalyError(error);
+                return false;
+            }
+        }
+        return newLine;
+    },
+    async handleFiskalyCancellation(order) {
+        try {
+            if (this.isCountryGermanyAndFiskaly() && order.isTransactionStarted()) {
+                await this.cancelTransaction(order);
+            }
+        } catch (error) {
+            this.fiskalyError(error);
+            return false;
+        }
+    },
+    async cancelActiveTransactions(retryCount = 0) {
+        let token = this.getApiToken();
+        try {
+            if (!token) {
+                await this._authenticate();
+                token = this.getApiToken();
+            }
+            // fetch all active transactions
+            const url = new URL(`${this.getApiUrl()}/tx`);
+            url.searchParams.append("states[]", "ACTIVE");
+            const response = await fetch(url.toString(), {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await response.json();
+            if (!response.ok) {
+                return await this.handleRequestError(result, false, retryCount);
+            }
+
+            // cancel all active transactions
+            if (result.data.length) {
+                const data = {
+                    state: "CANCELLED",
+                    client_id: this.getClientId(),
+                    schema: {
+                        standard_v1: {
+                            receipt: {
+                                receipt_type: "CANCELLATION",
+                                amounts_per_vat_rate: [],
+                            },
+                        },
+                    },
+                };
+                for (const transaction of result.data) {
+                    const payload = `${transaction._id}?tx_revision=2`;
+                    await this.transactionCall(payload, data, false);
+                }
+            }
+        } catch (error) {
+            // Need to reject to keep track of rejected orders in syncAllOrders
+            // don't show popup for single order failures, it should be handled later in syncAllOrders
+            this.fiskalyError(error);
+        }
     },
     getApiToken() {
         return this.token;
@@ -401,10 +517,13 @@ patch(PosStore.prototype, {
             throw odooError || fiskalyError;
         }
     },
-    async fiskalyError(error, message) {
+    async fiskalyError(error, message = {}) {
         if (error.status === 0 || this.data.network.offline) {
             const title = _t("No internet");
-            const body = message.noInternet;
+            const body = _t(
+                "Check the internet connection then try to validate(sync) or cancel the order. " +
+                    "Do not delete your browsing, cookies and cache data in the meantime!"
+            );
             this.dialog.add(AlertDialog, { title, body });
         } else if (error.status_code === 401) {
             await this._showUnauthorizedPopup();
@@ -421,11 +540,17 @@ patch(PosStore.prototype, {
             await this._showBadRequestPopup("Client ID");
         } else {
             const title = error.error || _t("Unknown error");
-            const body = error.message || message.unknown;
+            const body =
+                error.message ||
+                _t(
+                    "An unknown error has occurred! Try to validate this order or cancel it again. " +
+                        "Please contact Odoo for more information."
+                );
             this.dialog.add(AlertDialog, { title, body });
         }
     },
     async showFiskalyNoInternetConfirmPopup(event) {
+        // This function is not used anymore
         const confirmed = await ask(this.dialog, {
             title: _t("Problem with internet"),
             body: _t(

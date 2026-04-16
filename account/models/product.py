@@ -1,3 +1,5 @@
+from difflib import SequenceMatcher
+
 from odoo import api, fields, models, _, Command
 from odoo.exceptions import ValidationError
 from odoo.fields import Domain
@@ -66,14 +68,27 @@ class ProductTemplate(models.Model):
         return {
             'income': (
                 self.property_account_income_id
-                or self.categ_id.property_account_income_categ_id
+                or self._get_category_account('property_account_income_categ_id')
                 or (self.company_id or self.env.company).income_account_id
             ), 'expense': (
                 self.property_account_expense_id
-                or self.categ_id.property_account_expense_categ_id
+                or self._get_category_account('property_account_expense_categ_id')
                 or (self.company_id or self.env.company).expense_account_id
             ),
         }
+
+    def _get_category_account(self, field_name):
+        """
+        Return the first account defined on the product category hierarchy
+        for the given field.
+        """
+        categ = self.categ_id
+        while categ:
+            account = categ[field_name]
+            if account:
+                return account
+            categ = categ.parent_id
+        return self.env['account.account']
 
     def get_product_accounts(self, fiscal_pos=None):
         return {
@@ -191,6 +206,10 @@ class ProductTemplate(models.Model):
         included_computed_price = self.taxes_id.with_context(force_price_include=True).compute_all(price, self.currency_id)
         return included_computed_price['total_excluded']
 
+    def _get_price_diff_account(self):
+        self.ensure_one()
+        return False
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
@@ -290,17 +309,56 @@ class ProductProduct(models.Model):
         :param product_vals:    Values the product should match.
         :returns:               A product or an empty recordset if not found.
         '''
-        domains = self._get_product_domain_search_order(**product_vals)
         company = company or self.env.company
+        company_domains = (
+            [*self.env['res.partner']._check_company_domain(company), ('company_id', '!=', False)],
+            [('company_id', '=', False)],
+        )
+
+        def find_product_by_name_similarity():
+            """ Returns the first product whose name similarity ratio with the provided name meets
+            the threshold set in the system parameter.
+            """
+            name = (product_vals.get('name') or '').split('\n', 1)[0]  # Cut sales description from the name
+
+            # checking length to avoid matching unrelated products whose names merely contain that short string
+            if len(name) <= 4:
+                return False
+
+            # Get similarity threshold from system parameter, fallback to 0.9 if missing, invalid, or out of range (0, 1].
+            try:
+                similarity_threshold = float(
+                    self.env['ir.config_parameter'].sudo().get_param('account.product_name_similarity_threshold', '0.9')
+                )
+                if similarity_threshold <= 0.0 or similarity_threshold > 1.0:
+                    similarity_threshold = 0.9
+            except ValueError:
+                similarity_threshold = 0.9
+
+            for company_domain in company_domains:
+                products = self.search(
+                    Domain.AND([
+                        [('name', 'ilike', name)],
+                        company_domain,
+                        extra_domain or Domain.TRUE,
+                    ]),
+                )
+                for product in products:
+                    if SequenceMatcher(None, name.lower(), product.name.lower()).ratio() >= similarity_threshold:
+                        return product
+
+            return False
+
+        domains = self._get_product_domain_search_order(**product_vals)
         for _priority, domain in domains:
-            for company_domain in (
-                [*self.env['res.partner']._check_company_domain(company), ('company_id', '!=', False)],
-                [('company_id', '=', False)],
-            ):
+            for company_domain in company_domains:
                 if product := self.env['product.product'].search(
                     Domain.AND([domain, company_domain, extra_domain or Domain.TRUE]), limit=1,
                 ):
                     return product
+
+        if product := find_product_by_name_similarity():
+            return product
         return self.env['product.product']
 
     def _get_product_domain_search_order(self, **vals):
@@ -319,8 +377,8 @@ class ProductProduct(models.Model):
             sorted_domains.append((10, Domain('default_code', '=', default_code)))
         if name := vals.get('name'):
             name = name.split('\n', 1)[0]  # Cut sales description from the name
-            sorted_domains.append((15, Domain('name', '=', name)))
-            # avoid matching unrelated products whose names merely contain that short string
-            if len(name) > 4:
-                sorted_domains.append((20, Domain('name', 'ilike', name)))
+            sorted_domains.append((15, Domain('name', '=ilike', name)))
         return sorted_domains
+
+    def _get_price_diff_account(self):
+        return self.product_tmpl_id._get_price_diff_account()

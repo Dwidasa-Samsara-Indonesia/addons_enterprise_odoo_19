@@ -22,7 +22,7 @@
             <InvoiceNo t-out="invoice_vals['name'][:70]"/>
                 <t t-set="partner_id" t-value="invoice_vals['partner_id']"/>
                 <t t-set="partner_vals" t-value="partner_detail_map[partner_id]"/>
-                <CustomerInfo t-if="partner_vals['type'] == 'customer'">
+                <CustomerInfo t-if="'customer' in partner_vals['types']">
                     <CustomerID t-out="partner_id"/>
                     <BillingAddress>
                         <t t-if="partner_vals['addresses']" t-call="account_saft.address">
@@ -30,7 +30,7 @@
                         </t>
                     </BillingAddress>
                 </CustomerInfo>
-                <SupplierInfo t-if="partner_vals['type'] == 'supplier'">
+                <SupplierInfo t-if="'supplier' in partner_vals['types']">
                     <SupplierID t-out="partner_id"/>
                     <BillingAddress>
                         <t t-if="partner_vals['addresses']"  t-call="account_saft.address">
@@ -59,14 +59,14 @@
                     <TaxPointDate t-out="invoice_vals['invoice_date']"/>
                     <Description t-out="(line_vals['name'] or invoice_vals['name'])[:256]"/>
                     <InvoiceLineAmount>
-                        <Amount t-out="format_float(line_vals['balance'] * invoice_vals['sign'])"/>
+                        <Amount t-out="format_float(abs(line_vals['balance']))"/>
                         <t t-if="line_vals['currency_id'] != company.currency_id.id">
                             <CurrencyCode t-out="line_vals['currency_code']"/>
                             <CurrencyAmount t-out="format_float(line_vals['amount_currency'] * invoice_vals['sign'])"/>
                             <ExchangeRate t-out="format_float(line_vals['rate'], digits=8)"/>
                         </t>
                     </InvoiceLineAmount>
-                    <DebitCreditIndicator t-out="'C' if invoice_vals['type'] == 'out_invoice' else 'D'"/>
+                    <DebitCreditIndicator t-out="'C' if line_vals['credit'] else 'D'"/>
                     <TaxInformation t-foreach="line_vals.get('tax_detail_vals_list', [])" t-as="tax_vals">
                         <t t-set="sign" t-value="invoice_vals['sign']"/>
                         <t t-call="account_saft.tax_information"/>

@@ -49,6 +49,14 @@ class ProductTemplate(models.Model):
         string='Display Price', compute='_compute_display_subscription_pricing',
     )
 
+    def write(self, vals):
+        res = super().write(vals)
+        if 'allow_one_time_sale' in vals and not vals.get('allow_one_time_sale'):
+            for product in self:
+                if product.pricelist_rule_ids:
+                    product.pricelist_rule_ids.unlink()
+        return res
+
     def _domain_subscription_rule_ids(self):
         return Domain.AND([
             self._base_domain_item_ids(),
@@ -89,7 +97,7 @@ class ProductTemplate(models.Model):
             ('product_template_id', 'in', self.ids),
             ('state', '=', 'sale')])
         if confirmed_lines:
-            self.recurring_invoice = not self.recurring_invoice
+            self.recurring_invoice = self._origin.recurring_invoice
             return {'warning': {
                 'title': _("Warning"),
                 'message': _(

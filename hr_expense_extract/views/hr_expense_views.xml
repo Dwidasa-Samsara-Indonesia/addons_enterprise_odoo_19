@@ -13,7 +13,7 @@
                 <field name="extract_can_show_send_button" invisible="True"/>
                 <field name="extract_error_message" invisible="1"/> <!-- extract_error_message required for the extract_state_header -->
                 <field name="extract_document_uuid" invisible="1"/> <!-- extract_document_uuid required for the extract_state_header -->
-                <field name="extract_state" class="d-block" invisible="state != 'draft' or extract_state == 'waiting_validation'" widget="extract_state_header"/>
+                <field name="extract_state" class="d-block" invisible="state != 'draft' or extract_state in ('waiting_validation', 'done')" widget="extract_state_header"/>
             </xpath>
             <xpath expr="//field[@name='account_id']" position='after'>
                 <label for="extract_document_uuid" groups="base.group_no_one" invisible="not extract_document_uuid" class="d-none d-md-flex"/>

@@ -421,7 +421,8 @@ class AccountMove(models.Model):
 
         payment_way = cfdi_infos['cfdi_node'].attrib.get('FormaPago')
         if payment_way:
-            payment_method = self.env['l10n_mx_edi.payment.method'].search([('code', '=', payment_way)], limit=1)
+            # Method 99 was archived in stable, but we still need it here.
+            payment_method = self.env['l10n_mx_edi.payment.method'].with_context(active_test=payment_way != '99').search([('code', '=', payment_way)], limit=1)
             cfdi_infos['payment_way'] = f'{payment_way} - {payment_method.name}'
         cfdi_infos['usage_desc'] = dict(self._fields['l10n_mx_edi_usage']._description_selection(self.env)).get(cfdi_infos['usage'])
 
@@ -620,14 +621,7 @@ class AccountMove(models.Model):
 
     @api.depends('l10n_mx_edi_payment_document_ids.state')
     def _compute_l10n_mx_edi_force_pue_payment_needed(self):
-        for move in self:
-            force_pue = False
-            if move._l10n_mx_edi_is_cfdi_payment() and not move.l10n_mx_edi_cfdi_state:
-                for doc in move.l10n_mx_edi_payment_document_ids.sorted():
-                    if doc.state == 'payment_sent_pue':
-                        force_pue = True
-                        break
-            move.l10n_mx_edi_force_pue_payment_needed = force_pue
+        self.l10n_mx_edi_force_pue_payment_needed = False
 
     @api.depends('state', 'l10n_mx_edi_cfdi_state', 'l10n_mx_edi_cfdi_sat_state')
     def _compute_l10n_mx_edi_update_sat_needed(self):
@@ -709,11 +703,10 @@ class AccountMove(models.Model):
             elif (
                 move.move_type == 'out_refund'
                 and 'global_sent' in set(move._l10n_mx_edi_get_refund_original_invoices().mapped('l10n_mx_edi_cfdi_state'))
-            ) or not move.l10n_mx_edi_partner_address_complete:
+            ) or (move.partner_id and not move.l10n_mx_edi_partner_address_complete):
                 move.l10n_mx_edi_cfdi_to_public = True
             elif (
-                not move.l10n_mx_edi_cfdi_to_public
-                and move.l10n_mx_edi_is_cfdi_needed
+                move.l10n_mx_edi_is_cfdi_needed
                 and move.partner_id
                 and move.company_id
             ):
@@ -2124,7 +2117,8 @@ class AccountMove(models.Model):
 
         :param pay_results: The amounts to consider for each invoice.
                             See '_l10n_mx_edi_cfdi_payment_get_reconciled_invoice_values'.
-        :param force_cfdi:  Force the sending of the CFDI if the payment is PUE.
+        :param force_cfdi:  [DEPRECATED] used to force the sending of the CFDI if the payment was PUE.
+                            It's not possible anymore to send CFDI if the payment is PUE
         """
         self.ensure_one()
 
@@ -2134,7 +2128,6 @@ class AccountMove(models.Model):
         # == Check PUE/PPD ==
         if (
             not last_document
-            and not force_cfdi
             and 'PPD' not in set(invoices.mapped('l10n_mx_edi_payment_policy'))
         ):
             self._l10n_mx_edi_cfdi_payment_document_sent_pue(invoices)
@@ -2152,6 +2145,8 @@ class AccountMove(models.Model):
 
         # == Send ==
         def on_populate(cfdi_values):
+            pay_results['invoices'] = pay_results['invoices'].filtered(lambda m: m.l10n_mx_edi_payment_policy != 'PUE')
+            pay_results['invoice_results'] = [invoice_result for invoice_result in pay_results['invoice_results'] if invoice_result['invoice'] in pay_results['invoices']]
             self._l10n_mx_edi_add_payment_cfdi_values(cfdi_values, pay_results)
 
         def on_failure(error, cfdi_filename=None, cfdi_str=None):
@@ -2289,7 +2284,7 @@ class AccountMove(models.Model):
     def _l10n_mx_edi_cfdi_payment_try_send(self, force_cfdi=False):
         """ Force the sending of the current payment.
 
-        :param force_cfdi: Force the sending of the payment, even if the payment is PUE.
+        :param force_cfdi: [DEPRECATED]Force the sending of the payment, even if the payment is PUE.
         """
         self.ensure_one()
         reconciled_payment_values = self._l10n_mx_edi_cfdi_payment_get_reconciled_invoice_values()
@@ -2323,7 +2318,10 @@ class AccountMove(models.Model):
         self._l10n_mx_edi_cfdi_move_update_sat_state(document, sat_state, error=error)
 
     def l10n_mx_edi_cfdi_payment_force_try_send(self):
-        self._l10n_mx_edi_cfdi_payment_try_send(force_cfdi=True)
+        """
+        DEPRECATED: it's not allowed to send PUE to CFDI
+        """
+        self._l10n_mx_edi_cfdi_payment_try_send()
 
     def _l10n_mx_edi_cfdi_global_invoice_try_send(self, periodicity='04', origin=None):
         """ Create a CFDI global invoice for multiple invoices.
@@ -2423,6 +2421,14 @@ class AccountMove(models.Model):
                 document_dates.append(datetime.strptime(inv_cfdi_values['fecha'], CFDI_DATE_FORMAT).date())
 
             document_date = max(document_dates)
+
+            # issued address
+            journal = invoices.journal_id
+            if (
+                'l10n_mx_address_issued_id' in journal._fields
+                and journal.l10n_mx_address_issued_id
+            ):
+                cfdi_values['issued_address'] = journal.l10n_mx_address_issued_id
 
             Document._add_global_invoice_cfdi_values(
                 cfdi_values,
@@ -2676,6 +2682,9 @@ class AccountMove(models.Model):
         if not partner:
             return
         self.partner_id = partner
+        # CFDI to public
+        if self.is_sale_document() and cfdi_vals['customer_rfc'] in ('XAXX010101000', 'XEXX010101000'):
+            self.l10n_mx_edi_cfdi_to_public = True
         # Payment way
         forma_pago = tree.attrib.get('FormaPago')
         self.l10n_mx_edi_payment_method_id = self.env['l10n_mx_edi.payment.method'].search(

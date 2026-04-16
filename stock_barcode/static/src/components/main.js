@@ -429,7 +429,9 @@ class MainComponent extends Component {
     async exit(ev) {
         this.state.cameraScannedEnabled = false;
         if (this.state.view === "barcodeLines") {
-            await this.env.model.beforeQuit();
+            await this.actionMutex.exec(async () => {
+                await this.env.model.beforeQuit();
+            });
             this._exit();
         } else {
             this.toggleBarcodeLines();

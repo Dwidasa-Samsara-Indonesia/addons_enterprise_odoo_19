@@ -1,4 +1,4 @@
-from odoo import _, models, fields
+from odoo import _, api, models, fields
 from odoo.addons.l10n_pe_edi.models.account_move import REFUND_REASON
 from odoo.exceptions import UserError
 
@@ -11,6 +11,15 @@ class PosOrder(models.Model):
         string="Credit Reason",
         help="It contains all possible values for the refund reason according to Catalog No. 09",
     )
+    l10n_pe_edi_data = fields.Json(string="Edi Data", compute='_compute_pe_edi_data')
+
+    @api.depends('account_move')
+    def _compute_pe_edi_data(self):
+        for order in self:
+            if order.account_move:
+                order.l10n_pe_edi_data = order.account_move._l10n_pe_edi_get_extra_report_values()
+            else:
+                order.l10n_pe_edi_data = {}
 
     # -------------------------------------------------------------------------
     # OVERRIDES
@@ -29,8 +38,13 @@ class PosOrder(models.Model):
             refunded_move = self.refunded_order_id.account_move
             if len(refunded_move) > 1:
                 raise UserError(_("You cannot refund several invoices at once."))
+            if not all(order.refunded_order_id.account_move == refunded_move for order in self):
+                raise UserError(_("You cannot consolidate refund and non-refund orders together."))
             if refunded_move:
-                vals['l10n_pe_edi_refund_reason'] = ", ".join(reason for reason in self.mapped('l10n_pe_edi_refund_reason') if reason)
+                refund_reasons = set(self.mapped('l10n_pe_edi_refund_reason'))
+                if len(refund_reasons) != 1:
+                    raise UserError(_("You cannot consolidate refund orders that don't share the same refund reason."))
+                vals['l10n_pe_edi_refund_reason'] = next(iter(refund_reasons))
                 refunded_invoice_code = refunded_move.l10n_latam_document_type_id.code
                 if refunded_invoice_code == '01':
                     # refunding a "Factura electrónica" is done through a "Nota de Crédito electrónica"
@@ -46,3 +60,13 @@ class PosOrder(models.Model):
             return super(PosOrder, self.with_context(skip_account_edi_cron_trigger=True))._generate_pos_order_invoice()
         else:
             return super()._generate_pos_order_invoice()
+
+    def read_pos_data(self, data, config):
+        result = super().read_pos_data(data, config)
+
+        if (pe_orders := self.filtered(
+            lambda order: order.session_id.company_id.country_code == "PE" and order.state in ['paid', 'done'])
+            ):
+            result['l10n_latam.document.type'] = self.env['l10n_latam.document.type']._load_pos_data_read(pe_orders.account_move.l10n_latam_document_type_id, config)
+
+        return result

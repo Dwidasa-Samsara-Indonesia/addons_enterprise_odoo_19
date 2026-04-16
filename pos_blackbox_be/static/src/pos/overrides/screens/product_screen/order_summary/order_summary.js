@@ -2,6 +2,7 @@ import { patch } from "@web/core/utils/patch";
 import { OrderSummary } from "@point_of_sale/app/screens/product_screen/order_summary/order_summary";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { _t } from "@web/core/l10n/translation";
+import { parseFloat } from "@web/views/fields/parsers";
 
 patch(OrderSummary.prototype, {
     _setValue(val) {
@@ -81,6 +82,7 @@ patch(OrderSummary.prototype, {
             return await super.setLinePrice(line, price);
         }
         const oldPrice = line.unitPrices.no_discount_total_included;
+        price = typeof price === "number" ? price : parseFloat(price) || 0;
         if (price > oldPrice) {
             return;
         }

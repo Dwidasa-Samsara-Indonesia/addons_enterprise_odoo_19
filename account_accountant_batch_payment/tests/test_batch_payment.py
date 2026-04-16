@@ -646,3 +646,61 @@ class TestBatchPaymentAccountingOnly(TestBatchPayment):
         self.assertEqual(payment.state, 'paid')
         self.assertEqual(batch.state, 'reconciled')
         self.assertEqual(payment.amount, 110.0, "The creation of the payment with move during reconciliation should have diminished the grouped payment amount.")
+
+    def test_bank_rec_widget_batch_foreign_currency_journal_without_entries(self):
+        """ Tests a batch payment of payments recorded in another journal with
+            foreign currency and no outstanding account set.
+            - 2 invoices in company currency paid in foreign currency
+            - 1 bank transaction in foreign currency
+        """
+        chf_currency = self.setup_other_currency('CHF', rates=[('2019-01-01', 1.5)])
+        foreign_journal = self.env['account.journal'].create({'name': 'CHF journal', 'type': 'bank', 'code': 'BNKX', 'currency_id': chf_currency.id})
+        invoice_1 = self._create_invoice_line(
+            'out_invoice',
+            invoice_date='2019-01-01',
+            invoice_line_ids=[{'price_unit': 100.0}],
+        )
+        invoice_2 = self._create_invoice_line(
+            'out_invoice',
+            invoice_date='2019-01-01',
+            invoice_line_ids=[{'price_unit': 200.0}],
+        )
+        payment_1 = self.env['account.payment.register'].with_context(
+            active_model='account.move',
+            active_ids=invoice_1.move_id.ids,
+        ).create({
+            'amount': 150,
+            'payment_date': '2019-01-01',
+            'journal_id': foreign_journal.id,
+        })._create_payments()
+
+        payment_2 = self.env['account.payment.register'].with_context(
+            active_model='account.move',
+            active_ids=invoice_2.move_id.ids,
+        ).create({
+            'amount': 300,
+            'payment_date': '2019-01-01',
+            'journal_id': foreign_journal.id,
+        })._create_payments()
+
+        batch = self.env['account.batch.payment'].create({
+                'batch_type': payment_1.payment_type,
+                'journal_id': foreign_journal.id,
+                'payment_ids': [Command.set((payment_1 | payment_2).ids)],
+        })
+        batch.validate_batch()
+        st_line = self._create_st_line(450.0, date='2019-01-05', foreign_currency_id=chf_currency.id, journal_id=foreign_journal.id)
+        st_line.set_batch_payment_bank_statement_line(batch.id)
+
+        if self.env['account.move']._get_invoice_in_payment_state() == 'paid':
+            expected_account = self.env['account.payment']._get_outstanding_account(payment_1.payment_type).id
+        else:
+            expected_account = self.partner_a.property_account_receivable_id.id
+        self.assertRecordValues(st_line.line_ids, [
+            {'account_id': st_line.journal_id.default_account_id.id,    'amount_currency': 450.0,   'balance': 300.0,   'reconciled': False},
+            {'account_id': expected_account,                            'amount_currency': -150.0,  'balance': -100.0,   'reconciled': True},
+            {'account_id': expected_account,                            'amount_currency': -300.0,  'balance': -200.0,   'reconciled': True},
+        ])
+        self.assertEqual(invoice_1.move_id.payment_state, 'paid')
+        self.assertEqual(invoice_2.move_id.payment_state, 'paid')
+        self.assertEqual(batch.state, 'reconciled')

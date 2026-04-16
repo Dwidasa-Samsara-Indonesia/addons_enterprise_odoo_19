@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:02+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-04 10:46+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "stock_barcode/de/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -34,6 +34,12 @@ msgid "%s can't be inventoried. Only storable products can be inventoried."
 msgstr ""
 "%s kann nicht inventarisiert werden. Nur lagerfähige Produkte können "
 "inventarisiert werden."
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/count_screen_rfid.xml:0
+msgid "/s"
+msgstr ""
 
 #. module: stock_barcode
 #: model_terms:ir.ui.view,arch_db:stock_barcode.scrap_product_selector
@@ -142,7 +148,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
 msgid "Add extra product?"
 msgstr "Zusätzliches Produkt hinzufügen?"
 
@@ -692,6 +698,16 @@ msgstr "Folgender Lieferrückstand wurde erstellt:"
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Following backorders were created:"
 msgstr "Folgende Lieferrückstände wurden erstellt:"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/components/extra_product_dialog.js:0
+msgid ""
+"Following scanned products are not reserved for this transfer. Are you sure "
+"you want to add them?"
+msgstr ""
+"Die folgenden gescannten Produkte sind nicht für diesen Transfer reserviert. "
+"Möchten Sie sie dennoch hinzufügen?"
 
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_picking_type__barcode_allow_extra_product
@@ -1766,16 +1782,6 @@ msgstr "Den Quellstandort oder ein Paket scannen"
 #. module: stock_barcode
 #. odoo-javascript
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
-msgid ""
-"Scanned product %s is not reserved for this transfer. Are you sure you want "
-"to add it?"
-msgstr ""
-"Gescanntes Produkt %s ist nicht für diesen Transfer reserviert. Sind Sie "
-"sicher, dass Sie es hinzufügen möchten?"
-
-#. module: stock_barcode
-#. odoo-javascript
-#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "Scanning package"
 msgstr "Paket scannen"
 
@@ -1921,6 +1927,12 @@ msgstr "Der gescannte Lagerort gehört nicht zum Ziel dieses Vorgangs"
 #: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
 msgid "The scanned location doesn't belong to this operation's location"
 msgstr "Der gescannte Lagerort gehört nicht zum Lagerort dieses Vorgangs"
+
+#. module: stock_barcode
+#. odoo-javascript
+#: code:addons/stock_barcode/static/src/models/barcode_picking_model.js:0
+msgid "The scanned serial number %(lotName)s is already awaiting confirmation."
+msgstr "Die gescannte Seriennummer %(lotName)s wartet bereits auf Bestätigung."
 
 #. module: stock_barcode
 #. odoo-javascript
@@ -2205,6 +2217,13 @@ msgstr "Produkt(e) wurde(n) überhaupt nicht verarbeitet."
 #: model_terms:ir.ui.view,arch_db:stock_barcode.view_backorder_confirmation
 msgid "products were partially processed."
 msgstr "Produkt(e) wurde(n) teilweise verarbeitet."
+
+#~ msgid ""
+#~ "Scanned product %s is not reserved for this transfer. Are you sure you "
+#~ "want to add it?"
+#~ msgstr ""
+#~ "Gescanntes Produkt %s ist nicht für diesen Transfer reserviert. Sind Sie "
+#~ "sicher, dass Sie es hinzufügen möchten?"
 
 #~ msgid "<i class=\"fa fa-fw fa-lg fa-archive me-3\" title=\"Package\"/>"
 #~ msgstr "<i class=\"fa fa-fw fa-lg fa-archive me-3\" title=\"Package\"/>"

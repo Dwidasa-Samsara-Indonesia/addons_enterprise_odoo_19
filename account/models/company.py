@@ -46,8 +46,9 @@ PEPPOL_MAILING_COUNTRIES = [
 
 # List of countries where Peppol is accessible.
 PEPPOL_LIST = PEPPOL_DEFAULT_COUNTRIES + [
-    'AD', 'AL', 'BA', 'BG', 'BL', 'GB', 'GF', 'GP', 'HR', 'HU', 'LI', 'MC', 'ME', 'MF',
-    'MK', 'MQ', 'NC', 'PF', 'PM', 'RE', 'RS', 'SK', 'SM', 'TF', 'TR', 'VA', 'WF', 'YT',
+    'AD', 'AL', 'AX', 'BA', 'BG', 'BL', 'GB', 'GF', 'GP', 'HR', 'HU', 'LI', 'MC', 'ME',
+    'MF', 'MK', 'MQ', 'NC', 'PF', 'PM', 'RE', 'RS', 'SK', 'SM', 'TF', 'TR', 'VA', 'WF',
+    'YT',
 ]
 
 STORNO_MANDATORY_COUNTRIES = {'BA', 'CN', 'CZ', 'HR', 'PL', 'RO', 'RS', 'RU', 'SI', 'SK', 'UA'}
@@ -833,7 +834,7 @@ class ResCompany(models.Model):
         # Do not assume '999999' doesn't exist since the user might have created such an account
         # manually.
         code = 999999
-        while self.env['account.account'].with_company(self).search_count([
+        while self.env['account.account'].with_company(self).with_context(active_test=False).search_count([
             *self.env['account.account']._check_company_domain(self),
             ('code', '=', str(code)),
         ], limit=1):
@@ -1137,6 +1138,7 @@ class ResCompany(models.Model):
             self.env['ir.default'].set('product.category', 'property_account_expense_categ_id', company.expense_account_id.id, company_id=company.id)
             self.env['ir.default'].set('product.category', 'property_account_income_categ_id', company.income_account_id.id, company_id=company.id)
 
+    # Deprecated, removed in master.
     def _check_tax_return_configuration(self):
         """
         To override in localizations to check if the company is properly configured for tax returns.

@@ -445,6 +445,7 @@ class L10n_EsVATBooksReportHandler(models.AbstractModel):
         # to compute the ratio with the base amount of a tax line.
         base_amount_by_tax = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
         # generate the report lines from the invoice lines
+        lines = lines.with_context(prefetch_fields=False)
         for line in lines.filtered(lambda l: l.tax_ids):
             is_income = line.move_id.is_sale_document(include_receipts=True)
             sheet_line_vals = inc_line_vals if is_income else exp_line_vals
@@ -510,7 +511,7 @@ class L10n_EsVATBooksReportHandler(models.AbstractModel):
         return inc_line_vals, exp_line_vals
 
     def _l10n_es_libros_fill_content(self, sheet_income, sheet_expense, report, options):
-        domain = report._get_options_domain(options, 'strict_range') + [('move_type', '!=', 'entry')]
+        domain = report._get_options_domain(options, 'strict_range') + [('move_id.move_type', '!=', 'entry')]
         lines = self.env['account.move.line'].search(domain)
 
         inc_line_vals, exp_line_vals = self._l10n_es_libros_get_sheet_line_vals(lines)

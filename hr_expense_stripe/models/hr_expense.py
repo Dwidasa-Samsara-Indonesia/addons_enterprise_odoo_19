@@ -1,7 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Domain
-from odoo.tools.translate import LazyGettext
 
 from odoo.addons.hr_expense_stripe.utils import format_amount_from_stripe
 
@@ -122,10 +121,8 @@ class HrExpense(models.Model):
             'journal_id': card.journal_id.id,
             'payment_method_line_id': card.payment_method_line_id.id,
         }
-        new_expense = self.env['hr.expense'].with_company(card.company_id).create([create_dict])
+        new_expense = self.env['hr.expense'].with_company(card.company_id).with_context(lang=card.user_id.lang or self.env.lang).create([create_dict])
         if refusal_reason:
-            if isinstance(refusal_reason, LazyGettext):
-                refusal_reason = refusal_reason._translate(card.sudo().employee_id.lang)  # pylint: disable=gettext-variable
             new_expense._do_refuse(refusal_reason)
         else:
             new_expense._stripe_create_user_activity()
@@ -141,7 +138,7 @@ class HrExpense(models.Model):
             return
 
         if auth_object['status'] in {'reversed', 'expired'}:
-            self._do_refuse(_("Expense was refused by Stripe, or an error occurred"))
+            self.with_context(lang=self.card_id.user_id.lang or self.env.lang)._do_refuse(self.env._("Expense was refused by Stripe, or an error occurred"))
             return
 
         update_vals = {}
@@ -235,7 +232,7 @@ class HrExpense(models.Model):
             'total_amount_currency': amount_currency,
             'split_expense_origin_id': split_id,
         }
-        new_expense = self.env['hr.expense'].with_company(card.company_id).create([create_dict])
+        new_expense = self.env['hr.expense'].with_company(card.company_id).with_context(lang=card.user_id.lang or self.env.lang).create([create_dict])
         new_expense._stripe_create_user_activity()
 
     def _update_from_stripe_transaction(self, tr_object):
@@ -291,9 +288,9 @@ class HrExpense(models.Model):
         move = self.account_move_id
         if move:
             move._reverse_moves(cancel=True)
-        self._do_refuse(_("Expense was refunded by vendor"))
+        self.with_context(lang=self.card_id.user_id.lang or self.env.lang)._do_refuse(self.env._("Expense was refunded by vendor"))
         if not self.company_currency_id.is_zero(remaining_amount):
-            self.copy({
+            self.with_context(lang=self.card_id.user_id.lang or self.env.lang).copy({
                 'manager_id': False,
                 'stripe_transaction_id': tr_object['id'],
                 'total_amount': remaining_amount,
@@ -327,7 +324,7 @@ class HrExpense(models.Model):
                 # Skipping automation of tricky corner cases
                 continue
             moves_to_reconcile = expenses_for_transaction.account_move_id
-            statement_line.set_line_bank_statement_line(moves_to_reconcile.line_ids.filtered(lambda line: line.account_id.reconcile))
+            statement_line.set_line_bank_statement_line(moves_to_reconcile.line_ids.filtered(lambda line: line.account_id.reconcile).ids)
 
     def write(self, vals):
         if 'is_card_expense' in vals:

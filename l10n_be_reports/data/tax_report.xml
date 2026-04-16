@@ -6,7 +6,7 @@
         </record>
 
         <template id="pdf_export_filters" inherit_id="account_reports.pdf_export_filters" primary="True">
-            <xpath expr="(//div[hasclass('row')])[last()]" position="after">
+            <xpath expr="." position="inside">
                 <t t-if="options.get('l10n_be_closing_vat_return')">
                     <div class="row" t-if="'ask_restitution' in options">
                         <div class="col-5"> Ask restitution: </div>

@@ -49,7 +49,8 @@ export const DocumentsRecordMixin = (component) =>
         isPdf() {
             return (
                 this.data.mimetype === "application/pdf" ||
-                this.data.mimetype === "application/pdf;base64"
+                this.data.mimetype === "application/pdf;base64" ||
+                this.data?.has_embedded_pdf === true
             );
         }
 

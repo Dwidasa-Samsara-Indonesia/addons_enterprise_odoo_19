@@ -14,13 +14,14 @@
 # karolína schusterová <karolina.schusterova@vdp.sk>, 2022
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2023
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2025-11-17 03:22+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-04 10:54+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/sign/sk/"
 ">\n"
 "Language: sk\n"
@@ -29,18 +30,13 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
 ">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_res_partner__signature_count
 #: model:ir.model.fields,field_description:sign.field_res_users__signature_count
 msgid "# Signatures"
 msgstr "# Podpisy"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "#7898678"
-msgstr ""
 
 #. module: sign
 #. odoo-python
@@ -133,11 +129,6 @@ msgstr ""
 "       požiadal o váš podpis v dokumente"
 
 #. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "******1234"
-msgstr ""
-
-#. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_portal_my_request
 msgid ""
 "-\n"
@@ -157,31 +148,6 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:sign.sign_template_action
 msgid "- or -"
 msgstr "- alebo -"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "1001"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "192.168.1.1"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "20-03-2000"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "2023-08-18"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "2023-08-18 - 12:30:45"
-msgstr ""
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
@@ -374,15 +340,6 @@ msgstr "<span class=\"text-muted\">Nie je k dispozícií</span>"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_send_request_view_form
 msgid "<span class=\"text-nowrap\">Add certificate on each page</span>"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
-msgid ""
-"<span groups=\"base.group_system\">\n"
-"                                    Certify your documents using a "
-"provided .pfx or .p12 file.\n"
-"                                </span>"
 msgstr ""
 
 #. module: sign
@@ -863,7 +820,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_form
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_kanban
 msgid "Cancel"
-msgstr "Zrušené"
+msgstr "Zrušiť"
 
 #. module: sign
 #. odoo-javascript
@@ -931,6 +888,11 @@ msgstr "Osvedčenie o absolvovaní<br/>"
 #. odoo-python
 #: code:addons/sign/models/sign_request.py:0
 msgid "Certificate of completion - %s.pdf"
+msgstr ""
+
+#. module: sign
+#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
+msgid "Certify your documents using a provided .pfx or .p12 file."
 msgstr ""
 
 #. module: sign
@@ -2298,7 +2260,7 @@ msgstr "Správa"
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_request__message_has_error
 msgid "Message Delivery error"
-msgstr "Chyba zobrazovania správ"
+msgstr "Chyba doručenia správy"
 
 #. module: sign
 #: model:ir.model.fields,help:sign.field_sign_send_request__message_cc
@@ -3361,7 +3323,7 @@ msgstr ""
 #. module: sign
 #: model:ir.model,name:sign.model_sign_template_tag
 msgid "Sign Template Tag"
-msgstr "Tag šablóny podpisu"
+msgstr "Štítok šablóny podpisu"
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_res_config_settings__sign_terms
@@ -3889,12 +3851,12 @@ msgstr ""
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_template_tag__name
 msgid "Tag Name"
-msgstr "Názov tagu"
+msgstr "Názov štítku"
 
 #. module: sign
 #: model:ir.model.constraint,message:sign.constraint_sign_template_tag_name_uniq
 msgid "Tag name already exists!"
-msgstr "Názov značky už existuje!"
+msgstr "Názov štítku už existuje!"
 
 #. module: sign
 #: model:ir.actions.act_window,name:sign.sign_template_tag_action
@@ -3907,13 +3869,13 @@ msgstr "Názov značky už existuje!"
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_tree
 msgid "Tags"
-msgstr "Tagy"
+msgstr "Štítky"
 
 #. module: sign
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_header_tags.xml:0
 msgid "Tags:"
-msgstr "Tagy:"
+msgstr "Štítky:"
 
 #. module: sign
 #: model:ir.model.fields,help:sign.field_sign_item_type__auto_field
@@ -3962,7 +3924,7 @@ msgstr ""
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_search
 msgid "Template or Tag"
-msgstr "Šablóna alebo tag"
+msgstr "Šablóna alebo štítok"
 
 #. module: sign
 #: model:ir.actions.act_window,name:sign.sign_template_action

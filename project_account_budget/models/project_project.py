@@ -74,16 +74,21 @@ class ProjectProject(models.Model):
             return self._get_budget_items(True)
         return {}
 
+    def _get_budget_items_domain(self):
+        self.ensure_one()
+        return [
+            (self.account_id.plan_id._column_name(), '=', self.account_id.id),
+            ('budget_analytic_id', '!=', False),
+            ('budget_analytic_id.state', 'in', ['confirmed', 'done']),
+        ]
+
     def _get_budget_items(self, with_action=True):
         self.ensure_one()
         if not self.account_id:
             return
+        budget_items_domain = self._get_budget_items_domain()
         budget_lines = self.env['budget.line'].sudo()._read_group(
-            [
-                (self.account_id.plan_id._column_name(), '=', self.account_id.id),
-                ('budget_analytic_id', '!=', False),
-                ('budget_analytic_id.state', 'in', ['confirmed', 'done']),
-            ],
+            budget_items_domain,
             ['budget_analytic_id', 'company_id'],
             ['budget_amount:sum', 'achieved_amount:sum', 'id:array_agg'],
         )
@@ -117,11 +122,10 @@ class ProjectProject(models.Model):
             budget_data['allocated'] += allocated
             budget_data['spent'] += spent
             budget_data['budget_type'] = budget_analytic.budget_type
-            total_allocated += allocated
-            total_spent += spent
+            total_allocated += -allocated if budget_analytic.budget_type == 'expense' else allocated
+            total_spent += -spent if budget_analytic.budget_type == 'expense' else spent
             total_allocated_for_progress += allocated * -1 if budget_analytic.budget_type == 'expense' else allocated
             total_spent_for_progress += spent * -1 if budget_analytic.budget_type == 'expense' else spent
-
             if can_see_budget_items:
                 budget_item = {
                     'id': budget_analytic.id,

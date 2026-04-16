@@ -8,55 +8,53 @@ from odoo.addons.stock_barcode.tests.test_barcode_client_action import TestBarco
 @tagged('post_install', '-at_install')
 class TestPickingBarcodeClientAction(TestBarcodeClientAction):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.component01, cls.component02, cls.component_lot, cls.simple_kit, cls.kit_lot = cls.env['product.product'].create([
+            {
+                'name': 'Compo 01',
+                'is_storable': True,
+                'barcode': 'compo01',
+            }, {
+                'name': 'Compo 02',
+                'is_storable': True,
+                'barcode': 'compo02',
+            }, {
+                'name': 'Compo Lot',
+                'is_storable': True,
+                'barcode': 'compo_lot',
+                'tracking': 'lot',
+            }, {
+                'name': 'Simple Kit',
+                'is_storable': True,
+                'barcode': 'simple_kit',
+            }, {
+                'name': 'Kit Lot',
+                'is_storable': True,
+                'barcode': 'kit_lot',
+            },
+        ])
 
-        self.component01 = self.env['product.product'].create({
-            'name': 'Compo 01',
-            'is_storable': True,
-            'barcode': 'compo01',
-        })
-        self.component02 = self.env['product.product'].create({
-            'name': 'Compo 02',
-            'is_storable': True,
-            'barcode': 'compo02',
-        })
-        self.component_lot = self.env['product.product'].create({
-            'name': 'Compo Lot',
-            'is_storable': True,
-            'barcode': 'compo_lot',
-            'tracking': 'lot',
-        })
-
-        self.simple_kit = self.env['product.product'].create({
-            'name': 'Simple Kit',
-            'is_storable': True,
-            'barcode': 'simple_kit',
-        })
-        self.kit_lot = self.env['product.product'].create({
-            'name': 'Kit Lot',
-            'is_storable': True,
-            'barcode': 'kit_lot',
-        })
-
-        self.bom_kit_lot = self.env['mrp.bom'].create({
-            'product_tmpl_id': self.kit_lot.product_tmpl_id.id,
-            'product_qty': 1.0,
-            'type': 'phantom',
-            'bom_line_ids': [
-                (0, 0, {'product_id': self.component01.id, 'product_qty': 1.0}),
-                (0, 0, {'product_id': self.component_lot.id, 'product_qty': 1.0}),
-            ],
-        })
-        self.bom_simple_kit = self.env['mrp.bom'].create({
-            'product_tmpl_id': self.simple_kit.product_tmpl_id.id,
-            'product_qty': 1.0,
-            'type': 'phantom',
-            'bom_line_ids': [
-                (0, 0, {'product_id': self.component01.id, 'product_qty': 1.0}),
-                (0, 0, {'product_id': self.component02.id, 'product_qty': 1.0}),
-            ],
-        })
+        cls.bom_kit_lot, cls.bom_simple_kit = cls.env['mrp.bom'].create([
+            {
+                'product_tmpl_id': cls.kit_lot.product_tmpl_id.id,
+                'product_qty': 1.0,
+                'type': 'phantom',
+                'bom_line_ids': [
+                    Command.create({'product_id': cls.component01.id, 'product_qty': 1.0}),
+                    Command.create({'product_id': cls.component_lot.id, 'product_qty': 1.0}),
+                ],
+            }, {
+                'product_tmpl_id': cls.simple_kit.product_tmpl_id.id,
+                'product_qty': 1.0,
+                'type': 'phantom',
+                'bom_line_ids': [
+                    Command.create({'product_id': cls.component01.id, 'product_qty': 1.0}),
+                    Command.create({'product_id': cls.component02.id, 'product_qty': 1.0}),
+                ],
+            },
+        ])
 
     def test_immediate_receipt_kit_from_scratch_with_tracked_compo(self):
         receipt_picking = self.env['stock.picking'].create({

@@ -41,6 +41,10 @@ registry.category("web_tour.tours").add("hr_payroll_form_view_date_input_tour", 
             run: "click",
         },
         {
+            content: "Wait the popover is shown",
+            trigger: "body:has(.o_popover .o_datetime_picker)",
+        },
+        {
             content: "Clear end date",
             trigger: "#date_to_0",
             run: "clear",

@@ -2006,3 +2006,23 @@ class TestAccountReportsFilters(TestAccountReportsCommon, odoo.tests.HttpCase):
         self.assertFalse(wizard.mail_template_id)
 
         wizard.action_send_and_print()
+
+    @freeze_time('2020-01-16')
+    def test_hide_line_at_0_tour_load_more_line(self):
+        report = self.env.ref('account_reports.general_ledger_report')
+        report.filter_hide_0_lines = 'optional'
+        report.load_more_limit = 1
+        self.env['account.move'].create([{
+            'move_type': 'entry',
+            'date': '2020-01-15',
+            'line_ids': [Command.create({
+                'partner_id': self.partner_a.id,
+                'debit': 0.0,
+                'credit': 0.0,
+                'name': f"Coucou les biloutes {i}",
+                'account_id': self.company_data['default_account_payable'].id,
+                'journal_id': self.company_data['default_journal_misc'].id,
+            })],
+        } for i in range(2)]).action_post()
+
+        self.start_tour("/odoo", 'account_reports_hide_0_lines_load_more', login=self.env.user.login)

@@ -58,60 +58,60 @@ class ItalianReportCustomHandler(models.AbstractModel):
         options_date_to = fields.Date.from_string(options["date"]["date_to"])
         report = self.env["account.report"].browse(options["report_id"])
         company = report._get_sender_company_for_export(options)
-        quarter_months = list(date_utils.date_range(*date_utils.get_quarter(options_date_to)))
         quarterly = self.env.company.account_return_periodicity == 'trimester'
         colname_to_idx = {col['expression_label']: idx for idx, col in enumerate(options.get('columns', []))}
-        report_lines_data_per_month = {date.month: {} for date in quarter_months}
-        for date in quarter_months:
-            date_from = date
-            date_to = date_utils.end_of(date, 'month')
-            at_date_options = report.get_options({
-                'selected_variant_id': report.id,
-                'date': {
-                    'date_from': date_from,
-                    'date_to': date_to,
-                    'mode': 'range',
-                    'filter': 'custom',
-                },
-            })
-            at_date_report_lines = report._get_lines(at_date_options)
-            at_date_report_expressions = self.env['account.report.expression'].search([('report_line_id', 'in', [line['columns'][0]['report_line_id'] for line in at_date_report_lines])])
 
-            at_date_report_expressions_by_line = at_date_report_expressions.grouped('report_line_id')
-            for line, expressions in at_date_report_expressions_by_line.items():
-                line_dict = next(report_line for report_line in at_date_report_lines if report_line['name'] == line.name)
+        if quarterly:
+            report_lines_data_per_month = {0: {}}
+            quarter_report_lines = report._get_lines(options)
+            quarter_report_expressions = self.env['account.report.expression'].search([('report_line_id', 'in', [line['columns'][0]['report_line_id'] for line in quarter_report_lines])])
+
+            quarter_report_expressions_by_line = quarter_report_expressions.grouped('report_line_id')
+            for line, expressions in quarter_report_expressions_by_line.items():
+                line_dict = next(report_line for report_line in quarter_report_lines if report_line['name'] == line.name)
                 expressions_by_label = expressions.grouped('label')
                 debit_expression = expressions_by_label.get('debit')
                 credit_expression = expressions_by_label.get('credit')
                 if debit_expression and credit_expression:
                     debit_value = line_dict['columns'][colname_to_idx['debit']]['no_format']
-                    report_lines_data_per_month[date.month][f'{debit_expression.report_line_id.code}a'] = f"{debit_value:.2f}".replace(".", ",") if debit_value else False
+                    report_lines_data_per_month[0][f'{debit_expression.report_line_id.code}a'] = f"{debit_value:.2f}".replace(".", ",") if debit_value else False
                     credit_value = line_dict['columns'][colname_to_idx['credit']]['no_format']
-                    report_lines_data_per_month[date.month][f'{credit_expression.report_line_id.code}b'] = f"{credit_value:.2f}".replace(".", ",") if credit_value else False
+                    report_lines_data_per_month[0][f'{credit_expression.report_line_id.code}b'] = f"{credit_value:.2f}".replace(".", ",") if credit_value else False
                 elif (bool(debit_expression) ^ bool(credit_expression)):
                     value = line_dict['columns'][colname_to_idx[(debit_expression or credit_expression).label]]['no_format']
-                    report_lines_data_per_month[date.month][line.code] = f"{value:.2f}".replace(".", ",") if value else False
+                    report_lines_data_per_month[0][line.code] = f"{value:.2f}".replace(".", ",") if value else False
+        else:
+            quarter_months = list(date_utils.date_range(*date_utils.get_quarter(options_date_to)))
+            report_lines_data_per_month = {date.month: {} for date in quarter_months}
+            for date in quarter_months:
+                date_from = date
+                date_to = date_utils.end_of(date, 'month')
+                at_date_options = report.get_options({
+                    'selected_variant_id': report.id,
+                    'date': {
+                        'date_from': date_from,
+                        'date_to': date_to,
+                        'mode': 'range',
+                        'filter': 'custom',
+                    },
+                })
+                monthly_report_lines = report._get_lines(at_date_options)
+                monthly_report_expressions = self.env['account.report.expression'].search([('report_line_id', 'in', [line['columns'][0]['report_line_id'] for line in monthly_report_lines])])
 
-        if quarterly:
-            def to_float(val):
-                if not val:
-                    return 0.0
-                try:
-                    return float(val.replace(',', '.'))
-                except (AttributeError, ValueError):
-                    return 0.0
-
-            keys = report_lines_data_per_month[quarter_months[0].month].keys()
-            quarterly_totals = {
-                key: sum(to_float(report_lines_data_per_month[date.month].get(key)) for date in quarter_months)
-                for key in keys
-            }
-            report_lines_data_per_month = {
-                0: {
-                    key: f"{total:.2f}".replace('.', ',') if total != 0 else False
-                    for key, total in quarterly_totals.items()
-                }
-            }
+                monthly_report_expressions_by_line = monthly_report_expressions.grouped('report_line_id')
+                for line, expressions in monthly_report_expressions_by_line.items():
+                    line_dict = next(report_line for report_line in monthly_report_lines if report_line['name'] == line.name)
+                    expressions_by_label = expressions.grouped('label')
+                    debit_expression = expressions_by_label.get('debit')
+                    credit_expression = expressions_by_label.get('credit')
+                    if debit_expression and credit_expression:
+                        debit_value = line_dict['columns'][colname_to_idx['debit']]['no_format']
+                        report_lines_data_per_month[date.month][f'{debit_expression.report_line_id.code}a'] = f"{debit_value:.2f}".replace(".", ",") if debit_value else False
+                        credit_value = line_dict['columns'][colname_to_idx['credit']]['no_format']
+                        report_lines_data_per_month[date.month][f'{credit_expression.report_line_id.code}b'] = f"{credit_value:.2f}".replace(".", ",") if credit_value else False
+                    elif (bool(debit_expression) ^ bool(credit_expression)):
+                        value = line_dict['columns'][colname_to_idx[(debit_expression or credit_expression).label]]['no_format']
+                        report_lines_data_per_month[date.month][line.code] = f"{value:.2f}".replace(".", ",") if value else False
 
         identificativo = self.env['ir.sequence'].next_by_code('l10n_it_reports.identificativo')
         if not identificativo:

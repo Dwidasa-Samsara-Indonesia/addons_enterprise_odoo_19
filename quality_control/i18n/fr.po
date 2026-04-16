@@ -7,13 +7,13 @@
 # Cécile Collart <cco@odoo.com>, 2022
 # Jolien De Paepe, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025.
+# "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:40+0000\n"
-"PO-Revision-Date: 2025-11-18 13:51+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-03-16 11:29+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "quality_control/fr/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_point_view_form_inherit_quality_control
@@ -46,11 +46,6 @@ msgstr "'Worksheet_%s' % object.name"
 #: model_terms:ir.ui.view,arch_db:quality_control.worksheet_page
 msgid "15.3 cm"
 msgstr "15,3 cm"
-
-#. module: quality_control
-#: model_terms:ir.ui.view,arch_db:quality_control.worksheet_page
-msgid "2023-08-15"
-msgstr "15-08-2023"
 
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_alert_team_dashboard_view_kanban
@@ -1492,7 +1487,7 @@ msgstr "Unité de mesure"
 #. odoo-python
 #: code:addons/quality_control/models/quality_spreadsheet_template.py:0
 msgid "Untitled spreadsheet"
-msgstr ""
+msgstr "Feuille de calcul sans titre"
 
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.view_quality_check_wizard
@@ -1564,6 +1559,16 @@ msgstr "Vous devez fournir une photo avant de valider"
 #. module: quality_control
 #. odoo-python
 #: code:addons/quality_control/models/stock_picking.py:0
+msgid ""
+"You need to supply a Lot/Serial Number for product:\n"
+"%(products)s"
+msgstr ""
+"Vous devez fournir un numéro de lot/série pour le produit :\n"
+"%(products)s"
+
+#. module: quality_control
+#. odoo-python
+#: code:addons/quality_control/models/stock_picking.py:0
 msgid "You still need to do the quality checks!"
 msgstr "Vous devez toujours effectuer les contrôles qualité !"
 
@@ -1581,6 +1586,9 @@ msgstr "par ex. The QA Masters"
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_alert_team_view_form
 msgid "e.g. mycompany.com"
 msgstr "par ex. mycompany.com"
+
+#~ msgid "2023-08-15"
+#~ msgstr "15-08-2023"
 
 #~ msgid "% of Operations"
 #~ msgstr "% d'opérations"

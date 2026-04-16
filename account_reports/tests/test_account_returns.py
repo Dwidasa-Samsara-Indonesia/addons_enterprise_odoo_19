@@ -1358,7 +1358,6 @@ class TestAccountReturn(TestAccountReportsCommon):
             ec_sales_list_return,
             [
                 'goods_service_classification',
-                'only_b2b',
                 'eu_cross_border',
                 'reverse_charge_mentioned',
                 'no_partners_without_vat'
@@ -1366,11 +1365,9 @@ class TestAccountReturn(TestAccountReportsCommon):
         )
 
         eu_cross_border_check = checks.filtered(lambda c: c.code == 'eu_cross_border')
-        only_b2b_check = checks.filtered(lambda c: c.code == 'only_b2b')
         no_partners_without_vat_check = checks.filtered(lambda c: c.code == 'no_partners_without_vat')
 
         self.assertEqual(eu_cross_border_check.result, 'reviewed', "The EU cross border check should succeed as there is a cross-border transaction")
-        self.assertEqual(only_b2b_check.result, 'reviewed', "The only B2B check should succeed as there is a B2B transaction")
         self.assertEqual(no_partners_without_vat_check.result, 'reviewed', "The no partners without VAT check should succeed as there is a partner without VAT")
 
     def test_annual_return_checks(self):

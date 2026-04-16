@@ -26,19 +26,21 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 run: "click",
             },
             {
-                isActive: ["auto", "body:not(.modal-open)"],
-                trigger: "nav.o_main_navbar",
-                run: "click",
+                isActive: ["auto"],
+                trigger: '.note-editable.odoo-editor-editable',
+                content: markup(_t('Fill in your <b>worksheet</b> with the details of your intervention.')),
+                async run(actions) {
+                    await actions.editor(`/`);
+                    document.querySelector(".note-editable").dispatchEvent(
+                        new InputEvent("input", {
+                            inputType: "insertText",
+                            data: "/",
+                        })
+                    );
+                },
             },
             {
-                isActive: ["auto", "body:is(.modal-open)"],
-                trigger: 'button[name="action_generate_new_template"]',
-                run: "click",
-            },
-            {
-                trigger: '.o_control_panel:not(:has(button[name="action_fsm_worksheet"]))',
-            },
-            {
+            isActive: ["manual"],
             trigger: '.o_form_sheet div[name] input, .o_form_sheet .note-editable',
             content: markup(_t('Fill in your <b>worksheet</b> with the details of your intervention.')),
             run: "edit My intervention details",
@@ -102,10 +104,9 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 run: "canvasNotEmpty",
             },
             {
-                trigger:
-                    ".modal .o_portal_sign_submit:enabled:contains(sign report):has(i.fa-check)",
-            content: markup(_t('Validate the <b>signature</b>.')),
-            tooltipPosition: 'left',
+                trigger: ".modal .o_portal_sign_submit",
+                content: markup(_t('Validate the <b>signature</b>.')),
+                tooltipPosition: 'left',
                 run: "click",
                 expectUnloadPage: true,
             },
@@ -116,7 +117,7 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 trigger: "body:not(:has(.modal:contains(sign report)))",
             },
             {
-                trigger: ".alert-info a.alert-link:contains(Back to edit mode)",
+                trigger: "body:not(:has(.modal:contains(sign report))) .alert-info a.alert-link:contains(Back to edit mode)",
                 content: markup(_t('Go back to your Field Service <b>task</b>.')),
                 tooltipPosition: 'right',
                 run: "click",
@@ -129,6 +130,12 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 run: "click",
             },
             {
+                trigger: '.modal .o_input',
+                content: markup(_t('<b>Click to edit.')),
+                run: 'click',
+            },
+            {
+                isActive: ["body:not(:has(.modal-footer button.o_mail_send))"],
                 trigger: 'button[name="document_layout_save"]:enabled',
             content: markup(_t('Customize your <b>layout</b>.')),
             tooltipPosition: 'right',

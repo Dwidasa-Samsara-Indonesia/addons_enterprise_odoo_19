@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 19:04+0000\n"
+"POT-Creation-Date: 2026-03-06 19:03+0000\n"
 "PO-Revision-Date: 2025-11-16 12:57+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19-l10n/"
@@ -59,6 +59,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.hr_employee_view_form
 msgid "<span>days</span>"
 msgstr "<span>أيام</span>"
+
+#. module: l10n_ae_hr_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.report_payslip_ae
+msgid ""
+"<strong class=\"me-2\">\n"
+"                    <span>Entry Date:</span>\n"
+"                </strong>"
+msgstr ""
 
 #. module: l10n_ae_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.report_payslip_ae
@@ -124,11 +132,6 @@ msgstr ""
 #. module: l10n_ae_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ae_hr_payroll.l10n_ae_input_annual_passage_allowance
 msgid "Annual Passage Allowance"
-msgstr ""
-
-#. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_annual_passage_allowance
-msgid "Annual Passage Allowance Input"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
@@ -206,19 +209,9 @@ msgid "Config Settings"
 msgstr "تهيئة الإعدادات"
 
 #. module: l10n_ae_hr_payroll
-#: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.report_payslip_ae
-msgid "Contract Start Date:"
-msgstr ""
-
-#. module: l10n_ae_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ae_hr_payroll.l10n_ae_input_conveyance_allowance
 msgid "Conveyance Allowance"
 msgstr "بدل النقل"
-
-#. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_conveyance_allowance
-msgid "Conveyance Allowance Input"
-msgstr ""
 
 #. module: l10n_ae_hr_payroll
 #: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_dews_salary_rule
@@ -275,6 +268,46 @@ msgid "Display Name"
 msgstr "اسم العرض"
 
 #. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule.category,name:l10n_ae_hr_payroll.rule_category_evp_allowances
+msgid "EVP Allowances"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_annual_passage_allowance
+msgid "EVP Annual Passage Allowance"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_conveyance_allowance
+msgid "EVP Conveyance Allowance"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_input_housing_allowance
+msgid "EVP Housing Allowance"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_leave_encashment
+msgid "EVP Leave Encashment"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_medical_allowance
+msgid "EVP Medical Allowance"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_other_allowance
+msgid "EVP Other Allowance"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_overtime_allowance
+msgid "EVP Overtime Allowance"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
 #: model:ir.model,name:l10n_ae_hr_payroll.model_hr_employee
 msgid "Employee"
 msgstr "الموظف"
@@ -291,7 +324,7 @@ msgstr "اسم الموظف"
 
 #. module: l10n_ae_hr_payroll
 #: model:ir.model.fields,field_description:l10n_ae_hr_payroll.field_hr_payroll_payment_report_wizard__l10n_ae_employer_narrative
-msgid "Employer Reference for WPS (Optional)"
+msgid "Employer Reference"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
@@ -326,11 +359,6 @@ msgstr "رد أموال النفقات"
 #: model:ir.model.fields,field_description:l10n_ae_hr_payroll.field_hr_payroll_payment_report_wizard__export_format
 msgid "Export Format"
 msgstr "صيغة الملف المصدر"
-
-#. module: l10n_ae_hr_payroll
-#: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.report_payslip_ae
-msgid "First Contract Date:"
-msgstr ""
 
 #. module: l10n_ae_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.report_payslip_ae
@@ -370,11 +398,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ae_hr_payroll.field_hr_version__l10n_ae_housing_allowance
 msgid "Housing Allowance"
 msgstr "بدل السكن"
-
-#. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_input_housing_allowance
-msgid "Housing Allowance Input"
-msgstr ""
 
 #. module: l10n_ae_hr_payroll
 #: model:ir.model.fields,field_description:l10n_ae_hr_payroll.field_hr_employee__id
@@ -421,11 +444,6 @@ msgid "Leave Encashment"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_leave_encashment
-msgid "Leave Encashment Input"
-msgstr ""
-
-#. module: l10n_ae_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.hr_contract_template_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.hr_employee_view_form
 msgid "Leaves"
@@ -440,11 +458,6 @@ msgstr ""
 #. module: l10n_ae_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ae_hr_payroll.l10n_ae_input_medical_allowance
 msgid "Medical Allowance"
-msgstr ""
-
-#. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_medical_allowance
-msgid "Medical Allowance Input"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
@@ -480,6 +493,12 @@ msgid "Nationality"
 msgstr "الجنسية"
 
 #. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.l10n_ae_hr_payroll_uae_employee_payroll_structure_net_cost
+#: model:hr.salary.rule.category,name:l10n_ae_hr_payroll.l10n_ae_category_net_cost
+msgid "Net Cost"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
 #: model:hr.salary.rule,name:l10n_ae_hr_payroll.l10n_ae_hr_payroll_uae_employee_payroll_structure_net_salary
 #: model:hr.salary.rule,name:l10n_ae_hr_payroll.l10n_ae_uae_instant_pay_net_salary
 msgid "Net Salary"
@@ -513,11 +532,6 @@ msgstr "غير ذلك"
 #. module: l10n_ae_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ae_hr_payroll.l10n_ae_input_other_allowance
 msgid "Other Allowance"
-msgstr ""
-
-#. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_other_allowance
-msgid "Other Allowance Input"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
@@ -559,13 +573,13 @@ msgid "Overtime Allowance"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.uae_salary_rule_overtime_allowance
-msgid "Overtime Allowance Input"
+#: model:hr.salary.rule,name:l10n_ae_hr_payroll.l10n_ae_regular_pay_paid_leave
+msgid "Paid Leave"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
-#: model:hr.salary.rule,name:l10n_ae_hr_payroll.l10n_ae_regular_pay_paid_leave
-msgid "Paid Leave"
+#: model:ir.model.fields,field_description:l10n_ae_hr_payroll.field_res_config_settings__company_partner_id
+msgid "Partner"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
@@ -593,6 +607,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ae_hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Please set the salaries bank account in the settings"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:hr.salary.rule.category,name:l10n_ae_hr_payroll.l10n_ae_category_provision
+msgid "Provision"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
@@ -715,6 +734,12 @@ msgid "Test Company"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
+#. odoo-python
+#: code:addons/l10n_ae_hr_payroll/models/res_company.py:0
+msgid "The Employer Unique ID must contain only digits."
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_ae_hr_payroll.hr_employee_salary_certificate
 msgid "This is to that following individual is employed at"
 msgstr ""
@@ -777,8 +802,19 @@ msgid "UAE Routing Code Agent ID"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll
+#. odoo-python
+#: code:addons/l10n_ae_hr_payroll/models/res_bank.py:0
+msgid "UAE Routing Code Agent ID should be 9 digits only."
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
 #: model:ir.model.fields.selection,name:l10n_ae_hr_payroll.selection__hr_payroll_payment_report_wizard__export_format__l10n_ae_wps
-msgid "UAE WPS"
+msgid "UAE WPS (.sif)"
+msgstr ""
+
+#. module: l10n_ae_hr_payroll
+#: model:ir.model.fields.selection,name:l10n_ae_hr_payroll.selection__hr_payroll_payment_report_wizard__export_format__l10n_ae_wps_xlsx
+msgid "UAE WPS (.xlsx)"
 msgstr ""
 
 #. module: l10n_ae_hr_payroll

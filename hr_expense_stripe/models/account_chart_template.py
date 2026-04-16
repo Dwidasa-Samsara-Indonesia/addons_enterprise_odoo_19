@@ -9,6 +9,8 @@ class AccountChartTemplate(models.AbstractModel):
 
     @template(model='account.journal')
     def _get_stripe_issuing_account_journal(self, template_code):
+        if not self.env.company.stripe_currency_id:
+            return {}
         return {
             'stripe_issuing_journal': {
                 'code': 'STRPI',
@@ -22,6 +24,8 @@ class AccountChartTemplate(models.AbstractModel):
 
     @template(model='res.company')
     def _get_stripe_issuing_company_data(self, template_code):
+        if not self.env.company.stripe_currency_id:
+            return {}
         return {
             self.env.company.id: {
                 'stripe_journal_id': 'stripe_issuing_journal',

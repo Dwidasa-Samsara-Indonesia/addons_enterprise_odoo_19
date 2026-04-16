@@ -2,11 +2,11 @@
 <templates>
     <t t-name="hr_payroll_account.PayRunCard" t-inherit="hr_payroll.PayRunCard" t-inherit-mode="extension">
         <t t-set-slot="confirm" position="replace">
-            <t t-set-slot="confirm" isVisible="payrun.state == '01_ready' &amp;&amp; !payrun.empty_payslips">
+            <t t-set-slot="confirm" isVisible="payrun.state == '01_ready' &amp;&amp; payrun.payslip_count > 0 &amp;&amp; payrun.empty_payslips === 0">
                 <ViewButton className="'btn btn-primary'"
                             clickParams="{type: 'object', name: 'action_validate', context: {payslip_generate_pdf: true}, confirm: 'Are you sure you want to proceed?'}"
                             record="props.record"
-                            string.translate="Create Draft Entry"/>
+                            string.translate="Validate"/>
             </t>
         </t>
 

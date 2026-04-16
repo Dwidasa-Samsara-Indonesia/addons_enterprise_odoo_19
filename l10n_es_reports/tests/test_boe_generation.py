@@ -51,24 +51,38 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
         })
         invoice_2 = self.init_invoice('out_invoice', partner=spanish_partner_2, amounts=[5000], invoice_date=fields.Date.today())
         invoice_2.action_post()
+        invoice_3 = self.init_invoice('out_invoice', partner=spanish_partner_2, amounts=[4000], invoice_date=fields.Date.today())
+        invoice_3.l10n_es_reports_mod347_invoice_type = 'insurance'
+        invoice_3._post()
         report = self.env.ref('l10n_es_reports.mod_347')
         options = self._generate_options(report, fields.Date.from_string('2020-01-01'), fields.Date.from_string('2020-12-31'))
         self._check_boe_export(report, options, 347)
 
         # Check file content
         report._get_lines(options)
-        vals = self.env[report.custom_handler_model_name].export_boe(options)
+        handler = self.env[report.custom_handler_model_name]
+        vals = handler.export_boe(options)
         expected = [
             # For information about data position, see page 7 & 16 of
             # https://sede.agenciatributaria.gob.es/static_files/Sede/Disenyo_registro/DR_300_399/archivos/347.pdf
             # 1,347,year,company vat
-            "13472020A12345674COMPANY_1_DATA                          T         BECAUSE I AM ACCOUNTMAN!                3470000000002  0000000000000000000002 000000001500000000000000 000000000000000                                                                                                                                                                                                                                                                                                                           ",
+            "13472020A12345674COMPANY_1_DATA                          T         BECAUSE I AM ACCOUNTMAN!                3470000000002  0000000000000000000002 000000001900000000000000 000000000000000                                                                                                                                                                                                                                                                                                                           ",
             # 2,347,year,company vat,partner vat
+            "23472020A1234567474280274A         PARTNER 2                               D28   B 000000000400000X 000000000000000 0000000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000400000 000000000000000                     000000000000000000000                                                                                                                                                                                                   ",
             "23472020A12345674A12345674         BERNARDO GANADOR                        D28   B 000000001000000  000000000000000 0000000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000001000000 000000000000000                     000000000000000000000                                                                                                                                                                                                   ",
             "23472020A1234567474280274A         PARTNER 2                               D28   B 000000000500000  000000000000000 0000000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000000000 000000000500000 000000000000000                     000000000000000000000                                                                                                                                                                                                   ",
         ]
         for generated_line, expected_line in zip(vals['file_content'].decode('utf-8').splitlines(), expected):
             self.assertEqual(generated_line, expected_line)
+
+        handler._retrieve_boe_manual_wizard(options, 347).write({
+            'complementary_declaration': True,
+            'substitutive_declaration': True,
+        })
+        vals = handler.export_boe(options)
+        header_line = vals['file_content'].decode('utf-8').splitlines()[0]
+        self.assertEqual('C', header_line[120], "Complementary declaration should use 'C'")
+        self.assertEqual('S', header_line[121], "Substitutive declaration should use 'S'")
 
     @freeze_time('2020-12-22')
     def test_boe_mod_349(self):
@@ -273,3 +287,28 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
         # - and the previously declared tax base (1000.00).
         # Under REGISTRO DE RECTIFICACIONES https://www.boe.es/buscar/doc.php?id=BOE-A-2010-5098
         self.assertNotIn('20250500000000000000000000100000', boe_file['file_content'].decode('utf-8'))
+
+    @freeze_time('2020-12-22')
+    def test_boe_button_branch_allowed(self):
+        """
+        Test when a parent company has branches with different VATs and not all
+        branches are in the company selector
+        """
+        parent_company = self.company_data['company']
+        self.env['res.company'].create({
+            'name': 'ES Branch',
+            'parent_id': parent_company.id,
+            'vat': 'B88431804',
+            'country_id': self.env.ref('base.es').id,
+        })
+        report = self.env.ref('l10n_es.mod_390').with_context(
+            allowed_company_ids=parent_company.ids,
+        )
+        options = self._generate_options(report, '2020-01-01', '2020-12-31')
+        boe_button = next(b for b in options['buttons'] if b.get('action_param') == 390)
+        action = boe_button.get('error_action') or boe_button['action']
+        wizard_action = report.dispatch_report_action(options, action, boe_button['action_param'])
+        self.assertEqual(
+            'l10n_es_reports.aeat.boe.mod390.export.wizard',
+            wizard_action['res_model'],
+        )

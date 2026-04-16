@@ -617,7 +617,7 @@ class AccountMoveLine(models.Model):
     def _compute_full_amount_switch_html(self):
         for line in self:
             # Ignore lines with no reconciled lines or not linked to a bank statement.
-            if not (reconciled_lines := line.reconciled_lines_excluding_exchange_diff_ids) or not line.statement_line_id:
+            if not (reconciled_lines := line.reconciled_lines_excluding_exchange_diff_ids) or len(reconciled_lines) > 1 or not line.statement_line_id:
                 line.full_amount_switch_html = False
                 continue
 

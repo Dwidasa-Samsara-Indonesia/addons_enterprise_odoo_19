@@ -17,13 +17,15 @@
 # Bole <bole@dajmi5.com>, 2022
 # storm_mpildek <matija.pildek@storm.hr>, 2022
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Odoo Translation Bot <c3p@odoo.com>, 2026.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-08 19:42+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-04-11 09:35+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/hr/>\n"
 "Language: hr\n"
@@ -32,7 +34,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -49,12 +51,22 @@ msgid ""
 "planning. (requires Planning app)\n"
 "    "
 msgstr ""
+"\n"
+"        Definira izvor za generiranje stavki rada\n"
+"\n"
+"        Raspored rada: stavke rada generirat će se iz radnog vremena u "
+"nastavku.\n"
+"        Prisutnosti: stavke rada generirat će se iz prisutnosti zaposlenika. "
+"(zahtijeva aplikaciju Prisutnost)\n"
+"        Planiranje: stavke rada generirat će se iz planiranja zaposlenika. "
+"(zahtijeva aplikaciju Planiranje)\n"
+"    "
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_worked_days.py:0
 msgid " (Half-Day)"
-msgstr ""
+msgstr " (pola dana)"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__payslips_count
@@ -67,37 +79,37 @@ msgstr "# Isplatna liste"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "%(display_name)s %(duration_type)s"
-msgstr ""
+msgstr "%(display_name)s %(duration_type)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Correction %(date)s"
-msgstr ""
+msgstr "%(employee)s Ispravak %(date)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Correction %(date_start)s - %(date_end)s"
-msgstr ""
+msgstr "%(employee)s Ispravak %(date_start)s - %(date_end)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Revert %(date)s"
-msgstr ""
+msgstr "%(employee)s Vraćanje %(date)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payslip_correction_wizard.py:0
 msgid "%(employee)s Revert %(date_start)s - %(date_end)s"
-msgstr ""
+msgstr "%(employee)s Vraćanje %(date_start)s - %(date_end)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_declaration_mixin.py:0
 msgid "%(employee_name)s-declaration-%(year)s"
-msgstr ""
+msgstr "%(employee_name)s-declaration-%(year)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -110,18 +122,24 @@ msgid ""
 "- Salary rule: %(name)s (%(code)s)\n"
 "- Error: %(error_message)s"
 msgstr ""
+"%(error_type)s\n"
+"- Zaposlenik: %(employee)s\n"
+"- Verzija: %(version)s\n"
+"- Platna lista: %(payslip)s\n"
+"- Pravilo plaće: %(name)s (%(code)s)\n"
+"- Greška: %(error_message)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "%(months)s months"
-msgstr ""
+msgstr "%(months)s mjeseci"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_headcount.py:0
 msgid "%(rate)s Hours/week"
-msgstr ""
+msgstr "%(rate)s sati/tjedno"
 
 #. module: hr_payroll
 #. odoo-python
@@ -133,7 +151,7 @@ msgstr "%(start_date_string)s i %(end_date_string)s"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "%(years)s years"
-msgstr ""
+msgstr "%(years)s godina"
 
 #. module: hr_payroll
 #. odoo-python
@@ -164,16 +182,16 @@ msgid ""
 "                \n"
 "* When the user cancels a payslip, the status is 'Canceled'."
 msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
+"* Kada se kreira platna lista status je 'skica'\n"
+"                \n"
+"* Ako je platna lista potvrđena status se postavlja na 'gotovo'.\n"
+"                \n"
+"* Kada korisnik otkaže platnu listu, status se postavlja na 'odbijeno'."
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
 msgid "13th month - End of the year bonus"
-msgstr ""
+msgstr "13th month - End of the year bonus"
 
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.hr_salary_rule_13th_month_salary
@@ -184,30 +202,30 @@ msgstr "13.-a plaća"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "1st semester of %s"
-msgstr ""
+msgstr "1. polugodište %s"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
 msgid "2023 Payroll"
-msgstr ""
+msgstr "2023 Payroll"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "2nd semester of %s"
-msgstr ""
+msgstr "2. polugodište %s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_index_wizard.py:0
 msgid "<b>The following employee records will be modified:</b><br>"
-msgstr ""
+msgstr "<b>Sljedeći zapisi zaposlenika bit će izmijenjeni:</b><br>"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_index_wizard.py:0
 msgid "<br><b>Modified on Versions:</b><br>"
-msgstr ""
+msgstr "<br><b>Izmijenjeno na verzijama:</b><br>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -215,21 +233,23 @@ msgid ""
 "<code>categories</code>: dict containing the computed salary rule categories "
 "(sum of amount of all rules belonging to that category)."
 msgstr ""
+"<code>categories</code>: dict containing the computed salary rule categories "
+"(sum of amount of all rules belonging to that category)."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>employee</code>: hr.employee object"
-msgstr ""
+msgstr "<code>employee</code>: hr.employee object"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>inputs</code>: dict containing the computed inputs."
-msgstr ""
+msgstr "<code>inputs</code>: dict containing the computed inputs."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>payslip</code>: hr.payslip object"
-msgstr ""
+msgstr "<code>payslip</code>: hr.payslip object"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -237,11 +257,13 @@ msgid ""
 "<code>result</code>: boolean True if the rule should be calculated, False "
 "otherwise"
 msgstr ""
+"<code>result</code>: boolean True if the rule should be calculated, False "
+"otherwise"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>result</code>: float, base amount of the rule"
-msgstr ""
+msgstr "<code>result</code>: float, base amount of the rule"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -250,11 +272,14 @@ msgid ""
 "name field of the salary rule (useful if the name depends or should depend "
 "on something computed in the rule)."
 msgstr ""
+"<code>result_name</code>: string, naziv stavke, koji prema zadanom koristi "
+"polje naziva pravila plaće (korisno ako naziv ovisi ili bi trebao ovisiti o "
+"nečemu izračunatom u pravilu)."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>result_qty</code>: float, quantity, which defaults to 1."
-msgstr ""
+msgstr "<code>result_qty</code>: float, quantity, which defaults to 1."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -262,6 +287,8 @@ msgid ""
 "<code>result_rate</code>: float, rate between -100.0 and 100.0, which "
 "defaults to 100.0 (%)."
 msgstr ""
+"<code>result_rate</code>: float, rate between -100.0 and 100.0, which "
+"defaults to 100.0 (%)."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -269,21 +296,23 @@ msgid ""
 "<code>result_rules</code>: dict containing the rules amounts, quantities, "
 "rates and totals (previously computed)"
 msgstr ""
+"<code>result_rules</code>: dict containing the rules amounts, quantities, "
+"rates and totals (previously computed)"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>total = result * result_rate / 100 * result_qty</code>"
-msgstr ""
+msgstr "<code>total = result * result_rate / 100 * result_qty</code>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>version</code>: hr.version object"
-msgstr ""
+msgstr "<code>version</code>: hr.version object"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<code>worked_days</code>: dict containing the computed worked days"
-msgstr ""
+msgstr "<code>worked_days</code>: dict containing the computed worked days"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_form
@@ -297,7 +326,7 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "<span class=\"h1-fs\"><strong>Hello there,</strong></span>"
-msgstr ""
+msgstr "<span class=\"h1-fs\"><strong>Pozdrav,</strong></span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
@@ -310,6 +339,8 @@ msgid ""
 "<span class=\"o_small-fs\">This dashboard is the headquarter of the Payroll "
 "app, from here, you'll have a quick overview on everything.</span>"
 msgstr ""
+"<span class=\"o_small-fs\">Ova ploča je sjedište aplikacije plaće, odavde "
+"ćete imati brzi pregled svega.</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -318,17 +349,20 @@ msgid ""
 "                            Work Entries\n"
 "                            </span>"
 msgstr ""
+"<span class=\"o_stat_text\">\n"
+"                            Radni unosi\n"
+"                            </span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_declaration_mixin_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_export_mixin_form_view
 msgid "<span class=\"o_stat_text\">Eligible Employees</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Prihvatljivi zaposlenici</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_headcount_view_form
 msgid "<span class=\"o_stat_text\">Employees</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Zaposlenici</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
@@ -336,26 +370,28 @@ msgid ""
 "<span class=\"o_stat_text\">Payslips</span>\n"
 "                            <span class=\"o_stat_value\">New</span>"
 msgstr ""
+"<span class=\"o_stat_text\">Platne liste</span>\n"
+"                            <span class=\"o_stat_value\">Novo</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_rule_parameter_view_form
 msgid "<span class=\"o_stat_text\">Salary Rules</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Pravila plaće</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<span invisible=\"input_unit != 'percentage'\">%</span>"
-msgstr ""
+msgstr "<span invisible=\"input_unit != 'percentage'\">%</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "<span invisible=\"is_quantity\">paid</span>"
-msgstr ""
+msgstr "<span invisible=\"is_quantity\">plaćeno</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "<span invisible=\"not is_refund\" class=\"me-1\">-</span>"
-msgstr ""
+msgstr "<span invisible=\"not is_refund\" class=\"me-1\">-</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_contract_template_view_form
@@ -374,11 +410,25 @@ msgid ""
 "                <span invisible=\"schedule_pay != 'weekly'\">/ week</span>\n"
 "                <span invisible=\"schedule_pay != 'daily'\">/ day</span>"
 msgstr ""
+"<span invisible=\"schedule_pay != 'annually'\">/ godina</span>\n"
+"                <span invisible=\"schedule_pay != 'semi-annually'\">/ pola "
+"godine</span>\n"
+"                <span invisible=\"schedule_pay != 'quarterly'\">/ kvartal</"
+"span>\n"
+"                <span invisible=\"schedule_pay != 'bi-monthly'\">/ two "
+"months</span>\n"
+"                <span invisible=\"schedule_pay != 'semi-monthly'\">/ pola "
+"mjeseca</span>\n"
+"                <span invisible=\"schedule_pay != 'bi-weekly'\">/ two weeks</"
+"span>\n"
+"                <span invisible=\"schedule_pay != 'weekly'\">/ tjedan</"
+"span>\n"
+"                <span invisible=\"schedule_pay != 'daily'\">/ dan</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<span> Available variables: </span>"
-msgstr ""
+msgstr "<span> Dostupne varijable: </span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_contract_template_view_form
@@ -395,11 +445,16 @@ msgid ""
 "automatic recalculation. Be careful that reordering the lines doesn't "
 "recompute them.</span>"
 msgstr ""
+"<span><strong>Tip:</strong> Each time you edit the quantity or the amount on "
+"a line, we recompute the following lines. We recommend that you edit from "
+"top to bottom to prevent your edition from being overwritten by the "
+"automatic recalculation. Be careful that reordering the lines doesn't "
+"recompute them.</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "<span>Output:</span>"
-msgstr ""
+msgstr "<span>Izlaz:</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
@@ -409,102 +464,102 @@ msgstr "<span>Total</span>"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
 msgid "<span>Warn me </span>"
-msgstr ""
+msgstr "<span>Upozori me </span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
 msgid "<span>days before end of contract.</span>"
-msgstr ""
+msgstr "<span>dana prije isteka ugovora.</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
 msgid "<span>days before expiration of the Work Permit.</span>"
-msgstr ""
+msgstr "<span>dana prije isteka radne dozvole.</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "<span>employer cost</span>"
-msgstr ""
+msgstr "<span>trošak poslodavca</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "<span>gross</span>"
-msgstr ""
+msgstr "<span>bruto</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "<span>net</span>"
-msgstr ""
+msgstr "<span>neto</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Address:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Adresa:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Children:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Djeca:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Computed On:</strong>"
-msgstr ""
-
-#. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
-msgid "<strong class=\"me-2\">Contract Start Date:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Izračunato:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Contract Type:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Tip ugovora:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Department:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Odjel:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Email:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">E-mail:</strong>"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
+msgid "<strong class=\"me-2\">Entry Date:</strong>"
+msgstr "<strong class=\"me-2\">Datum ulaska:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">ID:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">ID:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Job Position:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Radno mjesto:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Marital Status:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Bračni status:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Name:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Ime:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Pay Period:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Razdoblje plaće:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "<strong class=\"me-2\">Working Schedule:</strong>"
-msgstr ""
+msgstr "<strong class=\"me-2\">Radni raspored:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "<strong><span class=\"h3-fs\">Diving in</span></strong>"
-msgstr ""
+msgstr "<strong><span class=\"h3-fs\">Uranjanje</span></strong>"
 
 #. module: hr_payroll
 #: model_terms:web_tour.tour,rainbow_man_message:hr_payroll.payroll_tours
@@ -512,16 +567,18 @@ msgid ""
 "<strong>Congrats, Your first payslip is now finished. It's time for you to "
 "explore the Payroll app by yourself.</strong>"
 msgstr ""
+"<strong>Čestitamo, Vaša prva platna lista je gotova. Vrijeme je da sami "
+"istražite aplikaciju plaće.</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "<strong>Navigation Basic </strong>🐣"
-msgstr ""
+msgstr "<strong>Osnove navigacije </strong>🐣"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
 msgid "<strong>Register Name:</strong>"
-msgstr ""
+msgstr "<strong>Naziv registra:</strong>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
@@ -531,7 +588,7 @@ msgstr "<strong>Ukupno</strong>"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_light_payslip
 msgid "<strong>YTD</strong>"
-msgstr ""
+msgstr "<strong>YTD</strong>"
 
 #. module: hr_payroll
 #: model:mail.template,body_html:hr_payroll.mail_template_new_payslip
@@ -548,6 +605,17 @@ msgid ""
 "</tbody></table>\n"
 "            "
 msgstr ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; "
+"margin:0px auto;\"><tbody>\n"
+"    <tr><td valign=\"top\" style=\"text-align: left; font-size: 14px;\">\n"
+"        Poštovani <t t-esc=\"object.employee_id.name\"/>, a new payslip is "
+"available for you.<br/><br/>\n"
+"        Please find the PDF in your employee portal.<br/><br/>\n"
+"        Have a nice day,<br/>\n"
+"        The HR Team\n"
+"    </td></tr>\n"
+"</tbody></table>\n"
+"            "
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_payslip_run
@@ -555,6 +623,8 @@ msgid ""
 "A Pay Run is a batch of individual payslips processed together for a "
 "specific pay period, including wages, taxes, and deductions.<br><br>"
 msgstr ""
+"Obračun plaća je skupina pojedinačnih platnih lista obrađenih zajedno za "
+"određeno razdoblje plaće, uključujući plaće, poreze i odbitke.<br><br>"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_salary_attachment_action
@@ -565,6 +635,11 @@ msgid ""
 "                Ex. Money recovery, Child support, Assessment of salary, ..."
 "<br><br>"
 msgstr ""
+"Prilagodba plaće je ponavljajući iznos novca definiran na\n"
+"                zaposleniku i korišten u svakoj platnoj listi tijekom "
+"određenog vremena.<br>\n"
+"                Ex. Money recovery, Child support, Assessment of salary, ..."
+"<br><br>"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_work_entry_type_is_unforeseen_is_leave
@@ -581,7 +656,7 @@ msgstr "Računovodstvo"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_needaction
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_needaction
 msgid "Action Needed"
-msgstr "Potrebna dodatna radnja"
+msgstr "Potrebna akcija"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_dashboard_warning__active
@@ -637,7 +712,7 @@ msgstr "Tip aktivnosti"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Add Inputs"
-msgstr ""
+msgstr "Dodaj unose"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -649,7 +724,7 @@ msgstr "Dodajte <strong>name</strong> u ugovor."
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/js/tours/hr_payroll.js:0
 msgid "Add a employee to your contract"
-msgstr ""
+msgstr "Dodaj zaposlenika svom ugovoru"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_view_hr_payroll_structure_from_type
@@ -659,7 +734,7 @@ msgstr "Dodajte novu strukturu plaće"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_list
 msgid "Add a salary adjustment"
-msgstr ""
+msgstr "Dodaj prilagodbu plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -680,11 +755,13 @@ msgid ""
 "Adds a column in the payslip that shows the accumulated amount paid for "
 "different rules during the year"
 msgstr ""
+"Dodaje stupac u platnoj listi koji prikazuje akumulirani iznos isplaćen za "
+"različita pravila tijekom godine"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Adjust payslip"
-msgstr ""
+msgstr "Prilagodi platnu listu"
 
 #. module: hr_payroll
 #: model:res.groups,name:hr_payroll.group_hr_payroll_manager
@@ -694,7 +771,7 @@ msgstr "Administrator"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__affected_version_ids
 msgid "Affected Version"
-msgstr ""
+msgstr "Pogođena verzija"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -705,19 +782,19 @@ msgstr "Sve"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_form
 msgid "All structures"
-msgstr ""
+msgstr "Sve strukture"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Allocated amounts are less than the net salary."
-msgstr ""
+msgstr "Dodijeljeni iznosi manji su od neto plaće."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Allocated amounts surpass the net salary."
-msgstr ""
+msgstr "Dodijeljeni iznosi premašuju neto plaću."
 
 #. module: hr_payroll
 #: model:hr.salary.rule.category,name:hr_payroll.ALW
@@ -760,18 +837,18 @@ msgstr "Vrsta iznosa"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_light_payslip
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "Amount to be paid to"
-msgstr ""
+msgstr "Iznos za isplatu za"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Amount to pay"
-msgstr ""
+msgstr "Iznos za isplatu"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__monthly_amount
 msgid "Amount to pay each payslip."
-msgstr ""
+msgstr "Iznos za isplatu u svakoj platnoj listi."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__active_amount
@@ -779,6 +856,8 @@ msgid ""
 "Amount to pay for this payslip, Payslip Amount or less depending on the "
 "Remaining Amount."
 msgstr ""
+"Iznos za isplatu za ovu platnu listu, iznos platne liste ili manje ovisno o "
+"preostalom iznosu."
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_payroll_headcount_action
@@ -786,16 +865,18 @@ msgid ""
 "An Headcount report will provide you the quantity of running contracts<br>\n"
 "            on a specific period of time, grouped by Department.<br><br>"
 msgstr ""
+"Izvještaj broja zaposlenika pružit će Vam količinu aktivnih ugovora<br>\n"
+"            za određeno razdoblje, grupirano po odjelu.<br><br>"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_payroll_employee_declaration_unique_employee_sheet
 msgid "An employee can only have one declaration per sheet."
-msgstr ""
+msgstr "Zaposlenik može imati samo jednu prijavu po listu."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "And voilà, it is that simple."
-msgstr ""
+msgstr "I voilà, tako je jednostavno."
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -809,6 +890,8 @@ msgid ""
 "Another refund payslip with the same amount has been found. Do you want to "
 "create a new one?"
 msgstr ""
+"Pronađena je druga povratna platna lista s istim iznosom. Želite li kreirati "
+"novu?"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_line__appears_on_payslip
@@ -819,7 +902,7 @@ msgstr "Vidljivo na listiću"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__condition_domain
 msgid "Applicability Domain"
-msgstr ""
+msgstr "Domena primjenjivosti"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__condition_python
@@ -871,6 +954,8 @@ msgid ""
 "Are you sure you want to revert this payslip? This will create a negative of "
 "this payslip."
 msgstr ""
+"Jeste li sigurni da želite poništiti ovu platnu listu? To će kreirati "
+"negativ ove platne liste."
 
 #. module: hr_payroll
 #: model:hr.payslip.input.type,name:hr_payroll.input_assignment_salary
@@ -878,7 +963,7 @@ msgstr ""
 #: model:hr.salary.rule,name:hr_payroll.hr_payroll_structure_002_assignment_of_salary_rule
 #: model:hr.salary.rule,name:hr_payroll.hr_payroll_structure_worker_001_assignment_of_salary_rule
 msgid "Assignment of Salary"
-msgstr ""
+msgstr "Dodjela plaće"
 
 #. module: hr_payroll
 #. odoo-python
@@ -886,13 +971,15 @@ msgstr ""
 msgid ""
 "At least one previous negative net could be reported on this payslip for %s"
 msgstr ""
+"Najmanje jedan prethodni negativni neto mogao bi biti prijavljen na ovoj "
+"platnoj listi za %s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__message_attachment_count
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_attachment_count
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_attachment_count
 msgid "Attachment Count"
-msgstr "Broj priloga"
+msgstr "Broj privitaka"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__attachment_name
@@ -905,7 +992,7 @@ msgstr "Naziv privitka"
 #: model:hr.salary.rule,name:hr_payroll.hr_payroll_structure_002_attachment_of_salary_rule
 #: model:hr.salary.rule,name:hr_payroll.hr_payroll_structure_worker_001_attachment_of_salary_rule
 msgid "Attachment of Salary"
-msgstr ""
+msgstr "Privitak plaće"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -923,7 +1010,7 @@ msgstr "Kolovoz"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "August 2023 Payslip"
-msgstr ""
+msgstr "August 2023 Payslip"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_input_type__struct_ids
@@ -933,7 +1020,7 @@ msgstr "Dostupno u strukturi"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_input_type__available_in_attachments
 msgid "Available in adjustments"
-msgstr ""
+msgstr "Dostupno u prilagodbama"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_search
@@ -954,7 +1041,7 @@ msgstr "Avatar 128"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1003,11 +1090,13 @@ msgid ""
 "Batches - Groups of payslips with their progress state, to keep an eye on "
 "your latest pays."
 msgstr ""
+"Grupe - skupine platnih lista sa statusom napretka, za praćenje najnovijih "
+"plaća."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__module_l10n_be_hr_payroll
 msgid "Belgium Payroll"
-msgstr ""
+msgstr "Belgium Payroll"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__bold
@@ -1017,7 +1106,7 @@ msgstr "Podebljano"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payroll_payment_report_wizard__export_format__csv
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_line_form
@@ -1041,7 +1130,7 @@ msgstr "Otkazano"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Canceled Slip"
-msgstr ""
+msgstr "Otkazana lista"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_run__state__04_cancel
@@ -1054,13 +1143,13 @@ msgstr "Otkazano"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Cannot cancel a payslip that is validated."
-msgstr ""
+msgstr "Ne može se otkazati validirana platna lista."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_index_wizard.py:0
 msgid "Cannot index a wage with a null or negative percentage."
-msgstr ""
+msgstr "Ne može se indeksirati plaća s nultim ili negativnim postotkom."
 
 #. module: hr_payroll
 #. odoo-python
@@ -1076,6 +1165,8 @@ msgid ""
 "Careful, the Code is used in many references, changing it could lead to "
 "unwanted changes."
 msgstr ""
+"Pazite, šifra se koristi u mnogim referencama, njena promjena može dovesti "
+"do neželjenih promjena."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_line__category_id
@@ -1091,6 +1182,8 @@ msgid ""
 "Check if the value of the salary adjustment must be taken into account as "
 "negative (-X)"
 msgstr ""
+"Označite ako se vrijednost prilagodbe plaće mora uzeti u obzir kao negativna "
+"(-X)"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1105,7 +1198,7 @@ msgstr ""
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_rule__input_unit__boolean
 msgid "Checkbox"
-msgstr "Potvrdni okvir"
+msgstr "Okvir za potvrdu"
 
 #. module: hr_payroll
 #: model:hr.payslip.input.type,name:hr_payroll.input_child_support
@@ -1123,7 +1216,7 @@ msgstr "Podređeni"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
 msgid "Choose a Payroll Localization Package"
-msgstr ""
+msgstr "Odaberite paket lokalizacije plaća"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_correction_wizard__correction_choice
@@ -1131,6 +1224,8 @@ msgid ""
 "Choose whether to correct only the selected payslip or all payslips affected "
 "by the changes in this version."
 msgstr ""
+"Odaberite hoćete li ispraviti samo odabranu platnu listu ili sve platne "
+"liste pogođene promjenama u ovoj verziji."
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1216,7 +1311,7 @@ msgstr "Najbliži"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_category__code
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
 msgid "Code"
-msgstr "Šifra"
+msgstr "Kod"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_working_rate__color
@@ -1295,7 +1390,7 @@ msgstr "Uvjeti"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_res_config_settings
 msgid "Config Settings"
-msgstr "Postavke"
+msgstr "Konfiguracijske postavke"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1372,12 +1467,12 @@ msgstr "Ugovorena plaća"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "Contract Wage ("
-msgstr ""
+msgstr "Ugovorna plaća ("
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_index_form_view
 msgid "Contract indexing"
-msgstr ""
+msgstr "Indeksacija ugovora"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_export_employee_mixin_list_view
@@ -1387,12 +1482,12 @@ msgstr "Ugovori"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Contracts - What's the setup of your employees ?"
-msgstr ""
+msgstr "Ugovori - kakav je postav Vaših zaposlenika?"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__appears_on_employee_cost_dashboard
 msgid "Contributes to Employer Cost"
-msgstr ""
+msgstr "Doprinosi trošku poslodavca"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_line_view_search_register
@@ -1414,33 +1509,33 @@ msgstr "Naknada za prijevoz"
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.hr_salary_rule_ca_gravie
 msgid "Conveyance Allowance For Gravie"
-msgstr ""
+msgstr "Conveyance Allowance For Gravie"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_correction_wizard__correction_choice__multi
 msgid "Correct all affected payslips"
-msgstr ""
+msgstr "Ispravi sve pogođene platne liste"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "Correct payslip"
-msgstr ""
+msgstr "Ispravi platnu listu"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_correction_wizard__correction_choice__single
 msgid "Correct this payslip only"
-msgstr ""
+msgstr "Ispravi samo ovu platnu listu"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_correction_wizard__correction_choice
 msgid "Correction Choice"
-msgstr ""
+msgstr "Izbor ispravka"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Correction: %(payslip)s"
-msgstr ""
+msgstr "Ispravak: %(payslip)s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_dashboard_warning__country_id
@@ -1466,7 +1561,7 @@ msgstr "Šifra države"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "Create Individual Attachments"
-msgstr ""
+msgstr "Kreiraj pojedinačne privitke"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -1481,7 +1576,7 @@ msgstr "Kreirajte SREPA nalog za plaćanje"
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_new_salary_attachment
 msgid "Create Salary Adjustment"
-msgstr ""
+msgstr "Kreiraj prilagodbu plaće"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__create_uid
@@ -1491,23 +1586,23 @@ msgstr "Kreirao"
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_payslip_run
 msgid "Create a Pay Run"
-msgstr ""
+msgstr "Kreiraj obračun plaća"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payslip_action_helper/payslip_action_helper.xml:0
 msgid "Create a Payslip"
-msgstr ""
+msgstr "Kreiraj platnu listu"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_salary_attachment_action
 msgid "Create a Salary Adjustment"
-msgstr ""
+msgstr "Kreiraj prilagodbu plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_salary_rule_section
 msgid "Create a new Salary Rule Section"
-msgstr ""
+msgstr "Kreiraj novu sekciju pravila plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_salary_rule_form
@@ -1528,7 +1623,7 @@ msgstr "Kreirajte novu strukturu plaće"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "Create employees"
-msgstr ""
+msgstr "Kreiraj zaposlenike"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1629,7 +1724,7 @@ msgstr "Trenutna vrijednost"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_rule_parameter__current_value_one_line
 msgid "Current Value (short)"
-msgstr ""
+msgstr "Trenutna vrijednost (kratka)"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_report_view_search
@@ -1639,7 +1734,7 @@ msgstr "Aktualni mjesec"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount__is_name_custom
 msgid "Custom Name"
-msgstr ""
+msgstr "Prilagođeno ime"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payroll_dashboard_configuration
@@ -1673,7 +1768,7 @@ msgstr "Datum početka"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__date_end
 msgid "Date at which this assignment has been set as completed."
-msgstr ""
+msgstr "Datum na koji je ova dodjela postavljena kao dovršena."
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days__full
@@ -1683,7 +1778,7 @@ msgstr "Dan"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
 msgid "Day where the 'Year To Date' will be reset every year."
-msgstr ""
+msgstr "Dan kada će se 'Year To Date' resetirati svake godine."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_res_company__ytd_reset_day
@@ -1694,13 +1789,17 @@ msgid ""
 "        If greater than the last day of a month, then the last day of the "
 "month will be selected instead."
 msgstr ""
+"Dan kada će se YTD resetirati svake godine. Ako je nula ili negativan, "
+"umjesto toga odabrat će se prvi dan u mjesecu.\n"
+"        Ako je veći od zadnjeg dana u mjesecu, umjesto toga odabrat će se "
+"zadnji dan u mjesecu."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_report__number_of_days
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Days"
-msgstr "Dani/a"
+msgstr "Dani"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__12
@@ -1711,22 +1810,22 @@ msgstr "Prosinac"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_declaration_mixin_view_list
 msgid "Declaration Mixin"
-msgstr ""
+msgstr "Mixin prijave"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__res_id
 msgid "Declaration Model Id"
-msgstr ""
+msgstr "ID modela prijave"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__res_model
 msgid "Declaration Model Name"
-msgstr ""
+msgstr "Naziv modela prijave"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_declaration_mixin__line_ids
 msgid "Declarations"
-msgstr ""
+msgstr "Prijave"
 
 #. module: hr_payroll
 #: model:hr.payslip.input.type,name:hr_payroll.input_deduction
@@ -1740,7 +1839,7 @@ msgstr "Odbitak"
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.default_structure
 msgid "Default Structure Rules Set"
-msgstr ""
+msgstr "Zadani skup pravila strukture"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_default_value
@@ -1758,11 +1857,13 @@ msgstr "Definirajte <strong>Wage</strong>."
 msgid ""
 "Define sections to organize salary rule inputs within payroll structures."
 msgstr ""
+"Definirajte sekcije za organizaciju unosa pravila plaće unutar struktura "
+"plaća."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__condition_domain
 msgid "Define the applicability rules for this rule."
-msgstr ""
+msgstr "Definirajte pravila primjenjivosti za ovo pravilo."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__schedule_pay
@@ -1779,6 +1880,10 @@ msgid ""
 "anymore and all the valid rules of the structures of the employee's "
 "contracts will be applied."
 msgstr ""
+"Defines the rules that have to be applied to this payslip, according to the "
+"contract chosen. If the contract is empty, this field isn't mandatory "
+"anymore and all the valid rules of the structures of the employee's "
+"contracts will be applied."
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -1786,7 +1891,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 msgid "Delete"
-msgstr "Izbriši"
+msgstr "Obriši"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_line__department_id
@@ -1802,7 +1907,7 @@ msgstr "Odjel"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_light_payslip
 msgid "Department:"
-msgstr ""
+msgstr "Odjel:"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_version_list_view_filter_payrun
@@ -1812,12 +1917,12 @@ msgstr "Odlazak"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__dependent_input_id
 msgid "Dependent Salary Input"
-msgstr ""
+msgstr "Zavisni unos plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Depends On"
-msgstr ""
+msgstr "Ovisi o"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__description
@@ -1838,6 +1943,7 @@ msgstr "Opis"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Detach the payslip from the pay run to send it to the Off-Cycle"
 msgstr ""
+"Odvoji platnu listu od obračuna plaća da biste je poslali u izvanciklusno"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__disabled
@@ -1901,13 +2007,13 @@ msgstr "Prikaži"
 #: model:ir.model.fields,field_description:hr_payroll.field_res_company__display_name
 #: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/fields/actionable_warnings/actionable_warnings.js:0
 msgid "Display first warning only"
-msgstr ""
+msgstr "Prikaži samo prvo upozorenje"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_work_entry_type_view_form_inherit
@@ -1935,12 +2041,12 @@ msgstr "Domena"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_work_days_view_search_report
 msgid "Done"
-msgstr "Riješeno"
+msgstr "Dovršeno"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Done Pay Runs"
-msgstr ""
+msgstr "Dovršeni obračuni plaća"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
@@ -1960,7 +2066,7 @@ msgstr "Dolje"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_line_view_search_report
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Draft"
-msgstr "Nacrt"
+msgstr "Skica"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
@@ -1971,7 +2077,7 @@ msgstr "Nacrt listića"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Duplicate(s)"
-msgstr ""
+msgstr "Duplikat(i)"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__duration_type
@@ -1982,13 +2088,13 @@ msgstr "Trajanje"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "Earnings"
-msgstr ""
+msgstr "Zarade"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "Edit Individual Salary Adjustment"
-msgstr ""
+msgstr "Uredi pojedinačnu prilagodbu plaće"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2007,7 +2113,7 @@ msgstr "Forma za uređivanje podataka u recima isplatne liste"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "Edit Salary Adjustment"
-msgstr ""
+msgstr "Uredi prilagodbu plaće"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_edit_payslip_worked_days_line
@@ -2022,7 +2128,7 @@ msgstr "Forma za uređivanje podataka u recima isplatne liste"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_edit_payslip_line
 msgid "Edit payslip lines wizard line"
-msgstr ""
+msgstr "Uredi stavku čarobnjaka stavki platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__edited
@@ -2032,7 +2138,7 @@ msgstr "Uređeno"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_edit_payslip_lines_form_wizard
 msgid "Edition of Payslip Lines in the Payslip"
-msgstr ""
+msgstr "Izdanje stavki platne liste u platnoj listi"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_version_list_view_payrun
@@ -2046,12 +2152,12 @@ msgstr "Efektivni datum"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__eligible_employee_line_ids
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_export_employee_mixin_list_view
 msgid "Eligible Employees"
-msgstr ""
+msgstr "Prihvatljivi zaposlenici"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__eligible_employee_count
 msgid "Eligible Employees Count"
-msgstr ""
+msgstr "Broj prihvatljivih zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__email_cc
@@ -2085,7 +2191,7 @@ msgstr "Zaposlenik"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_version
 msgid "Employee Contract"
-msgstr "Ugovor djelatnika"
+msgstr "Ugovor zaposlenika"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2100,13 +2206,13 @@ msgstr "Broj zaposlenika"
 msgid ""
 "Employee Count - How many contracts are running in the company at the "
 "moment ?"
-msgstr ""
+msgstr "Broj zaposlenika - koliko ugovora trenutno traje u tvrtki?"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_declaration_mixin.py:0
 msgid "Employee Declarations"
-msgstr ""
+msgstr "Prijave zaposlenika"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_employee_grade_form
@@ -2132,12 +2238,12 @@ msgstr "Isplatni listići djelatnika"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Employee Record"
-msgstr ""
+msgstr "Zapis zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.hr_menu_versions
 msgid "Employee Records"
-msgstr ""
+msgstr "Zapisi zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__registration_number
@@ -2145,7 +2251,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_search
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Employee Reference"
-msgstr ""
+msgstr "Referenca zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_line__employee_type
@@ -2157,12 +2263,12 @@ msgstr "Tip djelatnika"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Employee name"
-msgstr ""
+msgstr "Ime zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__version_ids
 msgid "Employee records"
-msgstr ""
+msgstr "Zapisi zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__hourly_wage
@@ -2180,6 +2286,7 @@ msgstr "Mjesečna bruto plaća zaposlenika."
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Employee's record is not the latest version for this payslip period."
 msgstr ""
+"Zapis zaposlenika nije najnovija verzija za ovo razdoblje platne liste."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__resource_calendar_id
@@ -2191,6 +2298,11 @@ msgid ""
 "week.\n"
 "        "
 msgstr ""
+"Radni raspored zaposlenika.\n"
+"        Kada je prazno, smatra se da zaposlenik ima potpuno fleksibilan "
+"raspored, dopuštajući mu rad bez vremenskog ograničenja, bilo kada tijekom "
+"tjedna.\n"
+"        "
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -2209,17 +2321,17 @@ msgstr "Zaposlenici"
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_employee_missing_from_open_batch
 msgid "Employees (With Running Contracts) missing from open batches"
-msgstr ""
+msgstr "Zaposlenici (s aktivnim ugovorima) koji nedostaju u otvorenim grupama"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_employees_multiple_payslips
 msgid "Employees With Multiple Open Payslips of Same Type"
-msgstr ""
+msgstr "Zaposlenici s više otvorenih platnih lista istog tipa"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_employee_without_bank_account
 msgid "Employees Without Bank account Number"
-msgstr ""
+msgstr "Zaposlenici bez broja bankovnog računa"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_employee_without_identification
@@ -2234,12 +2346,12 @@ msgstr "Zaposlenici bez važećih ugovora"
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_nearly_expired_contracts
 msgid "Employees with running contracts coming to an end"
-msgstr ""
+msgstr "Zaposlenici s aktivnim ugovorima koji istječu"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_untrusted_bank_accounts
 msgid "Employees with untrusted Bank Account numbers"
-msgstr ""
+msgstr "Zaposlenici s nepouzdanim brojevima bankovnih računa"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2254,11 +2366,13 @@ msgid ""
 "Employer Cost - Follow monthly or annually the amounts of each pay divided "
 "as you please."
 msgstr ""
+"Trošak poslodavca - pratite mjesečno ili godišnje iznose svake plaće "
+"podijeljene kako želite."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__empty_payslips
 msgid "Empty Payslips"
-msgstr ""
+msgstr "Prazne platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__hide_basic_on_pdf
@@ -2266,6 +2380,8 @@ msgid ""
 "Enable this option if you don't want to display the Basic Salary on the "
 "printed pdf."
 msgstr ""
+"Omogućite ovu opciju ako ne želite prikazati osnovnu plaću na ispisanom PDF-"
+"u."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_version_list_view_payrun
@@ -2275,7 +2391,7 @@ msgstr "Kraj"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__date_end
 msgid "End Date"
-msgstr "Završni datum"
+msgstr "Datum završetka"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_salary_attachment_check_dates
@@ -2303,18 +2419,19 @@ msgstr "Kraj probnog roka"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state_display__error
 msgid "Error"
-msgstr "Greška"
+msgstr "Pogreška"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__error_count
 msgid "Error Count"
-msgstr ""
+msgstr "Broj grešaka"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule_category.py:0
 msgid "Error! You cannot create recursive hierarchy of Salary Rule Category."
 msgstr ""
+"Greška! Ne možete kreirati rekurzivnu hijerarhiju kategorije pravila plaće."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__date_estimated_end
@@ -2330,7 +2447,7 @@ msgstr "Eventualna treća strana uključena u isplatu plaće djelatnika."
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Explain when it's applicable..."
-msgstr ""
+msgstr "Objasnite kada je primjenjivo..."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_employee_mixin__export_id
@@ -2340,33 +2457,33 @@ msgstr "Izvoz"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__payment_report
 msgid "Export .csv file related to this pay run"
-msgstr ""
+msgstr "Izvezi .csv datoteku vezanu uz ovaj obračun plaća"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__payment_report
 msgid "Export .csv file related to this payslip"
-msgstr ""
+msgstr "Izvezi .csv datoteku vezanu uz ovu platnu listu"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_export_mixin_form_view
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_export_mixin_list_view
 msgid "Export Employee Work Entries"
-msgstr ""
+msgstr "Izvezi radne unose zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__export_file
 msgid "Export File"
-msgstr ""
+msgstr "Izvezi datoteku"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__export_filename
 msgid "Export Filename"
-msgstr ""
+msgstr "Naziv izvezene datoteke"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_payment_report_wizard__export_format
 msgid "Export Format"
-msgstr ""
+msgstr "Format izvoza"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -2376,7 +2493,7 @@ msgstr "Export Payslip"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 msgid "External Codes"
-msgstr ""
+msgstr "Vanjske šifre"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__2
@@ -2415,7 +2532,7 @@ msgstr "Pratitelji"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_partner_ids
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Pratitelji (Partneri)"
+msgstr "Pratitelji (partneri)"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__activity_type_icon
@@ -2449,7 +2566,7 @@ msgstr "Od"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__full_time_required_hours
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__full_time_required_hours
 msgid "Full Time Equivalent"
-msgstr ""
+msgstr "Ekvivalent punog radnog vremena"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -2457,8 +2574,6 @@ msgid "General"
 msgstr "Općenito"
 
 #. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_payment_report_view_form
 msgid "Generate"
 msgstr "Generiraj"
@@ -2466,19 +2581,19 @@ msgstr "Generiraj"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_export_mixin_form_view
 msgid "Generate Export File"
-msgstr ""
+msgstr "Generiraj izvoznu datoteku"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/backend_components/cog_menu/hr_payroll_generate_pdfs_cog_menu.xml:0
 msgid "Generate PDFs"
-msgstr ""
+msgstr "Generiraj PDF-ove"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/js/hr_work_entries_gantt.xml:0
 msgid "Generate Pay Run"
-msgstr ""
+msgstr "Generiraj obračun plaća"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -2490,21 +2605,27 @@ msgid "Generate Payslips"
 msgstr "Generiraj obračun"
 
 #. module: hr_payroll
+#. odoo-javascript
+#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
+msgid "Generate Reports ("
+msgstr ""
+
+#. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "Generate a Payment Report"
-msgstr ""
+msgstr "Generiraj izvještaj plaćanja"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payroll_employee_declaration__state__pdf_generated
 msgid "Generated PDF"
-msgstr ""
+msgstr "Generirani PDF"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__gross_sum
 msgid "Gross Sum"
-msgstr ""
+msgstr "Bruto zbroj"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__gross_wage
@@ -2514,17 +2635,17 @@ msgstr "Bruto plaća"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_payment_report_wizard
 msgid "HR Payroll Payment Report Wizard"
-msgstr ""
+msgstr "Čarobnjak izvještaja plaćanja plaća"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_work_entry
 msgid "HR Work Entry"
-msgstr ""
+msgstr "Stavka rada"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_work_entry_type
 msgid "HR Work Entry Type"
-msgstr ""
+msgstr "Vrsta stavke rada"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days__half
@@ -2534,19 +2655,19 @@ msgstr "Pola dana"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__has_done_payslip
 msgid "Has Done Payslip"
-msgstr ""
+msgstr "Ima dovršenu platnu listu"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__has_error
 msgid "Has Error"
-msgstr ""
+msgstr "Ima grešku"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Has Issues"
-msgstr ""
+msgstr "Ima probleme"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__has_message
@@ -2563,17 +2684,17 @@ msgstr "Ima negativan neto za izvještavanje"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry__has_payslip
 msgid "Has Payslip"
-msgstr ""
+msgstr "Ima platnu listu"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__has_similar_attachment
 msgid "Has Similar Attachment"
-msgstr ""
+msgstr "Ima sličan privitak"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__has_similar_attachment_warning
 msgid "Has Similar Attachment Warning"
-msgstr ""
+msgstr "Ima upozorenje o sličnom privitku"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__has_total_amount
@@ -2583,7 +2704,7 @@ msgstr "Ima ukupni iznos"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__has_wrong_data
 msgid "Has Wrong Data"
-msgstr ""
+msgstr "Ima pogrešne podatke"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payroll_headcount_action
@@ -2596,7 +2717,7 @@ msgstr "Broj djelatnika"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_headcount_line
 msgid "Headcount Line"
-msgstr ""
+msgstr "Stavka broja zaposlenika"
 
 #. module: hr_payroll
 #. odoo-python
@@ -2613,13 +2734,13 @@ msgstr "Broj djelatnika za %(company_name)s na dan %(date)s"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_headcount_line_view_tree
 msgid "Headcount's Employees"
-msgstr ""
+msgstr "Zaposlenici brojanja"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_headcount.py:0
 msgid "Headcount's employees"
-msgstr ""
+msgstr "Zaposlenici brojanja"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__hide_basic_on_pdf
@@ -2648,7 +2769,7 @@ msgstr "Sati"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "Hours / Week"
-msgstr ""
+msgstr "Sati / tjedno"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__hours_per_week
@@ -2659,7 +2780,7 @@ msgstr "Sati tjedno"
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.hr_salary_rule_houserentallowance1
 msgid "House Rent Allowance"
-msgstr ""
+msgstr "House Rent Allowance"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__id
@@ -2719,7 +2840,7 @@ msgstr "Ikona za prikaz iznimki."
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__message_needaction
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Ako je označeno, nove poruke zahtijevaju Vašu pažnju."
+msgstr "Ako je označeno, nove poruke zahtijevaju vašu pažnju."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__message_has_error
@@ -2729,7 +2850,7 @@ msgstr "Ako je označeno, nove poruke zahtijevaju Vašu pažnju."
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__message_has_error
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Ako je označeno neke poruke mogu imati grešku u dostavi."
+msgstr "Ako je označeno, neke poruke imaju grešku u isporuci."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_input_type__is_quantity
@@ -2738,6 +2859,8 @@ msgid ""
 "If set, hide currency and consider the manual input as a quantity for every "
 "rule computation using this input."
 msgstr ""
+"Ako je postavljeno, sakrij valutu i razmotri ručni unos kao količinu za "
+"svaki izračun pravila koji koristi ovaj unos."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__active
@@ -2745,12 +2868,14 @@ msgid ""
 "If the active field is set to false, it will allow you to hide the salary "
 "rule without removing it."
 msgstr ""
+"Ako je aktivno polje postavljeno na netočno, omogućit će Vam skrivanje "
+"pravila plaće bez njegovog uklanjanja."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__disabled
 #: model:ir.model.fields,help:hr_payroll.field_hr_version__disabled
 msgid "If the employee is declared disabled by law"
-msgstr ""
+msgstr "Ako je zaposlenik zakonski proglašen invalidom"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__is_non_resident
@@ -2758,7 +2883,7 @@ msgstr ""
 msgid ""
 "If the employee is not a legal resident of the country where they are "
 "employed"
-msgstr ""
+msgstr "Ako zaposlenik nije zakonski rezident države u kojoj je zaposlen"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__image_1920
@@ -2774,44 +2899,44 @@ msgstr "Slika 128"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "Indefinite"
-msgstr ""
+msgstr "Neodređeno"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__indented
 msgid "Indented"
-msgstr ""
+msgstr "Uvučeno"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_payroll_index
 #: model:ir.actions.server,name:hr_payroll.action_index_employee_contracts_form
 #: model:ir.actions.server,name:hr_payroll.action_index_employee_contracts_list
 msgid "Index contract(s)"
-msgstr ""
+msgstr "Indeksiraj ugovore"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_index
 msgid "Index contracts"
-msgstr ""
+msgstr "Indeksiraj ugovore"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__module_l10n_in_hr_payroll
 msgid "Indian Payroll"
-msgstr ""
+msgstr "Indian Payroll"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__credit_note
 msgid "Indicates this payslip has a refund of another"
-msgstr ""
+msgstr "Označava da ova platna lista ima povrat druge"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_declaration_mixin_view_form
 msgid "Individual Accounts"
-msgstr ""
+msgstr "Pojedinačni računi"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__informative_message
 msgid "Informative Message"
-msgstr ""
+msgstr "Informativna poruka"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -2821,42 +2946,42 @@ msgstr "Ulazni podatak"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_description
 msgid "Input Description"
-msgstr ""
+msgstr "Opis unosa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_suffix
 msgid "Input Suffix"
-msgstr ""
+msgstr "Sufiks unosa"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Input Type"
-msgstr ""
+msgstr "Tip unosa"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Input Type Code"
-msgstr ""
+msgstr "Šifra tipa unosa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_usage_employee
 msgid "Input Usage Employee"
-msgstr ""
+msgstr "Korištenje unosa zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_usage_payslip
 msgid "Input Usage Payslip"
-msgstr ""
+msgstr "Korištenje unosa platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_used_in_definition
 msgid "Input Used In Definition"
-msgstr ""
+msgstr "Unos korišten u definiciji"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Input on"
-msgstr ""
+msgstr "Unos na"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__note
@@ -2871,13 +2996,13 @@ msgstr "Račun za pretplatu za internet"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_corrected
 msgid "Is Corrected"
-msgstr ""
+msgstr "Je ispravljeno"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_current
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_current
 msgid "Is Current"
-msgstr ""
+msgstr "Je trenutno"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__message_is_follower
@@ -2896,13 +3021,13 @@ msgstr "Je puno radno vrijeme"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_future
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_future
 msgid "Is Future"
-msgstr ""
+msgstr "Je budućnost"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_in_contract
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_in_contract
 msgid "Is In Contract"
-msgstr ""
+msgstr "Je u ugovoru"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_worked_days__is_paid
@@ -2913,22 +3038,22 @@ msgstr "Je plaćeno"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_past
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__is_past
 msgid "Is Past"
-msgstr ""
+msgstr "Je prošlost"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_refund_payslip
 msgid "Is Refund payslip"
-msgstr ""
+msgstr "Je povratna platna lista"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_refunded
 msgid "Is Refunded"
-msgstr ""
+msgstr "Je refundirano"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_line_view_search_register
 msgid "Is Register"
-msgstr ""
+msgstr "Je registar"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_regular
@@ -2943,12 +3068,12 @@ msgstr "Je Superkorisnik"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_wrong_duration
 msgid "Is Wrong Duration"
-msgstr ""
+msgstr "Je pogrešno trajanje"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__is_wrong_version
 msgid "Is Wrong Version"
-msgstr ""
+msgstr "Je pogrešna verzija"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_input_type__is_quantity
@@ -2960,14 +3085,14 @@ msgstr "Je li količina?"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 msgid "Issue Count"
-msgstr ""
+msgstr "Broj problema"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.xml:0
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__issues
 msgid "Issues"
-msgstr ""
+msgstr "Problemi"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__quantity
@@ -2976,6 +3101,9 @@ msgid ""
 "Meal Voucher having fixed amount of 1€ per worked day can have its quantity "
 "defined in expression like worked_days['WORK100'].number_of_days."
 msgstr ""
+"Koristi se u izračunu za postotak i fiksni iznos. Npr. pravilo za naknadu za "
+"obrok s fiksnim iznosom od 1€ po radnom danu može imati svoju količinu "
+"definiranu u izrazu poput worked_days['WORK100'].number_of_days."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_input__amount
@@ -2984,6 +3112,9 @@ msgid ""
 "basic salary per product can defined in expression like: result = "
 "inputs['SALEURO'].amount * version.wage * 0.01."
 msgstr ""
+"Koristi se u izračunu. Npr. pravilo za prodavače s 1%% provizije osnovne "
+"plaće po proizvodu može se definirati u izrazu poput: result = "
+"inputs['SALEURO'].amount * version.wage * 0.01."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__italic
@@ -3033,12 +3164,12 @@ msgstr "Lipanj"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__keep_wrong_version
 msgid "Keep Wrong Version"
-msgstr ""
+msgstr "Zadrži pogrešnu verziju"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Keep it as is"
-msgstr ""
+msgstr "Zadrži kako jest"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3083,7 +3214,7 @@ msgstr "Prošli kvartal"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_category__write_uid
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_section__write_uid
 msgid "Last Updated by"
-msgstr "Promijenio"
+msgstr "Zadnji ažurirao"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_dashboard_warning__write_date
@@ -3112,18 +3243,18 @@ msgstr "Promijenio"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_category__write_date
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_section__write_date
 msgid "Last Updated on"
-msgstr "Vrijeme promjene"
+msgstr "Zadnje ažurirano"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "Let's start by creating your first employees!"
-msgstr ""
+msgstr "Započnimo kreiranjem Vaših prvih zaposlenika!"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_attachment__duration_type__limited
 msgid "Limited"
-msgstr ""
+msgstr "Ograničeno"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount__line_ids
@@ -3171,7 +3302,7 @@ msgstr "Označi kao riješeno"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Mark as Paid"
-msgstr ""
+msgstr "Označi kao plaćeno"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -3194,7 +3325,7 @@ msgstr "Kupon za obrok"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_has_error
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_has_error
 msgid "Message Delivery error"
-msgstr "Greška pri isporuci poruke"
+msgstr "Greška u isporuci poruke"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__message_ids
@@ -3207,7 +3338,7 @@ msgstr "Poruke"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Missing bank account on employee"
-msgstr ""
+msgstr "Nedostaje bankovni račun na zaposleniku"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__mobile_invoice
@@ -3217,12 +3348,12 @@ msgstr "Račun za pretplatu za mobilne usluge"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_report_hr_payroll_contribution_register
 msgid "Model for Printing hr.payslip.line grouped by register"
-msgstr ""
+msgstr "Model za ispis hr.payslip.line grupiran po registru"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_rule__input_unit__monetary
 msgid "Monetary"
-msgstr "valutno"
+msgstr "Monetarno"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -3233,17 +3364,17 @@ msgstr "Mjesečno"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__monthly_running_attachments
 msgid "Monthly Running Attachments"
-msgstr ""
+msgstr "Mjesečni aktivni privitci"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_correction_wizard__is_multi_payslip
 msgid "Multiple Payslips"
-msgstr ""
+msgstr "Više platnih lista"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 msgid "Multiple employees are attached to this salary adjustment."
-msgstr ""
+msgstr "Više zaposlenika povezano je s ovom prilagodbom plaće."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__my_activity_date_deadline
@@ -3278,6 +3409,8 @@ msgid ""
 "Name to be set on a payslip. Example: 'End of the year bonus'. If not set, "
 "the default value is 'Salary Slip'"
 msgstr ""
+"Naziv za postaviti na platnu listu. Primjer: 'Godišnji bonus'. Ako nije "
+"postavljeno, zadana vrijednost je 'platna lista'"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_light_payslip
@@ -3292,18 +3425,18 @@ msgstr "Na izvješću se treba ispisivati negativan neto iznos"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__negative_net_to_report_display
 msgid "Negative Net To Report Display"
-msgstr ""
+msgstr "Prikaz negativnog neta za prijavu"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__negative_net_to_report_message
 msgid "Negative Net To Report Message"
-msgstr ""
+msgstr "Poruka negativnog neta za prijavu"
 
 #. module: hr_payroll
 #: model:mail.activity.type,name:hr_payroll.mail_activity_data_hr_payslip_negative_net
 #: model:mail.activity.type,summary:hr_payroll.mail_activity_data_hr_payslip_negative_net
 msgid "Negative Net to Report"
-msgstr ""
+msgstr "Negativni neto za prijavu"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__is_refund
@@ -3330,7 +3463,7 @@ msgstr "Neto plaća"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__net_sum
 msgid "Net Sum"
-msgstr ""
+msgstr "Neto zbroj"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__net_wage
@@ -3341,7 +3474,7 @@ msgstr "Neto plaća"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/views/payslip_run_calendar/hr_payslip_run_calendar_view_buttons.xml:0
 msgid "New"
-msgstr "Novi"
+msgstr "Novo"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3352,7 +3485,7 @@ msgstr "Novi zaposlenici"
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_payslip_run_create
 msgid "New Pay Run"
-msgstr ""
+msgstr "Novi obračun plaća"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3364,7 +3497,7 @@ msgstr "Nova isplatna lista"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "New Salary Adjustment"
-msgstr ""
+msgstr "Nova prilagodba plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_version_list_view_filter_payrun
@@ -3399,28 +3532,28 @@ msgstr "Tip sljedeće aktivnosti"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard/payslip_batch/payslip_batch.xml:0
 msgid "No Batches Yet"
-msgstr ""
+msgstr "Još nema grupa"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "No ID number on the employee"
-msgstr ""
+msgstr "Nema ID broja na zaposleniku"
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_hr_payslip_run
 msgid "No Pay Runs."
-msgstr ""
+msgstr "Nema obračuna plaća."
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payslip_action_helper/payslip_action_helper.xml:0
 msgid "No Payslips."
-msgstr ""
+msgstr "Nema platnih lista."
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_payroll_hr_version_list_view_payrun
 msgid "No Records."
-msgstr ""
+msgstr "Nema zapisa."
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days__no
@@ -3430,12 +3563,12 @@ msgstr "Bez zaokruživanja"
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_salary_attachment_action
 msgid "No Salary Adjustment ?"
-msgstr ""
+msgstr "Nema prilagodbe plaće?"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_employee_unique_registration_number
 msgid "No duplication of registration numbers is allowed"
-msgstr ""
+msgstr "Nije dopušteno dupliciranje matičnih brojeva"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_input_type__default_no_end_date
@@ -3446,12 +3579,12 @@ msgstr "Nema datuma završetka prema zadanim postavkama"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payslip_action_helper/payslip_action_helper.xml:0
 msgid "No payslips for this pay run."
-msgstr ""
+msgstr "Nema platnih lista za ovaj obračun plaća."
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.hr_payroll_headcount_action
 msgid "No previous headcounts have been found."
-msgstr ""
+msgstr "Nisu pronađena prethodna brojanja zaposlenika."
 
 #. module: hr_payroll
 #: model_terms:ir.actions.act_window,help:hr_payroll.action_payroll_hr_version_list_view_payrun
@@ -3460,18 +3593,21 @@ msgid ""
 "select another period and/or\n"
 "                salary structure type."
 msgstr ""
+"Nijedan zapis ne odgovara Vašem razdoblju i tipu strukture plaće, molimo "
+"vratite se i odaberite drugo razdoblje i/ili\n"
+"                tip strukture plaće."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_rule_parameter.py:0
 msgid "No rule parameter with code \"%(code)s\" was found for %(date)s"
-msgstr ""
+msgstr "Nije pronađen parametar pravila sa šifrom \"%(code)s\" za %(date)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "No running contract over payslip period"
-msgstr ""
+msgstr "Nema aktivnog ugovora u razdoblju platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__is_non_resident
@@ -3499,6 +3635,8 @@ msgid ""
 "Note - Create as many notes as you want, like this one, to keep track of all "
 "useful information !"
 msgstr ""
+"Bilješka - kreirajte koliko god bilješki želite, poput ove, za praćenje svih "
+"korisnih informacija!"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_rule_parameter_view_form
@@ -3561,25 +3699,26 @@ msgstr "Broj grešaka"
 msgid ""
 "Number of hours to work on the company schedule to be considered as fulltime."
 msgstr ""
+"Broj sati rada prema rasporedu tvrtke koji se smatra punim radnim vremenom."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__message_needaction_counter
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__message_needaction_counter
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Broj poruka koje zahtijevaju radnju"
+msgstr "Broj poruka koje zahtijevaju akciju"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__message_has_error_counter
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__message_has_error_counter
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Broj poruka sa greškama pri isporuci"
+msgstr "Broj poruka s greškom u isporuci"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__occurrences
 msgid "Number of times the salary adjustment will appear on the payslip."
-msgstr ""
+msgstr "Broj puta koliko će se prilagodba plaće pojaviti na platnoj listi."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__occurrences
@@ -3599,7 +3738,7 @@ msgstr "Listopad"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Off-Cycle"
-msgstr ""
+msgstr "Izvanciklusno"
 
 #. module: hr_payroll
 #: model:res.groups,name:hr_payroll.group_hr_payroll_user
@@ -3640,12 +3779,12 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_search
 msgid "One Shots"
-msgstr ""
+msgstr "Jednokratne"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_attachment__duration_type__one
 msgid "One Time"
-msgstr ""
+msgstr "Jednokratno"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_salary_attachment_check_monthly_amount
@@ -3653,6 +3792,8 @@ msgid ""
 "Oops! Let’s keep the payslip amount strictly positive. We want to deduct "
 "money from our employee’s payslip, not add to it!"
 msgstr ""
+"Ups! Držimo iznos platne liste strogo pozitivnim. Želimo oduzeti novac s "
+"platne liste zaposlenika, a ne dodati!"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3661,21 +3802,23 @@ msgid ""
 "Oops! Only draft and cancelled payslips can be deleted without causing any "
 "chaos. We can't take back our dedicated employees' hard-earned cash!"
 msgstr ""
+"Ups! Samo skice i otkazane platne liste mogu se obrisati bez izazivanja "
+"kaosa. Ne možemo vratiti teško zarađeni novac naših predanih zaposlenika!"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "Optional reason, or reference"
-msgstr ""
+msgstr "Opcionalni razlog ili referenca"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Or a Smartclass dedicated to the app"
-msgstr ""
+msgstr "Ili Smartclass posvećen aplikaciji"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__origin_payslip_id
 msgid "Origin Payslip"
-msgstr ""
+msgstr "Izvorna platna lista"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -3703,12 +3846,12 @@ msgstr "Stavka ostalih ulaznih podataka"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Other Input Type"
-msgstr ""
+msgstr "Drugi tip unosa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_declaration_mixin__pdf_error
 msgid "PDF Error Message"
-msgstr ""
+msgstr "PDF poruka greške"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__pdf_file
@@ -3719,13 +3862,7 @@ msgstr "PDF datoteka"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_employee_declaration.py:0
 msgid "PDF generation started. It will be available shortly."
-msgstr ""
-
-#. module: hr_payroll
-#. odoo-javascript
-#: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-msgid "PDFs"
-msgstr ""
+msgstr "Generiranje PDF-a započelo. Bit će uskoro dostupno."
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__paid
@@ -3747,12 +3884,12 @@ msgstr "Isplaćeni iznos"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Paid Pay Runs"
-msgstr ""
+msgstr "Plaćeni obračuni plaća"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Paid Slip"
-msgstr ""
+msgstr "Plaćena lista"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_rule_parameter_value__parameter_value
@@ -3784,12 +3921,12 @@ msgstr "Obračun perioda:"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Pay Run"
-msgstr ""
+msgstr "Obračun plaće"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_payroll_open_pay_run
 msgid "Pay Run Payslips"
-msgstr ""
+msgstr "Platne liste obračuna plaća"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -3799,14 +3936,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_calendar
 msgid "Pay Runs"
-msgstr ""
+msgstr "Obračuni plaća"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__schedule_pay
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__schedule_pay
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__schedule_pay
 msgid "Pay Schedule"
-msgstr ""
+msgstr "Raspored plaćanja"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip
@@ -3822,7 +3959,7 @@ msgstr "Obračunski list"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure_type__default_struct_id
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__structure_id
 msgid "Pay Structure"
-msgstr ""
+msgstr "Struktura plaće"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_worked_days_line__slip_id
@@ -3832,7 +3969,7 @@ msgstr "Isplatna lista"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
 msgid "PaySlip Lines by Contribution Register"
-msgstr ""
+msgstr "Stavke platne liste po registru doprinosa"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
@@ -3853,6 +3990,8 @@ msgid ""
 "Payment Entry Date: the banking day on which you intend the payslip batch to "
 "be settled."
 msgstr ""
+"Datum unosa plaćanja: bankovni dan kada namjeravate namiriti grupu platnih "
+"lista."
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -3868,13 +4007,13 @@ msgstr "Izvještaj plaćanja"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Payment Report - %(batch_name)s"
-msgstr ""
+msgstr "Izvještaj plaćanja - %(batch_name)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Payment Report - %(dates)s - %(employee_name)s"
-msgstr ""
+msgstr "Izvještaj plaćanja - %(dates)s - %(employee_name)s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__payment_report_date
@@ -3891,7 +4030,7 @@ msgstr "Naziv datoteke izvještaja"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__payment_report_format
 msgid "Payment Report Format"
-msgstr ""
+msgstr "Format izvještaja plaćanja"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.open_payroll_modules
@@ -3903,7 +4042,7 @@ msgstr "Obračun plaće"
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_reset_work_entries
 msgid "Payroll - Technical: Reset Work Entries"
-msgstr ""
+msgstr "Plaće - tehničko: resetiraj radne unose"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_list
@@ -3929,7 +4068,7 @@ msgstr "Nadzorna ploča Obračuna plaće"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_dashboard_warning_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_dashboard_warning_view_tree
 msgid "Payroll Dashboard Warning"
-msgstr ""
+msgstr "Upozorenje ploče plaća"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_payroll_dashboard_warning
@@ -3939,12 +4078,12 @@ msgstr "Upozorenja na nadzornoj ploči obračuna plaće"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_declaration_mixin
 msgid "Payroll Declaration Mixin"
-msgstr ""
+msgstr "Mixin deklaracije obračuna plaće"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_employee_declaration
 msgid "Payroll Employee Declaration"
-msgstr ""
+msgstr "Deklaracija zaposlenika obračuna plaće"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_headcount
@@ -3961,7 +4100,7 @@ msgstr "Napomena Obračuna pl."
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__payslip_properties
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__payroll_properties
 msgid "Payroll Properties"
-msgstr ""
+msgstr "Svojstva plaća"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
@@ -3976,7 +4115,7 @@ msgstr "Modul Obračun plaće - SEPA nalog"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_salary_rule_section_list
 msgid "Payroll Structure"
-msgstr ""
+msgstr "Struktura plaća"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payroll_structure_filter
@@ -3991,7 +4130,7 @@ msgstr "Pravila obračuna plaće koja vrijede za vašu državu"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Payroll tips &amp; tricks:"
-msgstr ""
+msgstr "Savjeti i trikovi za plaće:"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__module_hr_payroll_account_iso20022
@@ -4035,7 +4174,7 @@ msgstr "Isplatna lista 'Početni datum' mora biti manji od  'Završnog datuma'."
 #. module: hr_payroll
 #: model:ir.actions.report,name:hr_payroll.action_report_light_payslip
 msgid "Payslip (Light)"
-msgstr ""
+msgstr "Platna lista (lagana)"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__monthly_amount
@@ -4045,19 +4184,19 @@ msgstr "Iznos Listića"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__monthly_amount_display
 msgid "Payslip Amount Display"
-msgstr ""
+msgstr "Prikaz iznosa platne liste"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "Payslip Correction"
-msgstr ""
+msgstr "Ispravak platne liste"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip_correction_wizard
 msgid "Payslip Correction Wizard"
-msgstr ""
+msgstr "Čarobnjak ispravka platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__payslip_count
@@ -4076,13 +4215,13 @@ msgstr "Ulazni podaci za obračun"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_tree
 msgid "Payslip Input Name"
-msgstr ""
+msgstr "Naziv unosa platne liste"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip_input_type
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_search
 msgid "Payslip Input Type"
-msgstr ""
+msgstr "Tip unosa platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__input_line_ids
@@ -4117,12 +4256,12 @@ msgstr "Stavke obračuna"
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_edit_payslip_lines_wizard.py:0
 msgid "Payslip Lines Changes:"
-msgstr ""
+msgstr "Promjene stavki platne liste:"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payslip_line_action_report
 msgid "Payslip Lines Report"
-msgstr ""
+msgstr "Izvještaj stavki platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__payslip_name
@@ -4136,43 +4275,43 @@ msgstr "Naziv obračuna"
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_input_action_report
 msgid "Payslip Other Inputs"
-msgstr ""
+msgstr "Ostali unosi platne liste"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payslip_input_action_report
 msgid "Payslip Other Inputs Report"
-msgstr ""
+msgstr "Izvještaj ostalih unosa platne liste"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Payslip Period"
-msgstr ""
+msgstr "Razdoblje platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__payslip_properties_definition
 msgid "Payslip Properties Definition"
-msgstr ""
+msgstr "Definicija svojstava platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_payment_report_wizard__payslip_run_id
 msgid "Payslip Run"
-msgstr ""
+msgstr "Obračun platnih lista"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_work_days_view_search_report
 msgid "Payslip Work Days"
-msgstr ""
+msgstr "Radni dani platne liste"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_work_days_action_report
 msgid "Payslip Work Days Lines"
-msgstr ""
+msgstr "Stavke radnih dana platne liste"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payslip_work_days_action_report
 msgid "Payslip Work Days Lines Report"
-msgstr ""
+msgstr "Izvještaj stavki radnih dana platne liste"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip_worked_days
@@ -4201,7 +4340,7 @@ msgstr "Isplatni listići"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Payslips - Show final results of the computation."
-msgstr ""
+msgstr "Platne liste - prikazuju konačne rezultate izračuna."
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslips_previous_contract
@@ -4211,7 +4350,7 @@ msgstr "Isplatne liste generirane na temelju prethodnog ugovora"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__payslips_with_issues
 msgid "Payslips With Issues"
-msgstr ""
+msgstr "Platne liste s problemima"
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslips_negative_net
@@ -4221,17 +4360,17 @@ msgstr "Isplatne liste sa negativnim neto iznosima"
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslip_overdue
 msgid "Payslips are overdue for payments"
-msgstr ""
+msgstr "Platne liste kasne s plaćanjem"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__pdf_filename
 msgid "Pdf Filename"
-msgstr ""
+msgstr "Naziv PDF datoteke"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__pdf_to_generate
 msgid "Pdf To Generate"
-msgstr ""
+msgstr "PDF za generirati"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_index__percentage
@@ -4256,7 +4395,7 @@ msgstr "Postotak baziran na"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Period"
-msgstr "Period"
+msgstr "Razdoblje"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_mixin__period_start
@@ -4291,7 +4430,7 @@ msgstr "Pregled"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Previous Negative Payslip to Report"
-msgstr ""
+msgstr "Prethodna negativna platna lista za prijavu"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -4302,12 +4441,12 @@ msgstr "Ispis"
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.hr_salary_rule_professionaltax1
 msgid "Professional Tax"
-msgstr ""
+msgstr "Professional Tax"
 
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.hr_salary_rule_providentfund1
 msgid "Provident Fund"
-msgstr ""
+msgstr "Provident Fund"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_dashboard_warning__evaluation_code
@@ -4362,7 +4501,7 @@ msgstr "Stavljeno u red za PDF"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payroll_employee_declaration__state__pdf_to_generate
 msgid "Queued PDF generation"
-msgstr ""
+msgstr "Generiranje PDF-a u redu"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4394,13 +4533,13 @@ msgstr "Spremno"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Ready Pay Runs"
-msgstr ""
+msgstr "Spremni obračuni plaća"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "Ready to simplify your payroll?"
-msgstr ""
+msgstr "Spremni za pojednostavljenje Vaših plaća?"
 
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_hr_payroll_recompute_whole_sheet
@@ -4411,6 +4550,7 @@ msgstr "Preračunaj cijeli list"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Recompute the payslip lines only, not the worked days / input lines"
 msgstr ""
+"Ponovno izračunaj samo stavke platne liste, ne radne dane / stavke unosa"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4442,7 +4582,7 @@ msgstr "Referentna godina"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Refund Payslip"
-msgstr ""
+msgstr "Povratna platna lista"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4458,7 +4598,7 @@ msgstr "Povrati"
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_002
 msgid "Regular Pay"
-msgstr ""
+msgstr "Redovna plaća"
 
 #. module: hr_payroll
 #: model:hr.payslip.input.type,name:hr_payroll.input_reimbursement
@@ -4472,7 +4612,7 @@ msgstr "Naknada"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Related Payslip"
-msgstr ""
+msgstr "Povezana platna lista"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__related_payslip_ids
@@ -4483,7 +4623,7 @@ msgstr "Povezani isplatni listići"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__related_payslip_count
 msgid "Related payslip count"
-msgstr ""
+msgstr "Broj povezanih platnih lista"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__remaining_amount
@@ -4493,7 +4633,7 @@ msgstr "Preostali iznos"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__remaining_time
 msgid "Remaining Time"
-msgstr ""
+msgstr "Preostalo vrijeme"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_salary_attachment_check_remaining_amount
@@ -4508,7 +4648,7 @@ msgstr "Preostali iznos za isplatu."
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__remaining_time
 msgid "Remaining time to be paid."
-msgstr ""
+msgstr "Preostalo vrijeme za plaćanje."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
@@ -4519,13 +4659,13 @@ msgstr "Ukloni"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/js/tours/hr_payroll.js:0
 msgid "Remove \"Conflicting\" filter"
-msgstr ""
+msgstr "Ukloni filter \"u sukobu\""
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 msgid "Remove State"
-msgstr ""
+msgstr "Ukloni stanje"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -4547,7 +4687,7 @@ msgstr "Izvještavanje"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Reporting - All reports that you can need during the year."
-msgstr ""
+msgstr "Izvještavanje - svi izvještaji koje možete trebati tijekom godine."
 
 #. module: hr_payroll
 #. odoo-python
@@ -4565,7 +4705,7 @@ msgstr "Odgovorna osoba"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_list
 msgid "Restart"
-msgstr ""
+msgstr "Ponovno pokreni"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -4573,12 +4713,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Revert"
-msgstr ""
+msgstr "Vrati"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "Revert only"
-msgstr ""
+msgstr "Samo vrati"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__round_days_type
@@ -4620,7 +4760,7 @@ msgstr "Parametri pravila"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Rule category and structure should belong to the same country"
-msgstr ""
+msgstr "Kategorija pravila i struktura trebaju pripadati istoj državi"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_action_hr_salary_rule_form
@@ -4631,7 +4771,7 @@ msgstr "Pravila"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "Run Payroll"
-msgstr ""
+msgstr "Pokreni plaće"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_attachment__state__open
@@ -4649,7 +4789,7 @@ msgstr "Kopija SIM kartice"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_has_sms_error
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "Greška u slanju SMSa"
+msgstr "Greška u isporuci SMS-a"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_salary_configuration
@@ -4665,17 +4805,17 @@ msgstr "Plaća"
 #: model:ir.model,name:hr_payroll.model_hr_salary_attachment
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "Salary Adjustment"
-msgstr ""
+msgstr "Prilagodba plaće"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__salary_attachment_count
 msgid "Salary Adjustment Count"
-msgstr ""
+msgstr "Broj prilagodbi plaće"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__salary_attachment_count
 msgid "Salary Adjustment count"
-msgstr ""
+msgstr "Broj prilagodbi plaće"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4689,7 +4829,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Salary Adjustments"
-msgstr ""
+msgstr "Prilagodbe plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_category_form
@@ -4704,28 +4844,28 @@ msgstr "Izračun plaće"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_rule__condition_select__property_input
 msgid "Salary Input"
-msgstr ""
+msgstr "Unos plaće"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_salary_rule_section
 msgid "Salary Input Section"
-msgstr ""
+msgstr "Sekcija unosa plaće"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_salary_rule_section
 msgid "Salary Input Sections"
-msgstr ""
+msgstr "Sekcije unosa plaće"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_view_hr_payslip_input_type
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_entry_type_view
 msgid "Salary Input Types"
-msgstr ""
+msgstr "Tipovi unosa plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "Salary Inputs"
-msgstr ""
+msgstr "Unosi plaće"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_salary_rule
@@ -4751,7 +4891,7 @@ msgstr "Kategorije pravila obračuna"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_rule_parameter__salary_rule_count
 msgid "Salary Rule Count"
-msgstr ""
+msgstr "Broj pravila plaće"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_rule_parameter
@@ -4772,7 +4912,7 @@ msgstr "Parametri pravila plaće"
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_salary_rule_section
 msgid "Salary Rule Sections"
-msgstr ""
+msgstr "Sekcije pravila plaće"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_salary_rule_form
@@ -4831,50 +4971,50 @@ msgstr "Zakazana isplata"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_employee_declaration_view_search
 msgid "Search Declarations"
-msgstr ""
+msgstr "Pretraži prijave"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_headcount_line_search
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_headcount_view_search
 msgid "Search Headcount"
-msgstr ""
+msgstr "Pretraži broj zaposlenika"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_filter
 msgid "Search Pay Run"
-msgstr ""
+msgstr "Pretraži obračun plaća"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_dashboard_warning_view_search
 msgid "Search Payroll Dashboard Warning"
-msgstr ""
+msgstr "Pretraži upozorenja ploče plaća"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_line_view_search_register
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_line_view_search_report
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_line_filter
 msgid "Search Payslip Lines"
-msgstr ""
+msgstr "Pretraži stavke platne liste"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_view_search_report
 msgid "Search Payslip Other Input"
-msgstr ""
+msgstr "Pretraži ostale unose platne liste"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_work_days_view_search_report
 msgid "Search Payslip Work Days"
-msgstr ""
+msgstr "Pretraži radne dane platne liste"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Search Payslips"
-msgstr ""
+msgstr "Pretraži platne liste"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_search
 msgid "Search Salary Adjustment"
-msgstr ""
+msgstr "Pretraži prilagodbu plaće"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_rule_filter
@@ -4902,27 +5042,27 @@ msgstr "Odaberi"
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_payroll_hr_version_list_view_payrun
 msgid "Select Employees"
-msgstr ""
+msgstr "Odaberi zaposlenike"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_benefit_selector_list
 msgid "Select your benefits"
-msgstr ""
+msgstr "Odaberite svoje beneficije"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_default_boolean
 msgid "Selected by Default"
-msgstr ""
+msgstr "Odabrano prema zadanom"
 
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_hr_payroll_remove_from_payrun
 msgid "Send to Off-Cycle"
-msgstr ""
+msgstr "Pošalji u izvanciklusno"
 
 #. module: hr_payroll
 #: model:mail.template,description:hr_payroll.mail_template_new_payslip
 msgid "Sent to employee to notify them about their new payslip"
-msgstr ""
+msgstr "Poslano zaposleniku da ga obavijesti o novoj isplati"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__9
@@ -4943,7 +5083,7 @@ msgstr "Rujan"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__sequence
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_section__sequence
 msgid "Sequence"
-msgstr "Sekvenca"
+msgstr "Redoslijed"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -4970,13 +5110,13 @@ msgstr "Postavke"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__show_schedule_pay
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__show_schedule_pay
 msgid "Show Schedule Pay"
-msgstr ""
+msgstr "Prikaži raspored plaće"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Similar payslips found"
-msgstr ""
+msgstr "Pronađene slične platne liste"
 
 #. module: hr_payroll
 #. odoo-python
@@ -4984,18 +5124,19 @@ msgstr ""
 msgid ""
 "Some work entries are in conflict. Please resolve the conflicts before "
 "exporting."
-msgstr ""
+msgstr "Neki radni unosi su u sukobu. Molimo riješite sukobe prije izvoza."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "Some work entries could not be validated. Time intervals to look for:%s"
 msgstr ""
+"Neki radni unosi nisu se mogli validirati. Vremenski intervali za provjeru:%s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__space_above
 msgid "Space Above"
-msgstr ""
+msgstr "Razmak iznad"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_list
@@ -5005,7 +5146,7 @@ msgstr "Razdijeli"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
 msgid "Split it in individual adjustment"
-msgstr ""
+msgstr "Razdijeli u pojedinačne prilagodbe"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__standard_calendar_id
@@ -5016,12 +5157,12 @@ msgstr "Standardni kalendar:"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_version_list_view_payrun
 msgid "Start"
-msgstr "Start"
+msgstr "Početak"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__date_start
 msgid "Start Date"
-msgstr "Početni datum"
+msgstr "Datum početka"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_employee_declaration__state
@@ -5029,7 +5170,7 @@ msgstr "Početni datum"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_report__state
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_employee_declaration_view_search
 msgid "State"
-msgstr "Županija/fed.država"
+msgstr "Status"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__state_display
@@ -5045,7 +5186,7 @@ msgstr "Status"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/status_bubble/status_bubble.js:0
 msgid "Status Bubble"
-msgstr ""
+msgstr "Balon statusa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__activity_state
@@ -5067,6 +5208,8 @@ msgid ""
 "Still looking for more ? Here is a video to help you <i class=\"fa fa-video-"
 "camera fa-2\" aria-hidden=\"true\" contenteditable=\"false\">​</i>"
 msgstr ""
+"Tražite još? Evo videa koji će Vam pomoći <i class=\"fa fa-video-camera "
+"fa-2\" aria-hidden=\"true\" contenteditable=\"false\">​</i>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_employee_view_form
@@ -5077,7 +5220,7 @@ msgstr "Kraj"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_section__struct_ids
 msgid "Struct"
-msgstr ""
+msgstr "Struktura"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_line__struct_id
@@ -5122,7 +5265,7 @@ msgstr "Strukture"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "Suffix (e.g. per km)"
-msgstr ""
+msgstr "Sufiks (npr. po km)"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__sum_worked_hours
@@ -5132,7 +5275,7 @@ msgstr "Zbroj sati prisustava i odsustava"
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.hr_salary_rule_sum_alw_category
 msgid "Sum of Allowance category"
-msgstr ""
+msgstr "Zbroj kategorije naknada"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_report_view_tree
@@ -5142,7 +5285,7 @@ msgstr "Zbroj dana"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_dashboard_warning__color
 msgid "Tag color. No color means black."
-msgstr ""
+msgstr "Boja oznake. Bez boje znači crna."
 
 #. module: hr_payroll
 #: model:hr.salary.rule,name:hr_payroll.default_gross_salary_rule
@@ -5150,7 +5293,7 @@ msgstr ""
 #: model:hr.salary.rule,name:hr_payroll.hr_payroll_structure_worker_001_gross_salary_rule
 #: model:hr.salary.rule.category,name:hr_payroll.GROSS
 msgid "Taxable Salary"
-msgstr ""
+msgstr "Oporeziva plaća"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__report_id
@@ -5177,6 +5320,9 @@ msgid ""
 "                        It computes the Net salary according to the Salary "
 "Rules you've defined in the configuration."
 msgstr ""
+"Platna lista je izračun plaće na temelju razdoblja za zaposlenika.\n"
+"                        It computes the Net salary according to the Salary "
+"Rules you've defined in the configuration."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_work_entry_type__is_unforeseen
@@ -5184,6 +5330,8 @@ msgid ""
 "The Work Entry checked as Unforeseen Absence will be counted in absenteeism "
 "at work report."
 msgstr ""
+"Radni unos označen kao nepredviđena odsutnost bit će uračunat u izvještaj "
+"izostanka s posla."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5192,6 +5340,8 @@ msgid ""
 "The YTD reset day must be a valid day of the month : since the current month "
 "is %(month)s, it should be between 1 and %(day)s."
 msgstr ""
+"Dan resetiranja YTD mora biti valjan dan u mjesecu: budući da je trenutni "
+"mjesec %(month)s, trebao bi biti između 1 i %(day)s."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_edit_payslip_line__code
@@ -5201,6 +5351,8 @@ msgid ""
 "The code of salary rules can be used as reference in computation of other "
 "rules. In that case, it is case sensitive."
 msgstr ""
+"Šifra pravila plaće može se koristiti kao referenca u izračunu drugih "
+"pravila. U tom slučaju, razlikuju se velika i mala slova."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_input__code
@@ -5213,12 +5365,12 @@ msgstr "Šifra koja se može koristiti u pravilima plaće"
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_line__amount_select
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__amount_select
 msgid "The computation method for the rule amount."
-msgstr ""
+msgstr "Metoda izračuna za iznos pravila."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_worked_days__version_id
 msgid "The contract this worked days should be applied to"
-msgstr ""
+msgstr "Ugovor na koji se ovi radni dani trebaju primijeniti"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_index_form_view
@@ -5226,6 +5378,8 @@ msgid ""
 "The current employee records for each employee will be indexed. All "
 "posterior records corresponding to the same contract will also be indexed."
 msgstr ""
+"Trenutni zapisi zaposlenika za svakog zaposlenika bit će indeksirani. Svi "
+"kasniji zapisi koji odgovaraju istom ugovoru također će biti indeksirani."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
@@ -5237,23 +5391,23 @@ msgstr "Zadano radno vrijeme je postavljeno u Postavkama."
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid ""
 "The duration of the payslip is not accurate according to the structure type."
-msgstr ""
+msgstr "Trajanje platne liste nije točno prema tipu strukture."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_correction_wizard__employee_id
 msgid "The employee for whom the payslip correction is being made."
-msgstr ""
+msgstr "Zaposlenik za kojeg se vrši ispravak platne liste."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
 msgid "The employee's data has been updated since this payslip was created."
-msgstr ""
+msgstr "Podaci zaposlenika ažurirani su od kreiranja ove platne liste."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "The field is not valid:%s"
-msgstr ""
+msgstr "Polje nije valjano:%s"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_declaration_mixin_view_form
@@ -5261,6 +5415,8 @@ msgid ""
 "The files won't be posted in the employee portal if you don't have the "
 "Documents app."
 msgstr ""
+"Datoteke se neće objaviti u portalu zaposlenika ako nemate aplikaciju "
+"dokumenti."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5269,6 +5425,8 @@ msgid ""
 "The following %(model_name)s are missing a %(field_name)s:\n"
 "    • %(names)s"
 msgstr ""
+"Sljedećim %(model_name)s nedostaje %(field_name)s:\n"
+"    • %(names)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5287,12 +5445,13 @@ msgid ""
 "The net amount will be recovered from the first positive remuneration "
 "established after this."
 msgstr ""
+"Neto iznos naplatit će se s prve pozitivne naknade utvrđene nakon ovoga."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "The payslip's company doesn't match the batch's"
-msgstr ""
+msgstr "Tvrtka platne liste ne odgovara tvrtki grupe"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5304,7 +5463,7 @@ msgstr "Isplatne liste trebaju niti u statusu nacrt ili na čekanju."
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/views/payslip_list/hr_payslip_list_controller.js:0
 msgid "The payslips(s) are now added to the batch"
-msgstr ""
+msgstr "Platne liste sada su dodane u grupu"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5313,12 +5472,14 @@ msgid ""
 "The salary adjustment you're trying to remove is still running. You can’t "
 "delete unless you change it to completed or cancelled."
 msgstr ""
+"Prilagodba plaće koju pokušavate ukloniti još uvijek je aktivna. Ne možete "
+"je obrisati osim ako je ne promijenite u dovršenu ili otkazanu."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "The selected payslips should be linked to the same batch"
-msgstr ""
+msgstr "Odabrane platne liste trebaju biti povezane s istom grupom"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_payroll_headcount_date_range
@@ -5328,17 +5489,17 @@ msgstr "Početni datum mora biti prije završnog."
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
 msgid "The total returned by the salary rule is calculated as:"
-msgstr ""
+msgstr "Ukupno vraćeno pravilom plaće izračunava se kao:"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_input__version_id
 msgid "The version this input should be applied to"
-msgstr ""
+msgstr "Verzija na koju se ovaj unos treba primijeniti"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_work_entry_type__unpaid_structure_ids
 msgid "The work entry won’t grant any money to employee in payslip."
-msgstr ""
+msgstr "Radni unos neće dati novac zaposleniku u platnoj listi."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5347,12 +5508,13 @@ msgid ""
 "There are previous payslips with a negative amount for a total of %s to "
 "report."
 msgstr ""
+"Postoje prethodne platne liste s negativnim iznosom ukupno %s za prijavu."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_declaration_mixin.py:0
 msgid "There is no declaration to generate for the given period"
-msgstr ""
+msgstr "Nema prijave za generirati za zadano razdoblje"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5360,12 +5522,14 @@ msgstr ""
 msgid ""
 "There is no valid payslip (validated and net wage > 0) to generate the file."
 msgstr ""
+"Nema valjane platne liste (validirano i neto plaća > 0) za generiranje "
+"datoteke."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "There should be at least one payslip to generate the file."
-msgstr ""
+msgstr "Mora postojati barem jedna platna lista za generiranje datoteke."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5377,7 +5541,7 @@ msgstr "Ova akcija je zabranjena na potvrđenim platnim listama."
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "This action is restricted to payroll officers only."
-msgstr ""
+msgstr "Ova radnja je ograničena samo na službenike plaća."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_rule_parameter__code
@@ -5392,6 +5556,8 @@ msgid ""
 "This input will be only available in those structure. If empty, it will be "
 "available in all payslip."
 msgstr ""
+"Ovaj unos bit će dostupan samo u tim strukturama. Ako je prazno, bit će "
+"dostupno u svim platnim listama."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5400,6 +5566,8 @@ msgid ""
 "This is a corrected payslip.\n"
 "Find the correction under this name: %(payslip)s"
 msgstr ""
+"Ovo je ispravljena platna lista.\n"
+"Pronađite ispravak pod ovim imenom: %(payslip)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5408,19 +5576,21 @@ msgid ""
 "This is a refunded payslip.\n"
 "Find the refund under this name: %(payslip)s"
 msgstr ""
+"Ovo je refundirana platna lista.\n"
+"Pronađite povrat pod ovim imenom: %(payslip)s"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid ""
 "This is where you and your team will manage your <strong>Payroll</strong> ! "
 "🚀"
-msgstr ""
+msgstr "Ovdje ćete Vi i Vaš tim upravljati Vašim <strong>plaćama</strong>! 🚀"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_edit_payslip_lines_wizard.py:0
 msgid "This payslip has been manually edited by %(user)s."
-msgstr ""
+msgstr "Ovu platnu listu ručno je uredio %(user)s."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5441,12 +5611,14 @@ msgid ""
 "This work entry cannot be modified because it is already associated with a "
 "generated payslip."
 msgstr ""
+"Ovaj radni unos ne može se mijenjati jer je već povezan s generiranom "
+"platnom listom."
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "Time Off"
-msgstr "Odsustva"
+msgstr "Odsustvo"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__title
@@ -5493,12 +5665,12 @@ msgstr "Ukupni iznos"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__total_amount_display
 msgid "Total Amount Display"
-msgstr ""
+msgstr "Prikaz ukupnog iznosa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__total_employer_cost
 msgid "Total Employer Cost"
-msgstr ""
+msgstr "Ukupni trošak poslodavca"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -5516,6 +5688,8 @@ msgid ""
 "Total amount must be strictly positive and greater than or equal to the "
 "payslip amount."
 msgstr ""
+"Ukupni iznos mora biti strogo pozitivan i veći ili jednak iznosu platne "
+"liste."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__total_amount
@@ -5530,7 +5704,7 @@ msgstr "Ukupan broj sati prisustava i odsustava (plaćeni i neplaćeni sati)"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Try the following 👇"
-msgstr ""
+msgstr "Pokušajte sljedeće 👇"
 
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_rule_parameter_unique_code
@@ -5540,7 +5714,7 @@ msgstr "Dva parametra pravila plaće ne mogu imati isti kod."
 #. module: hr_payroll
 #: model:ir.model.constraint,message:hr_payroll.constraint_hr_rule_parameter_value_unique_parameter
 msgid "Two rules with the same code cannot start the same day"
-msgstr ""
+msgstr "Dva pravila s istom šifrom ne mogu započeti istog dana"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__type_id
@@ -5577,7 +5751,7 @@ msgstr "Jedinica"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Unknown State"
-msgstr ""
+msgstr "Nepoznato stanje"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_attachment__duration_type__unlimited
@@ -5598,7 +5772,7 @@ msgstr "Vrsta neplaćenog unosa rada"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_employee_grade_form
 msgid "Unpaid Work Entry Types"
-msgstr ""
+msgstr "Tipovi neplaćenih radnih unosa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__unpaid_structure_ids
@@ -5609,7 +5783,7 @@ msgstr "Neplaćeno u vrstama struktire plaće"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Unsupported operator %s"
-msgstr ""
+msgstr "Nepodržan operator %s"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_tree
@@ -5620,7 +5794,7 @@ msgstr "Do"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Untrusted bank accounts"
-msgstr ""
+msgstr "Nepouzdani bankovni računi"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_type__round_days_type__up
@@ -5643,7 +5817,7 @@ msgstr "Koristite za uređivanje redoslijeda izračuna."
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__appears_on_employee_cost_dashboard
 msgid "Used to compute the employer cost of a payslip."
-msgstr ""
+msgstr "Koristi se za izračun troška poslodavca platne liste."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_line__appears_on_payslip
@@ -5654,7 +5828,7 @@ msgstr "Koristi se za prikaz pravila izračuna plaće na isplatnoj listi."
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.payroll_hr_employee_view_form
 msgid "User Language"
-msgstr ""
+msgstr "Jezik korisnika"
 
 #. module: hr_payroll
 #: model:res.groups,comment:hr_payroll.group_hr_payroll_user
@@ -5671,17 +5845,17 @@ msgstr "Korissnik ima potpun pristup aplikaciji."
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_rule_parameter__valid_since
 msgid "Valid Since"
-msgstr ""
+msgstr "Valjano od"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_tree
 msgid "Validate"
-msgstr "Odobri"
+msgstr "Potvrdi"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_edit_payslip_lines_form_wizard
 msgid "Validate Edition"
-msgstr ""
+msgstr "Validiraj izdanje"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state__validated
@@ -5701,12 +5875,12 @@ msgstr "Verzija"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_line__version_names
 msgid "Version Names"
-msgstr ""
+msgstr "Nazivi verzija"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__version_properties_definition
 msgid "Version Properties Definition"
-msgstr ""
+msgstr "Definicija svojstava verzije"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_rule_parameter__parameter_version_ids
@@ -5717,7 +5891,7 @@ msgstr "Verzije"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_headcount_view_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_form
 msgid "Visible to all"
-msgstr ""
+msgstr "Vidljivo svima"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__wage
@@ -5728,7 +5902,7 @@ msgstr "Plaća"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_line__wage_on_payroll
 msgid "Wage On Payroll"
-msgstr ""
+msgstr "Plaća na obračunu"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__wage_type
@@ -5763,7 +5937,7 @@ msgstr "Boja upozorenja"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__warning_count
 msgid "Warning Count"
-msgstr ""
+msgstr "Broj upozorenja"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5783,6 +5957,8 @@ msgstr "Upozorenja"
 msgid ""
 "Warnings - A set of clickable warnings that'll lead you to faulty records."
 msgstr ""
+"Upozorenja - skup klikaj ih upozorenja koja će Vas voditi do pogrešnih "
+"zapisa."
 
 #. module: hr_payroll
 #. odoo-python
@@ -5796,6 +5972,13 @@ msgid ""
 "Missing work entries are like the Bermuda Triangle for paychecks. Let's keep "
 "your colleague's earnings from vanishing into thin air!"
 msgstr ""
+"Pazite na praznine u kalendaru %(employee_name)s\n"
+"\n"
+"Molimo dovršite nedostajuće radne unose za %(employee_name)s:%"
+"(time_intervals_str)s \n"
+"\n"
+"Missing work entries are like the Bermuda Triangle for paychecks. Let's keep "
+"your colleague's earnings from vanishing into thin air!"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_work_entry_type__round_days_type
@@ -5807,26 +5990,26 @@ msgstr "Način zaokruživanja evidentiranih sati za pojedinu vrstu radnih sati."
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__website_message_ids
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__website_message_ids
 msgid "Website Messages"
-msgstr "Poruke webstranica"
+msgstr "Poruke s web stranice"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__website_message_ids
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__website_message_ids
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__website_message_ids
 msgid "Website communication history"
-msgstr "Povijest komunikacije Web stranice"
+msgstr "Povijest komunikacije s web stranice"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Week %(week_number)s of %(year)s"
-msgstr ""
+msgstr "Tjedan %(week_number)s u %(year)s"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Weeks %(week)s and %(week1)s of %(year)s"
-msgstr ""
+msgstr "Tjedni %(week)s i %(week1)s u %(year)s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__title
@@ -5834,6 +6017,8 @@ msgid ""
 "When selected, this salary rule will only be displayed as a title with its "
 "description, without numeric values."
 msgstr ""
+"Kada je odabrano, ovo pravilo plaće prikazivat će se samo kao naslov s "
+"opisom, bez numeričkih vrijednosti."
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_work_entry_type__round_days
@@ -5863,7 +6048,7 @@ msgstr "Evidencije rada"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Work Entries - Which time did they work ?"
-msgstr ""
+msgstr "Radni unosi - koliko su radili?"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_work_entry_report_action
@@ -5877,13 +6062,13 @@ msgstr "Analiza unosa rada"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_work_entry_report
 msgid "Work Entries Analysis Report"
-msgstr ""
+msgstr "Izvještaj analize radnih unosa"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_work_entry_export_mixin.py:0
 msgid "Work Entries Export"
-msgstr ""
+msgstr "Izvoz radnih unosa"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -5892,27 +6077,29 @@ msgid ""
 "Work Entries are generated for each <strong>time period</strong> defined in "
 "the Working Schedule of the Contract."
 msgstr ""
+"Radni unosi generirani su za svako <strong>vremensko razdoblje</strong> "
+"definirano u radnom rasporedu ugovora."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_work_entry_export_mixin.py:0
 msgid "Work Entries for %(employee)s"
-msgstr ""
+msgstr "Radni unosi za %(employee)s"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_export_employee_mixin__work_entry_ids
 msgid "Work Entry"
-msgstr ""
+msgstr "Radni unos"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_work_entry_export_employee_mixin
 msgid "Work Entry Export Employee"
-msgstr ""
+msgstr "Izvoz radnog unosa zaposlenika"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_work_entry_export_mixin
 msgid "Work Entry Export Mixin"
-msgstr ""
+msgstr "Mixin izvoza radnog unosa"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__work_entry_source
@@ -5925,7 +6112,7 @@ msgstr "Izvor radnih sati"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__work_entry_source_calendar_invalid
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__work_entry_source_calendar_invalid
 msgid "Work Entry Source Calendar Invalid"
-msgstr ""
+msgstr "Izvorni kalendar radnog unosa nevaljan"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_worked_days_line__work_entry_type_id
@@ -5943,19 +6130,19 @@ msgstr "Rok za obavijest o isteku radne dozvole"
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure_type__default_work_entry_type_id
 msgid "Work entry type for regular attendances."
-msgstr ""
+msgstr "Tip radnog unosa za redovne prisutnosti."
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__work_time_rate
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__work_time_rate
 msgid "Work time rate"
-msgstr ""
+msgstr "Stopa radnog vremena"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_time_rate
 #: model:ir.model.fields,help:hr_payroll.field_hr_version__work_time_rate
 msgid "Work time rate versus full time working schedule."
-msgstr ""
+msgstr "Stopa radnog vremena u odnosu na puni radni raspored."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_edit_payslip_lines_form_wizard
@@ -5966,25 +6153,25 @@ msgstr "Radni dani"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_lines_wizard__worked_days_line_ids
 msgid "Worked Days Lines"
-msgstr ""
+msgstr "Stavke radnih dana"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/wizard/hr_payroll_edit_payslip_lines_wizard.py:0
 msgid "Worked Days lines Changes:"
-msgstr ""
+msgstr "Promjene stavki radnih dana:"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__use_worked_day_lines
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__use_worked_day_lines
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__use_worked_day_lines
 msgid "Worked days won't be computed/displayed in payslips."
-msgstr ""
+msgstr "Radni dani neće se izračunavati/prikazivati u platnim listama."
 
 #. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_worker_001
 msgid "Worker Pay"
-msgstr ""
+msgstr "Plaća radnika"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__resource_calendar_id
@@ -5997,7 +6184,7 @@ msgstr "Radni sati"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_line__working_rate_ids
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_headcount_line_search
 msgid "Working Rate"
-msgstr ""
+msgstr "Stopa rada"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_report__work_entry_source__calendar
@@ -6008,7 +6195,7 @@ msgstr "Radni tjedan"
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule.py:0
 msgid "Wrong percentage base or quantity defined for:"
-msgstr ""
+msgstr "Pogrešna osnovica postotka ili količina definirana za:"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6035,6 +6222,9 @@ msgid ""
 "Wrong rule parameter value for %(rule_parameter_name)s at date %(date)s.\n"
 "%(error)s"
 msgstr ""
+"Pogrešna vrijednost parametra pravila za %(rule_parameter_name)s na datum %"
+"(date)s.\n"
+"%(error)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6044,6 +6234,9 @@ msgid ""
 "- Warning: %(warning)s\n"
 "- Error: %(error)s"
 msgstr ""
+"Pogrešan kod izračuna upozorenja definiran za:\n"
+"- Upozorenje: %(warning)s\n"
+"- Greška: %(error)s"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6054,7 +6247,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_worked_days__ytd
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_payslip
 msgid "YTD"
-msgstr ""
+msgstr "YTD"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
@@ -6091,12 +6284,13 @@ msgstr "Izračun od početka godine"
 msgid ""
 "You can only split a salary adjustment if it has more than one employee."
 msgstr ""
+"Možete razdijeliti prilagodbu plaće samo ako ima više od jednog zaposlenika."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "You can't confirm cancelled payslips."
-msgstr ""
+msgstr "Ne možete potvrditi otkazane platne liste."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6104,12 +6298,14 @@ msgstr ""
 msgid ""
 "You can't delete a pay run with payslips if they are not draft or cancelled."
 msgstr ""
+"Ne možete obrisati obračun plaća s platnim listama ako nisu skica ili "
+"otkazane."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_structure.py:0
 msgid "You cannot add a Salary input without a section."
-msgstr ""
+msgstr "Ne možete dodati unos plaće bez sekcije."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6118,12 +6314,14 @@ msgid ""
 "You cannot archive an input type if there exists a running salary adjustment "
 "of this type."
 msgstr ""
+"Ne možete arhivirati tip unosa ako postoji aktivna prilagodba plaće ovog "
+"tipa."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "You cannot cancel the payment if the payslip has not been paid."
-msgstr ""
+msgstr "Ne možete otkazati plaćanje ako platna lista nije plaćena."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6132,6 +6330,8 @@ msgid ""
 "You cannot change the country of category %s as it is used in existing "
 "Salary Rules"
 msgstr ""
+"Ne možete promijeniti državu kategorije %s jer se koristi u postojećim "
+"pravilima plaće"
 
 #. module: hr_payroll
 #. odoo-python
@@ -6147,25 +6347,25 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "You cannot delete a salary adjustment that is linked to a payslip!"
-msgstr ""
+msgstr "Ne možete obrisati prilagodbu plaće koja je povezana s platnom listom!"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_rule_section.py:0
 msgid "You cannot delete a section currently used in a salary structure."
-msgstr ""
+msgstr "Ne možete obrisati sekciju koja se trenutno koristi u strukturi plaće."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_work_entry_type.py:0
 msgid "You cannot delete work entry type(s). Instead archive it."
-msgstr ""
+msgstr "Ne možete obrisati tipove radnog unosa. Umjesto toga arhivirajte."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "You cannot record a payment on multi employees attachments."
-msgstr ""
+msgstr "Ne možete zabilježiti plaćanje na privitcima s više zaposlenika."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6174,24 +6374,27 @@ msgid ""
 "You cannot reset a pay run to draft if some of the payslips have already "
 "been paid."
 msgstr ""
+"Ne možete resetirati obračun plaća na skicu ako su neke od platnih lista već "
+"plaćene."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_work_entry_export_mixin.py:0
 msgid "You must be logged in a %(country_code)s company to use this feature"
 msgstr ""
+"Morate biti prijavljeni u tvrtku %(country_code)s za korištenje ove značajke"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_declaration_mixin.py:0
 msgid "You must be logged in a %s company to use this feature"
-msgstr ""
+msgstr "Morate biti prijavljeni u tvrtku %s za korištenje ove značajke"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "You must select employee(s) version(s) to generate payslip(s)."
-msgstr ""
+msgstr "Morate odabrati verzije zaposlenika za generiranje platnih lista."
 
 #. module: hr_payroll
 #. odoo-python
@@ -6205,23 +6408,24 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_run.py:0
 msgid "You must set a start and end date for the Pay Run"
-msgstr ""
+msgstr "Morate postaviti početni i završni datum za obračun plaća"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
 msgid "You should also be logged into a company in %s to set this country."
 msgstr ""
+"Također trebate biti prijavljeni u tvrtku u %s za postavljanje ove države."
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "You'll be able to access all the steps of the payroll process"
-msgstr ""
+msgstr "Moći ćete pristupiti svim koracima procesa plaća"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__current_companies_country_codes
 msgid "country codes"
-msgstr ""
+msgstr "country codes"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_form
@@ -6236,7 +6440,7 @@ msgstr "Npr. Zaposlenik"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_dashboard_warning_view_form
 msgid "e.g. Employee Without Contracts"
-msgstr ""
+msgstr "npr. zaposlenik bez ugovora"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_rule_form
@@ -6257,18 +6461,18 @@ msgstr "npr. Redovna plaća"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payrun_card/payrun_card.xml:0
 msgid "employer cost"
-msgstr ""
+msgstr "trošak poslodavca"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "end in"
-msgstr ""
+msgstr "završava u"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "few days"
-msgstr ""
+msgstr "nekoliko dana"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
@@ -6279,48 +6483,48 @@ msgstr "od"
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "generates"
-msgstr ""
+msgstr "generira"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payrun_card/payrun_card.xml:0
 msgid "gross"
-msgstr ""
+msgstr "bruto"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "have been affected by this version's changes."
-msgstr ""
+msgstr "pogođeni su promjenama ove verzije."
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payroll_headcount.py:0
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_headcount_line__headcount_id
 msgid "headcount_id"
-msgstr ""
+msgstr "headcount_id"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "https://www.odoo.com/fr_FR/slides/slide/manage-payroll-1002"
-msgstr ""
+msgstr "https://www.odoo.com/fr_FR/slides/slide/manage-payroll-1002"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "https://www.odoo.com/fr_FR/slides/smartclass-payroll-348"
-msgstr ""
+msgstr "https://www.odoo.com/fr_FR/slides/smartclass-payroll-348"
 
 #. module: hr_payroll
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "id"
-msgstr ""
+msgstr "id"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payrun_card/payrun_card.xml:0
 msgid "net"
-msgstr ""
+msgstr "neto"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.report_light_payslip
@@ -6331,7 +6535,7 @@ msgstr "od"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__done_date
 msgid "payslip confirmation Date"
-msgstr ""
+msgstr "datum potvrde platne liste"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -6339,7 +6543,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_run_view_kanban
 msgid "payslips"
-msgstr ""
+msgstr "platne liste"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__amount_percentage_base
@@ -6349,13 +6553,13 @@ msgstr "rezultat će utjecati na varijablu"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
 msgid "until"
-msgstr ""
+msgstr "do"
 
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "used to"
-msgstr ""
+msgstr "koristi se za"
 
 #. module: hr_payroll
 #: model:mail.template,subject:hr_payroll.mail_template_new_payslip
@@ -6365,7 +6569,10 @@ msgstr "{{ object.employee_id.name }}, dostupna vam je nova isplatna lista"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
-msgstr ""
+msgstr "👆Vidite izbornik tamo gore?"
+
+#~ msgid "100"
+#~ msgstr "100"
 
 #~ msgid "Other Input Types"
 #~ msgstr "Vrste ostalih ulaznih podataka"

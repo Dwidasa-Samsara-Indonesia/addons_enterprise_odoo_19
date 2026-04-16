@@ -64,6 +64,16 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         vals['total_grouping_function'] = total_grouping_function
         vals['tax_grouping_function'] = tax_grouping_function
 
+    def _add_invoice_config_vals(self, vals):
+        """
+        When enabled, fixed taxes (like ICBPER) are split into separate
+        base_lines and `base_line['record']` becomes a dict instead of
+        an `account.move.line`.The Peru EDI code expects a record and
+        crashes when calling line methods.
+        """
+        super()._add_invoice_config_vals(vals)
+        vals['fixed_taxes_as_allowance_charges'] = False
+
     # -------------------------------------------------------------------------
     # EXPORT: Templates for document header nodes
     # -------------------------------------------------------------------------
@@ -194,12 +204,10 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         super()._add_invoice_accounting_customer_party_nodes(document_node, vals)
         invoice = vals['invoice']
         customer = invoice.partner_id
-        document_node['cac:AccountingCustomerParty']['cbc:AdditionalAccountID'] = {
-            '_text': (
-                customer.l10n_latam_identification_type_id and
-                customer.l10n_latam_identification_type_id.l10n_pe_vat_code
-            )
-        }
+        customer_identification_type = customer.l10n_latam_identification_type_id.l10n_pe_vat_code
+        if not customer_identification_type and customer.country_id and customer.country_code != 'PE':
+            customer_identification_type = '0'
+        document_node['cac:AccountingCustomerParty']['cbc:AdditionalAccountID'] = {'_text': customer_identification_type}
 
     def _get_address_node(self, vals):
         partner = vals['partner']
@@ -224,10 +232,13 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
     def _get_party_node(self, vals):
         party_node = super()._get_party_node(vals)
         partner = vals['partner']
+        scheme_id = partner.l10n_latam_identification_type_id.l10n_pe_vat_code
+        if not scheme_id and partner.country_id and partner.country_code != 'PE':
+            scheme_id = '0'
         party_node['cac:PartyIdentification'] = {
             'cbc:ID': {
                 '_text': partner.vat,
-                'schemeID': partner.l10n_latam_identification_type_id.l10n_pe_vat_code
+                'schemeID': scheme_id,
             }
         }
         if vals['role'] == 'supplier':
@@ -257,7 +268,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             spot_amount = spot['amount'] if invoice.currency_id == invoice.company_id.currency_id else spot['spot_amount']
         invoice_date_due_vals_list = []
         first_time = True
-        for rec_line in invoice.line_ids.filtered(lambda l: l.account_type == 'asset_receivable'):
+        for rec_line in invoice.line_ids.filtered(lambda l: l.account_type == 'asset_receivable').sorted('date_maturity'):
             amount = rec_line.amount_currency
             if spot and first_time:
                 amount -= spot_amount
@@ -325,6 +336,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                 'l10n_pe_edi_international_code': tax.l10n_pe_edi_international_code,
                 'l10n_pe_edi_tax_code': tax.l10n_pe_edi_tax_code,
                 'is_free_invoice_fake_tax': base_line['record'].move_id.l10n_pe_edi_legend == '1002' and not tax.tax_group_id.l10n_pe_edi_code,
+                'l10n_pe_edi_isc_type': tax.l10n_pe_edi_isc_type,
                 'is_withholding_tax': tax.tax_group_id == withholding_group_id,
             }
 
@@ -392,7 +404,6 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
 
             for tag in ['cbc:LineExtensionAmount', 'cbc:TaxInclusiveAmount']:
                 monetary_total_node[tag]['_text'] = self.format_float(0.0, vals['currency_dp'])
-
         else:
             # Global discounts should be included in the LineExtensionAmount, not the AllowanceTotalAmount.
             monetary_total_node['cbc:LineExtensionAmount']['_text'] = monetary_total_node['cbc:TaxExclusiveAmount']['_text']
@@ -417,6 +428,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         return {
             'cbc:Percent': {'_text': grouping_key['amount']} if grouping_key.get('amount_type') == 'percent' else None,
             'cbc:TaxExemptionReasonCode': {'_text': grouping_key.get('tax_exemption_reason_code')},
+            'cbc:TierRange': {'_text': grouping_key.get('l10n_pe_edi_isc_type')} if grouping_key.get('l10n_pe_edi_tax_group_code') == 'ISC' and grouping_key.get('l10n_pe_edi_isc_type') else None,
             'cac:TaxScheme': {
                 'cbc:ID': {'_text': grouping_key['l10n_pe_edi_tax_code']},
                 'cbc:Name': {'_text': grouping_key['l10n_pe_edi_tax_group_code']},
@@ -531,6 +543,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                                             else None,
                 'amount': tax.amount,
                 'amount_type': tax.amount_type,
+                'l10n_pe_edi_isc_type': tax.l10n_pe_edi_isc_type,
                 # In free invoices, fake taxes are used to bring the invoice total down to zero. They should be ignored in most cases.
                 'is_free_invoice_fake_tax': base_line['record'].move_id.l10n_pe_edi_legend == '1002' and not tax.tax_group_id.l10n_pe_edi_code,
                 'is_withholding_tax': tax.tax_group_id == withholding_group_id,

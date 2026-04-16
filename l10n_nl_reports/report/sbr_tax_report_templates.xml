@@ -3,14 +3,14 @@
     <data>
         <template id="tax_report_sbr">
             <!--
-            XBRL instance based on taxonomy report namespace http://www.nltaxonomie.nl/nt20/bd/20251210.a/entrypoints/bd-rpt-ob-aangifte-2026.xsd
+            XBRL instance based on taxonomy report namespace http://www.nltaxonomie.nl/nt20/bd/20251210/entrypoints/bd-rpt-ob-aangifte-2026.xsd
             Intellectual Property of the State of the Netherlands
             Architecture: nt20
-            Version: 20251210.a
-            Release date: Thu, 14 Aug 2025 08:46:47 GMT
+            Version: 20251210
+            Release date: Thu, 08 Jan 2026 14:44:37 GMT
             -->
-            <xbrli:xbrl t-att="{'xml:lang': 'nl'}" xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210.a/dictionary/bd-data" xmlns:bd-t="http://www.nltaxonomie.nl/nt20/bd/20251210.a/dictionary/bd-tuples" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:xbrli="http://www.xbrl.org/2003/instance">
-                <link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210.a/entrypoints/bd-rpt-ob-aangifte-2026.xsd"/>
+            <xbrli:xbrl t-att="{'xml:lang': 'nl'}" xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-data" xmlns:bd-t="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-tuples" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:bd-axes="http://www.nltaxonomie.nl/nt20/bd/20251210/validation/bd-axes" xmlns:bd-domains="http://www.nltaxonomie.nl/nt20/bd/20251210/validation/bd-domains" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:xbrli="http://www.xbrl.org/2003/instance">
+                <link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210/entrypoints/bd-rpt-ob-aangifte-2026.xsd"/>
                 <xbrli:context id="Msg">
                     <xbrli:entity>
                         <xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer" t-out="identifier"/>
@@ -19,6 +19,20 @@
                         <xbrli:startDate t-out="startDate"/>
                         <xbrli:endDate t-out="endDate"/>
                     </xbrli:period>
+                </xbrli:context>
+                <xbrli:context id="Msg_PASN1" t-if="ProfessionalAssociationForTaxServiceProvidersName">
+                    <xbrli:entity>
+                        <xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer" t-out="identifier"/>
+                    </xbrli:entity>
+                    <xbrli:period>
+                        <xbrli:startDate t-out="startDate"/>
+                        <xbrli:endDate t-out="endDate"/>
+                    </xbrli:period>
+                    <xbrli:scenario>
+                        <xbrldi:typedMember dimension="bd-axes:ProfessionalAssociationSerialNumberDimension">
+                            <bd-domains:ProfessionalAssociationSerialNumberDomain>1</bd-domains:ProfessionalAssociationSerialNumberDomain>
+                        </xbrldi:typedMember>
+                    </xbrli:scenario>
                 </xbrli:context>
                 <xbrli:unit id="EUR">
                     <xbrli:measure>iso4217:EUR</xbrli:measure>
@@ -29,18 +43,16 @@
                 <bd-i:ContactTelephoneNumber contextRef="Msg" t-if="ContactTelephoneNumber" t-out="ContactTelephoneNumber"/>
                 <bd-i:ContactType contextRef="Msg" t-out="ContactType"/>
                 <bd-i:DateTimeCreation contextRef="Msg" t-out="DateTimeCreation"/>
-                <bd-i:InstallationDistanceSalesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="InstallationDistanceSalesWithinTheEC"/>
                 <bd-i:MessageReferenceSupplierVAT contextRef="Msg" t-out="MessageReferenceSupplierVAT"/>
-                <bd-t:ProfessionalAssociationForTaxServiceProvidersSpecification t-if="ProfessionalAssociationForTaxServiceProvidersName">
-                    <bd-i:ProfessionalAssociationForTaxServiceProvidersName contextRef="Msg" t-out="ProfessionalAssociationForTaxServiceProvidersName"/>
-                </bd-t:ProfessionalAssociationForTaxServiceProvidersSpecification>
+                <bd-i:ProfessionalAssociationForTaxServiceProvidersName contextRef="Msg_PASN1" t-out="ProfessionalAssociationForTaxServiceProvidersOrder" t-if="ProfessionalAssociationForTaxServiceProvidersName"/>
                 <bd-i:SoftwarePackageName contextRef="Msg" t-out="SoftwarePackageName"/>
                 <bd-i:SoftwarePackageVersion contextRef="Msg" t-out="SoftwarePackageVersion"/>
                 <bd-i:SoftwareVendorAccountNumber contextRef="Msg" t-out="SoftwareVendorAccountNumber"/>
+                <bd-i:TaxConsultantNumber contextRef="Msg" t-out="TaxConsultantNumber"/>
+                <bd-i:InstallationDistanceSalesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="InstallationDistanceSalesWithinTheEC"/>
                 <bd-i:SuppliesServicesNotTaxed decimals="INF" contextRef="Msg" unitRef="EUR" t-out="SuppliesServicesNotTaxed"/>
                 <bd-i:SuppliesToCountriesOutsideTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="SuppliesToCountriesOutsideTheEC"/>
                 <bd-i:SuppliesToCountriesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="SuppliesToCountriesWithinTheEC"/>
-                <bd-i:TaxConsultantNumber contextRef="Msg" t-out="TaxConsultantNumber"/>
                 <bd-i:TaxedTurnoverPrivateUse decimals="INF" contextRef="Msg" unitRef="EUR" t-out="TaxedTurnoverPrivateUse"/>
                 <bd-i:TaxedTurnoverSuppliesServicesGeneralTariff decimals="INF" contextRef="Msg" unitRef="EUR" t-out="TaxedTurnoverSuppliesServicesGeneralTariff"/>
                 <bd-i:TaxedTurnoverSuppliesServicesOtherRates decimals="INF" contextRef="Msg" unitRef="EUR" t-out="TaxedTurnoverSuppliesServicesOtherRates"/>
@@ -123,14 +135,14 @@
 
         <template id="suppletie_tax_report_sbr">
             <!--
-            XBRL instance based on taxonomy report namespace http://www.nltaxonomie.nl/nt20/bd/20251210.a/entrypoints/bd-rpt-ob-suppletie-2026.xsd
+            XBRL instance based on taxonomy report namespace http://www.nltaxonomie.nl/nt20/bd/20251210/entrypoints/bd-rpt-ob-suppletie-2026.xsd
             Intellectual Property of the State of the Netherlands
             Architecture: nt20
-            Version: 20251210.a
-            Release date: Thu, 14 Aug 2025 08:46:47 GMT
+            Version: 20251210
+            Release date: Thu, 08 Jan 2026 14:44:37 GMT
             -->
-            <xbrli:xbrl t-att="{'xml:lang': 'nl'}" xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210.a/dictionary/bd-data" xmlns:bd-t="http://www.nltaxonomie.nl/nt20/bd/20251210.a/dictionary/bd-tuples" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:xbrli="http://www.xbrl.org/2003/instance">
-                <link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210.a/entrypoints/bd-rpt-ob-suppletie-2026.xsd"/>
+            <xbrli:xbrl t-att="{'xml:lang': 'nl'}" xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-data" xmlns:bd-t="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-tuples" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:bd-axes="http://www.nltaxonomie.nl/nt20/bd/20251210/validation/bd-axes" xmlns:bd-domains="http://www.nltaxonomie.nl/nt20/bd/20251210/validation/bd-domains" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:xbrli="http://www.xbrl.org/2003/instance">
+                <link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210/entrypoints/bd-rpt-ob-suppletie-2026.xsd"/>
                 <xbrli:context id="Msg">
                     <xbrli:entity>
                         <xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer" t-out="identifier"/>
@@ -139,6 +151,20 @@
                         <xbrli:startDate t-out="startDate"/>
                         <xbrli:endDate t-out="endDate"/>
                     </xbrli:period>
+                </xbrli:context>
+                <xbrli:context id="Msg_PASN1" t-if="ProfessionalAssociationForTaxServiceProvidersName">
+                    <xbrli:entity>
+                        <xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer" t-out="identifier"/>
+                    </xbrli:entity>
+                    <xbrli:period>
+                        <xbrli:startDate t-out="startDate"/>
+                        <xbrli:endDate t-out="endDate"/>
+                    </xbrli:period>
+                    <xbrli:scenario>
+                        <xbrldi:typedMember dimension="bd-axes:ProfessionalAssociationSerialNumberDimension">
+                            <bd-domains:ProfessionalAssociationSerialNumberDomain>1</bd-domains:ProfessionalAssociationSerialNumberDomain>
+                        </xbrldi:typedMember>
+                    </xbrli:scenario>
                 </xbrli:context>
                 <xbrli:unit id="EUR">
                     <xbrli:measure>iso4217:EUR</xbrli:measure>
@@ -149,18 +175,16 @@
                 <bd-i:ContactTelephoneNumber contextRef="Msg" t-if="ContactTelephoneNumber" t-out="ContactTelephoneNumber"/>
                 <bd-i:ContactType contextRef="Msg" t-out="ContactType"/>
                 <bd-i:DateTimeCreation contextRef="Msg" t-out="DateTimeCreation"/>
-                <bd-i:InstallationDistanceSalesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="InstallationDistanceSalesWithinTheEC"/>
                 <bd-i:MessageReferenceSupplierVAT contextRef="Msg" t-out="MessageReferenceSupplierVAT"/>
-                <bd-t:ProfessionalAssociationForTaxServiceProvidersSpecification t-if="ProfessionalAssociationForTaxServiceProvidersName">
-                    <bd-i:ProfessionalAssociationForTaxServiceProvidersName contextRef="Msg" t-out="ProfessionalAssociationForTaxServiceProvidersName"/>
-                </bd-t:ProfessionalAssociationForTaxServiceProvidersSpecification>
+                <bd-i:ProfessionalAssociationForTaxServiceProvidersName contextRef="Msg_PASN1" t-out="ProfessionalAssociationForTaxServiceProvidersName" t-if="ProfessionalAssociationForTaxServiceProvidersName"/>
                 <bd-i:SoftwarePackageName contextRef="Msg" t-out="SoftwarePackageName"/>
                 <bd-i:SoftwarePackageVersion contextRef="Msg" t-out="SoftwarePackageVersion"/>
                 <bd-i:SoftwareVendorAccountNumber contextRef="Msg" t-out="SoftwareVendorAccountNumber"/>
+                <bd-i:TaxConsultantNumber contextRef="Msg" t-out="TaxConsultantNumber"/>
+                <bd-i:InstallationDistanceSalesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="InstallationDistanceSalesWithinTheEC"/>
                 <bd-i:SuppliesServicesNotTaxed decimals="INF" contextRef="Msg" unitRef="EUR" t-out="SuppliesServicesNotTaxed"/>
                 <bd-i:SuppliesToCountriesOutsideTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="SuppliesToCountriesOutsideTheEC"/>
                 <bd-i:SuppliesToCountriesWithinTheEC decimals="INF" contextRef="Msg" unitRef="EUR" t-out="SuppliesToCountriesWithinTheEC"/>
-                <bd-i:TaxConsultantNumber contextRef="Msg" t-out="TaxConsultantNumber"/>
                 <bd-i:TaxedTurnoverPrivateUse decimals="INF" contextRef="Msg" unitRef="EUR" t-out="TaxedTurnoverPrivateUse"/>
                 <bd-i:TaxedTurnoverSuppliesServicesGeneralTariff decimals="INF" contextRef="Msg" unitRef="EUR" t-out="TaxedTurnoverSuppliesServicesGeneralTariff"/>
                 <bd-i:TaxedTurnoverSuppliesServicesOtherRates decimals="INF" contextRef="Msg" unitRef="EUR" t-out="TaxedTurnoverSuppliesServicesOtherRates"/>

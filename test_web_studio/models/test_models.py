@@ -51,6 +51,7 @@ class TestStudio_ExportModel1(models.Model):
     )
     binary_data = fields.Binary()
     model2_id = fields.Many2one("test.studio_export.model2")
+    properties_definition = fields.PropertiesDefinition()
 
 
 class TestStudio_ExportModel2(models.Model):
@@ -68,3 +69,4 @@ class TestStudio_ExportModel3(models.Model):
     _description = "Test Model for Studio Exports 3"
     name = fields.Char()
     model1_id = fields.Many2one("test.studio_export.model1")
+    properties = fields.Properties(definition='model1_id.properties_definition')

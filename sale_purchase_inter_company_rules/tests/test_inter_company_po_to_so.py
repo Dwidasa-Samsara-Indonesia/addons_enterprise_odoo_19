@@ -1,4 +1,5 @@
 from .common import TestInterCompanyRulesCommonSOPO
+from odoo.fields import Command
 from odoo.tests import Form, tagged
 
 
@@ -80,6 +81,66 @@ class TestInterCompanyPurchaseToSale(TestInterCompanyRulesCommonSOPO):
         self.validate_generated_sale_order(purchase_order, self.company_b, self.company_a)
         # reset configuration of company A
         self.company_a.update({
+            'intercompany_generate_sales_orders': False,
+            'intercompany_generate_purchase_orders': False,
+        })
+
+    def test_inter_company_sale_purchase_never_variant(self):
+        """ Configure intercompany "Sale" option,
+        Create a purchase order for a product with a never variant and compare to the related sale order in the other company.
+        """
+
+        self.company_b.update({
+            'intercompany_generate_sales_orders': True,
+            'intercompany_generate_purchase_orders': False,
+        })
+        no_variant_attr = self.env['product.attribute'].create({
+            'name': "Attribute",
+            'create_variant': 'no_variant',
+            'value_ids': [
+                Command.create({'name': "Value 1", 'sequence': 1}),
+                Command.create({'name': "Value 2", 'sequence': 2}),
+            ],
+        })
+        no_variant_product_tmpl = self.env['product.template'].create({
+            'name': "No Variant",
+            'attribute_line_ids': [Command.create({
+                'attribute_id': no_variant_attr.id,
+                'value_ids': no_variant_attr.value_ids.ids,
+            })],
+        })
+        ptvi = no_variant_product_tmpl.attribute_line_ids.product_template_value_ids[0]
+        purchase_order = self.env['purchase.order'].create({
+            'partner_id': self.company_b.partner_id.id,
+            'company_id': self.company_a.id,
+            'order_line': [
+                Command.create({
+                    'product_id': no_variant_product_tmpl.product_variant_id.id,
+                    'price_unit': 10.0,
+                    'product_qty': 10,
+                    'product_no_variant_attribute_value_ids': ptvi,
+                }),
+            ]
+        })
+        purchase_order.button_confirm()
+        sale_order = self.env['sale.order'].with_company(self.company_b).search([('client_order_ref', '=', purchase_order.name)], limit=1)
+
+        self.assertRecordValues(sale_order, [{
+            "state": "draft",
+            "partner_id": self.company_a.partner_id.id,
+            "company_id": self.company_b.id,
+            "amount_total": 115,
+            }])
+        self.assertRecordValues(sale_order.order_line[0], [{
+            "product_id": no_variant_product_tmpl.product_variant_id.id,
+            "name": 'No Variant\nAttribute: Value 1',
+            "product_uom_qty": 10,
+            "price_unit": 10,
+            "price_subtotal": 100,
+            "product_no_variant_attribute_value_ids": ptvi.ids
+            }])
+
+        self.company_b.update({
             'intercompany_generate_sales_orders': False,
             'intercompany_generate_purchase_orders': False,
         })

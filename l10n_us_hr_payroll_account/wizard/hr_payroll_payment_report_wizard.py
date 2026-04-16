@@ -96,7 +96,7 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
         ))
 
     def _generate_nacha_batch_header_record(self, date, batch_nr):
-        description = f"BATCH {batch_nr}"
+        description = f"PAYROLL {batch_nr}"
         name = self.payslip_run_id.name if self.payslip_run_id else self.payslip_ids[0].name
         return "".join((
             "5",  # Record Type Code
@@ -137,7 +137,7 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
             for ba in payslip.employee_id.bank_account_ids:
                 amount = allocations[str(ba.id)]
                 payment = self.env["account.payment"].new({
-                    "partner_id": employee.work_contact_id.id,
+                    "partner_id": ba.partner_id.id or employee.work_contact_id.id,
                     "partner_bank_id": ba.id,
                     "amount": amount,
                     "date": self.effective_date,

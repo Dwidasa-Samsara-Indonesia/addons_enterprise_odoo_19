@@ -215,6 +215,27 @@ class TestFrontDesk(MailCase, SMSCase):
         self.assertEqual(len(visitor_messages), 2, "Visitor should receive 1 email and 1 SMS")
         self.assertEqual(set(visitor_messages.mapped('message_type')), {'comment', 'sms'}, "Visitor should receive 1 email and 1 SMS")
 
+    def test_kiosk_url_click_access_right(self):
+        """Checks that if a user has the correct access rights, they can click on the 'Check out' button."""
+        visitor_data = {
+            'name': 'Visitor_Notify_1',
+            'email': 'visitornotify@example.com',
+            'phone': '1234567890',
+            'station_id': self.station.id,
+            'host_ids': [(Command.link(self.employee_1.id))],
+            'check_in': datetime.now(),
+            'state': 'checked_in',
+        }
+
+        visitor1 = self.env['frontdesk.visitor'].create(visitor_data)
+        self.authenticate('admin', 'admin')
+        response = self.url_open(f'/frontdesk/visitor/check_out/{visitor1.id}')
+        self.assertEqual(response.status_code, 200, 'The request should be successful for admin.')
+        self.user_1.group_ids |= self.env.ref('frontdesk.frontdesk_group_user')
+        self.authenticate('test_user_1', '')
+        response = self.url_open(f'/frontdesk/visitor/check_out/{visitor1.id}')
+        self.assertEqual(response.status_code, 200, 'The request should be successful for an user with rights.')
+
 
 @tagged('post_install', '-at_install')  # Run this test after all modules are installed
 class TestKioskUrlGeneration(TransactionCase):

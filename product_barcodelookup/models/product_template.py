@@ -211,12 +211,19 @@ class ProductTemplate(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         products = super().create(vals_list)
-        for product in products:
-            if 'is_published' in product and not self.env.context.get('website_published') and product.public_categ_ids:
+        for product, vals in zip(products, vals_list):
+            if 'is_published' in product and 'is_published' not in vals and not self.env.context.get('website_published') and product.public_categ_ids:
                 product.is_published = True
             if 'available_in_pos' in product and not self.env.context.get('can_be_sold') and product.sudo().pos_categ_ids:
                 product.available_in_pos = True
         return products
+
+    def copy_data(self, default=None):
+        vals_list = super().copy_data(default)
+        if 'is_published' in self:
+            for vals in vals_list:
+                vals['is_published'] = False
+        return vals_list
 
     def _set_lookup_image(self, product, img):
         image = base64.b64encode(img.content)

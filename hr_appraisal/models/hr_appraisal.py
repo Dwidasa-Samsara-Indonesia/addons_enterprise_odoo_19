@@ -467,7 +467,7 @@ class HrAppraisal(models.Model):
 
     def action_calendar_event(self):
         self.ensure_one()
-        partners = self.manager_ids.mapped('related_partner_id') | self.employee_id.related_partner_id | self.env.user.partner_id
+        partners = self.manager_ids.work_contact_id | self.employee_id.work_contact_id | self.env.user.partner_id
         action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
         action['context'] = {
             'default_partner_ids': partners.ids,

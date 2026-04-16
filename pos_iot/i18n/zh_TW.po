@@ -8,13 +8,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tony Ng (ngto)" <ngto@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 17:54+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"PO-Revision-Date: 2026-04-13 09:41+0000\n"
+"Last-Translator: \"Tony Ng (ngto)\" <ngto@odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19/pos_iot/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
@@ -354,12 +355,6 @@ msgstr "請檢查IoT Box是否仍連接。"
 
 #. module: pos_iot
 #. odoo-javascript
-#: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
-msgid "Please check if the terminal is still connected."
-msgstr "請檢查終端機是否仍有連線。"
-
-#. module: pos_iot
-#. odoo-javascript
 #: code:addons/pos_iot/static/src/app/services/pos_store.js:0
 msgid "Please process or cancel the current transaction."
 msgstr "請處理或取消目前交易。"
@@ -372,7 +367,7 @@ msgstr "POS設定"
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_pos_payment_method
 msgid "Point of Sale Payment Methods"
-msgstr "POS付款條件"
+msgstr "POS 銷售點付款方式"
 
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_pos_printer
@@ -394,12 +389,6 @@ msgstr "通過代理列印"
 #: code:addons/pos_iot/static/src/app/utils/printer/iot_printer.js:0
 msgid "Printing failed"
 msgstr "列印失敗"
-
-#. module: pos_iot
-#. odoo-javascript
-#: code:addons/pos_iot/static/src/app/utils/printer/iot_printer.js:0
-msgid "Printing warning"
-msgstr ""
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_printer__proxy_ip
@@ -442,6 +431,14 @@ msgstr "Six 付款終端機"
 #: model:ir.model.fields,help:pos_iot.field_pos_printer__proxy_ip
 msgid "The IP Address or hostname of the Printer's hardware proxy"
 msgstr "印表機硬體代理的IP地址或主機名稱"
+
+#. module: pos_iot
+#. odoo-javascript
+#: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
+msgid ""
+"The IoT Box cannot detect the payment terminal. Please check if the terminal "
+"is still connected."
+msgstr ""
 
 #. module: pos_iot
 #. odoo-javascript
@@ -524,6 +521,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "none"
 msgstr "無"
+
+#~ msgid "Please check if the terminal is still connected."
+#~ msgstr "請檢查終端機是否仍有連線。"
 
 #~ msgid "An error occurred while attempting to fix certification issues - %s"
 #~ msgstr "嘗試解決認證問題時，發生錯誤：%s"

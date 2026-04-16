@@ -248,9 +248,35 @@ class AccountJournalReportHandler(models.AbstractModel):
                     grid_line['balance'] = report.format_value(options, balance, figure_type='monetary')
                     grid_line['impact'] = report.format_value(options, balance, figure_type='monetary')
 
+    def _get_print_options(self, options, report, export_type=None):
+        print_options = report.get_options(previous_options={**options, 'export_mode': 'print'})
+        if export_type == 'pdf':
+            print_options['css_custom_class'] = (
+                options['custom_display_config']['pdf_css_custom_class']
+            )
+        return print_options
+
     ##########################################################################
     # PDF Export
     ##########################################################################
+
+    def _get_pdf_export_html(self, options, lines=None, additional_context=None, template=None, report=None):
+        """
+        Override the default _get_pdf_export_html to handle journal report PDF export
+        when used in composite reports.
+        """
+        report = report or self.env['account.report'].browse(options['report_id'])
+        print_options = self._get_print_options(options, report, export_type='pdf')
+        document_data = self._generate_document_data_for_export(report, print_options, 'pdf')
+        render_values = {
+            'report': report,
+            'options': print_options,
+            'document_data': document_data
+        }
+        if additional_context:
+            render_values.update(additional_context)
+        template = template or options['custom_display_config']['pdf_export']['pdf_export_main']
+        return self.env['ir.qweb']._render(template, render_values)
 
     def export_to_pdf(self, options):
         """
@@ -260,10 +286,6 @@ class AccountJournalReportHandler(models.AbstractModel):
         """
         report = self.env['account.report'].browse(options['report_id'])
         base_url = report.get_base_url()
-        print_options = {
-            **report.get_options(previous_options={**options, 'export_mode': 'print'}),
-            'css_custom_class': options['custom_display_config']['pdf_css_custom_class']
-        }
         rcontext = {
             'mode': 'print',
             'base_url': base_url,
@@ -271,15 +293,8 @@ class AccountJournalReportHandler(models.AbstractModel):
         }
         footer = self.env['account.report']._get_layout_footer(rcontext)
 
-        document_data = self._generate_document_data_for_export(report, print_options, 'pdf')
-        render_values = {
-            'report': report,
-            'options': print_options,
-            'base_url': base_url,
-            'document_data': document_data
-        }
-        body = self.env['ir.qweb']._render(options['custom_display_config']['pdf_export']['pdf_export_main'], render_values)
-
+        body = self._get_pdf_export_html(options, additional_context={'base_url': base_url}, report=report)
+        print_options = self._get_print_options(options, report, export_type='pdf')
         action_report = self.env['ir.actions.report']
         pdf_file_stream = io.BytesIO(action_report._run_wkhtmltopdf(
             [body],
@@ -305,20 +320,12 @@ class AccountJournalReportHandler(models.AbstractModel):
     # XLSX Export
     ##########################################################################
 
-    def export_to_xlsx(self, options, response=None):
+    def _inject_report_into_xlsx_sheet(self, options, workbook):
         """
-        Overrides the default XLSX Generation from account.repor to use a custom one.
+        Override the default _inject_report_into_xlsx_sheet to handle journal report XLSX export
+        when used in composite reports.
         """
-        import xlsxwriter  # noqa: PLC0415
-        output = io.BytesIO()
-        workbook = xlsxwriter.Workbook(output, {
-            'in_memory': True,
-            'strings_to_formulas': False,
-        })
-        report = self.env['account.report'].search([('id', '=', options['report_id'])], limit=1)
-        print_options = report.get_options(previous_options={**options, 'export_mode': 'print'})
-        document_data = self._generate_document_data_for_export(report, print_options, 'xlsx')
-
+        report = self.env['account.report'].browse(options['report_id'])
         # We need to use fonts to calculate column width otherwise column width would be ugly
         # Using Lato as reference font is a hack and is not recommended. Customer computers don't have this font by default and so
         # the generated xlsx wouldn't have this font. Since it is not by default, we preferred using Arial font as default and keep
@@ -333,6 +340,9 @@ class AccountJournalReportHandler(models.AbstractModel):
                 except (OSError, FileNotFoundError):
                     # This won't give great result, but it will work.
                     fonts[font_size][font_type] = ImageFont.load_default()
+
+        print_options = self._get_print_options(options, report)
+        document_data = self._generate_document_data_for_export(report, print_options, 'xlsx')
 
         for journal_vals in document_data['journals_vals']:
             cursor_x = 0
@@ -420,6 +430,21 @@ class AccountJournalReportHandler(models.AbstractModel):
                 0,
                 document_data['global_tax_summary']
             )
+        return workbook
+
+    def export_to_xlsx(self, options, response=None):
+        """
+        Overrides the default XLSX generation from account.report to use a custom one.
+        """
+        import xlsxwriter  # noqa: PLC0415
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {
+            'in_memory': True,
+            'strings_to_formulas': False,
+        })
+        report = self.env['account.report'].browse(options['report_id'])
+        print_options = self._get_print_options(options, report)
+        workbook = self._inject_report_into_xlsx_sheet(options, workbook)
 
         report._add_options_xlsx_sheet(workbook, [print_options])
         workbook.close()
@@ -1171,11 +1196,11 @@ class AccountJournalReportHandler(models.AbstractModel):
         # grid information
         tax_report_options = self._get_generic_tax_report_options(options, data)
         query = report._get_report_query(tax_report_options, 'strict_range')
-        country_name = self.env['res.country']._field_to_sql('country', 'name')
+        country_code = self.env['res.country']._field_to_sql('country', 'code')
         tag_name = self.env['account.account.tag']._field_to_sql('tag', 'name')
         query = SQL("""
                 SELECT
-                    %(country_name)s AS country_name,
+                    %(country_code)s AS country_code,
                     tag.id,
                     %(tag_name)s AS name,
                     SUM(COALESCE("account_move_line".debit, 0)) AS debit,
@@ -1186,27 +1211,27 @@ class AccountJournalReportHandler(models.AbstractModel):
                 JOIN res_country country ON country.id = tag.country_id
                 WHERE %(search_condition)s
                   AND applicability = 'taxes'
-             GROUP BY country_name, tag.id
-             ORDER BY country_name, %(tag_name)s
-        """, country_name=country_name, tag_name=tag_name, table_references=query.from_clause, search_condition=query.where_clause)
+             GROUP BY country_code, tag.id
+             ORDER BY country_code, %(tag_name)s
+        """, country_code=country_code, tag_name=tag_name, table_references=query.from_clause, search_condition=query.where_clause)
         self.env.cr.execute(query)
         query_res = self.env.cr.fetchall()
 
         res = {}
         id2tag = self.env['account.account.tag'].browse([tag_id for _country_name, tag_id, *__ in query_res]).grouped('id')  # for prefetching
-        for country_name, tag_id, name, debit, credit in query_res:
+        for country_code, tag_id, name, debit, credit in query_res:
             if id2tag[tag_id].balance_negate:
                 debit, credit = credit, debit
             balance = debit - credit
-            res.setdefault(country_name, {}).setdefault(name, {})
-            res[country_name][name].setdefault('tag_ids', []).append(tag_id)
-            res[country_name][name]['balance'] = report._format_value(options, balance, 'monetary')
-            res[country_name][name]['balance_no_format'] = balance
-            res[country_name][name]['+'] = report._format_value(options, debit, 'monetary')
-            res[country_name][name]['+_no_format'] = debit
-            res[country_name][name]['-'] = report._format_value(options, credit, 'monetary')
-            res[country_name][name]['-_no_format'] = credit
-            res[country_name][name]['impact'] = report._format_value(options, balance, 'monetary')
+            res.setdefault(country_code, {}).setdefault(name, {})
+            res[country_code][name].setdefault('tag_ids', []).append(tag_id)
+            res[country_code][name]['balance'] = report._format_value(options, balance, 'monetary')
+            res[country_code][name]['balance_no_format'] = balance
+            res[country_code][name]['+'] = report._format_value(options, debit, 'monetary')
+            res[country_code][name]['+_no_format'] = debit
+            res[country_code][name]['-'] = report._format_value(options, credit, 'monetary')
+            res[country_code][name]['-_no_format'] = credit
+            res[country_code][name]['impact'] = report._format_value(options, balance, 'monetary')
 
         return res
 
@@ -1254,7 +1279,7 @@ class AccountJournalReportHandler(models.AbstractModel):
         taxes = self.env['account.tax'].browse(tax_values.keys())
         res = {}
         for tax in taxes:
-            res.setdefault(tax.country_id.name, []).append({
+            res.setdefault(tax.country_id.code, []).append({
                 'base_amount': report._format_value(options, tax_values[tax.id]['base_amount'], 'monetary'),
                 'base_amount_no_format': tax_values[tax.id]['base_amount'],
                 'tax_amount': report._format_value(options, tax_values[tax.id]['tax_amount'], 'monetary'),

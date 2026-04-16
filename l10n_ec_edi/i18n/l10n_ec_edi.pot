@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 19:03+0000\n"
-"PO-Revision-Date: 2026-02-06 19:03+0000\n"
+"POT-Creation-Date: 2026-04-10 19:16+0000\n"
+"PO-Revision-Date: 2026-04-10 19:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,11 +43,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ec_edi.selection__account_tax__l10n_ec_code_taxsupport__00
 #: model:ir.model.fields.selection,name:l10n_ec_edi.selection__l10n_ec_wizard_account_withhold_line__taxsupport_code__00
 msgid "00 Special cases whose support does not apply to the above options"
-msgstr ""
-
-#. module: l10n_ec_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.view_account_l10n_ec_reimbursement_client_form
-msgid "001-001-000012345"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -132,11 +127,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ec_edi.selection__l10n_ec_wizard_account_withhold_line__taxsupport_code__15
 msgid ""
 "15 Payments made for own and third-party consumption of digital services"
-msgstr ""
-
-#. module: l10n_ec_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.reimbursement_common_info_template
-msgid "41"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -324,6 +314,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_document
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_withhold_document
 msgid "<strong>Partner</strong>"
+msgstr ""
+
+#. module: l10n_ec_edi
+#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_header
+msgid "<strong>RIMPE Regime: </strong>"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -1247,15 +1242,13 @@ msgid "Purchase Withhold"
 msgstr ""
 
 #. module: l10n_ec_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_header
-msgid ""
-"RIMPE Contributor Type\n"
-"                                        <br/>"
+#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe
+msgid "RIMPE Regime - Deprecated"
 msgstr ""
 
 #. module: l10n_ec_edi
-#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe
-msgid "RIMPE Regime"
+#: model:l10n_ec.taxpayer.type,name:l10n_ec_edi.l10n_ec_taxpayer_type_13
+msgid "RIMPE Regime Entrepreneur"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -1264,8 +1257,13 @@ msgid "RIMPE Regime Popular Business"
 msgstr ""
 
 #. module: l10n_ec_edi
-#: model:l10n_ec.taxpayer.type,name:l10n_ec_edi.l10n_ec_taxpayer_type_13
-msgid "RIMPE Regime Taxpayer"
+#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe_emprendedor
+msgid "RIMPE taxpayer - Entrepreneur"
+msgstr ""
+
+#. module: l10n_ec_edi
+#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe_negocio_popular
+msgid "RIMPE taxpayer - Popular Business"
 msgstr ""
 
 #. module: l10n_ec_edi

@@ -8,7 +8,7 @@
                     <CheckBox value='isSelected' onChange.bind="(ev) => this.toggleSelection(ev, productionSchedule.id)"/>
                 </th>
                 <th scope="col">
-                    <a href="#" class="o_mrp_mps_record_url" t-att-data-res-id="productionSchedule.product_id[0]" t-att-data-model="'product.product'" t-on-click.prevent="_onClickForecastReport"><t t-esc="productionSchedule.product_id[1]"/></a>
+                    <a href="#" class="o_mrp_mps_record_url text-wrap" t-att-data-res-id="productionSchedule.product_id[0]" t-att-data-model="'product.product'" t-on-click.prevent="_onClickForecastReport"><t t-esc="productionSchedule.product_id[1]"/></a>
                     <span t-if="'product_uom_id' in productionSchedule" class="text-muted"> by <t t-esc="productionSchedule.product_uom_id[1]"/></span>
                     <span t-if="'warehouse_id' in productionSchedule"> - <t t-esc="productionSchedule.warehouse_id[1]"/></span>
                     <span> </span>

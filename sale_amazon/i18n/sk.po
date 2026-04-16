@@ -4,13 +4,14 @@
 #
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 13:47+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-14 09:42+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "sale_amazon/sk/>\n"
 "Language: sk\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sale_amazon
 #: model:mail.template,body_html:sale_amazon.order_sync_failure
@@ -47,6 +48,30 @@ msgid ""
 "        </div>\n"
 "        "
 msgstr ""
+"<div>\n"
+"            <p>Pri synchronizácii objednávky Amazon s referenciou <t t-"
+"out=\"ctx.get('amazon_order_ref') or ''\">REF</t> došlo k chybe a "
+"synchronizácia nebola dokončená.</p>\n"
+"            <p>Pokiaľ objednávka nie je zrušená v SellerCentral, nebude sa "
+"pokúšať o žiadnu ďalšiu synchronizáciu.</p>\n"
+"            <p>Ak chcete naplánovať nový pokus o synchronizáciu, postupujte "
+"takto:</p>\n"
+"                <ol>\n"
+"                    <li>Otvorte Nástroje pre vývojárov.</li>\n"
+"                    <li>Otvorte formulár účtu Amazon, na ktorom bola "
+"objednávka zadaná. </li>\n"
+"                    <li>Prejdite na kartu Sledovanie objednávky. </li>\n"
+"                    <li>Nastavte dátum pre <em>Posledná synchronizácia "
+"objednávok</em>, ktorý je predchádzajúci poslednej aktualizácii stavu "
+"objednávky. </li>\n"
+"                    <li>Uložte zmeny a kliknite na tlačidlo <em>SYNC ORDERS</"
+"em> (Synchronizovať objednávky).</li>\n"
+"                </ol>\n"
+"            \n"
+"            <p>Ak problém pretrváva, kontaktujte <a href=\"https://"
+"www.odoo.com/help/\">podporu Odoo</a>.</p>\n"
+"        </div>\n"
+"        "
 
 #. module: sale_amazon
 #: model:mail.template,body_html:sale_amazon.picking_sync_failure
@@ -117,6 +142,71 @@ msgid ""
 "            </div>\n"
 "        </body>"
 msgstr ""
+"<style>\n"
+"                .amz_table {\n"
+"                    width: 100%;\n"
+"                    max-width: 900px;\n"
+"                    border-collapse: collapse;\n"
+"                }\n"
+"\n"
+"                .amz_table th,\n"
+"                .amz_table td {\n"
+"                    border: 1px solid #888;\n"
+"                }\n"
+"\n"
+"                .amz_table th {\n"
+"                    white-space: nowrap;\n"
+"                }\n"
+"\n"
+"                .amz_table thead th {\n"
+"                    padding: 0.5em 0.5em;\n"
+"                    text-align: center;\n"
+"                    border-bottom: 1px solid #888;\n"
+"                }\n"
+"\n"
+"                .amz_table tbody th,\n"
+"                .amz_table tbody td {\n"
+"                    padding: 0.5em 0.5em 1em;\n"
+"                    vertical-align: top;\n"
+"                }\n"
+"            </style>\n"
+"            <body><div>\n"
+"                <p>Pri synchronizácii dodacích listov došlo k niektorým "
+"chybám a synchronizácia nebola dokončená.</p>\n"
+"                <p>Prosím, opravte problém pred opätovnou ručnou "
+"synchronizáciou dodacích listov, pretože ďalšia synchronizácia sa nebude "
+"vykonávať.</p>\n"
+"                <p>Tu sú chyby zaslané spoločnosťou Amazon: </p>\n"
+"                <table class=\"amz_table\">\n"
+"                    <thead>\n"
+"                        <tr>\n"
+"                            <th>Referencia objednávky</th>\n"
+"                            <th>Správa</th>\n"
+"                        </tr>\n"
+"                    </thead>\n"
+"                    <tbody>\n"
+"                        <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th><t t-out=\"error['order_ref']\"/></th>\n"
+"                            <td>\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/>\n"
+"                                <t t-else=\"\">Pri synchronizácii s Amazonom "
+"došlo k neznámej chybe.\n"
+"                                     Bohužiaľ, musíte ručne skontrolovať, či "
+"je stav objednávky správny.\n"
+"                                    Všetky informácie o tomto nájdete\n"
+"                                    <a href=\"https://www.odoo.com/"
+"documentation/latest/applications/sales/sales/amazon_connector/"
+"manage.html#manage_deliveries_errors\">\n"
+"                                    v dokumentácii\n"
+"                                    </a>.</t>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            </div>\n"
+"        </body>"
 
 #. module: sale_amazon
 #: model:mail.template,body_html:sale_amazon.inventory_sync_failure
@@ -182,11 +272,70 @@ msgid ""
 "            </div>\n"
 "        </body>"
 msgstr ""
+"<style>\n"
+"                .amz_table {\n"
+"                    width: 100%;\n"
+"                    max-width: 900px;\n"
+"                    border-collapse: collapse;\n"
+"                }\n"
+"\n"
+"                .amz_table th,\n"
+"                .amz_table td {\n"
+"                    border: 1px solid #888;\n"
+"                }\n"
+"\n"
+"                .amz_table th {\n"
+"                    white-space: nowrap;\n"
+"                }\n"
+"\n"
+"                .amz_table thead th {\n"
+"                    padding: 0.5em 0.5em;\n"
+"                    text-align: center;\n"
+"                    border-bottom: 1px solid #888;\n"
+"                }\n"
+"\n"
+"                .amz_table tbody th,\n"
+"                .amz_table tbody td {\n"
+"                    padding: 0.5em 0.5em 1em;\n"
+"                    vertical-align: top;\n"
+"                }\n"
+"            </style>\n"
+"            <body><div>\n"
+"                <p>Synchronizácia dostupnosti produktov pre účet Amazon\n"
+"                      <b><t t-out=\"ctx.get('amazon_account') or ''\">REF</t>"
+"</b>\n"
+"                      narazila na niektoré chyby a nebola dokončená.</p>\n"
+"                <p>Tu sú chyby zaslané spoločnosťou Amazon: </p>\n"
+"                <table class=\"amz_table\">\n"
+"                    <thead>\n"
+"                        <tr>\n"
+"                            <th>SKU</th>\n"
+"                            <th>Správa</th>\n"
+"                        </tr>\n"
+"                    </thead>\n"
+"                    <tbody>\n"
+"                        <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th><t t-out=\"error['sku']\"/></th>\n"
+"                            <td>\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/>\n"
+"                                <t t-else=\"\">Pri synchronizácii s Amazonom "
+"došlo k neznámej chybe.\n"
+"                                    Bohužiaľ, musíte ručne skontrolovať, či "
+"je dostupné množstvo produktu správne.\n"
+"                                </t>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            </div>\n"
+"        </body>"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_marketplace__api_ref
 msgid "API Identifier"
-msgstr ""
+msgstr "Identifikátor API"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__account_id
@@ -215,6 +364,8 @@ msgid ""
 "Add any new marketplace that this account has "
 "gained                                           access to."
 msgstr ""
+"Pridajte akékoľvek nové trhovisko, ku ktorému tento účet získal"
+"                                           prístup."
 
 #. module: sale_amazon
 #: model:ir.ui.menu,name:sale_amazon.root_menu
@@ -226,7 +377,7 @@ msgstr "Amazon"
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_offer_view_search
 msgid "Amazon Account"
-msgstr ""
+msgstr "Účet Amazon"
 
 #. module: sale_amazon
 #: model:ir.actions.act_window,name:sale_amazon.list_amazon_account_action
@@ -240,87 +391,87 @@ msgstr "Amazon účty"
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__amazon_feed_ref
 #: model:ir.model.fields,field_description:sale_amazon.field_stock_picking__amazon_feed_ref
 msgid "Amazon Feed Reference"
-msgstr ""
+msgstr "Referencia Amazon feedu"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_sale_order_line__amazon_item_ref
 msgid "Amazon Item Ref"
-msgstr ""
+msgstr "Referencia položky Amazon"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_amazon_marketplace
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_marketplace_view_form
 msgid "Amazon Marketplace"
-msgstr ""
+msgstr "Trhovisko Amazon"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_marketplace_view_tree
 msgid "Amazon Marketplaces"
-msgstr ""
+msgstr "Trhoviska Amazon"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_amazon_offer
 #: model:ir.model.fields,field_description:sale_amazon.field_sale_order_line__amazon_offer_id
 msgid "Amazon Offer"
-msgstr ""
+msgstr "Ponuka Amazon"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_offer_view_tree
 msgid "Amazon Offers"
-msgstr ""
+msgstr "Ponuky Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_recover_order_wizard__amazon_order_ref
 msgid "Amazon Order Reference"
-msgstr ""
+msgstr "Referencia objednávky Amazon"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_amazon_recover_order_wizard
 msgid "Amazon Recover Order Wizard"
-msgstr ""
+msgstr "Sprievodca získaním objednávky Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_sale_order__amazon_order_ref
 msgid "Amazon Reference"
-msgstr ""
+msgstr "Referencia Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__sku
 msgid "Amazon SKU"
-msgstr ""
+msgstr "Amazon SKU"
 
 #. module: sale_amazon
 #: model:product.template,name:sale_amazon.default_product_product_template
 msgid "Amazon Sale"
-msgstr ""
+msgstr "Predaj Amazon"
 
 #. module: sale_amazon
 #: model:product.template,name:sale_amazon.shipping_product_product_template
 msgid "Amazon Shipping"
-msgstr ""
+msgstr "Dodávka Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__amazon_sync_status
 #: model:ir.model.fields,field_description:sale_amazon.field_stock_picking__amazon_sync_status
 msgid "Amazon Synchronization Status"
-msgstr ""
+msgstr "Stav synchronizácie Amazon"
 
 #. module: sale_amazon
 #: model_terms:ir.actions.act_window,help:sale_amazon.list_amazon_account_action
 msgid "Amazon accounts correspond to Amazon Seller Central accounts."
-msgstr ""
+msgstr "Účty Amazon zodpovedajú účtom Amazon Seller Central."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_marketplace.py:0
 msgid "Amazon marketplaces cannot be deleted."
-msgstr ""
+msgstr "Trhoviská Amazon nie je možné odstrániť."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/stock_move.py:0
 msgid "Amazon move: %s"
-msgstr ""
+msgstr "Skladový pohyb Amazon: %s"
 
 #. module: sale_amazon
 #. odoo-python
@@ -330,6 +481,9 @@ msgid ""
 "sure the following information are set on '%(location_name)s' (%"
 "(location)s): street, country and country code."
 msgstr ""
+"Amazon vyžaduje určité informácie o mieste dodania. Uistite sa, že "
+"nasledujúce informácie sú na „%(location_name)s“ (%(location)s) nastavené: "
+"ulica, krajina a kód krajiny."
 
 #. module: sale_amazon
 #. odoo-python
@@ -339,6 +493,9 @@ msgid ""
 "Since the current carrier doesn't automatically provide a tracking "
 "reference, you need to set one manually."
 msgstr ""
+"Amazon vyžaduje, aby bolo pri každej dodávke uvedené sledovacie číslo. Keďže "
+"súčasný prepravca automaticky neposkytuje sledovacie číslo, je potrebné ho "
+"nastaviť ručne."
 
 #. module: sale_amazon
 #. odoo-python
@@ -347,151 +504,153 @@ msgid ""
 "Amazon requires that a tracking reference is provided with each delivery. "
 "You need to assign a carrier to this delivery."
 msgstr ""
+"Amazon vyžaduje, aby bola ku každej dodávke priložená sledovacia referencia. "
+"K tejto dodávke je potrebné priradiť prepravcu."
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_AE
 msgid "Amazon.ae"
-msgstr ""
+msgstr "Amazon.ae"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_CA
 msgid "Amazon.ca"
-msgstr ""
+msgstr "Amazon.ca"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_JP
 msgid "Amazon.co.jp"
-msgstr ""
+msgstr "Amazon.co.jp"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_UK
 msgid "Amazon.co.uk"
-msgstr ""
+msgstr "Amazon.co.uk"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_US
 msgid "Amazon.com"
-msgstr ""
+msgstr "Amazon.com"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_AU
 msgid "Amazon.com.au"
-msgstr ""
+msgstr "Amazon.com.au"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_BE
 msgid "Amazon.com.be"
-msgstr ""
+msgstr "Amazon.com.be"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_BR
 msgid "Amazon.com.br"
-msgstr ""
+msgstr "Amazon.com.br"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_MX
 msgid "Amazon.com.mx"
-msgstr ""
+msgstr "Amazon.com.mx"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_TR
 msgid "Amazon.com.tr"
-msgstr ""
+msgstr "Amazon.com.tr"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_DE
 msgid "Amazon.de"
-msgstr ""
+msgstr "Amazon.de"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_EG
 msgid "Amazon.eg"
-msgstr ""
+msgstr "Amazon.eg"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_ES
 msgid "Amazon.es"
-msgstr ""
+msgstr "Amazon.es"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_FR
 msgid "Amazon.fr"
-msgstr ""
+msgstr "Amazon.fr"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_IE
 msgid "Amazon.ie"
-msgstr ""
+msgstr "Amazon.ie"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_IN
 msgid "Amazon.in"
-msgstr ""
+msgstr "Amazon.in"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_IT
 msgid "Amazon.it"
-msgstr ""
+msgstr "Amazon.it"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_NL
 msgid "Amazon.nl"
-msgstr ""
+msgstr "Amazon.nl"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_PL
 msgid "Amazon.pl"
-msgstr ""
+msgstr "Amazon.pl"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_SA
 msgid "Amazon.sa"
-msgstr ""
+msgstr "Amazon.sa"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_SE
 msgid "Amazon.se"
-msgstr ""
+msgstr "Amazon.se"
 
 #. module: sale_amazon
 #: model:amazon.marketplace,name:sale_amazon.marketplace_SG
 msgid "Amazon.sg"
-msgstr ""
+msgstr "Amazon.sg"
 
 #. module: sale_amazon
 #: model:mail.template,name:sale_amazon.inventory_sync_failure
 msgid "Amazon: Available Inventory for Offers Synchronization Failure"
-msgstr ""
+msgstr "Amazon: Chyba synchronizácie dostupného skladového zásob pre ponuky"
 
 #. module: sale_amazon
 #: model:mail.template,name:sale_amazon.picking_sync_failure
 msgid "Amazon: Delivery Order Synchronization Failure"
-msgstr ""
+msgstr "Amazon: Chyba synchronizácie dodacieho príkazu"
 
 #. module: sale_amazon
 #: model:mail.template,name:sale_amazon.order_sync_failure
 msgid "Amazon: Order Synchronization Failure"
-msgstr ""
+msgstr "Amazon: Chyba synchronizácie objednávky"
 
 #. module: sale_amazon
 #: model:ir.actions.server,name:sale_amazon.ir_cron_sync_amazon_inventory_ir_actions_server
 msgid "Amazon: sync available inventory"
-msgstr ""
+msgstr "Amazon: synchronizácia dostupných zásob"
 
 #. module: sale_amazon
 #: model:ir.actions.server,name:sale_amazon.ir_cron_sync_amazon_pickings_ir_actions_server
 msgid "Amazon: sync delivery orders"
-msgstr ""
+msgstr "Amazon: synchronizácia dodacích objednávok"
 
 #. module: sale_amazon
 #: model:ir.actions.server,name:sale_amazon.ir_cron_sync_amazon_feeds_ir_actions_server
 msgid "Amazon: sync feeds"
-msgstr ""
+msgstr "Amazon: synchronizácia feedov"
 
 #. module: sale_amazon
 #: model:ir.actions.server,name:sale_amazon.ir_cron_sync_amazon_orders_ir_actions_server
 msgid "Amazon: sync orders"
-msgstr ""
+msgstr "Amazon: synchronizácia objednávok"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.authorization_error
@@ -501,7 +660,7 @@ msgstr "Vyskytla sa chyba"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.authorization_error
 msgid "An error occurred while linking your account with Amazon."
-msgstr ""
+msgstr "Pri prepojení vášho účtu s Amazonom došlo k chybe."
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
@@ -512,28 +671,28 @@ msgstr "Archivovaný"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Are you sure you want to disconnect this account?"
-msgstr ""
+msgstr "Naozaj chcete odpojiť tento účet?"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__available_marketplace_ids
 msgid "Available Marketplaces"
-msgstr ""
+msgstr "Dostupné trhoviská"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.authorization_error
 msgid "Back to my account"
-msgstr ""
+msgstr "Späť na môj účet"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.quick_create_account_form
 msgid "Cancel"
-msgstr "Zrušené"
+msgstr "Zrušiť"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__company_id
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__company_id
 msgid "Company"
-msgstr "Spoločnost"
+msgstr "Spoločnosť"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_res_config_settings
@@ -544,13 +703,13 @@ msgstr "Nastavenia konfigurácie"
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 #: model_terms:ir.ui.view,arch_db:sale_amazon.quick_create_account_form
 msgid "Connect"
-msgstr "Pripojte sa"
+msgstr "Pripojiť"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_account__state__connected
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Connected"
-msgstr ""
+msgstr "Pripojené"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_res_partner
@@ -561,36 +720,36 @@ msgstr "Kontakt"
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "Could not establish the connection to the API."
-msgstr ""
+msgstr "Nepodarilo sa nadviazať spojenie s API."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "Could not establish the connection to the feed URL."
-msgstr ""
+msgstr "Nepodarilo sa nadviazať spojenie s adresou URL feedu."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "Could not establish the connection to the proxy."
-msgstr ""
+msgstr "Nepodarilo sa nadviazať spojenie s proxy serverom."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/controllers/onboarding.py:0
 msgid "Could not find Amazon account with id %s"
-msgstr ""
+msgstr "Nenašiel sa účet Amazon s ID %s"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "Could not process the feed document send by Amazon."
-msgstr ""
+msgstr "Nepodarilo sa spracovať feed dokument zaslaný spoločnosťou Amazon."
 
 #. module: sale_amazon
 #: model:ir.model,website_form_label:sale_amazon.model_res_partner
 msgid "Create a Customer"
-msgstr ""
+msgstr "Vytvoriť zákazníka"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__create_uid
@@ -617,7 +776,7 @@ msgstr "Poverenia"
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__default_product_ids
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Default Products"
-msgstr ""
+msgstr "Predvolené produkty"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.recover_order_wizard_form
@@ -627,7 +786,7 @@ msgstr "Zrušiť"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Disconnect"
-msgstr ""
+msgstr "Odpojiť"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_account__state__disconnected
@@ -649,7 +808,7 @@ msgstr "Odpojené"
 #: model:ir.model.fields,field_description:sale_amazon.field_stock_move__display_name
 #: model:ir.model.fields,field_description:sale_amazon.field_stock_picking__display_name
 msgid "Display Name"
-msgstr "Zobrazovaný Názov"
+msgstr "Zobrazovaný názov"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_offer__amazon_sync_status__done
@@ -667,13 +826,13 @@ msgstr "Chyba"
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "Error (%(code)s): %(message)s"
-msgstr ""
+msgstr "Chyba (%(code)s): %(message)s"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "Error code: %(error_code)s; description: %(error_message)s"
-msgstr ""
+msgstr "Kód chyby: %(error_code)s; popis: %(error_message)s"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_marketplace__region__eu-west-1
@@ -683,45 +842,45 @@ msgstr "Európa"
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__location_id
 msgid "FBA Stock Location"
-msgstr ""
+msgstr "Skladové miesto FBA"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__synchronize_inventory
 msgid "FBM Stock"
-msgstr ""
+msgstr "Zásoby FBM"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_marketplace__region__us-west-2
 msgid "Far East"
-msgstr ""
+msgstr "Ďaleký východ"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_offer__amazon_channel__fba
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_order_view_form
 msgid "Fulfilled by Amazon"
-msgstr ""
+msgstr "Plní spoločnosť Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_offer__amazon_channel__fbm
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_order_view_form
 msgid "Fulfilled by Merchant"
-msgstr ""
+msgstr "Plní predajca"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__amazon_channel
 #: model:ir.model.fields,field_description:sale_amazon.field_sale_order__amazon_channel
 msgid "Fulfillment Channel"
-msgstr ""
+msgstr "Kanál plnenia"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__sale_order__amazon_channel__fba
 msgid "Fulfillment by Amazon"
-msgstr ""
+msgstr "Plnenie prostredníctvom Amazonu"
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__sale_order__amazon_channel__fbm
 msgid "Fulfillment by Merchant"
-msgstr ""
+msgstr "Plnenie prostredníctvom obchodníka"
 
 #. module: sale_amazon
 #. odoo-python
@@ -730,16 +889,18 @@ msgid ""
 "Gift message:\n"
 "%s"
 msgstr ""
+"Správa k darčeku:\n"
+"%s"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_res_config_settings__has_amazon_account
 msgid "Has Amazon Account"
-msgstr ""
+msgstr "Má účet Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__base_marketplace_id
 msgid "Home Marketplace"
-msgstr ""
+msgstr "Domovské trhovisko"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__id
@@ -762,6 +923,7 @@ msgstr "ID"
 msgid ""
 "If made inactive, this account will no longer be synchronized with Amazon."
 msgstr ""
+"Ak bude tento účet deaktivovaný, nebude sa už synchronizovať s Amazonom."
 
 #. module: sale_amazon
 #. odoo-python
@@ -772,6 +934,10 @@ msgid ""
 "If the date is set in the future, orders placed on this Amazon Account "
 "between the previous and the new date will not be synchronized with Odoo."
 msgstr ""
+"Ak je dátum nastavený v minulosti, objednávky zadané na tomto účte Amazon "
+"pred prvou synchronizáciou modulu môžu byť synchronizované s Odoo.\n"
+"Ak je dátum nastavený v budúcnosti, objednávky zadané na tomto účte Amazon "
+"medzi predchádzajúcim a novým dátumom nebudú synchronizované s Odoo."
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_order_view_form
@@ -779,33 +945,33 @@ msgid ""
 "If the sale is locked, you can not modify it anymore. However, you will "
 "still be able to invoice or deliver."
 msgstr ""
-"Ak je predaj uzamknutý, nedá sa meniť. Avšak stále je možné ho dodať alebo "
-"fakturovať."
+"Ak je predajná objednávka uzamknutá, nedá sa meniť. Avšak stále je možné ju "
+"dodať alebo fakturovať."
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.picking_view_form
 msgid "In Processing by Amazon"
-msgstr ""
+msgstr "V spracovaní spoločnosťou Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__access_token
 msgid "LWA Access Token"
-msgstr ""
+msgstr "Prístupový token LWA"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__access_token_expiry
 msgid "LWA Access Token Expiry"
-msgstr ""
+msgstr "Exspirácia prístupového tokenu LWA"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__refresh_token
 msgid "LWA Refresh Token"
-msgstr ""
+msgstr "Obnovenie tokenu LWA"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__last_orders_sync
 msgid "Last Orders Sync"
-msgstr ""
+msgstr "Synchronizácia posledných objednávok"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__write_uid
@@ -826,7 +992,7 @@ msgstr "Naposledy upravované"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.res_config_settings_view_form
 msgid "Link My Account"
-msgstr ""
+msgstr "Prepojiť môj účet"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
@@ -834,6 +1000,8 @@ msgid ""
 "Link your Amazon account with Odoo to start synchronizing your "
 "Amazon                               orders."
 msgstr ""
+"Prepojte svoj účet Amazon s Odoo a začnite synchronizovať svoje objednávky"
+"                               z Amazonu."
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_order_view_form
@@ -843,7 +1011,7 @@ msgstr "Zamknúť"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_offer_view_search
 msgid "MarketPlace"
-msgstr ""
+msgstr "Trhovisko"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__marketplace_id
@@ -854,7 +1022,7 @@ msgstr "Trhovisko"
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__active_marketplace_ids
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__active_marketplace_ids
 msgid "Marketplaces"
-msgstr ""
+msgstr "Trhoviská"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__name
@@ -871,19 +1039,19 @@ msgstr "Nové"
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_offer.py:0
 msgid "Non-storable product cannot be synced."
-msgstr ""
+msgstr "Neskladovateľný produkt nie je možné synchronizovať."
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_marketplace__region__us-east-1
 msgid "North America"
-msgstr ""
+msgstr "Severná Amerika"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__offer_count
 #: model:ir.model.fields,field_description:sale_amazon.field_product_product__offer_count
 #: model:ir.model.fields,field_description:sale_amazon.field_product_template__offer_count
 msgid "Offer Count"
-msgstr ""
+msgstr "Počet ponúk"
 
 #. module: sale_amazon
 #. odoo-python
@@ -897,13 +1065,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_product_product_view_form
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_product_template_view_form
 msgid "Offers"
-msgstr ""
+msgstr "Ponuky"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "Only available marketplaces can be selected"
-msgstr ""
+msgstr "Je možné vybrať iba dostupné trhoviská"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__order_count
@@ -953,11 +1121,13 @@ msgid ""
 "the same package. Operations related to the product %s were not all "
 "confirmed at once."
 msgstr ""
+"Produkty dodávané zákazníkom Amazonu musia mať všetky svoje časti v jednom "
+"balíku. Operácie súvisiace s produktom %s neboli potvrdené naraz."
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.recover_order_wizard_form
 msgid "Recover"
-msgstr ""
+msgstr "Získať"
 
 #. module: sale_amazon
 #. odoo-python
@@ -965,7 +1135,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 #: model_terms:ir.ui.view,arch_db:sale_amazon.recover_order_wizard_form
 msgid "Recover Order"
-msgstr ""
+msgstr "Získať objednávku"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_marketplace__region
@@ -975,47 +1145,47 @@ msgstr "Región"
 #. module: sale_amazon
 #: model_terms:ir.actions.act_window,help:sale_amazon.list_amazon_account_action
 msgid "Register your Amazon account"
-msgstr ""
+msgstr "Zaregistrujte svoj účet Amazon"
 
 #. module: sale_amazon
 #: model_terms:ir.actions.act_window,help:sale_amazon.list_amazon_account_action
 msgid "Register yours to start synchronizing your orders into Odoo."
-msgstr ""
+msgstr "Zaregistrujte sa a začnite synchronizovať svoje objednávky do Odoo."
 
 #. module: sale_amazon
 #: model:ir.model.fields.selection,name:sale_amazon.selection__amazon_offer__amazon_sync_status__reset
 msgid "Reset FBM stock"
-msgstr ""
+msgstr "Obnoviť zásoby FBM"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__restricted_data_token
 msgid "Restricted Data Token"
-msgstr ""
+msgstr "Obmedzený dátový token"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__restricted_data_token_expiry
 msgid "Restricted Data Token Expiry"
-msgstr ""
+msgstr "Exspirácia obmedzeného dátového tokenu"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.picking_view_form
 msgid "Retry Amazon Sync"
-msgstr ""
+msgstr "Opakovať synchronizáciu Amazon"
 
 #. module: sale_amazon
 #: model:ir.model.constraint,message:sale_amazon.constraint_amazon_offer_unique_sku
 msgid "SKU must be unique for a given account."
-msgstr ""
+msgstr "SKU musí byť pre daný účet jedinečné."
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_sale_order
 msgid "Sales Order"
-msgstr "Objednávka"
+msgstr "Predajná objednávka"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Položka objednávok"
+msgstr "Položka objednávky"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__team_id
@@ -1030,84 +1200,85 @@ msgstr "Obchodník"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.picking_view_form
 msgid "Scheduled for Amazon Synchronization"
-msgstr ""
+msgstr "Naplánované na synchronizáciu s Amazonom"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.quick_create_account_form
 msgid "Select the amazon marketplace to log in from."
-msgstr ""
+msgstr "Vyberte trhovisko Amazon, z ktorého sa chcete prihlásiť."
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_marketplace__seller_central_url
 msgid "Seller Central URL"
-msgstr ""
+msgstr "URL adresa Seller Central"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__seller_key
 msgid "Seller Key"
-msgstr ""
+msgstr "Kľúč predajcu"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_account__state
 msgid "State"
-msgstr "Štát"
+msgstr "Stav"
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_stock_move
 msgid "Stock Move"
-msgstr "Pohyb skladu"
+msgstr "Skladový pohyb"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_offer__sync_stock
 msgid "Stock Synchronization"
-msgstr ""
+msgstr "Synchronizácia zásob"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "Successfully updated the marketplaces available to this account!"
-msgstr ""
+msgstr "Úspešne aktualizované trhoviská dostupné pre tento účet!"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Sync Deliveries"
-msgstr ""
+msgstr "Synchronizácia dodávok"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Sync FBM Inventory"
-msgstr ""
+msgstr "Synchronizácia zásob FBM"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Sync Feeds Status"
-msgstr ""
+msgstr "Synchronizovať stav feedov"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Sync Orders"
-msgstr ""
+msgstr "Synchronizácia objednávok"
 
 #. module: sale_amazon
 #: model:mail.template,subject:sale_amazon.inventory_sync_failure
 msgid "Synchronization of Amazon Stock has failed"
-msgstr ""
+msgstr "Synchronizácia zásob Amazonu zlyhala"
 
 #. module: sale_amazon
 #: model:mail.template,subject:sale_amazon.order_sync_failure
 msgid ""
 "Synchronization of Amazon order {{ ctx.get('amazon_order_ref') }} has failed"
 msgstr ""
+"Synchronizácia objednávky Amazon {{ ctx.get('amazon_order_ref') }} zlyhala"
 
 #. module: sale_amazon
 #: model:mail.template,subject:sale_amazon.picking_sync_failure
 msgid "Synchronization of delivery orders has failed"
-msgstr ""
+msgstr "Synchronizácia dodacích príkazov zlyhala"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.picking_view_form
 msgid "Synchronization with Amazon failed"
-msgstr ""
+msgstr "Synchronizácia s Amazonom zlyhala"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
@@ -1117,7 +1288,7 @@ msgstr "Synchronizovať"
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.picking_view_form
 msgid "Synchronized with Amazon"
-msgstr ""
+msgstr "Synchronizované s Amazonom"
 
 #. module: sale_amazon
 #: model:ir.model.fields,field_description:sale_amazon.field_amazon_marketplace__tax_included
@@ -1128,7 +1299,7 @@ msgstr "Vrátane dane"
 #. odoo-python
 #: code:addons/sale_amazon/wizards/recover_order_wizard.py:0
 msgid "The Amazon order reference must be in 3-7-7 format."
-msgstr ""
+msgstr "Referenčné číslo objednávky Amazon musí mať formát 3-7-7."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1137,6 +1308,8 @@ msgid ""
 "The Amazon order with reference %(ref)s was not recovered because its "
 "currency was missing from the Amazon order data."
 msgstr ""
+"Objednávka Amazon s referenčným číslom %(ref)s nebola získaná, pretože v "
+"údajoch objednávky Amazon chýbala mena."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1146,6 +1319,9 @@ msgid ""
 "(%(status)s) is not eligible for synchronization for its fulfillment channel "
 "(%(channel)s)."
 msgstr ""
+"Objednávka Amazon s referenčným číslom %(ref)s nebola získaná, pretože jej "
+"stav (%(status)s) nie je vhodný na synchronizáciu pre jej kanál plnenia (%"
+"(channel)s)."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_marketplace__region
@@ -1153,31 +1329,33 @@ msgid ""
 "The Amazon region of the marketplace. Please refer to the Selling Partner "
 "API documentation to find the correct region."
 msgstr ""
+"Región Amazon na trhovisku. Správny región nájdete v dokumentácii k "
+"rozhraniu API pre predajných partnerov."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_sale_order_line__amazon_item_ref
 msgid "The Amazon-defined item reference."
-msgstr ""
+msgstr "Referenčné číslo položky definované spoločnosťou Amazon."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_marketplace__api_ref
 msgid "The Amazon-defined marketplace reference."
-msgstr ""
+msgstr "Referencia trhu definovaná spoločnosťou Amazon."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_sale_order__amazon_order_ref
 msgid "The Amazon-defined order reference."
-msgstr ""
+msgstr "Referencia objednávky definovaná spoločnosťou Amazon."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__team_id
 msgid "The Sales Team assigned to Amazon orders for reporting"
-msgstr ""
+msgstr "Predajný tím pridelený k objednávkam Amazonu na účely reportingu"
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_offer__sku
 msgid "The Stock Keeping Unit."
-msgstr ""
+msgstr "Skladová jednotka."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_offer__amazon_channel
@@ -1185,12 +1363,14 @@ msgid ""
 "The channel will be updated with the incomming orders or during the next "
 "stock synchronization."
 msgstr ""
+"Kanál bude aktualizovaný s prichádzajúcimi objednávkami alebo počas "
+"nasledujúcej synchronizácie zásob."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "The communication with the API failed."
-msgstr ""
+msgstr "Komunikácia s rozhraním API zlyhala."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1199,11 +1379,13 @@ msgid ""
 "The communication with the API failed.\n"
 "Error code: %(error_code)s; description: %(error_message)s"
 msgstr ""
+"Komunikácia s rozhraním API zlyhala.\n"
+"Chybový kód: %(error_code)s; popis: %(error_message)s"
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__base_marketplace_id
 msgid "The home marketplace of this account; used for authentication only."
-msgstr ""
+msgstr "Domovské trhovisko tohto účtu; používa sa iba na overenie."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__last_orders_sync
@@ -1212,6 +1394,9 @@ msgid ""
 "whose status has not changed since this date will not be created nor updated "
 "in Odoo."
 msgstr ""
+"Posledný dátum synchronizácie objednávok zadaných na tomto účte. Objednávky, "
+"ktorých stav sa od tohto dátumu nezmenil, nebudú v Odoo vytvorené ani "
+"aktualizované."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__location_id
@@ -1219,37 +1404,39 @@ msgid ""
 "The location of the stock managed by Amazon under the Amazon Fulfillment "
 "program."
 msgstr ""
+"Skladová lokácia spravovaná spoločnosťou Amazon v rámci programu Amazon "
+"Fulfillment."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__refresh_token
 msgid "The long-lived token that can be exchanged for a new access token."
-msgstr ""
+msgstr "Dlhodobý token, ktorý je možné vymeniť za nový prístupový token."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_offer__marketplace_id
 msgid "The marketplace of this offer."
-msgstr ""
+msgstr "Trhovisko tejto ponuky."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__available_marketplace_ids
 msgid "The marketplaces this account has access to."
-msgstr ""
+msgstr "Trhoviská, ku ktorým má tento účet prístup."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__active_marketplace_ids
 #: model:ir.model.fields,help:sale_amazon.field_amazon_offer__active_marketplace_ids
 msgid "The marketplaces this account sells on."
-msgstr ""
+msgstr "Trhoviská, na ktorých tento účet predáva."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__restricted_data_token_expiry
 msgid "The moment at which the Restricted Data Token becomes invalid."
-msgstr ""
+msgstr "Okamih, kedy sa obmedzený dátový token stane neplatným."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__access_token_expiry
 msgid "The moment at which the token becomes invalid."
-msgstr ""
+msgstr "Okamih, kedy sa token stane neplatným."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1259,35 +1446,38 @@ msgid ""
 "already been delivered. Please create a return for this order to adjust the "
 "stock."
 msgstr ""
+"Objednávka bola zrušená zákazníkom Amazonu, pričom niektoré produkty už boli "
+"doručené. Vytvorte prosím vratku pre túto objednávku, aby ste upravili stav "
+"zásob."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "The order was not found on this account's marketplaces."
-msgstr ""
+msgstr "Objednávka nebola nájdená na trhoviskách tohto účtu."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "The provided reference does not match any Amazon order."
-msgstr ""
+msgstr "Uvedený odkaz nezodpovedá žiadnej objednávke na Amazon."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_recover_order_wizard__amazon_order_ref
 msgid "The reference to the Amazon order to recover, in 3-7-7 format"
-msgstr ""
+msgstr "Odkaz na získanie objednávky z Amazonu vo formáte 3-7-7"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/stock_picking.py:0
 msgid ""
 "The sales order of this delivery order is not linked to an Amazon account."
-msgstr ""
+msgstr "Objednávka tejto dodávky nie je prepojená s účtom Amazon."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_offer__account_id
 msgid "The seller account used to manage this product."
-msgstr ""
+msgstr "Účet predajcu používaný na správu tohto produktu."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__restricted_data_token
@@ -1295,11 +1485,15 @@ msgid ""
 "The short-lived token used instead of the LWA Access Token to access "
 "restricted data"
 msgstr ""
+"Krátkodobý token používaný namiesto prístupového tokenu LWA na prístup k "
+"obmedzeným údajom"
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__access_token
 msgid "The short-lived token used to query Amazon API on behalf of a seller."
 msgstr ""
+"Krátkodobý token používaný na zasielanie požiadaviek Amazon API v mene "
+"predajcu."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_stock_picking__amazon_sync_status
@@ -1311,6 +1505,11 @@ msgid ""
 "- Done: The delivery details have been processed.\n"
 "- Error: The synchronization of the delivery order failed."
 msgstr ""
+"Stav synchronizácie dodacieho príkazu pre Amazon:\n"
+"- Čaká: Dodací príkaz bol potvrdený a čoskoro bude synchronizovaný.\n"
+"- Spracováva sa: Podrobnosti o dodaní boli odoslané a spracúvajú sa.\n"
+"- Hotovo: Podrobnosti o dodaní boli spracované.\n"
+"- Chyba: Synchronizácia dodacieho príkazu zlyhala."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_offer__amazon_sync_status
@@ -1321,6 +1520,11 @@ msgid ""
 "- Error: The synchronization of the stock level failed.\n"
 "- Reset: The next stock synchronization will reset the FBM stock level to 0."
 msgstr ""
+"Stav synchronizácie stavu zásob produktu s Amazonom:\n"
+"- Spracováva sa: Stav zásob bol odoslaný a je spracovávaný.\n"
+"- Hotovo: Stav zásob bol spracovaný.\n"
+"- Chyba: Synchronizácia stavu zásob sa nepodarila.\n"
+"- Resetovať: Pri ďalšej synchronizácii zásob sa stav zásob FBM resetuje na 0."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1329,27 +1533,33 @@ msgid ""
 "The synchronization with Amazon failed. Amazon gave us this information "
 "about the problem:"
 msgstr ""
+"Synchronizácia s Amazonom zlyhala. Amazon nám poskytol tieto informácie o "
+"probléme:"
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_account__name
 msgid "The user-defined name of the account."
-msgstr ""
+msgstr "Názov účtu definovaný používateľom."
 
 #. module: sale_amazon
 #: model:ir.model.constraint,message:sale_amazon.constraint_amazon_marketplace_unique_api_ref
 msgid "There can only exist one marketplace for a given API Identifier."
-msgstr ""
+msgstr "Pre daný identifikátor API môže existovať len jedno trhovisko."
 
 #. module: sale_amazon
 #: model:ir.model.constraint,message:sale_amazon.constraint_sale_order_unique_amazon_order_ref
 msgid "There can only exist one sale order for a given Amazon Order Reference."
 msgstr ""
+"Pre dané referenčné číslo objednávky Amazon môže existovať len jedna "
+"predajná objednávka."
 
 #. module: sale_amazon
 #: model:ir.model.constraint,message:sale_amazon.constraint_sale_order_line_unique_amazon_item_ref
 msgid ""
 "There can only exist one sale order line for a given Amazon Item Reference."
 msgstr ""
+"Pre daný referenčný kód položky Amazon môže existovať len jedna riadka "
+"predajnej objednávky."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1358,21 +1568,23 @@ msgid ""
 "This Amazon partner was created with an invalid state (%s); please set the "
 "correct state manually."
 msgstr ""
+"Tento partner Amazon bol vytvorený s neplatným stavom (%s); prosím, nastavte "
+"správny stav ručne."
 
 #. module: sale_amazon
 #: model:ir.model,name:sale_amazon.model_stock_picking
 msgid "Transfer"
-msgstr "Prevod"
+msgstr "Presun"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "Update available marketplaces"
-msgstr ""
+msgstr "Aktualizovať dostupné trhoviská"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_offer_view_tree
 msgid "View on Seller Central"
-msgstr ""
+msgstr "Zobraziť v Seller Central"
 
 #. module: sale_amazon
 #. odoo-python
@@ -1386,11 +1598,13 @@ msgid ""
 "Whether the available quantities of FBM products linked to this account are "
 "synchronized with Amazon."
 msgstr ""
+"Či sú dostupné množstvá produktov FBM prepojených s týmto účtom "
+"synchronizované s Amazonom."
 
 #. module: sale_amazon
 #: model:ir.model.fields,help:sale_amazon.field_amazon_marketplace__tax_included
 msgid "Whether the price includes the tax amount or not."
-msgstr ""
+msgstr "Či cena zahŕňa daň alebo nie."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1399,12 +1613,14 @@ msgid ""
 "You cannot delete an account that is linked to sale orders. Please archive "
 "it instead."
 msgstr ""
+"Účet, ktorý je prepojený s predajnými objednávkami, nemožno odstrániť. "
+"Namiesto toho ho prosím archivujte."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/utils.py:0
 msgid "You first need to authorize the Amazon account %s."
-msgstr ""
+msgstr "Najskôr musíte autorizovať účet Amazon %s."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1413,6 +1629,8 @@ msgid ""
 "You first need to set the marketplaces to synchronize for the Amazon account "
 "%s."
 msgstr ""
+"Najskôr je potrebné nastaviť trhoviská, ktoré sa majú synchronizovať s účtom "
+"Amazon %s."
 
 #. module: sale_amazon
 #. odoo-python
@@ -1421,18 +1639,19 @@ msgid ""
 "You reached the maximum number of requests for this operation; please try "
 "again later."
 msgstr ""
+"Dosiahli ste maximálny počet požiadaviek pre túto operáciu; skúste to neskôr."
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "[%(gift_wrap_code)s] Gift Wrapping Charges for %(product)s"
-msgstr ""
+msgstr "[%(gift_wrap_code)s] Poplatky za balenie darčekov pre %(product)s"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "[%(shipping_code)s] Delivery Charges for %(product)s"
-msgstr ""
+msgstr "[%(shipping_code)s] Poplatky za doručenie pre %(product)s"
 
 #. module: sale_amazon
 #. odoo-python
@@ -1441,20 +1660,22 @@ msgid ""
 "[%(sku)s] %(item_title)s\n"
 "Condition: %(main_condition)s - %(sub_condition)s"
 msgstr ""
+"[%(sku)s] %(item_title)s\n"
+"Stav: %(main_condition)s - %(sub_condition)s"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "account_id"
-msgstr ""
+msgstr "account_id"
 
 #. module: sale_amazon
 #: model_terms:ir.ui.view,arch_db:sale_amazon.amazon_account_view_form
 msgid "e.g. American Market"
-msgstr ""
+msgstr "napr. americký trh"
 
 #. module: sale_amazon
 #. odoo-python
 #: code:addons/sale_amazon/models/amazon_account.py:0
 msgid "id"
-msgstr ""
+msgstr "id"

@@ -32,11 +32,11 @@ class L10n_Nl_ReportsSbrStatusService(models.Model):
             f.write(serv_root_cert)
             f.flush()
 
+            ongoing_processes_responses = {}
             for process in ongoing_processes:
                 cert_sudo = process.company_id.l10n_nl_reports_sbr_cert_id.sudo()
                 cer_pem = base64.b64decode(cert_sudo.pem_certificate)
                 key_pem = base64.b64decode(cert_sudo.private_key_id.pem_key)
-                ongoing_processes_responses = {}
                 wsdl = 'https://' + ('preprod-' if process.is_test else '') + 'dgp2.procesinfrastructuur.nl/wus/2.0/statusinformatieservice/1.2?wsdl'
 
                 try:

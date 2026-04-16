@@ -1,4 +1,5 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+from urllib.parse import quote
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import AccessError, ValidationError
@@ -23,7 +24,7 @@ class HrEmployee(models.Model):
 
     def _compute_document_count(self):
         # FIX in 18.3, to remove when documents hr setting won't be optional anymore.
-        if not self.hr_employee_folder_id:
+        if not self.company_id.documents_hr_settings:
             # Search everywhere if no employee folder configured.
             # Method not optimized for batches since it is only used in the form view.
             for employee in self:
@@ -77,6 +78,7 @@ class HrEmployee(models.Model):
                 'default_res_id': self.id,
                 'default_res_model': 'hr.employee',
             }
+            action['domain'] = [('partner_id', '=', self.work_contact_id.id)]
             return action
         if not self.hr_employee_folder_id:
             raise ValidationError(_('You must configure the HR Employee folder in document settings to use Document\'s features.'))
@@ -84,7 +86,9 @@ class HrEmployee(models.Model):
             raise AccessError(_('You cannot access the employee\'s folder.'))
         return {
             'type': 'ir.actions.act_url',
-            'url': self.hr_employee_folder_id.sudo().access_url,
+            # do not use the document's access_url, as it uses the web.base.url and could redirect on a domain you are not connected
+            # on if web.base.url points to a different domain than the one you are connected on (and web.base.url.freeze is set)
+            'url': f"/odoo/documents/{quote(self.hr_employee_folder_id.sudo().access_token, safe='')}",
         }
 
     def _generate_employee_documents_folders(self, skip_subfolders=False):

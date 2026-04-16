@@ -32,6 +32,9 @@
                     <field name="extract_document_uuid" widget="CopyClipboardChar"/>
                 </group>
             </xpath>
+            <xpath expr="//field[@name='invoice_date'][contains(@invisible, 'in_invoice')]" position="attributes">
+                <attribute name="required" add="not extract_can_show_send_button" separator=" and "/>
+            </xpath>
         </field>
     </record>
 

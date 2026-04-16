@@ -2,24 +2,21 @@ import { patch } from "@web/core/utils/patch";
 import { KanbanController } from "@web/views/kanban/kanban_controller";
 import { _t } from "@web/core/l10n/translation";
 import { useInsertInSpreadsheet } from "../view_hook";
+import { session } from "@web/session";
 
 export const patchKanbanControllerExportSelection = {
     setup() {
         super.setup();
+        this.canInsertInSpreadsheet = session.can_insert_in_spreadsheet;
         this.insertInSpreadsheet = useInsertInSpreadsheet(this.env, () =>
             this.getExportableFields()
         );
     },
 
     getStaticActionMenuItems() {
-        const root = this.model.root;
-        const isM2MGrouped = root.groupBy.some((groupBy) => {
-            const fieldName = groupBy.split(":")[0];
-            return root.fields[fieldName].type === "many2many";
-        });
         const menuItems = super.getStaticActionMenuItems(...arguments);
         menuItems["insert"] = {
-            isAvailable: () => !isM2MGrouped,
+            isAvailable: () => this.canInsertInSpreadsheet,
             sequence: 15,
             icon: "oi oi-view-list",
             description: _t("Insert in spreadsheet"),

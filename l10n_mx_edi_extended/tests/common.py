@@ -8,7 +8,10 @@ class TestMxExtendedEdiCommon(TestMxEdiCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.company.bank_ids = [Command.create({'acc_number': "0123456789"})]
+        cls.env.company.bank_ids = [Command.create({
+            'acc_number': "0123456789",
+            'allow_out_payment': True,
+        })]
         cls.env.company.partner_id.write({
             'street_name': "Campobasso Norte",
             'street_number': 3206,

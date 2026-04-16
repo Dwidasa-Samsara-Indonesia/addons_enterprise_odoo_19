@@ -72,6 +72,25 @@ class TestPlanningContract(TestPlanningContractCommon):
         )
         self.assertEqual(75, planning_hours_info[self.resource_bert.id]['max_value'], "Work hours for the employee Jules should be 40h+35h = 75h")
 
+    def test_gantt_progress_bar_work_intervals_timezone(self):
+        self.calendar_40h.tz = 'Europe/Brussels'
+        self.resource_bert.calendar_id = self.calendar_40h
+
+        self.env['planning.slot'].create({
+            'start_datetime': datetime(2015, 12, 16, 8, 0, 0),
+            'end_datetime': datetime(2015, 12, 16, 17, 0, 0),
+            'resource_id': self.resource_bert.id,
+        })
+        planning_hours_info = self.env['planning.slot']._gantt_progress_bar(
+            'resource_id', self.resource_bert.ids, datetime(2015, 12, 16), datetime(2015, 12, 16, 23, 59, 59)
+        )
+
+        res_intervals = [
+            (UTC.localize(datetime(2015, 12, 16, 7, 0, 0)), UTC.localize(datetime(2015, 12, 16, 11, 0, 0))),
+            (UTC.localize(datetime(2015, 12, 16, 12, 0, 0)), UTC.localize(datetime(2015, 12, 16, 16, 0, 0)))
+        ]
+        self.assertEqual(planning_hours_info[self.resource_bert.id]['work_intervals'], res_intervals, "work_intervals should be in UTC")
+
     def test_creation_recurrencing_planning_without_employee_contract_access(self):
         """
             The creation of recurring schedules requires information on contracts.

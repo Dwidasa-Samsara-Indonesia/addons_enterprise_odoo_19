@@ -75,4 +75,5 @@ class TestPayrollDashboardInvalidIBANWarning(TransactionCase):
         self.assertIn(self.invalid_employee, employees, "Employee with invalid IBAN should appear in warning.")
         self.assertNotIn(self.valid_employee, employees, "Employee with valid IBAN should not appear in warning.")
 
-        self.assertEqual(warning_data['count'], 1, "Invalid IBAN employee should only be counted once even with multiple versions.")
+        invalid_employee_id_count = employees.mapped('id').count(self.invalid_employee.id)
+        self.assertEqual(invalid_employee_id_count, 1, "Invalid IBAN employee should only be counted once even with multiple versions.")

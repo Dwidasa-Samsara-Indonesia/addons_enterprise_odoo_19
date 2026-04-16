@@ -9,13 +9,14 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 import re
 
-from odoo import api, models, fields, _
+from odoo import api, models, fields
+from odoo.exceptions import UserError
+from odoo.tools import cleanup_xml_node, frozendict
 from odoo.addons.account_edi_ubl_cii.models.account_edi_common import FloatFmt
 from odoo.addons.account.tools import dict_to_xml
 from odoo.addons.l10n_co_dian import xml_utils
 from odoo.addons.l10n_co_edi.models.res_partner import FINAL_CONSUMER_VAT
 from odoo.addons.l10n_co_edi.models.account_invoice import L10N_CO_EDI_TYPE
-from odoo.tools import cleanup_xml_node, frozendict
 
 
 _logger = logging.getLogger(__name__)
@@ -294,19 +295,25 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
     def _export_invoice(self, invoice):
         # EXTENDS account.edi.xml.ubl_21
         xml, errors = super()._export_invoice(invoice)
-        if errors:
-            return xml, errors
-        xml = self._dian_insert_corporate_registration_scheme_node(invoice, xml)
-        return self._dian_sign_xml(xml, invoice)
+
+        certificates_sudo = invoice.company_id.sudo().l10n_co_dian_certificate_ids
+        if not certificates_sudo:
+            raise UserError(self.env._("No DIAN certificate is configured on the company."))
+        cert_sudo = certificates_sudo[-1]
+        root = etree.fromstring(xml)
+
+        self._dian_fill_signed_info_and_signature(root, cert_sudo)
+        return etree.tostring(root, encoding='UTF-8'), errors
 
     def _get_document_nsmap(self, vals):
         nsmap = super()._get_document_nsmap(vals)
         nsmap.update({
             'ds': "http://www.w3.org/2000/09/xmldsig#",
-            'sts': self._get_sts_namespace(vals['invoice']),
+            'sts': self._get_sts_namespace(vals),
             'xades': "http://uri.etsi.org/01903/v1.3.2#",
             'xades141': "http://uri.etsi.org/01903/v1.4.1#",
             'xsi': "http://www.w3.org/2001/XMLSchema-instance",
+            **self._get_document_extensions_nsmap(vals),
         })
         return nsmap
 
@@ -315,21 +322,23 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
 
         invoice = vals['invoice']
 
-        algorithm = {
-            'cude': "CUDE-SHA384",
-            'cuds': "CUDS-SHA384",
-        }.get(invoice.l10n_co_dian_identifier_type, "CUFE-SHA384")
-
-        prepayments = invoice._l10n_co_dian_get_invoice_prepayments()
-
         vals.update({
             'document_type': 'debit_note' if invoice.l10n_co_edi_debit_note
                 else 'credit_note' if invoice.move_type in ('out_refund', 'in_refund')
                 else 'invoice',
 
-            'algorithm': algorithm,
-            'prepayments': prepayments,
+            'l10n_co_edi_type': invoice.l10n_co_edi_type,
+            'l10n_co_edi_operation_type': invoice.l10n_co_edi_operation_type,
+            'l10n_co_dian_identifier_type': invoice.l10n_co_dian_identifier_type,
+            'l10n_co_edi_is_support_document': invoice.l10n_co_edi_is_support_document,
 
+            'name': invoice.name,
+            'prepayments': invoice._l10n_co_dian_get_invoice_prepayments(),
+        })
+        self._add_document_config_vals(vals)
+
+    def _add_document_config_vals(self, vals):
+        vals.update({
             # All amounts are reported in company currency (which should be COP)
             # If the invoice is in foreign currency, we just provide the exchange rate in PaymentExchangeRate.
             'use_company_currency': True,
@@ -337,6 +346,11 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             # Fixed tax (e.g. IBUA) amounts should be accounted not as AllowanceCharges but as taxes
             'fixed_taxes_as_allowance_charges': False,
         })
+
+        mode = 'invoice' if vals['l10n_co_dian_identifier_type'] != 'cuds' else 'bill'
+        vals['l10n_co_dian_operation_mode'] = vals['company'].l10n_co_dian_operation_mode_ids.filtered(
+            lambda operation_mode: operation_mode.dian_software_operation_mode == mode
+        )
 
     def _add_invoice_base_lines_vals(self, vals):
         # EXTEND account.edi.xml.ubl_21
@@ -369,33 +383,17 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             tax_data_01 = get_tax_data('01')
             tax_data_05['base_amount'] = tax_data_01['tax_amount'] if tax_data_01 else 0.0
 
-    def _add_invoice_tax_grouping_function_vals(self, vals):
-        invoice = vals['invoice']
-        self._add_document_tax_grouping_function_vals(vals)
-
-        total_grouping_function = vals['total_grouping_function']
-        tax_grouping_function = vals['tax_grouping_function']
-
-        # For support document, only the taxes IVA (01), ReteICA (05), ReteRenta (06) should be included
-        def total_grouping_function_excluding_support_document(base_line, tax_data):
-            tax = tax_data and tax_data['tax']
-            if invoice.l10n_co_edi_is_support_document and tax and tax.l10n_co_edi_type.code not in {'01', '05', '06'}:
-                return None
-            return total_grouping_function(base_line, tax_data)
-
-        def tax_grouping_function_excluding_support_document(base_line, tax_data):
-            tax = tax_data and tax_data['tax']
-            if invoice.l10n_co_edi_is_support_document and tax and tax.l10n_co_edi_type.code not in {'01', '05', '06'}:
-                return None
-            return tax_grouping_function(base_line, tax_data)
-
-        vals['total_grouping_function'] = total_grouping_function_excluding_support_document
-        vals['tax_grouping_function'] = tax_grouping_function_excluding_support_document
-
     def _add_document_tax_grouping_function_vals(self, vals):
         def total_grouping_function(base_line, tax_data):
-            if tax_data and tax_data['tax'].l10n_co_edi_type.retention:
+            tax = tax_data and tax_data['tax']
+
+            if tax and tax.l10n_co_edi_type.retention:
                 return None
+
+            # For support document, only the taxes IVA (01), ReteICA (05), ReteRenta (06) should be included
+            if vals['l10n_co_dian_identifier_type'] == 'cuds' and tax and tax.l10n_co_edi_type.code not in {'01', '05', '06'}:
+                return None
+
             return True
 
         def tax_grouping_function(base_line, tax_data):
@@ -403,6 +401,10 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             tax = tax_data and tax_data['tax']
 
             if not tax:
+                return None
+
+            # For support document, only the taxes IVA (01), ReteICA (05), ReteRenta (06) should be included
+            if vals['l10n_co_dian_identifier_type'] == 'cuds' and tax and tax.l10n_co_edi_type.code not in {'01', '05', '06'}:
                 return None
 
             if tax.l10n_co_edi_type.code == '32':
@@ -445,11 +447,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
     # EXPORT: Helpers
     # -------------------------------------------------------------------------
 
-    def _get_cufe_cude_cuds(self, document_node, vals):
-        """ Returns the values used to compute the CUFE/CUDE/CUDS """
-        invoice = vals['invoice']
-        operation_mode = self._dian_get_operation_mode(invoice)
-
+    def _add_document_cufe_cude_cuds_vals(self, document_node, vals):
         def format_float(amount, precision_digits=vals['currency_dp']):
             return self.format_float(amount, precision_digits)
 
@@ -469,10 +467,10 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 return aggregated_tax_details[True]['tax_amount']
             return 0.0
 
-        if invoice.l10n_co_dian_identifier_type in ('cude', 'cuds'):
-            key = operation_mode.dian_software_security_code
+        if vals['l10n_co_dian_identifier_type'] in ('cude', 'cuds'):
+            key = vals['l10n_co_dian_operation_mode'].dian_software_security_code
         else:
-            key = invoice.journal_id.l10n_co_dian_technical_key
+            key = vals['journal'].l10n_co_dian_technical_key
 
         monetary_total_tag = 'cac:LegalMonetaryTotal' if vals['document_type'] in {'invoice', 'credit_note'} else 'cac:RequestedMonetaryTotal'
 
@@ -493,10 +491,11 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             'key': key or 'missing_key',
             'profile_execution_id': document_node['cbc:ProfileExecutionID']['_text'],
         }
-        if invoice.l10n_co_edi_is_support_document:
+        if vals['l10n_co_dian_identifier_type'] == 'cuds':
             [cufe_cude_cuds_vals.pop(k) for k in ('tax_code_04', 'ValImp2', 'tax_code_03', 'ValImp3')]
 
-        return "".join(str(res) for res in cufe_cude_cuds_vals.values())
+        vals['cufe_cude_cuds'] = "".join(str(res) for res in cufe_cude_cuds_vals.values())
+        vals['uuid'] = sha384(vals['cufe_cude_cuds'].encode()).hexdigest()
 
     # -------------------------------------------------------------------------
     # EXPORT: Templates for invoice header nodes
@@ -504,43 +503,30 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
 
     def _get_invoice_node(self, vals):
         document_node = super()._get_invoice_node(vals)
-        self._fill_cufe_cude_cuds(document_node, vals)
+        self._add_invoice_payment_exchange_rate_node(document_node, vals)
+        self._add_document_cufe_cude_cuds_vals(document_node, vals)
+        self._add_document_uuid_node(document_node, vals)
+        self._add_document_signature_vals(vals)
+        self._add_document_extensions_node(document_node, vals)
         return document_node
 
     def _add_invoice_header_nodes(self, document_node, vals):
         super()._add_invoice_header_nodes(document_node, vals)
+        self._add_document_header_nodes(document_node, vals)
 
         invoice = vals['invoice']
-        line_count_numeric = len([base_line for base_line in vals['base_lines'] if not base_line['special_mode']])
+        if vals['l10n_co_dian_identifier_type'] != 'cuds':
+            customization_id = invoice.l10n_co_edi_operation_type
+        else:
+            customization_id = '10' if vals['supplier'].country_code == 'CO' else '11'
 
         document_node.update({
-            'xsi:schemaLocation': {
-                'invoice': "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2     "
-                    "http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd",
-                'credit_note': "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2    "
-                    "http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-CreditNote-2.1.xsd",
-                'debit_note': "urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2    "
-                    "http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-DebitNote-2.1.xsd"
-            }[vals['document_type']],
-            'cbc:UBLVersionID': {'_text': 'UBL 2.1'},
-            'cbc:CustomizationID': {'_text': self._dian_get_customization_id(invoice)},
+            'cbc:CustomizationID': {'_text': customization_id},
             'cbc:ProfileID': {'_text': invoice._l10n_co_edi_get_electronic_invoice_type_info()},
-            'cbc:ProfileExecutionID': {'_text': '2' if invoice.company_id.l10n_co_dian_test_environment else '1'},
-            'cbc:UUID': {
-                'schemeID': '2' if invoice.company_id.l10n_co_dian_test_environment else '1',
-                'schemeName': vals['algorithm'],
-            },
-            'cbc:IssueDate': {'_text': invoice.l10n_co_dian_post_time.date().isoformat()},
-            'cbc:IssueTime': {'_text': invoice.l10n_co_dian_post_time.strftime("%H:%M:%S-05:00")},
             'cbc:InvoiceTypeCode': {'_text': self._dian_get_document_type_code(invoice)} if vals['document_type'] == 'invoice' else None,
             'cbc:CreditNoteTypeCode': {'_text': self._dian_get_document_type_code(invoice)} if vals['document_type'] == 'credit_note' else None,
-            'cbc:DocumentCurrencyCode': {
-                '_text': "COP",
-                'listAgencyID': "6",
-                'listAgencyName': "United Nations Economic Commission for Europe",
-                'listID': "ISO 4217 Alpha",
-            },
-            'cbc:LineCountNumeric': {'_text': line_count_numeric},
+            'cbc:IssueDate': {'_text': invoice.l10n_co_dian_post_time.date().isoformat()},
+            'cbc:IssueTime': {'_text': invoice.l10n_co_dian_post_time.strftime("%H:%M:%S-05:00")},
             'cac:InvoicePeriod': {
                 'cbc:StartDate': {'_text': invoice.invoice_date},
                 'cbc:EndDate': {'_text': invoice.invoice_date},
@@ -560,13 +546,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 if invoice.l10n_co_edi_operation_type == '30'
                 else None
             ),
-        })
-
-        document_node['cac:OrderReference']['cbc:SalesOrderID'] = None
-
-        document_node['cac:BillingReference'] = self._get_billing_reference_node(invoice)
-
-        document_node.update({
+            'cac:BillingReference': self._get_billing_reference_node(invoice),
             'cac:PrepaidPayment': [
                 {
                     'cbc:ID': {'_text': p['name']},
@@ -577,7 +557,39 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                     'cbc:ReceivedDate': {'_text': p['date']},
                 }
                 for p in vals['prepayments']
-            ] if vals['document_type'] in {'invoice', 'credit_note'} else None,
+            ] if vals['document_type'] != 'credit_note' else None,
+        })
+
+        document_node['cac:OrderReference']['cbc:SalesOrderID'] = None
+
+    def _add_document_header_nodes(self, document_node, vals):
+        line_count_numeric = len([base_line for base_line in vals['base_lines'] if not base_line['special_mode'] and not base_line.get('is_tip')])
+
+        document_node.update({
+            'xsi:schemaLocation': {
+                'invoice': "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2     "
+                    "http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd",
+                'credit_note': "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2    "
+                    "http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-CreditNote-2.1.xsd",
+                'debit_note': "urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2    "
+                    "http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-DebitNote-2.1.xsd"
+            }[vals['document_type']],
+            'cbc:UBLVersionID': {'_text': 'UBL 2.1'},
+            'cbc:ProfileExecutionID': {'_text': '2' if vals['company'].l10n_co_dian_test_environment else '1'},
+            'cbc:UUID': {
+                'schemeID': '2' if vals['company'].l10n_co_dian_test_environment else '1',
+                'schemeName': {
+                    'cude': 'CUDE-SHA384',
+                    'cuds': 'CUDS-SHA384',
+                }.get(vals['l10n_co_dian_identifier_type'], 'CUFE-SHA384'),
+            },
+            'cbc:DocumentCurrencyCode': {
+                '_text': "COP",
+                'listAgencyID': "6",
+                'listAgencyName': "United Nations Economic Commission for Europe",
+                'listID': "ISO 4217 Alpha",
+            },
+            'cbc:LineCountNumeric': {'_text': line_count_numeric},
         })
 
     def _add_invoice_accounting_supplier_party_nodes(self, document_node, vals):
@@ -605,16 +617,16 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             'cbc:PaymentID': {'_text': invoice.payment_reference or invoice.name},
         }
 
-    def _fill_cufe_cude_cuds(self, document_node, vals):
-        invoice = vals['invoice']
+    def _add_document_uuid_node(self, document_node, vals):
         # Add CUFE/CUDE/CUDS
-        cufe_cude_cuds = self._get_cufe_cude_cuds(document_node, vals)
-        document_node['cbc:UUID']['_text'] = sha384(cufe_cude_cuds.encode()).hexdigest()  # as stated in the "Anexo Tecnico" file, SHA384 must be used
+        document_node['cbc:UUID']['_text'] = vals['uuid']  # as stated in the "Anexo Tecnico" file, SHA384 must be used
         document_node['cbc:Note'] = [
             document_node['cbc:Note'],
-            {'_text': cufe_cude_cuds}
+            {'_text': vals['cufe_cude_cuds']}
         ]
 
+    def _add_invoice_payment_exchange_rate_node(self, document_node, vals):
+        invoice = vals['invoice']
         if invoice.currency_id.name != "COP":
             document_node['cac:PaymentExchangeRate'] = {
                 'cbc:SourceCurrencyCode': {'_text': "COP"},
@@ -625,6 +637,9 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 'cbc:Date': {'_text': invoice.invoice_date},
             }
 
+    def _add_document_extensions_node(self, document_node, vals):
+        document_node['ext:UBLExtensions'] = self._get_document_extensions_node(vals)
+
     def _get_address_node(self, vals):
         partner = vals['partner']
         return {
@@ -634,7 +649,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             'cbc:CountrySubentity': {'_text': partner.state_id.name},
             'cbc:CountrySubentityCode': {'_text': str(partner.state_id.l10n_co_edi_code).zfill(2)},
             'cac:AddressLine': {
-                'cbc:Line': {'_text': partner._l10n_co_edi_get_company_address()}
+                'cbc:Line': {'_text': ' '.join(partner[x] for x in ('street', 'street2') if partner[x])}
             },
             'cac:Country': {
                 'cbc:IdentificationCode': {'_text': partner.country_id.code},
@@ -647,20 +662,21 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
 
     def _get_party_node(self, vals):
         partner = vals['partner']
-        invoice = vals['invoice']
         role = vals['role']
         commercial_partner = partner.commercial_partner_id
+        vat_without_verification_code = commercial_partner._get_vat_without_verification_code()
+        vat_verification_code = commercial_partner._get_vat_verification_code()
 
         return {
             'cbc:IndustryClassificationCode': {
-                '_text': invoice.company_id.l10n_co_edi_header_actividad_economica
-            } if role == 'supplier' and invoice.l10n_co_dian_identifier_type != 'cuds' else None,
+                '_text': vals['company'].l10n_co_edi_header_actividad_economica
+            } if role == 'supplier' and vals['l10n_co_dian_identifier_type'] != 'cuds' else None,
             'cac:PartyIdentification': {
                 'cbc:ID': {
-                    '_text': commercial_partner._get_vat_without_verification_code(),
+                    '_text': vat_without_verification_code,
                     'schemeName': (partner_code := commercial_partner._l10n_co_edi_get_carvajal_code_for_identification_type()),
                     # every Colombian NIT (code='rut') comprises a validation digit, it is mandatory to add it here
-                    'schemeID': commercial_partner._get_vat_verification_code() if partner_code == '31' else None,
+                    'schemeID': vat_verification_code if partner_code == '31' else None,
                 }
             } if not commercial_partner.is_company else None,
             'cac:PartyName': {
@@ -676,11 +692,11 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                     '_text': commercial_partner.name
                 },
                 'cbc:CompanyID': {
-                    '_text': commercial_partner._get_vat_without_verification_code(),
+                    '_text': vat_without_verification_code,
                     'schemeName': commercial_partner._l10n_co_edi_get_carvajal_code_for_identification_type(),
                     'schemeAgencyName': "CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)",
                     'schemeAgencyID': "195",
-                    'schemeID': commercial_partner._get_vat_verification_code()
+                    'schemeID': vat_verification_code
                     if partner._l10n_co_edi_get_carvajal_code_for_identification_type() == '31' else None,
                 },
                 'cbc:TaxLevelCode': {
@@ -702,12 +718,20 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                     '_text': commercial_partner.name
                 },
                 'cbc:CompanyID': {
-                    '_text': commercial_partner._get_vat_without_verification_code(),
+                    '_text': vat_without_verification_code,
                     'schemeName': commercial_partner._l10n_co_edi_get_carvajal_code_for_identification_type(),
                     'schemeAgencyName': "CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)",
                     'schemeAgencyID': "195",
-                    'schemeID': commercial_partner._get_vat_verification_code(),
+                    'schemeID': vat_verification_code,
                 },
+                'cac:CorporateRegistrationScheme': {
+                    'cbc:ID': {
+                        '_text': vals['journal'].code
+                    },
+                    'cbc:Name': {
+                        '_text': vals['company'].partner_id._get_vat_without_verification_code()
+                    },
+                } if role == 'supplier' else None,
             } if partner.vat != FINAL_CONSUMER_VAT else None,
             'cac:Contact': {
                 'cbc:Name': {
@@ -816,14 +840,32 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
         prepaid_amount = sum(p['amount'] for p in vals['prepayments'])
 
         monetary_total_tag = self._get_tags_for_document_type(vals)['monetary_total']
-
-        document_node[monetary_total_tag].update({
+        monetary_total_node = document_node[monetary_total_tag]
+        monetary_total_node.update({
+            'cbc:PayableAmount': {
+                '_text': self.format_float(vals['tax_inclusive_amount'], vals['currency_dp']),
+                'currencyID': vals['currency_name'],
+            },
             'cbc:PrepaidAmount': {
                 '_text': self.format_float(prepaid_amount, vals['currency_dp']),
                 'currencyID': vals['currency_name'],
             } if prepaid_amount else None,
-            'cbc:PayableAmount': {
-                '_text': document_node[monetary_total_tag]['cbc:TaxInclusiveAmount']['_text'],
+        })
+
+    def _add_document_monetary_total_nodes(self, document_node, vals):
+        super()._add_document_monetary_total_nodes(document_node, vals)
+
+        monetary_total_tag = self._get_tags_for_document_type(vals)['monetary_total']
+        monetary_total_node = document_node[monetary_total_tag]
+
+        # TaxExclusiveAmount and TaxInclusiveAmount should not include Allowances or Charges
+        monetary_total_node.update({
+            'cbc:TaxExclusiveAmount': {
+                '_text': self.format_float(vals['total_lines'], vals['currency_dp']),
+                'currencyID': vals['currency_name'],
+            },
+            'cbc:TaxInclusiveAmount': {
+                '_text': self.format_float(vals['total_lines'] + vals['total_tax_amount'], vals['currency_dp']),
                 'currencyID': vals['currency_name'],
             },
         })
@@ -963,21 +1005,24 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 for tax_details in grouped_aggregated_tax_details_by_l10n_co_edi_type['withholding_tax'].values()
             ]
 
-    def _add_invoice_line_item_nodes(self, line_node, vals):
-        super()._add_invoice_line_item_nodes(line_node, vals)
+    def _add_document_line_item_nodes(self, line_node, vals):
+        super()._add_document_line_item_nodes(line_node, vals)
 
         base_line = vals['base_line']
-        line = base_line['record']
-        invoice = vals['invoice']
         product = base_line['product_id']
-        if line.move_id.l10n_co_edi_type == L10N_CO_EDI_TYPE['Export Invoice']:
+        if vals['l10n_co_edi_type'] == L10N_CO_EDI_TYPE['Export Invoice']:
             line_node['cac:Item']['cbc:BrandName'] = {'_text': product.l10n_co_edi_brand}
             line_node['cac:Item']['cbc:ModelName'] = {'_text': product.l10n_co_edi_customs_code}
 
-        l10n_co_product_code, product_code_scheme_id, product_code_scheme_name = line._l10n_co_edi_get_product_code()
+        l10n_co_product_code, product_code_scheme_id, product_code_scheme_name = self._l10n_co_edi_get_product_code(
+            product,
+            vals['l10n_co_edi_type'],
+            vals['document_type'],
+            vals['l10n_co_edi_is_support_document'],
+        )
         line_node['cac:Item']['cac:SellersItemIdentification'] = {
-            'cbc:ID': {'_text': product.code if not invoice.l10n_co_edi_is_support_document else l10n_co_product_code},
-            'cbc:ExtendedID': {'_text': l10n_co_product_code} if invoice.l10n_co_edi_is_support_document else None,
+            'cbc:ID': {'_text': product.code if vals['l10n_co_dian_identifier_type'] != 'cuds' else l10n_co_product_code},
+            'cbc:ExtendedID': {'_text': l10n_co_product_code} if vals['l10n_co_dian_identifier_type'] == 'cuds' else None,
         }
         line_node['cac:Item']['cac:StandardItemIdentification'] = {
             'cbc:ID': {
@@ -986,6 +1031,28 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 'schemeName': product_code_scheme_name,
             }
         }
+
+    def _l10n_co_edi_get_product_code(self, product, l10n_co_edi_type, document_type, is_support_document):
+        if product:
+            if l10n_co_edi_type == L10N_CO_EDI_TYPE['Export Invoice']:
+                if not product.l10n_co_edi_customs_code:
+                    raise UserError(self.env._('Exportation invoices require custom code in all the products, please fill in this information before validating the invoice'))
+                return product.l10n_co_edi_customs_code, '020', 'Partida Alanceraria'
+
+            if (
+                    document_type == "credit_note" and
+                    is_support_document and
+                    (code := product.default_code or product.barcode or product.unspsc_code_id.code)
+            ):
+                return code, '999', 'Estándar de adopción del contribuyente'
+            elif product.barcode:
+                return product.barcode, '010', 'GTIN'
+            elif product.unspsc_code_id:
+                return product.unspsc_code_id.code, '001', 'UNSPSC'
+            elif product.default_code:
+                return product.default_code, '999', 'Estándar de adopción del contribuyente'
+
+        return '1010101', '001', ''
 
     def _add_document_line_tax_category_nodes(self, line_node, vals):
         # No InvoiceLine/Item/ClassifiedTaxCategory in Colombia
@@ -1027,16 +1094,16 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
         oldest_date = now - timedelta(days=6)
         newest_date = now + timedelta(days=6)
         if not (oldest_date <= fields.Datetime.to_datetime(move.invoice_date) <= newest_date):
-            constraints['dian_date'] = _("The issue date can not be older than 6 days or more than 6 days in the future.")
+            constraints['dian_date'] = self.env._("The issue date can not be older than 6 days or more than 6 days in the future.")
         # required fields on invoice
         if not move.l10n_co_dian_post_time:
-            constraints['l10n_co_dian_post_time'] = _("A posted time is required to compute the CUFE/CUDE/CUDS.")
+            constraints['l10n_co_dian_post_time'] = self.env._("A posted time is required to compute the CUFE/CUDE/CUDS.")
         if not move.l10n_co_edi_type:
-            constraints['l10n_co_edi_type'] = _("An Electronic Invoice Type must be selected before sending the invoice.")
+            constraints['l10n_co_edi_type'] = self.env._("An Electronic Invoice Type must be selected before sending the invoice.")
         # required fields on company
         operation_mode = self._dian_get_operation_mode(move)
         if not operation_mode:
-            constraints["dian_operation_modes"] = _("No DIAN Operation Mode Matches")
+            constraints["dian_operation_modes"] = self.env._("No DIAN Operation Mode Matches")
         else:
             mandatory_fields = ['dian_software_id', 'dian_software_operation_mode', 'dian_software_security_code']
             if move.company_id.l10n_co_dian_test_environment:
@@ -1044,10 +1111,10 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             for field in mandatory_fields:
                 constraints[field] = self._check_required_fields(operation_mode, field)
             if move.l10n_co_dian_identifier_type in ('cude', 'cuds') and not operation_mode.dian_software_security_code:
-                constraints['l10n_co_dian_identifier_type'] = _("The software PIN is required to compute the CUDE/CUDS.")
+                constraints['l10n_co_dian_identifier_type'] = self.env._("The software PIN is required to compute the CUDE/CUDS.")
         # required fields on journal
         if move.move_type == 'out_invoice' and not move.journal_id.l10n_co_dian_technical_key and not move.company_id.l10n_co_dian_demo_mode:
-            constraints['l10n_co_dian_technical_key'] = _("A technical key on the journal is required to compute the CUFE.")
+            constraints['l10n_co_dian_technical_key'] = self.env._("A technical key on the journal is required to compute the CUFE.")
         for field in (['l10n_co_edi_dian_authorization_number', 'l10n_co_edi_dian_authorization_date',
                       'l10n_co_edi_dian_authorization_end_date', 'l10n_co_edi_min_range_number',
                       'l10n_co_edi_max_range_number'] + ['l10n_co_dian_technical_key'] if not move.company_id.l10n_co_dian_demo_mode else []):
@@ -1061,7 +1128,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 f"dian_obligation_type_{role}": self._check_required_fields(commercial_partner, 'l10n_co_edi_obligation_type_ids'),
             })
             if commercial_partner.l10n_latam_identification_type_id.l10n_co_document_code != 'rut' and commercial_partner.vat and '-' in commercial_partner.vat:
-                constraints[f"dian_NIT_{role}"] = _("The identification number of %s contains '-' but is not a NIT.", commercial_partner.name)
+                constraints[f"dian_NIT_{role}"] = self.env._("The identification number of %s contains '-' but is not a NIT.", commercial_partner.name)
             if vals[role].country_code == 'CO' and commercial_partner.vat != FINAL_CONSUMER_VAT:
                 constraints[f'dian_country_subentity_{role}'] = self._check_required_fields(vals[role], 'state_id')
                 constraints[f"dian_city_{role}"] = self._check_required_fields(vals[role], 'city_id')
@@ -1072,44 +1139,46 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
                 product, ['default_code', 'barcode', 'unspsc_code_id'])
             if move.l10n_co_edi_type == L10N_CO_EDI_TYPE['Export Invoice'] and product:
                 if not product.l10n_co_edi_customs_code:
-                    constraints['dian_export_product_code'] = _("Every exportation product must have a customs code.")
+                    constraints['dian_export_product_code'] = self.env._("Every exportation product must have a customs code.")
                 if not product.l10n_co_edi_brand:
-                    constraints['dian_export_product_brand'] = _("Every exportation product must have a brand.")
+                    constraints['dian_export_product_brand'] = self.env._("Every exportation product must have a brand.")
             if "IBUA" in line.tax_ids.l10n_co_edi_type.mapped('name') and product.l10n_co_edi_ref_nominal_tax == 0:
-                constraints['dian_sugar'] = _(
+                constraints['dian_sugar'] = self.env._(
                     "Volume in milliliters should be set on the %(field_description)s field for product: %(product_name)s when using IBUA taxes.",
                     field_description=product._fields['l10n_co_edi_ref_nominal_tax']._description_string(self.env),
                     product_name=product.name)
             if "ICL" in line.tax_ids.l10n_co_edi_type.mapped('name') and product.l10n_co_edi_ref_nominal_tax == 0:
-                constraints['dian_alcohol'] = _(
+                constraints['dian_alcohol'] = self.env._(
                     "Alcohol percentage should be set on the %(field_description)s field for product: %(product_name)s when using ICL taxes.",
                     field_description=product._fields['l10n_co_edi_ref_nominal_tax']._description_string(self.env),
                     product_name=product.name)
+            if not self._dian_uom_code(line):
+                constraints['dian_uom'] = self.env._("There is no Colombian code on the unit of measure: %s", line.product_uom_id.name)
             if move.l10n_co_edi_is_support_document and move.currency_id.is_zero(line.price_unit):
-                constraints['dian_zero_lines'] = _("Every lines should have non zero price units.")
+                constraints['dian_zero_lines'] = self.env._("Every lines should have non zero price units.")
 
         if move.l10n_co_edi_operation_type == '20':
             # Credit note with a referenced invoice
             if not move.l10n_co_edi_description_code_credit:
-                constraints['dian_credit_note_missing_reason'] = _("Please set a credit note reason as it is required for this type of transaction.")
+                constraints['dian_credit_note_missing_reason'] = self.env._("Please set a credit note reason as it is required for this type of transaction.")
             if not move.reversed_entry_id:
-                constraints['dian_credit_note'] = _("There is no invoice linked to this credit note but the operation type is '20'.")
+                constraints['dian_credit_note'] = self.env._("There is no invoice linked to this credit note but the operation type is '20'.")
             elif not move.reversed_entry_id.l10n_co_edi_cufe_cude_ref:
-                constraints['dian_credit_note_cufe'] = _("The invoice linked to this credit note has no CUFE.")
+                constraints['dian_credit_note_cufe'] = self.env._("The invoice linked to this credit note has no CUFE.")
 
         if move.move_type == 'in_refund':
             # Support Document Credit Note
             if not move.reversed_entry_id:
-                constraints['dian_credit_note'] = _("There is no support document linked to this credit note.")
+                constraints['dian_credit_note'] = self.env._("There is no support document linked to this credit note.")
             if not move.reversed_entry_id.l10n_co_edi_cufe_cude_ref:
-                constraints['dian_credit_note_cufe'] = _("The support document linked to this credit note has no CUDS.")
+                constraints['dian_credit_note_cufe'] = self.env._("The support document linked to this credit note has no CUDS.")
 
         if move.l10n_co_edi_operation_type == '30':
             # Debit note with a referenced invoice
             if not move.debit_origin_id:
-                constraints['dian_debit_note'] = _("There is no original debited invoice but the operation type is '30'.")
+                constraints['dian_debit_note'] = self.env._("There is no original debited invoice but the operation type is '30'.")
             elif not move.debit_origin_id.l10n_co_edi_cufe_cude_ref:
-                constraints['dian_debit_note_cufe'] = _("The original debited invoice has no CUFE.")
+                constraints['dian_debit_note_cufe'] = self.env._("The original debited invoice has no CUFE.")
 
         if move.l10n_co_edi_operation_type in ('20', '22'):
             constraints['dian_concepto_credit_note'] = self._check_required_fields(move, 'l10n_co_edi_description_code_credit')
@@ -1118,7 +1187,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
 
         if move.l10n_co_edi_operation_type == '09':
             if set(move.line_ids.mapped('product_id.type')) != {'service'}:
-                constraints['dian_aiu_products'] = _("All products in an AIU invoice should be a service.")
+                constraints['dian_aiu_products'] = self.env._("All products in an AIU invoice should be a service.")
         return constraints
 
     # -------------------------------------------------------------------------
@@ -1126,22 +1195,24 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
     # -------------------------------------------------------------------------
 
     def _export_co_send_event_update_status_invoice(self, invoice, next_commercial_state):
-        # 1. Instantiate the XML builder
         vals = {'invoice': invoice, 'l10n_co_dian_commercial_state_next': next_commercial_state}
         document_node = self._get_co_invoice_event_update_status_node(vals)
         document_nsmap = self._get_co_invoice_event_update_status_nsmap(vals)
 
-        # 2. Render the XML
         xml_content = dict_to_xml(document_node, nsmap=document_nsmap)
+        self._dian_fill_signed_info_and_signature(xml_content, vals['x509_certificate'])
 
-        # 3. Format the XML
-        xml = etree.tostring(xml_content, xml_declaration=True, encoding='UTF-8')
-        return self.with_context(l10n_co_next_commercial_state=next_commercial_state)._dian_sign_xml(xml, invoice)
+        return etree.tostring(xml_content, encoding='UTF-8'), []
 
     def _get_co_invoice_event_update_status_node(self, vals):
         self._add_co_invoice_event_update_status_config_vals(vals)
 
         document_node = {'_tag': 'ApplicationResponse'}
+
+        self._add_document_config_vals(vals)
+        self._add_document_signature_vals(vals)
+        self._add_document_extensions_node(document_node, vals)
+
         self._add_co_invoice_event_update_status_header_nodes(document_node, vals)
         self._add_co_invoice_event_update_status_note_nodes(document_node, vals)
         self._add_co_invoice_event_update_status_sender_party_nodes(document_node, vals)
@@ -1154,31 +1225,28 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
 
     def _add_co_invoice_event_update_status_config_vals(self, vals):
         invoice = vals['invoice']
+        commercial_state_values = invoice._fields['l10n_co_dian_commercial_state'].get_values(self.env)
+        id_prefix = invoice.ref if invoice.is_purchase_document() else invoice.name
         vals.update({
             'now': datetime.now(tz=timezone('America/Bogota')),
+            'company': invoice.company_id,
+            'journal': invoice.journal_id,
+            'l10n_co_dian_identifier_type': invoice.l10n_co_dian_identifier_type,
+            'uuid': invoice.l10n_co_edi_cufe_cude_ref,
             'sender_partner': invoice.company_id.partner_id,
             'receiver_partner': invoice.partner_id,
             'is_test_env': invoice.company_id.l10n_co_dian_test_environment,
             'tax_types': invoice.line_ids.tax_ids.flatten_taxes_hierarchy().mapped('l10n_co_edi_type'),
+            'name': f'{id_prefix}{commercial_state_values.index(vals["l10n_co_dian_commercial_state_next"])}',
         })
 
     def _add_co_invoice_event_update_status_header_nodes(self, node, vals):
-        invoice = vals['invoice']
-        commercial_state_values = invoice._fields['l10n_co_dian_commercial_state'].get_values(self.env)
-        if invoice.is_purchase_document():
-            id_prefix = invoice.ref
-        else:
-            id_prefix = invoice.name
-
         node.update({
             'cbc:UBLVersionID': {'_text': 'UBL 2.1'},
             'cbc:CustomizationID': {'_text': '1'},
             'cbc:ProfileID': {'_text': 'DIAN 2.1: ApplicationResponse de la Factura Electrónica de Venta'},
             'cbc:ProfileExecutionID': {'_text': '2' if vals['is_test_env'] else '1'},
-            'cbc:ID': {
-                # the move id suffixed by a number that increases with every call
-                '_text': f'{id_prefix}{commercial_state_values.index(vals["l10n_co_dian_commercial_state_next"])}',
-            },
+            'cbc:ID': {'_text': vals['name']},
             'cbc:UUID': {
                 'schemeID': '2' if vals['is_test_env'] else '1',
                 'schemeName': 'CUDE-SHA384',
@@ -1273,7 +1341,7 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
             case 'accepted_by_issuer':
                 description = "Aceptación Tácita"
             case unknown_state:
-                _logger.warning(_("Unknown commercial state %(state)s", state=unknown_state))
+                _logger.warning(self.env._("Unknown commercial state %(state)s", state=unknown_state))
                 description = None
 
         commercial_states = dict(invoice._fields['l10n_co_dian_commercial_state']._description_selection(self.env))
@@ -1345,7 +1413,193 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
     # Utils
     # -------------------------------------------------------------------------
 
+    def _dian_uom_code(self, line):
+        _logger.debug('method is deprecated, use _dian_get_co_ubl_code instead')
+        return self._dian_get_co_ubl_code(line.product_uom_id)
+
+    @api.model
+    def _dian_get_co_ubl_code(self, uom):
+        """ Colombia follows a standard that very much resembles the UNSPSC """
+        return uom.l10n_co_edi_ubl or '94'
+
+    def _dian_tax_amount_repr(self, tax_amount):
+        """ Returns a string representation of a float amount to fill the 'TaxSubtotal/TaxCategory/Percent' node.
+
+        DIAN accepts up to 3 decimals for this node. But it also checks that the type of tax is consistent with the
+        tax amount reported.
+        For instance: '19.00' for an 'IVA' tax is allowed, but '19.000' is not (it raises: "FAS01b, Rechazo: Tributo
+        IVA (01), INC (04) informado no coincide, revisar Porcentaje, Nombre y ID.").
+        The majority of taxes have only 2 decimals, but some have 3 (and they should be reported with all their
+        decimals), hence this weird function.
+        """
+        str_tax_amount = self.format_float(abs(tax_amount), 3)  # withholding taxes are reported as positives
+        return str_tax_amount[:-1] if str_tax_amount.endswith('0') else str_tax_amount
+
+    def _dian_tax_totals(self, move, taxes_vals, withholding):
+        """
+        Colombian particularity: there should be one `TaxTotal` per colombian tax type, comprising 1 or more
+        `TaxSubtotal` (1 per tax amount). The same applies for `WithholdingTaxTotal`.
+
+        :returns: [
+            {
+                'tax_amount': float,
+                'currency': res.currency,
+                'currency_dp': int,
+                'tax_subtotal_vals': [{
+                    'tax_amount': float,
+                    'taxable_amount': float,
+                    'currency': res.currency,
+                    'currency_dp': int,
+                    'tax_category_vals': {},
+                }]
+            },
+        ]
+        """
+        def filter_tax_details(key):
+            if move.l10n_co_edi_is_support_document:
+                # For support document, only the taxes IVA (01), ReteICA (05), ReteRenta (06) should be included
+                return key['tax_co_ret'] == withholding and key['tax_co_type'] in ('01', '05', '06')
+            return key['tax_co_ret'] == withholding
+
+        currency = move.company_id.currency_id
+        tax_total_dict = defaultdict(lambda: {
+            'currency': currency,
+            'currency_dp': self._get_currency_decimal_places(currency),
+            'tax_amount': 0,
+            'per_unit_amount': 0,
+            'tax_subtotal_vals': [],
+        })
+        filtered_tax_details = {k: v for k, v in taxes_vals['tax_details'].items() if filter_tax_details(k)}
+        for grouping_key, vals in filtered_tax_details.items():
+            tax_co_type = grouping_key['tax_co_type']
+            tax_total_dict[tax_co_type]['tax_co_type'] = tax_co_type  # not used in the xml, used to build the CUFE
+            tax_subtotal = {
+                'currency': currency,
+                'currency_dp': self._get_currency_decimal_places(currency),
+                'taxable_amount': vals['base_amount'],
+                'tax_amount': abs(vals['tax_amount']),   # abs for withholding taxes
+                'tax_category_vals': {
+                    'percent': self._dian_tax_amount_repr(float(vals['_tax_category_vals_']['percent'])),
+                    'tax_scheme_vals': vals['_tax_category_vals_']['tax_scheme_vals'],
+                },
+            }
+            if tax_co_type == '22':
+                # INC Bolsas (tax on plastic bags) is a tax based on the number of plastic bags used in the sale.
+                # It is always sent in NIUs (Number of Items) according to the specifications listed in the DIAN documentation.
+                tax_subtotal.pop('taxable_amount')
+                tax_subtotal['base_unit_measure_attrs'] = {'unitCode': "NIU"}
+                if 'percent' in tax_subtotal['tax_category_vals']:
+                    tax_subtotal['tax_category_vals'].pop('percent')
+                # Fixed rate per bag
+                tax_subtotal['base_unit_measure'] = float(vals['_tax_category_vals_']['percent'])
+                tax_subtotal['per_unit_amount'] = self.format_float(tax_subtotal['base_unit_measure'], 2)
+            if tax_co_type == '32':
+                # ICL (tax on alcoholic beverages) is a tax based on the alcohol percentage in the bottle.
+                # It is always sent in LTRs according to the specifications listed in the DIAN documentation.
+                tax_subtotal.pop('taxable_amount')
+                tax_subtotal['base_unit_measure_attrs'] = {'unitCode': 'LTR'}
+                if 'percent' in tax_subtotal['tax_category_vals']:
+                    tax_subtotal['tax_category_vals'].pop('percent')
+                if 'tax_details_per_record' in taxes_vals:
+                    tax_subtotal['base_unit_measure'] = sum(
+                        base_line['product_id'].l10n_co_edi_ref_nominal_tax
+                        for base_line, _taxes_data in vals['base_line_x_taxes_data']
+                    )
+                else:
+                    base_line = taxes_vals['base_line']
+                    tax_subtotal['base_unit_measure'] = base_line['product_id'].l10n_co_edi_ref_nominal_tax
+                # Field validation happens after the exporting of values so we default to a sensible rate of 0 if no
+                # alcohol percent is set.
+                rate = 0
+                if tax_subtotal['base_unit_measure']:
+                    rate = vals['tax_amount'] / tax_subtotal['base_unit_measure']
+                tax_subtotal['per_unit_amount'] = self.format_float(rate, 2)
+            if tax_co_type == '34':
+                # IBUA (tax on sugar beverages) is a tax based on the quantity of sugar per 100mL
+                # e.g. if the quantity of sugar per 100mL is > 10gr -> tax of 35$ per 100mL
+                # In Odoo, we use fixed taxes and a field for the volume of the product: l10n_co_edi_ref_nominal_tax
+                # Hence, we can infer the rate per 100mL of the tax
+                tax_subtotal.pop('taxable_amount')
+                tax_subtotal['base_unit_measure_attrs'] = {'unitCode': "ML"}
+                if 'percent' in tax_subtotal['tax_category_vals']:
+                    tax_subtotal['tax_category_vals'].pop('percent')
+                # Total Volume in mL
+                if 'tax_details_per_record' in taxes_vals:
+                    tax_subtotal['base_unit_measure'] = sum(
+                        base_line['product_id'].l10n_co_edi_ref_nominal_tax * base_line['quantity']
+                        for base_line, _taxes_data in vals['base_line_x_taxes_data']
+                    )
+                else:
+                    base_line = taxes_vals['base_line']
+                    tax_subtotal['base_unit_measure'] = base_line['product_id'].l10n_co_edi_ref_nominal_tax * base_line['quantity']
+                # Infer the rate per 100mL
+                # Field validation happens after the exporting of values so we default to a sensible rate of 0 if
+                # no sugar contents are set.
+                rate = 0
+                if tax_subtotal['base_unit_measure']:
+                    rate = vals['tax_amount'] * 100 / tax_subtotal['base_unit_measure']
+                tax_subtotal['per_unit_amount'] = self.format_float(rate, 2)
+            tax_total_dict[tax_co_type]['tax_amount'] += tax_subtotal['tax_amount']  # abs for withholding taxes
+            tax_total_dict[tax_co_type]['tax_subtotal_vals'].append(tax_subtotal)
+
+        if '05' in tax_total_dict and move.l10n_co_edi_is_support_document and withholding:
+            # Taxes with type '05' are retention taxes (15 %) that apply on the *tax amount* of a regular VAT tax
+            # Hence, the tax "15% RteVAT 19%" is encoded as a -2.85% tax in Odoo
+            if 'tax_details_per_record' in taxes_vals:
+                # On document level, backtrack the taxable amount based on the tax amount
+                for subtotal in tax_total_dict['05']['tax_subtotal_vals']:
+                    subtotal['tax_category_vals']['percent'] = '15.00'
+                    subtotal['taxable_amount'] = subtotal['tax_amount'] / 0.15
+            else:
+                # On invoice line, look at the sibling tax total node '01' and extract its exact tax amount
+                # DSAY05: the Taxable Amount for the taxes with type '05' should be equal to the Tax Amount
+                # on which the taxes with type '01' were applied
+                sibling_tax_totals = self._dian_tax_totals(move, taxes_vals, withholding=False)
+                tax_amount_01 = next((tot for tot in sibling_tax_totals if tot['tax_co_type'] == '01'), {'tax_amount': 0})['tax_amount']
+                for subtotal in tax_total_dict['05']['tax_subtotal_vals']:
+                    subtotal['tax_category_vals']['percent'] = '15.00'
+                    subtotal['taxable_amount'] = tax_amount_01
+        return [v for k, v in tax_total_dict.items()]
+
+    def _dian_get_identifier_vals(self, invoice, invoice_vals):
+        """ Returns the values used to compute the CUFE/CUDE/CUDS """
+        operation_mode = self._dian_get_operation_mode(invoice)
+
+        def format_float(amount, precision_digits=invoice_vals['vals']['currency_dp']):
+            return invoice_vals['format_float'](amount, precision_digits)
+
+        def get_filtered_tax_amount(co_tax_code):
+            """ Get the tax amount associated to a given colombian tax type code. """
+            return sum(ttvals['tax_amount'] for ttvals in invoice_vals['vals']['tax_total_vals'] if ttvals['tax_co_type'] == co_tax_code)
+
+        if invoice.l10n_co_dian_identifier_type in ('cude', 'cuds'):
+            key = operation_mode.dian_software_security_code
+        else:
+            key = invoice.journal_id.l10n_co_dian_technical_key
+
+        vals = {
+            'invoice_id': invoice_vals['vals']['id'],
+            'issue_date': invoice_vals['vals']['issue_date'],
+            'issue_time': invoice_vals['vals']['issue_time'],  # invoice time (including tz)
+            'line_extension_amount': format_float(invoice_vals['vals']['monetary_total_vals']['line_extension_amount']),
+            'tax_code_01': '01',
+            'ValImp1': format_float(get_filtered_tax_amount('01')),
+            'tax_code_04': '04',
+            'ValImp2': format_float(get_filtered_tax_amount('04')),
+            'tax_code_03': '03',
+            'ValImp3': format_float(get_filtered_tax_amount('03')),
+            'ValTotFac': format_float(invoice_vals['vals']['monetary_total_vals']['payable_amount']),
+            'supplier_company_id': invoice_vals['vals']['accounting_supplier_party_vals']['party_vals']['party_tax_scheme_vals'][0]['company_id'],
+            'customer_company_id': invoice_vals['vals']['accounting_customer_party_vals']['party_vals']['party_tax_scheme_vals'][0]['company_id'],
+            'key': key or 'missing_key',
+            'profile_execution_id': invoice_vals['vals']['profile_execution_id'],
+        }
+        if invoice.l10n_co_edi_is_support_document:
+            [vals.pop(k) for k in ('tax_code_04', 'ValImp2', 'tax_code_03', 'ValImp3')]
+        return vals
+
     def _dian_insert_corporate_registration_scheme_node(self, invoice, xml):
+        # TODO: Remove in master - this method is not called anywhere
         # Create a CorporateRegistrationScheme node
         root = etree.fromstring(xml)
         nsmap = root.nsmap
@@ -1362,6 +1616,7 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
 
     def _dian_get_qr_code_url(self, invoice, identifier):
         """ Returns the value used to fill the sts:DianExtensions/sts:QRCode node """
+        # TODO: Remove in master - this method is not called anywhere
         if invoice.company_id.l10n_co_dian_test_environment:
             url = 'https://catalogo-vpfe-hab.dian.gov.co/document/searchqr?documentkey='
         else:
@@ -1387,6 +1642,7 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
 
     def _dian_get_customization_id(self, invoice):
         """ Returns the value used for the 'CustomizationID' node """
+        # TODO: Remove in master - this method is not called anywhere
         if not invoice.l10n_co_edi_is_support_document:
             return invoice.l10n_co_edi_operation_type
         return '10' if invoice.partner_id.country_code == 'CO' else '11'
@@ -1399,8 +1655,8 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
             lambda operation_mode: operation_mode.dian_software_operation_mode == mode
         )
 
-    def _get_sts_namespace(self, invoice):
-        if invoice.l10n_co_edi_debit_note or invoice.move_type == 'out_refund':
+    def _get_sts_namespace(self, vals):
+        if vals['document_type'] in ('credit_note', 'debit_note'):
             return "http://www.dian.gov.co/contratos/facturaelectronica/v1/Structures"
         else:
             return "dian:gov:co:facturaelectronica:Structures-2-1"
@@ -1427,51 +1683,219 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
         return sha384(cude.encode()).hexdigest()
 
     def _dian_sign_xml(self, xml, invoice):
-        errors = []
-        certificates_sudo = invoice.company_id.sudo().l10n_co_dian_certificate_ids
-        operation_mode = self._dian_get_operation_mode(invoice)
-        x509_certificates = []
-        for cert_sudo in certificates_sudo:
-            x509_certificates.append({
-                'x509_issuer_description': cert_sudo._get_issuer_string(),
-                'x509_serial_number': int(cert_sudo.serial_number),
-            })
+        # TODO: Remove in master - this method is not called anywhere
+        vals = {'invoice': invoice}
         root = etree.fromstring(xml)
-        namespaces = root.nsmap
-        document_number = root.findtext('./cbc:ID', namespaces=namespaces)
+        vals['uuid'] = root.findtext('./cbc:UUID', namespaces=root.nsmap)
 
-        if ((invoice.move_type in ('in_invoice', 'in_refund') and not invoice.l10n_co_edi_is_support_document)
-                or (invoice.move_type == 'out_invoice' and self.env.context.get('l10n_co_next_commercial_state') == 'accepted_by_issuer')):
-            identifier = root.findtext('.//cac:DocumentResponse/cac:DocumentReference/cbc:UUID', namespaces=namespaces)
+        self._add_invoice_config_vals(vals)
+        self._add_document_signature_vals(vals)
+
+        extensions_node = self._get_document_extensions_node(vals)
+        nsmap = self._get_document_extensions_nsmap(vals)
+
+        extensions = dict_to_xml(extensions_node, nsmap=nsmap, render_empty_nodes=True)
+        root.insert(0, extensions)
+
+        xml_utils._remove_tail_and_text_in_hierarchy(root)
+        self._dian_fill_signed_info_and_signature(root, vals['x509_certificate'])
+        return etree.tostring(root, encoding='UTF-8'), []
+
+    def _dian_fill_signed_info_and_signature(self, root, certificate):
+        # Hash and sign
+        xml_utils._reference_digests(root.find(".//ds:SignedInfo", {'ds': 'http://www.w3.org/2000/09/xmldsig#'}))
+        xml_utils._fill_signature(root.find(".//ds:Signature", {'ds': 'http://www.w3.org/2000/09/xmldsig#'}), certificate)
+
+    def _add_document_signature_vals(self, vals):
+        certificates_sudo = vals['company'].sudo().l10n_co_dian_certificate_ids
+        if not certificates_sudo:
+            raise UserError(self.env._("No DIAN certificate is configured on the company."))
+
+        if not vals['l10n_co_dian_operation_mode']:
+            raise UserError(self.env._("No DIAN Operation Mode Matches"))
+
+        if vals['company'].l10n_co_dian_test_environment:
+            qr_code_val = f'https://catalogo-vpfe-hab.dian.gov.co/document/searchqr?documentkey={vals["uuid"]}'
         else:
-            identifier = root.findtext('./cbc:UUID', namespaces=namespaces)
+            qr_code_val = f'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey={vals["uuid"]}'
 
-        signature_vals = {
-            'record': invoice,
-            'sts_namespace': self._get_sts_namespace(invoice),
-            'provider_check_digit': invoice.company_id.partner_id._get_vat_verification_code(),
-            'provider_id': invoice.company_id.partner_id._get_vat_without_verification_code(),
-            'software_id': operation_mode.dian_software_id,
-            'software_security_code': self._dian_get_security_code(operation_mode, document_number),
-            'qr_code_val': self._dian_get_qr_code_url(invoice, identifier),
+        vals['software_security_code'] = sha384((
+            vals['l10n_co_dian_operation_mode'].dian_software_id
+                + vals['l10n_co_dian_operation_mode'].dian_software_security_code
+                + vals['name']
+        ).encode()).hexdigest()
+
+        vals.update({
+            'qr_code_val': qr_code_val,
             'document_id': "xmldsig-" + str(xml_utils._uuid1()),
             'key_info_id': "xmldsig-" + str(xml_utils._uuid1()) + "-keyinfo",
-            'x509_certificate': cert_sudo._get_der_certificate_bytes().decode(),
-            'x509_certificates': x509_certificates,
+            'x509_certificate': certificates_sudo[-1],
+            'x509_certificates': certificates_sudo,
             'signature_value': 'to be filled later',
             # Colombia time (UTC-5): p.556 "Anexo-Tecnico-Resolucion[...].pdf"
             'signing_time': datetime.now(tz=timezone('America/Bogota')).isoformat(timespec='milliseconds'),
-            'sigcertif_digest': cert_sudo._get_fingerprint_bytes(formatting='base64').decode(),
             'claimed_role': "supplier",
+        })
+
+    def _get_document_extensions_nsmap(self, vals):
+        return {
+            'cbc': "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+            'ds': "http://www.w3.org/2000/09/xmldsig#",
+            'ext': "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2",
+            'sts': self._get_sts_namespace(vals),
+            'xades': "http://uri.etsi.org/01903/v1.3.2#",
         }
-        extensions = self.env['ir.qweb']._render('l10n_co_dian.ubl_extension_dian', signature_vals)
-        extensions = cleanup_xml_node(extensions, remove_blank_nodes=False)
-        root.insert(0, extensions)
-        xml_utils._remove_tail_and_text_in_hierarchy(root)
-        # Hash and sign
-        xml_utils._reference_digests(extensions.find(".//ds:SignedInfo", {'ds': 'http://www.w3.org/2000/09/xmldsig#'}))
-        xml_utils._fill_signature(extensions.find(".//ds:Signature", {'ds': 'http://www.w3.org/2000/09/xmldsig#'}), cert_sudo)
-        return etree.tostring(root, encoding='UTF-8'), errors
+
+    def _get_document_extensions_node(self, vals):
+        return {
+            '_tag': 'ext:UBLExtensions',
+            'ext:UBLExtension': [
+                # First UBLExtension for DIAN details
+                {
+                    'ext:ExtensionContent': {
+                        'sts:DianExtensions': {
+                            'sts:InvoiceControl': {
+                                'sts:InvoiceAuthorization': {
+                                    '_text': vals['journal'].l10n_co_edi_dian_authorization_number
+                                },
+                                'sts:AuthorizationPeriod': {
+                                    'cbc:StartDate': {'_text': vals['journal'].l10n_co_edi_dian_authorization_date},
+                                    'cbc:EndDate': {'_text': vals['journal'].l10n_co_edi_dian_authorization_end_date},
+                                },
+                                'sts:AuthorizedInvoices': {
+                                    'sts:Prefix': {'_text': vals['journal'].code},
+                                    'sts:From': {'_text': vals['journal'].l10n_co_edi_min_range_number},
+                                    'sts:To': {'_text': vals['journal'].l10n_co_edi_max_range_number},
+                                },
+                            },
+                            'sts:InvoiceSource': {
+                                'cbc:IdentificationCode': {
+                                    '_text': 'CO',
+                                    'listAgencyID': '6',
+                                    'listAgencyName': 'United Nations Economic Commission for Europe',
+                                    'listSchemeURI': 'urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode-2.1',
+                                }
+                            },
+                            'sts:SoftwareProvider': {
+                                'sts:ProviderID': {
+                                    '_text': vals['company'].partner_id._get_vat_without_verification_code(),
+                                    'schemeAgencyID': '195',
+                                    'schemeAgencyName': 'CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)',
+                                    'schemeID': vals['company'].partner_id._get_vat_verification_code(),
+                                    'schemeName': '31',
+                                },
+                                'sts:SoftwareID': {
+                                    '_text': vals['l10n_co_dian_operation_mode'].dian_software_id,
+                                    'schemeAgencyID': '195',
+                                    'schemeAgencyName': 'CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)',
+                                },
+                            },
+                            'sts:SoftwareSecurityCode': {
+                                '_text': vals['software_security_code'],
+                                'schemeAgencyID': '195',
+                                'schemeAgencyName': 'CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)',
+                            },
+                            'sts:AuthorizationProvider': {
+                                'sts:AuthorizationProviderID': {
+                                    '_text': '800197268',
+                                    'schemeAgencyID': '195',
+                                    'schemeAgencyName': 'CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)',
+                                    'schemeID': '4',
+                                    'schemeName': '31',
+                                }
+                            },
+                            'sts:QRCode': {'_text': vals['qr_code_val']},
+                        }
+                    }
+                },
+                # Second UBLExtension for Signature
+                {
+                    'ext:ExtensionContent': {
+                        'ds:Signature': {
+                            'Id': vals['document_id'],
+                            'ds:SignedInfo': {
+                                'ds:CanonicalizationMethod': {'Algorithm': 'http://www.w3.org/TR/2001/REC-xml-c14n-20010315'},
+                                'ds:SignatureMethod': {'Algorithm': 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256'},
+                                'ds:Reference': [
+                                    {
+                                        'Id': f'{vals["document_id"]}-ref0',
+                                        'URI': '',
+                                        'ds:Transforms': {
+                                            'ds:Transform': {'Algorithm': 'http://www.w3.org/2000/09/xmldsig#enveloped-signature'}
+                                        },
+                                        'ds:DigestMethod': {'Algorithm': 'http://www.w3.org/2001/04/xmlenc#sha256'},
+                                        'ds:DigestValue': {'_text': 'dummy'},  # This should be filled in later
+                                    },
+                                    {
+                                        'URI': f'#{vals["key_info_id"]}',
+                                        'ds:DigestMethod': {'Algorithm': 'http://www.w3.org/2001/04/xmlenc#sha256'},
+                                        'ds:DigestValue': {'_text': 'dummy'},  # This should be filled in later
+                                    },
+                                    {
+                                        'Type': 'http://uri.etsi.org/01903#SignedProperties',
+                                        'URI': f'#{vals["document_id"]}-signedprops',
+                                        'ds:DigestMethod': {'Algorithm': 'http://www.w3.org/2001/04/xmlenc#sha256'},
+                                        'ds:DigestValue': {'_text': 'dummy'},  # This should be filled in later
+                                    }
+                                ]
+                            },
+                            'ds:SignatureValue': {
+                                '_text': vals['signature_value'],
+                                'Id': f'{vals["document_id"]}-sigvalue',
+                            },
+                            'ds:KeyInfo': {
+                                'Id': vals['key_info_id'],
+                                'ds:X509Data': {
+                                    'ds:X509Certificate': {'_text': vals['x509_certificate']._get_der_certificate_bytes().decode()}
+                                }
+                            },
+                            'ds:Object': {
+                                'xades:QualifyingProperties': {
+                                    'Target': f'#{vals["document_id"]}',
+                                    'xades:SignedProperties': {
+                                        'Id': f'{vals["document_id"]}-signedprops',
+                                        'xades:SignedSignatureProperties': {
+                                            'xades:SigningTime': {'_text': vals['signing_time']},
+                                            'xades:SigningCertificate': {
+                                                'xades:Cert': [
+                                                    {
+                                                        'xades:CertDigest': {
+                                                            'ds:DigestMethod': {'Algorithm': 'http://www.w3.org/2001/04/xmlenc#sha256'},
+                                                            'ds:DigestValue': {'_text': vals['x509_certificate']._get_fingerprint_bytes(formatting='base64').decode()},
+                                                        },
+                                                        'xades:IssuerSerial': {
+                                                            'ds:X509IssuerName': {'_text': cert._get_issuer_string()},
+                                                            'ds:X509SerialNumber': {'_text': int(cert.serial_number)},
+                                                        }
+                                                    } for cert in vals['x509_certificates']
+                                                ]
+                                            },
+                                            'xades:SignaturePolicyIdentifier': {
+                                                'xades:SignaturePolicyId': {
+                                                    'xades:SigPolicyId': {
+                                                        'xades:Identifier': {'_text': 'https:/facturaelectronica.dian.gov.co/politicadefirma/v2/politicadefirmav2.pdf'},
+                                                        'xades:Description': {'_text': 'Política de firma para facturas electrónicas de la República de Colombia.'}
+                                                    },
+                                                    'xades:SigPolicyHash': {
+                                                        'ds:DigestMethod': {'Algorithm': 'http://www.w3.org/2001/04/xmlenc#sha256'},
+                                                        'ds:DigestValue': {'_text': 'dMoMvtcG5aIzgYo0tIsSQeVJBDnUnfSOfBpxXrmor0Y='},
+                                                    }
+                                                }
+                                            },
+                                            'xades:SignerRole': {
+                                                'xades:ClaimedRoles': {
+                                                    'xades:ClaimedRole': {'_text': vals['claimed_role']}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
 
     # -------------------------------------------------------------------------
     # IMPORT

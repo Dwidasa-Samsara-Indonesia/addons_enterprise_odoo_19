@@ -136,3 +136,21 @@ class TestHrAppraisalSkills(TransactionCase):
             employee_1_appraisal = appraisal_form.save()
             employee_1_appraisal.action_confirm()
             self.assertEqual(employee_1_appraisal.appraisal_skill_ids[0].manager_ids, user_without_hr_right.employee_ids[0])
+
+    def test_cron_appraisal_copies_employee_skills(self):
+        """Test that appraisal skills are correctly populated when appraisals are created via the cron job."""
+        self.env['hr.employee.skill'].create({
+            'employee_id': self.hr_employee.id,
+            'skill_id': self.skill.id,
+            'skill_type_id': self.skill_type.id,
+            'skill_level_id': self.skill_level_1.id,
+        })
+        appraisals_before = self.env['hr.appraisal'].search([('employee_id', '=', self.hr_employee.id)])
+        self.hr_employee.next_appraisal_date = date.today()
+        self.env['res.company']._run_employee_appraisal_plans()
+        appraisals_after = self.env['hr.appraisal'].search([('employee_id', '=', self.hr_employee.id)])
+        new_appraisal = appraisals_after - appraisals_before
+
+        self.assertEqual(len(new_appraisal), 1)
+        self.assertEqual(len(new_appraisal.appraisal_skill_ids), 1)
+        self.assertEqual(new_appraisal.appraisal_skill_ids.skill_id, self.skill)

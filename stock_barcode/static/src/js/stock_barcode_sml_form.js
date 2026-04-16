@@ -27,6 +27,10 @@ export class StockBarcodeSmlFormController extends FormController {
         );
     }
 
+    displayName() {
+        return super.displayName() || this.props.context.display_name;
+    }
+
     /**
      * @override
      */
@@ -41,6 +45,7 @@ export class StockBarcodeSmlFormController extends FormController {
                     package_id: data.package_id ? data.package_id.id : false,
                     owner_id: data.owner_id ? data.owner_id.id : false,
                     strict: true,
+                    active_test: false,
                 };
                 const [{ qty_available }] = await this.orm.searchRead(
                     "product.product",

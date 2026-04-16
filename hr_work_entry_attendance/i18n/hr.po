@@ -3,13 +3,14 @@
 # * hr_work_entry_attendance
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-17 06:59+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-11 09:36+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "hr_work_entry_attendance/hr/>\n"
 "Language: hr\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,help:hr_work_entry_attendance.field_hr_employee__work_entry_source
@@ -35,12 +36,22 @@ msgid ""
 "planning. (requires Planning app)\n"
 "    "
 msgstr ""
+"\n"
+"        Definira izvor za generiranje stavki rada\n"
+"\n"
+"        Raspored rada: stavke rada generirat će se iz radnog vremena u "
+"nastavku.\n"
+"        Prisutnosti: stavke rada generirat će se iz prisutnosti zaposlenika. "
+"(zahtijeva aplikaciju Prisutnost)\n"
+"        Planiranje: stavke rada generirat će se iz planiranja zaposlenika. "
+"(zahtijeva aplikaciju Planiranje)\n"
+"    "
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,help:hr_work_entry_attendance.field_hr_employee__overtime_from_attendance
 #: model:ir.model.fields,help:hr_work_entry_attendance.field_hr_version__overtime_from_attendance
 msgid "Add extra hours from attendances to the working entries"
-msgstr ""
+msgstr "Dodaj dodatne sate iz prisutnosti u stavke rada"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_attendance
@@ -51,7 +62,7 @@ msgstr "Prisutnost"
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_attendance_overtime_line
 msgid "Attendance Overtime Line"
-msgstr ""
+msgstr "Stavka prekovremenog rada prisutnosti"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields.selection,name:hr_work_entry_attendance.selection__hr_version__work_entry_source__attendance
@@ -67,17 +78,17 @@ msgstr "Prisutnosti"
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_work_entry__display_name
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_work_entry_regeneration_wizard__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_employee
 msgid "Employee"
-msgstr "Djelatnik"
+msgstr "Zaposlenik"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_version
 msgid "Employee Contract"
-msgstr "Ugovor djelatnika"
+msgstr "Ugovor zaposlenika"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_employee__overtime_from_attendance
@@ -88,7 +99,7 @@ msgstr "Dodatni sati"
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_work_entry
 msgid "HR Work Entry"
-msgstr ""
+msgstr "Stavka rada"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_attendance__id
@@ -109,7 +120,7 @@ msgstr "Prekovremeno"
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_attendance_overtime_rule
 msgid "Overtime Rule"
-msgstr ""
+msgstr "Pravilo prekovremenog rada"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model,name:hr_work_entry_attendance.model_hr_work_entry_regeneration_wizard
@@ -119,7 +130,7 @@ msgstr "Ponovo generirajte evidenciju radnog vremena za zaposlenika"
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_attendance_overtime_rule__amount_rate
 msgid "Salary Rate"
-msgstr ""
+msgstr "Stopa plaće"
 
 #. module: hr_work_entry_attendance
 #. odoo-python
@@ -128,6 +139,8 @@ msgid ""
 "This attendance record is linked to a validated working entry. You can't "
 "delete it."
 msgstr ""
+"Ovaj zapis prisutnosti povezan je s potvrđenom stavkom rada. Ne možete ga "
+"obrisati."
 
 #. module: hr_work_entry_attendance
 #. odoo-python
@@ -136,6 +149,8 @@ msgid ""
 "This attendance record is linked to a validated working entry. You can't "
 "modify it."
 msgstr ""
+"Ovaj zapis prisutnosti povezan je s potvrđenom stavkom rada. Ne možete ga "
+"izmijeniti."
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_employee__work_entry_source
@@ -151,14 +166,14 @@ msgstr "Vrsta radnih sati"
 #. module: hr_work_entry_attendance
 #: model:ir.model.fields,field_description:hr_work_entry_attendance.field_hr_attendance_overtime_line__work_entry_type_overtime_id
 msgid "Work Entry Type Overtime"
-msgstr ""
+msgstr "Vrsta stavke rada prekovremeno"
 
 #. module: hr_work_entry_attendance
 #: model_terms:ir.ui.view,arch_db:hr_work_entry_attendance.hr_attendance_overtime_rule_view_form
 msgid "Work entry type to use:"
-msgstr ""
+msgstr "Vrsta stavke rada za korištenje:"
 
 #. module: hr_work_entry_attendance
 #: model:ir.model.constraint,message:hr_work_entry_attendance.constraint_hr_attendance_overtime_rule_if_paid_work_entry_type_defined
 msgid "if paid the work entry should be defined"
-msgstr ""
+msgstr "ako je plaćeno, stavka rada treba biti definirana"

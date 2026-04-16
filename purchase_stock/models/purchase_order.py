@@ -139,7 +139,7 @@ class PurchaseOrder(models.Model):
             domain = fields.Domain.AND([domain, ctx.get("suggest_domain")])
         products = self.env['product.product'].search(domain)
 
-        self.partner_id.write({
+        self.partner_id.sudo().write({
             'suggest_days': ctx.get('suggest_days'),
             'suggest_based_on': ctx.get('suggest_based_on'),
             'suggest_percent': ctx.get('suggest_percent'),
@@ -198,9 +198,6 @@ class PurchaseOrder(models.Model):
                 if picking.state == 'done':
                     picking.message_post(body=self.env._("The purchase order %s this receipt is linked to was cancelled.", order._get_html_link()))
 
-            if order.reference_ids:
-                order.reference_ids.purchase_ids = [Command.unlink(order.id)]
-
         order_lines = self.env['purchase.order.line'].browse(order_lines_ids)
         moves_to_cancel_ids = OrderedSet()
         moves_to_recompute_ids = OrderedSet()
@@ -232,9 +229,6 @@ class PurchaseOrder(models.Model):
         if pickings_to_cancel_ids:
             pikings_to_cancel = self.env['stock.picking'].browse(pickings_to_cancel_ids)
             pikings_to_cancel.action_cancel()
-
-        if order_lines:
-            order_lines.write({'move_dest_ids': [(5, 0, 0)]})
 
         return super().button_cancel()
 

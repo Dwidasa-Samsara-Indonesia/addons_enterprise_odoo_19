@@ -142,7 +142,7 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 trigger: ".o_project_portal_sidebar",
             },
             {
-                trigger: '.o_portal_sign_submit:enabled',
+                trigger: '.modal .o_portal_sign_submit',
                 content: markup(_t('Validate the <b>signature</b>.')),
                 tooltipPosition: 'left',
                 run: "click",
@@ -151,7 +151,7 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 trigger: ".o_project_portal_sidebar",
             },
             {
-                trigger: 'a:contains(Back to edit mode)',
+                trigger: "body:not(:has(.modal:contains(sign report))) .alert-info a.alert-link:contains(Back to edit mode)",
                 content: markup(_t('Go back to your Field Service <b>task</b>.')),
                 tooltipPosition: 'right',
                 run: "click",
@@ -166,6 +166,12 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 run: "click",
             },
             {
+                trigger: '.modal .o_input',
+                content: markup(_t('<b>Click to edit.')),
+                run: 'click',
+            },
+            {
+                isActive: ["body:not(:has(.modal-footer button.o_mail_send))"],
                 trigger: 'button[name="document_layout_save"]',
                 content: markup(_t('Customize your <b>layout</b>.')),
                 tooltipPosition: 'right',
@@ -175,7 +181,7 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 trigger: ".o_form_project_tasks",
             },
             {
-                trigger: 'button[name="action_send_mail"]',
+                trigger: 'button.o_mail_send',
                 content: markup(_t('<b>Send your task report</b> to your customer.')),
                 tooltipPosition: 'right',
                 run: "click",

@@ -291,8 +291,7 @@ export class DocumentsSearchModel extends SearchModel {
     }
 
     /**
-     * @override Force specific ordering in RECENT and TRASH
-     * and use write_date desc as default otherwise.
+     * @override Force specific ordering in RECENT and TRASH.
      */
     get orderBy() {
         if (this.sections.get(1).activeValueId === "TRASH") {
@@ -308,11 +307,7 @@ export class DocumentsSearchModel extends SearchModel {
                 { name: "write_date", asc: false },
             ];
         }
-        const orderBy = super.orderBy;
-        if (!orderBy.length) {
-            orderBy.push({ name: "create_date", asc: false });
-        }
-        return orderBy;
+        return super.orderBy;
     }
 
     get groupBy() {

@@ -208,6 +208,24 @@ class ProjectProject(models.Model):
                 self.env['ir.cron']._commit_progress(processed=1)
 
     @api.model
+    def _get_databases_to_sync(self, dbs=None):
+        # We first synchronize the databases the current user can log into, since these are the ones
+        # they are most likely to use right away and some synchronizations may end up queued.
+        common_domain = [('database_hosting', 'in', ('saas', 'paas', 'premise'))]
+        if dbs is not None:
+            common_domain += [('id', 'in', dbs.ids)]
+        # We do 2 searchs to avoid the hasle of a SQL query with a weird order clause that would requires a left join
+        user_dbs = self.env['project.project'].search(
+            fields.Domain.AND([common_domain, [('database_user_ids.login', '=', self.env.user.login)]]),
+            order='database_last_synchro NULLS FIRST, id',
+        )
+        other_dbs = self.env['project.project'].search(
+            fields.Domain.AND([common_domain, [('id', 'not in', user_dbs.ids)]]),
+            order='database_last_synchro NULLS FIRST, id',
+        )
+        return user_dbs + other_dbs
+
+    @api.model
     def action_synchronize_all_databases(self):
         """
         Synchronize all the databases, and fetch the list from the Odoo.com SaaS if configured so.
@@ -217,7 +235,7 @@ class ProjectProject(models.Model):
         if active_ids := self.env.context.get('active_ids'):
             return self.env['project.project'].browse(active_ids).action_database_synchronize()
 
-        all_databases = self.env['project.project'].search([('database_hosting', 'not in', (False, 'other'))])
+        all_databases = self.env['project.project']._get_databases_to_sync()
         wizard = self.env['databases.synchronization.wizard'].create({'database_ids': all_databases.ids})
         if wizard._can_update_from_odoo_com():
             wizard._do_update_from_odoocom()
@@ -225,10 +243,11 @@ class ProjectProject(models.Model):
 
     def action_database_synchronize(self):
         """ Synchronize the kpis from the selected databases """
-        wizard = self.env['databases.synchronization.wizard'].create({'database_ids': self.ids})
+        dbs = self.env['project.project']._get_databases_to_sync(self)
+        wizard = self.env['databases.synchronization.wizard'].create({'database_ids': dbs.ids})
         wizard_action = wizard._do_synchronize()
         if len(self) == 1 and wizard.error_message:
-            raise UserError(wizard.error_message)
+            raise UserError(wizard.error_message.strip())
         return wizard_action
 
     def action_database_connect(self):
@@ -239,8 +258,8 @@ class ProjectProject(models.Model):
             url = self.database_url
 
         if not url and self.database_hosting == 'saas':
-            odoocom_url = self.env['ir.config_parameter'].get_param('databases.odoocom_apihost', 'https://www.odoo.com')
-            db_api = OdooDatabaseApi(self.database_url, self.database_name, self.database_api_login, self.database_api_key_to_use)
+            odoocom_url = self.env['ir.config_parameter'].sudo().get_param('databases.odoocom_apihost', 'https://www.odoo.com')
+            db_api = OdooDatabaseApi(self.database_url, self.database_name, self.database_api_login, self.sudo().database_api_key_to_use)
             try:
                 db_uuid = db_api.get_database_uuid()
             except ApiError:

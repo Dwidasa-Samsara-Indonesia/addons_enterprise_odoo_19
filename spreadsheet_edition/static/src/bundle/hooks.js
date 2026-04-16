@@ -49,6 +49,9 @@ export function useSpreadsheetThumbnail() {
     return () => {
         const dimensions = SPREADSHEET_DIMENSIONS;
         const canvas = document.querySelector(".o-grid canvas:not(.o-figure-canvas)");
+        if (!canvas) {
+            return undefined;
+        }
         const canvasResizer = document.createElement("canvas");
         const size = 500;
         canvasResizer.width = size;

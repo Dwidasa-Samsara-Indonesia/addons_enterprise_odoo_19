@@ -157,7 +157,7 @@ class Frontdesk(http.Controller):
     @http.route('/frontdesk/visitor/check_out/<int:visitor_id>', type='http', auth='user')
     def frontdesk_visitor_check_out(self, visitor_id):
         visitor = request.env['frontdesk.visitor'].browse(visitor_id)
-        if not visitor.exists() or not request.env.user.has_group('frontdesk.group_frontdesk_user'):
+        if not visitor.exists() or not request.env.user.has_group('frontdesk.frontdesk_group_user'):
             return request.not_found()
         visitor.sudo().action_check_out()
         return request.render("frontdesk.frontdesk_visitor_check_out")

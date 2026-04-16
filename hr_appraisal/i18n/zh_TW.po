@@ -6,15 +6,15 @@
 # Wil Odoo, 2025
 # Tony Ng, 2025
 #
-# "Tony Ng (ngto)" <ngto@odoo.com>, 2025.
+# "Tony Ng (ngto)" <ngto@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 17:51+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-03-17 11:42+0000\n"
+"Last-Translator: \"Tony Ng (ngto)\" <ngto@odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19/hr_appraisal/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_appraisal
 #. odoo-python
@@ -62,33 +62,13 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid ". Then, share it with appraisers."
-msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__100
-msgid "100%"
-msgstr "100%"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__025
-msgid "25%"
-msgstr "25%"
+msgstr "。之後，分享給評核人。"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_res_config_settings__module_hr_appraisal_survey
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.res_config_settings_view_employee_form
 msgid "360 Feedback"
 msgstr "回饋"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__050
-msgid "50%"
-msgstr "50%"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__075
-msgid "75%"
-msgstr "75%"
 
 #. module: hr_appraisal
 #: model:mail.template,body_html:hr_appraisal.mail_template_appraisal_confirm
@@ -198,6 +178,44 @@ msgid ""
 "                </div>\n"
 "            "
 msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;"
+"\">\n"
+"                        <t t-out=\"ctx.get('employee_to_name')\">[員工]</t> "
+"你好！\n"
+"                        <br/>\n"
+"                        小提醒：你下次工作表現及績效評估，將與 <t t-"
+"out=\"ctx.get('manager_names')\">[評核人]</t> 進行，\n"
+"                        並已安排在 <t t-out=\"ctx.get('date_close')\">[期"
+"限]</t> 舉行。\n"
+"                        <br/>\n"
+"                        <t t-if=\"ctx.get('user_body')\">\n"
+"                            <div class=\"my-3 py-2 px-3 bg-secondary\">\n"
+"                                <t t-out=\"ctx.get('user_body')\">[可選填備"
+"註]</t>\n"
+"                            </div>\n"
+"                        </t>\n"
+"                        <t t-if=\"ctx.get('recipient_users')\">\n"
+"                            你可透過以下連結，查看你的評核表格：\n"
+"                            <p class=\"text-center my-3 py-2 px-3\">\n"
+"                                <a t-att-href=\"ctx.get('url')\" t-attf-"
+"style=\" margin: auto; background-color: "
+"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
+"8px 16px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px;"
+"\">\n"
+"                                    查看評估\n"
+"                                </a>\n"
+"                            </p>\n"
+"                        </t>\n"
+"                        如有任何疑問，或需要改期，歡迎聯絡我們。\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <t t-out=\"ctx.get('author_signature')\"/>\n"
+"                        <br/>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
 
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_default_template
@@ -367,6 +385,9 @@ msgid ""
 "                                            <strong class=\"text-success\" "
 "invisible=\"not employee_feedback_published\">Shared to Appraisers</strong>"
 msgstr ""
+"<span invisible=\"employee_feedback_published\">已分享至評核人</span>\n"
+"                                            <strong class=\"text-success\" "
+"invisible=\"not employee_feedback_published\">已分享至評核人</strong>"
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -1134,6 +1155,14 @@ msgid "Appraisal to start"
 msgstr "評估開始"
 
 #. module: hr_appraisal
+#. odoo-python
+#: code:addons/hr_appraisal/wizard/hr_departure_wizard.py:0
+msgid ""
+"Appraisal's managers have been updated due to the end of collaboration with "
+"an employee."
+msgstr ""
+
+#. module: hr_appraisal
 #: model:ir.actions.server,name:hr_appraisal.ir_cron_scheduler_appraisal_ir_actions_server
 msgid "Appraisal: Run employee appraisal"
 msgstr "評核：進行員工評核"
@@ -1180,7 +1209,7 @@ msgstr "以下員工沒有經理，系統將不會為其建立評核：%(employe
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Appraisers"
-msgstr ""
+msgstr "評核人"
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
@@ -3069,6 +3098,18 @@ msgstr "{{ hasattr(object, 'name') and object.name or '' }} 提出評估請求"
 #: model:mail.template,subject:hr_appraisal.mail_template_appraisal_confirm
 msgid "{{ object.employee_id.name }}: Appraisal Confirmed"
 msgstr "{{ object.employee_id.name }}：評核已確認"
+
+#~ msgid "100%"
+#~ msgstr "100%"
+
+#~ msgid "25%"
+#~ msgstr "25%"
+
+#~ msgid "50%"
+#~ msgstr "50%"
+
+#~ msgid "75%"
+#~ msgstr "75%"
 
 #~ msgid ""
 #~ "<div style=\"margin: 0px; padding: 0px;\">\n"

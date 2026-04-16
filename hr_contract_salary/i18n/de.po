@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:46+0000\n"
-"PO-Revision-Date: 2026-02-14 09:57+0000\n"
+"POT-Creation-Date: 2026-04-10 18:48+0000\n"
+"PO-Revision-Date: 2026-04-04 10:43+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "hr_contract_salary/de/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -57,11 +57,6 @@ msgstr "(Vor- und Nachname)"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "/ month"
 msgstr "/ Monat"
-
-#. module: hr_contract_salary
-#: model:hr.contract.salary.personal.info,placeholder:hr_contract_salary.hr_contract_salary_personal_info_identification_id
-msgid "00.00.00-000.00"
-msgstr "00.00.00-000.00"
 
 #. module: hr_contract_salary
 #: model:mail.template,body_html:hr_contract_salary.mail_template_send_offer
@@ -710,6 +705,7 @@ msgstr "Vertragsvorlage"
 #. module: hr_contract_salary
 #. odoo-python
 #: code:addons/hr_contract_salary/controllers/main.py:0
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__contract_type_id
 msgid "Contract Type"
 msgstr "Vertragsart"
 
@@ -1299,6 +1295,11 @@ msgid "Has Message"
 msgstr "Hat eine Nachricht"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__has_sign_template
+msgid "Has Sign Template"
+msgstr "Hat Signaturvorlage"
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__helper
 msgid "Helper"
 msgstr "Helfer"
@@ -1805,7 +1806,7 @@ msgstr "Keine gültige Eingabe im Ganzzahlenfeld"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_employee__holidays
@@ -3023,6 +3024,11 @@ msgid "e.g. Offer 70k Employer Cost"
 msgstr "z. B. 70 000 Arbeitgeberkosten anbieten"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "e.g. Permanent, Replacement, Short term"
+msgstr "z. B. unbefristet, Ersatz, befristet"
+
+#. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action
 msgid "here"
 msgstr "hier"
@@ -3047,6 +3053,9 @@ msgstr ""
 msgid "{{ object.company_id.name }}: Job Offer - {{ object.employee_id.name }}"
 msgstr ""
 "{{ object.company_id.name }} Stellenangebot – {{ object.employee_id.name }}"
+
+#~ msgid "00.00.00-000.00"
+#~ msgstr "00.00.00-000.00"
 
 #~ msgid ""
 #~ "{{ object.company_id.name }}: Job Offer - "

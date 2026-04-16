@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
 "PO-Revision-Date: 2026-02-14 10:10+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
@@ -275,9 +275,22 @@ msgid "Annexes"
 msgstr "Anexos"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
 msgstr "Informe anual"
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr ""
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_article_id
@@ -335,27 +348,9 @@ msgid "Attestation"
 msgstr "Certificación"
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
 msgstr "Informe de auditoría"
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr "Plantilla de informe de auditoría"
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Informes de auditoría"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
-msgstr "Plantilla de auditoría"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_balance_sheet
@@ -484,8 +479,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
-msgstr "Crear un informe de auditoría"
+msgid "Create an Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_uid
@@ -694,8 +689,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr "Editar informe de auditoría"
+msgid "Edit Annual Report"
+msgstr ""
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -1728,6 +1723,11 @@ msgid "Technical installations, equipment, and tools<br>"
 msgstr "Instalaciones técnicas, equipos y herramientas<br>"
 
 #. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr ""
+
+#. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid ""
 "The annual financial statements have been prepared in accordance with "
@@ -1880,8 +1880,8 @@ msgid ""
 "The total balance sheet amount before allocation of the result is {{ total "
 "balance sheet }}."
 msgstr ""
-"El importe total del balance previo a la distribución del resultado es de {{ "
-"total balance sheet }}."
+"El importe total del balance previo a la distribución del resultado es de "
+"{{ total balance sheet }}."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
@@ -1893,7 +1893,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
 msgid "This company is part of a group, under the following parent company."
-msgstr "Esta empresa forma parte de un grupo, bajo la siguiente empresa matriz."
+msgstr ""
+"Esta empresa forma parte de un grupo, bajo la siguiente empresa matriz."
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__title
@@ -2010,3 +2011,18 @@ msgstr "Personal empleado durante el ejercicio"
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr "p. ej., resumen financiero anual"
+
+#~ msgid "Audit Report Template"
+#~ msgstr "Plantilla de informe de auditoría"
+
+#~ msgid "Audit Reports"
+#~ msgstr "Informes de auditoría"
+
+#~ msgid "Audit Template"
+#~ msgstr "Plantilla de auditoría"
+
+#~ msgid "Create an Audit Report"
+#~ msgstr "Crear un informe de auditoría"
+
+#~ msgid "Edit Audit Report"
+#~ msgstr "Editar informe de auditoría"

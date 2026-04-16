@@ -2,7 +2,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { ControlPanel } from "@web/search/control_panel/control_panel";
 
-import { Component, onWillStart, useRef, useState, useSubEnv } from "@odoo/owl";
+import { Component, onWillDestroy, onWillStart, useRef, useState, useSubEnv } from "@odoo/owl";
 
 import { AccountReportController } from "@account_reports/components/account_report/controller";
 import { AccountReportButtonsBar } from "@account_reports/components/account_report/buttons_bar/buttons_bar";
@@ -68,6 +68,11 @@ export class AccountReport extends Component {
 
         onWillStart(async () => {
             await this.controller.load(this.env);
+        });
+
+        onWillDestroy(() => {
+            // Since the controller is preloading the sections using a setTimeout, it's never stopped unless we explicitly tell it.
+            this.controller.destroyed = true;
         });
 
         useSubEnv({

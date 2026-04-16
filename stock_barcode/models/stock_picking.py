@@ -2,7 +2,7 @@
 
 from odoo import models, api, _
 from odoo.tools import html2plaintext, is_html_empty
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
 
 class StockPicking(models.Model):
@@ -204,7 +204,10 @@ class StockPicking(models.Model):
         barcode_type = None
         nomenclature = self.env.company.nomenclature_id
         if nomenclature.is_gs1_nomenclature:
-            parsed_results = nomenclature.parse_barcode(barcode)
+            try:
+                parsed_results = nomenclature.parse_barcode(barcode)
+            except ValidationError:
+                parsed_results = False
             if parsed_results:
                 # filter with the last feasible rule
                 for result in parsed_results[::-1]:

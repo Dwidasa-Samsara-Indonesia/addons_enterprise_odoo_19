@@ -166,6 +166,18 @@ class Sign(http.Controller):
         if res.get('error'):
             return request.render(res['template']) if res.get('template') else request.not_found()
 
+        user = request.env.user
+        current_request_item = res['rendering_context']['current_request_item']
+        if user.has_group('sign.group_sign_user') and current_request_item and current_request_item.state == 'completed':
+            sign_request = res['rendering_context']['sign_request']
+            return request.redirect('/odoo/sign.request/%s/action-sign.Document?id=%s&token=%s&name=%s&state=%s' % (
+                sign_request_id,
+                sign_request_id,
+                token,
+                sign_request.reference,
+                sign_request.state
+            ))
+
         return http.request.render('sign.doc_sign', res.get('rendering_context'))
 
     @http.route([
@@ -691,13 +703,13 @@ class Sign(http.Controller):
         """
         sign_request = request.env['sign.request'].browse(request_id).sudo()
         sign_item = request.env['sign.request.item'].browse(sign_item_id).sudo()
-        if not sign_request.exists() or not consteq(sign_request.access_token, token) or not sign_item.exists() or not sign_item.signer_email:
+        if not sign_request.exists() or not sign_item.exists() or not consteq(sign_item.access_token, token) or not sign_item.signer_email:
             return []
         uid = sign_request.create_uid.id
         items = request.env['sign.request.item'].sudo().search_read(
             domain=[
                 ('signer_email', '!=', False),
-                ('signer_email', '=', sign_item.signer_email),
+                ('partner_id', '=', sign_item.partner_id.id),
                 ('state', '=', 'sent'),
                 ('sign_request_id.state', '=', 'sent'),
                 ('id', '!=', sign_item.id)

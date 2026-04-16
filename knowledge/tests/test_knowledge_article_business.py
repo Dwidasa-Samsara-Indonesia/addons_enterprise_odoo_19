@@ -960,6 +960,7 @@ class TestKnowledgeArticleCopy(KnowledgeCommonBusinessCase):
         )
         self.assertFalse(new_article.child_ids)
         self.assertFalse(new_article.parent_id)
+        self.assertEqual(str(article_readonly.body), str(new_article.body))
 
     def test_article_make_private_copy_having_embedded_views_of_article_items(self):
         """ When the user copies an article, the system should copy the body

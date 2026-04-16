@@ -20,6 +20,7 @@ class TestCommon(TestCommonPlanning):
             'tz': 'UTC',
             'flexible_hours': True,
             'hours_per_day': 8,
+            'hours_per_week': 40,
             'full_time_required_hours': 40,
             'attendance_ids': [],
         }])

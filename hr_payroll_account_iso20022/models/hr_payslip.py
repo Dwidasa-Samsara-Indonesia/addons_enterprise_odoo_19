@@ -38,7 +38,7 @@ class HrPayslip(models.Model):
                 'currency_id': journal_id.currency_id.id,
                 'payment_type': 'outbound',
                 'memo': str(self.id),
-                'partner_id': self.employee_id.work_contact_id.id,
+                'partner_id': ba.partner_id.id or self.employee_id.work_contact_id.id,
                 'partner_bank_id': ba.id,
                 'iso20022_charge_bearer': journal_id.iso20022_charge_bearer,
                 # The "High" priority level is a payment attribute that we should specify for salary payments :

@@ -5,13 +5,15 @@ import io
 
 from odoo import Command
 from odoo.exceptions import AccessError, UserError
-from odoo.tools import file_open, mute_logger
+from odoo.tests import tagged
+from odoo.tools import file_open
 from odoo.tools.pdf import OdooPdfFileWriter
 from odoo.addons.sign.tests.sign_request_common import SignRequestCommon
 
 GIF = b"R0lGODdhAQABAIAAAP///////ywAAAAAAQABAAACAkQBADs="
 
 
+@tagged('post_install', '-at_install')
 class TestCaseDocumentsBridgeSign(SignRequestCommon):
     """
 
@@ -51,7 +53,6 @@ class TestCaseDocumentsBridgeSign(SignRequestCommon):
         self.assertTrue(document.exists(), 'failed at workflow_bridge_dms_account template')
         self.assertTrue(template.exists(), 'failed at workflow_bridge_dms_account template')
 
-    @mute_logger('odoo.addons.documents.models.documents_document', 'pypdf._reader')
     def test_sign_action(self):
         """ Test sign a document from Document app using the workflow rule. """
         self.document_pdf_0.document_sign_create_sign_template(self.folder_a.id)
@@ -83,10 +84,10 @@ class TestCaseDocumentsBridgeSign(SignRequestCommon):
         sign_request_item = sign_request.request_item_ids[0]
         sign_values = self.create_sign_values(template.sign_item_ids, self.env.ref('sign.sign_item_role_default').id)
 
-        sign_request_item.sign(sign_values)
+        with self.allow_pdf_render():
+            sign_request_item.with_context(force_report_rendering=True).sign(sign_values)
         self.assertEqual(sign_request_item.state, 'completed', 'The sign.request.item should be completed')
 
-    @mute_logger("odoo.addons.documents.models.documents_document", 'pypdf._reader')  # avoid warning about counting page of PDFs
     def test_signed_documents_access_rights(self):
         """ Test access rights and owner of signed/certificate documents. """
         Document = self.env["documents.document"]
@@ -110,8 +111,9 @@ class TestCaseDocumentsBridgeSign(SignRequestCommon):
             with self.subTest(user_name=user.name):
                 sign_request = self.create_sign_request_1_role(user.partner_id, Partner)
                 # See /sign/sign/<int:sign_request_id>/<token> controller
-                sign_request.request_item_ids[0].with_user(user).sudo().sign(
-                    {str(self.template_1_role.sign_item_ids[0].id): "Test Sign"})
+                with self.allow_pdf_render():
+                    sign_request.request_item_ids[0].with_user(user).sudo().with_context(force_report_rendering=True).sign(
+                        {str(self.template_1_role.sign_item_ids[0].id): "Test Sign"})
                 self.env['documents.access'].invalidate_model()
                 documents_signed = Document.search(
                     [('res_model', '=', 'sign.request'), ('res_id', '=', sign_request.id)])
@@ -249,7 +251,6 @@ class TestCaseDocumentsBridgeSign(SignRequestCommon):
         template = self.env['sign.template'].browse(result['params']['id'])
         self.assertTrue(template.exists(), "Sign template should be created")
 
-    @mute_logger("odoo.addons.documents.models.documents_document")
     def test_signed_document_requester_access(self):
         """ Verifies that the requester of a sign request has at least view access to the signed document. """
         Document = self.env["documents.document"]
@@ -272,8 +273,9 @@ class TestCaseDocumentsBridgeSign(SignRequestCommon):
                 'role_id': self.role_signer_1.id,
             })],
         })
-        sign_request.request_item_ids[0].with_user(signer).sudo().sign(
-            {str(self.template_1_role.sign_item_ids[0].id): "Test Sign"})
+        with self.allow_pdf_render():
+            sign_request.request_item_ids[0].with_user(signer).sudo().with_context(force_report_rendering=True).sign(
+                {str(self.template_1_role.sign_item_ids[0].id): "Test Sign"})
         documents_signed = Document.search(
             [('res_model', '=', 'sign.request'), ('res_id', '=', sign_request.id)])
         self.assertEqual(len(documents_signed), 2)

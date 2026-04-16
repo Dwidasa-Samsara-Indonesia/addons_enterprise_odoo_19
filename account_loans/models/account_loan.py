@@ -63,7 +63,7 @@ class AccountLoan(models.Model):
         comodel_name='account.account',
         string='Expense Account',
         tracking=True,
-        domain="[('account_type', 'in', ('expense', 'expense_depreciation'))]",
+        domain="[('account_type', 'in', ('expense', 'expense_depreciation', 'expense_other'))]",
     )
     journal_id = fields.Many2one(
         comodel_name='account.journal',

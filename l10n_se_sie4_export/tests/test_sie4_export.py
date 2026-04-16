@@ -138,3 +138,23 @@ class AccountTestSIE4Export(TestAccountReportsCommon):
             '    #TRANS 4533 {} -1000.0',
             '}',
         ])
+
+    @freeze_time('2026-02-01')
+    def test_sie4_export_not_include_cancelled_entry(self):
+        move = self.create_move('2026-02-15', [('4000', 1000), ('2440', -1000)])
+        move.button_cancel()
+        options = self._generate_options(self.report, '2026-02-01', '2026-12-28')
+        res = self.export_sie4_result_list(options)
+
+        self.assertListEqual(res[-10:], [
+            '#KONTO 9991 "Cash Difference Gain"',
+            '#KTYP  9991 I',
+            '#KONTO 9992 "Cash Difference Loss"',
+            '#KTYP  9992 K',
+            '#KONTO 9993 "Cash Discount Loss"',
+            '#KTYP  9993 K',
+            '#KONTO 9994 "Cash Discount Gain"',
+            '#KTYP  9994 I',
+            '#KONTO 999999 "Undistributed Profits/Losses"',
+            '#KTYP  999999 S',
+        ])

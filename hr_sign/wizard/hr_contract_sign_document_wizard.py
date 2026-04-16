@@ -1,6 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from markupsafe import Markup
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _, Command
 
@@ -183,6 +184,7 @@ class HrContractSignDocumentWizard(models.TransientModel):
             'reference': sign_request_values[0].name,
             'subject': self.subject,
             'message': self.message,
+            'validity': fields.Date.today() + relativedelta(days=sign_request_values[0].signature_request_validity),
             'attachment_ids': [(4, attachment.copy().id) for attachment in self.attachment_ids],  # Attachments may not be bound to multiple sign requests
         } for sign_request_values in sign_values])
         sign_requests.message_subscribe(partner_ids=self.cc_partner_ids.ids)

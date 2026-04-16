@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
 "PO-Revision-Date: 2025-10-08 18:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -98,21 +98,10 @@ msgstr "%s tanlandi"
 #: code:addons/account_reports/models/account_report.py:0
 #, fuzzy
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
 "'%s' sana oralig‘i bir nechta qaytarish turida foydalaniladigan hisobot "
-"uchun baholanishi mumkin emas."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-#, fuzzy
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"'%s' sana oralig‘i hech qanday qaytarish turida foydalanilmaydigan hisobot "
 "uchun baholanishi mumkin emas."
 
 #. module: account_reports
@@ -528,6 +517,11 @@ msgstr "Hisob auditi holati"
 #, fuzzy
 msgid "Account Audit Status"
 msgstr "Hisob auditi holati"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -1029,12 +1023,8 @@ msgstr "Barcha tekshiruvlar va tasdiqlovchilar qayta tiklandi"
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 #, fuzzy
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
-msgstr ""
-"Barcha mijozlarning QQS raqamlari <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a> doirasida haqiqiy."
+msgid "All customer VAT numbers are valid under VIES."
+msgstr "Barcha mijozlarda QQS raqami mavjud."
 
 #. module: account_reports
 #. odoo-python
@@ -2798,6 +2788,7 @@ msgstr "Xat yozuvchisini ko‘rsatish"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -3290,13 +3281,6 @@ msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr ""
 "Yevropa Ittifoqi sotuvlar ro‘yxatidan ichki yoki Yevropa Ittifoqi "
 "tashqarisidagi sotuvlarni chiqarib tashlang."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-#, fuzzy
-msgid "Exclude any private customers."
-msgstr "Barcha xususiy mijozlarni chiqarib tashlang."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3922,6 +3906,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4878,9 +4863,8 @@ msgstr "Mavjud emas"
 #, fuzzy
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 "Kompaniya tafsilotlarining yetishmasligi (masalan, QQS raqami yoki mamlakat) "
 "hisobotingizda xatolarga olib kelishi mumkin, jumladan noto‘g‘ri QQS "
@@ -5357,13 +5341,6 @@ msgstr "Yillik yopilishni faqat buxgalteriya ma'muri bekor qilishi mumkin"
 #, fuzzy
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr "Faqat buxgalteriya ma'muri nazoratchi tayinlashi/bekor qilishi mumkin"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-#, fuzzy
-msgid "Only business customers"
-msgstr "Faqat biznes mijozlar"
 
 #. module: account_reports
 #. odoo-python
@@ -5962,13 +5939,6 @@ msgstr "O‘tgan yillar taqsimlanmagan daromadlari"
 #, fuzzy
 msgid "Print & Send"
 msgstr "Chop etish va jo‘natish"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-#, fuzzy
-msgid "Private Customers"
-msgstr "Xususiy mijozlar"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -7120,7 +7090,7 @@ msgstr "Soliq deklaratsiyasi/auditi"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -8183,15 +8153,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 #, fuzzy
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Faqat oldingi holati yangi bo‘lgan taqdirdagina bajarilgan qaytarmani bekor "
-"qilishingiz mumkin."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-#, fuzzy
 msgid "You can only unarchive a completed return."
 msgstr "Faqat bajarilgan qaytarmani arxivdan qayta tiklashingiz mumkin."
 
@@ -8556,6 +8517,41 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "'%s' sana oralig‘i hech qanday qaytarish turida foydalanilmaydigan "
+#~ "hisobot uchun baholanishi mumkin emas."
+
+#, fuzzy
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Barcha mijozlarning QQS raqamlari <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a> doirasida haqiqiy."
+
+#, fuzzy
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Faqat oldingi holati yangi bo‘lgan taqdirdagina bajarilgan qaytarmani "
+#~ "bekor qilishingiz mumkin."
+
+#, fuzzy
+#~ msgid "Exclude any private customers."
+#~ msgstr "Barcha xususiy mijozlarni chiqarib tashlang."
+
+#, fuzzy
+#~ msgid "Only business customers"
+#~ msgstr "Faqat biznes mijozlar"
+
+#, fuzzy
+#~ msgid "Private Customers"
+#~ msgstr "Xususiy mijozlar"
 
 #, fuzzy
 #~ msgid ""

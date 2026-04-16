@@ -1508,9 +1508,10 @@ class HrPayslip(models.Model):
                 employee_hourly_cost = self.version_id.contract_wage / self.sum_worked_hours
             else:
                 employee_hourly_cost = self.version_id.contract_wage * 3 / 13 / self.version_id.resource_calendar_id.hours_per_week
-        remaining_day_amount = min(remaining_day, number_of_days) * employee_hourly_cost * 7.6
+        employee_hours_per_day = self.version_id.resource_calendar_id.hours_per_day
+        remaining_day_amount = min(remaining_day, number_of_days) * employee_hourly_cost * employee_hours_per_day
         days_to_recover = employee['l10n_be_holiday_pay_to_recover_' + recovery_type]
-        max_amount_to_recover = min(days_to_recover, employee_hourly_cost * number_of_days * 7.6)
+        max_amount_to_recover = min(days_to_recover, employee_hourly_cost * number_of_days * employee_hours_per_day)
         paid_leave_data = self._get_worked_days_line_values(['LEAVE120'], ['amount', 'number_of_hours'], True)['LEAVE120']['sum']
         holiday_amount = min(paid_leave_data['amount'], employee_hourly_cost * paid_leave_data['number_of_hours'])
         remaining_amount = max(0, max_amount_to_recover - employee['l10n_be_holiday_pay_recovered_' + recovery_type])

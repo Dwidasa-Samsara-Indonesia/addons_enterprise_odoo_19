@@ -58,7 +58,7 @@
     </th>
     <td id="worked_days_hours" position="after">
         <td class="text-end">
-            <span t-out="worked_days.amount/worked_days.number_of_hours if worked_days.number_of_hours > 0 else 0" t-if="o.version_id.wage_type == 'hourly'"
+            <span t-out="worked_days.work_entry_type_id.amount_rate * o.version_id.hourly_wage" t-if="o.version_id.wage_type == 'hourly'"
                   digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
         </td>
     </td>
@@ -85,7 +85,7 @@
                     <p>
                         Deposited to the account
                         <span class="fw-bold" t-out="('X' * (len(bank.acc_number) - 4) + bank.acc_number[-4:]) if bank.acc_number else 'xxxxxxxxxxxx'"/>
-                        of <span class="fst-italic" t-field="o.employee_id.legal_name"/>:
+                        of <span class="fst-italic" t-field="bank.acc_holder_name"/>:
                         <span t-esc="alloc[1]" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="fw-bold"/>
                     </p>
                 </t>
@@ -170,7 +170,7 @@
                         <b>
                             <span t-out="('X' * (len(bank.acc_number) - 4) + bank.acc_number[-4:]) if bank.acc_number else 'xxxxxxxxxxxx'"/>
                         </b>
-                        of <i><span t-field="o.employee_id.legal_name"/></i>:
+                        of <i><span t-field="bank.acc_holder_name"/></i>:
                         <span t-esc="alloc[1]" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="fw-bold"/>
                     </p>
                 </t>

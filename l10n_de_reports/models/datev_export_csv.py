@@ -405,9 +405,12 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                     aml_taxes = aml.tax_ids.compute_all(aml.amount_currency, aml.currency_id, partner=aml.partner_id, handle_price_include=False)
                     line_amount_currency = aml_taxes['total_included']
                 # convert line_amount in company currency
-                if aml.currency_id != aml.company_id.currency_id and not aml.currency_id.is_zero(line_amount_currency):
-                    rate = m._get_product_base_line_currency_rate(aml)
-                    line_amount = line_amount_currency / rate
+                if aml.currency_id != aml.company_id.currency_id:
+                    if not aml.currency_id.is_zero(line_amount_currency):
+                        rate = m._get_product_base_line_currency_rate(aml)
+                        line_amount = line_amount_currency / rate
+                    else:
+                        line_amount = aml.balance
                 else:
                     line_amount = line_amount_currency
 

@@ -808,3 +808,83 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
         account_line = [l for l in lines if l.get('name', '').startswith('TEST237000')]
 
         self.assertTrue(account_line, "Deprecated account should appear in report")
+
+    def test_general_ledger_multicompany_consolidation(self):
+        company_1 = self.company_data['company']
+        company_2 = self.company_data_2['company']
+
+        cad_currency = company_2.currency_id
+        cad_currency.active = True
+
+        self.company_data_2['default_account_receivable'].with_company(company_1).code = self.company_data['default_account_receivable'].code
+
+        self.env['account.move'].create({
+            'move_type': 'entry',
+            'date': '2026-01-15',
+            'journal_id': self.company_data['default_journal_misc'].id,
+            'line_ids': [
+                Command.create({
+                    'name': 'Company 1 receivable',
+                    'debit': 100.0,
+                    'credit': 0.0,
+                    'account_id': self.company_data['default_account_receivable'].id,
+                }),
+                Command.create({
+                    'name': 'Company 1 counterpart',
+                    'debit': 0.0,
+                    'credit': 100.0,
+                    'account_id': self.company_data['default_account_revenue'].id,
+                }),
+            ],
+        }).action_post()
+
+        self.env['account.move'].with_company(company_2).create({
+            'move_type': 'entry',
+            'date': '2026-01-15',
+            'journal_id': self.company_data_2['default_journal_misc'].id,
+            'line_ids': [
+                Command.create({
+                    'name': 'Company 2 receivable',
+                    'debit': 200.0,
+                    'credit': 0.0,
+                    'account_id': self.company_data_2['default_account_receivable'].id,
+                }),
+                Command.create({
+                    'name': 'Company 2 counterpart',
+                    'debit': 0.0,
+                    'credit': 200.0,
+                    'account_id': self.company_data_2['default_account_revenue'].id,
+                }),
+            ],
+        }).action_post()
+
+        options = self._generate_options(
+            self.report,
+            date_from='2026-01-01',
+            date_to='2026-12-31',
+        )
+
+        lines = self.report._get_lines(options)
+        receivable_lines = [l for l in lines if l.get('name') == '121000 Account Receivable']
+        self.assertLinesValues(
+            receivable_lines,
+            [0, 4, 5, 6],
+            [
+                ('121000 Account Receivable', 1100.0, 0.0, 1100.0),
+                ('121000 Account Receivable', 100.0, 0.0, 100.0),  # 200 CAD = 100 USD
+            ],
+            options,
+        )
+
+        options['consolidation'] = True
+
+        lines = self.report._get_lines(options)
+        receivable_lines = [l for l in lines if l.get('name') == '121000 Account Receivable']
+        self.assertLinesValues(
+            receivable_lines,
+            [0, 4, 5, 6],
+            [
+                ('121000 Account Receivable', 1200.0, 0.0, 1200.0),
+            ],
+            options,
+        )

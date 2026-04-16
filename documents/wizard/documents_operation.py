@@ -67,11 +67,12 @@ class DocumentsOperation(models.TransientModel):
             if self.attachment_id.type not in dict(self.env['documents.document']._fields['type'].selection):
                 raise UserError(self.env._("Unsupported attachment type: %s", self.attachment_id.type))
             attachment_copy = self.attachment_id.copy({'res_model': False, 'res_id': False})
-            self.env['documents.document'].create({
+            new_document = self.env['documents.document'].create({
                 "attachment_id": attachment_copy.id,
                 "type": attachment_copy.type,
                 "user_folder_id": self.destination
             })
+            self._post_operation_add_hook(new_document)
         elif self.operation == 'shortcut':
             self.document_ids.action_create_shortcut(location_user_folder_id=self.destination)
         else:
@@ -84,3 +85,6 @@ class DocumentsOperation(models.TransientModel):
             [('type', '=', 'folder'), ('shortcut_document_id', '=', False), ('user_permission', '=', 'edit')],
             ['id', 'display_name'], limit=1,
         )
+
+    def _post_operation_add_hook(self, document):
+        pass

@@ -81,6 +81,29 @@ class TestTaskGanttView(TestProjectCommon):
         )
         self.assertTrue(project_test in gantt_projects_data, 'Project Test should be displayed in the Gantt view')
 
+    def test_group_expand_project_ids_dynamic_dates(self):
+        project_test = self.env['project.project'].create({'name': 'Project Test'})
+        domain = [
+            ('project_id', 'ilike', 'Project Test'),
+            ('planned_date_begin', '>=', 'today'),
+            ('date_deadline', '>=', 'today +2d'),
+        ]
+        self.env['project.task'].create([
+            {
+                'name': 'Task',
+                'project_id': project_test.id,
+                'partner_id': self.partner_1.id,
+                'planned_date_begin': Datetime.now(),
+                'date_deadline': Datetime.now() + relativedelta(days=5),
+            }
+        ])
+        Task = self.env['project.task'].with_context({
+            'gantt_start_date': Datetime.now(),
+            'gantt_scale': 'week',
+        })
+        gantt_projects_data = Task._group_expand_project_ids(None, domain)
+        self.assertEqual(gantt_projects_data, project_test)
+
     def test_group_expand_partner_ids(self):
         """
         Validate that a partner with tasks planned in the last or current period

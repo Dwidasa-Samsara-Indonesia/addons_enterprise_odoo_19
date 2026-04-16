@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
 "PO-Revision-Date: 2025-12-30 18:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -37,8 +38,10 @@ msgstr ""
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_campaign_wizard__manager
 msgid ""
-"'Employee's Manager': Each appraisal will be conducted by the direct manager of the employee\n"
-"'Specific Person': All appraisals will be conducted by the specified employees"
+"'Employee's Manager': Each appraisal will be conducted by the direct manager "
+"of the employee\n"
+"'Specific Person': All appraisals will be conducted by the specified "
+"employees"
 msgstr ""
 
 #. module: hr_appraisal
@@ -52,43 +55,30 @@ msgid ". Then, share it with appraisers."
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__100
-msgid "100%"
-msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__025
-msgid "25%"
-msgstr ""
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_res_config_settings__module_hr_appraisal_survey
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.res_config_settings_view_employee_form
 msgid "360 Feedback"
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__050
-msgid "50%"
-msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__075
-msgid "75%"
-msgstr ""
-
-#. module: hr_appraisal
 #: model:mail.template,body_html:hr_appraisal.mail_template_appraisal_confirm
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
-"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"                        An appraisal of <t t-out=\"ctx.get('employee_to_name')\">employee</t> has been confirmed.\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;"
+"\">\n"
+"                        An appraisal of <t t-"
+"out=\"ctx.get('employee_to_name')\">employee</t> has been confirmed.\n"
 "                        <br/><br/>\n"
 "                        Please schedule an appraisal date together.\n"
 "                        <br/><br/>\n"
 "                        <t t-if=\"ctx.get('recipient_users')\">\n"
-"                            <p style=\"margin: 16px 0px 16px 0px; text-align: center;\">\n"
-"                                <a t-att-href=\"ctx.get('url')\" t-attf-style=\"background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px;\">\n"
+"                            <p style=\"margin: 16px 0px 16px 0px; text-"
+"align: center;\">\n"
+"                                <a t-att-href=\"ctx.get('url')\" t-attf-"
+"style=\"background-color: {{object.company_id.email_secondary_color or "
+"'#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px;"
+"\">\n"
 "                                    View Appraisal\n"
 "                                </a>\n"
 "                            </p>\n"
@@ -102,18 +92,30 @@ msgstr ""
 #: model:mail.template,body_html:hr_appraisal.mail_template_appraisal_request_from_employee
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
-"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"                        Dear <t t-out=\"ctx.get('employee_to_name')\">employee</t>,\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;"
+"\">\n"
+"                        Dear <t t-out=\"ctx.get('employee_to_name')"
+"\">employee</t>,\n"
 "                        <br/>\n"
-"                        <t t-out=\"ctx.get('author_name', '')\">Addison Olson</t> (<t t-out=\"ctx.get('author_mail', '')\">addison.olson28@example.com</t>) wishes an appraisal.\n"
+"                        <t t-out=\"ctx.get('author_name', '')\">Addison "
+"Olson</t> (<t t-out=\"ctx.get('author_mail', '')"
+"\">addison.olson28@example.com</t>) wishes an appraisal.\n"
 "                        <t t-if=\"ctx.get('user_body')\">\n"
-"                            <div style=\"margin: 16px 0px 16px 0px; padding: 8px 16px 8px 16px; background-color: #F1F1F1;\">\n"
-"                                <t t-out=\"ctx.get('user_body')\">Annual appraisal.</t>\n"
+"                            <div style=\"margin: 16px 0px 16px 0px; padding: "
+"8px 16px 8px 16px; background-color: #F1F1F1;\">\n"
+"                                <t t-out=\"ctx.get('user_body')\">Annual "
+"appraisal.</t>\n"
 "                            </div>\n"
 "                        </t>\n"
 "                        <t t-if=\"ctx.get('recipient_users')\">\n"
-"                            <p style=\"margin: 16px 0px 16px 0px; padding: 8px 16px 8px 16px; text-align: center;\">\n"
-"                                <a t-att-href=\"ctx.get('url')\" t-attf-style=\" margin: auto; background-color: {{object.employee_id.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.employee_id.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px;\">\n"
+"                            <p style=\"margin: 16px 0px 16px 0px; padding: "
+"8px 16px 8px 16px; text-align: center;\">\n"
+"                                <a t-att-href=\"ctx.get('url')\" t-attf-"
+"style=\" margin: auto; background-color: "
+"{{object.employee_id.company_id.email_secondary_color or '#875A7B'}}; "
+"padding: 8px 16px 8px 16px; text-decoration: none; color: "
+"{{object.employee_id.company_id.email_primary_color or '#FFFFFF'}}; border-"
+"radius: 5px;\">\n"
 "                                    View Appraisal\n"
 "                                </a>\n"
 "                            </p>\n"
@@ -127,26 +129,37 @@ msgstr ""
 #: model:mail.template,body_html:hr_appraisal.mail_template_appraisal_reminder
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
-"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"                        Hi <t t-out=\"ctx.get('employee_to_name')\">[employee]</t>,\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;"
+"\">\n"
+"                        Hi <t t-out=\"ctx.get('employee_to_name')"
+"\">[employee]</t>,\n"
 "                        <br/>\n"
-"                        Just a quick reminder that your next appraisal with <t t-out=\"ctx.get('manager_names')\"> [Appraisers]</t>\n"
-"                        is scheduled for <t t-out=\"ctx.get('date_close')\">[deadline]</t>.\n"
+"                        Just a quick reminder that your next appraisal with "
+"<t t-out=\"ctx.get('manager_names')\"> [Appraisers]</t>\n"
+"                        is scheduled for <t t-out=\"ctx.get('date_close')"
+"\">[deadline]</t>.\n"
 "                        <br/>\n"
 "                        <t t-if=\"ctx.get('user_body')\">\n"
 "                            <div class=\"my-3 py-2 px-3 bg-secondary\">\n"
-"                                <t t-out=\"ctx.get('user_body')\">[Optional comment]</t>\n"
+"                                <t t-out=\"ctx.get('user_body')\">[Optional "
+"comment]</t>\n"
 "                            </div>\n"
 "                        </t>\n"
 "                        <t t-if=\"ctx.get('recipient_users')\">\n"
 "                            You can access your appraisal form here:\n"
 "                            <p class=\"text-center my-3 py-2 px-3\">\n"
-"                                <a t-att-href=\"ctx.get('url')\" t-attf-style=\" margin: auto; background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px;\">\n"
+"                                <a t-att-href=\"ctx.get('url')\" t-attf-"
+"style=\" margin: auto; background-color: "
+"{{object.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px "
+"8px 16px; text-decoration: none; color: "
+"{{object.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px;"
+"\">\n"
 "                                    View Appraisal\n"
 "                                </a>\n"
 "                            </p>\n"
 "                        </t>\n"
-"                        If you have any questions or need to reschedule, feel free to reach out.\n"
+"                        If you have any questions or need to reschedule, "
+"feel free to reach out.\n"
 "                        <br/>\n"
 "                        <br/>\n"
 "                        <t t-out=\"ctx.get('author_signature')\"/>\n"
@@ -160,7 +173,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        Describe something you are proud of—work that had a positive impact on\n"
+"                        Describe something you are proud of—work that had a "
+"positive impact on\n"
 "                        the company.\n"
 "                    </em>"
 msgstr ""
@@ -169,7 +183,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        Did you face any new difficulties or unexpected obstacles?\n"
+"                        Did you face any new difficulties or unexpected "
+"obstacles?\n"
 "                    </em>"
 msgstr ""
 
@@ -177,7 +192,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        Every job has its strong points. In your opinion, which tasks do you \n"
+"                        Every job has its strong points. In your opinion, "
+"which tasks do you \n"
 "                        enjoy the most and which the least?\n"
 "                    </em>"
 msgstr ""
@@ -186,7 +202,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_manager_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        From a manager’s point of view, how could you help them overcome their weaknesses?\n"
+"                        From a manager’s point of view, how could you help "
+"them overcome their weaknesses?\n"
 "                    </em>"
 msgstr ""
 
@@ -194,7 +211,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        How can the company support your needs and objectives to help you \n"
+"                        How can the company support your needs and "
+"objectives to help you \n"
 "                        reach your goals and foster better collaboration?\n"
 "                    </em>"
 msgstr ""
@@ -203,7 +221,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_manager_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        How do you see the employee in the future? Does your vision align with \n"
+"                        How do you see the employee in the future? Does your "
+"vision align with \n"
 "                        the employee’s goals?\n"
 "                    </em>"
 msgstr ""
@@ -212,7 +231,8 @@ msgstr ""
 #: model_terms:hr.appraisal.template,appraisal_manager_feedback_template:hr_appraisal.hr_appraisal_default_template
 msgid ""
 "<em>\n"
-"                        Mention any achievements that demonstrate their strengths in \n"
+"                        Mention any achievements that demonstrate their "
+"strengths in \n"
 "                        handling work-related challenges.\n"
 "                    </em>"
 msgstr ""
@@ -234,8 +254,7 @@ msgstr ""
 
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_manager_feedback_template:hr_appraisal.hr_appraisal_default_template
-msgid ""
-"<em>Do you need a rapid response to address the current situation?</em>"
+msgid "<em>Do you need a rapid response to address the current situation?</em>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -312,14 +331,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid ""
 "<span invisible=\"employee_feedback_published\">Shared to Appraisers</span>\n"
-"                                            <strong class=\"text-success\" invisible=\"not employee_feedback_published\">Shared to Appraisers</strong>"
+"                                            <strong class=\"text-success\" "
+"invisible=\"not employee_feedback_published\">Shared to Appraisers</strong>"
 msgstr ""
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid ""
 "<span invisible=\"manager_feedback_published\">Shared to Employee</span>\n"
-"                                            <strong class=\"text-success\" invisible=\"not manager_feedback_published\">Shared to Employee</strong>"
+"                                            <strong class=\"text-success\" "
+"invisible=\"not manager_feedback_published\">Shared to Employee</strong>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -389,15 +410,19 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid ""
-"<strong class=\"text-info\" invisible=\"employee_feedback_published\">Private</strong>\n"
-"                                            <span invisible=\"not employee_feedback_published\">Private</span>"
+"<strong class=\"text-info\" "
+"invisible=\"employee_feedback_published\">Private</strong>\n"
+"                                            <span invisible=\"not "
+"employee_feedback_published\">Private</span>"
 msgstr ""
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid ""
-"<strong class=\"text-info\" invisible=\"manager_feedback_published\">Private</strong>\n"
-"                                            <span invisible=\"not manager_feedback_published\">Private</span>"
+"<strong class=\"text-info\" "
+"invisible=\"manager_feedback_published\">Private</strong>\n"
+"                                            <span invisible=\"not "
+"manager_feedback_published\">Private</span>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -436,8 +461,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_manager_feedback_template:hr_appraisal.hr_appraisal_post_training_template
 msgid ""
-"<strong>Can the employee accurately recall and explain the key concepts from"
-" the training ?</strong>"
+"<strong>Can the employee accurately recall and explain the key concepts from "
+"the training ?</strong>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -658,8 +683,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_probationary_period_template
 msgid ""
-"<strong>What are your thoughts on the company culture and work environment "
-"?</strong>"
+"<strong>What are your thoughts on the company culture and work environment ?"
+"</strong>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -708,8 +733,7 @@ msgstr ""
 
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_yearly_template
-msgid ""
-"<strong>What is your overall feeling about the previous year ?</strong>"
+msgid "<strong>What is your overall feeling about the previous year ?</strong>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -746,8 +770,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_yearly_template
 msgid ""
-"<strong>Which skills would you like to prioritize for training, and why "
-"?</strong>"
+"<strong>Which skills would you like to prioritize for training, and why ?</"
+"strong>"
 msgstr ""
 
 #. module: hr_appraisal
@@ -1000,8 +1024,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_appraisal/wizard/request_appraisal.py:0
 msgid ""
-"Appraisal for %(appraisal_title)s should be using template "
-"\"%(template_name)s\" instead of \"%(wrong_template_name)s\""
+"Appraisal for %(appraisal_title)s should be using template \"%"
+"(template_name)s\" instead of \"%(wrong_template_name)s\""
 msgstr ""
 
 #. module: hr_appraisal
@@ -1031,6 +1055,14 @@ msgstr ""
 #. module: hr_appraisal
 #: model:ir.actions.act_window,name:hr_appraisal.hr_appraisal_action_from_department
 msgid "Appraisal to start"
+msgstr ""
+
+#. module: hr_appraisal
+#. odoo-python
+#: code:addons/hr_appraisal/wizard/hr_departure_wizard.py:0
+msgid ""
+"Appraisal's managers have been updated due to the end of collaboration with "
+"an employee."
 msgstr ""
 
 #. module: hr_appraisal
@@ -2294,8 +2326,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_goal_template_view_form
 msgid ""
-"Provide visible information on the                             goal, how the"
-" employee can achieve it. Which benefit he will get from it. Maybe some "
+"Provide visible information on the                             goal, how the "
+"employee can achieve it. Which benefit he will get from it. Maybe some "
 "process                             or steps to help her/him."
 msgstr ""
 
@@ -2668,8 +2700,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_appraisal/wizard/hr_appraisal_campaign_wizard.py:0
 msgid ""
-"The following employees already have appraisals on %(appraisal_date)s: "
-"%(employees)s. The existing appraisals will be used instead of creating new "
+"The following employees already have appraisals on %(appraisal_date)s: %"
+"(employees)s. The existing appraisals will be used instead of creating new "
 "ones."
 msgstr ""
 
@@ -2745,17 +2777,17 @@ msgstr ""
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_template_form
 msgid ""
-"Use this area to write the content that will be displayed for the Employee."
-"                                         You can use a lot of options with "
-"the html editor, accessible by pressing / on the keyboard."
+"Use this area to write the content that will be displayed for the "
+"Employee.                                         You can use a lot of "
+"options with the html editor, accessible by pressing / on the keyboard."
 msgstr ""
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_template_form
 msgid ""
-"Use this area to write the content that will be displayed for the Manager."
-"                                         You can use a lot of options with "
-"the html editor, accessible by pressing / on the keyboard."
+"Use this area to write the content that will be displayed for the "
+"Manager.                                         You can use a lot of "
+"options with the html editor, accessible by pressing / on the keyboard."
 msgstr ""
 
 #. module: hr_appraisal
@@ -2885,8 +2917,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_appraisal/models/hr_appraisal.py:0
 msgid ""
-"Your last appraisal was %s months ago. Your appraisal is created and you can"
-" fill it here."
+"Your last appraisal was %s months ago. Your appraisal is created and you can "
+"fill it here."
 msgstr ""
 
 #. module: hr_appraisal

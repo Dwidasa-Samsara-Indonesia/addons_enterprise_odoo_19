@@ -179,8 +179,8 @@
         <GLPostingDate t-out="move_vals['date']"/>
         <t t-if="move_vals['partner_id']">
             <t t-set="partner_vals" t-value="partner_detail_map[move_vals['partner_id']]"/>
-            <CustomerID t-if="partner_vals['type'] == 'customer'" t-out="move_vals['partner_id']"/>
-            <SupplierID t-if="partner_vals['type'] == 'supplier'" t-out="move_vals['partner_id']"/>
+            <CustomerID t-if="'customer' in partner_vals['types']" t-out="move_vals['partner_id']"/>
+            <SupplierID t-if="'supplier' in partner_vals['types']" t-out="move_vals['partner_id']"/>
         </t>
         <t t-else="">
             <CustomerID>N/A</CustomerID>

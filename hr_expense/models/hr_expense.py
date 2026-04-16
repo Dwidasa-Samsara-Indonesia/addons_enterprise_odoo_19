@@ -331,14 +331,15 @@ class HrExpense(models.Model):
                 ).ids
             )
         for expense in self:
-            if not expense.company_id:
-                # This would be happening when emptying the required company_id field, triggering the "onchange"s.
-                # This would lead to fields being set as editable, instead of using the env company,
-                # recomputing the interface just to be blocked when trying to save we choose not to recompute anything
-                # and wait for a proper company to be inputted.
-                continue
-            if expense.state not in {'draft', 'submitted', 'approved'} and not self.env.su:
-                # Not editable
+            if (
+                not expense.company_id
+                or (expense.state not in {'draft', 'submitted', 'approved'} and not self.env.su)
+            ):
+                # When emptying the required company_id field, onchanges are triggered.
+                # To avoid recomputing the interface without a company (which could
+                # temporarily make fields editable), we do not recompute anything and wait
+                # for a proper company to be set. The interface is also made not editable
+                # when the state is not draft/submitted/approved and the user is not a superuser.
                 expense.is_editable = False
                 continue
 
@@ -1081,12 +1082,8 @@ class HrExpense(models.Model):
 
         expense_description = msg_dict.get('subject', '')
 
-        if employee.user_id:
-            company = employee.user_id.company_id
-            currencies = company.currency_id | employee.user_id.company_ids.mapped('currency_id')
-        else:
-            company = employee.company_id
-            currencies = company.currency_id
+        company = employee.company_id
+        currencies = company.currency_id
 
         if not company:  # ultimate fallback, since company_id is required on expense
             company = self.env.company
@@ -1182,6 +1179,19 @@ class HrExpense(models.Model):
         employee_expenses = self - company_expenses
         if len(employee_expenses.company_id) > 1:
             raise UserError(_("You can't post simultaneously employee-paid expenses belonging to different companies"))
+
+        # For company-paid expenses using SEPA Credit Transfer, the vendor must be set
+        # because SEPA XML generation requires a creditor name (partner).
+        expenses_missing_vendor = company_expenses.filtered(
+            lambda exp: exp.payment_method_line_id.code == 'sepa_ct' and not exp.vendor_id
+        )
+        if expenses_missing_vendor:
+            expense_names = ', '.join(expenses_missing_vendor.mapped('name'))
+            raise UserError(_(
+                "The vendor is required for expenses using SEPA Credit Transfer as the payment method."
+                "\nPlease set a vendor on the following expenses: %s",
+                expense_names
+            ))
 
         if company_expenses:
             company_expenses._create_company_paid_moves()
@@ -1584,14 +1594,12 @@ class HrExpense(models.Model):
         return moves_sudo.sudo(self.env.su)
 
     def _prepare_receipts_vals(self):
-        attachments_data = []
-        for attachment in self.attachment_ids:
-            attachments_data.append(
-                Command.create(attachment.copy_data({'res_model': 'account.move', 'res_id': False, 'raw': attachment.raw})[0])
-            )
-
         return_vals = []
         for employee_sudo, expenses_sudo in self.sudo().grouped('employee_id').items():
+            attachments_data = [
+                Command.create(attachment.copy_data({'res_model': 'account.move', 'res_id': False, 'raw': attachment.raw})[0])
+                for attachment in expenses_sudo.attachment_ids
+            ]
             multiple_expenses_name = _("Expenses of %(employee)s", employee=employee_sudo.name)
             move_ref = expenses_sudo.name if len(expenses_sudo) == 1 else multiple_expenses_name
             return_vals.append({
@@ -1601,6 +1609,7 @@ class HrExpense(models.Model):
                 'partner_id': employee_sudo.work_contact_id.id,
                 'commercial_partner_id': employee_sudo.user_partner_id.id,
                 'currency_id': expenses_sudo.company_currency_id.id,
+                'company_id': expenses_sudo.company_id.id,
                 'line_ids': [Command.create(expense_sudo._prepare_move_lines_vals()) for expense_sudo in expenses_sudo],
                 'partner_bank_id': employee_sudo.primary_bank_account_id.id,
                 'attachment_ids': attachments_data,
@@ -1683,6 +1692,7 @@ class HrExpense(models.Model):
             'journal_id': journal.id,
             'partner_id': self.vendor_id.id,
             'currency_id': self.currency_id.id,
+            'company_id': self.company_id.id,
             'line_ids': [Command.create(line) for line in move_lines],
             'attachment_ids': [
                 Command.create(attachment.copy_data({'res_model': 'account.move', 'res_id': False, 'raw': attachment.raw})[0])
@@ -1745,7 +1755,7 @@ class HrExpense(models.Model):
 
         # expense account of the product then the product category
         if self.product_id:
-            account = self.product_id.product_tmpl_id._get_product_accounts()['expense']
+            account = self.product_id.with_company(self.company_id).product_tmpl_id._get_product_accounts()['expense']
         else:
             account = self.env.company.expense_account_id
 

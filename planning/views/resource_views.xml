@@ -101,7 +101,7 @@
         <field name="inherit_id" ref="resource.view_resource_resource_search"/>
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='working_period']" position="before">
-                <field name="role_ids" filter_domain="['|', ('role_ids', 'in', [self]), ('role_ids', '=', False)]"/>
+                <field name="role_ids" filter_domain="['|', ('role_ids', 'in', [raw_value]), ('role_ids', '=', False)]"/>
                 <separator/>
             </xpath>
         </field>

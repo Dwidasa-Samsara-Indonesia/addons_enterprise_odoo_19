@@ -7,16 +7,16 @@
 # Thi Huong Nguyen, 2023
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Thi Huong Nguyen (thng)" <thng@odoo.com>, 2025.
+# "Thi Huong Nguyen (thng)" <thng@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:40+0000\n"
-"PO-Revision-Date: 2025-11-27 14:14+0000\n"
-"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"PO-Revision-Date: 2026-03-20 15:13+0000\n"
+"Last-Translator: \"Thi Huong Nguyen (thng)\" <thng@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
 "quality_control/vi/>\n"
 "Language: vi\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_point_view_form_inherit_quality_control
@@ -47,11 +47,6 @@ msgstr "'Worksheet_%s' % object.name"
 #: model_terms:ir.ui.view,arch_db:quality_control.worksheet_page
 msgid "15.3 cm"
 msgstr "15.3 cm"
-
-#. module: quality_control
-#: model_terms:ir.ui.view,arch_db:quality_control.worksheet_page
-msgid "2023-08-15"
-msgstr "2023-08-15"
 
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_alert_team_dashboard_view_kanban
@@ -709,7 +704,7 @@ msgstr "Chỉ số Đạt"
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_point_view_form_inherit_quality_control
 msgid "Message If Failure"
-msgstr "Thông báo nếu không thành công"
+msgstr "Lời nhắn nếu không đạt"
 
 #. module: quality_control
 #: model:ir.model.fields,field_description:quality_control.field_quality_check__tolerance_min
@@ -815,7 +810,7 @@ msgstr "OK"
 #. module: quality_control
 #: model:ir.model.fields.selection,name:quality_control.selection__quality_point__measure_frequency_type__on_demand
 msgid "On-demand"
-msgstr "Theo yêu cầu"
+msgstr "Khi cần"
 
 #. module: quality_control
 #: model_terms:ir.ui.view,arch_db:quality_control.view_quality_check_wizard
@@ -1561,6 +1556,14 @@ msgstr "Bạn phải cung cấp một hình ảnh trước khi xác nhận"
 #. module: quality_control
 #. odoo-python
 #: code:addons/quality_control/models/stock_picking.py:0
+msgid ""
+"You need to supply a Lot/Serial Number for product:\n"
+"%(products)s"
+msgstr ""
+
+#. module: quality_control
+#. odoo-python
+#: code:addons/quality_control/models/stock_picking.py:0
 msgid "You still need to do the quality checks!"
 msgstr "Bạn vẫn cần kiểm tra chất lượng!"
 
@@ -1578,6 +1581,9 @@ msgstr "VD: Chuyên gia QA"
 #: model_terms:ir.ui.view,arch_db:quality_control.quality_alert_team_view_form
 msgid "e.g. mycompany.com"
 msgstr "ví dụ. \"mycompany.com\""
+
+#~ msgid "2023-08-15"
+#~ msgstr "2023-08-15"
 
 #~ msgid ""
 #~ "<span attrs=\"{'invisible': [('measure_frequency_type', '=', 'all')]}"

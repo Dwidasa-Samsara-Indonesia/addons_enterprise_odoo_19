@@ -3,13 +3,14 @@
 # * social_instagram
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025.
+# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
+# "Andreas Brandl (1st Group SE)" <a.brandl@1st.group>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:47+0000\n"
-"PO-Revision-Date: 2025-11-28 10:57+0000\n"
+"POT-Creation-Date: 2026-03-13 18:49+0000\n"
+"PO-Revision-Date: 2026-04-04 10:52+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "social_instagram/de/>\n"
@@ -18,12 +19,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
 msgid "(between 1.91:1 and 4:5)."
 msgstr "(zwischen 1.91:1 und 4:5)."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"- Check permissions: Your site's robots.txt might be blocking Instagram from "
+"accessing the media folder (make sure /social_instagram is not blocked)."
+msgstr ""
+"- Berechtigungen prüfen: Möglicherweise blockiert die robots.txt Ihrer "
+"Website Instagram den Zugriff auf den Medienordner (stellen Sie sicher, "
+"dass /social_instagram nicht blockiert ist)."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"- Check your connection: Your server may be offline or temporarily "
+"unreachable."
+msgstr ""
+"- Verbindung prüfen: Ihr Server ist möglicherweise offline oder "
+"vorübergehend nicht erreichbar."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"- Check your file: Ensure it isn't corrupted and is from 320 to 1440 pixels "
+"wide, 8MB maximum, aspect ratio between 4:5 and 1.91:1."
+msgstr ""
+"- Datei prüfen: Stellen Sie sicher, dass sie nicht beschädigt ist und "
+"zwischen 320 und 1440 Pixel breit ist, maximal 8 MB groß ist und ein "
+"Seitenverhältnis zwischen 4:5 und 1,91:1 hat."
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
@@ -33,7 +66,7 @@ msgstr "VOR 34 SEKUNDEN"
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.social_stream_post_view_kanban
 msgid "<i class=\"fa fa-comments me-1\" title=\"Comments\"/>"
-msgstr "<i class=\"fa fa-comments me-1\" title=\"Comments\"/>"
+msgstr "<i class=\"fa fa-comments me-1\" title=\"Kommentare\"/>"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
@@ -67,17 +100,17 @@ msgstr ""
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.social_stream_post_view_kanban
 msgid "<i class=\"fa fa-heart me-1\" title=\"Likes\"/>"
-msgstr "<i class=\"fa fa-heart me-1\" title=\"Likes\"/>"
+msgstr "<i class=\"fa fa-heart me-1\" title=\"Gefällt mir\"/>"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
 msgid "<span class=\"fw-bold pe-1\">My_instagram_page</span>"
-msgstr "<span class=\"fw-bold pe-1\">My_instagram_page</span>"
+msgstr "<span class=\"fw-bold pe-1\">Meine_Instagramseite</span>"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
 msgid "<span class=\"mt-1 fw-bold\">My Instagram Page</span>"
-msgstr "<span class=\"mt-1 fw-bold\">Meine Instagram-Seite</span>"
+msgstr "<span class=\"mt-1 fw-bold\">Meine Instagramseite</span>"
 
 #. module: social_instagram
 #: model:ir.model.fields,field_description:social_instagram.field_social_post__instagram_access_token
@@ -154,7 +187,7 @@ msgid ""
 "        The Instagram (\"Professional\") account is always linked to a "
 "Facebook account."
 msgstr ""
-"Facebook-Konto-ID bereitgestellt von der Facebook-API, dies sollte niemals "
+"Facebook-Konto-ID von der Facebook-API bereitgestellt. Diese sollte niemals "
 "manuell eingestellt werden.\n"
 "        Das Instagram-Konto („Professionell“) ist immer mit einem Facebook-"
 "Konto verknüpft."
@@ -202,8 +235,8 @@ msgid ""
 "        It's used to authenticate requests when posting to or reading "
 "information from this account."
 msgstr ""
-"Von der Facebook-API zu Verfügung gestelltes Instagram-Zugriffstoken. Dieses "
-"sollte niemals manuell eingestellt werden.\n"
+"Von der Facebook-API zur Verfügung gestelltes Instagram-Zugriffstoken. "
+"Dieses sollte niemals manuell eingestellt werden.\n"
 "        Es wird verwendet, um Anfragen zu authentifizieren, wenn Sie "
 "Informationen von diesem Konto lesen oder auf diesem Konto posten."
 
@@ -443,6 +476,18 @@ msgstr ""
 
 #. module: social_instagram
 #. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "The media container expired."
+msgstr "Der Mediencontainer ist abgelaufen."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "The media container failed to process."
+msgstr "Der Mediencontainer konnte nicht verarbeitet werden."
+
+#. module: social_instagram
+#. odoo-python
 #: code:addons/social_instagram/controllers/main.py:0
 msgid "There was a authentication issue during your request."
 msgstr "Bei Ihrer Anfrage gab es ein Authentifizierungsproblem."
@@ -506,6 +551,15 @@ msgstr ""
 msgid "Your image appears to be corrupted, please try loading it again."
 msgstr ""
 "Ihr Bild scheint beschädigt zu sein. Bitte versuchen Sie, es erneut zu laden."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"Your media didn't go through. This is usually caused by one of the following:"
+msgstr ""
+"Ihre Medien wurden nicht übertragen. Dies wird in der Regel durch einen der "
+"folgenden Gründe verursacht:"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview

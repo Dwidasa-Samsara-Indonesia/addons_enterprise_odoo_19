@@ -121,6 +121,7 @@ class PosSession(models.Model):
                         # Add to existing totals
                         existing_statement_entry["incl_vat"] = float_repr(float(existing_statement_entry["incl_vat"]) + float(amt.get("incl_vat", 0)), precision)
                         existing_statement_entry["excl_vat"] = float_repr(float(existing_statement_entry["excl_vat"]) + float(amt.get("excl_vat", 0)), precision)
+                        existing_statement_entry["vat"] = float_repr(float(existing_statement_entry["vat"]) + float(amt.get("vat", 0)), precision)
                     else:
                         # Create new statement entry for this vat
                         summary[case_type].append({
@@ -137,14 +138,14 @@ class PosSession(models.Model):
             {"type": "DifferenzSollIst", "name": "Cash Discrepancy", "amounts_per_vat_id": [self._get_vat_details(5, self.cash_register_difference, self.cash_register_difference)]},
         ]
 
-        move_statements = [entry for entry in self.get_cash_in_out_list() if entry.get('cashier_name')]  # remove difference line
-        for cash_move in move_statements:
+        for cash_move in self.statement_line_ids.sorted('create_date').filtered(lambda l: not l.is_reconciled):  # remove cash difference line
             # Need to update here if we update format in _prepareTryCashInOutPayload(), _prepare_account_bank_statement_line_vals()
             # current structure of name is: {session_name}-{move_type}-{statement_type}-{move_reason}
             # so if - is in name or reason direct spiltting won't work
-            move_parts = cash_move['name'].removeprefix(self.name).split('-')
+            move_parts = cash_move.payment_ref.removeprefix(self.name).split('-')
             move_type, statement_type, move_reason = move_parts[1], move_parts[2], "-".join(move_parts[3:])
-            statements.append({"type": statement_type.capitalize(), "name": f"Cash {move_type} - {move_reason}"[:40], "amounts_per_vat_id": [self._get_vat_details(5, cash_move['amount'], cash_move['amount'])]})
+            statement_type = (statement_type[0].upper() + statement_type[1:]) if statement_type else ''
+            statements.append({"type": statement_type, "name": f"Cash {move_type} - {move_reason}"[:40], "amounts_per_vat_id": [self._get_vat_details(5, cash_move.amount, cash_move.amount)]})
         for case_type, vat_summaries in summary.items():
             statements.append({"type": case_type, "amounts_per_vat_id": vat_summaries})
         return statements
@@ -166,6 +167,10 @@ class PosSession(models.Model):
 
         precision = self.currency_id.decimal_places
         transactions = []
+        # We need to maintain a sequence of orders per config
+        # if we have total 40 orders 30 in older sessions and 10 in current search_count gives 40, but we need to start from 31
+        # so we need to remove the number of orders of current session to get the length of old orders
+        next_transaction_export_id = self.env['pos.order'].search_count([('config_id', '=', config.id)]) - len(orders)
         for i, o in enumerate(orders, start=1):
             if o.partner_id:
                 buyer = {
@@ -173,8 +178,8 @@ class PosSession(models.Model):
                     "buyer_export_id": f"{o.partner_id.id}",
                     "type": "Kunde" if company.id != o.partner_id.company_id.id else "Mitarbeiter",
                     "address": {
-                        "street": o.partner_id.street[:60] or 'N/A',  # minimum 1 character required
-                        "postal_code": o.partner_id.zip[:10] or 'N/A',  # minimum 1 character required
+                        "street": (o.partner_id.street or 'N/A')[:60],  # minimum 1 character required
+                        "postal_code": (o.partner_id.zip or 'N/A')[:10],  # minimum 1 character required
                         "country_code": COUNTRY_CODE_MAP.get(o.partner_id.country_id.code) or "DEU",
                     },
                 }
@@ -190,7 +195,7 @@ class PosSession(models.Model):
             transaction = {
                 "head": {
                     "tx_id": f"{o.l10n_de_fiskaly_transaction_uuid}",
-                    "transaction_export_id": str(i),
+                    "transaction_export_id": str(next_transaction_export_id + i),
                     "closing_client_id": f"{config.l10n_de_fiskaly_client_id}",
                     "type": "Beleg",
                     "storno": False,

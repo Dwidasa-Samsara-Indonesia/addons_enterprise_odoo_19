@@ -1335,6 +1335,35 @@ class TestSubcontractingFlows(TestMrpSubcontractingCommon):
         self.assertEqual(mo.move_line_raw_ids[1].lot_id, serial3)
         self.assertEqual(mo.move_line_raw_ids[2].quantity, 2)
 
+    def test_resupply_subcontractor_in_mtso(self):
+        """
+        Check the 'resupply subcontractor on order' route when the associated rule is
+        updated to 'Take From Stock, if unavailable, Trigger Another Rule' (mtso)
+        """
+        resupply_route = self.env.ref('mrp_subcontracting.route_resupply_subcontractor_mto')
+        resupply_route.warehouse_ids = [Command.set(self.warehouse.ids)]
+        resupply_route.rule_ids.procure_method = 'mts_else_mto'
+        receipt = self.env['stock.picking'].create({
+            'partner_id': self.subcontractor_partner1.id,
+            'location_id': self.ref('stock.stock_location_suppliers'),
+            'location_dest_id': self.warehouse.lot_stock_id.id,
+            'picking_type_id': self.warehouse.in_type_id.id,
+            'move_ids': [Command.create({
+                'product_id': self.finished.id,
+                'product_uom_qty': 10.0,
+                'location_id': self.ref('stock.stock_location_suppliers'),
+                'location_dest_id': self.warehouse.lot_stock_id.id,
+            })],
+        })
+        receipt.action_confirm()
+        # Note that the subcontractor of the MO is the commercial_partner_id of subcontractor_partner1
+        subcontracted_mo = self.env['mrp.production'].search([('bom_id', '=', self.bom.id)], limit=1)
+        resupply_subcontractor_delivery = self.env['stock.picking'].search([('partner_id', '=', subcontracted_mo.subcontractor_id.id)], limit=1)
+        self.assertRecordValues(resupply_subcontractor_delivery.move_ids, [
+            {'product_id': self.comp1.id, 'product_uom_qty': 10.0},
+            {'product_id': self.comp2.id, 'product_uom_qty': 10.0},
+        ])
+
 
 class TestSubcontractingSerialMassReceipt(TransactionCase):
 
@@ -1630,3 +1659,36 @@ class TestSubcontractingSerialMassReceipt(TransactionCase):
             {'name': '03-02-0000002'},
         ])
         self.assertEqual(self.finished.next_serial, '0000003')
+
+    def test_subcontract_move_lines_are_linked_to_picking(self):
+        """Test to ensure that when we generate mass serial numbers for a
+        subcontracting order, the created move lines are linked to the picking.
+
+        Also ensure that applying the serial number generation wizard without
+        generating any lot/serial numbers raises a UserError."""
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
+        receipt = self.env['stock.picking'].create({
+            'picking_type_id': warehouse.in_type_id.id,
+            'partner_id': self.subcontractor.id,
+            'move_ids': [Command.create({
+                'product_id': self.finished.id,
+                'product_uom_qty': 3,
+            })],
+        })
+        receipt.action_confirm()
+        mo = self.env['mrp.production'].browse(receipt.move_ids.action_show_subcontract_details()['res_id'])
+
+        self.finished.lot_sequence_id.number_next_actual = 1
+        wizard = Form.from_action(self.env, mo.action_generate_serial()).save()
+        # Applying the wizard without generating any lot/serial numbers should raise a UserError.
+        with self.assertRaises(UserError):
+            wizard.action_apply()
+        wizard.action_generate_serial_numbers()
+        wizard.action_apply()
+        self.assertRecordValues(mo._get_subcontract_move().lot_ids, [
+            {'name': '0000001'},
+            {'name': '0000002'},
+            {'name': '0000003'},
+        ])
+        receipt.button_validate()
+        self.assertEqual(receipt.move_line_ids.lot_id, mo._get_subcontract_move().lot_ids)

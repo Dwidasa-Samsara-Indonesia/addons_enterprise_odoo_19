@@ -12,7 +12,11 @@ patch(Composer.prototype, {
     onFocusin(ev) {
         super.onFocusin();
         if (this.thread?.channel_type === "ai_chat") {
-            ev.target.select();
+            if (this.composerService.htmlEnabled) {
+                this.editor?.shared.selection.focusEditable();
+            } else {
+                ev.target.select();
+            }
         }
     },
     get wysiwygConfig() {

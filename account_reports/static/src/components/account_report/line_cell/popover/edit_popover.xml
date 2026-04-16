@@ -39,7 +39,7 @@
                         type="text"
                         inputmode="numeric"
                         t-ref="input"
-                        t-att-value="props.cell.no_format"
+                        t-att-value="this.editableNumericValue"
                     />
                     <span class="input-group-text">%</span>
                 </div>
@@ -51,7 +51,7 @@
                         type="text"
                         inputmode="numeric"
                         t-ref="input"
-                        t-att-value="props.cell.no_format"
+                        t-att-value="this.editableNumericValue"
                     />
                     <span class="input-group-text">
                         <t t-out="props.cell.currency_symbol"/>
@@ -63,7 +63,7 @@
                     type="text"
                     inputmode="numeric"
                     t-ref="input"
-                    t-att-value="props.cell.no_format"
+                    t-att-value="this.editableNumericValue"
                 />
             </t>
 

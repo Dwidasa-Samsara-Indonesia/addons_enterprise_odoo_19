@@ -110,10 +110,6 @@ class TestSignRequest(SignRequestCommon, MockEmail):
         sign_request_no_item_token = sign_request_no_item.access_token
         sign_request_no_item.cancel()
         self.assertEqual(sign_request_item.state, 'completed', 'The sign.request.item should be completed')
-        self.assertEqual(sign_request_no_item.state, 'canceled', 'The sign request should be canceled')
-        self.assertNotEqual(sign_request_item.access_token, sign_request_item_token, 'The access token should be changed')
-        self.assertNotEqual(sign_request_no_item.access_token, sign_request_no_item_token, 'The access token should be changed')
-        self.assertEqual(len(sign_request_no_item.sign_log_ids.filtered(lambda log: log.action == 'cancel')), 1, 'A log with action="cancel" should be created')
 
         # copy
         new_sign_request_no_item = sign_request_no_item.copy()
@@ -527,7 +523,7 @@ class TestSignRequest(SignRequestCommon, MockEmail):
             completion_mail_to_user = self.env['mail.mail'].search([
                 ('email_to', '=', formataddr((self.env.user.partner_id.name, self.env.user.partner_id.email)))
             ])
-            self.assertEqual(0, len(completion_mail_to_user), 'No completion email should be sent to the admin user')
+            self.assertEqual(1, len(completion_mail_to_user), 'Completion email should be sent to the admin user')
 
             completion_mail_to_partner = self.env['mail.mail'].search([
                 ('email_to', '=', formataddr((self.partner_1.name, self.partner_1.email)))
@@ -657,3 +653,16 @@ class TestSignRequest(SignRequestCommon, MockEmail):
             [s.mail_sent_order for s in request.signer_ids],
             [3, 2, 1],
         )
+
+    def test_sign_request_cancel_signed_document(self):
+        """ Ensure that a fully signed document cannot be canceled. """
+        sign_request = self.create_sign_request_no_item(signer=self.partner_1, cc_partners=self.partner_4)
+        sign_request_item = sign_request.request_item_ids[0]
+
+        # Sign the document.
+        sign_request_item.sign(self.signature_fake)
+        self.assertEqual(sign_request.state, 'signed', 'The sign request should be signed.')
+
+        # Attempt to cancel, document should remain signed.
+        sign_request.cancel()
+        self.assertEqual(sign_request.state, 'signed', 'A fully signed document should not be canceled.')

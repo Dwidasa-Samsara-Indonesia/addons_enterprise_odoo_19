@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:53+0000\n"
+"PO-Revision-Date: 2026-04-04 10:42+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/de/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -34,18 +34,18 @@ msgstr "# Abschreibungsbuchungen"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__gross_increase_count
 msgid "# Gross Increases"
-msgstr "# Bruttoerhöhung"
+msgstr "Bruttoerhöhungen"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__depreciation_entries_count
 msgid "# Posted Depreciation Entries"
-msgstr "# Gebuchte Abschreibungsbuchungen"
+msgstr "Anzahl gebuchter Abschreibungsposten"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "%(asset)s: Disposal"
-msgstr "%(asset)s: Veräußerung"
+msgstr "%(asset)s: Abgang"
 
 #. module: account_asset
 #. odoo-python
@@ -117,9 +117,9 @@ msgid ""
 "> %(extra_text)s Future entries will be recomputed to depreciate the asset "
 "following the changes."
 msgstr ""
-"Ein Abschreibungsposten wird am %(date)s und einschließlich dieses Datums "
-"gebucht. <br/> %(extra_text)s Zukünftige Buchungen werden neu berechnet, um "
-"die Anlage entsprechend der Änderungen abzuschreiben."
+"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen. "
+"<br/> %(extra_text)s Zukünftige Buchungen werden neu berechnet, um den "
+"Vermögensgegenstand entsprechend der Änderungen abzuschreiben."
 
 #. module: account_asset
 #. odoo-python
@@ -129,9 +129,9 @@ msgid ""
 "A disposal entry will be posted on the %(account_type)s account <b>%"
 "(account)s</b>."
 msgstr ""
-"Ein Abschreibungsposten wird am %(date)s und einschließlich dieses Datums "
-"gebucht.<br/> Ein Veräußerungsposten wird auf das %(account_type)s-Konto <b>%"
-"(account)s</b> gebucht."
+"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen.<"
+"br/> Eine Abgangsbuchung wird auf dem Konto <b>%(account)s</b> vom Typ %"
+"(account_type)s gebucht."
 
 #. module: account_asset
 #. odoo-python
@@ -141,17 +141,15 @@ msgid ""
 "A second entry will neutralize the original income and post the  outcome of "
 "this sale on account <b>%(account)s</b>."
 msgstr ""
-"Ein Abschreibungsposten wird am %(date)s und einschließlich dieses Datums "
-"gebucht.<br/> Eine zweite Buchung wird die ursprüngliche Einnahme "
-"neutralisieren und das Ergebnis dieses Verkaufs auf dem Konto <b>%"
-"(account)s</b> verbuchen."
+"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen.<"
+"br/> Eine zweite Buchung neutralisiert den ursprünglichen Ertrag und "
+"verbucht das Verkaufsergebnis auf dem Konto <b>%(account)s</b>."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "A depreciation entry will be posted on and including the date %s."
-msgstr ""
-"Ein Abschreibungsposten wird am und einschließlich des Datums %s gebucht."
+msgstr "Eine Abschreibungsbuchung wird bis einschließlich zum %s vorgenommen."
 
 #. module: account_asset
 #. odoo-python
@@ -179,8 +177,8 @@ msgid ""
 "A non deductible tax value of %(tax_value)s was added to %(name)s's initial "
 "value of %(purchase_value)s"
 msgstr ""
-"Ein nichtabzugsfähiger Steuerwert von %(tax_value)s wurde zum ursprünglichen "
-"Wert von %(name)s in Höhe von %(purchase_value)s hinzugefügt."
+"Ein nicht abzugsfähiger Steuerbetrag von %(tax_value)s wurde zum "
+"ursprünglichen Wert von %(name)s in Höhe von %(purchase_value)s hinzugefügt."
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_account
@@ -200,15 +198,15 @@ msgid ""
 "entries."
 msgstr ""
 "Der Kontotyp wird zu Informationszwecken verwendet, um länderspezifische "
-"gesetzliche Berichte zu erstellen und die Regeln für den Abschluss eines "
-"Geschäftsjahres und die Erstellung von Eröffnungsbuchungen festzulegen."
+"gesetzliche Berichte zu erstellen und die Regeln für den Jahresabschluss "
+"sowie die Erstellung von Eröffnungsbuchungen festzulegen."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_depreciation_id
 msgid "Account used in the depreciation entries, to decrease the asset value."
 msgstr ""
-"Konto, das in den Abschreibungsbuchungen verwendet wird, um den "
-"Vermögenswert zu verringern."
+"Konto, das für Abschreibungsbuchungen verwendet wird, um den Wert des "
+"Vermögensgegenstands zu verringern."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_depreciation_expense_id
@@ -216,15 +214,15 @@ msgid ""
 "Account used in the periodical entries, to record a part of the asset as "
 "expense."
 msgstr ""
-"Konto, das in den periodischen Buchungen verwendet wird, um einen Teil des "
-"Vermögenswertes als Aufwand zu erfassen."
+"Konto, das für periodische Buchungen verwendet wird, um einen Teil des "
+"Vermögensgegenstands als Aufwand zu erfassen."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_asset_id
 msgid "Account used to record the purchase of the asset at its original price."
 msgstr ""
-"Konto, auf dem der Kauf der Anlage zu seinem ursprünglichen Preis verbucht "
-"wird."
+"Konto, auf dem der Kauf des Vermögensgegenstands zu seinem ursprünglichen "
+"Preis verbucht wird."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__gain_account_id
@@ -236,8 +234,8 @@ msgstr "Konto, auf dem die Buchungszeile im Falle eines Gewinns verbucht wird"
 msgid ""
 "Account used to write the journal item in case of gain while selling an asset"
 msgstr ""
-"Konto, das für die Buchungszeile im Falle eines Gewinns beim Verkauf einer "
-"Anlage verwendet wird"
+"Konto, das für die Buchungszeile im Falle eines Gewinns beim Verkauf eines "
+"Vermögensgegenstands verwendet wird"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__loss_account_id
@@ -249,8 +247,8 @@ msgstr "Konto, auf dem die Buchungszeile im Falle eines Verlusts verbucht wird"
 msgid ""
 "Account used to write the journal item in case of loss while selling an asset"
 msgstr ""
-"Konto, das für die Buchungszeile im Falle eines Verlusts beim Verkauf einer "
-"Anlage verwendet wird"
+"Konto, das für die Buchungszeile im Falle eines Verlusts beim Verkauf eines "
+"Vermögensgegenstands verwendet wird"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -334,7 +332,7 @@ msgstr "Alle Zeilen sollten von demselben Unternehmen stammen"
 #: code:addons/account_asset/models/account_asset.py:0
 #: code:addons/account_asset/models/account_move.py:0
 msgid "All the lines should be posted"
-msgstr "Alle Zeilen sollten gebucht sein"
+msgstr "Alle Zeilen sollten gebucht werden"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__already_depreciated_amount_import
@@ -345,8 +343,8 @@ msgstr "Import des bereits abgeschriebenen Betrags"
 #: model:ir.model.fields,help:account_asset.field_account_asset__parent_id
 msgid "An asset has a parent when it is the result of gaining value"
 msgstr ""
-"Ein Vermögenswert hat ein übergeordnetes Element, wenn er das Ergebnis eines "
-"Wertzuwachses ist"
+"Ein Vermögensgegenstand hat ein übergeordnetes Element, wenn er das Ergebnis "
+"eines Wertzuwachses ist"
 
 #. module: account_asset
 #. odoo-python
@@ -360,15 +358,16 @@ msgid ""
 "An asset wil be created for each asset model when this account is used on a "
 "vendor bill or a refund"
 msgstr ""
-"Für jedes Anlagenmodell wird ein Vermögenswert erstellt, wenn dieses Konto "
-"auf einer Lieferantenrechnung oder einer Rückerstattung verwendet wird"
+"Für jedes Anlagenmodell wird ein Vermögensgegenstand erstellt, wenn dieses "
+"Konto auf einer Lieferantenrechnung oder einer Rückerstattung verwendet wird"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "An asset will be created for the value increase of the asset. <br/>"
 msgstr ""
-"Ein Vermögenswert wird für die Wertsteigerung der Anlage erstellt. <br/>"
+"Ein Vermögensgegenstand wird für die Wertsteigerung des Vermögensgegenstands "
+"erstellt. <br/>"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__analytic_distribution
@@ -378,7 +377,7 @@ msgstr "Kostenverteilung"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__analytic_precision
 msgid "Analytic Precision"
-msgstr "Kostengenauigkeit"
+msgstr "Genauigkeit der Kostenanalyse"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -397,7 +396,7 @@ msgstr "Archiviert"
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Asset"
-msgstr "Asset"
+msgstr "Vermögensgegenstand"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
@@ -429,12 +428,12 @@ msgstr "Vermögensgruppe"
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_id_display_name
 #: model:ir.model.fields,field_description:account_asset.field_account_move__asset_id_display_name
 msgid "Asset Id Display Name"
-msgstr "Anzeigename der Anlagen-ID"
+msgstr "Anzeigename der Vermögensgegenstand-ID"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__asset_lifetime_days
 msgid "Asset Lifetime Days"
-msgstr "Lebensdauertage des Vermögensgegenstandes"
+msgstr "Lebensdauertage des Vermögensgegenstands"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__asset_model_ids
@@ -443,19 +442,19 @@ msgstr "Lebensdauertage des Vermögensgegenstandes"
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_form_asset_inherit
 msgid "Asset Model"
-msgstr "Vermögensmodell"
+msgstr "Anlagenmodell"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Asset Model name"
-msgstr "Name des Vermögensmodell"
+msgstr "Name des Anlagenmodells"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_model_form
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_model_form
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_model_tree
 msgid "Asset Models"
-msgstr "Vermögensmodelle"
+msgstr "Anlagenmodelle"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_move_type
@@ -473,18 +472,18 @@ msgstr "Name des Vermögensgegenstands"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__asset_paused_days
 msgid "Asset Paused Days"
-msgstr "Pausierte Tage des Vermögensgegenstandes"
+msgstr "Pausierte Tage des Vermögensgegenstands"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_value_change
 #: model:ir.model.fields,field_description:account_asset.field_account_move__asset_value_change
 msgid "Asset Value Change"
-msgstr "Wertänderung des Vermögensgegenstandes"
+msgstr "Wertänderung des Vermögensgegenstands"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Asset Values"
-msgstr "Vermögenswerte"
+msgstr "Vermögensgegenstände"
 
 #. module: account_asset
 #. odoo-python
@@ -496,13 +495,13 @@ msgstr "Vermögensgegenstand erstellt"
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Asset created from invoice: %s"
-msgstr "Vermögensgegenstand erstellt aus Rechnung: %s"
+msgstr "Vermögensgegenstand aus Rechnung erstellt: %s"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Asset disposed. %s"
-msgstr "Vermögensgegenstand veräußert. %s"
+msgstr "Abgang durchgeführt. %s"
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
@@ -532,12 +531,12 @@ msgstr "Vermögensgegenstand nicht pausiert. %s"
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 #: model_terms:ir.ui.view,arch_db:account_asset.view_move_form_asset_inherit
 msgid "Asset(s)"
-msgstr "Vermögenswert(e)"
+msgstr "Vermögensgegenstand(e)"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset
 msgid "Asset/Revenue Recognition"
-msgstr "Realisierung von Vermögenswerten/Umsätzen"
+msgstr "Realisierung von Vermögensgegenständen/Umsätzen"
 
 #. module: account_asset
 #. odoo-python
@@ -645,8 +644,8 @@ msgid ""
 "similar assets. Document any changes in accounting methods."
 msgstr ""
 "Prüfen Sie die Abschreibungszeiträume für Neuanschaffungen und stellen Sie "
-"die Übereinstimmung mit ähnlichen Vermögenswerten sicher. Dokumentieren Sie "
-"alle Änderungen der Buchhaltungsmethoden."
+"die Übereinstimmung mit ähnlichen Vermögensgegenständen sicher. "
+"Dokumentieren Sie alle Änderungen der Buchhaltungsmethoden."
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__children_ids
@@ -710,7 +709,7 @@ msgstr "Bestätigen"
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__prorata_computation_type__constant_periods
 msgid "Constant Periods"
-msgstr "Konstante Perioden"
+msgstr "Gleichbleibende Zeiträume"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__count_asset
@@ -753,7 +752,7 @@ msgstr "Als Entwurf erstellen"
 #. module: account_asset
 #: model_terms:ir.actions.act_window,help:account_asset.action_account_asset_model_form
 msgid "Create new asset model"
-msgstr "Neues Vermögensmodell erstellen"
+msgstr "Neues Anlagenmodell erstellen"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__create_uid
@@ -940,31 +939,31 @@ msgstr "Anzeigename"
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_move__asset_move_type__disposal
 msgid "Disposal"
-msgstr "Veräußerung"
+msgstr "Abgang"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__disposal_date
 msgid "Disposal Date"
-msgstr "Datum der Veräußerung"
+msgstr "Abgangsdatum"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Disposal Move"
-msgstr "Veräußerungsbuchung"
+msgstr "Abgangsbuchung"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Disposal Moves"
-msgstr "Veräußerungsbuchungen"
+msgstr "Abgangsbuchungen"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
 msgid "Dispose"
-msgstr "Veräußern"
+msgstr "Abgang buchen"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__distribution_analytic_account_ids
@@ -974,7 +973,7 @@ msgstr "Verteilung der Kostenstellen"
 #. module: account_asset
 #: model:ir.actions.server,name:account_asset.action_server_download_asset_template
 msgid "Download Asset Import Template"
-msgstr "Importvorlage für Vermögenswert herunterladen"
+msgstr "Importvorlage für Vermögensgegenstand herunterladen"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__draft
@@ -985,7 +984,7 @@ msgstr "Entwurf"
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__draft_asset_exists
 #: model:ir.model.fields,field_description:account_asset.field_account_move__draft_asset_exists
 msgid "Draft Asset Exists"
-msgstr "Entwurfsvermögensgegenstand existiert"
+msgstr "Entwurfsvermögenswert existiert"
 
 #. module: account_asset
 #. odoo-python
@@ -1173,8 +1172,8 @@ msgid ""
 "Identify acquisitions, disposals, write-offs, etc. Ensure correct accounting "
 "treatment, depreciation, and capital gains processing."
 msgstr ""
-"Identifizieren Sie Anschaffungen, Veräußerungen, Abschreibungen usw. Stellen "
-"Sie eine korrekte buchhalterische Behandlung, Abschreibung und Verbuchung "
+"Identifizieren Sie Anschaffungen, Abgänge, Abschreibungen usw. Stellen Sie "
+"eine ordnungsgemäße bilanzielle Behandlung, Abschreibung sowie Verarbeitung "
 "von Veräußerungsgewinnen sicher."
 
 #. module: account_asset
@@ -1322,7 +1321,7 @@ msgstr "Zeilen verwalten"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "Mandatory column. This is the name of the asset."
-msgstr "Pflichtfeld. Dies ist der Name der Sachanlage."
+msgstr "Pflichtspalte. Dies ist der Name des Vermögensgegenstands."
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_has_error
@@ -1392,7 +1391,7 @@ msgstr "Monate/Jahre"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__multiple_assets_per_line
 msgid "Multiple Assets per Line"
-msgstr "Mehrere Vermögenswerte pro Zeile"
+msgstr "Mehrere Vermögensgegenstände pro Zeile"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_account__multiple_assets_per_line
@@ -1400,9 +1399,8 @@ msgid ""
 "Multiple asset items will be generated depending on the bill line quantity "
 "instead of 1 global asset."
 msgstr ""
-"Es werden mehrere Aktivposten in Abhängigkeit von der Menge der "
-"Rechnungszeile anstelle eines einzigen globalen Vermögensgegenstandes "
-"erzeugt."
+"Je nach Anzahl der Rechnungszeilen werden mehrere Aktivposten statt eines "
+"einzigen globalen Vermögensgegenstands erzeugt."
 
 #. module: account_asset
 #. odoo-python
@@ -1443,17 +1441,18 @@ msgstr "Nettogewinn aus Verkauf"
 #: model:ir.model.fields,help:account_asset.field_account_asset__net_gain_on_sale
 msgid "Net value of gain or loss on sale of an asset"
 msgstr ""
-"Nettowert des Gewinns oder Verlusts aus dem Verkauf eines Vermögenswerts"
+"Nettowert des Gewinns oder Verlusts aus dem Verkauf eines "
+"Vermögensgegenstands"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__value_residual
 msgid "New residual amount for the asset"
-msgstr "Neuer Restwert der Anlage"
+msgstr "Neuer Restwert des Vermögensgegenstands"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__salvage_value
 msgid "New salvage amount for the asset"
-msgstr "Neuer Veräußerungswert der Anlage"
+msgstr "Neuer Veräußerungswert für den Vermögensgegenstand"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_calendar_event_id
@@ -1523,7 +1522,7 @@ msgstr "Notiz"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Anzahl der Aktionen"
+msgstr "Anzahl Aktionen"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_model_tree
@@ -1540,7 +1539,8 @@ msgstr "Anzahl der Monate in einer Periode"
 #: model:ir.model.fields,help:account_asset.field_account_asset__gross_increase_count
 msgid "Number of assets made to increase the value of the asset"
 msgstr ""
-"Anzahl der Vermögenswerte, die den Wert des Vermögensgegenstandes erhöhen"
+"Anzahl der Vermögensgegenstände, die den Wert des Vermögensgegenstands "
+"erhöhen"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_number_days
@@ -1576,10 +1576,10 @@ msgid ""
 "recorded for this period. Ensure assets are properly registered for "
 "automatic depreciation calculation."
 msgstr ""
-"Odoo verwaltet die Abschreibungen für Ihre Sachanlagen. Für diesen Zeitraum "
+"Odoo verwaltet die Abschreibungen Ihrer Sachanlagen. Für diesen Zeitraum "
 "wurden keine Abschreibungen erfasst. Stellen Sie sicher, dass die "
-"Vermögenswerte ordnungsgemäß registriert sind, damit die Abschreibungen "
-"automatisch berechnet werden können."
+"Vermögensgegenstände ordnungsgemäß registriert sind, damit die "
+"Abschreibungen automatisch berechnet werden können."
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__paused
@@ -1693,7 +1693,7 @@ msgstr "Neu bewerten"
 #: model:ir.model.fields,field_description:account_asset.field_account_move_line__asset_ids
 #: model_terms:ir.ui.view,arch_db:account_asset.view_move_line_form_asset_inherit
 msgid "Related Assets"
-msgstr "Verknüpfte Vermögenswerte"
+msgstr "Verknüpfte Vermögensgegenstände"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__related_purchase_value
@@ -1864,7 +1864,7 @@ msgid ""
 "You can use this field for quick search."
 msgstr ""
 "ISO-Ländercode in zwei Zeichen. \n"
-"Sie können dieses Feld auch für eine Schnellsuche einsetzen."
+"Sie können dieses Feld auch für eine Schnellsuche verwenden."
 
 #. module: account_asset
 #. odoo-python
@@ -1925,7 +1925,7 @@ msgid ""
 "Asset\"). Must exist in Odoo and be of \"Fixed Asset\" or \"Non-current "
 "Assets\" type."
 msgstr ""
-"Das Bilanzkonto für den Vermögenswert selbst (z. B. „151000 "
+"Das Bilanzkonto für den Vermögensgegenstand selbst (z. B. „151000 "
 "Anlagevermögen“). Muss in Odoo vorhanden sein und vom Typ „Sachanlagen“ oder "
 "„Anlagevermögen“ sein."
 
@@ -1944,7 +1944,7 @@ msgid ""
 "Vendor Bills)."
 msgstr ""
 "Der Code oder Name des zugehörigen Journals in Odoo für "
-"Abschreibungsbuchungen (z. B. MISC – Verschiedene Vorgänge, INV – "
+"Abschreibungsbuchungen (z. B. MISC – Sonstige Geschäftsvorfälle, INV – "
 "Kundenrechnungen, BILL – Lieferantenrechnungen)."
 
 #. module: account_asset
@@ -1953,7 +1953,7 @@ msgid ""
 "The disposal invoice is needed in order to generate the closing journal "
 "entry."
 msgstr ""
-"Der Veräußerungsbeleg wird gebraucht, um die Abschlussbuchung zu erstellen"
+"Die Abgangsrechnung wird benötigt, um die Abschlussbuchung zu generieren."
 
 #. module: account_asset
 #. odoo-python
@@ -1962,9 +1962,9 @@ msgid ""
 "The estimated residual value of the asset at the end of its useful life. "
 "This amount will not be depreciated. Considered in company currency."
 msgstr ""
-"Der geschätzte Restwert des Vermögenswerts am Ende seiner Nutzungsdauer. "
-"Dieser Betrag wird nicht abgeschrieben. Wird in der Unternehmenswährung "
-"berücksichtigt."
+"Der geschätzte Restwert des Vermögensgegenstands am Ende seiner "
+"Nutzungsdauer. Dieser Betrag wird nicht abgeschrieben. Wird in der "
+"Unternehmenswährung berücksichtigt."
 
 #. module: account_asset
 #. odoo-python
@@ -1998,15 +1998,16 @@ msgid ""
 "The total amount of depreciation already recorded for the asset before "
 "import. This amount will be considered in company currency."
 msgstr ""
-"Der Gesamtbetrag der bereits vor dem Import für den Vermögenswert verbuchten "
-"Abschreibungen. Dieser Betrag wird in der Unternehmenswährung berücksichtigt."
+"Der Gesamtbetrag der bereits vor dem Import für den Vermögensgegenstand "
+"verbuchten Abschreibungen. Dieser Betrag wird in der Unternehmenswährung "
+"berücksichtigt."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__invoice_line_ids
 msgid "There are multiple lines that could be the related to this asset"
 msgstr ""
-"Es gibt zahlreiche Buchungszeilen, die mit dieser Anlage verbunden sein "
-"könnten"
+"Es gibt zahlreiche Buchungszeilen, die mit diesem Vermögensgegenstand "
+"verbunden sein könnten"
 
 #. module: account_asset
 #. odoo-python
@@ -2044,7 +2045,7 @@ msgstr "Insgesamt abzuschreibender Wert"
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Turn as an asset"
-msgstr "In Vermögenswert umwandeln"
+msgstr "In Vermögensgegenstand umwandeln"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__account_type
@@ -2136,8 +2137,8 @@ msgstr "Jahre"
 #: code:addons/account_asset/static/src/views/fields/properties/properties_field.js:0
 msgid "You can add Property fields only on Assets with an Asset Model set."
 msgstr ""
-"Sie können Eigenschaftsfelder nur zu Vermögenswerten hinzufügen, für die ein "
-"Vermögensmodell festgelegt ist."
+"Sie können Eigenschaftsfelder nur zu Vermögensgegenständen hinzufügen, für "
+"die ein Anlagenmodell festgelegt ist."
 
 #. module: account_asset
 #. odoo-python
@@ -2179,9 +2180,9 @@ msgid ""
 "You cannot automate the journal entry for an asset that has a running gross "
 "increase. Please use 'Dispose' on the increase(s)."
 msgstr ""
-"Sie können die Journalbuchung für einen Vermögenswert, der eine laufende "
-"Bruttoerhöhung aufweist, nicht automatisieren. Bitte verwenden Sie "
-"„Veräußern“ für die Erhöhung(en)."
+"Für Vermögensgegenstände mit laufender Bruttoerhöhung kann die "
+"Journalbuchung nicht automatisch erstellt werden. Verwenden Sie „Abgang "
+"buchen“ für die betreffende(n) Erhöhung(en)."
 
 #. module: account_asset
 #. odoo-python
@@ -2190,8 +2191,8 @@ msgid ""
 "You cannot create an asset from lines containing credit and debit on the "
 "account or with a null amount"
 msgstr ""
-"Es ist nicht möglich, eine Anlage aus Buchungszeilen mit Haben und Soll auf "
-"dem Konto oder mit einem Nullbetrag anzulegen."
+"Es ist nicht möglich, einen Vermögensgegenstand aus Buchungszeilen mit Haben "
+"und Soll auf dem Konto oder mit einem Nullbetrag anzulegen."
 
 #. module: account_asset
 #. odoo-python
@@ -2207,17 +2208,17 @@ msgid ""
 "You should either confirm the asset, then, sell or dispose of it, or cancel "
 "the linked journal entries."
 msgstr ""
-"Sie können einen Vermögensgegenstand, der mit Buchungen verknüpft ist, nicht "
-"löschen.\n"
-"Sie sollten den Vermögensgegenstand entweder bestätigen und dann verkaufen "
-"oder veräußern oder die verknüpften Journalbuchungen stornieren."
+"Sie können einen mit Buchungen verknüpften Vermögensgegenstand nicht löschen."
+"\n"
+"Sie sollten entweder den Vermögensgegenstand bestätigen und anschließend "
+"verkaufen oder ausbuchen, oder die verknüpften Journalbuchungen stornieren."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "You cannot dispose of an asset before the lock date."
 msgstr ""
-"Sie können einen Vermögensgegenstand nicht vor dem Sperrdatum veräußern."
+"Sie können einen Vermögensgegenstand nicht vor dem Sperrdatum ausbuchen."
 
 #. module: account_asset
 #. odoo-python
@@ -2333,9 +2334,9 @@ msgid ""
 "e.g. No Prorata, Constant Periods, Based on days per period. This determines "
 "how the first depreciation entry is calculated."
 msgstr ""
-"z. B. Keine anteilige Berechnung, konstante Zeiträume, basierend auf Tagen "
-"pro Zeitraum. Dies bestimmt, wie der erste Abschreibungseintrag berechnet "
-"wird."
+"z. B. Keine anteilige Berechnung, gleichbleibende Zeiträume, basierend auf "
+"Tagen pro Zeitraum. Dies bestimmt, wie die erste Abschreibungsbuchung "
+"berechnet wird."
 
 #. module: account_asset
 #. odoo-python

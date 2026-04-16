@@ -209,7 +209,7 @@ export class BankRecLineToReconcile extends Component {
     }
 
     get isTaxLine() {
-        return this.lineData.tax_line_id;
+        return this.lineData.tax_line_id && !this.lineData.account_id.reconcile;
     }
 
     get lineDataTaxIds() {

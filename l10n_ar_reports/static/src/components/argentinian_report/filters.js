@@ -5,6 +5,9 @@ import { AccountReportFilters } from "@account_reports/components/account_report
 
 export class L10nARTaxReportFilters extends AccountReportFilters {
     get selectedTaxType() {
+        if (!this.controller.cachedFilterOptions.ar_vat_book_tax_types_available) {
+            return _t("All");
+        }
         const availableTypes = Object.keys(this.controller.cachedFilterOptions.ar_vat_book_tax_types_available);
         const selectedTypes = Object.values(
             this.controller.cachedFilterOptions.ar_vat_book_tax_types_available,
@@ -18,6 +21,9 @@ export class L10nARTaxReportFilters extends AccountReportFilters {
     }
 
     selectArVatBookTaxType(taxType) {
+        if (!this.controller.cachedFilterOptions.ar_vat_book_tax_types_available) {
+            return;
+        }
         const newArVatBookTaxTypes = Object.assign(
             {},
             this.controller.cachedFilterOptions.ar_vat_book_tax_types_available,

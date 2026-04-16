@@ -775,3 +775,136 @@ class TestAnalyticReport(TestAccountReportsCommon):
         lines = self.report._get_lines(options)
         self.assertTrue(lines)
         self.assertEqual(test_journal.display_name, "Test Journal (EUR)")
+
+    def test_show_analytic_coverage_column(self):
+        """
+        Ensures that the column of analytic coverage only appears when only one plan is shown
+        """
+        options = self._generate_options(
+            self.report,
+            '2019-01-01',
+            '2019-12-31',
+        )
+        self.assertIsNone(options.get('column_percent_comparison'))
+
+        options = self._generate_options(
+            self.report,
+            '2019-01-01',
+            '2019-12-31',
+            default_options={
+                'analytic_plans_groupby': [self.analytic_plan_child.id],
+            }
+        )
+        self.assertEqual(options.get('column_percent_comparison'), 'analytic_coverage')
+
+        options = self._generate_options(
+            self.report,
+            '2019-01-01',
+            '2019-12-31',
+            default_options={
+                'analytic_plans_groupby': [self.analytic_plan_parent, self.analytic_plan_child.id],
+            }
+        )
+        self.assertIsNone(options.get('column_percent_comparison'))
+
+        options = self._generate_options(
+            self.report,
+            '2019-01-01',
+            '2019-12-31',
+            default_options={
+                'analytic_accounts_groupby': [self.analytic_account_parent.id],
+            }
+        )
+        self.assertIsNone(options.get('column_percent_comparison'))
+
+        options = self._generate_options(
+            self.report,
+            '2019-01-01',
+            '2019-12-31',
+            default_options={
+                'analytic_accounts_groupby': [self.analytic_account_parent.id],
+                'analytic_plans_groupby': [self.analytic_plan_child.id],
+            }
+        )
+        self.assertIsNone(options.get('column_percent_comparison'))
+
+    def test_audit_analytic_lines(self):
+        def _get_action_dict(options, column_index):
+            lines = self.report._get_lines(options)
+            report_line = self.report.line_ids[0]
+            report_line_dict = next(x for x in lines if x['name'] == report_line.name)
+            audit_param = self._get_audit_params_from_report_line(options, report_line, report_line_dict, column_group_key=list(options['column_groups'])[column_index])
+            return self.report.action_audit_cell(options, audit_param)
+
+        other_plan = self.env['account.analytic.plan'].create({'name': "Other Plan"})
+        other_account = self.env['account.analytic.account'].create({'name': "Other Account", 'plan_id': other_plan.id, 'active': True})
+
+        parent_invoice = self.env['account.move'].create([{
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_a.id,
+            'date': '2019-05-01',
+            'invoice_date': '2019-05-01',
+            'invoice_line_ids': [
+                Command.create({
+                    'product_id': self.product_a.id,
+                    'price_unit': 200.0,
+                    'analytic_distribution': {
+                        self.analytic_account_parent.id: 50,
+                        self.analytic_account_parent_2.id: 40,
+                    },
+                }),
+                Command.create({
+                    'product_id': self.product_b.id,
+                    'price_unit': 200.0,
+                    'analytic_distribution': {
+                        self.analytic_account_parent.id: 100,
+                    },
+                }),
+            ]
+        },
+        ])
+        parent_invoice.action_post()
+
+        other_invoice = self.env['account.move'].create([{
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_a.id,
+            'date': '2019-05-01',
+            'invoice_date': '2019-05-01',
+            'invoice_line_ids': [
+                Command.create({
+                    'product_id': self.product_a.id,
+                    'price_unit': 200.0,
+                    'analytic_distribution': {
+                        other_account.id: 100,
+                    },
+                }),
+            ]
+        }])
+        other_invoice.action_post()
+
+        options = self._generate_options(
+            self.report,
+            '2019-01-01',
+            '2019-12-31',
+            default_options={
+                'analytic_plans_groupby': [self.analytic_plan_parent.id],
+            }
+        )
+
+        analytic_lines = parent_invoice.invoice_line_ids.analytic_line_ids + other_invoice.invoice_line_ids.analytic_line_ids
+
+        action_dict = _get_action_dict(options, 0)  # First column: analytic lines of parent plan
+        self.assertEqual(action_dict['context'].get('group_by'), 'move_line_id')
+        self.assertEqual(
+            self.env['account.analytic.line'].with_context(action_dict['context']).search(action_dict['domain']),
+            analytic_lines,
+        )
+
+        action_dict = _get_action_dict(options, 1)  # Second column: account move lines
+        move_lines = self.env['account.move.line'].with_context(action_dict['context']).search(action_dict['domain'])
+        move_line_parent_product_a = move_lines.filtered(lambda line: line.move_id.id == parent_invoice.id and line.product_id == self.product_a)
+        move_line_parent_product_b = move_lines.filtered(lambda line: line.move_id.id == parent_invoice.id and line.product_id == self.product_b)
+        move_line_other = move_lines.filtered(lambda line: line.move_id.id == other_invoice.id)
+        self.assertEqual(move_line_parent_product_a.analytic_coverage, 0.9)
+        self.assertEqual(move_line_parent_product_b.analytic_coverage, 1.0)
+        self.assertEqual(move_line_other.analytic_coverage, 0.0)

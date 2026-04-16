@@ -38,7 +38,7 @@ patch(BarcodePickingModel.prototype, {
                 },
             });
         } else {
-            this.notification.add(_t("All the quality checks have been done"));
+            this.notification(_t("All the quality checks have been done"));
         }
     },
 

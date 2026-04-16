@@ -10,6 +10,14 @@
     'depends': ['pos_sale', 'sale_subscription'],
     'installable': True,
     'auto_install': True,
+    'assets': {
+        'point_of_sale._assets_pos': [
+            'pos_sale_subscription/static/src/**/*'
+        ],
+        'web.assets_unit_tests': [
+            'pos_sale_subscription/static/tests/unit/**/*',
+        ],
+    },
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',
 }

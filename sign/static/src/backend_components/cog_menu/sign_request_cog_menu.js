@@ -30,17 +30,17 @@ export class SignRequestCogMenu extends Component {
         const referenceDoc = resId && resModel ? `${resModel},${resId}` : false;
         if (referenceDoc) {
             this.action.doActionButton({
-                    type: "object",
-                    resModel: "sign.template",
-                    name:"open_sign_send_dialog",
-                    resIds: [],
-                    context: {
-                        sign_directly_without_mail: false,
-                        default_reference_doc: referenceDoc,
-                        sign_from_record: true,
-                        default_model: resModel,
-                        default_res_ids: [resId],
-                    },
+                type: "object",
+                resModel: "sign.template",
+                name: "open_sign_send_dialog",
+                resIds: [],
+                context: {
+                    sign_directly_without_mail: false,
+                    default_reference_doc: referenceDoc,
+                    sign_from_record: true,
+                    default_model: resModel,
+                    default_res_ids: [resId],
+                },
             });
         }
     }
@@ -49,7 +49,8 @@ export class SignRequestCogMenu extends Component {
 export const SignRequestCogMenuItem = {
     Component: SignRequestCogMenu,
     isDisplayed: async ({ config, searchModel }) => {
-        const is_mail_thread = searchModel.searchViewFields?.["message_ids"];
+        const chatter_compiler = registry.category("form_compilers").get("chatter_compiler");
+        const is_mail_thread = config.viewArch?.querySelector(chatter_compiler.selector);
         return (
             !["discuss.channel", "sign.request"].includes(searchModel.resModel) &&
             is_mail_thread &&

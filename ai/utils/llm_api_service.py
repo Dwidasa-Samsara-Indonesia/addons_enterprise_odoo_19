@@ -475,8 +475,24 @@ class LLMApiService:
         if web_grounding:
             body["tools"] = {'google_search': {}}
 
+        if llm_model == "gemini-2.5-flash":
+            # from testing, increasing thinking budget results in the LLM actually replying ¯\_(ツ)_/¯
+            body['generationConfig']["thinkingConfig"] = {
+                "thinkingBudget": 512,
+            }
+
         with api_call_logging(body["contents"], tools) as record_response:
-            response, to_call, next_inputs, request_token_usage = self._request_llm_google_helper(body, llm_model, inputs)
+            response = None
+            to_call = []
+            next_inputs = inputs
+            request_token_usage = {}
+            for attempt in range(3):
+                response, to_call, next_inputs, request_token_usage = self._request_llm_google_helper(body, llm_model, inputs)
+                if response or to_call:
+                    break
+                _logger.warning("Gemini failed to generate a response, retrying...")
+            if not (response or to_call):
+                response = "Error: failed to generate a response, try again later."
             if record_response:
                 record_response(to_call, response, request_token_usage)
             return response, to_call, next_inputs

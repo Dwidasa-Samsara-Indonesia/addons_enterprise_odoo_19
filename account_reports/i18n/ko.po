@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:55+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:20+0000\n"
 "Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/ko/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -90,20 +90,9 @@ msgstr "%s 선택"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"%s 날짜 범위는 둘 이상의 반품 유형에 대해 사용되는 보고서에서는 평가할 수 없"
-"습니다."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"'%s' 날짜 범위는 어떠한 반환 유형에서도 사용되지 않으므로 평가할 수 없습니다."
 
 #. module: account_reports
 #. odoo-python
@@ -485,6 +474,11 @@ msgstr "계정 감사 계정 상태"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "계정 감사 상태"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "계정과목 일람표 서식"
 
 #. module: account_reports
 #. odoo-python
@@ -908,12 +902,8 @@ msgstr ""
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"모든 고객 부가가치세 번호는 <a href=\"https://ec.europa.eu/taxation_customs/"
-"vies\" target=\"_blank\">VIES</a>에서 유효합니다."
 
 #. module: account_reports
 #. odoo-python
@@ -2422,6 +2412,7 @@ msgstr "메일 쓰기 표시"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2845,12 +2836,6 @@ msgstr "지급 통화 제외"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "EC 판매 목록에서 국내 판매 또는 EU 외 판매는 제외됩니다."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "개인 고객은 제외합니다."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3385,6 +3370,7 @@ msgstr "IBAN (국제 은행 계좌 번호)"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4215,15 +4201,9 @@ msgstr "누락"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
-"회사 세부 정보(예: 부가가치세 번호 또는 국가 정보)가 누락될 경우 보고서에 오"
-"류가 발생할 수 있습니다,\n"
-"예를 들어, 부가가치세 세율이 잘못 적용되거나 면세 거래가 잘못 적용될 수 있습"
-"니다.\n"
-"                "
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4629,12 +4609,6 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "기업 고객만 해당"
 
 #. module: account_reports
 #. odoo-python
@@ -5141,12 +5115,6 @@ msgstr "전년도 미할당 순이익"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "인쇄 후 보내기"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "개인 고객"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6123,7 +6091,7 @@ msgstr "세무 신고/세무 조사"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -7009,13 +6977,6 @@ msgstr "각 반품 항목에는 고유한 수표 코드만 지정할 수 있습�
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"이전 상태가 신규 상태인 경우에 한하여 완료된 보고서를 되돌릴 수 있습니다."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr ""
 
@@ -7325,6 +7286,34 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Odoo 요율로 재설정"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "'%s' 날짜 범위는 어떠한 반환 유형에서도 사용되지 않으므로 평가할 수 없습니"
+#~ "다."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "모든 고객 부가가치세 번호는 <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>에서 유효합니다."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "이전 상태가 신규 상태인 경우에 한하여 완료된 보고서를 되돌릴 수 있습니다."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "개인 고객은 제외합니다."
+
+#~ msgid "Only business customers"
+#~ msgstr "기업 고객만 해당"
+
+#~ msgid "Private Customers"
+#~ msgstr "개인 고객"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7439,9 +7428,6 @@ msgstr "⇒ Odoo 요율로 재설정"
 
 #~ msgid "=&gt; Audit"
 #~ msgstr "=&gt; 감사"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "계정과목 일람표 서식"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "계정 보고서 각주"

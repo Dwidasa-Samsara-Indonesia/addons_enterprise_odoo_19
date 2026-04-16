@@ -5,12 +5,6 @@
         <field name="model">hr.contract.salary.offer</field>
         <field name="inherit_id" ref="hr_contract_salary.hr_contract_salary_offer_view_form"/>
         <field name="arch" type="xml">
-            <field name="job_title" position="before">
-                <field name="contract_type_id" groups="hr.group_hr_user" readonly="state in ['cancelled', 'full_signed']"
-                    placeholder="e.g. Permanent, Replacement, Short term"/>
-                <field name="contract_type_id" readonly="1" options="{'no_open': True}" groups="!hr.group_hr_user"
-                    placeholder="e.g. Permanent, Replacement, Short term"/>
-            </field>
             <group name="group_token" position="before">
                 <group name="group_car" string="Car" invisible="country_code != 'BE'">
                     <field name="country_code" invisible="1"/>

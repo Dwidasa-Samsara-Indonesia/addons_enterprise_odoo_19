@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2026-01-13 21:58+0000\n"
+"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"PO-Revision-Date: 2026-03-20 19:12+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/planning/"
 "es/>\n"
@@ -24,9 +24,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0)"
-" ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
+"0) ? 1 : 2);\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: planning
 #. odoo-python
@@ -740,16 +740,16 @@ msgstr ""
 "                }\n"
 "                </style>\n"
 "                <body><div>\n"
-"                    <p t-if=\"ctx.get('employee')\">Estimado/a <t t-"
+"                    <p t-if=\"ctx.get('employee')\">Estimada <t t-"
 "out=\"ctx['employee'].name or ''\">Anita Oliver</t>:</p>\n"
 "                    <p t-else=\"\">Hola:</p>\n"
 "                    <br/>\n"
-"                    <p t-if=\"ctx.get('start_datetime') and "
-"ctx.get('end_datetime')\">\n"
-"                        Sus próximos turnos del <t t-"
-"out=\"format_date(ctx['start_datetime'])\">05-05-2021</t>\n"
-"                        al <t t-out=\"format_date(ctx['end_datetime'])"
-"\">05-11-2021</t> ahora están publicados.\n"
+"                    <p t-if=\"ctx.get('start_datetime') and ctx.get"
+"('end_datetime')\">\n"
+"                        Se han publicado sus próximos turnos de trabajo del "
+"<t t-out=\"format_date(ctx['start_datetime'])\">05-05-2021</t>\n"
+"                        al <t t-out=\"format_date(ctx['end_datetime'])\">11-"
+"05-2021</t>.\n"
 "                    </p>\n"
 "                    <div style=\"display: flex; margin: 15px;\">\n"
 "                        <div t-if=\"ctx.get('planning_url')\" style=\"margin-"
@@ -757,8 +757,8 @@ msgstr ""
 "                            <a t-att-href=\"ctx['planning_url']\" "
 "target=\"_blank\" class=\"planning_mail_template_button\" t-attf-"
 "style=\"color: {{object.company_id.email_primary_color or '#FFFFFF'}}; "
-"background-color: {{object.company_id.email_secondary_color or '#875A7B'}};"
-"\">Ver su horario</a>\n"
+"background-color: {{object.company_id.email_secondary_color or '#875A7B'}}"
+";\">Ver horarios</a>\n"
 "                        </div>\n"
 "                        <div t-if=\"ctx.get('planning_url_ics')\">\n"
 "                            <a t-att-href=\"ctx['planning_url_ics']\" "
@@ -771,23 +771,23 @@ msgstr ""
 "                    <p t-if=\"ctx.get('slot_unassigned') or "
 "(object.allow_self_unassign and object.self_unassign_days_before)\">\n"
 "                        <t t-if=\"ctx.get('slot_unassigned')\">\n"
-"                            También queremos recordarle que hay turnos "
-"disponibles. Asígneselos si le interesan y puede tomarlos.\n"
+"                            Queremos recordarle que hay algunos turnos de "
+"trabajo disponibles. Si está interesado/a, puede asignárselos usted mismo/"
+"a.\n"
 "                        </t>\n"
 "                        <t t-if=\"object.allow_self_unassign and "
 "object.self_unassign_days_before\">\n"
-"                            Si no puede cubrir alguno de los turnos que se "
-"le asignaron, asegúrese de cancelar la asignación al menos <t t-"
-"out=\"object.self_unassign_days_before or ''\">5</t> día(s) antes del inicio "
-"del turno.\n"
+"                            Si se le ha asignado un turno que no puede "
+"cubrir, por favor, cancele la asignación en un plazo de <t t-"
+"out=\"object.self_unassign_days_before or ''\">5</t> días antes del inicio "
+"del turno de trabajo.\n"
 "                        </t>\n"
 "                    </p>\n"
-"                    <p t-if=\"ctx.get('message')\" t-out=\"ctx['message']\"/"
-">\n"
-"                    <p t-if=\"object.allow_self_unassign\">En caso de que no "
-"pueda tomar este turno, le invitamos a que se comunique con alguno de sus "
-"colegas para que puedan cambiar de turno. Es posible que alguno de ellos "
-"esté interesado en cambiar turnos con usted.</p>\n"
+"                    <p t-if=\"ctx.get('message')\" t-out=\"ctx['message']\"/>"
+"\n"
+"                    <p t-if=\"object.allow_self_unassign\">Si no puede "
+"cubrir este turno, le pedimos que contacte con alguno de sus compañeros para "
+"que puedan cambiárselo, en caso de que estén interesados.</p>\n"
 "                </div>\n"
 "            </body>"
 
@@ -1210,10 +1210,10 @@ msgid ""
 "Create open shifts based on the roles needed for a mission, then assign "
 "those shifts to available resources."
 msgstr ""
-"Define las funciones que desempeñarán tus recursos "
-"(por ejemplo, chef, camarero, mesero). Crea turnos abiertos en función de "
-"los roles necesarios para una misión y, a continuación, asigna esos turnos a "
-"los recursos disponibles."
+"Define las funciones que desempeñarán tus recursos (por ejemplo, chef, "
+"camarero, mesero). Crea turnos abiertos en función de los roles necesarios "
+"para una misión y, a continuación, asigna esos turnos a los recursos "
+"disponibles."
 
 #. module: planning
 #. odoo-javascript
@@ -1259,6 +1259,7 @@ msgstr "Descartar"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__display_name
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__display_name
 #: model:ir.model.fields,field_description:planning.field_planning_planning__display_name
@@ -1522,6 +1523,7 @@ msgstr "No estoy disponible"
 #: model:ir.model.fields,field_description:planning.field_hr_departure_wizard__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee__id
 #: model:ir.model.fields,field_description:planning.field_hr_employee_public__id
+#: model:ir.model.fields,field_description:planning.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_analysis_report__id
 #: model:ir.model.fields,field_description:planning.field_planning_calendar_resource__id
 #: model:ir.model.fields,field_description:planning.field_planning_planning__id
@@ -2260,6 +2262,11 @@ msgid "Repetitions"
 msgstr "Repeticiones"
 
 #. module: planning
+#: model:ir.model,name:planning.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: planning
 #: model:ir.ui.menu,name:planning.planning_menu_reporting
 msgid "Reporting"
 msgstr "Informes"
@@ -2648,6 +2655,26 @@ msgstr "Fecha de finalización"
 #: model:ir.model.fields.selection,name:planning.selection__res_company__planning_employee_unavailabilities__switch
 msgid "Switch shifts with other employees"
 msgstr "Cambiar turnos con otros empleados"
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be added to the print menu. Please use the Print "
+"action available in the Planning calendar and Gantt views."
+msgstr ""
+"El informe de planificación no se puede añadir al menú de impresión. Utiliza "
+"la acción «Imprimir» disponible en las vistas de calendario y de Gantt."
+
+#. module: planning
+#. odoo-python
+#: code:addons/planning/models/ir_actions_report.py:0
+msgid ""
+"The Planning report cannot be printed from here. Please use the Print action "
+"available in the Planning calendar and Gantt views."
+msgstr ""
+"El informe de planificación no se puede imprimir desde aquí. Utiliza la "
+"acción «Imprimir» disponible en las vistas de calendario y de Gantt."
 
 #. module: planning
 #: model:ir.model.constraint,message:planning.constraint_res_company_planning_self_unassign_days_before_positive

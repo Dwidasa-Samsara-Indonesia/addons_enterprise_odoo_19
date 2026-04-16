@@ -742,8 +742,7 @@ class AmazonAccount(models.Model):
         street = shipping_address_info.get('AddressLine1', '')
         address_line2 = shipping_address_info.get('AddressLine2', '')
         address_line3 = shipping_address_info.get('AddressLine3', '')
-        street2 = "%s %s" % (address_line2, address_line3) if address_line2 or address_line3 \
-            else None
+        street2 = ("%s %s" % (address_line2, address_line3)).strip() or None
         zip_code = shipping_address_info.get('PostalCode', '')
         city = shipping_address_info.get('City', '')
         country_code = shipping_address_info.get('CountryCode', '')
@@ -755,6 +754,12 @@ class AmazonAccount(models.Model):
             ('country_id', '=', country.id),
             '|', ('code', '=ilike', state_code), ('name', '=ilike', state_code),
         ], limit=1)
+
+        # German addresses on Amazon are swapped, where AddressLine1 == company/building name, and
+        # AddressLine2 == street.
+        if country.code == 'DE' and street2:
+            street, street2 = street2, street
+
         partner_vals = {
             'street': street,
             'street2': street2,

@@ -66,7 +66,7 @@ class AccountMove(models.Model):
             audit.id: {
                 'date_from': audit.date_from,
                 'date_to': audit.date_to
-            } for audit in audits
+            } for audit in audits.sudo()
         }
 
         statuses_to_update = self.env['account.audit.account.status']

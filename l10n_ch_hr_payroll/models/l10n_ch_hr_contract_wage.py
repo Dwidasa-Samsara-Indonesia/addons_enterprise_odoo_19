@@ -43,7 +43,7 @@ class L10nChHrContractWage(models.Model):
     @api.depends('input_type_id')
     def _compute_uom(self):
         for wage in self:
-            if wage.input_type_id.code in ["WT_Hours", "WT_Overtime", "WT_Overtime_125", 'WT_Lesson_input', 'WT_on_call_125', 'WT_night_110', 'WT_Overtime_150']:
+            if wage.input_type_id.code in ["WT_Hours", "WT_Overtime", "WT_Overtime_125", 'WT_Lesson_input', 'WT_on_call_125', 'WT_night_110', 'WT_Overtime_150', 'WT_Overtime_200']:
                 wage.uom = "hours"
             elif wage.input_type_id.code and wage.input_type_id.code.startswith('AVS.GENERIC'):
                 wage.uom = "percentage"

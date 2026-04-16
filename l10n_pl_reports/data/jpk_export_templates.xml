@@ -200,7 +200,7 @@
                 </SprzedazCtrl>
                 <ZakupWiersz t-foreach="input_tax_moves" t-as="b">
                     <LpZakupu t-out="b_index+1"/>
-                    <KodKrajuNadaniaTIN t-if="b.get('vat')" t-out="b.get('vat')[:2].isdecimal() and b.get('vat')[:2] or b.get('country_code')"/>
+                    <KodKrajuNadaniaTIN t-if="b.get('vat')" t-out="not b.get('vat')[:2].isdecimal() and b.get('vat')[:2] or b.get('country_code')"/>
                     <NrDostawcy t-if="b.get('vat')" t-out="not b.get('vat')[:2].isdecimal() and b.get('vat')[2:].replace(' ', '') or b.get('vat').replace(' ', '')"/>
                     <NrDostawcy t-else="" t-out="'BRAK'"/>
                     <NazwaDostawcy t-if="b.get('partner_complete_name')" t-out="b.get('partner_complete_name')"/>

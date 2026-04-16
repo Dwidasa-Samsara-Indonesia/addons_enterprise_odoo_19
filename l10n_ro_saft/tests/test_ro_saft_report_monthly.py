@@ -63,7 +63,7 @@ class TestRoSaftReport(TestSaftReport):
         cls.partner_bank = cls.env['res.partner.bank'].create({
             'acc_type': 'iban',
             'partner_id': cls.company_data['company'].partner_id.id,
-            'acc_number': 'RO08429863697813',
+            'acc_number': 'RO08 4298 6369 7813',
             'allow_out_payment': True,
             'bank_id': cls.bank_ro.id,
             'currency_id': cls.env.ref('base.RON').id,

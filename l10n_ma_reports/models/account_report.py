@@ -118,7 +118,7 @@ class L10n_MaTaxReportHandler(models.AbstractModel):
             """
             SELECT
                 COALESCE(MIN(caba_origin_move.name), MIN(account_move_line__move_id.name)) AS move_name,
-                SUM(CASE WHEN account_move_line.display_type = 'tax' THEN account_move_line.balance ELSE 0 END) AS tax_amount,
+                SUM(account_move_line.balance) AS tax_amount,
                 CASE WHEN account_move_line__partner_id.country_id = %(ma_country_id)s
                     THEN account_move_line__partner_id.vat
                     ELSE account_move_line__partner_id.l10n_ma_customs_vat

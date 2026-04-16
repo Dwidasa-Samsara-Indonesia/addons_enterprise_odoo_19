@@ -132,6 +132,7 @@ class DeliveryCarrier(models.Model):
             'invoice_date': fields.Date.today().strftime('%Y%m%d'),
             'description': picking.origin or picking.name,
             'total_qty': sum(sml.quantity for sml in picking.move_line_ids),
+            'freight_charge': sum(sol.price_total for sol in picking.sale_id.order_line.filtered(lambda l: l.is_delivery)),
             'ilt_monetary_value': '%d' % sum(sml.sale_price for sml in picking.move_line_ids),
             'itl_currency_code': currency_code,
             'phone': picking.partner_id.phone or picking.sale_id.partner_id.phone,

@@ -24,13 +24,14 @@
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # DeepL <noreply-mt-deepl@weblate.org>, 2025.
 # Odoo Turkish Import <dyki+tr@odoo.com>, 2025.
+# "Deniz Guvener Unal (degu)" <degu@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2025-11-20 13:21+0000\n"
-"Last-Translator: Odoo Turkish Import <dyki+tr@odoo.com>\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-04-09 11:20+0000\n"
+"Last-Translator: \"Deniz Guvener Unal (degu)\" <degu@odoo.com>\n"
 "Language-Team: Turkish <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/tr/>\n"
 "Language: tr\n"
@@ -38,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -105,21 +106,9 @@ msgstr "%s seçildi."
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
-"'%s' Birden fazla iade türü tarafından kullanılan bir rapor için tarih "
-"kapsamı değerlendirilemez."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"'%s' tarih kapsamı, herhangi bir dönüş türü tarafından kullanılmayan bir "
-"rapor için değerlendirilemez."
 
 #. module: account_reports
 #. odoo-python
@@ -516,6 +505,11 @@ msgstr "Hesap Denetimi Hesap Durumu"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "Hesap Denetim Durumu"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Hesap Planı Şablonu"
 
 #. module: account_reports
 #. odoo-python
@@ -941,12 +935,8 @@ msgstr "Tüm kontroller ve onaylayıcılar sıfırlandı"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
+msgid "All customer VAT numbers are valid under VIES."
 msgstr ""
-"Tüm müşteri KDV numaraları <a href=\"https://ec.europa.eu/taxation_customs/"
-"vies\" target=\"_blank\">VIES</a> altında geçerlidir."
 
 #. module: account_reports
 #. odoo-python
@@ -2485,6 +2475,7 @@ msgstr "Posta Oluşturucuyu Görüntüle"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2923,12 +2914,6 @@ msgstr "Karşılık Para Birimini Hariç Tut"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "Yurt içi veya AB dışı satışları AT Satış Listesinden hariç tutun."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "Özel müşterileri hariç tutun."
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3471,6 +3456,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -4310,15 +4296,9 @@ msgstr "Kayıp"
 #: code:addons/account_reports/models/account_return.py:0
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
-"Eksik şirket bilgileri (KDV numarası veya ülke gibi) raporunuzda hatalara "
-"neden olabilir,\n"
-"Yanlış KDV oranının kullanılması, işlemlerin yanlış şekilde muaf tutulması "
-"gibi.\n"
-"                "
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4730,12 +4710,6 @@ msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr ""
 "Yalnızca bir muhasebe yöneticisi bir gözetmen ayarlayabilir/ayarını "
 "kaldırabilir."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "Sadece ticari müşteriler"
 
 #. module: account_reports
 #. odoo-python
@@ -5247,12 +5221,6 @@ msgstr "Geçmiş Yıllar Ayrılmamış Kazançları"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
 msgid "Print & Send"
 msgstr "Çıktı Al ve Gönder"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "Özel Müşteriler"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
@@ -6245,7 +6213,7 @@ msgstr "Vergi İadesi/Denetimi"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -7158,13 +7126,6 @@ msgstr "Her iade için yalnızca benzersiz bir çek kodunuz olabilir."
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"Tamamlanmış bir iadeyi yalnızca önceki durum yeniyse geri döndürebilirsiniz."
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr "Yalnızca tamamlanmış bir iadeyi arşivden çıkarabilirsiniz."
 
@@ -7483,6 +7444,35 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Odoo oranına sıfırla"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "'%s' tarih kapsamı, herhangi bir dönüş türü tarafından kullanılmayan bir "
+#~ "rapor için değerlendirilemez."
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "Tüm müşteri KDV numaraları <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a> altında geçerlidir."
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "Tamamlanmış bir iadeyi yalnızca önceki durum yeniyse geri "
+#~ "döndürebilirsiniz."
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "Özel müşterileri hariç tutun."
+
+#~ msgid "Only business customers"
+#~ msgstr "Sadece ticari müşteriler"
+
+#~ msgid "Private Customers"
+#~ msgstr "Özel Müşteriler"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7548,9 +7538,6 @@ msgstr "⇒ Odoo oranına sıfırla"
 #~ msgstr ""
 #~ "<span class=\"o_account_reports_footnote_icons\"><i class=\"fa fa-fw fa-"
 #~ "trash-o\" role=\"img\" aria-label=\"Delete\" title=\"Delete\"/></span>"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "Hesap Planı Şablonu"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "Hesap Raporu Dip Notu"

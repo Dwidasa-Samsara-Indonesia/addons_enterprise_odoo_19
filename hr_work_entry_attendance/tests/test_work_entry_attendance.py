@@ -183,7 +183,11 @@ class TestWorkentryAttendance(HrWorkEntryAttendanceCommon):
                 'check_out': datetime(2021, 9, 15, 6, 0, 0),
             },
         ])
-        work_entries = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id)])
+        work_entries = self.env['hr.work.entry'].search([
+            ('employee_id', '=', self.employee.id),
+            ('active', '=', True),
+        ], order='date asc, attendance_id desc')
+
         self.assertEqual(len(work_entries), 4)
         self.assertEqual(work_entries.mapped('duration'), [8.0, 8.0, 24.0, 8.0])
 
@@ -270,6 +274,7 @@ class TestWorkentryAttendance(HrWorkEntryAttendanceCommon):
             'flexible_hours': True,
             'full_time_required_hours': 40,
             'hours_per_day': 8,
+            'hours_per_week': 40,
         })
 
         self.richard_emp.version_id.write({
@@ -322,7 +327,16 @@ class TestWorkentryAttendance(HrWorkEntryAttendanceCommon):
         self.assertNotEqual(work_entries1, work_entries2)
         self.assertFalse(work_entries1.active)
         self.assertTrue(work_entries2.active)
-        self.assertEqual(work_entries2.duration, 3)
+        self.assertEqual(work_entries2.duration, 7)
+
+        self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2021, 9, 14, 18, 0, 0),
+            'check_out': datetime(2021, 9, 14, 20, 0, 0),
+        })
+
+        work_entries3 = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id)])
+        self.assertEqual(len(work_entries3), 2)
 
     def test_writing_attendance_regenerate_work_entry(self):
         self.contract.write({
@@ -574,3 +588,99 @@ class TestWorkentryAttendance(HrWorkEntryAttendanceCommon):
         start_date = date(2025, 12, 22)
         end_date = date(2025, 12, 27)
         calendar_employee.generate_work_entries(start_date, end_date)
+
+    def test_generate_work_entries_with_false_time_stop(self):
+        attendance = self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2021, 9, 14, 8, 0, 0),
+            'check_out': datetime(2021, 9, 14, 20, 0, 0),
+        })
+        attendance.linked_overtime_ids[0].time_stop = False
+
+        self.employee.generate_work_entries(date(2021, 9, 14), date(2021, 9, 14))
+        work_entry = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id)])
+        self.assertEqual(len(work_entry), 3, 'Three work entries should be generated')
+
+    def test_overtime_crash_multiple_attendances(self):
+        """
+        Test that creating multiple back-to-back attendances in a timezone that causes work days to span
+        midnight (e.g. Adelaide) doesn't cause a 'Expected singleton' crash during work entry generation.
+        This scenario occurs when multiple overtime lines apply to the same local day across different
+        attendance intervals, particularly when the attendance spans are such that Day 2 contains regular work
+        from Attendance 1 and overtime work from Attendance 2.
+        """
+
+        self.employee.tz = 'Australia/Adelaide'
+        self.employee.resource_calendar_id.tz = 'Australia/Adelaide'
+
+        ruleset = self.env['hr.attendance.overtime.ruleset'].create({
+            'name': 'Repro Ruleset',
+            'rule_ids': [
+                (0, 0, {
+                    'name': 'Repro Rule',
+                    'base_off': 'quantity',
+                    'expected_hours_from_contract': True,
+                    'quantity_period': 'day',
+                    'paid': True,
+                })
+            ],
+        })
+        self.employee.ruleset_id = ruleset
+
+        self.contract.write({
+            'date_generated_from': date(2026, 2, 1),
+            'date_generated_to': date(2026, 3, 31),
+        })
+
+        self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 2, 28, 23, 0, 0),
+            'check_out': datetime(2026, 3, 1, 23, 0, 0),
+        })
+
+        self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 3, 1, 23, 0, 0),
+            'check_out': datetime(2026, 3, 2, 23, 0, 0),
+        })
+
+    def test_overtime_delete_on_attendance_unlink(self):
+        """
+        Verify that when an attendance is deleted, any associated overtime line records are also
+        automatically removed.
+        """
+        self.employee.tz = 'Australia/Adelaide'
+        self.employee.resource_calendar_id.tz = 'Australia/Adelaide'
+
+        ruleset = self.env['hr.attendance.overtime.ruleset'].create({
+            'name': 'Repro Ruleset',
+            'rule_ids': [
+                (0, 0, {
+                    'name': 'Repro Rule',
+                    'base_off': 'quantity',
+                    'expected_hours_from_contract': True,
+                    'quantity_period': 'day',
+                    'paid': True,
+                })
+            ],
+        })
+        self.employee.ruleset_id = ruleset
+
+        self.contract.write({
+            'date_generated_from': date(2026, 2, 1),
+            'date_generated_to': date(2026, 3, 31),
+        })
+
+        attendance = self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 2, 28, 23, 0, 0),
+            'check_out': datetime(2026, 3, 1, 23, 0, 0),
+        })
+
+        overtime_lines = self.env['hr.attendance.overtime.line'].search([('employee_id', '=', self.employee.id)])
+        self.assertTrue(overtime_lines)
+
+        attendance.unlink()
+
+        overtime_lines = self.env['hr.attendance.overtime.line'].search([('employee_id', '=', self.employee.id)])
+        self.assertFalse(overtime_lines)

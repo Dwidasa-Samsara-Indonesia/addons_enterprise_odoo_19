@@ -268,3 +268,93 @@ class TestSalaryConfiguratorForApplicant(HttpCase):
             self.assertTrue(offer_form.job_title, self.senior_dev_job.name)
             self.assertTrue(offer_form.contract_start_date, fields.Date.today())
             self.assertTrue(offer_form.employee_id, new_version.employee_id)
+
+    def test_deleting_partial_signed_offer_should_not_delete_employee(self):
+        self.start_tour("/", 'hr_contract_salary_applicant_flow_tour', login='admin', timeout=350)
+        self.start_tour("/", 'hr_contract_salary_applicant_flow_tour_counter_sign', login='admin', timeout=350)
+        self.start_tour("/", 'hr_contract_salary_applicant_flow_tour', login='admin', timeout=350)
+        applicant = self.env['hr.applicant'].search([('partner_name', 'ilike', 'Mitchell Admin 3')])
+        offers = self.env['hr.contract.salary.offer'].search([('applicant_id', 'in', applicant.ids), ('state', '=', 'half_signed')])
+        offers.unlink()
+        employee = self.env['hr.employee'].search([('name', 'ilike', 'Mitchell Admin 3'), ('active', '=', True)])
+        self.assertTrue(employee, "The employee should not be deleted")
+
+    def _create_sign_values(self, sign_item_ids, role_id):
+        return {
+            str(sign_id): 'a'
+            for sign_id in sign_item_ids.filtered(
+                lambda r: not r.responsible_id or r.responsible_id.id == role_id
+            ).mapped('id')
+        }
+
+    def test_employee_work_email_should_not_be_updated(self):
+        applicant = self.env['hr.applicant'].create({
+            'partner_id': self.env['res.partner'].create({
+                'name': 'test',
+                'email': 'test@example.com'
+            }).id,
+        })
+        employee = self.env['hr.employee'].create({
+            'name': 'test',
+            'user_id': self.env['res.users'].create({
+                'name': 'foo',
+                'login': 'foo',
+                'email': 'foo@bar.com',
+                'password': 'foopassword',
+            }).id,
+        })
+        offer = self.env['hr.contract.salary.offer'].create({
+            'contract_template_id': self.senior_dev_job.contract_template_id.id,
+            'employee_version_id': employee.version_id.id,
+            'employee_id': employee.id,
+            'applicant_id': applicant.id,
+        })
+        data = {
+            'params': {
+                'offer_id': offer.id,
+                'benefits': {
+                    'version': {
+                        'wage': 1000,
+                        'final_yearly_costs': 12000,
+                        'holidays': 10,
+                    },
+                    'version_personal': {
+                        'private_city': 'Louvain-La-Neuve',
+                        'private_country_id': self.env.ref('base.be').id,
+                        'private_street': '58 rue des Wallons',
+                    },
+                    'employee': {
+                        'name': 'New Employee',
+                        'private_email': 'new_employee@test.example.com',
+                        'employee_job_id': self.senior_dev_job.id,
+                        'department_id': None,
+                        'job_title': self.senior_dev_job.name,
+                    },
+                    'address': {},
+                    'bank_account': {},
+                },
+                'token': offer.access_token,
+            }
+        }
+        self.authenticate('foo', 'foopassword')
+        res = self.url_open('/salary_package/submit', json=data)
+        content = json.loads(res.content)
+        self.assertIn('result', content)
+        self.assertEqual(employee.work_email, 'foo@bar.com')
+
+        sign_request = self.env['sign.request'].browse(content['result']['request_id'])
+        sign_request.template_id.sign_item_ids.write({'required': False})
+        sign_data = {
+            'signature': self._create_sign_values(
+                sign_request.template_id.sign_item_ids,
+                self.env.ref('hr_sign.sign_item_role_employee_signatory').id,
+            )
+        }
+
+        sign_res = self.url_open(
+            '/sign/sign/%d/%s' % (sign_request.id, content['result']['token']),
+            data=json.dumps(sign_data),
+            headers={'Content-Type': 'application/json'},
+        )
+        self.assertIn('result', json.loads(sign_res.content))
+        self.assertEqual(employee.work_email, 'foo@bar.com')

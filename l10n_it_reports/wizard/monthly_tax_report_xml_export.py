@@ -110,7 +110,7 @@ class L10nItMonthlyTaxReportXmlExportWizard(models.TransientModel):
 
     def action_generate_export(self):
         self.ensure_one()
-        account_return = self.env['account.return'].browse(self._context["active_id"])
+        account_return = self.env['account.return'].browse(self.env.context["active_id"])
         options = account_return._get_closing_report_options() if account_return else {}
         options.update(self._get_wizard_field_dict())
 

@@ -1176,3 +1176,115 @@ class TestDatevCSV(AccountTestInvoicingCommon):
         self.assertEqual([
             ['150,00', 'H', 'EUR', '12030000', '34000000', tax_19_incl.l10n_de_datev_code],
         ], data)
+
+    def test_datev_out_invoice_in_foreign_currency_with_exchange_loss(self):
+        report = self.env.ref('account_reports.general_ledger_report')
+        options = report.get_options(previous_options={'date': {
+            'date_from': '2026-01-01',
+            'date_to': '2026-12-31'
+        }})
+
+        # Create exchange rate entries for the foreign currency
+        foreign_currency = self.env['res.currency'].create({
+            'name': "XYZ",
+            'symbol': 'X',
+            'rate_ids': [
+                Command.create({'name': '2026-01-01', 'rate': 1.0}),
+                Command.create({'name': '2026-01-15', 'rate': 1.1}),
+            ],
+        })
+
+        # Create the invoice on any date before the exchange rate changes (i.e before 15th in this case)
+        move = self.env['account.move'].create([{
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_a.id,
+            'currency_id': foreign_currency.id,
+            'invoice_date': '2026-01-01',
+            'invoice_line_ids': [
+                Command.create({
+                    'name': 'Line',
+                    'price_unit': 100.00,
+                    'tax_ids': [],
+                }),
+            ]
+        }])
+        move.action_post()
+
+        # Make the payment on any date with the new exchange rate (15th or after)
+        # The payment should create two entries in the report, one for the invoice payment
+        # and another for the currency exchange difference.
+        pay = self.env['account.payment.register'].with_context(active_model='account.move', active_ids=move.ids).create({
+            'payment_date': fields.Date.to_date('2026-01-16'),
+        })._create_payments()
+
+        # Get the exchange move
+        exchange_move = move.line_ids.matched_credit_ids.exchange_move_id
+
+        # Get the payment move
+        payment_move = pay.move_id
+
+        moves = payment_move | exchange_move
+
+        f = StringIO(self.env[report.custom_handler_model_name]._l10n_de_datev_get_csv(options, moves))
+        reader = csv.reader(f, delimiter=';', quotechar='"', quoting=2)
+        data = [[x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[13]] for x in reader][2:]
+        self.assertIn(['100,00', 'H', 'XYZ', '0,9091', '90,91', 'EUR', str(move.partner_id.id + 100000000), '12030000',
+                       '', '1601', payment_move.name, payment_move.line_ids[0].name], data)
+        self.assertIn(['0,00', 'H', 'XYZ', '1,0', '9,09', 'EUR', str(move.partner_id.id + 100000000), '21500000',
+                      '', '3101', exchange_move.name, exchange_move.line_ids[0].name], data)
+
+    def test_datev_out_invoice_in_foreign_currency_with_exchange_gain(self):
+        report = self.env.ref('account_reports.general_ledger_report')
+        options = report.get_options(previous_options={'date': {
+            'date_from': '2026-01-01',
+            'date_to': '2026-12-31'
+        }})
+
+        # Create exchange rate entries for the foreign currency
+        foreign_currency = self.env['res.currency'].create({
+            'name': "XYZ",
+            'symbol': 'X',
+            'rate_ids': [
+                Command.create({'name': '2026-01-01', 'rate': 1.0}),
+                Command.create({'name': '2026-01-15', 'rate': 0.5}),
+            ],
+        })
+
+        # Create the invoice on any date before the exchange rate changes (i.e before 15th in this case)
+        move = self.env['account.move'].create([{
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_a.id,
+            'currency_id': foreign_currency.id,
+            'invoice_date': '2026-01-01',
+            'invoice_line_ids': [
+                Command.create({
+                    'name': 'Line',
+                    'price_unit': 100.00,
+                    'tax_ids': [],
+                }),
+            ]
+        }])
+        move.action_post()
+
+        # Make the payment on any date with the new exchange rate (15th or after)
+        # The payment should create two entries in the report, one for the invoice payment
+        # and another for the currency exchange difference.
+        pay = self.env['account.payment.register'].with_context(active_model='account.move', active_ids=move.ids).create({
+            'payment_date': fields.Date.to_date('2026-01-16'),
+        })._create_payments()
+
+        # Get the exchange move
+        exchange_move = move.line_ids.matched_credit_ids.exchange_move_id
+
+        # Get the payment move
+        payment_move = pay.move_id
+
+        moves = payment_move | exchange_move
+
+        f = StringIO(self.env[report.custom_handler_model_name]._l10n_de_datev_get_csv(options, moves))
+        reader = csv.reader(f, delimiter=';', quotechar='"', quoting=2)
+        data = [[x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[13]] for x in reader][2:]
+        self.assertIn(['100,00', 'H', 'XYZ', '2,0', '200,00', 'EUR', str(move.partner_id.id + 100000000), '12030000',
+                       '', '1601', payment_move.name, payment_move.line_ids[0].name], data)
+        self.assertIn(['0,00', 'S', 'XYZ', '1,0', '100,00', 'EUR', str(move.partner_id.id + 100000000), '26600000',
+                      '', '3101', exchange_move.name, exchange_move.line_ids[0].name], data)

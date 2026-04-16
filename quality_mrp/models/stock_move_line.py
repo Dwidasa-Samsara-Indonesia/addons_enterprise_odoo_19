@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import models
+from odoo import Command, models
 
 
 class StockMoveLine(models.Model):
@@ -9,7 +9,7 @@ class StockMoveLine(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if vals.get('lot_id') and self.sudo().check_ids:
-            self.check_ids.filtered(lambda qc: qc.test_type in ('register_consumed_materials', 'register_byproducts')).lot_ids = vals['lot_id']
+            self.check_ids.filtered(lambda qc: qc.test_type in ('register_consumed_materials', 'register_byproducts')).lot_ids = [Command.link(vals['lot_id'])]
         return res
 
     def _get_check_values(self, quality_point):

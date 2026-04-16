@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-08 09:03+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/equity/"
 "ru/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__securities
@@ -137,13 +137,13 @@ msgid ""
 "            "
 msgstr ""
 "<div>\n"
-"                    <p> Здравствуйте, <t t-out=\"ctx.get('holder_name')\"/>!<"
-"br/>\n"
+"                    <p> Здравствуйте, <t t-out=\"ctx.get('holder_name')\"/>!"
+"<br/>\n"
 "                        Вы найдете информацию о ваших последних транзакциях "
 "и оценках по следующей ссылке: <br/>\n"
-"                        <a t-attf-href="
-"\"/my/equity?access_token={{ctx.get('equity_access_token')}}\" class="
-"\"btn btn-primary\">Показать капитал</a> <br/> <br/>\n"
+"                        <a t-attf-href=\"/my/equity?"
+"access_token={{ctx.get('equity_access_token')}}\" class=\"btn btn-"
+"primary\">Показать капитал</a> <br/> <br/>\n"
 "                        С уважением,\n"
 "                        <t t-if=\"user_id.signature\">\n"
 "                            <br/>--<br/>\n"
@@ -186,9 +186,9 @@ msgstr ""
 "<b><t t-out=\"user_id.company_id.name\"/></b>. <br/> <br/>\n"
 "                        Пожалуйста, заполните анкету бенефициарного "
 "владельца:<br/>\n"
-"                        <a t-attf-href="
-"\"/my/ubo?{{object._get_equity_url_params()}}\" class=\"btn btn-primary\""
-">Заполнить анкету</a> <br/> <br/>\n"
+"                        <a t-attf-href=\"/my/ubo?"
+"{{object._get_equity_url_params()}}\" class=\"btn btn-primary\">Заполнить "
+"анкету</a> <br/> <br/>\n"
 "                        Спасибо,\n"
 "                        <t t-if=\"user_id.signature\">\n"
 "                            <br/>--<br/>\n"
@@ -205,8 +205,8 @@ msgid ""
 "<i class=\"fa fa-envelope ms-2 mt-1\" aria-label=\"Email Address\" "
 "title=\"Email Address\"/>"
 msgstr ""
-"<i class=\"fa fa-envelope ms-2 mt-1\" aria-label=\"Email Address\" title="
-"\"E-mail адрес\"/>"
+"<i class=\"fa fa-envelope ms-2 mt-1\" aria-label=\"Email Address\" title=\"E-"
+"mail адрес\"/>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.portal_ubo_help
@@ -214,8 +214,8 @@ msgid ""
 "<i class=\"fa fa-phone ms-2 mt-1\" aria-label=\"Phone Number\" title=\"Phone "
 "Number\"/>"
 msgstr ""
-"<i class=\"fa fa-phone ms-2 mt-1\" aria-label=\"Phone Number\" title="
-"\"Номер телефона\"/>"
+"<i class=\"fa fa-phone ms-2 mt-1\" aria-label=\"Phone Number\" title=\"Номер "
+"телефона\"/>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_kanban
@@ -223,8 +223,8 @@ msgid ""
 "<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
 "invisible=\"transaction_type != 'exercise'\"/>"
 msgstr ""
-"<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" invisible="
-"\"transaction_type != 'exercise'\"/>"
+"<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
+"invisible=\"transaction_type != 'exercise'\"/>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_kanban
@@ -232,8 +232,8 @@ msgid ""
 "<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
 "invisible=\"transaction_type != 'transfer'\"/>"
 msgstr ""
-"<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" invisible="
-"\"transaction_type != 'transfer'\"/>"
+"<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
+"invisible=\"transaction_type != 'transfer'\"/>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_view_partner_form
@@ -251,8 +251,8 @@ msgid ""
 "<span> Shareholder<span invisible=\"equity_shareholders_count == 1\">s</"
 "span></span>"
 msgstr ""
-"<span> Акционер<span invisible=\"equity_shareholders_count == 1\""
-">ы</span></span>"
+"<span> Акционер<span invisible=\"equity_shareholders_count == 1\">ы</span></"
+"span>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_dashboard_res_partner
@@ -323,6 +323,12 @@ msgstr ""
 "Публичная компания: Компания, чьи акции торгуются на регулируемом рынке "
 "государства-члена Европейской\n"
 "                            экономической зоны; или"
+
+#. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid "A partner cannot have transactions in different currencies."
+msgstr ""
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
@@ -449,6 +455,11 @@ msgstr "Покупатель"
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__ceo
 msgid "CEO"
 msgstr "Директор"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__can_change_currency
+msgid "Can Change Currency"
+msgstr ""
 
 #. module: equity
 #. odoo-python
@@ -579,7 +590,7 @@ msgid ""
 msgstr ""
 "Контроль – это юридическое или фактическое право оказывать решающее влияние "
 "на назначение большинства\n"
-"                    директоров или руководителей, либо на направление "
+"                    директоров или менеджеров, либо на направление "
 "деятельности компании."
 
 #. module: equity
@@ -1226,9 +1237,9 @@ msgid ""
 "over the company."
 msgstr ""
 "Физические лица, обладающие формальными полномочиями в совете директоров "
-"компании. К ним относятся, в частности, лица, занимающие должности "
-"(или их аналоги) генерального директора, финансового директора или казначея. "
-"Если функции члена совета директоров выполняет юридическое лицо, необходимо "
+"компании. К ним относятся, в частности, лица, занимающие должности (или их "
+"аналоги) генерального директора, финансового директора или казначея. Если "
+"функции члена совета директоров выполняет юридическое лицо, необходимо "
 "указать всех его представителей, действующих на уровне совета, с указанием "
 "их должностей. <br/> Физические лица, не обладающие контролирующей долей в "
 "капитале или формальными полномочиями, но фактически осуществляющие контроль "
@@ -1690,11 +1701,11 @@ msgid ""
 "indirectly - 36 % of the shares in A."
 msgstr ""
 "Физические лица, являющиеся конечными владельцами данной корпоративной "
-"структуры или контролирующие её через прямое или косвенное участие "
-"(владение более чем 25% акций или прав голоса данного юридического лица). <"
-"br/> Пример: Компании B и C владеют по 20% акций компании A каждая. "
-"Физическое лицо Z владеет 90% акций в компаниях B и C. В данном случае лицо "
-"Z признается акционером, владеющим более 25% акций компании A, так как его "
+"структуры или контролирующие её через прямое или косвенное участие (владение "
+"более чем 25% акций или прав голоса данного юридического лица). <br/> "
+"Пример: Компании B и C владеют по 20% акций компании A каждая. Физическое "
+"лицо Z владеет 90% акций в компаниях B и C. В данном случае лицо Z "
+"признается акционером, владеющим более 25% акций компании A, так как его "
 "косвенная доля владения в компании A составляет 36%."
 
 #. module: equity
@@ -1983,6 +1994,16 @@ msgid ""
 msgstr ""
 "Вы можете удалить любого акционера, владеющего менее чем 25% акций или прав "
 "голоса."
+
+#. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid ""
+"You cannot change the equity currency because this partner already has "
+"existing transactions."
+msgstr ""
+"Вы не можете изменить валюту капитала, поскольку у этого партнера уже есть "
+"существующие транзакции."
 
 #. module: equity
 #. odoo-javascript

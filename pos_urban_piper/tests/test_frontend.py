@@ -59,6 +59,7 @@ class TestPosUrbanPiperCommon(TestPointOfSaleHttpCommon):
         for ptav in cls.product.attribute_line_ids.product_template_value_ids:
             if ptav.product_attribute_value_id == cls.value_large:
                 ptav.price_extra = 2.0
+        cls.MockRequest = staticmethod(MockRequest)
 
 
 class TestFrontend(TestPosUrbanPiperCommon):
@@ -129,6 +130,14 @@ class TestFrontend(TestPosUrbanPiperCommon):
         self.assertEqual('Make it spicy..', order_1.general_customer_note)
 
     def test_03_order_with_charges_and_discount(self):
+        self.tax_15 = self.env['account.tax'].create({
+            'name': '15% VAT',
+            'amount': 15,
+            'amount_type': 'percent',
+            'fiscal_position_ids': [(4, self.urban_piper_config.urbanpiper_fiscal_position_id.id)],
+        })
+        self.discount_product = self.env.ref('pos_discount.product_product_consumable', False)
+        self.discount_product.taxes_id = [(6, 0, self.tax_15.ids)]
         self.urban_piper_config.open_ui()
         with MockRequest(self.env):
             identifier_1 = str(uuid.uuid4())
@@ -142,10 +151,10 @@ class TestFrontend(TestPosUrbanPiperCommon):
             }).make_test_order(identifier_1)
         self.start_pos_tour('OrderWithChargesAndDiscountTour', pos_config=self.urban_piper_config, login="pos_admin")
         order_1 = self.env['pos.order'].search([('delivery_identifier', '=', identifier_1)])
-        self.assertEqual(500, order_1.amount_total)
-        self.assertEqual(500, order_1.amount_paid)
-        self.assertEqual(0, order_1.amount_tax)
-        self.assertEqual(500, order_1.payment_ids[0].amount)
+        self.assertAlmostEqual(522.51, order_1.amount_total, places=1)
+        self.assertAlmostEqual(522.51, order_1.amount_paid, places=1)
+        self.assertAlmostEqual(22.51, order_1.amount_tax, places=1)
+        self.assertAlmostEqual(522.51, order_1.payment_ids[0].amount, places=1)
 
     def test_prepare_option_data_returns_valid_options(self):
         """Test that _prepare_option_data returns correctly formatted active options."""
@@ -264,7 +273,7 @@ class TestFrontend(TestPosUrbanPiperCommon):
 
         with patch.object(UrbanPiperClient, "_make_api_request", _mock_make_api_request):
             self.child_branch_pos_config.order_status_update(order.id, 'Food Ready')
-        self.assertEqual(self.tax_15.id, order.lines.tax_ids.id)
+        self.assertEqual(self.tax_15.id, order.lines[0].tax_ids.id)
 
     def test_to_check_attribute(self):
         self.configurable_chair.active = True
@@ -286,6 +295,42 @@ class TestFrontend(TestPosUrbanPiperCommon):
                 'delivery_provider_id': self.env.ref('pos_urban_piper.pos_delivery_provider_justeat').id,
             }).make_test_order(identifier_1)
         self.start_pos_tour('test_to_check_attribute', pos_config=self.urban_piper_config, login="pos_admin")
+
+    def test_product_taxes(self):
+        self.tax_15 = self.env['account.tax'].create({
+            'name': '15% VAT',
+            'amount': 15,
+            'amount_type': 'percent',
+            'fiscal_position_ids': [(4, self.urban_piper_config.urbanpiper_fiscal_position_id.id)],
+        })
+        self.tax_15.original_tax_ids = [(4, self.tax_15.id)]
+        self.product_1.taxes_id = [(4, self.tax_15.id)]
+        packaging_product = self.env.ref('pos_urban_piper.product_packaging_charges', False)
+        delivery_product = self.env.ref('pos_urban_piper.product_delivery_charges', False)
+        packaging_product.taxes_id = [(6, 0, self.tax_15.ids)]
+        self.discount_product = self.env.ref('pos_discount.product_product_consumable', False)
+        self.discount_product.taxes_id = [(6, 0, self.tax_15.ids)]
+        delivery_product.taxes_id = [(5, 0, 0)]
+        self.urban_piper_config.open_ui()
+        with MockRequest(self.env):
+            identifier_1 = str(uuid.uuid4())
+            self.env['pos.urbanpiper.test.order.wizard'].with_context(
+                config_id=self.urban_piper_config.id,
+                has_tax=False
+            ).create({
+                'product_id': self.product_1.id,
+                'quantity': 2,
+                'delivery_instruction': 'Leave at door',
+                'delivery_provider_id': self.env.ref('pos_urban_piper.pos_delivery_provider_justeat').id,
+                'packaging_charge': 10.0,
+                'delivery_charge': 10.0,
+                'discount_amount': 10.0
+            }).make_test_order(identifier_1)
+        order = self.env['pos.order'].search([('delivery_identifier', '=', identifier_1)])
+        self.assertEqual(order.lines[0].tax_ids.id, self.tax_15.id)
+        self.assertEqual(order.lines[1].tax_ids.id, self.tax_15.id)
+        self.assertEqual(order.lines[2].tax_ids.id, False)
+        self.assertEqual(order.lines[3].tax_ids.id, self.tax_15.id)
 
     def test_charges_sent_to_urbanpiper(self):
         up = UrbanPiperClient(self.urban_piper_config)
@@ -322,3 +367,19 @@ class TestFrontend(TestPosUrbanPiperCommon):
         self.assertEqual(order.lines[0].price_subtotal, 100.0)
         self.assertEqual(order.amount_total, 100.0)
         self.assertEqual(order.amount_tax, 0.0)
+
+    def test_product_level_discount(self):
+        self.urban_piper_config.open_ui()
+        with MockRequest(self.env):
+            identifier_1 = str(uuid.uuid4())
+            self.env['pos.urbanpiper.test.order.wizard'].with_context(config_id=self.urban_piper_config.id, line_discount=40).create({
+                'product_id': self.product_1.id,
+                'quantity': 2,
+                'delivery_provider_id': self.env.ref('pos_urban_piper.pos_delivery_provider_justeat').id,
+            }).make_test_order(identifier_1)
+        self.start_pos_tour('test_product_level_discount', pos_config=self.urban_piper_config, login='pos_admin')
+        order = self.env['pos.order'].search([('delivery_identifier', '=', identifier_1)])
+        self.assertEqual(160.0, order.amount_total)
+        self.assertEqual(160.0, order.amount_paid)
+        self.assertEqual('paid', order.state)
+        self.assertEqual(20, order.lines[0].discount)

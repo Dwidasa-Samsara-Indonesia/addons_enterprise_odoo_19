@@ -83,7 +83,7 @@ async function iotReportActionHandler(action, options, env) {
         action.data ??= {};
         const args = [
             action.id,
-            action.context.active_ids.filter((e) => typeof e === "number"), // remove string uuid ids (e.g. PoS)
+            action.context.active_ids?.filter((e) => typeof e === "number"), // remove string uuid ids (e.g. PoS)
             action.data,
         ];
         const reportId = action.id;

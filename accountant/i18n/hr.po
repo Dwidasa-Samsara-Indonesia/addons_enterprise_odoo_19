@@ -3,13 +3,14 @@
 # * accountant
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Boris Peko <boris.peko@ecodica.eu>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2025-11-16 13:53+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-03-20 18:40+0000\n"
+"PO-Revision-Date: 2026-04-10 20:21+0000\n"
+"Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
 "accountant/hr/>\n"
 "Language: hr\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: accountant
 #: model:ir.model,name:accountant.model_account_chart_template
@@ -35,19 +36,31 @@ msgstr "Računovodstvo"
 #. module: accountant
 #: model:ir.ui.menu,name:accountant.account_assets_liabilities_menu
 msgid "Assets & Liabilities"
-msgstr ""
+msgstr "Imovina i obveze"
+
+#. module: accountant
+#: model:ir.model,name:accountant.model_res_company
+msgid "Companies"
+msgstr "Tvrtke"
 
 #. module: accountant
 #: model:ir.model.fields,field_description:accountant.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:accountant.field_account_move__display_name
+#: model:ir.model.fields,field_description:accountant.field_res_company__display_name
 msgid "Display Name"
-msgstr "Naziv"
+msgstr "Naziv za prikaz"
 
 #. module: accountant
 #: model:ir.model.fields,field_description:accountant.field_account_chart_template__id
 #: model:ir.model.fields,field_description:accountant.field_account_move__id
+#: model:ir.model.fields,field_description:accountant.field_res_company__id
 msgid "ID"
 msgstr "ID"
+
+#. module: accountant
+#: model:ir.model.fields,field_description:accountant.field_res_company__account_tax_return_journal_id
+msgid "Journal"
+msgstr "Dnevnik"
 
 #. module: accountant
 #: model:ir.model,name:accountant.model_account_move
@@ -59,3 +72,5 @@ msgstr "Temeljnica"
 #: code:addons/accountant/static/src/js/tours/accountant.js:0
 msgid "Let’s automate your bills, bank transactions and accounting processes."
 msgstr ""
+"Automatizirajmo vaše ulazne račune, bankovne transakcije i računovodstvene "
+"procese."

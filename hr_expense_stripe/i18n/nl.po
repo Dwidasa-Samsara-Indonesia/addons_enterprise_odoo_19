@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:09+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
+"PO-Revision-Date: 2026-04-08 07:35+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense_stripe/nl/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1775,15 +1775,15 @@ msgid "Country"
 msgstr "Land"
 
 #. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
+msgstr "Land %(country_name)s niet toegestaan"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
 msgid "Country Clubs"
 msgstr "Country clubs"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr "Land niet toegestaan"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
@@ -2819,8 +2819,8 @@ msgstr "MCC"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
-msgstr "MCC niet toegestaan"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
@@ -3192,19 +3192,31 @@ msgstr "Kantoor- en bedrijfsmeubilair"
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
 msgstr ""
-"Op dit moment wordt alleen IBAN ondersteund voor Stripe Issuing "
-"financieringsinstructies"
+"Momenteel wordt alleen BACS ondersteund voor het verstrekken van "
+"financieringsinstructies via Stripe Issuing in het Verenigd Koninkrijk"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
 msgstr ""
-"Op dit moment wordt alleen SEPA ondersteund voor Stripe Issuing "
-"Financieringsinstructies"
+"Op dit moment worden alleen IBAN of BACS ondersteund voor het verstrekken "
+"van financieringsinstructies via Stripe Issuing"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
+msgstr ""
+"Op dit moment wordt alleen SEPA ondersteund voor het verstrekken van "
+"financieringsinstructies via Stripe Issuing in de EU"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3885,6 +3897,15 @@ msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+"Stripe Issuing-betalingsinstructies in USD worden momenteel niet ondersteund"
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing is not available in your country."
 msgstr "Stripe Issuing is niet beschikbaar in jouw land."
@@ -4243,6 +4264,13 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr "Het afleveradres moet zich in de Europese Unie bevinden."
 
@@ -4495,24 +4523,24 @@ msgstr "Transactie geaccepteerd"
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
+msgstr "Het transactiebedrag (%(amount)s) overschrijdt het toegestane maximum"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr "Transactiebedrag (%(total_spent)s) overschrijdt de intervallimiet"
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
 msgstr ""
 "Het transactiebedrag overschreed de dagelijkse of harde transactielimiet van "
 "€ 50.000 van de kaart"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr "Transactiebedrag overschrijdt de intervallimiet"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr "Transactiebedrag overschrijdt het maximaal toegestane bedrag"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -5107,6 +5135,33 @@ msgstr "id"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "algemene voorwaarden"
+
+#~ msgid "MCC %(mcc_name)s not allowed"
+#~ msgstr "MCC %(mcc_name)s niet toegestaan"
+
+#~ msgid "Country not allowed"
+#~ msgstr "Land niet toegestaan"
+
+#~ msgid "MCC not allowed"
+#~ msgstr "MCC niet toegestaan"
+
+#~ msgid ""
+#~ "Only IBAN is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Op dit moment wordt alleen IBAN ondersteund voor Stripe Issuing "
+#~ "financieringsinstructies"
+
+#~ msgid ""
+#~ "Only SEPA is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Op dit moment wordt alleen SEPA ondersteund voor Stripe Issuing "
+#~ "Financieringsinstructies"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr "Transactiebedrag overschrijdt de intervallimiet"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "Transactiebedrag overschrijdt het maximaal toegestane bedrag"
 
 #~ msgid "Stripe issuing is not supported for your localization"
 #~ msgstr "Stripe Issuing wordt niet ondersteund voor jouw lokalisatie"

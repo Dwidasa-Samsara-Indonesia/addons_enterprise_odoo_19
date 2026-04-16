@@ -48,6 +48,24 @@ class TestEcPos(TestEcEdiPosCommon):
                 expected_xml = lxml.etree.fromstring(f.read().encode())
             self.assertXmlTreeEqual(lxml.etree.fromstring(generated_file.encode()), expected_xml)
 
+    @freeze_time('2024-01-01')
+    def test_pos_free_order_invoice(self):
+        """Simulate a free order that would be paid with a gift card and try to invoice it"""
+        with self.with_pos_session() as _session:
+            free_product = self.env['product.product'].create({
+                'name': 'Free Product',
+                'type': 'consu',
+                'list_price': 0.0,
+            })
+            no_payment_order = self._create_order({
+                'pos_order_lines_ui_args': [(free_product, 1)],
+                'payments': [],
+                'customer': self.partner_a,
+            })
+            no_payment_order.action_pos_order_invoice()
+            invoice = no_payment_order.account_move
+            self.assertEqual(invoice.l10n_ec_sri_payment_id.code, "01", "Order without payments should fallback to the No use of the financiel system SRI payment method. (Code 01)")
+
 
 @tagged('post_install_l10n', 'post_install', '-at_install')
 class TestUI(TestEcEdiPosCommon, TestPointOfSaleHttpCommon):

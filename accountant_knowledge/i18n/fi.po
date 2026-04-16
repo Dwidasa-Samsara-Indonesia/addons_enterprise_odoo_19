@@ -3,13 +3,14 @@
 # * accountant_knowledge
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# Saara Hakanen <sahak@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2025, 2026.
+# Konsta Aavaranta <konsta.aavaranta@sprintit.fi>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-12-10 10:30+0000\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-04-14 08:57+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "accountant_knowledge/fi/>\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -254,7 +255,7 @@ msgstr "Erääntynyt velka"
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 msgid "Aged Receivable"
-msgstr "Erääntynyt saatava"
+msgstr "Erääntynyt saaminen"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_taxation
@@ -269,12 +270,25 @@ msgstr "Summa<br>"
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_annexes
 msgid "Annexes"
-msgstr "Liitännäiset"
+msgstr "Liitteet"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
-msgstr "Vuosikertomus"
+msgstr "Tilinpäätös"
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr "Vuosikertomuksen mallipohja"
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
+msgstr "Vuosikertomukset"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_article_id
@@ -307,7 +321,7 @@ msgstr ""
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_asset_information
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
 msgid "Asset Information"
-msgstr "Omaisuustiedot"
+msgstr "Omaisuuserän tiedot"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_research_and_development_costs
@@ -330,27 +344,9 @@ msgid "Attestation"
 msgstr "Todistus"
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
 msgstr "Tilintarkastuskertomus"
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr "Tilinarkastuskertomuksen mallipohja"
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Tilintarkastuskertomus"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
-msgstr "Tilintarkastusmallipohja"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_balance_sheet
@@ -421,7 +417,7 @@ msgstr "Muutos tilinpäätösstandardeissa"
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_changes_in_accounting_policies
 msgid "Changes in Accounting Policies"
-msgstr "Muutoksia tilinpäätöksen laatimisperiaatteissa"
+msgstr "Kirjanpitoperiaatteiden muutokset"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -478,13 +474,13 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
-msgstr "Luo tarkastusraportti"
+msgid "Create an Annual Report"
+msgstr "Luo vuosikertomus"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_uid
 msgid "Created by"
-msgstr "Tekijä:"
+msgstr "Luonut"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_date
@@ -500,7 +496,7 @@ msgstr "Räätälöi"
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
 msgid "Customize all of its content.<br>Add sections, pages, or attachments"
-msgstr "Räätälöi kaikki sen sisältö.<br>Lisää osioita, sivuja tai liitteitä"
+msgstr "Räätälöi sen koko sisältö.<br>Lisää osioita, sivuja tai liitteitä"
 
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
@@ -638,7 +634,7 @@ msgstr "Valmis"
 #: code:addons/accountant_knowledge/static/src/components/export_audit_report_to_pdf_dialog/export_audit_report_to_pdf_dialog.xml:0
 #: code:addons/accountant_knowledge/static/src/components/options_dropdown/options_dropdown.xml:0
 msgid "Download Annual Report"
-msgstr "Lataa vuosikertomus"
+msgstr "Lataa tilinpäätös"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -686,8 +682,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr "Muokkaa tilintarkastuskertomusta"
+msgid "Edit Annual Report"
+msgstr "Muokkaa vuosikertomusta"
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -707,13 +703,13 @@ msgstr "Päättymispäivä"
 #. module: accountant_knowledge
 #: model:ir.model.fields,help:accountant_knowledge.field_audit_report__end_date
 msgid "Ending Date, included in the fiscal year."
-msgstr "Lopetuspäivä, joka sisältyy tilivuoteen."
+msgstr "Päättymispäivä, sisältyy tilikauteen."
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_entity_information
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
 msgid "Entity Information"
-msgstr "Entiteetin tiedot"
+msgstr "Yrityksen tiedot"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_intangible_and_tangible_assets
@@ -1050,7 +1046,7 @@ msgstr "Tietoa erityisluonteisista toimenpiteistä"
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__inherited_audit_report_id
 msgid "Inherited Audit Report"
-msgstr "Peritty tilintarkastuskertomus"
+msgstr "Peritty tarkastuskertomus"
 
 #. module: accountant_knowledge
 #. odoo-javascript
@@ -1094,12 +1090,12 @@ msgstr "Varastojen arvot määritetään yhdellä seuraavista menetelmistä:"
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
 msgid "Inventory Overview"
-msgstr "Varaston yleiskatsaus"
+msgstr "Varastoinnin yleiskatsaus"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
 msgid "Inventory Valuation"
-msgstr "Varastonarvostus"
+msgstr "Varaston arvonmääritys"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_journal_audit
@@ -1195,7 +1191,7 @@ msgstr "Arvonmääritysmenetelmät"
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_search
 msgid "My Reports"
-msgstr "Omat raportit"
+msgstr "Omat raporttini"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
@@ -1481,7 +1477,7 @@ msgstr "Takaisinmaksettavat ennakot"
 #. module: accountant_knowledge
 #: model:ir.model,name:accountant_knowledge.model_ir_actions_report
 msgid "Report Action"
-msgstr "Raporttitoimet"
+msgstr "Raporttitoiminto"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -1510,7 +1506,7 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__responsible_user_ids
 msgid "Responsibles"
-msgstr "Vastuulliset"
+msgstr "Vastuuhenkilöt"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_income_statement
@@ -1540,7 +1536,7 @@ msgstr "Määritä valmiiksi"
 #. module: accountant_knowledge
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_kanban
 msgid "Set to Draft"
-msgstr "Aseta luonnokseksi"
+msgstr "Määritä luonnokseksi"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
@@ -1611,12 +1607,12 @@ msgstr "Vakiokustannus"
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__start_date
 msgid "Start Date"
-msgstr "Alkupäivä"
+msgstr "Aloituspäivä"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,help:accountant_knowledge.field_audit_report__start_date
 msgid "Start Date, included in the fiscal year."
-msgstr "Aloituspäivä, joka sisältyy tilikauteen."
+msgstr "Aloituspäivä, sisältyy tilikauteen."
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -1631,7 +1627,7 @@ msgstr "Ilmoita ja perustele muutos arviossa."
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__status
 msgid "Status"
-msgstr "Status"
+msgstr "Tila"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -1696,6 +1692,11 @@ msgstr "Verotus"
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_commitments_and_guarantees
 msgid "Technical installations, equipment, and tools<br>"
 msgstr "Tekniset asennukset, varusteet ja työkalut<br>"
+
+#. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr "Mallipohja"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
@@ -1967,3 +1968,18 @@ msgstr "Kauden aikana palkattu työvoima"
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr "esim. Vuotuinen taloudellinen yleiskatsaus"
+
+#~ msgid "Audit Report Template"
+#~ msgstr "Tilinarkastuskertomuksen mallipohja"
+
+#~ msgid "Audit Reports"
+#~ msgstr "Tilintarkastuskertomukset"
+
+#~ msgid "Audit Template"
+#~ msgstr "Tarkastuspohja"
+
+#~ msgid "Create an Audit Report"
+#~ msgstr "Laadi tarkastuskertomus"
+
+#~ msgid "Edit Audit Report"
+#~ msgstr "Muokkaa tilintarkastuskertomusta"

@@ -4,23 +4,24 @@
 #
 # Translators:
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 05:24+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-02-28 09:34+0000\n"
+"Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "account_transfer/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=4; plural="
+"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 "
+": n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: account_transfer
 #: model_terms:ir.ui.view,arch_db:account_transfer.view_transfer_model_form
@@ -31,7 +32,7 @@ msgstr "<span> на </span>"
 #. odoo-python
 #: code:addons/account_transfer/models/transfer_model_line.py:0
 msgid "A destination account must be set on each line."
-msgstr ""
+msgstr "Для каждой строки должен быть установлен счет назначения платежа."
 
 #. module: account_transfer
 #: model:ir.model.fields,help:account_transfer.field_account_transfer_model__conditions
@@ -39,6 +40,8 @@ msgid ""
 "A domain to filter the accounts from which the resulting entry will transfer "
 "amounts."
 msgstr ""
+"Домен для фильтрации счетов, с которых будут перенесены суммы итоговой "
+"проводкой."
 
 #. module: account_transfer
 #: model_terms:ir.ui.view,arch_db:account_transfer.view_transfer_model_form
@@ -63,7 +66,7 @@ msgstr "Модельная линия перевода средств на сч�
 #. module: account_transfer
 #: model:ir.actions.server,name:account_transfer.ir_cron_auto_transfer_ir_actions_server
 msgid "Account transfers: Compute transfer entries"
-msgstr ""
+msgstr "Переносы по счетам: Расчет проводок переноса"
 
 #. module: account_transfer
 #: model_terms:ir.ui.view,arch_db:account_transfer.view_transfer_model_form
@@ -181,7 +184,7 @@ msgstr "Сгенерированные движения"
 #. module: account_transfer
 #: model:ir.model.fields,field_description:account_transfer.field_account_transfer_model__has_draft_moves
 msgid "Has Draft Moves"
-msgstr ""
+msgstr "Есть черновые проводки"
 
 #. module: account_transfer
 #: model:ir.model.fields,field_description:account_transfer.field_account_chart_template__id
@@ -197,7 +200,7 @@ msgstr "ID"
 #. odoo-python
 #: code:addons/account_transfer/demo/account_demo.py:0
 msgid "IFRS Transfers"
-msgstr ""
+msgstr "Переносы IFRS"
 
 #. module: account_transfer
 #. odoo-python
@@ -308,6 +311,8 @@ msgid ""
 "Puts the transfer model in a state in which it will automatically recompute "
 "its draft entries' values every day."
 msgstr ""
+"Переводит модель переноса в состояние, при котором значения ее черновых "
+"проводок автоматически пересчитываются ежедневно."
 
 #. module: account_transfer
 #: model_terms:ir.ui.view,arch_db:account_transfer.view_transfer_model_form
@@ -315,6 +320,8 @@ msgid ""
 "Puts the transfer model in a state in which it will not automatically "
 "recompute its draft entries' values every day."
 msgstr ""
+"Переводит модель переноса в состояние, при котором значения ее черновых "
+"проводок не будут автоматически пересчитываться ежедневно."
 
 #. module: account_transfer
 #: model:ir.model.fields.selection,name:account_transfer.selection__account_transfer_model__frequency__quarter
@@ -361,13 +368,13 @@ msgstr "Итого Процент"
 #. odoo-python
 #: code:addons/account_transfer/models/transfer_model.py:0
 msgid "Transfer (%(percent)s%% from %(account)s)"
-msgstr ""
+msgstr "Перенос (%(percent)s%% с %(account)s)"
 
 #. module: account_transfer
 #. odoo-python
 #: code:addons/account_transfer/models/transfer_model.py:0
 msgid "Transfer (-%(percent)s%% to %(account)s)"
-msgstr ""
+msgstr "Перенос (-%(percent)s%% на %(account)s)"
 
 #. module: account_transfer
 #: model:ir.model.fields,field_description:account_transfer.field_account_transfer_model_line__transfer_model_id
@@ -399,6 +406,8 @@ msgid ""
 "You cannot delete a transfer model that has draft moves attached ('%s'). "
 "Please delete them before deleting this transfer."
 msgstr ""
+"Невозможно удалить модель переноса, к которой привязаны черновые проводки "
+"(«%s»). Перед удалением переноса удалите эти проводки."
 
 #. module: account_transfer
 #. odoo-python
@@ -406,12 +415,15 @@ msgstr ""
 msgid ""
 "You cannot delete a transfer model that has posted moves attached ('%s')."
 msgstr ""
+"Невозможно удалить модель переноса, к которой привязаны проведенные проводки "
+"(«%s»)."
 
 #. module: account_transfer
 #. odoo-python
 #: code:addons/account_transfer/models/account_move_line.py:0
 msgid "You cannot set Tax on computed Transfer's entries."
 msgstr ""
+"Нельзя устанавливать налог для проводок, созданных вычисляемым переносом."
 
 #. module: account_transfer
 #: model_terms:ir.ui.view,arch_db:account_transfer.view_transfer_model_form

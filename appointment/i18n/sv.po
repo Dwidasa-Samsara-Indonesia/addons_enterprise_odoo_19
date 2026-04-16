@@ -4,13 +4,14 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2025-11-10 08:22+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"PO-Revision-Date: 2026-04-13 09:42+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "appointment/sv/>\n"
 "Language: sv\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -41,12 +42,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:appointment.field_appointment_question__appointment_count
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__appointment_count
 msgid "# Appointments"
-msgstr "# Utnämningar"
+msgstr "# Tidsbokningar"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__appointment_count_request
 msgid "# Appointments To Confirm"
-msgstr "# Utnämningar att bekräfta"
+msgstr "# Bokningar att bekräfta"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__calendar_event_count
@@ -73,7 +74,7 @@ msgstr "# Personal Användare"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__appointment_count_upcoming
 msgid "# Upcoming Appointments"
-msgstr "# Kommande utnämningar"
+msgstr "# Kommande bokningar"
 
 #. module: appointment
 #. odoo-python
@@ -234,22 +235,6 @@ msgid ""
 "        </t>\n"
 "    </p>\n"
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
-"        <t t-if=\"object.state != 'accepted'\">\n"
-"            <a t-attf-href=\"/calendar/meeting/accept?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Accept</a>\n"
-"            <a t-attf-href=\"/calendar/meeting/decline?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Decline</a>\n"
-"        </t>\n"
 "        <a t-if=\"not target_responsible and not target_customer\" t-attf-"
 "href=\"/calendar/meeting/view?token={{object.access_token}}"
 "&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-left: "
@@ -1098,6 +1083,11 @@ msgstr ""
 "En punktlig tidstyp bör begränsas mellan en start- och en sluttidpunkt."
 
 #. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Accept"
+msgstr ""
+
+#. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_calendar_event__access_token
 msgid "Access Token"
 msgstr "Åtkomsttecken"
@@ -1123,12 +1113,12 @@ msgstr "Aktiviteter"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Dekoration aktivitetsundantag"
+msgstr "Undantagsaktiviteter dekoration"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_state
 msgid "Activity State"
-msgstr "Aktivitetsläge"
+msgstr "Aktivitetsstatus"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_type_icon
@@ -1182,7 +1172,7 @@ msgstr "Lägg till ett introduktionsmeddelande här..."
 #. module: appointment
 #: model:ir.model,name:appointment.model_appointment_manage_leaves
 msgid "Add or remove leaves from appointments"
-msgstr "Lägg till eller ta bort löv från möten"
+msgstr "Lägg till eller ta bort frånvaro/ledighet från bokningar"
 
 #. module: appointment
 #: model:res.groups,name:appointment.group_appointment_manager
@@ -1198,7 +1188,7 @@ msgstr "Alla"
 #. module: appointment
 #: model:ir.actions.act_window,name:appointment.calendar_event_action_report_all
 msgid "All Appointments"
-msgstr "Alla utnämningar"
+msgstr "Alla tidsbokningar"
 
 #. module: appointment
 #. odoo-python
@@ -1362,7 +1352,7 @@ msgstr "Länkar för inbjudan till möten"
 #. module: appointment
 #: model:ir.model,name:appointment.model_appointment_invite
 msgid "Appointment Invite"
-msgstr "Bokningsinbjudan"
+msgstr "Inbjudan till tidsbokning"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__meeting_ids
@@ -1432,7 +1422,7 @@ msgstr "Titel på utnämningen"
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_tree
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_search
 msgid "Appointment Type"
-msgstr "Bokningstyp"
+msgstr "Tidsbokningstyp"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__appointment_type_ids
@@ -1500,12 +1490,12 @@ msgstr "Tidsbeställning: Tidsperiod"
 #: model_terms:ir.ui.view,arch_db:appointment.portal_my_home_appointment
 #: model_terms:ir.ui.view,arch_db:appointment.portal_my_home_menu_appointment
 msgid "Appointments"
-msgstr "Bokningar"
+msgstr "Tidsbokningar"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.portal_my_appointments
 msgid "Appointments by"
-msgstr "Utnämningar av"
+msgstr "Tidsbokningar efter"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_form
@@ -1664,7 +1654,7 @@ msgstr "Bokad"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__calendar_event_ids
 msgid "Booked Appointments"
-msgstr "Bokade möten"
+msgstr "Inbokade möten"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form
@@ -1904,7 +1894,7 @@ msgstr "Konfiguration"
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_info
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_kanban
 msgid "Configure"
-msgstr "Ställ in"
+msgstr "Konfigurera"
 
 #. module: appointment
 #: model_terms:ir.actions.act_window,help:appointment.appointment_invite_action
@@ -2081,7 +2071,7 @@ msgstr "Kund"
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_info
 msgid ""
 "DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL APPOINTMENTS"
-msgstr "SLÄPPA BYGGSTENAR HÄR FÖR ATT GÖRA DEM TILLGÄNGLIGA FÖR ALLA MÖTEN"
+msgstr "SLÄPP BYGGBLOCK HÄR FÖR ATT GÖRA DEM TILLGÄNGLIGA FÖR ALLA BOKNINGAR"
 
 #. module: appointment
 #. odoo-python
@@ -2106,6 +2096,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Dates"
 msgstr "Datum"
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Decline"
+msgstr ""
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -2347,7 +2342,7 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.portal_my_home_appointment
 msgid "Follow, reschedule or cancel your appointments"
-msgstr "Följ, omboka eller avboka dina möten"
+msgstr "Följ, boka om eller ställ in bokningar"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_follower_ids
@@ -2357,7 +2352,7 @@ msgstr "Följare"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (kontakter)"
+msgstr "Följare (Partners)"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__activity_type_icon
@@ -2480,13 +2475,14 @@ msgstr ""
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerad finns nya meddelanden som kräver din uppmärksamhet."
+msgstr ""
+"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_has_error
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerad har några meddelanden har leveransfel."
+msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
@@ -2858,7 +2854,7 @@ msgstr "Möten"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_ids
@@ -2883,7 +2879,7 @@ msgstr "Mina aktiviteters deadline"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_search
 msgid "My Appointments"
-msgstr "Mina möten"
+msgstr "Mina tidsbokningar"
 
 #. module: appointment
 #. odoo-javascript
@@ -2917,12 +2913,12 @@ msgstr "Behöver du boka om?"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_calendar_alarm__default_for_new_appointment_type
 msgid "New Appointments Default"
-msgstr "Nya möten Standard"
+msgstr "Nya bokningar Standard"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "Nästa kalenderhändelse"
+msgstr "Nästa aktivitetshändelse i kalendern"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_date_deadline
@@ -3017,7 +3013,7 @@ msgstr "Antal fel"
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Antal meddelanden som kräver åtgärd"
+msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_has_error_counter
@@ -3174,7 +3170,7 @@ msgstr "Möjliga användare"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Preview"
-msgstr "Förhandsgranska"
+msgstr "Förhandsvisning"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_answer__question_id
@@ -3210,7 +3206,7 @@ msgstr "Radio (ett svar)"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__rating_ids
 msgid "Ratings"
-msgstr "Betyg"
+msgstr "Omdömen"
 
 #. module: appointment
 #. odoo-javascript
@@ -3250,7 +3246,7 @@ msgstr "Rapportering"
 #: model:ir.model.fields.selection,name:appointment.selection__calendar_event__appointment_status__request
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form
 msgid "Request"
-msgstr "Begäran"
+msgstr "Förfrågan"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_search_booking
@@ -3356,7 +3352,7 @@ msgstr "Recension Bokning"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS leveransfel"
+msgstr "Leveransfel för SMS"
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_slot__weekday__6
@@ -3443,7 +3439,7 @@ msgstr "Sök i Ansvarig"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
 msgid "Select Appointments to share..."
-msgstr "Välj Möten att dela..."
+msgstr "Välj bokningar att dela..."
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
@@ -3484,7 +3480,7 @@ msgstr "Valt svar"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__appointment_type_count
 msgid "Selected Appointments Count"
-msgstr "Valda utnämningar Antal"
+msgstr "Markerade bokningar Antal"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_answer_input_view_search
@@ -4108,7 +4104,7 @@ msgstr "Kommande"
 #: model:ir.model.fields,field_description:appointment.field_res_partner__upcoming_appointment_ids
 #: model:ir.model.fields,field_description:appointment.field_res_users__upcoming_appointment_ids
 msgid "Upcoming Appointments"
-msgstr "Kommande möten"
+msgstr "Kommande tidsbokningar"
 
 #. module: appointment
 #. odoo-javascript
@@ -4126,8 +4122,8 @@ msgstr "Använd som standard för nya avtalstyper"
 #: model_terms:ir.actions.act_window,help:appointment.calendar_event_action_report_all
 msgid "Use this menu to overview your Appointments once you get some bookings."
 msgstr ""
-"Använd den här menyn för att få en översikt över dina möten när du har fått "
-"några bokningar."
+"Använd den här menyn för att få en översikt över dina bokningar när de har "
+"blivit bekräftade."
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__category
@@ -4200,7 +4196,7 @@ msgstr "Vi återkommer till dig för att bekräfta det."
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__website_message_ids
 msgid "Website Messages"
-msgstr "Webbplatsmeddelanden"
+msgstr "Hemsidesmeddelanden"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__website_message_ids
@@ -4292,7 +4288,7 @@ msgstr "Ditt val"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_form
 msgid "appointments"
-msgstr "bokningar"
+msgstr "tidsbokningar"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_info
@@ -4345,7 +4341,7 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "e.g. Inventory count and valuation"
-msgstr "t.ex. inventering och värdering av lager"
+msgstr "t.ex. inventering och lagervärdering"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_form

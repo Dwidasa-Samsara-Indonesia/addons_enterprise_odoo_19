@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
 "PO-Revision-Date: 2026-01-07 07:25+0000\n"
 "Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -1767,15 +1767,15 @@ msgid "Country"
 msgstr "国家/地区"
 
 #. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
+msgstr ""
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
 msgid "Country Clubs"
 msgstr "乡村俱乐部"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr "国家/地区不允许"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
@@ -2792,7 +2792,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -3153,14 +3153,24 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
 msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
 msgstr ""
 
 #. module: hr_expense_stripe
@@ -3832,6 +3842,14 @@ msgstr "Stripe 发卡服务配置无效，请在配置项中将其设置为 “�
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/models/account_journal.py:0
 msgid "Stripe Issuing is not available in your country."
 msgstr "您所在的国家 / 地区暂不支持 Stripe 发卡服务"
@@ -4170,6 +4188,13 @@ msgstr "该类型卡片的创建频率限制已达上限，请稍后重试。"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr "配送地址必须位于欧盟境内。"
 
@@ -4397,22 +4422,22 @@ msgstr "交易已受理"
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/utils.py:0
-msgid ""
-"Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
 msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr "交易金额超出周期限额"
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr "交易金额超出最高允许限额"
+#: code:addons/hr_expense_stripe/utils.py:0
+msgid ""
+"Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4975,6 +5000,15 @@ msgstr "id"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "条款与条件"
+
+#~ msgid "Country not allowed"
+#~ msgstr "国家/地区不允许"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr "交易金额超出周期限额"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "交易金额超出最高允许限额"
 
 #~ msgid "Stripe issuing is not supported for your localization"
 #~ msgstr "您的本地化环境暂不支持 Stripe 发卡服务"

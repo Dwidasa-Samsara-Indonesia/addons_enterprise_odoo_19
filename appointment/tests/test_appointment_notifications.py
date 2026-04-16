@@ -170,6 +170,7 @@ class AppointmentTestTracking(AppointmentCommon, MailCase):
         organizer_mail = self.assertMailMail(
             self.staff_user_bxls.partner_id, 'sent',
             author=self.staff_user_bxls.partner_id,
+            content='Test Online Meeting scheduled the following appointment',
             email_values={
                 'subject': 'Invitation to Test Online Meeting - Bxls Appt Type Booking',
                 'email_from': self.staff_user_bxls.email_formatted,

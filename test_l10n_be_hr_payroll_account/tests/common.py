@@ -308,8 +308,7 @@ class TestPayrollAccountCommon(odoo.tests.HttpCase):
             'mobile': 30,
             'eco_checks': 250,
             'has_laptop': True,
-            'car_id': False,
-            'rd_percentage': 75,
+            'car_id': False
         })
 
         cls.senior_dev_contract = cls.env['hr.version'].with_company(cls.company_id).create({

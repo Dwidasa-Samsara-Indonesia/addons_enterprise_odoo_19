@@ -528,11 +528,12 @@ class L10n_AuSuperStreamLine(models.Model):
         ]
 
     def _get_employee_mandatory_fields(self):
+        message = ""
         for rec in self:
             employee_fields = ["private_city", "private_zip", "private_state_id", "private_country_id", "private_email",
                 "private_phone", "birthday", "sex"]
             # Payslip Employee
-            message = self.env['l10n_au.super.stream']._get_error_message(employee_fields, rec.employee_id, f"Employee ({rec.employee_id.display_name})")
+            message += self.env['l10n_au.super.stream']._get_error_message(employee_fields, rec.employee_id, f"Employee ({rec.employee_id.display_name})")
             if len(rec.employee_id.name.split(' ')) <= 1:
                 message += _("Please provide First and Last Name for the Employee %s.\n", rec.employee_id.name)
 

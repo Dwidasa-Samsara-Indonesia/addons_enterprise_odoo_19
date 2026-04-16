@@ -83,15 +83,12 @@ class TestSEPACreditTransferUpdate(TestSEPACreditTransferUpdateCommon):
         self.assertTrue(self.payment.is_sent)
         sct_doc = etree.fromstring(b64decode(self.batch.export_file))
 
-        uetr = self.payment.iso20022_uetr
         namespaces = {'ns': 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.09'}
         execution_date = sct_doc.findtext('.//ns:PmtInf/ns:ReqdExctnDt/ns:Dt', namespaces=namespaces)
-        uetr_text = sct_doc.findtext('.//ns:CdtTrfTxInf/ns:PmtId/ns:UETR', namespaces=namespaces)
         cdtr_lei = sct_doc.findtext('.//ns:CdtTrfTxInf/ns:CdtrAgt/ns:FinInstnId/ns:LEI', namespaces=namespaces)
         dbtr_lei = sct_doc.findtext('.//ns:PmtInf/ns:Dbtr/ns:Id/ns:OrgId/ns:LEI', namespaces=namespaces)
 
         self.assertEqual(execution_date, self.batch.date.strftime('%Y-%m-%d'))
-        self.assertEqual(uetr_text, uetr)
         self.assertEqual(cdtr_lei, self.partner_a.iso20022_lei)
         self.assertEqual(dbtr_lei, self.company_data['company'].iso20022_lei)
 

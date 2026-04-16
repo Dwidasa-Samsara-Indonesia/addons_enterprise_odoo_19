@@ -19,7 +19,7 @@ class IrActionsReport(models.Model):
         # we override the `get_paperformat` function to set the paperformat to use.
         if self.env.context.get('page_format') == 'audit_report':
             return self.env['report.paperformat'].new({
-                'name': 'A4 - Audit Report',
+                'name': 'A4',
                 'format': 'A4',
                 'orientation': 'Portrait',
                 'margin_top': 12,

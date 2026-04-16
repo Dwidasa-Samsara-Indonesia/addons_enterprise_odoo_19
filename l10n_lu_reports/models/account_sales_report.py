@@ -36,7 +36,7 @@ class L10n_LuEcSalesReportHandler(models.AbstractModel):
 
         # Buttons
         options.setdefault('buttons', []).append(
-            {'name': _('XML'), 'sequence': 30, 'action': 'open_report_export_wizard'}
+            {'name': _('XML'), 'sequence': 30, 'action': 'open_report_export_wizard', 'branch_allowed': True}
         )
 
     def get_file_name(self, options):

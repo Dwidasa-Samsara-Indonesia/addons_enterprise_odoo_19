@@ -49,6 +49,8 @@ export class KnowledgeHtmlField extends HtmlField {
                 ...(config.resources.embedded_components || []),
                 ...KNOWLEDGE_EMBEDDINGS,
             ];
+            // Replace the file plugin with the embedded file plugin
+            config.Plugins = config.Plugins.filter((P) => P.id !== "file");
             config.Plugins.push(...KNOWLEDGE_EMBEDDED_COMPONENT_PLUGINS);
         }
         config.resources.hints = [

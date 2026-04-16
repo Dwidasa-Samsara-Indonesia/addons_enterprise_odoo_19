@@ -394,9 +394,8 @@ ORDER BY
     def _get_file_txt(self, options, data):
         txt_result = ""
         if data:
-            csv.register_dialect("pipe_separator", delimiter="|", skipinitialspace=True)
             output = StringIO()
-            writer = csv.DictWriter(output, dialect="pipe_separator", fieldnames=data[0].keys())
+            writer = csv.DictWriter(output, delimiter="|", skipinitialspace=True, fieldnames=data[0].keys())
             writer.writerows(data)
             txt_result = output.getvalue()
 

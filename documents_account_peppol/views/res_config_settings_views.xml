@@ -16,6 +16,8 @@
                         <field
                             name="documents_account_peppol_folder_id"
                             required="peppol_reception_mode == 'documents' and peppol_participation_role == 'sending_and_receiving'"
+                            widget="documents_folder_many2one"
+                            options="{'no_create': True, 'no_create_edit': True}"
                             />
                     </div>
                     <div class="row">

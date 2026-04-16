@@ -89,7 +89,7 @@ class TestPayslipValidation(TestPayslipValidationCommon):
 
     def test_payslip_1(self):
         payslip = self._generate_payslip(date(2024, 1, 1), date(2024, 1, 31))
-        payslip_results = {'BASIC': 40000.0, 'HOUALLOW': 400.0, 'TRAALLOW': 220.0, 'OTALLOW': 100.0, 'EOSP': 3333.33, 'ALP': 3393.33, 'GROSS': 40720.0, 'SICC': 5090.0, 'SIEC': -2036.0, 'DEWS': -3332.0, 'NET': 35352.0}
+        payslip_results = {'BASIC': 40000.0, 'HOUALLOW': 400.0, 'TRAALLOW': 220.0, 'OTALLOW': 100.0, 'EOSP': 3333.33, 'ALP': 3393.33, 'GROSS': 40720.0, 'SICC': 5090.0, 'SIEC': -2036.0, 'DEWS': -3332.0, 'NET': 35352.0, 'NETCOST': 45810.0}
         self._validate_payslip(payslip, payslip_results)
 
     def test_payslip_2(self):
@@ -108,7 +108,7 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             self._add_other_input(payslip, other_input, amount)
         payslip.compute_sheet()
 
-        payslip_results = {'BASIC': 40000.0, 'HOUALLOW': 400.0, 'TRAALLOW': 220.0, 'OTALLOW': 100.0, 'SALARY_ARREARS': 1000.0, 'OTHER_EARNINGS': 2000.0, 'SALARY_DEDUCTIONS': -500.0, 'OTHER_DEDUCTIONS': -200.0, 'OVERTIMEALLOWINP': 300.0, 'BONUS': 400.0, 'OTALLOWINP': 600.0, 'AIRFARE_ALLOWANCE': 700.0, 'EOSP': 3333.33, 'ALP': 3393.33, 'GROSS': 45720.0, 'SICC': 5090.0, 'SIEC': -2036.0, 'DEWS': -3332.0, 'NET': 39652.0}
+        payslip_results = {'BASIC': 40000.0, 'HOUALLOW': 400.0, 'TRAALLOW': 220.0, 'OTALLOW': 100.0, 'SALARY_ARREARS': 1000.0, 'OTHER_EARNINGS': 2000.0, 'SALARY_DEDUCTIONS': -500.0, 'OTHER_DEDUCTIONS': -200.0, 'OVERTIMEALLOWINP': 300.0, 'BONUS': 400.0, 'OTALLOWINP': 600.0, 'AIRFARE_ALLOWANCE': 700.0, 'EOSP': 3333.33, 'ALP': 3393.33, 'GROSS': 45720.0, 'SICC': 5090.0, 'SIEC': -2036.0, 'DEWS': -3332.0, 'NET': 39652.0, 'NETCOST': 50110.0}
         self._validate_payslip(payslip, payslip_results)
 
     def test_instant_pay_payslip_generation(self):
@@ -367,6 +367,7 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             'AESPAID50': 528.24,
             'GROSS': 5458.63,
             'NET': 5458.63,
+            'NETCOST': 5458.63,
         }
         self._validate_payslip(payslip, payslip_results)
 
@@ -392,7 +393,7 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             {'name': 'Paid Time Off', 'code': 'LEAVE120', 'number_of_hours': 24, 'number_of_days': 3},
             {'name': 'Sick Leave 50', 'code': 'AESICKLEAVE50', 'number_of_hours': 24, 'number_of_days': 3},
             {'name': 'Out of Contract', 'code': 'OUT', 'number_of_hours': 32, 'number_of_days': 4},
-            {'name': 'Attendance', 'code': 'WORK100', 'number_of_hours': 88, 'number_of_days': 11},
+            {'name': 'Attendance', 'code': 'WORK100', 'number_of_hours': 72, 'number_of_days': 9},
         ]
 
         payslip = self._generate_payslip('2025-06-01', '2025-06-30')
@@ -401,12 +402,55 @@ class TestPayslipValidation(TestPayslipValidationCommon):
         })
         payslip.compute_sheet()
         payslip_results = {
-            'BASIC': 2391.30,
-            'EOSP': 188.73,
-            'ALP': 436.76,
+            'BASIC': 2142.86,
+            'EOSP': 175.0,
+            'ALP': 405.0,
             'AEPAID': 1056.48,
             'AESPAID50': 528.24,
-            'GROSS': 3976.02,
-            'NET': 3976.02,
+            'GROSS': 3727.58,
+            'NET': 3727.58,
+            'NETCOST': 3727.58,
         }
+        self._validate_payslip(payslip, payslip_results)
+
+    def test_payslip_attendance_3(self):
+        if self.env['ir.module.module']._get('hr_payroll_attendance').state != 'installed':
+            self.skipTest("Skipping test because hr_payroll_attendance is not installed.")
+
+        self.employee.country_id = False
+        self.contract.write({
+            'contract_date_start': '2025-01-01',
+            'work_entry_source': 'attendance',
+            'wage': 10000,
+            'wage_type': 'monthly',
+            'l10n_ae_housing_allowance': 2000,
+            'l10n_ae_transportation_allowance': 1000,
+            'l10n_ae_other_allowances': 100,
+            'l10n_ae_is_dews_applied': False,
+        })
+
+        worked_days_vals = [
+            {'name': 'Attendance', 'code': 'WORK100', 'number_of_hours': 80, 'number_of_days': 20},
+        ]
+
+        payslip = self._generate_payslip('2025-11-01', '2025-11-30')
+        payslip.write({
+            "worked_days_line_ids": [self._create_worked_days(**vals) for vals in worked_days_vals],
+        })
+        payslip.compute_sheet()
+
+        payslip_results = {
+            'BASIC': 5000.0,
+            'HOUALLOW': 1000.0,
+            'TRAALLOW': 500.0,
+            'OTALLOW': 50.0,
+            'EOSP': 583.33,
+            'ALP': 1091.67,
+            'AEPAID': 0.0,
+            'AESPAID50': 0.0,
+            'GROSS': 6550.0,
+            'NET': 6550.0,
+            'NETCOST': 6550.0,
+        }
+
         self._validate_payslip(payslip, payslip_results)

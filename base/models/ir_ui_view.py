@@ -322,6 +322,7 @@ actual arch.
     @api.depends('arch', 'inherit_id')
     def _compute_invalid_locators(self):
         def assess_locator(source, spec):
+            node = None
             with suppress(ValidationError):  # Syntax error
                 # If locate_node returns None here:
                 # Invalid expression: Ok Syntax, but cannot be anchored to the parent view.
@@ -538,7 +539,7 @@ actual arch.
             if (view.group_ids and
                 view.inherit_id and
                 view.mode != 'primary'):
-                raise ValidationError(_("Inherited view cannot have 'Groups' define on the record. Use 'groups' attributes inside the view definition"))
+                raise ValidationError(_("Inherited view cannot have '%(attr)s' defined on the record. Use '%(attr)s' attributes inside the view definition", attr='groups'))
 
     @api.constrains('inherit_id')
     def _check_000_inheritance(self):

@@ -77,9 +77,9 @@ class HrContractSalaryOffer(models.Model):
         compute="_compute_offer_values_from_template")
     department_id = fields.Many2one('hr.department', tracking=True, store=True, readonly=False,
         compute="_compute_offer_values_from_template")
-    contract_start_date = fields.Date(tracking=True,
-                                      default=fields.Date.context_today)
-    contract_end_date = fields.Date(tracking=True)
+    contract_start_date = fields.Date(tracking=True, default=fields.Date.context_today,
+        help="For employees, The contract start date determines whether this offer creates a new contract or amends an existing one. If the selected start date falls within the period of an existing contract for the employee, it will be treated as an amendment rather than a new contract.")
+    contract_end_date = fields.Date(tracking=True, store=True, compute="_compute_contract_end_date", readonly=False)
     access_token = fields.Char('Access Token', copy=False, tracking=True, store=True, compute="_compute_token")
     validity_days_count = fields.Integer("Validity Days Count",
                               compute="_compute_validity_days_count",
@@ -92,6 +92,19 @@ class HrContractSalaryOffer(models.Model):
         compute_sudo=True,
         export_string_translation=False
     )
+    contract_type_id = fields.Many2one(related='employee_job_id.contract_type_id', string='Contract Type', readonly=True, store=False)
+    has_sign_template = fields.Boolean(compute="_compute_has_sign_template")
+    is_contract_amendment = fields.Boolean(compute="_compute_is_contract_amendment")
+    future_version_date = fields.Date(compute='_compute_future_version_date')
+
+    @api.constrains('contract_start_date', 'contract_end_date')
+    def _check_dates_validity(self):
+        """Validates that a contract start date exists and is not after the contract end date."""
+        for offer in self:
+            if not offer.contract_start_date:
+                raise ValidationError(self.env._("A contract start date is required."))
+            if offer.contract_end_date and offer.contract_start_date > offer.contract_end_date:
+                raise ValidationError(self.env._("The contract start date cannot be after the contract end date."))
 
     @requires_hr_version_context()
     def _get_version(self):
@@ -128,14 +141,26 @@ class HrContractSalaryOffer(models.Model):
             )
         return employee.current_version_id
 
+    @api.depends('contract_template_id')
+    def _compute_has_sign_template(self):
+        for offer in self:
+            if offer.employee_id:
+                offer.has_sign_template = offer.contract_template_id.contract_update_template_id
+            else:
+                offer.has_sign_template = offer.contract_template_id.sign_template_id
+
     @api.depends('contract_template_id.sign_template_id', 'contract_template_id.contract_update_template_id')
     def _compute_sign_template_id(self):
         for offer in self:
             if offer.contract_template_id:
                 if offer.employee_id and offer.employee_id.active:
-                    offer.sign_template_id = offer.contract_template_id.contract_update_template_id
+                    sign_template = offer.contract_template_id.contract_update_template_id
                 else:
-                    offer.sign_template_id = offer.contract_template_id.sign_template_id
+                    sign_template = offer.contract_template_id.sign_template_id
+
+                # Update only if a template exists; otherwise, keep the current value
+                if sign_template:
+                    offer.sign_template_id = sign_template
 
     def _copy_contract_template_signatories(self):
         self.ensure_one()
@@ -148,10 +173,10 @@ class HrContractSalaryOffer(models.Model):
         contract_template_signatories_copy.update_contract_template_id = False
         return [(5, 0, 0)] + [(6, 0, contract_template_signatories_copy.ids)]
 
-    @api.depends('sign_template_id', 'contract_template_id')
+    @api.depends('sign_template_id', 'contract_template_id', 'has_sign_template')
     def _compute_sign_template_signatories_ids(self):
         for offer in self:
-            if offer.contract_template_id:
+            if offer.contract_template_id and offer.has_sign_template:
                 offer.sign_template_signatories_ids = offer._copy_contract_template_signatories()
             else:
                 offer.sign_template_signatories_ids = self.env['hr.contract.signatory'].create_empty_signatories(offer.sign_template_id)
@@ -208,27 +233,12 @@ class HrContractSalaryOffer(models.Model):
             else:
                 offer.company_id = self.env.company.id
 
-    @api.depends('employee_id')
+    @api.depends('employee_id', 'contract_start_date')
     def _compute_employee_version_id(self):
         for offer in self:
             if offer.employee_id:
-                versions = offer.employee_id.version_ids.sorted("create_date")
-
-                if len(versions) == 1:
-                    offer.employee_version_id = versions[0]
-                    continue
-
-                # Filter active versions based on offer's creation date
-                active_versions = versions.filtered(
-                    lambda c: c.date_start <= offer.offer_create_date and
-                    (not c.date_end or c.date_end >= offer.offer_create_date)
-                )
-
-                if active_versions:
-                    offer.employee_version_id = active_versions[0]
-                else:
-                    # No active or running version, so pick the first created version
-                    offer.employee_version_id = versions[0]
+                contract_start_date = offer.contract_start_date or fields.Date.today().replace(day=1)
+                offer.employee_version_id = offer.employee_id._get_version(contract_start_date)
 
     @api.depends('employee_version_id')
     def _compute_contract_template_id(self):
@@ -247,6 +257,37 @@ class HrContractSalaryOffer(models.Model):
                 offer.company_id = offer.contract_template_id.company_id
             else:
                 offer.company_id = offer.env.company.id
+
+    @api.depends('employee_version_id.contract_date_start', 'employee_version_id.contract_date_end', 'contract_start_date')
+    def _compute_is_contract_amendment(self):
+        for offer in self:
+            contract_start_date = offer.contract_start_date or fields.Date.today().replace(day=1)
+            offer.is_contract_amendment = (
+                offer.employee_version_id
+                and offer.employee_version_id.contract_date_start
+                and offer.employee_version_id.contract_date_start <= contract_start_date
+                and (
+                    not offer.employee_version_id.contract_date_end
+                    or offer.employee_version_id.contract_date_end >= contract_start_date
+                )
+            )
+
+    @api.depends('employee_id.version_ids.date_start', 'contract_start_date', 'state')
+    def _compute_future_version_date(self):
+        for offer in self:
+            if offer.employee_id and offer.state in ['open', 'half_signed']:
+                contract_start_date = offer.contract_start_date or fields.Date.today().replace(day=1)
+                offer.future_version_date = offer.employee_id.version_ids.filtered(
+                    lambda v: v.date_start >= contract_start_date
+                ).sorted("date_start")[:1].date_start
+            else:
+                offer.future_version_date = False
+
+    @api.depends('is_contract_amendment', 'employee_version_id.contract_date_end')
+    def _compute_contract_end_date(self):
+        for offer in self:
+            if offer.is_contract_amendment:
+                offer.contract_end_date = offer.employee_version_id.contract_date_end
 
     def _inverse_employee_version_id(self):
         for offer in self:
@@ -268,7 +309,7 @@ class HrContractSalaryOffer(models.Model):
         }
 
     def action_refuse_offer(self, message=None, refusal_reason=None):
-        self.applicant_id.unlink_archived_versions()
+        self.unlink_archived_version_offer()
         if not message:
             message = _("%s manually set the Offer to Refused", self.env.user.name)
         self.write({
@@ -291,7 +332,16 @@ class HrContractSalaryOffer(models.Model):
         }
 
     def unlink(self):
-        self.applicant_id.unlink_archived_versions()
+        self.unlink_archived_version_offer()
+        # Delete the employee if it is archived and the number of offers of an
+        # applicant to delete is equal to the number of offers linked to that applicant
+        offers_with_archived_employee = self.filtered(lambda o: not o.applicant_id.employee_id.active)
+        offers_by_applicant = offers_with_archived_employee.grouped('applicant_id')
+        employee_to_unlink = self.env['hr.employee']
+        for applicant, offers in offers_by_applicant.items():
+            if len(offers) == applicant.salary_offers_count:
+                employee_to_unlink |= applicant.employee_id
+        employee_to_unlink.unlink()
         return super().unlink()
 
     def _cron_update_state(self):
@@ -394,3 +444,34 @@ class HrContractSalaryOffer(models.Model):
                 raise ValidationError(
                     self.env._("An offer must be linked to either an applicant or an employee.")
                 )
+
+    def unlink_archived_version_offer(self):
+        archived_versions = self.env['hr.version'].search([
+            ('originated_offer_id', 'in', self.ids),
+            ('active', '=', False)
+        ])
+        if archived_versions:
+            archived_versions.sign_request_ids.write({'state': 'canceled', 'active': False})
+            archived_versions.unlink()
+
+    def _archive_future_versions(self, version=None):
+        """
+        Archive all versions that come after the provided version.
+        If no version is provided, fallback to archiving from the contract_start_date.
+        """
+        self.ensure_one()
+        if not self.employee_id:
+            return
+
+        # To ensure at least one version remains active
+        version_to_keep = version or self.employee_version_id
+        if version:
+            cutoff_date = version.date_version
+        else:
+            cutoff_date = self.contract_start_date or fields.Date.today().replace(day=1)
+        future_versions = self.employee_id.version_ids.filtered(
+            lambda v: v != version_to_keep and v.date_version >= cutoff_date
+        )
+        if future_versions:
+            future_versions.write({'active': False})
+            future_versions.flush_recordset(['active'])

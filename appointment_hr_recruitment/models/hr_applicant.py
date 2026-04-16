@@ -28,6 +28,10 @@ class Applicant(models.Model):
         if not request:
             return ''
 
+        # Skip during installation to avoid registry mismatch between request.env and the new registry
+        if self.env.context.get('install_mode'):
+            return ''
+
         return AppointmentCalendarView._appointment_type_search_create_anytime(
             context={**self.env.context, 'applicant_code': self.interview_invite_code},
             user=self.user_id,

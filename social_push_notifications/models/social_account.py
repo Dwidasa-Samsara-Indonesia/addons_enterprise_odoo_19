@@ -83,10 +83,15 @@ class SocialAccount(models.Model):
                     json={
                         'message': {
                             'token': token,
-                            'notification': {
-                                'title': data['title'],
-                                'body': data['body'],
-                                'image': data['icon']
+                            'webpush': {
+                                'notification': {
+                                    'title': data['title'],
+                                    'body': data['body'],
+                                    'icon': data['icon'],
+                                },
+                                'fcm_options': {
+                                    'link': data['target_url'],
+                                },
                             },
                             'data': {
                                 'target_url': data['target_url']

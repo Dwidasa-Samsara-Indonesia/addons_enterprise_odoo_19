@@ -121,7 +121,7 @@ class DocumentsSharing(models.TransientModel):
         for record in self:
             record.has_warning_link_with_more_rights = (
                     not record.invite_partner_ids and record.access_via_link.endswith('edit') and (
-                    record.access_internal.endswith('view') or any(a.role.endswith('view') for a in record.share_access_ids)))
+                    record.access_internal.endswith('view') or any(a.role.endswith('view') and not a.is_deleted for a in record.share_access_ids)))
 
     @api.depends('access_via_link', 'invite_partner_ids', 'share_access_ids.partner_id.user_ids')
     def _compute_has_warning_partners_without_access(self):

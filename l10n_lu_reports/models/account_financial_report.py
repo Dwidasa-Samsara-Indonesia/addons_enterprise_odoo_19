@@ -4,6 +4,7 @@
 import re
 from odoo import fields, models, _
 from odoo.tools.float_utils import float_compare, float_repr
+from odoo.tools.mail import html2plaintext
 from odoo.exceptions import UserError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -17,7 +18,7 @@ class L10n_LuReportHandler(models.AbstractModel):
     def _custom_options_initializer(self, report, options, previous_options):
         super()._custom_options_initializer(report, options, previous_options=previous_options)
         options.setdefault('buttons', []).append(
-            {'name': _('XML'), 'sequence': 30, 'action': 'open_report_export_wizard_accounts_report'}
+            {'name': _('XML'), 'sequence': 30, 'action': 'open_report_export_wizard_accounts_report', 'branch_allowed': True}
         )
 
     def get_report_filename(self, options):
@@ -174,24 +175,51 @@ class L10n_LuReportHandler(models.AbstractModel):
             This returns the annotations on all financial reports, linked to the corresponding report reference field.
             These will be used as references in the report.
             """
-            references = {}
-            names = {}
-            notes = self.env['account.report.manager'].search([
-                ('company_id', '=', self.env.company.id),
-                ('report_id', '=', report.id)
-            ]).annotations_ids
-            for note in notes:
-                # for annotations on accounts on financial reports, the line field will be:
-                # 'financial_report_group_xxx_yyy', with xxx the line id and yyy the account id
-                split = note.line.split('_')
-                if len(split) > 1 and split[-2].isnumeric() and split[-1].isnumeric():
-                    line = self.env['account.report.line'].search([('id', '=', split[-2])], limit=1)
-                    code = re.search(r'\d+', str(line.code))
-                    if code:
-                        # References in the eCDF report have codes equal to the report code of the referred account + 1000
-                        code = str(int(code.group()) + 1000)
-                        references[code] = {'value': note.text, 'field_type': 'char'}
-                        names[code] = self.env['account.account'].search([("id", "=", split[-1])]).mapped('code')[0]
+            annotations = self.env['account.report.annotation'].search([
+                ('message_id.model', '=', 'account.account'),
+            ])
+            if not annotations:
+                return {}, {}
+
+            annotations_by_account = {a.message_id.res_id: a for a in annotations if a.message_id.res_id}
+            annotated_account_ids = set(annotations_by_account)
+
+            # children without prefix grouping collapsing them
+            print_options = report.get_options({**options, 'unfold_all': True})
+            lines = report._get_lines(print_options)
+
+            # Build map: account_id -> parent account.report.line id
+            account_to_report_line_id = {}
+            for line in lines:
+                parsed = report._parse_line_id(line['id'])
+                report_line_id = account_id = None
+                for _markup, model, value in parsed:
+                    if model == 'account.report.line':
+                        report_line_id = value
+                    elif model == 'account.account' and value in annotated_account_ids:
+                        account_id = value
+                if report_line_id and account_id:
+                    account_to_report_line_id[account_id] = report_line_id
+
+            if not account_to_report_line_id:
+                return {}, {}
+
+            report_lines = {l.id: l for l in self.env['account.report.line'].browse(account_to_report_line_id.values())}
+            accounts = {a.id: a for a in self.env['account.account'].browse(account_to_report_line_id.keys())}
+
+            references, names = {}, {}
+            digit_pattern = re.compile(r'\d+')
+            for account_id, report_line_id in account_to_report_line_id.items():
+                annotation = annotations_by_account.get(account_id)
+                line = report_lines.get(report_line_id)
+                if not annotation or not line:
+                    continue
+                if match := digit_pattern.search(str(line.code)):
+                    # References in the eCDF report have codes equal to the report code of the referred account + 1000
+                    code = str(int(match.group()) + 1000)
+                    references[code] = {'value': html2plaintext(annotation.message_id.body), 'field_type': 'char'}
+                    if account := accounts.get(account_id):
+                        names[code] = account.code
             return references, names
 
         report = self.env['account.report'].browse(options['report_id'])

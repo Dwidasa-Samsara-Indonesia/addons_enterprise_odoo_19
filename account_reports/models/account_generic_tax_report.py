@@ -170,8 +170,9 @@ class AccountGenericTaxReportHandler(models.AbstractModel):
                 SELECT
                     account_tax.id,
                     account_tax.type_tax_use,
-                    ARRAY_AGG(child_tax.id) AS child_tax_ids,
-                    ARRAY_AGG(DISTINCT child_tax.type_tax_use) AS child_types
+                    ARRAY_AGG(child_tax.id ORDER BY child_tax.id) AS child_tax_ids,
+                    ARRAY_AGG(child_tax.type_tax_use ORDER BY child_tax.id) AS child_types,
+                    ARRAY_AGG(child_tax.tax_exigibility ORDER BY child_tax.id) as child_exigibility
                 FROM account_tax_filiation_rel account_tax_rel
                 JOIN account_tax ON account_tax.id = account_tax_rel.parent_tax
                 JOIN account_tax child_tax ON child_tax.id = account_tax_rel.child_tax
@@ -183,7 +184,7 @@ class AccountGenericTaxReportHandler(models.AbstractModel):
         group_of_taxes_info = {}
         child_to_group_of_taxes = {}
         for row in self.env.cr.dictfetchall():
-            row['to_expand'] = row['child_types'] != ['none']
+            row['to_expand'] = set(row['child_types']) != {'none'}
             group_of_taxes_info[row['id']] = row
             for child_id in row['child_tax_ids']:
                 child_to_group_of_taxes[child_id] = row['id']
@@ -286,8 +287,9 @@ class AccountGenericTaxReportHandler(models.AbstractModel):
                     if row['tax_id'] in group_of_taxes_info and group_of_taxes_info[row['tax_id']]['to_expand']:
                         # Expand the group of taxes since it contains at least one tax with a type != 'none'.
                         group_info = group_of_taxes_info[row['tax_id']]
-                        for child_tax_id in group_info['child_tax_ids']:
-                            results[group_info['type_tax_use']]['children'][child_tax_id]['base_amount'][column_group_key] += row['base_amount']
+                        for child_tax_id, child_exigibility in zip(group_info['child_tax_ids'], group_info['child_exigibility']):
+                            if child_exigibility != 'on_payment':
+                                results[group_info['type_tax_use']]['children'][child_tax_id]['base_amount'][column_group_key] += row['base_amount']
                     else:
                         results[row['tax_type_tax_use']]['children'][row['tax_id']]['base_amount'][column_group_key] += row['base_amount']
 

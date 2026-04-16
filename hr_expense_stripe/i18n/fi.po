@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:08+0000\n"
+"POT-Creation-Date: 2026-04-10 18:46+0000\n"
+"PO-Revision-Date: 2026-04-14 14:49+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense_stripe/fi/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1020,7 +1020,7 @@ msgstr "Ilmastointilaitteiden korjaus"
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_chart_template
 msgid "Account Chart Template"
-msgstr "Tilikarttamalli"
+msgstr "Tilikartan mallipohja"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -1115,7 +1115,7 @@ msgstr "Ambulanssipalvelut"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__amount
 msgid "Amount"
-msgstr "Arvo"
+msgstr "Määrä"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.amusement_parks_carnivals
@@ -1274,7 +1274,7 @@ msgstr "Syntymäpäivä"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_block_wizard_form
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Block"
-msgstr "Lohko"
+msgstr "Estä"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -1771,15 +1771,15 @@ msgid "Country"
 msgstr "Maa"
 
 #. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Country %(country_name)s not allowed"
+msgstr "Maa %(country_name)s ei ole sallittu"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
 msgid "Country Clubs"
 msgstr "Yksityiskerhot"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Country not allowed"
-msgstr "Maa ei sallittu"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.courier_services
@@ -1929,7 +1929,7 @@ msgstr "Suoramarkkinointi ja postimyynti"
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_combination_catalog_and_retail_merchant
 msgid "Direct Marketing Combination Catalog and Retail Merchant"
-msgstr "Suoramarkkinointi, yhdistelmäkuvasto ja vähittäiskauppias"
+msgstr "Suoramarkkinointi, yhdistelmäkatalogi ja vähittäiskauppias"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.direct_marketing_inbound_telemarketing
@@ -2605,7 +2605,7 @@ msgstr ""
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__state__inactive
 msgid "Inactive"
-msgstr "Passiivinen"
+msgstr "Epäaktiivinen"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -2808,8 +2808,8 @@ msgstr "MCC"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC not allowed"
-msgstr "MCC ei sallittu"
+msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
@@ -3178,16 +3178,30 @@ msgstr "Toimisto- ja liiketilakalusteet"
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only IBAN is supported for Stripe Issuing funding instructions right now"
+"Only BACS is supported for Stripe Issuing funding instructions in the UK "
+"right now"
 msgstr ""
-"Tällä hetkellä Stripe Issuing -rahoitusohjeet tukevat vain IBAN-numeroita"
+"Tällä hetkellä Iso-Britanniassa tuetaan vain BACS-järjestelmää Stripe "
+"Issuing -rahoitusohjeille"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid ""
-"Only SEPA is supported for Stripe Issuing funding instructions right now"
-msgstr "Tällä hetkellä Stripe Issuing -rahoitusohjeet tukevat vain SEPA-maksuja"
+"Only IBAN or BACS are supported for Stripe Issuing funding instructions "
+"right now"
+msgstr ""
+"Tällä hetkellä vain IBAN tai BACS ovat tuettuja Stripe Issuing "
+"-rahoitusohjeissa"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Only SEPA is supported for Stripe Issuing funding instructions in the EU "
+"right now"
+msgstr ""
+"Tällä hetkellä vain SEPA on tuettu EU:ssa Stripe Issuing -rahoitusohjeille"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3195,7 +3209,8 @@ msgstr "Tällä hetkellä Stripe Issuing -rahoitusohjeet tukevat vain SEPA-maksu
 msgid ""
 "Only administrators can change the code or the stripe technical name of a "
 "MCC."
-msgstr "Vain ylläpitäjät voivat muuttaa MCC:n koodia tai teknisen stripe-nimen."
+msgstr ""
+"Vain ylläpitäjät voivat muuttaa MCC:n koodia tai teknisen stripe-nimen."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3512,7 +3527,8 @@ msgstr "Päivitä"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,help:hr_expense_stripe.field_hr_expense_stripe_card__user_id
 msgid "Related user name for the resource to manage its access."
-msgstr "Resurssiin liittyvä käyttäjänimi sen käyttöoikeuksien hallinnoimiseksi."
+msgstr ""
+"Resurssiin liittyvä käyttäjänimi sen käyttöoikeuksien hallinnoimiseksi."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.religious_goods_stores
@@ -3860,6 +3876,15 @@ msgid ""
 msgstr ""
 "Stripe Issuing -määritys on virheellinen, laita se asetuksissa tilaan 'live' "
 "tai 'test'."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
+msgid ""
+"Stripe Issuing funding instructions with USD currency aren't supported right "
+"now"
+msgstr ""
+"USD-valuutta ei ole tällä hetkellä tuettu Stripe Issuing -rahoitusohjeissa"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4211,6 +4236,15 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid ""
+"The delivery address must be in the European Union or in the United Kingdom."
+msgstr ""
+"Toimitusosoitteen on oltava Euroopan unionin alueella tai Yhdistyneessä "
+"kuningaskunnassa."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "The delivery address must be in the European Union."
 msgstr "Toimitusosoitteen on oltava Euroopan unionin alueella."
 
@@ -4397,8 +4431,8 @@ msgid ""
 "Top-up request failed with the following error sent by Stripe:\n"
 "%(stripe_error)s"
 msgstr ""
-"Saldon lisäyspyyntö epäonnistui seuraavan Stripen lähettämän virheen vuoksi:"
-"\n"
+"Saldon lisäyspyyntö epäonnistui seuraavan Stripen lähettämän virheen "
+"vuoksi:\n"
 "%(stripe_error)s"
 
 #. module: hr_expense_stripe
@@ -4454,24 +4488,24 @@ msgstr "Tapahtuma hyväksytty"
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
+msgstr "Tapahtuman summa (%(amount)s) ylittää sallitun enimmäismäärän"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
+msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
+msgstr "Tapahtuman summa (%(total_spent)s) ylittää aikavälin rajan"
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
 msgstr ""
 "Tapahtuman summa ylitti kortin päivittäisen/tapahtumakohtaisen 50 000 € "
 "enimmäisrajan"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the interval limit"
-msgstr "Tapahtuman summa ylittää intervallirajan"
-
-#. module: hr_expense_stripe
-#. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "Transaction amount exceeds the maximum allowed"
-msgstr "Tapahtuman summa ylittää sallitun enimmäismäärän"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -5047,6 +5081,31 @@ msgstr "tunniste"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "käyttöehdot"
+
+#~ msgid "MCC %(mcc_name)s not allowed"
+#~ msgstr "MCC %(mcc_name)s ei ole sallittu"
+
+#~ msgid "Country not allowed"
+#~ msgstr "Maa ei sallittu"
+
+#~ msgid "MCC not allowed"
+#~ msgstr "MCC ei sallittu"
+
+#~ msgid ""
+#~ "Only IBAN is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Tällä hetkellä Stripe Issuing -rahoitusohjeet tukevat vain IBAN-numeroita"
+
+#~ msgid ""
+#~ "Only SEPA is supported for Stripe Issuing funding instructions right now"
+#~ msgstr ""
+#~ "Tällä hetkellä Stripe Issuing -rahoitusohjeet tukevat vain SEPA-maksuja"
+
+#~ msgid "Transaction amount exceeds the interval limit"
+#~ msgstr "Tapahtuman summa ylittää intervallirajan"
+
+#~ msgid "Transaction amount exceeds the maximum allowed"
+#~ msgstr "Tapahtuman summa ylittää sallitun enimmäismäärän"
 
 #~ msgid ""
 #~ "<span class=\"card_cvc w-50 text-end stripe_card_text_sm\" "

@@ -91,7 +91,7 @@ class Loan(object):
             print(typ_e)
 
         else:
-            self.interest_rate = Decimal(str(interest_rate / 100)).quantize(Decimal(str(0.0001)))
+            self.interest_rate = Decimal(str(interest_rate / 100)).quantize(Decimal(str(0.000000000001)))
 
         '''
         Input validation for attribute loan_term

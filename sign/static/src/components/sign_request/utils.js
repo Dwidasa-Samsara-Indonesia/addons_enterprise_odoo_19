@@ -22,8 +22,8 @@ export function startHelperLines(target) {
         const positions = {
             top: (coords && coords.y) || rect.top,
             left: (coords && coords.x) || rect.left,
-            height: signItem.clientHeight,
-            width: signItem.clientWidth,
+            height: rect.height,
+            width: rect.width,
         };
         for (const line in helperLines) {
             const newPos = calculate[line](positions);
@@ -176,6 +176,7 @@ export function startSmoothScroll(container, element, dragImageElement = null, h
  */
 export function startResize(signItem, onResize) {
     const page = signItem.el.parentElement;
+    const viewerContainer = page.parentElement.parentElement;
     const mouse = {};
     const resizeHandleWidth = signItem.el.querySelector(".resize_width");
     const resizeHandleHeight = signItem.el.querySelector(".resize_height");
@@ -230,26 +231,29 @@ export function startResize(signItem, onResize) {
             onResize(signItem, computeDimensions(e), false);
         }
     };
-
     const debouncedOnMouseMove = debounce(handleMouseMove, "animationFrame", true);
+
+    const resizeEndingEvents = ["mouseup", "mouseleave", "blur", "contextmenu"];
+    const onResizingEnd = (e) => {
+        if (signItem.el.classList.contains("o_resizing")) {
+            onResize(signItem, computeDimensions(e), true);
+            signItem.el.classList.remove("o_resizing");
+            viewerContainer.removeEventListener("mousemove", debouncedOnMouseMove);
+            resizeEndingEvents.forEach(eventType => viewerContainer.removeEventListener(eventType, onResizingEnd));
+        }
+    }
+
     const handleMouseDown = (e, direction) => {
         e.preventDefault();
         signItem.el.classList.add("o_resizing");
         Object.assign(mouse, { x: e.clientX, y: e.clientY, direction });
-        page.addEventListener("mousemove", debouncedOnMouseMove);
+        viewerContainer.addEventListener("mousemove", debouncedOnMouseMove);
+        resizeEndingEvents.forEach(eventType => viewerContainer.addEventListener(eventType, onResizingEnd));
     };
 
     resizeHandleWidth.addEventListener("mousedown", (e) => handleMouseDown(e, "width"));
     resizeHandleHeight.addEventListener("mousedown", (e) => handleMouseDown(e, "height"));
     resizeHandleBoth.addEventListener("mousedown", (e) => handleMouseDown(e, "both"));
-
-    page.addEventListener("mouseup", (e) => {
-        if (signItem.el.classList.contains("o_resizing")) {
-            signItem.el.classList.remove("o_resizing");
-            page.removeEventListener("mousemove", debouncedOnMouseMove);
-            onResize(signItem, computeDimensions(e), true);
-        }
-    });
 }
 
 /**

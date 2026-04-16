@@ -62,26 +62,39 @@ class HrContractSalaryOffer(models.Model):
         self.ensure_one()
         version = super()._get_version()
         version_vals = {}
+        resource_calendar = version.resource_calendar_id or self.resource_calendar_id or self._get_default_resource_calendar_id()
         if self.is_simulation_offer:
+            resource_calendar = self.resource_calendar_id or version.resource_calendar_id or self._get_default_resource_calendar_id()
             if self.simulation_employee_id:
                 version = self.simulation_employee_id.version_id
             version_vals.update({
                 'structure_type_id': self.structure_id.type_id.id,
             })
         version_vals.update({
-            'resource_calendar_id': version.resource_calendar_id.id or self.resource_calendar_id.id or self._get_default_resource_calendar_id().id,
+            'resource_calendar_id': resource_calendar.id,
             version._get_contract_wage_field(): self.monthly_wage,
             'wage_with_holidays': self.monthly_wage,
         })
-        if not version.contract_date_start:
-            if self.employee_id and self.employee_id.current_version_id and self.employee_id.current_version_id.contract_date_start:
-                self.employee_id.current_version_id.write({
-                    'contract_date_end': version.date_version - relativedelta(days=1)
-                })
+        if self.is_simulation_offer:
+            work_time_rate = (resource_calendar.work_time_rate / 100)
+            new_wage = self.monthly_wage * work_time_rate
             version_vals.update({
-                'contract_date_start': version.date_version
+                'wage_on_signature': new_wage,
+                'wage': new_wage,
+                'wage_with_holidays': new_wage,
             })
-        version.write(version_vals)
+        if self.employee_id and self.employee_id.active:
+            self.with_context(tracking_disable=True)._archive_future_versions(version=self.employee_id.version_id)
+        self.employee_id.version_id.with_context(tracking_disable=True).write({
+            'contract_date_end': False
+        })
+        contract_date_start = self.employee_id.version_id.contract_date_start or fields.Date.today().replace(day=1)
+        version_vals.update({
+            'date_version': max(d for d in [fields.Date.today(), contract_date_start, self.contract_start_date] if d) + relativedelta(days=1),
+            'contract_date_start': contract_date_start,
+            'contract_date_end': False,
+        })
+        version.with_context(active_test=True).write(version_vals)
         version._inverse_wage_with_holidays()
         return version
 
