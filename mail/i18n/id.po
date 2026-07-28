@@ -10,16 +10,16 @@
 # Ryanto The <ry.the77@gmail.com>, 2022
 # Martin Trigaux, 2022
 # Abe Manyo, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Abe Manyo (abem)" <abem@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Nurul Aini Akrima Sabila (nuaas)" <nuaas@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-04-09 11:25+0000\n"
+"POT-Creation-Date: 2026-07-17 17:37+0000\n"
+"PO-Revision-Date: 2026-07-08 09:21+0000\n"
 "Last-Translator: \"Nurul Aini Akrima Sabila (nuaas)\" <nuaas@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/mail/"
 "id/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_ir_actions_server__followers_type
@@ -700,20 +700,20 @@ msgstr ""
 "                                        Pesan akan dikirim sebagai email ke "
 "penerima\n"
 "                                        templat dan tidak akan muncul di "
-"sejarah pesan.\n"
+"riwayat pesan.\n"
 "                                    </span>\n"
 "                                    <span invisible=\"mail_post_method != "
 "'note'\">\n"
 "                                        Pesan akan diposting sebagai catatan "
 "internal yang terlihat untuk user\n"
-"                                        internal di sejarah pesan.\n"
+"                                        internal di riwayat pesan.\n"
 "                                    </span>\n"
 "                                    <span invisible=\"mail_post_method != "
 "'comment'\">\n"
 "                                        Pesan akan dipost sebagai pesan di "
 "rekaman,\n"
 "                                        menotifikasi semua pengikut. Pesan "
-"akan muncul di sejarah pesan.\n"
+"akan muncul di riwayat pesan.\n"
 "                                    </span>"
 
 #. module: mail
@@ -1135,7 +1135,7 @@ msgstr "Tipe Aktivitas"
 #: model:ir.model.fields,field_description:mail.field_res_partner__activity_type_icon
 #: model:ir.model.fields,field_description:mail.field_res_users__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Ikon Jenis Aktifitas"
+msgstr "Ikon Jenis Aktivitas"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_type_view_kanban
@@ -1231,24 +1231,27 @@ msgid "Add Star"
 msgstr "Tambahkan Bintang"
 
 #. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/core/common/message_actions.js:0
-msgid "Add a Reaction"
-msgstr "Tambahkan Reaksi"
-
-#. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Add a Tenor GIF API key to enable GIFs support."
-msgstr "Tambahkan Tenor GIF API key untuk mengaktifkan bantuan GIF."
+msgid ""
+"Add a Klipy GIF API key to enable GIFs support. If you were using a Tenor "
+"GIF API key (service shutdown on June 30, 2026), please replace it here with "
+"a Klipy GIF API key"
+msgstr ""
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings__tenor_api_key
 msgid ""
-"Add a Tenor GIF API key to enable GIFs support. https://"
-"developers.google.com/tenor/guides/quickstart#setup"
+"Add a Klipy GIF API key to enable GIFs support. https://docs.klipy.com/"
+"getting-started\n"
+"If you were using a Tenor GIF API key (service shutdown on June 30, 2026), "
+"please replace it here with a Klipy GIF API key"
 msgstr ""
-"Tambahkan Tenor GIF API key untuk mengaktifkan bantuan GIF. https://"
-"developers.google.com/tenor/guides/quickstart#setup"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/message_actions.js:0
+msgid "Add a Reaction"
+msgstr "Tambahkan Reaksi"
 
 #. module: mail
 #. odoo-javascript
@@ -2228,7 +2231,7 @@ msgstr "Panggilan"
 #: model_terms:ir.ui.view,arch_db:mail.discuss_call_history_view_form
 #: model_terms:ir.ui.view,arch_db:mail.discuss_call_history_view_tree
 msgid "Call History"
-msgstr "Sejarah Panggilan"
+msgstr "Riwayat Panggilan"
 
 #. module: mail
 #. odoo-javascript
@@ -2239,12 +2242,12 @@ msgstr "Pengaturan Panggilan"
 #. module: mail
 #: model:ir.model.constraint,message:mail.constraint_discuss_call_history_channel_id_not_null_constraint
 msgid "Call history must have a channel"
-msgstr "Sejarah panggilan harus memiliki channel"
+msgstr "Riwayat panggilan harus memiliki channel"
 
 #. module: mail
 #: model:ir.model.constraint,message:mail.constraint_discuss_call_history_start_dt_is_not_null_constraint
 msgid "Call history must have a start date"
-msgstr "Sejarah panggilan harus memiliki tanggal mulai"
+msgstr "Riwayat panggilan harus memiliki tanggal mulai"
 
 #. module: mail
 #. odoo-javascript
@@ -3421,7 +3424,7 @@ msgstr "Hari"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_tracking_duration_mixin__rotting_days
 msgid "Days Rotting"
-msgstr "Hari-Hari Membusuk"
+msgstr "Hari Membusuk"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_search
@@ -3699,8 +3702,7 @@ msgstr "Tentukan bila tanggapan otomatis dapat diedit oleh user saat ini"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_canned_response__is_shared
 msgid "Determines if the canned_response is currently shared with other users"
-msgstr ""
-"Tentukan bila canned_response saat ini dibagikan dengan user-user lainnya"
+msgstr "Tentukan bila canned_response saat ini dibagikan dengan user lainnya"
 
 #. module: mail
 #. odoo-javascript
@@ -4674,7 +4676,7 @@ msgstr "Masukan"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.message_activity_done
 msgid "Feedback:"
-msgstr "Feedback:"
+msgstr "Masukan:"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_server_form
@@ -5670,6 +5672,14 @@ msgid "If you want to use twilio as TURN/STUN server provider"
 msgstr "Bila Anda ingin menggunakan twilio sebagai penyedia server TURN/STUN"
 
 #. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid ""
+"If you were using a Tenor API key, please replace it with a Klipy API key in "
+"the General Settings."
+msgstr ""
+
+#. module: mail
 #: model:ir.model.fields,field_description:mail.field_discuss_channel__image_128
 #: model:ir.model.fields,field_description:mail.field_mail_guest__image_1920
 #: model:ir.model.fields,field_description:mail.field_mail_link_preview__og_image
@@ -6331,7 +6341,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model,name:mail.model_discuss_call_history
 msgid "Keep the call history"
-msgstr "Simpan sejarah panggilan"
+msgstr "Simpan riwayat panggilan"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
@@ -6344,6 +6354,16 @@ msgstr "Kunci"
 #: model_terms:ir.ui.view,arch_db:mail.message_notification_limit_email
 msgid "Kind Regards"
 msgstr "Salam Hangat"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
+msgid "Klipy API key"
+msgstr ""
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF API key"
+msgstr ""
 
 #. module: mail
 #. odoo-javascript
@@ -6521,7 +6541,7 @@ msgstr "Terlambat"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_partner_view_search_inherit_mail
 msgid "Late Activities"
-msgstr "Aktifitas terakhir"
+msgstr "Aktivitas terakhir"
 
 #. module: mail
 #. odoo-python
@@ -7233,7 +7253,7 @@ msgstr "Id pesan sebelum separator harus ditampilkan"
 
 #. module: mail
 #. odoo-javascript
-#: code:addons/mail/static/src/core/common/composer.js:0
+#: code:addons/mail/static/src/core/common/store_service.js:0
 msgid "Message posted on \"%s\""
 msgstr "Pesan diposting pada \"%s\""
 
@@ -7339,7 +7359,7 @@ msgstr "Cari pesan"
 #. module: mail
 #: model:ir.model.constraint,message:mail.constraint_discuss_call_history_message_id_unique_constraint
 msgid "Messages can only be linked to one call history"
-msgstr "Pesan hanya dapat dihubungkan ke satu sejarah panggilan"
+msgstr "Pesan hanya dapat dihubungkan ke satu riwayat panggilan"
 
 #. module: mail
 #: model:ir.model.constraint,message:mail.constraint_discuss_channel_from_message_id_unique
@@ -7350,7 +7370,7 @@ msgstr "Pesan-pesan hanya bisa di-link ke satu sub-channel"
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/thread_patch.xml:0
 msgid "Messages marked as read will appear in the history."
-msgstr "Pesan yang ditandai sebagai dibaca akan muncul di sejarah."
+msgstr "Pesan yang ditandai sebagai dibaca akan muncul di riwayat."
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_message_subtype__internal
@@ -7516,7 +7536,7 @@ msgstr "Kegiatan Saya"
 #: model:ir.model.fields,field_description:mail.field_res_partner__my_activity_date_deadline
 #: model:ir.model.fields,field_description:mail.field_res_users__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Deadline Kegiatan Saya"
+msgstr "Tenggat Aktivitas Saya"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_role_view_search
@@ -7659,7 +7679,7 @@ msgstr "Aktivitas Berikutnya"
 #: model:ir.model.fields,field_description:mail.field_res_partner__activity_date_deadline
 #: model:ir.model.fields,field_description:mail.field_res_users__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Batas Waktu Aktivitas Berikutnya"
+msgstr "Tenggat Aktivitas Berikutnya"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_ir_cron__activity_summary
@@ -7774,7 +7794,7 @@ msgstr "Tidak ada dokumen yang ditemukan untuk record terpilih."
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/thread_patch.xml:0
 msgid "No history messages"
-msgstr "Tidak ada sejarah pesan"
+msgstr "Tidak ada riwayat pesan"
 
 #. module: mail
 #. odoo-python
@@ -8337,7 +8357,7 @@ msgstr "Hanya user internal yang dapat menerima notifikasi di Odoo"
 #. odoo-python
 #: code:addons/mail/models/res_users.py:0
 msgid "Only internal users can configure a personal mail server."
-msgstr "Hanya user-user internal dapat mengonfigurasi server email pribadi."
+msgstr "Hanya user internal dapat mengonfigurasi server email pribadi."
 
 #. module: mail
 #. odoo-python
@@ -9013,7 +9033,7 @@ msgstr "Sudah Direncanakan"
 #. odoo-javascript
 #: code:addons/mail/static/src/chatter/web/chatter.xml:0
 msgid "Planned Activities"
-msgstr "Kegiatan-Kegiatan yang Direncanakan"
+msgstr "Aktivitas yang Direncanakan"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_type_view_tree
@@ -9108,7 +9128,7 @@ msgstr "Akses Portal Ditarik Kembali"
 #: code:addons/mail/models/mail_thread.py:0
 msgid "Portal users can only filter threads by themselves as followers."
 msgstr ""
-"User-user portal hanya dapat memfilter thread dengan mereka sendiri sebagai "
+"User portal hanya dapat memfilter thread dengan mereka sendiri sebagai "
 "pengikut."
 
 #. module: mail
@@ -10103,6 +10123,12 @@ msgstr "Cari Incoming Mail Server"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "Search Klipy"
+msgstr ""
+
+#. module: mail
+#. odoo-javascript
 #: code:addons/mail/static/src/core/common/search_messages_panel.js:0
 msgid "Search Message"
 msgstr "Cari Pesan"
@@ -10157,12 +10183,6 @@ msgstr "Cari berdasarkan nama"
 #: code:addons/mail/static/src/core/public_web/discuss_search.xml:0
 msgid "Search conversations"
 msgstr "Cari percakapan-percakapan"
-
-#. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
-msgid "Search for a GIF"
-msgstr "Cari GIF"
 
 #. module: mail
 #. odoo-javascript
@@ -11216,16 +11236,6 @@ msgid "Templates"
 msgstr "Contoh"
 
 #. module: mail
-#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
-msgid "Tenor API key"
-msgstr "Tenor API key"
-
-#. module: mail
-#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Tenor GIF API key"
-msgstr "Tenor GIF API key"
-
-#. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/call_settings.js:0
 msgid "Test"
@@ -11285,18 +11295,6 @@ msgstr ""
 "Fitur Push-to-Talk hanya dapat diakses di dalam tab focus. Untuk "
 "mengaktifkan fungsionalitas Push-to-Talk diluar tab ini, kami menyarankan "
 "mengunduh extension %(anchor_start)s kami %(anchor_end)s."
-
-#. module: mail
-#: model:ir.model.fields,help:mail.field_res_partner__vat
-#: model:ir.model.fields,help:mail.field_res_users__vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
-msgstr ""
-"Nomor Identifikasi Pajak. Nomor di sini akan divalidasi berdasarkan format "
-"negara. Anda dapat menggunakan '/' untuk mengindikasikan bahwa mitra tidak "
-"dikenakan pajak."
 
 #. module: mail
 #. odoo-python
@@ -12789,7 +12787,7 @@ msgid ""
 "Users are notified whenever one of their roles is @-mentioned in a "
 "conversation."
 msgstr ""
-"User-user dinotifikasi kapan pun satu dari peran mereka di-mention @ di "
+"User dinotifikasi kapan pun satu dari peran mereka di-mention @ di "
 "percakapan."
 
 #. module: mail
@@ -12805,7 +12803,7 @@ msgid ""
 "However only Mail Template Editors will be able to create new dynamic "
 "templates or modify existing ones."
 msgstr ""
-"User-user akan masih dapat me-render templat.\n"
+"User akan masih dapat me-render templat.\n"
 "Namun hanya Editor Templat Email yang dapat membuat templat dinamik baru "
 "atau memodifikasi templat dinamik saat ini."
 
@@ -13348,6 +13346,18 @@ msgid "You can still turn off your %s anytime."
 msgstr "Anda masih dapat menonaktifkan %s Anda kapan pun."
 
 #. module: mail
+#: model:ir.model.fields,help:mail.field_res_partner__vat
+#: model:ir.model.fields,help:mail.field_res_users__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr ""
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_alias_domain.py:0
+msgid "You cannot assign an empty domain name."
+msgstr ""
+
+#. module: mail
 #. odoo-python
 #: code:addons/mail/models/mail_activity_type.py:0
 msgid "You cannot delete %(activity_names)s as it is required in various apps."
@@ -13648,10 +13658,8 @@ msgstr "membuat channel ini."
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/js/rotting_mixin/rotting_statusbar.xml:0
-#, fuzzy
-#| msgid "id"
 msgid "d"
-msgstr "id"
+msgstr ""
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.account_security_alert
@@ -14205,6 +14213,34 @@ msgstr "“%(member_name)s” di “%(channel_name)s”"
 #: code:addons/mail/static/src/core/web/activity.js:0
 msgid "“%s”"
 msgstr ""
+
+#~ msgid "Search for a GIF"
+#~ msgstr "Cari GIF"
+
+#~ msgid ""
+#~ "The Tax Identification Number. Values here will be validated based on the "
+#~ "country format. You can use '/' to indicate that the partner is not "
+#~ "subject to tax."
+#~ msgstr ""
+#~ "Nomor Identifikasi Pajak. Nomor di sini akan divalidasi berdasarkan "
+#~ "format negara. Anda dapat menggunakan '/' untuk mengindikasikan bahwa "
+#~ "mitra tidak dikenakan pajak."
+
+#~ msgid "Add a Tenor GIF API key to enable GIFs support."
+#~ msgstr "Tambahkan Tenor GIF API key untuk mengaktifkan bantuan GIF."
+
+#~ msgid ""
+#~ "Add a Tenor GIF API key to enable GIFs support. https://"
+#~ "developers.google.com/tenor/guides/quickstart#setup"
+#~ msgstr ""
+#~ "Tambahkan Tenor GIF API key untuk mengaktifkan bantuan GIF. https://"
+#~ "developers.google.com/tenor/guides/quickstart#setup"
+
+#~ msgid "Tenor API key"
+#~ msgstr "Tenor API key"
+
+#~ msgid "Tenor GIF API key"
+#~ msgstr "Tenor GIF API key"
 
 #~ msgid "111.222.333.444"
 #~ msgstr "111.222.333.444"

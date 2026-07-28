@@ -288,7 +288,7 @@ class L10n_VnTaxReportHandler(models.AbstractModel):
                          account_tax.id                                                                                     AS tax_id,
                          REGEXP_REPLACE(%(account_tax_description)s, '(<([^>]+)>)', '', 'g')                                AS tax_description,
                          %(account_tag_name)s                                                                               AS tag_name,
-                         account_move_line.tax_base_amount                                                                  AS untaxed_amount,
+                         ABS(account_move_line.tax_base_amount)                                                             AS untaxed_amount,
                          SUM(%(balance_select)s * CASE WHEN %(balance_negate)s THEN -1 ELSE 1 END)                          AS balance
                     FROM %(table_references)s
                     JOIN account_tax account_tax ON account_tax.id = account_move_line.tax_line_id

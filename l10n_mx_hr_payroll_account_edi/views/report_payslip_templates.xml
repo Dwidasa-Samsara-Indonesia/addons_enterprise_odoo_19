@@ -294,7 +294,7 @@
                                             <span>Comunicación de pago</span>
                                             <strong class="ms-1" t-field="o.move_id.name"/>
                                         </div>
-                                        <div>
+                                        <div t-if="o.employee_id.bank_account_ids">
                                             <span>Cuenta bancaria</span>
                                             <strong class="ms-1" t-out="cfdi['nomina_receptor']['cuenta_bancaria']"/>
                                             <strong class="mx-1">-</strong>

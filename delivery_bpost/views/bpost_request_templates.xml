@@ -65,7 +65,21 @@
                   <international:shipmentType t-esc="shipmentType"/>
                   <international:parcelReturnInstructions t-esc="parcelReturnInstructions"/>
                   <international:privateAddress t-esc="'true' if receiver['_record'].is_company else 'false'"/>
+                  <international:currency>EUR</international:currency>
+                  <international:amtPostagePaidByAddresse t-out="box['shipping_cost']"/>
                 </international:customsInfo>
+                <international:parcelContents t-if="box.get('customs_items')">
+                  <t t-foreach="box['customs_items']" t-as="item">
+                    <international:parcelContent>
+                      <international:numberOfItemType t-out="item['quantity']"/>
+                      <international:valueOfItem t-out="item['value']"/>
+                      <international:itemDescription t-out="item['description']"/>
+                      <international:nettoWeight t-out="item['weight']"/>
+                      <international:hsTariffCode t-out="item['hs_code']"/>
+                      <international:originOfGoods t-out="item['country_of_origin']"/>
+                    </international:parcelContent>
+                  </t>
+                </international:parcelContents>
               </international:international>
             </tns:internationalBox>
           </tns:box>

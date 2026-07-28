@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2026-03-14 09:33+0000\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-05-30 09:39+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/fi/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: documents_account
 #. odoo-python
@@ -111,6 +111,11 @@ msgstr "Liite"
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_bank_statement
 msgid "Bank Statement"
 msgstr "Pankin tiliote"
+
+#. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr "Yritysasiakirjan tuonnin mixin"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -287,6 +292,7 @@ msgid "Customer Invoices"
 msgstr "Asiakaslaskut"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -348,6 +354,12 @@ msgstr "Ohjattu kirjanpidon raporttien vienti"
 
 #. module: documents_account
 #. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr "Linkkien liittäminen epäonnistui: "
+
+#. module: documents_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 #: code:addons/documents_account/static/src/js/tour.js:0
@@ -390,6 +402,7 @@ msgid "Has Embedded PDF"
 msgstr "Sisältää upotetun PDF-tiedoston"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -481,9 +494,15 @@ msgstr ""
 "i>"
 
 #. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
+msgstr "Liitetyt linkit"
+
+#. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry
 msgid "Miscellaneous Operations"
-msgstr "Muut toiminnot"
+msgstr "Sekalaiset toiminnot"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note_move
@@ -593,25 +612,25 @@ msgid ""
 "actions\n"
 msgstr ""
 "Palvelintoiminnon tyyppi. Saatavilla seuraavat arvot:\n"
-"- 'Päivitä kirjaus': päivitä kirjauksen arvot\n"
-"- 'Luo toiminta': luo toiminnan (Viestintä)\n"
+"- 'Päivitä kirjaus': päivittää kirjauksen arvot\n"
+"- 'Luo toimenpide': luo toimenpiteen (Viestintä)\n"
 "- 'Lähetä sähköposti': lähettää viestin, huomautuksen tai sähköpostin "
 "(Viestintä)\n"
-"- 'Lähetä tekstiviesti': lähetä tekstiviestejä, kirjaa ne asiakirjoihin "
+"- 'Lähetä tekstiviesti': lähettää tekstiviestejä, kirjaa ne asiakirjoihin "
 "(Tekstiviesti)\n"
-"- 'Lisää/poista seuraajia': lisää tai poista seuraajia kirjaukseen "
-"(Viestintä)\n"
-"- 'Luo kirjaus': luo uusi kirjaus uusilla arvoilla\n"
-"- 'Suorita koodi': Python-koodin pätkä, joka suoritetaan\n"
-"- 'Lähetä Webhook-ilmoitus': lähetä POST-pyyntö ulkoiseen järjestelmään, "
-"joka tunnetaan myös nimellä Webhook\n"
-"- 'Suorita useita toimintoja': Määritä toiminto, joka käynnistää useita "
-"muita palvelintoimintoja\n"
+"- 'Lisää/poista seuraajia': lisää tai poistaa tietueen seuraajia (Viestintä)"
+"\n"
+"- 'Luo kirjaus': luo uuden kirjauksen uusilla arvoilla\n"
+"- 'Suorita koodi': pätkä Python-koodia, joka suoritetaan\n"
+"- 'Lähetä Webhook-ilmoitus': lähettää JULKAISU-pyynnön ulkoiseen "
+"järjestelmään, joka tunnetaan myös nimellä Webhook\n"
+"- 'Useita toimintoja': määrittää toiminnon, joka laukaisee useita muita "
+"palvelintoimintoja\n"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_invoice
 msgid "Vendor Bill"
-msgstr "Ostolasku"
+msgstr "Toimittajan lasku"
 
 #. module: documents_account
 #. odoo-python
@@ -622,7 +641,7 @@ msgstr "Toimittajan laskut"
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
-msgstr "Toimittajahyvitys"
+msgstr "Toimittajan hyvityslasku"
 
 #. module: documents_account
 #. odoo-python

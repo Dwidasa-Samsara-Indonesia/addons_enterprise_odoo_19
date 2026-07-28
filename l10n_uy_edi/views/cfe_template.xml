@@ -40,7 +40,7 @@
                 <TpoMoneda t-out="totals_detail['TpoMoneda']"/>
                 <TpoCambio t-out="format_float(totals_detail['TpoCambio'], 3)"/>
                 <MntNoGrv t-out="format_float(totals_detail['MntNoGrv'], 2)"/>
-                <MntExpoyAsim t-out="format_float(totals_detail['MntExpoyAsim'], 2)"/>
+                <MntExpoyAsim t-if="totals_detail['MntExpoyAsim'] is not None" t-out="format_float(totals_detail['MntExpoyAsim'], 2, valid_zero=1)"/>
                 <MntNetoIvaTasaMin t-out="format_float(totals_detail['MntNetoIvaTasaMin'], 2)"/>
                 <MntNetoIVATasaBasica t-out="format_float(totals_detail['MntNetoIVATasaBasica'], 2)"/>
                 <MntNetoIVAOtra t-out="format_float(totals_detail['MntNetoIVAOtra'], 2)"/>
@@ -89,7 +89,7 @@
                 <Serie t-out="referencia['Serie']"/>
                 <NroCFERef t-out="referencia['NroCFERef']"/>
                 <FechaCFEref t-out="referencia.get('FechaCFEref')"/>
-                <MntCFEref t-out="format_float(referencia.get('MntCFEref'), 2)"/>
+                <MntCFEref t-out="format_float(referencia.get('MntCFEref'), 2, valid_zero=1)"/>
                 <TpoMonedaRef t-out="referencia.get('TpoMonedaRef')"/>
                 <TpoCambioRef t-out="format_float(referencia.get('TpoCambioRef'), 3)"/>
             </Referencia>

@@ -1,13 +1,15 @@
 import { beforeEach, expect, test } from "@odoo/hoot";
-import { click, queryAll, queryAllTexts, queryFirst } from "@odoo/hoot-dom";
+import { click, queryAll, queryAllAttributes, queryAllTexts, queryFirst } from "@odoo/hoot-dom";
 import { animationFrame, mockDate } from "@odoo/hoot-mock";
 import {
     getService,
     mountView,
     mountWithCleanup,
+    patchWithCleanup,
     onRpc,
     removeFacet,
 } from "@web/../tests/web_test_helpers";
+import { user } from "@web/core/user";
 import { WebClient } from "@web/webclient/webclient";
 
 import { patchSession } from "@hr_timesheet/../tests/hr_timesheet_models";
@@ -460,4 +462,24 @@ test("test timesheet grid when grouped by employees shows color code on timeshee
     expect(queryFirst(".o_grid_row.o_grid_row_total span:contains(5:30)").closest(".o_grid_row")).toHaveClass("text-bg-success", {
         message: "The total cell should be green as that employee has working period of 5.5 and has timesheet of 5.5 hours",
     });
+});
+
+test("hr.timesheet (grid): should display public employee avatars", async () => {
+    patchWithCleanup(user, {
+        hasGroup: () => false,
+    });
+    const publicEmployeeIds = [...new Set(HRTimesheet._records.map((timesheet) => timesheet.employee_id))];
+
+    await mountView({
+        type: "grid",
+        resModel: "account.analytic.line",
+        groupBy: ["employee_id"],
+    });
+    expect(
+        queryAllAttributes(".o_m2o_avatar > img", "data-src").sort()
+    ).toEqual(
+        publicEmployeeIds
+            .map((employeeId) => `/web/image/hr.employee.public/${employeeId}/avatar_128`)
+            .sort()
+    );
 });

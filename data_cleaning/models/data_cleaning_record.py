@@ -17,7 +17,7 @@ class Data_CleaningRecord(models.Model):
     field_name = fields.Char(related='field_id.name')
     action = fields.Char('Actions', compute='_compute_non_stored_values', compute_sudo=True)
 
-    res_id = fields.Integer('Record ID', index=True)
+    res_id = fields.Integer('Record ID', aggregator=None, index=True)
     res_model_id = fields.Many2one(related='cleaning_model_id.res_model_id', store=True, readonly=True)
     res_model_name = fields.Char(related='cleaning_model_id.res_model_name', store=True, readonly=True)
 

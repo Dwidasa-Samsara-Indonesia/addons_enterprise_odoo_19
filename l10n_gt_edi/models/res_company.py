@@ -49,14 +49,17 @@ class ResCompany(models.Model):
     l10n_gt_edi_ws_prefix = fields.Char(
         string="Infile WS Username or Prefix",
         help="Username for webservices provided by Infile",
+        groups="base.group_system",
     )
     l10n_gt_edi_infile_token = fields.Char(
         string="Infile Token (LlaveFirma)",
         help="Token for Infile Webservice (provided by Infile)",
+        groups="base.group_system",
     )
     l10n_gt_edi_infile_key = fields.Char(
         string="Infile Key (LlaveAPI)",
         help="Key for Infile Webservice (provided by Infile)",
+        groups="base.group_system",
     )
     l10n_gt_edi_legal_name = fields.Char(
         string="Legal Name",
@@ -81,7 +84,6 @@ class ResCompany(models.Model):
         """
         if self.parent_id.country_code == 'GT':
             self.country_id = self.env.ref('base.gt')
-            self.vat = self.parent_id.vat
             self.l10n_gt_edi_vat_affiliation = self.parent_id.l10n_gt_edi_vat_affiliation
             self.l10n_gt_edi_phrase_ids = self.parent_id.l10n_gt_edi_phrase_ids
             self.l10n_gt_edi_service_provider = self.parent_id.l10n_gt_edi_service_provider

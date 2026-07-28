@@ -144,7 +144,7 @@
                         </group>
                         <group name="right_group">
                             <field name="date" readonly="True"/>
-                            <field name="tax_ids" widget="many2many_tags" invisible="reconciled_lines_excluding_exchange_diff_ids or tax_line_id" context="{'append_fields': ['type_tax_use']}"/>
+                            <field name="tax_ids" widget="many2many_tags" invisible="reconciled_lines_excluding_exchange_diff_ids or tax_line_id" context="{'append_fields': ['type_tax_use'], 'active_test': True}"/>
                             <field name="analytic_distribution" groups="analytic.group_analytic_accounting" widget="analytic_distribution"
                                    options="{'account_field': 'account_id', 'business_domain': 'general'}"
                             />

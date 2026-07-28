@@ -57,6 +57,20 @@ class HrPayslip(models.Model):
         readonly=False,
     )
 
+    def _get_data_files_to_update(self):
+        # Note: file order should be maintained
+        return super()._get_data_files_to_update() + [(
+            'l10n_hk_hr_payroll', [
+                'data/hr_salary_rule_category_data.xml',
+
+                'data/cap57/employee_long_service_payment_data.xml',
+                'data/cap57/employee_payment_in_lieu_of_notice_data.xml',
+                'data/cap57/employee_salary_data.xml',
+                'data/cap57/employee_severance_payment_data.xml',
+
+                'data/hr_rule_parameters_data.xml',
+            ])]
+
     @api.depends('worked_days_line_ids')
     def _compute_worked_days_leaves_count(self):
         for payslip in self:
@@ -111,7 +125,7 @@ class HrPayslip(models.Model):
         :return: The ADW for the period.
         """
         for slip in self:
-            if slip.country_code != 'HK':
+            if slip.country_code != 'HK' or not (slip.date_from and slip.date_to):
                 slip.l10n_hk_average_daily_wage = 0
                 continue
 
@@ -131,11 +145,12 @@ class HrPayslip(models.Model):
 
             slip.l10n_hk_average_daily_wage = adw
 
-    @api.depends('date_to', 'company_id')
+    @api.depends('date_from', 'date_to', 'company_id')
     def _compute_includes_eoy_pay(self):
         for slip in self.filtered(lambda s: s.country_code == 'HK'):
-            if not slip.company_id.l10n_hk_eoy_pay_month:
+            if not (slip.company_id.l10n_hk_eoy_pay_month and slip.date_from and slip.date_to):
                 slip.l10n_hk_includes_eoy_pay = False
+                continue
 
             last_year_payslips = slip._get_previous_year_payslips(order='date_from desc')
             slip.l10n_hk_includes_eoy_pay = str(slip.date_to.month) == slip.company_id.l10n_hk_eoy_pay_month and last_year_payslips

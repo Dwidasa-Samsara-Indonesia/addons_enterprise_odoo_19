@@ -37,15 +37,15 @@
 # Paweł Wodyński <pw@myodoo.pl>, 2023
 # Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# Dawid Gacek <dawid.gacek@adapt-it.pl>, 2025.
+# Dawid Gacek <dawid.gacek@adapt-it.pl>, 2025, 2026.
 # "Marta (wacm)" <wacm@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:39+0000\n"
-"PO-Revision-Date: 2026-04-08 14:23+0000\n"
+"POT-Creation-Date: 2026-07-10 17:37+0000\n"
+"PO-Revision-Date: 2026-07-10 09:18+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/sale/pl/"
 ">\n"
@@ -56,7 +56,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale
 #. odoo-javascript
@@ -130,7 +130,7 @@ msgid ""
 ", it's 100% free! You'll save time creating beautiful quotations and track "
 "sales."
 msgstr ""
-", jest w 100% darmowe! Zaoszczędź czas tworząc piękne oferty i śledząc "
+", jest w 100% darmowe! Zaoszczędź czas tworząc zachwycające oferty i śledząc "
 "sprzedaże."
 
 #. module: sale
@@ -1378,13 +1378,14 @@ msgid ""
 "this sale line\n"
 "  - Stock Moves: the quantity comes from confirmed pickings\n"
 msgstr ""
-"Zgodnie z konfiguracją produktu, dostarczona ilość może być automatycznie "
-"obliczana przez mechanizm:\n"
-"- Ręcznie: ilość jest ustawiana ręcznie na pozycji\n"
-"- Analityczne z wydatków: ilość jest sumą ilości z zaksięgowanych wydatków\n"
-"- Z karty pracy: ilość jest sumą godzin zarejestrowanych na zadaniach "
-"powiązanych z tą pozycją sprzedaży\n"
-"- Przesunięcia zasobów: ilość pochodzi z potwierdzonych pobrań\n"
+"W zależności od konfiguracji produktu ilość dostarczona może być obliczana "
+"automatycznie w następujący sposób:\n"
+"  - Ręcznie: ilość jest ustawiana ręcznie w wierszu\n"
+"  - Analitycznie na podstawie wydatków: ilość stanowi sumę ilości z "
+"zaksięgowanych wydatków\n"
+"  - Ewidencja czasu pracy: ilość stanowi sumę godzin zarejestrowanych w "
+"zadaniach powiązanych z tym wierszem\n"
+"  - Ruchy magazynowe: ilość pochodzi z potwierdzonych kompletacji\n"
 
 #. module: sale
 #: model:ir.model,name:sale.model_account_chart_template
@@ -2132,11 +2133,6 @@ msgid "Connect with your software!"
 msgstr "Połącz się ze swoim oprogramowaniem!"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "Connect your software"
-msgstr "Podłącz swoje oprogramowanie"
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Connectors"
 msgstr "Kurierzy"
@@ -2460,7 +2456,7 @@ msgstr "Adres dostawy"
 #: model:ir.model.fields,field_description:sale.field_sale_order__commitment_date
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Delivery Date"
-msgstr "Data Dostawy"
+msgstr "Data dostawy"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -2799,7 +2795,7 @@ msgstr "Oczekiwana data"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Expected:"
-msgstr "Oczekiwane:"
+msgstr "Oczekiwana:"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
@@ -2866,12 +2862,12 @@ msgstr "Śledzenie, przeglądanie lub opłacanie zamówień"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__message_follower_ids
 msgid "Followers"
-msgstr "Obserwatorzy"
+msgstr "Obserwujący"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Obserwatorzy (partnerzy)"
+msgstr "Obserwujący (partnerzy)"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order__activity_type_icon
@@ -3465,7 +3461,7 @@ msgstr "Pozwól klientom zalogować się, aby mogli zajrzeć do swoich dokument�
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
 msgid "Let’s create a beautiful quotation in a few clicks ."
-msgstr "Stwórzmy piękną ofertę w kilka kliknięć."
+msgstr "Stwórzmy atrakcyjną ofertę w kilka kliknięć."
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__linked_line_id
@@ -4896,12 +4892,12 @@ msgstr "Cena sprzedaży"
 #. module: sale
 #: model:mail.template,name:sale.mail_template_sale_confirmation
 msgid "Sales: Order Confirmation"
-msgstr "Sprzedaż: potwierdzenie zamówienia"
+msgstr "Sprzedaż: Potwierdzenie zamówienia"
 
 #. module: sale
 #: model:mail.template,name:sale.mail_template_sale_payment_executed
 msgid "Sales: Payment Done"
-msgstr "Sprzedaż: Płatność wykonana"
+msgstr "Sprzedaż: Płatność zrealizowana"
 
 #. module: sale
 #: model:mail.template,name:sale.email_template_proforma
@@ -6269,7 +6265,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
 msgid "add the price of your product."
-msgstr "dodaj cenę produktu."
+msgstr "Dodaj cenę produktu."
 
 #. module: sale
 #: model:ir.actions.server,name:sale.send_invoice_cron_ir_actions_server
@@ -6338,14 +6334,9 @@ msgid "sale order"
 msgstr "zamówienie sprzedaży"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "to create quotes automatically."
-msgstr "aby automatycznie tworzyć wyceny."
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "to learn all the ways to connect your software with"
-msgstr "aby poznać wszystkie sposoby na połączenie Twojego oprogramowania z"
+msgstr ", aby poznać wszystkie sposoby na połączenie Twojego oprogramowania z"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
@@ -6354,13 +6345,8 @@ msgstr "jednostki"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "with"
-msgstr "z"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_pay_modal
@@ -6396,6 +6382,15 @@ msgid ""
 msgstr ""
 "{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and "
 "'Oferta' or 'Zamówienie' }} (Nr. ref {{ object.name or 'n/a' }})"
+
+#~ msgid "Connect your software"
+#~ msgstr "Podłącz swoje oprogramowanie"
+
+#~ msgid "to create quotes automatically."
+#~ msgstr "aby automatycznie tworzyć wyceny."
+
+#~ msgid "with"
+#~ msgstr "z"
 
 #~ msgid "2023-12-31"
 #~ msgstr "2023-12-31"

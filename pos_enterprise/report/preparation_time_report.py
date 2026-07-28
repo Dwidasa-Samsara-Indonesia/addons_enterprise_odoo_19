@@ -1,5 +1,6 @@
-from odoo import models, fields
+from odoo import api, fields, models
 from odoo.tools import SQL
+from odoo.tools.sql import drop_view_if_exists
 
 
 class PreparationTimeReport(models.Model):
@@ -16,12 +17,15 @@ class PreparationTimeReport(models.Model):
     order_id = fields.Many2one('pos.order', string='Order', readonly=True)
     qty = fields.Float('Quantity')
 
+    @property
+    def _table_query(self):
+        return self._select()
+
+    @api.model
     def _select(self):
-        """Returns the full SQL statement to create or replace the view."""
-        user_tz = self.env.user.tz or 'UTC'
+        user_tz = self.env.context.get('tz') or self.env.user.tz or 'UTC'
         return SQL(
             """
-            CREATE OR REPLACE VIEW %(table_name)s AS
             WITH base AS (
                 SELECT
                     line.id,
@@ -54,10 +58,8 @@ class PreparationTimeReport(models.Model):
                 pos_config_id
             FROM base
             """,
-            table_name=SQL.identifier(self._table),
-            user_tz=user_tz
+            user_tz=user_tz,
         )
 
     def init(self):
-        """Initialize the SQL View for the report."""
-        self.env.cr.execute(self._select())
+        drop_view_if_exists(self.env.cr, self._table)

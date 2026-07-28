@@ -4,13 +4,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2025-11-17 06:58+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-06-12 17:41+0000\n"
+"PO-Revision-Date: 2026-06-23 16:59+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "delivery_dhl_rest/da/>\n"
 "Language: da\n"
@@ -18,17 +19,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
+
+#. module: delivery_dhl_rest
+#. odoo-python
+#: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
+msgid ""
+" Extra Info: The scheduled time for the shipment was either not set or was "
+"in the past, so DHL has been sent a planned shipping time of one hour from "
+"now"
+msgstr ""
+" Yderligere oplysninger: Den planlagte afsendelsesdato var enten ikke "
+"fastsat eller lå i fortiden, og derfor blev der sendt en planlagt "
+"afsendelsesdato til DHL, som ligger en time fra nu"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__0
 msgid "0 - Logistics Services"
-msgstr "0 - Logistik tjenester"
+msgstr "0 - Logistiktjenester"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__1
 msgid "1 - Domestic Express 12:00"
-msgstr "1 - Indenrigs ekspres 12:00"
+msgstr "1 - Indenlands ekspres 12:00"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__2
@@ -73,12 +86,12 @@ msgstr "6X4_thermal"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__7
 msgid "7 - Express Easy"
-msgstr "7 - Express Easy"
+msgstr "7 - Ekspres nem"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__8
 msgid "8 - Express Easy"
-msgstr "8 - Express Easy"
+msgstr "8 - Ekspres nem"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_label_template__8x4_a4_pdf
@@ -123,7 +136,7 @@ msgstr "9 - Europack"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__a
 msgid "A - Auto Reversals"
-msgstr "A - Auto Reversals"
+msgstr "A - Automatisk annullering"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_region_code__am
@@ -138,38 +151,38 @@ msgstr "Asien og Stillehavet"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__b
 msgid "B - Break Bulk Express"
-msgstr "B - Break Bulk Express"
+msgstr "B - Generelle ekspresforsendelser"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__c
 msgid "C - Medical Express"
-msgstr "C - Medical Express"
+msgstr "C - Medicinsk ekspres"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_stock_package_type__package_carrier_type
 msgid "Carrier"
-msgstr "Fragtfirma"
+msgstr "Transportfirma"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,help:delivery_dhl_rest.field_delivery_carrier__dhl_dutiable
 msgid "Check this if your package is dutiable."
-msgstr "Kryds dette af, hvis din pakke er toldpligtig."
+msgstr "Markér dette felt, hvis din pakke er toldpligtig."
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/dhl_request.py:0
 msgid "Could not decode the response from DHL."
-msgstr ""
+msgstr "Svaret fra DHL kunne ikke afkodes."
 
 #. module: delivery_dhl_rest
 #: model_terms:ir.ui.view,arch_db:delivery_dhl_rest.view_delivery_carrier_form_with_provider_dhl
 msgid "Custom Data"
-msgstr ""
+msgstr "Brugerdefinerede data"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__d
 msgid "D - Express Worldwide"
-msgstr "D - Express Worldwide"
+msgstr "D - Ekspres over hele verden"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__delivery_type__dhl_rest
@@ -180,51 +193,55 @@ msgstr "DHL"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_api_key
 msgid "DHL API Key"
-msgstr ""
+msgstr "DHL-API-nøgle"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_api_secret
 msgid "DHL API Secret"
-msgstr ""
+msgstr "DHL-API-hemmelighed"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/dhl_request.py:0
 msgid "DHL API key is missing, please modify your delivery method settings."
 msgstr ""
+"DHL-API-nøgle mangler. Redigér venligst dine indstillinger for "
+"leveringsmetoden."
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/dhl_request.py:0
 msgid "DHL API secret is missing, please modify your delivery method settings."
 msgstr ""
+"DHL-API-hemmelighed mangler. Redigér venligst dine indstillinger for "
+"leveringsmetoden."
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_account_number
 msgid "DHL Account Number"
-msgstr "DHL kontonummer"
+msgstr "DHL-kontonummer"
 
 #. module: delivery_dhl_rest
 #: model:delivery.carrier,name:delivery_dhl_rest.delivery_carrier_dhl_be_dom
 #: model:product.template,name:delivery_dhl_rest.product_product_delivery_dhl_be_dom_product_template
 msgid "DHL BE"
-msgstr ""
+msgstr "DHL BE"
 
 #. module: delivery_dhl_rest
 #: model_terms:ir.ui.view,arch_db:delivery_dhl_rest.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
-msgstr "DHL konfiguration"
+msgstr "DHL-konfiguration"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
 msgid "DHL Documents"
-msgstr ""
+msgstr "DHL-dokumenter"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_product_code
 msgid "DHL Product"
-msgstr "DHL Produkt"
+msgstr "DHL-produkt"
 
 #. module: delivery_dhl_rest
 #. odoo-python
@@ -232,24 +249,24 @@ msgstr "DHL Produkt"
 msgid ""
 "DHL account number is missing, please modify your delivery method settings."
 msgstr ""
-"DHL kontonummer mangler, modificer venligst dine leveringsmetode "
-"indstillinger."
+"DHL-kontonummer mangler. Redigér venligst dine indstillinger for "
+"leveringsmetoden."
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_default_package_type_id
 msgid "DHLxw Package Type"
-msgstr ""
+msgstr "DHLxw-pakketype"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_duty_payment
 msgid "Dhl Duty Payment"
-msgstr "DHL Told betaling"
+msgstr "DHL-betaling af afgifter"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__display_name
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_stock_package_type__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_dutiable
@@ -264,7 +281,7 @@ msgstr "Afgifter betalt af"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__e
 msgid "E - Express 9:00"
-msgstr "E - Express 9:00"
+msgstr "E - Ekspres 9:00"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_label_image_format__epl2
@@ -279,17 +296,17 @@ msgstr "Europa"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_extra_data_rate_request
 msgid "Extra data for rate requests"
-msgstr ""
+msgstr "Supplerende oplysninger om prisforespørgsler"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_extra_data_return_request
 msgid "Extra data for return requests"
-msgstr ""
+msgstr "Supplerende oplysninger om returforespørgsler"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_extra_data_ship_request
 msgid "Extra data for ship requests"
-msgstr ""
+msgstr "Supplerende oplysninger om forsendelsesforespørgsler"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,help:delivery_dhl_rest.field_delivery_carrier__dhl_extra_data_rate_request
@@ -308,16 +325,28 @@ msgid ""
 "For more information, please refer to the DHL API documentation: https://"
 "developer.dhl.com/api-reference/dhl-express-mydhl-api.\n"
 msgstr ""
+"Yderligere oplysninger, der skal sendes med forespørgslen, skal være "
+"formateret i JSON.\n"
+"Denne funktion er avanceret/teknisk og bør kun anvendes, hvis du ved, hvad "
+"du gør.\n"
+"\n"
+"Eksempel på en gyldig værdi: ```\n"
+"\"content\": {\"packages\": {\"description\": \"amazing package\"}}\n"
+"```\n"
+"\n"
+"I ovenstående eksempel opdateres beskrivelsen af alle pakker.\n"
+"Se DHL-API-dokumentationen for at få mere at vide: https://developer.dhl.com/"
+"api-reference/dhl-express-mydhl-api.\n"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__f
 msgid "F - Freight Worldwide"
-msgstr "F - Freight Worldwide"
+msgstr "F - Fragt over hele verden"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__g
 msgid "G - Domestic Economy Select"
-msgstr "G - Domestic Economy Select"
+msgstr "G - Indenlands Economy Select"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__h
@@ -338,13 +367,13 @@ msgstr "ID"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_unit_system__imperial
 msgid "Imperial"
-msgstr ""
+msgstr "Imperial"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
 msgid "Invalid syntax for DHL extra data."
-msgstr ""
+msgstr "Ugyldig syntaks for supplerende DHL-data."
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__j
@@ -354,47 +383,47 @@ msgstr "J - Jumbo Box"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__k
 msgid "K - Express 9:00"
-msgstr "K - Express 9:00"
+msgstr "K - Ekspres 9:00"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__l
 msgid "L - Express 10:30"
-msgstr "L - Express 10:30"
+msgstr "L - Ekspres 10:30"
 
 #. module: delivery_dhl_rest
 #: model_terms:ir.ui.view,arch_db:delivery_dhl_rest.view_delivery_carrier_form_with_provider_dhl
 msgid "Label Format"
-msgstr "Mærkat Format"
+msgstr "Etiketformat"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_label_image_format
 msgid "Label Image Format"
-msgstr "Mærkat billed format"
+msgstr "Format for etiketbillede"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_label_template
 msgid "Label Template"
-msgstr "Skabelon til etiket"
+msgstr "Etiketskabelon"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__m
 msgid "M - Express 10:30"
-msgstr "M - Express 10:30"
+msgstr "M - Ekspres 10:30"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_unit_system__metric
 msgid "Metric"
-msgstr "Vigtige data"
+msgstr "Metrisk"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__n
 msgid "N - Domestic Express"
-msgstr "N - indenlands ekspres"
+msgstr "N - Indenlands ekspres"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__o
 msgid "O - DOM Express 10:30"
-msgstr "O - DOM Express 10:30"
+msgstr "O - Indenlands ekspres 10:30"
 
 #. module: delivery_dhl_rest
 #: model_terms:ir.ui.view,arch_db:delivery_dhl_rest.view_delivery_carrier_form_with_provider_dhl
@@ -404,7 +433,7 @@ msgstr "Valgmuligheder"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__p
 msgid "P - Express Worldwide"
-msgstr "P - Express Worldwide"
+msgstr "P - Ekspres over hele verden"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_label_image_format__pdf
@@ -415,7 +444,7 @@ msgstr "PDF"
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/dhl_request.py:0
 msgid "Please provide at least one item to ship."
-msgstr "Vælg venligst et produkt at sende."
+msgstr "Vælg mindst et produkt til forsendelse."
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__delivery_type
@@ -425,7 +454,7 @@ msgstr "Udbyder"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__q
 msgid "Q - Medical Express"
-msgstr "Q - Medical Express"
+msgstr "Q - Medicinsk ekspres"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__r
@@ -445,7 +474,7 @@ msgstr "Region"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__s
 msgid "S - Same Day"
-msgstr "S - Samme Day"
+msgstr "S - Samme dag"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_duty_payment__s
@@ -456,7 +485,7 @@ msgstr "Afsender"
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
 msgid "Shipment created into DHL"
-msgstr ""
+msgstr "Forsendelse oprettet i DHL"
 
 #. module: delivery_dhl_rest
 #. odoo-python
@@ -466,27 +495,30 @@ msgid ""
 "should try with another DHL product, or select a delivery method with no "
 "insurance."
 msgstr ""
+"Forsendelsesforsikring er ikke tilgængelig mellem den oprindelige og den "
+"ønskede destination. Vi anbefaler at bruge et andet DHL-produkt eller vælge "
+"en leveringsmetode uden forsikring."
 
 #. module: delivery_dhl_rest
 #: model:ir.model,name:delivery_dhl_rest.model_delivery_carrier
 msgid "Shipping Methods"
-msgstr "Leveringsmetoder"
+msgstr "Forsendelsesmetoder"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/dhl_request.py:0
 msgid "Something went wrong, please try again later!!"
-msgstr ""
+msgstr "Der opstod en fejl. Prøv venligst igen senere!!"
 
 #. module: delivery_dhl_rest
 #: model:ir.model,name:delivery_dhl_rest.model_stock_package_type
 msgid "Stock package type"
-msgstr ""
+msgstr "Lagerpakketype"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__t
 msgid "T - Express 12:00"
-msgstr "T - Express 12:00"
+msgstr "T - Ekspres 12:00"
 
 #. module: delivery_dhl_rest
 #. odoo-python
@@ -495,7 +527,7 @@ msgid ""
 "The address of the customer is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
-"Kudnens adresse mangler eller er forkert (Manglende felt(er) :\n"
+"Kundens adresse mangler eller er forkert (Manglende felt(er):\n"
 " %s)"
 
 #. module: delivery_dhl_rest
@@ -506,7 +538,8 @@ msgid ""
 "field(s) :\n"
 " %s)"
 msgstr ""
-"Din virksomhedsvarehus adresse mangler eller er forkert (Missing field(s) :\n"
+"Din virksomheds varehusadresse mangler eller er forkert. Manglende felt(er)"
+":\n"
 "%s)"
 
 #. module: delivery_dhl_rest
@@ -517,6 +550,9 @@ msgid ""
 "missing for the following product(s): \n"
 " %s"
 msgstr ""
+"Den anslåede leveringspris kan ikke beregnes, da vægten for følgende produkt"
+"(er) mangler: \n"
+" %s"
 
 #. module: delivery_dhl_rest
 #. odoo-python
@@ -525,12 +561,14 @@ msgid ""
 "The package cannot be created because the total weight of the products in "
 "the picking is 0.0 %s"
 msgstr ""
+"Denne pakke kan ikke oprettes, da den samlede vægt af produkterne i "
+"plukningen er 0,0 %s"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
 msgid "The planned date for the shipment must be in the future."
-msgstr ""
+msgstr "Den planlagte forsendelsesdato skal ligge i fremtiden."
 
 #. module: delivery_dhl_rest
 #. odoo-python
@@ -539,24 +577,24 @@ msgid ""
 "There is no price available for this shipping, you should rather try with "
 "the DHL product %s"
 msgstr ""
-"Der er ingen pris tilgængelig for denne levering, du bør i stedet prøve med "
-"DHL produktet %s"
+"Der er ingen pris tilgængelig for denne levering. Prøv i stedet med DHL-"
+"produktet %s"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
 msgid "Tracking Number"
-msgstr ""
+msgstr "Sporingsnummer"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__u
 msgid "U - Express Worldwide"
-msgstr "U - Express Worldwide"
+msgstr "U - Ekspres over hele verden"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields,field_description:delivery_dhl_rest.field_delivery_carrier__dhl_unit_system
 msgid "Unit System"
-msgstr ""
+msgstr "Enhedssystem"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__v
@@ -571,23 +609,23 @@ msgstr "W - Economy Select"
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__x
 msgid "X - Express Envelope"
-msgstr "X - Express Envelope"
+msgstr "X - Ekspres-kuvert"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__y
 msgid "Y - Express 12:00"
-msgstr "Y - Express 12:00"
+msgstr "Y - Ekspres 12:00"
 
 #. module: delivery_dhl_rest
 #. odoo-python
 #: code:addons/delivery_dhl_rest/models/delivery_dhl.py:0
 msgid "You can't cancel DHL shipping without pickup date."
-msgstr "Du kan ikke annullere DHL levering uden afhentningsdato."
+msgstr "Du kan ikke annullere DHL-leveringen, før afhentningsdatoen er angivet."
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_product_code__z
 msgid "Z - Destination Charges"
-msgstr "Z - Destination Charges"
+msgstr "Z - Destinationsgebyrer"
 
 #. module: delivery_dhl_rest
 #: model:ir.model.fields.selection,name:delivery_dhl_rest.selection__delivery_carrier__dhl_label_image_format__zpl2

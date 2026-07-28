@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2026-03-14 09:34+0000\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-05-23 09:34+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/it/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: documents_account
 #. odoo-python
@@ -108,6 +108,11 @@ msgstr "Allegato"
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_bank_statement
 msgid "Bank Statement"
 msgstr "Estratto conto bancario"
+
+#. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr "Mixin importazione documento commerciale"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -284,6 +289,7 @@ msgid "Customer Invoices"
 msgstr "Fatture cliente"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -345,6 +351,12 @@ msgstr "Procedura di esportazione per rendiconti contabili"
 
 #. module: documents_account
 #. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr "Impossibile incollare i link: "
+
+#. module: documents_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 #: code:addons/documents_account/static/src/js/tour.js:0
@@ -387,6 +399,7 @@ msgid "Has Embedded PDF"
 msgstr "Ha PDF integrato"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -475,6 +488,12 @@ msgid ""
 msgstr ""
 "Etichettiamo l'e-mail come Finanza <i>Consiglio: le azioni possono essere "
 "adattate al processo, in base alla cartella.</i>"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
+msgstr "Link incollati"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry

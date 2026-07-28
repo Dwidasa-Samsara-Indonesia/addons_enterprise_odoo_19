@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates>
     <t t-name="knowledge.WysiwygArticleHelper">
-        <div t-if="props.isVisible" class="o_knowledge_helper pb-3">
+        <div t-if="props.isVisible" class="o_knowledge_helper d-print-none pb-3">
             <p class="text-muted">Keep writing, or choose an option below to jump right in!</p>
             <div class="d-flex flex-column">
                 <a href="#" class="o_knowledge_load_template p-2 text-muted" data-hotkey="A" t-on-click="onLoadTemplateBtnClick" t-if="!isPortalUser">

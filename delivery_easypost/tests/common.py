@@ -110,8 +110,22 @@ class EasypostTestCommon(TransactionCase):
         )
         self.easypost_fedex_carrier.easypost_default_package_type_id = self.fedex_default_package_type
 
+        self.currency_usd = self.env.ref('base.USD')
+        self.currency_eur = self.env.ref('base.EUR')
+        self.be_company = self.env['res.company'].create({
+            'name': 'Frites Co',
+            'street': 'Rue de la Baraque 10',
+            'street2': '',
+            'city': 'Brussels',
+            'zip': '1000',
+            'state_id': False,
+            'country_id': self.env.ref('base.be').id,
+            'phone': '+32123456789',
+            'currency_id': self.currency_eur.id,
+        })
+
     @contextmanager
-    def patch_easypost_requests(self):
+    def patch_easypost_requests(self, specific_check=None):
         """ Mock context for get and post requests to the Easypost API. """
         def _mocked_easypost_request(endpoint, request_type='get', data=None):
             mocked_contents = {
@@ -127,6 +141,8 @@ class EasypostTestCommon(TransactionCase):
             response = mocked_contents.get(request_type, {}).get(endpoint)
             if response is None:
                 raise NotImplementedError('Easypost mock request not implemented for this method/endpoint: %s %s' % (request_type, endpoint))
+            if specific_check:
+                specific_check(endpoint, data)
             return response
 
         def _mocked_easypost_get_services_and_package_types():

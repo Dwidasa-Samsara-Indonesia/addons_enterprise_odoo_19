@@ -216,16 +216,13 @@
                 <field name="company_id" column_invisible="True"/>
                 <field name="use_sla" column_invisible="True"/>
                 <field name="fold" column_invisible="True"/>
-                <field name="legend_normal" column_invisible="True"/>
-                <field name="legend_blocked" column_invisible="True"/>
-                <field name="legend_done" column_invisible="True"/>
                 <field name="ticket_ref" string="ID" readonly="1" optional="show"/>
                 <field name="priority" optional="show" widget="priority"/>
                 <field name="name" string="Name"/>
                 <field name="team_id" optional="show" readonly="1" column_invisible="context.get('default_team_id', False)"/>
                 <field name="team_id" optional="hide" readonly="1" column_invisible="not context.get('default_team_id', False)"/>
                 <field name="user_id" optional="show" widget="many2one_avatar_user"/>
-                <field name="partner_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" optional="show" options="{'no_open': True}"/>
+                <field name="partner_id" optional="show" options="{'no_open': True}" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"/>
                 <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1" column_invisible="context.get('default_team_id', False)"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1" column_invisible="not context.get('default_team_id', False)"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
@@ -281,6 +278,7 @@
         <field name="arch" type="xml">
             <form>
                 <group>
+                    <field name="company_id" invisible="1"/>
                     <field name="stage_id" invisible="1"/>
                     <field name="team_id" invisible="1"/>
                     <field name="legend_normal" invisible="1"/>
@@ -290,7 +288,9 @@
                     <field name="domain_user_ids" invisible="1"/>
                     <field name="team_id" required="1" invisible="context.get('default_team_id')"  options="{'no_open': True}"/>
                     <field name="user_id" domain="[('id', 'in', domain_user_ids)]" options="{'no_open': True}"/>
-                    <field name="partner_id" options="{'no_open': True}" widget="res_partner_many2one"/>
+                    <field name="partner_id" options="{'no_open': True}" widget="res_partner_many2one"
+                        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+                    />
                 </group>
             </form>
         </field>
@@ -362,9 +362,6 @@
                     <field name="stage_id" widget="rotting_statusbar_duration" options="{'clickable': '1', 'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
-                    <field name="legend_blocked" invisible="1"/>
-                    <field name="legend_normal" invisible="1"/>
-                    <field name="legend_done" invisible="1"/>
                     <field name="rating_count" invisible="1"/>
                     <field name="use_rating" invisible="1"/>
                     <field name="rating_avg" invisible="1"/>

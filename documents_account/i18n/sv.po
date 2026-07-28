@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2026-04-14 14:49+0000\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-06-18 12:51+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/sv/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: documents_account
 #. odoo-python
@@ -111,6 +111,11 @@ msgstr "Bilaga"
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_bank_statement
 msgid "Bank Statement"
 msgstr "Bankkontoutdrag"
+
+#. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr ""
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -286,6 +291,7 @@ msgid "Customer Invoices"
 msgstr ""
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -347,6 +353,12 @@ msgstr "Exportguide för redovisningsrapporter"
 
 #. module: documents_account
 #. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr ""
+
+#. module: documents_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 #: code:addons/documents_account/static/src/js/tour.js:0
@@ -389,6 +401,7 @@ msgid "Has Embedded PDF"
 msgstr ""
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -419,7 +432,7 @@ msgstr "Journal"
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_account_move
 msgid "Journal Entry"
-msgstr "Bokföringspost"
+msgstr "Verifikation"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_documents_account_folder_setting
@@ -473,6 +486,12 @@ msgstr ""
 msgid ""
 "Let's tag this mail as Finance<br/> <i>Tips: actions can be tailored to your "
 "process, according to the folder.</i>"
+msgstr ""
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
 msgstr ""
 
 #. module: documents_account

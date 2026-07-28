@@ -13,7 +13,6 @@ import { useSetupAction } from "@web/search/action_hook";
 import { downloadFile } from "@web/core/network/download";
 import { user } from "@web/core/user";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
-import { browser } from "@web/core/browser/browser";
 import { UNTITLED_SPREADSHEET_NAME, DEFAULT_LINES_NUMBER } from "@spreadsheet/helpers/constants";
 import * as spreadsheet from "@odoo/o-spreadsheet";
 import { initCallbackRegistry } from "@spreadsheet/o_spreadsheet/init_callbacks";
@@ -83,7 +82,6 @@ export class AbstractSpreadsheetAction extends Component {
         this.spreadsheetService = useService("spreadsheet_collaborative");
         this.stores = useStoreProvider();
         this.threadId = this.params?.thread_id;
-        this.dataFetched = false;
         this.originalMetaViewportContent = document.querySelector(
             'head meta[name="viewport"]'
         ).content;
@@ -116,18 +114,30 @@ export class AbstractSpreadsheetAction extends Component {
 
         onWillStart(async () => {
             if (this.props.state?.model && this.props.state?.data) {
-                this.dataFetched = true;
                 this._initializeWith(this.props.state.data);
                 this.model = this.props.state.model;
                 this.model.joinSession();
                 this.stores.inject(ModelStore, this.model);
             } else {
-                await this.fetchData();
-                this.createModel();
-                this.stores.inject(ModelStore, this.model);
+                try {
+                    const data = await this.fetchData();
+                    this._initializeWith(data);
+                    this.createModel();
+                    this.stores.inject(ModelStore, this.model);
+                } catch {
+                    this.notifications.add(
+                        "The spreadsheet you’re trying to access doesn’t exist, has been deleted, or you don’t have the necessary permissions to view it.",
+                        {
+                            type: "info",
+                            sticky: true,
+                        }
+                    );
+                    await this.actionService.doAction("menu");
+                }
             }
         });
         onMounted(() => {
+            document.body.classList.add("o_spreadsheet_edition_o_spreadsheet_action");
             document
                 .querySelector('head meta[name="viewport"]')
                 .setAttribute(
@@ -151,6 +161,7 @@ export class AbstractSpreadsheetAction extends Component {
             }
         });
         onWillUnmount(() => {
+            document.body.classList.remove("o_spreadsheet_edition_o_spreadsheet_action");
             // the meximum scale does not work, need to find another approach
             document
                 .querySelector('head meta[name="viewport"]')
@@ -174,20 +185,7 @@ export class AbstractSpreadsheetAction extends Component {
         if (!this.props.state) {
             await this._setupPreProcessingCallbacks();
         }
-        const data = await this._fetchData();
-        if (!data) {
-            this.actionService.doAction("menu");
-            this.notifications.add(
-                "The spreadsheet you’re trying to access doesn’t exist, has been deleted, or you don’t have the necessary permissions to view it.",
-                {
-                    type: "info",
-                    sticky: true,
-                }
-            );
-            return;
-        }
-        this.dataFetched = true;
-        this._initializeWith(data);
+        return this._fetchServerData();
     }
 
     createModel() {
@@ -204,9 +202,6 @@ export class AbstractSpreadsheetAction extends Component {
     }
 
     getModelConfig() {
-        if (!this.dataFetched) {
-            return {};
-        }
         const transportService = this.spreadsheetService.makeCollaborativeChannel(
             this.resModel,
             this.resId,
@@ -357,14 +352,8 @@ export class AbstractSpreadsheetAction extends Component {
     /**
      * @returns {Promise<SpreadsheetData>}
      */
-    async _fetchData() {
-        const response = await browser.fetch(`/spreadsheet/data/${this.resModel}/${this.resId}`, {
-            method: "GET",
-        });
-        if ([403, 404].includes(response.status)) {
-            return;
-        }
-        return response.json();
+    async _fetchServerData() {
+        return this.http.get(`/spreadsheet/data/${this.resModel}/${this.resId}`);
     }
 
     /**

@@ -7,8 +7,16 @@ import { makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
 import { logPosMessage } from "@point_of_sale/app/utils/pretty_console_log";
 
 export const blackboxQueueService = {
-    dependencies: ["hardware_proxy", "dialog", "pos_data", "bus_service", "iot_http", "ui"],
-    start(env, { hardware_proxy, dialog, pos_data, bus_service, iot_http, ui }) {
+    dependencies: [
+        "hardware_proxy",
+        "dialog",
+        "pos_data",
+        "bus_service",
+        "iot_http",
+        "ui",
+        "notification",
+    ],
+    start(env, { hardware_proxy, dialog, pos_data, bus_service, iot_http, ui, notification }) {
         return new BlackboxQueueService(env, {
             hardware_proxy,
             dialog,
@@ -16,6 +24,7 @@ export const blackboxQueueService = {
             bus_service,
             iot_http,
             ui,
+            notification,
         });
     },
 };
@@ -23,13 +32,14 @@ export class BlackboxQueueService {
     constructor(...args) {
         this.setup(...args);
     }
-    setup(env, { hardware_proxy, dialog, pos_data, bus_service, iot_http, ui }) {
+    setup(env, { hardware_proxy, dialog, pos_data, bus_service, iot_http, ui, notification }) {
         this.hardwareProxy = hardware_proxy;
         this.dialog = dialog;
         this.data = pos_data;
         this.bus = bus_service;
         this.iotHttp = iot_http;
         this.ui = ui;
+        this.notification = notification;
         this.queue = JSON.parse(localStorage.getItem(this.key)) || [];
         this.waitForNextRequest = false;
         this.isFlushing = false;
@@ -37,6 +47,8 @@ export class BlackboxQueueService {
         this.callbacks = {
             default_callback: (data) => data,
         };
+
+        this.lastBBWarning = false;
     }
     get key() {
         return `pos_bb_queue_${odoo.access_token}`;
@@ -70,20 +82,24 @@ export class BlackboxQueueService {
     async callback(blackboxResponse, callbackName, args) {
         try {
             const result = this.extractResult(blackboxResponse);
-            if (
-                !result?.error?.errorCode.startsWith("000") &&
-                !result?.error?.errorCode.startsWith("001")
-            ) {
+            const errorCode = result?.error?.errorCode?.toString() || "000";
+            if (!errorCode.startsWith("0") && !errorCode.startsWith("1")) {
                 throw result.error;
             }
+            if (errorCode.startsWith("1")) {
+                this.showBlackboxWarning(errorCode, result.error.errorMessage);
+            }
+            this.lastBBWarning = errorCode;
             return this.callbacks[callbackName](result, ...args);
         } catch (err) {
             //the catch might actually not be an error
             const result = this.extractResult(err);
-            if (
-                result?.error?.errorCode.startsWith("000") ||
-                result?.error?.errorCode.startsWith("001")
-            ) {
+            const errorCode = result?.error?.errorCode?.toString() || "";
+            if (errorCode.startsWith("0") || errorCode.startsWith("1")) {
+                if (errorCode.startsWith("1")) {
+                    this.showBlackboxWarning(errorCode, result.error.errorMessage);
+                }
+                this.lastBBWarning = errorCode;
                 return this.callbacks[callbackName](result, ...args);
             }
             if (this.ui.isBlocked) {
@@ -99,6 +115,15 @@ export class BlackboxQueueService {
                 this.enqueue(num, "registerPIN");
             }
             throw new BlackboxError(err.errorCode, err.errorMessage);
+        }
+    }
+
+    showBlackboxWarning(code, message) {
+        if (this.lastBBWarning != code) {
+            // Show warning only if it is different from the last code received by the blackbox
+            this.notification.add(message || _t("Unknown blackbox warning"), {
+                type: "warning",
+            });
         }
     }
 

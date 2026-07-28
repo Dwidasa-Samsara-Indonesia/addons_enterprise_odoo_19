@@ -2,14 +2,14 @@
 # This file contains the translation of the following modules:
 # * l10n_pe_reports
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.5alpha1+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 19:07+0000\n"
-"PO-Revision-Date: 2026-03-14 04:14+0000\n"
+"POT-Creation-Date: 2026-06-12 18:08+0000\n"
+"PO-Revision-Date: 2026-04-20 07:18+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19-l10n/l10n_pe_reports/es_419/>\n"
@@ -190,6 +190,7 @@ msgstr "Fecha de detracción"
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_1_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_2_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_report_handler__display_name
+#: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_country__display_name
@@ -230,6 +231,7 @@ msgstr "ICBPER"
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_1_report_handler__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_2_report_handler__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_report_handler__id
+#: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_report_handler__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_country__id
@@ -327,12 +329,17 @@ msgstr "Última actualización por"
 #. module: l10n_pe_reports
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_ple_usage__write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: l10n_pe_reports
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_ple_usage__name
 msgid "Name"
 msgstr "Nombre"
+
+#. module: l10n_pe_reports
+#: model:account.report.column,name:l10n_pe_reports.column_net
+msgid "Net"
+msgstr ""
 
 #. module: l10n_pe_reports
 #. odoo-python
@@ -349,6 +356,11 @@ msgstr "Entrada de Apertura"
 #: model:ir.model.fields.selection,name:l10n_pe_reports.selection__res_company__l10n_pe_chart_of_accounts__99
 msgid "Others"
 msgstr "Otros"
+
+#. module: l10n_pe_reports
+#: model:ir.model,name:l10n_pe_reports.model_l10n_pe_tax_report_handler
+msgid "PE Tax Report Custom Handler"
+msgstr ""
 
 #. module: l10n_pe_reports
 #. odoo-python
@@ -512,6 +524,21 @@ msgstr "TXT PLE 1.1 (Efectivo)"
 #: code:addons/l10n_pe_reports/models/account_ple_cash_bank.py:0
 msgid "TXT PLE 1.2 (Bank)"
 msgstr "TXT PLE 1.2 (Banco)"
+
+#. module: l10n_pe_reports
+#: model:account.report.column,name:l10n_pe_reports.column_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_pe_reports
+#: model:account.return.type,name:l10n_pe_reports.pe_tax_return_type
+msgid "Tax (PE)"
+msgstr ""
+
+#. module: l10n_pe_reports
+#: model:account.report,name:l10n_pe_reports.l10n_pe_tax_report
+msgid "Tax Report"
+msgstr ""
 
 #. module: l10n_pe_reports
 #. odoo-python

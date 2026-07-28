@@ -129,8 +129,9 @@
             <nomina12:Incapacidades t-if="incapacidad_list">
                 <t t-foreach="incapacidad_list" t-as="incapacidad">
                     <nomina12:Incapacidad
-                        t-att-DiasIncapacidad="incapacidad['dias_incapacidad']"
-                        t-att-TipoIncapacidad="incapacidad['tipo_incapacidad']"/>
+                        t-att-DiasIncapacidad="int(incapacidad['dias_incapacidad'])"
+                        t-att-TipoIncapacidad="incapacidad['tipo_incapacidad']"
+                        t-att-ImporteMonetario="format_float(incapacidad['importe_monetario'], precision=2)"/>
                 </t>
             </nomina12:Incapacidades>
         </nomina12:Nomina>

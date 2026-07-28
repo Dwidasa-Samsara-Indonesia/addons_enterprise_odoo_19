@@ -9,7 +9,7 @@ from odoo import SUPERUSER_ID, _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Command, Domain
 from odoo.http import request
-from odoo.tools import float_is_zero
+from odoo.tools import float_is_zero, str2bool
 
 from odoo.addons.website_sale.models.website import (
     FISCAL_POSITION_SESSION_CACHE_KEY,
@@ -271,11 +271,20 @@ class SaleOrder(models.Model):
     def _needs_customer_address(self):
         """Return whether we need the address details of the customer (country, street, ...).
 
-        Make it true by default as it's required before payment for taxes based on fiscal position.
+        Orders with physical goods always require full customer address.
+        Orders without goods (services only) require customer address by default to correctly
+        determine fiscal position, taxes, pricelists (if based on country and geoip cannot be
+        trusted).
+
+        A dedicated system parameter can be set to False/0 to speed up the checkout process
+        and skip the address requirement for services.
         """
-        # TODO: should probably be removed in master, as we cannot skip the address form
-        # when the taxes applied on product/service depend on the fiscal position.
-        return True
+        return not self.only_services or str2bool(
+            self
+            .env["ir.config_parameter"]
+            .sudo()
+            .get_param("website_sale.require_billing_details_for_services", "True")
+        )
 
     def _update_address(self, partner_id, fnames=None):
         if not fnames:
@@ -284,7 +293,16 @@ class SaleOrder(models.Model):
         fpos_before = self.fiscal_position_id
         pricelist_before = self.pricelist_id
 
-        self.write(dict.fromkeys(fnames, partner_id))
+        address_vals = dict.fromkeys(fnames, partner_id)
+        if "partner_id" in fnames:
+            commercial_partner = self.env["res.partner"].browse(partner_id).commercial_partner_id
+            address_vals.update({
+                fname: self[fname].id
+                for fname in ("partner_invoice_id", "partner_shipping_id")
+                if fname not in fnames and self[fname].commercial_partner_id == commercial_partner
+            })
+
+        self.write(address_vals)
 
         fpos_changed = fpos_before != self.fiscal_position_id
         if fpos_changed:
@@ -337,8 +355,16 @@ class SaleOrder(models.Model):
         self.ensure_one()
         self = self.with_company(self.company_id)
 
-        if not uom_id:
-            uom_id = self.env['product.product'].browse(product_id).uom_id.id  # type: ignore
+        product = self.env['product.product'].browse(product_id)
+        if not uom_id or not product.product_tmpl_id._has_multiple_uoms():
+            # Fall back on product uom if uom is not specified or if multi-uom is not
+            # allowed/supported for that product.
+            uom_id = product.uom_id.id  # type: ignore
+        elif uom_id not in product.product_tmpl_id._get_available_uoms().ids:
+            raise ValidationError(
+                _("This product is not available (anymore) in this unit of measure.")
+            )
+
         if existing_sol := self._cart_find_product_line(product_id, uom_id=uom_id, **kwargs)[:1]:
             # If a matching line is found, update the existing line instead.
             return self._cart_update_line_quantity(

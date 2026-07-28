@@ -75,13 +75,13 @@ GET_ORDER_ITEMS_MOCK = {
 FBM_LISTINGS_ITEM_MOCK = {
     'sku': 'TESTING_SKU',
     'productTypes': [{'productType': 'PRODUCT'}],
-    'attributes': {'merchant_shipping_group': {}},
+    "fulfillmentAvailability": [{"fulfillmentChannelCode": "DEFAULT"}],
 }
 
 FBA_LISTINGS_ITEM_MOCK = {
     'sku': 'TESTING_SKU',
     'productTypes': [{'productType': 'PRODUCT'}],
-    'attributes': {},
+    "fulfillmentAvailability": [{"fulfillmentChannelCode": "AMAZON_NA"}],
 }
 
 SEARCH_LISTINGS_ITEMS_MOCK = {

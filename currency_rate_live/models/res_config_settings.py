@@ -146,6 +146,7 @@ CURRENCY_PROVIDER_SELECTION = [
     ([], 'ecb', 'European Central Bank'),
     (['IN', 'SA'], 'xe_com', 'xe.com'),
     (['AE'], 'cbuae', '[AE] Central Bank of the UAE'),
+    (['AZ'], 'cbar', '[AZ] Central Bank of Azerbaijan'),
     (['BG'], 'bnb', '[BG] Bulgaria National Bank'),
     (['BR'], 'bbr', '[BR] Central Bank of Brazil'),
     (['CA'], 'boc', '[CA] Bank of Canada'),
@@ -423,6 +424,34 @@ class ResCompany(models.Model):
 
         if 'AED' in available_currency_names:
             rslt['AED'] = (1.0, date_rate)
+        return rslt
+
+    def _parse_cbar_data(self, available_currencies):
+        """ This method is used to update the currencies by using the Central Bank of Azerbaijan service provider.
+            Exchange rates are expressed as 'quantity' units of the available currencies converted into AZN.
+        """
+
+        today_date = fields.Date.context_today(self.with_context(tz='Asia/Baku'))
+        date_str = today_date.strftime('%d.%m.%Y')
+        request_url = f"https://cbar.az/currencies/{date_str}.xml"
+        response = requests.get(request_url, timeout=30)
+        response.raise_for_status()
+        xml_tree = etree.fromstring(response.content)
+
+        rslt = {}
+        date_rate = datetime.datetime.strptime(xml_tree.get('Date'), '%d.%m.%Y').date()
+        available_currency_names = set(available_currencies.mapped('name'))
+        for currency in xml_tree.xpath(".//ValType[@Type='Xarici valyutalar']/Valute"):
+            code = currency.get('Code')
+            quantity = float(currency.findtext('Nominal'))
+            rate = float(currency.findtext('Value'))
+
+            if code in available_currency_names:
+                # Normalize the rate using the Quantity / Rate formula
+                rslt[code] = (quantity / rate, date_rate)
+
+        if 'AZN' in available_currency_names:
+            rslt['AZN'] = (1.0, date_rate)
         return rslt
 
     def _parse_cbegy_data(self, available_currencies):
@@ -883,6 +912,7 @@ class ResCompany(models.Model):
             "UF": "uf",
             "UTM": "utm",
         }
+        timeout = int(icp.get_param('mindicador_api_timeout', 30))
         available_currency_names = available_currencies.mapped('name')
         logger.debug('mindicador: available currency names: %s', available_currency_names)
         today_date = fields.Date.context_today(self.with_context(tz='America/Santiago'))
@@ -895,7 +925,7 @@ class ResCompany(models.Model):
                 logger.debug('Index %s not in available currency name', index)
                 continue
             url = server_url + '/%s/%s' % (currency, request_date)
-            res = requests.get(url, timeout=30)
+            res = requests.get(url, timeout=timeout)
             res.raise_for_status()
             if 'html' in res.text:
                 raise ValueError('Should be json')
@@ -930,6 +960,7 @@ class ResCompany(models.Model):
         - USD, AUD, DKK, EUR, GBP, CHF, SEK, CAD, KWD, NOK, SAR,
         - JPY, BGN, RON, RUB, IRR, CNY, PKR, QAR, KRW, AZN, AED
         """
+        # For TCMB, the selling rate is used instead of the average of buying and selling rates.
         server_url = 'https://www.tcmb.gov.tr/kurlar/today.xml'
         available_currency_names = set(available_currencies.mapped('name'))
 
@@ -944,7 +975,7 @@ class ResCompany(models.Model):
         root = etree.fromstring(res.text.encode())
         rate_date = fields.Date.to_string(datetime.datetime.strptime(root.attrib['Date'], '%m/%d/%Y'))
         rslt = {
-            currency.attrib['Kod']: (2 / (float(currency.find('ForexBuying').text) + float(currency.find('ForexSelling').text)), rate_date)
+            currency.attrib['Kod']: (1 / float(currency.find('ForexSelling').text), rate_date)
             for currency in root
             if currency.attrib['Kod'] in available_currency_names
         }

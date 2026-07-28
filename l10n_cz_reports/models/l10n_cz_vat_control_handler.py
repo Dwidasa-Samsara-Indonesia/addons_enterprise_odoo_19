@@ -196,14 +196,14 @@ class CzechVATControlReportCustomHandler(models.AbstractModel):
             """))
             groupby_clauses.append(SQL('partner.vat, account_move_line__move_id.name, account_move_line__move_id.taxable_supply_date, country.code, account_move_line__move_id.move_type, account_move_line__move_id.ref'))
         else:
-            search_condition_remaining += " AND (ABS(account_move_line__move_id.amount_total_signed) <= 10000 OR partner.vat IS NULL OR partner.vat = '/' OR account_move_line__move_id.l10n_cz_scheme_code IN ('1', '2'))"
+            search_condition_remaining += " AND (ABS(account_move_line__move_id.amount_total_signed) <= 10000 OR partner.vat IS NULL OR partner.vat = '/' OR country.code != 'CZ' OR account_move_line__move_id.l10n_cz_scheme_code IN ('1', '2'))"
 
         if code in {'a1', 'b1'}:  # A1 and B1 have reverse charges codes.
             select_clauses.append(SQL('account_move_line.l10n_cz_supplies_code AS supplies_code'))
             groupby_clauses.append(SQL('account_move_line.l10n_cz_supplies_code'))
 
         if code in {'a4', 'b2'}:
-            search_condition_remaining += " AND ABS(account_move_line__move_id.amount_total_signed) > 10000 AND partner.vat IS NOT NULL AND partner.vat != '/' AND account_move_line__move_id.l10n_cz_scheme_code NOT IN ('1', '2')"
+            search_condition_remaining += " AND ABS(account_move_line__move_id.amount_total_signed) > 10000 AND partner.vat IS NOT NULL AND partner.vat != '/' AND (country IS NULL OR country.code = 'CZ') AND account_move_line__move_id.l10n_cz_scheme_code NOT IN ('1', '2')"
             if code == 'a4':  # A4 might include special regime transactions.
                 select_clauses.append(SQL('account_move_line__move_id.l10n_cz_scheme_code AS supplies_code'))
                 groupby_clauses.append(SQL('account_move_line__move_id.l10n_cz_scheme_code'))

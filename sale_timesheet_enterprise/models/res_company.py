@@ -9,6 +9,11 @@ class ResCompany(models.Model):
     timesheet_show_rates = fields.Boolean(export_string_translation=False)
     timesheet_show_leaderboard = fields.Boolean(export_string_translation=False)
 
+    def cache_invalidation_fields(self):
+        res = super().cache_invalidation_fields()
+        res.add('timesheet_show_rates')
+        return res
+
     def _get_leaderboard_query(self):
         return """
             WITH A AS (

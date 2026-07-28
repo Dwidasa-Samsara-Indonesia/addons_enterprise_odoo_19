@@ -9,7 +9,7 @@
                     <group>
                         <field name="iot_box_id"/>
                         <field name="six_terminal_id" widget="six_terminal_id_field" invisible="not iot_box_id"/>
-                        <field name="terminal_device_id" invisible="not iot_box_id" domain="[('iot_id', '=', iot_box_id), ('type', '=', 'payment'), ('manufacturer', '=', 'Six')]"/>
+                        <field name="terminal_device_id" invisible="not iot_box_id" domain="[('iot_id', '=', iot_box_id), ('type', '=', 'payment')]"/>
                         <field name="iot_box_ip" invisible="True"/>  <!-- Needed by 'six_terminal_id_field' JS widget -->
                     </group>
                 </div>

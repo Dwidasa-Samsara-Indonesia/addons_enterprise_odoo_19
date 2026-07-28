@@ -172,3 +172,59 @@ class TestShopFloorQuality(TestShopFloor, TestQualityCommon):
         }).action_confirm()
 
         self.start_tour('/odoo/shop-floor', 'test_quality_fail_message', login='admin')
+
+    def test_mass_produce_sn_with_backorders_and_qc(self):
+        """ Make sure that mass producing a product with backorders works correctly.
+        along with the execution of the quality checks.
+        """
+        self._enable_settings('tracking')
+        product = self.env['product.product'].create({
+            'name': 'Serial Gadget',
+            'is_storable': True,
+            'tracking': 'serial',
+        })
+
+        self.env['quality.point'].create({
+            'picking_type_ids': [Command.link(self.warehouse.manu_type_id.id)],
+            'product_ids': [Command.link(product.id)],
+            'title': 'Final Inspection',
+            'test_type_id': self.env.ref('quality_control.test_type_passfail').id,
+        })
+
+        mo = self.env['mrp.production'].create({
+            'product_id': product.id,
+            'product_qty': 3,
+        })
+        mo.action_confirm()
+
+        self.start_tour('/odoo/shop-floor', "test_mass_produce_backorder_qc", login='admin')
+
+    def test_backorder_qc_without_auto_close(self):
+        """Verify that when auto_close_production is False, quality checks
+        function as expected, while the 'Close Production' option remains unavailable.
+        """
+        self._enable_settings('tracking')
+        manu_type = self.warehouse.manu_type_id
+        manu_type.auto_close_production = False
+
+        product = self.env['product.product'].create({
+            'name': 'Serial Gadget',
+            'is_storable': True,
+            'tracking': 'serial',
+        })
+
+        self.env['quality.point'].create({
+            'picking_type_ids': [Command.link(manu_type.id)],
+            'product_ids': [Command.link(product.id)],
+            'title': 'Final Inspection',
+            'test_type_id': self.env.ref('quality_control.test_type_passfail').id,
+        })
+
+        mo = self.env['mrp.production'].create({
+            'product_id': product.id,
+            'product_qty': 3,
+            'picking_type_id': manu_type.id,
+        })
+        mo.action_confirm()
+
+        self.start_tour('/odoo/shop-floor', "test_backorder_qc_without_auto_close", login='admin')

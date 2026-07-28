@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-01-06 18:53+0000\n"
+"POT-Creation-Date: 2026-06-05 19:37+0000\n"
+"PO-Revision-Date: 2026-05-07 10:04+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
 "account_intrastat/ar/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: account_intrastat
 #. odoo-javascript
@@ -388,11 +388,19 @@ msgid ""
 "Intrastat thresholds may change annually. Verify that your transactions "
 "exceed the threshold for reporting."
 msgstr ""
+"قد تتغير عتبات Intrastat سنويًا. تحقق من أن معاملاتك تتجاوز العتبة المطلوبة "
+"للإبلاغ."
 
 #. module: account_intrastat
 #: model_terms:ir.ui.view,arch_db:account_intrastat.account_move_line_tree_view_account_intrastat_transaction_codes
 msgid "Intrastat transaction code"
 msgstr "رمز معاملة Intrastat"
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid "Invalid Intrastat Code"
+msgstr ""
 
 #. module: account_intrastat
 #. odoo-python
@@ -449,6 +457,14 @@ msgstr "Missing country of origin"
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Missing product"
 msgstr "المنتج ناقص"
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"Note that the selected commodity code is invalid based on its start or "
+"expiry date. You can still select it."
+msgstr ""
 
 #. module: account_intrastat
 #. odoo-python
@@ -619,6 +635,14 @@ msgstr "يجب أن يكون نطاق التاريخ شهراً كاملاً أ�
 #: model:ir.model.fields,help:account_intrastat.field_product_template__intrastat_supplementary_unit_amount
 msgid "The number of supplementary units per product quantity."
 msgstr "The number of supplementary units per product quantity."
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"The product template has no products/variants. At least one variant is "
+"required to set the Intrastat values."
+msgstr ""
 
 #. module: account_intrastat
 #. odoo-python

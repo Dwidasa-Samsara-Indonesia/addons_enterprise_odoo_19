@@ -17,5 +17,6 @@ patch(PlanningGanttModel.prototype, {
             }
             data.workingPeriods = workingPeriods;
         }
+        super._processGanttData(metaData, data, ganttData);
     }
 });

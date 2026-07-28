@@ -25,11 +25,11 @@ class SwedishSalesReportTest(AccountSalesReportCommon):
         services_tax = self.env.ref(f"account.{self.company_data['company'].id}_sale_tax_services_EC")
 
         self._create_invoices([
-            (self.partner_a, goods_tax, 3000),
-            (self.partner_a, goods_tax, 3000),
-            (self.partner_a, services_tax, 7000),
-            (self.partner_b, services_tax, 4000),
-            (self.partner_b, triangular_tax, 2000),
+            (self.partner_a, goods_tax, 3000.3),
+            (self.partner_a, goods_tax, 3000.4),
+            (self.partner_a, services_tax, 7000.2),
+            (self.partner_b, services_tax, 4000.43),
+            (self.partner_b, triangular_tax, 2000.12),
         ])
         report = self.env.ref('l10n_se_reports.swedish_ec_sales_report')
         options = report.get_options({'date': {'mode': 'range', 'filter': 'this_month'}})
@@ -40,15 +40,17 @@ class SwedishSalesReportTest(AccountSalesReportCommon):
             #   Partner                 VAT Number,         Goods,                              Triangular,                         Services,
             [   0,                      1,                  2,                                  3,                                  4],
             [
-                (self.partner_a.name,   self.partner_a.vat, f'6,000.00{NON_BREAKING_SPACE}kr',  f'0.00{NON_BREAKING_SPACE}kr',      f'7,000.00{NON_BREAKING_SPACE}kr'),
-                (self.partner_b.name,   self.partner_b.vat, f'0.00{NON_BREAKING_SPACE}kr',      f'2,000.00{NON_BREAKING_SPACE}kr',  f'4,000.00{NON_BREAKING_SPACE}kr'),
-                ('Total',               '',                 f'6,000.00{NON_BREAKING_SPACE}kr',  f'2,000.00{NON_BREAKING_SPACE}kr',  f'11,000.00{NON_BREAKING_SPACE}kr'),
+                (self.partner_a.name,   self.partner_a.vat, f'6,000.70{NON_BREAKING_SPACE}kr',  f'0.00{NON_BREAKING_SPACE}kr',      f'7,000.20{NON_BREAKING_SPACE}kr'),
+                (self.partner_b.name,   self.partner_b.vat, f'0.00{NON_BREAKING_SPACE}kr',      f'2,000.12{NON_BREAKING_SPACE}kr',  f'4,000.43{NON_BREAKING_SPACE}kr'),
+                ('Total',               '',                 f'6,000.70{NON_BREAKING_SPACE}kr',  f'2,000.12{NON_BREAKING_SPACE}kr',  f'11,000.63{NON_BREAKING_SPACE}kr'),
             ],
             options,
         )
-        correct_report = 'SKV574008\r\n' \
-                         'SE123456789701;1912;Because I am accountman!;;accountman@test.com;\r\n' \
-                         'FR23334175221;6000.0;;7000.0\r\n' \
-                         'BE0477472701;;2000.0;4000.0\r\n'
+        correct_report = (
+            'SKV574008\r\n'
+            'SE123456789701;1912;Because I am accountman!;;accountman@test.com;\r\n'
+            'FR23334175221;6001;;7000\r\n'
+            'BE0477472701;;2000;4000\r\n'
+        )
         gen_report = self.env[report.custom_handler_model_name].export_sales_report_to_kvr(options)['file_content'].decode()
         self.assertEqual(gen_report, correct_report, "Error creating KVR")

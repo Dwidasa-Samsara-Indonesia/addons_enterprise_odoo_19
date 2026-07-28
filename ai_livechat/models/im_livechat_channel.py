@@ -11,7 +11,7 @@ class Im_LivechatChannel(models.Model):
         count_by_channel = dict(self.env['im_livechat.channel.rule']._read_group(
             [('channel_id', 'in', self.ids)], ['channel_id'], ['ai_agent_id:count_distinct']))
         for channel in self:
-            channel.ai_agent_count = count_by_channel.get(channel.id, 0)
+            channel.ai_agent_count = count_by_channel.get(channel, 0)
 
     def _is_livechat_available(self):
         is_livechat_available = super()._is_livechat_available()

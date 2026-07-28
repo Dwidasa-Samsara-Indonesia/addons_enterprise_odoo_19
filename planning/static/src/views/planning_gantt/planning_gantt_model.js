@@ -95,18 +95,31 @@ export class PlanningGanttModel extends GanttModel {
     /**
      * @override
      */
-    _processProgressBars(progressBars) {
-        if (!this.orm.isSample) {
-            const resources = Object.values(progressBars.resource_id || []);
-            for (const resource of resources) {
-                if (resource.work_intervals) {
-                    resource.work_intervals = resource.work_intervals.map((work_interval) =>
+    _processGanttData(metaData, data, ganttData) {
+        if ("planning_data" in ganttData) {
+            if (!this.orm.isSample) {
+                const workIntervals = {};
+                for (const [resource_id, periods] of Object.entries(ganttData.planning_data.work_intervals)) {
+                    workIntervals[resource_id] = periods.map((work_interval) =>
                         work_interval.map(deserializeDateTime)
-                    );
+                    )
                 }
+                data.workIntervals = workIntervals;
             }
+            
+            const isFlexibleHours = {};
+            for (const [resource_id, value] of Object.entries(ganttData.planning_data.is_flexible)) {
+                isFlexibleHours[resource_id] = value
+            }
+            data.isFlexibleHours = isFlexibleHours;
+
+            const avgWorkHours = {};
+            for (const [resource_id, value] of Object.entries(ganttData.planning_data.avg_hours)) {
+                avgWorkHours[resource_id] = value
+            }
+            data.avgWorkHours = avgWorkHours;
         }
-        return super._processProgressBars(progressBars);
+        super._processGanttData(metaData, data, ganttData);
     }
 
     //--------------------------------------------------------------------------

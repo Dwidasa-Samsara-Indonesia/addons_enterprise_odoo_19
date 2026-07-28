@@ -11,7 +11,7 @@ class PosMakePayment(models.TransientModel):
 
     def check(self):
         order = self.env["pos.order"].browse(self.env.context.get("active_id"))
-        if order.config_id.certified_blackbox_identifier:
+        if order.config_id._uses_blackbox_v1():
             urban_piper_installed = self.env['ir.module.module']._get('pos_urban_piper').state == 'installed'
             # order.delivery_provider_id only exists if pos_urban_piper is installed
             if not (urban_piper_installed and order.delivery_provider_id):

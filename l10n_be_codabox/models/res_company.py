@@ -67,7 +67,10 @@ class ResCompany(models.Model):
         return result
 
     def _l10n_be_codabox_verify_prerequisites(self):
-        self.check_access('write')
+        if self.env.context.get("read_only"):
+            self.check_access('read')
+        else:
+            self.check_access('write')
         self.ensure_one()
         if not self.l10n_be_codabox_company_vat:
             raise UserError(_("The company VAT/ID number is not set."))

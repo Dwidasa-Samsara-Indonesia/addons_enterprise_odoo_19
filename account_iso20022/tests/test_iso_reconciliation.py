@@ -16,6 +16,9 @@ class TestIsoReconciliation(TestSEPACreditTransferCommon):
         )
         cls.branch_data = cls.collect_company_accounting_data(branch)
 
+        unrelated = cls._create_company(name='Unrelated Company')
+        cls.unrelated_data = cls.collect_company_accounting_data(unrelated)
+
     def test_matching_on_end_to_end_uuid(self):
         """
         Assert that a payment and a bank statement line are matched if they have the same end_to_end_uuid.
@@ -155,6 +158,52 @@ class TestIsoReconciliation(TestSEPACreditTransferCommon):
                 }
             ]
         )
+
+    def test_no_end_to_end_uuid_matching_across_unrelated_companies(self):
+        """
+        Assert that a bank statement line is NOT matched against a payment from an
+        unrelated company via end_to_end_uuid, even when both share the same UUID
+        (e.g. two companies on the same database doing an intercompany bank transfer).
+        """
+        bill = self.env['account.move'].create({
+            'partner_id': self.partner_a.id,
+            'move_type': 'in_invoice',
+            'invoice_date': '2025-01-01',
+            'invoice_line_ids': [Command.create({
+                'quantity': 1,
+                'price_unit': 100,
+            })],
+            'company_id': self.company_data['company'].id,
+        })
+        bill.action_post()
+
+        sepa_ct_method_line = self.bank_journal.outbound_payment_method_line_ids.filtered(lambda l: l.code == 'sepa_ct')
+        sepa_ct_method_line.payment_account_id = self.outbound_payment_method_line.payment_account_id
+        payment = self.env['account.payment.register'].with_context(
+            active_ids=bill.ids,
+            active_model='account.move',
+        ).create({
+            'amount': 100,
+            'journal_id': self.bank_journal.id,
+            'payment_date': '2010-01-01',
+            'payment_method_line_id': sepa_ct_method_line.id,
+            'company_id': self.company_data['company'].id,
+        })._create_payments()
+
+        bank_statement_line = self.env['account.bank.statement.line'].create({
+            'journal_id': self.unrelated_data['default_journal_bank'].id,
+            'date': '2020-01-01',
+            'payment_ref': 'PAYMENT',
+            'amount': -100,
+            'end_to_end_uuid': payment.end_to_end_uuid,
+            'company_id': self.unrelated_data['company'].id,
+        })
+
+        # sudo() replicates the SUPERUSER context used by the auto-reconciliation cron,
+        # which has access to all companies and is what triggered the original bug.
+        bank_statement_line.sudo()._try_auto_reconcile_statement_lines()
+
+        self.assertFalse(bank_statement_line.is_reconciled)
 
     def test_matching_end_to_end_uuid_draft_payment(self):
         payment = self.env['account.payment'].create({

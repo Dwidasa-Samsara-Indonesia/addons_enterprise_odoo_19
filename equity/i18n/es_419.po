@@ -3,15 +3,15 @@
 # * equity
 #
 # "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
-# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025.
+# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025, 2026.
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-04-10 08:34+0000\n"
-"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
+"POT-Creation-Date: 2026-05-08 17:40+0000\n"
+"PO-Revision-Date: 2026-05-16 09:38+0000\n"
+"Last-Translator: \"Patricia Gutiérrez (pagc)\" <pagc@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/equity/es_419/>\n"
 "Language: es_419\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__securities
@@ -517,6 +517,7 @@ msgid "Clear"
 msgstr "Limpiar"
 
 #. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_cap_table__company_id
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__partner_id
 #: model:ir.model.fields,field_description:equity.field_equity_ubo__partner_id
 #: model:ir.model.fields,field_description:equity.field_equity_valuation__partner_id
@@ -540,6 +541,13 @@ msgstr "Empresa - Cat 2. Control por otros medios"
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__control_method__co_3
 msgid "Company - Cat 3. Executive officer"
 msgstr "Empresa - Cat 3. Directivo ejecutivo"
+
+#. module: equity
+#: model:ir.model.fields,help:equity.field_equity_transaction__company_id
+#: model:ir.model.fields,help:equity.field_equity_ubo__company_id
+#: model:ir.model.fields,help:equity.field_equity_valuation__company_id
+msgid "Company to which this record is visible"
+msgstr "Empresa para la que este registro es visible"
 
 #. module: equity
 #: model:ir.ui.menu,name:equity.menu_equity_configuration
@@ -974,7 +982,9 @@ msgstr "Participaciones"
 msgid ""
 "I hereby declare on honor that the information provided is truthful and "
 "accurate."
-msgstr "Declaro bajo juramento que todos los datos consignados son auténticos."
+msgstr ""
+"Declaro bajo protesta de decir verdad que la información proporcionada es "
+"veraz y precisa."
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__id
@@ -1769,7 +1779,6 @@ msgstr "Valor total"
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_valuation__event__transaction
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form
-#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_form
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_search
 msgid "Transaction"
 msgstr "Transacción"
@@ -1790,7 +1799,6 @@ msgstr "Tipo de transacción"
 #: model:ir.actions.act_window,name:equity.action_equity_transaction
 #: model:ir.ui.menu,name:equity.menu_equity_ownership_transactions
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_list
-#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_list
 msgid "Transactions"
 msgstr "Transacciones"
 
@@ -1906,12 +1914,14 @@ msgstr "Subir formulario UBO"
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__valuation
 #: model:ir.model.fields,field_description:equity.field_equity_valuation__valuation
 #: model:ir.ui.menu,name:equity.menu_equity_reporting_valuation
+#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_form
 msgid "Valuation"
 msgstr "Valoración"
 
 #. module: equity
 #: model:ir.actions.act_window,name:equity.action_equity_valuation
 #: model:ir.ui.menu,name:equity.menu_equity_ownership_valuations
+#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_list
 msgid "Valuations"
 msgstr "Valoraciones"
 
@@ -1924,6 +1934,13 @@ msgstr "Periodo de consolidación, fecha límite del ejercicio, etc."
 #: model:res.groups,name:equity.group_equity_viewer
 msgid "Viewer"
 msgstr "Visualizador"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__company_id
+#: model:ir.model.fields,field_description:equity.field_equity_ubo__company_id
+#: model:ir.model.fields,field_description:equity.field_equity_valuation__company_id
+msgid "Visible to"
+msgstr "Visible para"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__votes

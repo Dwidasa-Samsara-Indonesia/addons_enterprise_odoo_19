@@ -397,6 +397,42 @@ function useDocumentsViewFilePreviewer({
 }
 
 /**
+ * Waits for a selector on observeNode to be matched within the timeout. It returns the node if found or null.
+ */
+async function waitFor(observeNode, selector, timeout = 500) {
+    if (!observeNode) {
+        return Promise.resolve(null);
+    }
+    const { promise, resolve } = Promise.withResolvers();
+    let timeoutHandler = null;
+    let observer = null;
+    const check = () => {
+        const node = observeNode.querySelector(selector);
+        if (!node) {
+            return false;
+        }
+        if (timeoutHandler) {
+            clearTimeout(timeoutHandler);
+        }
+        if (observer) {
+            observer.disconnect();
+        }
+        resolve(node);
+        return true;
+    };
+    if (check()) {
+        return;
+    }
+    observer = new MutationObserver(() => check());
+    timeoutHandler = setTimeout(() => {
+        observer.disconnect();
+        resolve(null);
+    }, timeout);
+    observer.observe(observeNode, { childList: true, subtree: true });
+    return promise;
+}
+
+/**
  * Hook to setup file upload
  */
 function useDocumentsViewFileUpload() {
@@ -406,6 +442,7 @@ function useDocumentsViewFileUpload() {
     const notification = useService("notification");
     const fileUpload = useService("file_upload");
     const documentService = useService("document.document");
+    const actionService = useService("action");
 
     const handleUploadError = (result) => {
         notification.add(result.error, {
@@ -448,13 +485,47 @@ function useDocumentsViewFileUpload() {
         const response = JSON.parse(xhr.response);
         const newDocumentIds = Array.isArray(response) ? response : undefined;
         await env.model.load(component.props);
+        env.model.notify();
+
         if (!newDocumentIds) {
             return;
         }
-        component.model.root.selection.forEach((el) => el.toggleSelection(false));
-        const newRecords = env.model.root.records.filter((r) => newDocumentIds.includes(r.resId));
-        newRecords.map((record) => record.toggleSelection(true));
-        documentService.focusRecord(newRecords[0]);
+
+        const firstNewRecord = env.model.root.records.find((r) =>
+            newDocumentIds.includes(r.resId)
+        );
+        if (!firstNewRecord) {
+            return;
+        }
+
+        // need to change the selection one by one to have the right selection
+        // otherwise the web client show the wrong selection
+        await Promise.all(
+            component.model.root.records.map((r) =>
+                r.toggleSelection(newDocumentIds.includes(r.resId))
+            )
+        );
+
+        documentService.focusRecord(firstNewRecord, true);
+
+        // Wait the record to be rendered and then focus it and scroll to it.
+        const viewType = actionService.currentController?.view?.type;
+        let recordElement;
+        if (["kanban", "list"].includes(viewType)) {
+            recordElement = await waitFor(
+                document.querySelector(
+                    viewType === "kanban" ? ".o_kanban_renderer" : ".o_list_renderer"
+                ),
+                viewType === "kanban"
+                    ? `.o_kanban_record[data-value-id="${firstNewRecord.resId}"]`
+                    : `.o_data_row[data-value-id="${firstNewRecord.resId}"]`
+            );
+        }
+
+        recordElement?.scrollIntoView?.({
+            behavior: "instant",
+            block: viewType === "kanban" ? "start" : "center",
+        });
     });
 
     /**

@@ -42,7 +42,7 @@ class TestSingleTouchPayrollApi(L10nPayrollAccountCommon, TestL10nAUPayrollAPICo
         self._register_company()
 
     def test_api_submit_event(self):
-        payrun = self._prepare_payslip_run(self.employee_1 + self.employee_2)
+        payrun = self._prepare_payslip_run(self.employee_1 + self.employee_2, start_date=date(2024, 2, 1), end_date=date(2024, 2, 29))
         stp = self.env["l10n_au.stp"].search([("payslip_batch_id", "=", payrun.id)])
         stp.submit_date = date.today()
         with self.mock_stp_requests():
@@ -53,7 +53,7 @@ class TestSingleTouchPayrollApi(L10nPayrollAccountCommon, TestL10nAUPayrollAPICo
 
     @freeze_time("2024-03-31")
     def test_api_update_event(self):
-        batch = self._prepare_payslip_run(self.employee_1 + self.employee_2)
+        batch = self._prepare_payslip_run(self.employee_1 + self.employee_2, start_date=date(2024, 3, 1), end_date=date(2024, 3, 31))
         stp = self.env["l10n_au.stp"].search([("payslip_batch_id", "=", batch.id)])
         stp.submit_date = date.today()
         with self.mock_stp_requests():
@@ -73,8 +73,6 @@ class TestSingleTouchPayrollApi(L10nPayrollAccountCommon, TestL10nAUPayrollAPICo
             self._submit_stp(stp_update)
 
     def test_api_status_check(self):
-        self._register_company()
-
         payrun = self._prepare_payslip_run(self.employee_1 + self.employee_2)
         stp = self.env["l10n_au.stp"].search([("payslip_batch_id", "=", payrun.id)])
         stp.submit_date = date.today()

@@ -38,6 +38,11 @@ export class SalaryAttachment2ManyField extends X2ManyField {
      */
     get rendererProps() {
         const props = super.rendererProps;
+
+        if (this.props.viewMode === "kanban") {
+            return props;
+        }
+
         props.activeActions.onDelete = this.onDelete.bind(this);
         return props;
     }

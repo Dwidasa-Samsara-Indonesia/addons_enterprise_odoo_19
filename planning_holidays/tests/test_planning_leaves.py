@@ -353,8 +353,8 @@ class TestPlanningLeaves(TestCommon):
         end_dt = datetime.datetime(2025, 4, 30, 23, 59, 59, 999999, tzinfo=utc)
         intervals = self.flexible_calendar._leave_intervals_batch(start_dt, end_dt, [self.employee_bert.resource_id])
         interval = next(iter(intervals[self.employee_bert.resource_id.id]))
-        self.assertEqual(interval[0], datetime.datetime(2025, 4, 30, 8, 0, 0, tzinfo=utc), "The start of the interval should be 08:00:00")
-        self.assertEqual(interval[1], datetime.datetime(2025, 4, 30, 16, 0, 0, tzinfo=utc), "The end of the interval should be 16:00:00")
+        self.assertEqual(interval[0], datetime.datetime(2025, 4, 30, 0, 0, 0, tzinfo=utc), "The start of the interval should be 00:00:00")
+        self.assertEqual(interval[1], datetime.datetime(2025, 4, 30, 23, 59, 59, 999999, tzinfo=utc), "The end of the interval should be 23:59:59")
 
     def test_batch_creation_from_calendar_with_time_off(self):
         """

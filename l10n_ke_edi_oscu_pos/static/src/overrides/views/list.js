@@ -24,12 +24,7 @@ export class L10nKePosListController extends ListController {
         const records = this.model.root.selection;
         const recordIds = records.map((a) => a.resId);
         try {
-            await this.orm.call(
-                "pos.order",
-                "action_post_selected_orders",
-                [this.env, recordIds],
-                {}
-            );
+            await this.orm.call("pos.order", "action_post_selected_orders", [[], recordIds], {});
         } finally {
             await this.model.root.load();
         }

@@ -34,7 +34,7 @@ class TestDatabasesCommon(TransactionCase):
         cls.user_proj_manager = new_test_user(cls.env, login='project_manager@company.tld', groups="project.group_project_manager")
 
         # Tell the database how to connect
-        cls.env['ir.config_parameter'].set_param('databases.odoocom_apikey', 'privateKey')
+        cls.env['ir.config_parameter'].set_param('databases.odoocom_apikey', 'odoocom_privateKey')
 
         cls.startClassPatcher(patch('odoo.addons.databases.wizard.databases_synchronization_wizard.getaddrinfo',
                                     return_value=[(AF_INET, SOCK_STREAM, IPPROTO_TCP, '', ('127.0.0.1', 0))]))

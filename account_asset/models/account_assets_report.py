@@ -314,7 +314,7 @@ class AccountAssetReportHandler(models.AbstractModel):
         for parent_field in parent_recordset:
             parent_line_vals = line_vals_per_grouping_field_id[parent_field.id]
             if options['assets_grouping_field'] == 'account_id':
-                parent_line_vals['name'] = f"{parent_field.code} {parent_field.name}"
+                parent_line_vals['name'] = f"{parent_field.code or ''} {parent_field.name}".strip()
             else:
                 parent_line_vals['name'] = parent_field.name or _('(No %s)', parent_field._description)
 

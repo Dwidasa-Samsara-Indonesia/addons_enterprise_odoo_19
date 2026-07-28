@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-06 18:45+0000\n"
-"PO-Revision-Date: 2026-03-14 09:34+0000\n"
+"PO-Revision-Date: 2026-05-16 09:43+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll_account/fr/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: hr_payroll_account
 #: model:ir.model.fields,field_description:hr_payroll_account.field_account_bank_statement_line__payslip_count
@@ -62,12 +62,12 @@ msgid ""
 "                        <span class=\"o_stat_text\" invisible=\"move_state !"
 "= 'cancel'\">Journal Entry <br/>(Canceled)</span>"
 msgstr ""
-"<span class=\"o_stat_text\" invisible=\"move_state != 'draft'\">Écriture "
+"<span class=\"o_stat_text\" invisible=\"move_state != 'draft'\">Pièce "
 "comptable <br/>(brouillon)</span>\n"
-"                        <span class=\"o_stat_text\" invisible=\"move_state !"
-"= 'posted'\">Écriture comptable <br/>(validée)</span>\n"
-"                        <span class=\"o_stat_text\" invisible=\"move_state !"
-"= 'cancel'\">Écriture comptable <br/>(annulée)</span>"
+"<span class=\"o_stat_text\" invisible=\"move_state != 'posted'\">Pièce "
+"comptable <br/>(validée)</span>\n"
+"<span class=\"o_stat_text\" invisible=\"move_state != 'cancel'\">Pièce "
+"comptable <br/>(annulée)</span>"
 
 #. module: hr_payroll_account
 #: model_terms:ir.ui.view,arch_db:hr_payroll_account.view_move_form_inherit
@@ -293,7 +293,7 @@ msgstr ""
 #. module: hr_payroll_account
 #: model_terms:ir.ui.view,arch_db:hr_payroll_account.hr_payslip_run_view_kanban
 msgid "Generated Journal Entries"
-msgstr "Écritures comptables générées"
+msgstr "Pièces comptables générées"
 
 #. module: hr_payroll_account
 #: model:ir.model.fields,field_description:hr_payroll_account.field_account_setup_bank_manual_config__has_alt_bank_account
@@ -328,8 +328,8 @@ msgid ""
 "should be set to consider it independently."
 msgstr ""
 "Si cette option est cochée, le résultat de cette règle ne sera pas pris en "
-"compte dans la règle du salaire net dans les écritures comptables. Un compte "
-"de débit/crédit spécifique doit être défini pour le traiter séparément."
+"compte dans la règle du salaire net dans les pièces comptables. Un compte de "
+"débit/crédit spécifique doit être défini pour le traiter séparément."
 
 #. module: hr_payroll_account
 #. odoo-python
@@ -362,12 +362,12 @@ msgstr "Journal"
 #: code:addons/hr_payroll_account/static/src/components/payrun_card/payrun_card.xml:0
 #: model:ir.model,name:hr_payroll_account.model_account_move
 msgid "Journal Entry"
-msgstr "Écriture comptable"
+msgstr "Pièce comptable"
 
 #. module: hr_payroll_account
 #: model_terms:ir.ui.view,arch_db:hr_payroll_account.hr_payslip_run_view_kanban
 msgid "Journal Entry <br/>"
-msgstr "Écriture comptable <br/>"
+msgstr "Pièce comptable <br/>"
 
 #. module: hr_payroll_account
 #: model:ir.model,name:hr_payroll_account.model_account_move_line
@@ -487,8 +487,8 @@ msgid ""
 "line in the journal entry."
 msgstr ""
 "Les étiquettes attribuées à cette ligne auront un impact sur les rapports "
-"financiers lorsqu'elles seront traduites en écritures comptables. Elles "
-"seront appliquées à la ligne du compte de crédit dans l'écriture comptable."
+"financiers lorsqu’elles seront traduites en pièces comptables. Elles seront "
+"appliquées à la ligne du compte de crédit dans la pièce comptable."
 
 #. module: hr_payroll_account
 #: model:ir.model.fields,help:hr_payroll_account.field_hr_payslip_line__debit_tag_ids
@@ -499,8 +499,8 @@ msgid ""
 "line in the journal entry."
 msgstr ""
 "Les étiquettes attribuées à cette ligne auront un impact sur les rapports "
-"financiers lorsqu'elles seront traduites en écritures comptables. Elles "
-"seront appliquées à la ligne du compte de débit dans l'écriture comptable."
+"financiers lorsqu’elles seront traduites en pièces comptables. Elles seront "
+"appliquées à la ligne du compte de débit dans la pièce comptable."
 
 #. module: hr_payroll_account
 #. odoo-python
@@ -550,7 +550,7 @@ msgstr ""
 #: code:addons/hr_payroll_account/models/hr_payslip.py:0
 msgid "You can't create a journal entry for a paid payslip."
 msgstr ""
-"Vous ne pouvez pas créer une écriture comptable pour une fiche de paie déjà "
+"Vous ne pouvez pas créer une pièce comptable pour une fiche de paie déjà "
 "payée."
 
 #. module: hr_payroll_account

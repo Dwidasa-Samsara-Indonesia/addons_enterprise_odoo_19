@@ -1,5 +1,5 @@
 import { Component } from "@odoo/owl";
-
+import { user } from "@web/core/user";
 import { useService } from "@web/core/utils/hooks";
 
 /**
@@ -16,6 +16,7 @@ export class Approval extends Component {
 
     setup() {
         this.store = useService("mail.store");
+        this.isApprover = user.userId == this.props.activity.approver_id.user_id;
     }
 
     async onClickApprove() {

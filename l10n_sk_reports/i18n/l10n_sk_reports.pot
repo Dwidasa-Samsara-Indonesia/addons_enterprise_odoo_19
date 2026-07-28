@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 19:21+0000\n"
-"PO-Revision-Date: 2026-02-27 19:21+0000\n"
+"POT-Creation-Date: 2026-04-24 18:17+0000\n"
+"PO-Revision-Date: 2026-04-24 18:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_sk_reports
+#: model:ir.model,name:l10n_sk_reports.model_account_return
+msgid "Accounting Return"
+msgstr ""
 
 #. module: l10n_sk_reports
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_generate_annual_statements_report__accounting_unit_size
@@ -65,8 +70,10 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_sk_reports
+#: model:ir.model.fields,field_description:l10n_sk_reports.field_account_return__display_name
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_annual_statements_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_generate_annual_statements_report__display_name
+#: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_tax_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
@@ -98,8 +105,10 @@ msgid "Go to Company"
 msgstr ""
 
 #. module: l10n_sk_reports
+#: model:ir.model.fields,field_description:l10n_sk_reports.field_account_return__id
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_annual_statements_report_handler__id
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_generate_annual_statements_report__id
+#: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_tax_report_handler__id
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_res_company__id
 msgid "ID"
 msgstr ""
@@ -160,6 +169,11 @@ msgid "SK NACE Code"
 msgstr ""
 
 #. module: l10n_sk_reports
+#: model:ir.model,name:l10n_sk_reports.model_l10n_sk_tax_report_handler
+msgid "Slovak Tax Report Custom Handler"
+msgstr ""
+
+#. module: l10n_sk_reports
 #: model:ir.model,name:l10n_sk_reports.model_l10n_sk_annual_statements_report_handler
 msgid "Slovakian Annual Statements Custom Handler"
 msgstr ""
@@ -170,6 +184,11 @@ msgid "Small"
 msgstr ""
 
 #. module: l10n_sk_reports
+#: model:account.return.type,name:l10n_sk_reports.sk_tax_return_type
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_sk_reports
 #: model:ir.model.fields,field_description:l10n_sk_reports.field_l10n_sk_generate_annual_statements_report__type_of_closing
 msgid "Type Of Closing"
 msgstr ""
@@ -177,6 +196,7 @@ msgstr ""
 #. module: l10n_sk_reports
 #. odoo-python
 #: code:addons/l10n_sk_reports/models/annual_statements_handler.py:0
+#: code:addons/l10n_sk_reports/models/tax_report_handler.py:0
 msgid "XML"
 msgstr ""
 

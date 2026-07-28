@@ -8,4 +8,5 @@ class SaleOrder(models.Model):
 
     def _recompute_taxes(self):
         super()._recompute_taxes()
-        self._get_and_set_external_taxes_on_eligible_records()
+        if self.env.context.get('is_express_checkout_flow'):
+            self._get_and_set_external_taxes_on_eligible_records()

@@ -131,7 +131,10 @@ class BudgetAnalytic(models.Model):
             'name': _('Budget Report'),
             'res_model': 'budget.report',
             'view_mode': 'pivot,list,graph',
-            'context': {'search_default_budget_analytic_id': self.id},
+            'context': {
+                'search_default_budget_analytic_id': self.id,
+                'search_default_group_by_budget_line_id': 1,
+            },
         }
 
     def _get_view(self, view_id=None, view_type='form', **options):

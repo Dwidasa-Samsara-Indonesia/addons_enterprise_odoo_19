@@ -36,15 +36,15 @@
 # Tuomas Lyyra <tuomas.lyyra@legenda.fi>, 2022
 # Konsta Aavaranta, 2023
 # Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2023
-# "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# "Tiffany Chang (tic)" <tic@odoo.com>, 2025, 2026.
 # Saara Hakanen <sahak@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-03-30 13:43+0000\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-07-24 16:43+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/stock/fi/"
 ">\n"
@@ -53,7 +53,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: stock
 #. odoo-python
@@ -455,8 +455,8 @@ msgid ""
 "* Transit: Counterpart location that should be used for inter-company or "
 "inter-warehouses operations"
 msgstr ""
-"* Toimittaja: Virtuaalinen sijainti, joka edustaa toimittajiltasi tulevien "
-"tuotteiden lähdesijaintia\n"
+"* Toimittaja: Virtuaalinen sijainti, joka edustaa tavarantoimittajiltasi "
+"tulevien tuotteiden lähdesijaintia\n"
 "* Virtuaalinen: Virtuaalinen sijainti, jota käytetään varastosi hierarkisen "
 "rakenteen luomiseksi osasijainteja yhdistämällä. Ei voi sisältää suoraan "
 "tuotteita\n"
@@ -1385,7 +1385,7 @@ msgstr "Sallittu sijainti"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__allowed_replenishment_uom_ids
 msgid "Allowed Replenishment Uom"
-msgstr "Sallitut täydennysyksiköt"
+msgstr "Sallittu täydennysmittayksikkö"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_replenish__allowed_route_ids
@@ -1399,7 +1399,7 @@ msgstr "Sallittu reitti"
 #: model:ir.model.fields,field_description:stock.field_stock_move_line__allowed_uom_ids
 #: model:ir.model.fields,field_description:stock.field_stock_scrap__allowed_uom_ids
 msgid "Allowed Uom"
-msgstr "Sallitut mittayksiköt"
+msgstr "Sallittu mittayksikkö"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__product_label_layout__zpl_template__alternative
@@ -1561,7 +1561,7 @@ msgstr "Kysy"
 #. odoo-javascript
 #: code:addons/stock/static/src/components/reception_report_line/stock_reception_report_line.xml:0
 msgid "Assign"
-msgstr "Vastuuta"
+msgstr "Määritä"
 
 #. module: stock
 #. odoo-javascript
@@ -1652,7 +1652,7 @@ msgstr "Automaattiset pakettien tulostukset"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking_type__auto_print_product_labels
 msgid "Auto Print Product Labels"
-msgstr "Automaattinen tuotetarrojen tulostus"
+msgstr "Automaattinen tuote-etikettien tulostus"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking_type__auto_print_reception_report
@@ -2112,7 +2112,7 @@ msgstr "Valitse arkin asettelu tarrojen tulostamista varten"
 #. module: stock
 #: model:ir.model,name:stock.model_picking_label_type
 msgid "Choose whether to print product or lot/sn labels"
-msgstr "Valitse, tulostetaanko tuote- vai erä/sarjanumero-etikettejä"
+msgstr "Valitse, tulostetaanko tuotteen vai erä-/sarjanumeron etiketit"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quantity_history
@@ -2711,13 +2711,14 @@ msgid ""
 "type."
 msgstr ""
 "Tuotteiden nykyinen määrä.\n"
-"Yhdessä Stock Location -tilassa tämä sisältää tavaroita, jotka on varastoitu "
-"tähän paikkaan tai mihin tahansa sen alapaikkoihin.\n"
-"Yhdessä Warehouse-ympäristössä tämä sisältää tavaroita, jotka on varastoitu "
-"tämän varaston varastopaikalle tai sen alapaikkoihin.\n"
-"tallennetaan tämän myymälän varastokohtaan tai sen lapsiin.\n"
-"Muussa tapauksessa tämä koskee tavaroita, jotka on tallennettu mihin tahansa "
-"Stock-paikkaan, jossa on sisäinen tyyppi."
+"Yhden varastosijainnin kontekstissa tämä sisältää kyseiseen sijaintiin tai "
+"sen alisijainteihin varastoidut tuotteet.\n"
+"Yhden varaston kontekstissa tämä sisältää kyseisen varaston "
+"varastosijaintiin tai sen alisijainteihin varastoidut tuotteet.\n"
+"säilytetään tämän myymälän varaston varastosijainnissa tai sen "
+"alisijainneissa.\n"
+"Muussa tapauksessa tämä koskee tavaroita, joita säilytetään missä tahansa "
+"sisäisen tyypin varastosijainnissa."
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__product_label_layout__move_quantity__custom
@@ -4082,6 +4083,7 @@ msgid "Full Package Name"
 msgstr "Paketin koko nimi"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Future Activities"
 msgstr "Tulevat toimenpiteet"
@@ -4218,7 +4220,7 @@ msgstr "On seuranta"
 #: model:ir.model.fields,field_description:stock.field_product_replenish__product_has_variants
 #: model:ir.model.fields,field_description:stock.field_stock_rules_report__product_has_variants
 msgid "Has variants"
-msgstr "On variaatioita"
+msgstr "Sisältää variantteja"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_putaway_list
@@ -4485,8 +4487,8 @@ msgid ""
 "If this checkbox is ticked, Odoo will automatically print the product labels "
 "of a picking when it is validated."
 msgstr ""
-"Jos rastitettu, Odoo tulostaa automaattisesti poiminnan tuotetarrat, kun se "
-"on vahvistettu."
+"Jos ruksittu, Odoo tulostaa automaattisesti tuote-etiketit poiminnan "
+"vahvistuksen seurauksena."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_picking_type__auto_print_reception_report_labels
@@ -5148,7 +5150,7 @@ msgstr ""
 #. module: stock
 #: model:ir.actions.server,name:stock.action_print_labels
 msgid "Labels"
-msgstr "Kenttien otsikot"
+msgstr "Etiketit"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_picking_label_type__label_type
@@ -5324,6 +5326,7 @@ msgid "Late"
 msgstr "Myöhässä"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Late Activities"
 msgstr "Myöhässä olevat toimenpiteet"
@@ -5967,6 +5970,7 @@ msgid "Multiple destinations"
 msgstr "Useita kohteita"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "My Activities"
 msgstr "Toimenpiteeni"
@@ -6775,6 +6779,7 @@ msgstr "Pakkaustyyppi"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 #: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_aggregated_move_lines
+#: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_has_serial_move_line
 msgid "Pack of 6"
 msgstr "Kuuden kappaleen pakkaus"
 
@@ -7407,23 +7412,23 @@ msgstr "Tuotteen näyttönimi"
 #. module: stock
 #: model:ir.actions.report,name:stock.label_product_product
 msgid "Product Label (ZPL)"
-msgstr "Tuotetarra (ZPL)"
+msgstr "Tuote-etiketti (ZPL)"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking_type__product_label_format
 msgid "Product Label Format to auto-print"
-msgstr "Tuotetarran muoto automaattiseen tulostukseen"
+msgstr "Tuote-etiketin muoto automaattiseen tulostukseen"
 
 #. module: stock
 #: model:ir.model,name:stock.model_report_stock_label_product_product_view
 msgid "Product Label Report"
-msgstr "Tuotetarraraportti"
+msgstr "Tuote-etiketin raportti"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__picking_label_type__label_type__products
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_type_form
 msgid "Product Labels"
-msgstr "Tuotetarrat"
+msgstr "Tuote-etiketit"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
@@ -7482,7 +7487,7 @@ msgstr "Tuotepohja"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_report_stock_quantity__product_tmpl_id
 msgid "Product Tmpl"
-msgstr "Tuotemalli"
+msgstr "Tuotepohja"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_scrap__tracking
@@ -7492,18 +7497,18 @@ msgstr "Tuoteseuranta"
 #. module: stock
 #: model:ir.model,name:stock.model_uom_uom
 msgid "Product Unit of Measure"
-msgstr "Tuotteen yksikkö"
+msgstr "Tuotteen mittayksikkö"
 
 #. module: stock
 #: model:ir.model,name:stock.model_product_product
 msgid "Product Variant"
-msgstr "Tuotevariaatio"
+msgstr "Tuotevariantti"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.stock_product_normal_action
 #: model:ir.ui.menu,name:stock.product_product_menu
 msgid "Product Variants"
-msgstr "Tuotevariaatiot"
+msgstr "Tuotevariantit"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
@@ -7529,7 +7534,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock.field_stock_replenishment_info__product_uom_name
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__product_uom_name
 msgid "Product unit of measure label"
-msgstr "Mittayksikkötarra"
+msgstr "Tuotteen mittayksikköetiketti"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__has_tracking
@@ -7546,12 +7551,12 @@ msgstr "Valmistus"
 #: model:ir.model.fields,field_description:stock.field_product_product__property_stock_production
 #: model:ir.model.fields,field_description:stock.field_product_template__property_stock_production
 msgid "Production Location"
-msgstr "Valmistuspaikka"
+msgstr "Tuotannon sijainti"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_location_search
 msgid "Production Locations"
-msgstr "Valmistuspaikat"
+msgstr "Tuotannon sijainnit"
 
 #. module: stock
 #. odoo-python
@@ -7846,12 +7851,12 @@ msgid ""
 "'internal' type."
 msgstr ""
 "Suunniteltujen saapuvien tuotteiden määrä.\n"
-"Yhdessä Stock Location -tilassa tämä sisältää tavarat, jotka saapuvat tähän "
-"paikkaan tai mihin tahansa sen lapsiin.\n"
-"Yhdessä Warehouse-ympäristössä tämä sisältää tavarat, jotka saapuvat tämän "
-"varaston varastopaikalle tai sen lapsille.\n"
-"Muussa tapauksessa tämä koskee tavaroita, jotka saapuvat mihin tahansa Stock-"
-"paikkaan, jossa on sisäinen tyyppi."
+"Yhden varastosijainnin kontekstissa tämä sisältää tavarat, jotka saapuvat "
+"tähän sijaintiin tai mihin tahansa sen alisijaintiin.\n"
+"Yhden varaston kontekstissa tämä sisältää tavarat, jotka saapuvat tämän "
+"varaston varastosijaintiin tai sen alisijainteihin.\n"
+"Muussa tapauksessa tämä koskee tavaroita, jotka saapuvat mihin tahansa "
+"sisäisen tyypin varastosijaintiin."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_product_product__outgoing_qty
@@ -7864,13 +7869,13 @@ msgid ""
 "Otherwise, this includes goods leaving any Stock Location with 'internal' "
 "type."
 msgstr ""
-"Suunniteltujen saapuvien tuotteiden määrä.\n"
-"Yhdessä Stock Location -tilassa tämä sisältää tavarat, jotka saapuvat tähän "
-"paikkaan tai mihin tahansa sen lapsiin.\n"
-"Yhdessä Warehouse-ympäristössä tämä sisältää tavarat, jotka saapuvat tämän "
-"varaston varastopaikalle tai sen lapsille.\n"
-"Muussa tapauksessa tämä koskee tavaroita, jotka saapuvat mihin tahansa Stock-"
-"paikkaan, jossa on sisäinen tyyppi."
+"Suunniteltujen lähtevien tuotteiden määrä.\n"
+"Yhden varastosijainnin kontekstissa tämä sisältää tavarat, jotka lähtevät "
+"tästä sijainnista tai mistä tahansa sen alisijainnista.\n"
+"Yhden varaston kontekstissa tämä sisältää tavarat, jotka lähtevät tämän "
+"varaston varastosijainnista tai sen alisijainneista.\n"
+"Muussa tapauksessa tämä koskee tavaroita, jotka lähtevät mistä tahansa "
+"sisäisen tyypin varastosijainnista."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_quant__quantity
@@ -8096,7 +8101,7 @@ msgstr "Viite"
 #: model:ir.model.fields,field_description:stock.field_stock_picking_type__sequence_id
 #: model:ir.model.fields,field_description:stock.field_stock_put_in_pack__package_type_sequence_id
 msgid "Reference Sequence"
-msgstr "Viitejärjestys"
+msgstr "Viitesekvenssi"
 
 #. module: stock
 #: model:ir.model,name:stock.model_stock_reference
@@ -8152,7 +8157,7 @@ msgstr "Poisto"
 #: model:ir.model,name:stock.model_product_removal
 #: model:ir.model.fields,field_description:stock.field_stock_location__removal_strategy_id
 msgid "Removal Strategy"
-msgstr "Poistamisstrategia"
+msgstr "Poistostrategia"
 
 #. module: stock
 #. odoo-python
@@ -8525,7 +8530,7 @@ msgstr "Reittitunnuksen paikkamerkki"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_rule__route_sequence
 msgid "Route Sequence"
-msgstr "Reititysjärjestys"
+msgstr "Reittisekvenssi"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.action_routes_form
@@ -8902,7 +8907,7 @@ msgstr "Syyskuu"
 #: model_terms:ir.ui.view,arch_db:stock.stock_location_route_form_view
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_rule_form
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: stock
 #. odoo-python
@@ -10473,6 +10478,7 @@ msgid "Today"
 msgstr "Tänään"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Today Activities"
 msgstr "Tämän päivän toimenpiteet"
@@ -10713,14 +10719,14 @@ msgstr "Siirtymäpaikat"
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
 msgid "Transport management: organize packs in your fleet, or carriers."
 msgstr ""
-"Kuljetusten hallinta: organisoi ajokalustosi tai kuljetusliikkeiden "
-"pakkauksia."
+"Kuljetusten hallinta: järjestä kuljetuskaluston tai kuljetusliikkeiden "
+"paketit."
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__trigger
 #: model_terms:ir.ui.view,arch_db:stock.stock_reorder_report_search
 msgid "Trigger"
-msgstr "Liipaisin"
+msgstr "Laukaisin"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_rule__procure_method__make_to_order
@@ -10731,7 +10737,7 @@ msgstr "Käynnistä toinen sääntö"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_rule
 msgid "Trigger Another Rule If No Stock"
-msgstr "Laukaise toinen sääntö jos varastosaldoa ei ole"
+msgstr "Laukaise toinen sääntö jos varastoa ei ole"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_scrap__should_replenish
@@ -10741,7 +10747,7 @@ msgstr "Käynnistä romutettujen tuotteiden täydentäminen"
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_location__replenish_location
 msgid "Trigger replenishment suggestions for this location when required"
-msgstr "Käynnistä täydennyssuositukset tälle sijainnille tarvittaessa"
+msgstr "Käynnistä täydennysehdotukset tälle sijainnille tarvittaessa"
 
 #. module: stock
 #. odoo-javascript
@@ -12149,7 +12155,7 @@ msgstr "paikasta"
 #: code:addons/stock/models/stock_move_line.py:0
 #: code:addons/stock/models/stock_warehouse.py:0
 msgid "id"
-msgstr "tunniste"
+msgstr "tunnus"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_warn_insufficient_qty_form_view
@@ -12245,7 +12251,7 @@ msgstr "yksiköt"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_replenishment_info
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #. module: stock
 #: model:mail.template,subject:stock.mail_template_data_delivery_confirmation

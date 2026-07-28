@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 18:41+0000\n"
+"POT-Creation-Date: 2026-06-05 19:36+0000\n"
 "PO-Revision-Date: 2025-09-15 23:06+0000\n"
 "Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
@@ -45,9 +45,19 @@ msgid "Christmas"
 msgstr "Giáng sinh"
 
 #. module: pos_pricer
+#: model:ir.model,name:pos_pricer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: pos_pricer
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__create_or_update_products_url
 msgid "Create Or Update Products Url"
 msgstr "Tạo hoặc cập nhật URL sản phẩm"
+
+#. module: pos_pricer
+#: model:ir.model,website_form_label:pos_pricer.model_res_partner
+msgid "Create a Customer"
+msgstr ""
 
 #. module: pos_pricer
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__create_uid
@@ -67,11 +77,14 @@ msgid "Date and time of the last synchronization with Pricer"
 msgstr "Ngày và giờ đồng bộ hóa lần cuối với Pricer"
 
 #. module: pos_pricer
+#: model:ir.model.fields,field_description:pos_pricer.field_account_tax__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_pos_config__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_tag__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_product_product__display_name
+#: model:ir.model.fields,field_description:pos_pricer.field_product_supplierinfo__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_product_template__display_name
+#: model:ir.model.fields,field_description:pos_pricer.field_res_partner__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_stock_move__display_name
 msgid "Display Name"
 msgstr "Tên hiển thị"
@@ -108,11 +121,14 @@ msgstr ""
 "Không thể hủy liên kết nhãn Pricer %(pricer_tag)s tại url API %(api_url)s"
 
 #. module: pos_pricer
+#: model:ir.model.fields,field_description:pos_pricer.field_account_tax__id
 #: model:ir.model.fields,field_description:pos_pricer.field_pos_config__id
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__id
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_tag__id
 #: model:ir.model.fields,field_description:pos_pricer.field_product_product__id
+#: model:ir.model.fields,field_description:pos_pricer.field_product_supplierinfo__id
 #: model:ir.model.fields,field_description:pos_pricer.field_product_template__id
+#: model:ir.model.fields,field_description:pos_pricer.field_res_partner__id
 #: model:ir.model.fields,field_description:pos_pricer.field_stock_move__id
 msgid "ID"
 msgstr "ID"
@@ -368,6 +384,11 @@ msgid "Store Name"
 msgstr "Tên cửa hàng"
 
 #. module: pos_pricer
+#: model:ir.model,name:pos_pricer.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: pos_pricer
 #. odoo-javascript
 #: code:addons/pos_pricer/static/src/views/pricer_quick_pairing_form_view.js:0
 msgid "Tag '%s' found"
@@ -393,6 +414,11 @@ msgid ""
 "digits"
 msgstr ""
 "Id nhãn phải là một chuỗi 17 ký tự bao gồm một chữ cái theo sau là 16 chữ số"
+
+#. module: pos_pricer
+#: model:ir.model,name:pos_pricer.model_account_tax
+msgid "Tax"
+msgstr ""
 
 #. module: pos_pricer
 #: model:ir.model.fields,help:pos_pricer.field_product_product__pricer_sale_pricelist_id

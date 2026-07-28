@@ -101,8 +101,13 @@ class TransactionCaseDocumentsHr(TransactionCaseDocuments):
                 for doc_idx in (0, 1):
                     self.check_document_no_access(documents[doc_idx], self.doc_user_2)
                     self.check_document_no_access(documents[doc_idx], self.document_manager)
-                    self.assertEqual(len(documents[doc_idx].access_ids), 2,
-                                     "Only the employee and the manager have access")
+                    self.assertTrue(
+                        all(
+                            user in documents[doc_idx].access_ids.partner_id.user_ids
+                            for user in [self.doc_user, folder_manager]
+                        ),
+                        "The employee and the manager have access",
+                    )
 
         folder.action_update_access_rights(partners={self.doc_user.partner_id: ('edit', False)})
         documents = self.create_hr_related_document(related_record, folder)

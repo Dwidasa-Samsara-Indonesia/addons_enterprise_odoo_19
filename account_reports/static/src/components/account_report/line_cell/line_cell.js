@@ -14,6 +14,7 @@ export class AccountReportLineCell extends Component {
             optional: true,
         },
         cell: Object,
+        cellIndex: Number,
     };
 
     setup() {
@@ -64,6 +65,10 @@ export class AccountReportLineCell extends Component {
                         classes += " text-danger";
                         break;
                 }
+        }
+
+        if (this.props.cellIndex % 2) {
+            classes += " line_cell_odd";
         }
 
         if (this.props.cell.class)

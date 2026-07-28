@@ -11,6 +11,117 @@ from odoo.tools.float_utils import float_round, json_float_round
 TEST_BASE_URL = 'https://express.api.dhl.com/mydhlapi/test/'
 PROD_BASE_URL = 'https://express.api.dhl.com/mydhlapi/'
 
+# ISO 3166-2 mapping for state codes that are a single character in
+# res.country.state data. DHL requires provinceCode to be at least 2 characters.
+# Key: (country_ISO2, state_code) -> ISO 3166-2 province code
+PROVINCE_CODE_MAP = {
+    # Argentina (AR)
+    ('AR', 'A'): 'AR-A',  # Salta
+    ('AR', 'B'): 'AR-B',  # Buenos Aires
+    ('AR', 'C'): 'AR-C',  # Ciudad Autónoma de Buenos Aires
+    ('AR', 'D'): 'AR-D',  # San Luis
+    ('AR', 'E'): 'AR-E',  # Entre Ríos
+    ('AR', 'F'): 'AR-F',  # La Rioja
+    ('AR', 'G'): 'AR-G',  # Santiago Del Estero
+    ('AR', 'H'): 'AR-H',  # Chaco
+    ('AR', 'J'): 'AR-J',  # San Juan
+    ('AR', 'K'): 'AR-K',  # Catamarca
+    ('AR', 'L'): 'AR-L',  # La Pampa
+    ('AR', 'M'): 'AR-M',  # Mendoza
+    ('AR', 'N'): 'AR-N',  # Misiones
+    ('AR', 'P'): 'AR-P',  # Formosa
+    ('AR', 'Q'): 'AR-Q',  # Neuquén
+    ('AR', 'R'): 'AR-R',  # Río Negro
+    ('AR', 'S'): 'AR-S',  # Santa Fe
+    ('AR', 'T'): 'AR-T',  # Tucumán
+    ('AR', 'U'): 'AR-U',  # Chubut
+    ('AR', 'V'): 'AR-V',  # Tierra del Fuego
+    ('AR', 'W'): 'AR-W',  # Corrientes
+    ('AR', 'X'): 'AR-X',  # Córdoba
+    ('AR', 'Y'): 'AR-Y',  # Jujuy
+    ('AR', 'Z'): 'AR-Z',  # Santa Cruz
+    # Austria (AT)
+    ('AT', '1'): 'AT-1',  # Burgenland
+    ('AT', '2'): 'AT-2',  # Kärnten
+    ('AT', '3'): 'AT-3',  # Niederösterreich
+    ('AT', '4'): 'AT-4',  # Oberösterreich
+    ('AT', '5'): 'AT-5',  # Salzburg
+    ('AT', '6'): 'AT-6',  # Steiermark
+    ('AT', '7'): 'AT-7',  # Tirol
+    ('AT', '8'): 'AT-8',  # Vorarlberg
+    ('AT', '9'): 'AT-9',  # Wien
+    # Brunei (BN)
+    ('BN', 'B'): 'BN-BM',  # Brunei-Muara
+    ('BN', 'K'): 'BN-BE',  # Belait
+    ('BN', 'P'): 'BN-TE',  # Temburong
+    ('BN', 'T'): 'BN-TU',  # Tutong
+    # China (CN)
+    ('CN', '京'): 'CN-BJ',  # 北京市
+    ('CN', '冀'): 'CN-HE',  # 河北省
+    ('CN', '台'): 'CN-TW',  # 台湾省
+    ('CN', '吉'): 'CN-JL',  # 吉林省
+    ('CN', '宁'): 'CN-NX',  # 宁夏回族自治区
+    ('CN', '新'): 'CN-XJ',  # 新疆维吾尔自治区
+    ('CN', '晋'): 'CN-SX',  # 山西省
+    ('CN', '桂'): 'CN-GX',  # 广西壮族自治区
+    ('CN', '沪'): 'CN-SH',  # 上海市
+    ('CN', '津'): 'CN-TJ',  # 天津市
+    ('CN', '浙'): 'CN-ZJ',  # 浙江省
+    ('CN', '渝'): 'CN-CQ',  # 重庆市
+    ('CN', '港'): 'CN-HK',  # 香港特别行政区
+    ('CN', '湘'): 'CN-HN',  # 湖南省
+    ('CN', '滇'): 'CN-YN',  # 云南省
+    ('CN', '澳'): 'CN-MO',  # 澳门特别行政区
+    ('CN', '琼'): 'CN-HI',  # 海南省
+    ('CN', '甘'): 'CN-GS',  # 甘肃省
+    ('CN', '皖'): 'CN-AH',  # 安徽省
+    ('CN', '粤'): 'CN-GD',  # 广东省
+    ('CN', '苏'): 'CN-JS',  # 江苏省
+    ('CN', '蒙'): 'CN-NM',  # 内蒙古自治区
+    ('CN', '藏'): 'CN-XZ',  # 西藏自治区
+    ('CN', '蜀'): 'CN-SC',  # 四川省
+    ('CN', '豫'): 'CN-HA',  # 河南省
+    ('CN', '赣'): 'CN-JX',  # 江西省
+    ('CN', '辽'): 'CN-LN',  # 辽宁省
+    ('CN', '鄂'): 'CN-HB',  # 湖北省
+    ('CN', '闽'): 'CN-FJ',  # 福建省
+    ('CN', '陕'): 'CN-SN',  # 陕西省
+    ('CN', '青'): 'CN-QH',  # 青海省
+    ('CN', '鲁'): 'CN-SD',  # 山东省
+    ('CN', '黑'): 'CN-HL',  # 黑龙江省
+    ('CN', '黔'): 'CN-GZ',  # 贵州省
+    # Costa Rica (CR)
+    ('CR', '1'): 'CR-SJ',  # San José
+    ('CR', '2'): 'CR-A',   # Alajuela
+    ('CR', '3'): 'CR-C',   # Cartago
+    ('CR', '4'): 'CR-H',   # Heredia
+    ('CR', '5'): 'CR-G',   # Guanacaste
+    ('CR', '6'): 'CR-P',   # Puntarenas
+    ('CR', '7'): 'CR-L',   # Limón
+    # Egypt (EG)
+    ('EG', 'C'): 'EG-C',   # Cairo
+    # Spain (ES)
+    ('ES', 'A'): 'ES-A',   # Alacant (Alicante)
+    ('ES', 'B'): 'ES-B',   # Barcelona
+    ('ES', 'C'): 'ES-C',   # A Coruña
+    ('ES', 'H'): 'ES-H',   # Huelva
+    ('ES', 'J'): 'ES-J',   # Jaén
+    ('ES', 'L'): 'ES-L',   # Lleida
+    ('ES', 'M'): 'ES-M',   # Madrid
+    ('ES', 'O'): 'ES-O',   # Asturias
+    ('ES', 'P'): 'ES-P',   # Palencia
+    ('ES', 'S'): 'ES-S',   # Cantabria
+    ('ES', 'T'): 'ES-T',   # Tarragona
+    ('ES', 'V'): 'ES-V',   # València
+    ('ES', 'Z'): 'ES-Z',   # Zaragoza
+    # Ireland (IE)
+    ('IE', 'C'): 'IE-CO',  # Cork
+    ('IE', 'D'): 'IE-D',   # Dublin
+    ('IE', 'G'): 'IE-G',   # Galway
+    # Romania (RO)
+    ('RO', 'B'): 'RO-B',   # București
+}
+
 
 class DHLProvider:
     def __init__(self, carrier):
@@ -146,7 +257,9 @@ class DHLProvider:
             consignee_dict['postalAddress']['addressLine2'] = partner_id.street2
         if partner_id.state_id:
             consignee_dict['postalAddress']['provinceName'] = partner_id.state_id.name
-            consignee_dict['postalAddress']['provinceCode'] = partner_id.state_id.code
+            consignee_dict['postalAddress']['provinceCode'] = PROVINCE_CODE_MAP.get(
+                (partner_id.country_id.code, partner_id.state_id.code), partner_id.state_id.code,
+            )
         return consignee_dict
 
     def _get_shipper_vals(self, company_partner_id, warehouse_partner_id):
@@ -169,7 +282,10 @@ class DHLProvider:
             shipper_dict['postalAddress']['addressLine2'] = warehouse_partner_id.street2
         if warehouse_partner_id.state_id:
             shipper_dict['postalAddress']['provinceName'] = warehouse_partner_id.state_id.name
-            shipper_dict['postalAddress']['provinceCode'] = warehouse_partner_id.state_id.code
+            shipper_dict['postalAddress']['provinceCode'] = PROVINCE_CODE_MAP.get(
+                (warehouse_partner_id.country_id.code, warehouse_partner_id.state_id.code),
+                warehouse_partner_id.state_id.code,
+            )
         return shipper_dict
 
     def _get_export_declaration_vals(self, carrier, picking, is_return=False):
@@ -201,7 +317,7 @@ class DHLProvider:
             export_lines.append(item)
         export_declaration['lineItems'] = export_lines
         export_declaration['invoice'] = {
-            'number': carrier.env['ir.sequence'].sudo().next_by_code('delivery_dhl_rest.commercial_invoice'),
+            'number': carrier.env['ir.sequence'].search([('code', '=', 'delivery_dhl_rest.commercial_invoice')]).next_by_id(),
             'date': datetime.today().strftime('%Y-%m-%d'),
         }
         if is_return:

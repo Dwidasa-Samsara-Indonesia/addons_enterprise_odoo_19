@@ -4,15 +4,15 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
-# "Cécile Collart (cco)" <cco@odoo.com>, 2025.
+# "Cécile Collart (cco)" <cco@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-03 18:43+0000\n"
-"PO-Revision-Date: 2026-04-08 12:03+0000\n"
-"Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
+"PO-Revision-Date: 2026-07-04 09:37+0000\n"
+"Last-Translator: \"Cécile Collart (cco)\" <cco@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "appointment/fr/>\n"
 "Language: fr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -59,7 +59,7 @@ msgstr "# Réservations"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__appointment_invite_count
 msgid "# Invitation Links"
-msgstr "# Lien d'invitation"
+msgstr "# Liens d'invitation"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__suggested_resource_count
@@ -166,7 +166,9 @@ msgstr ""
 msgid ""
 "<br/>\n"
 "                                <span class=\"fw-light\">Upcoming</span>"
-msgstr "<br/><span class=\"fw-light\">À venir</span>"
+msgstr ""
+"<br/>\n"
+"                                 <span class=\"fw-light\">À venir</span>"
 
 #. module: appointment
 #: model:mail.template,body_html:appointment.attendee_invitation_mail_template
@@ -1470,8 +1472,8 @@ msgstr ""
 msgid ""
 "<i class=\"fa fa-check-circle text-success me-3\"/>Appointment Scheduled!"
 msgstr ""
-"<i class=\"fa fa-check-circle text-success me-3\"/>Le rendez-vous a été "
-"pris !"
+"<i class=\"fa fa-check-circle text-success me-3\"/>Le rendez-vous a été pris "
+"!"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_gantt_kanban_popover
@@ -1482,7 +1484,7 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form_gantt_booking
 msgid "<i class=\"fa fa-circle\" title=\"Status\"/>"
-msgstr "<i class=\"fa fa-circle\" title=\"Status\"/>"
+msgstr "<i class=\"fa fa-circle\" title=\"Statut\"/>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_gantt_kanban_popover
@@ -1555,8 +1557,8 @@ msgstr ""
 msgid ""
 "<i class=\"fa fa-video-camera text-400 me-1\" title=\"Video Call URL\"/>"
 msgstr ""
-"<i class=\"fa fa-video-camera text-400 me-1\" title=\"URL de l’appel vidéo\"/"
-">"
+"<i class=\"fa fa-video-camera text-400 me-1\" title=\"URL de l’appel "
+"vidéo\"/>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -1570,12 +1572,12 @@ msgid ""
 "resource assigned.</span>"
 msgstr ""
 "<i class=\"fa fa-warning me-2\"/>\n"
-"                    <span invisible=\"schedule_based_on != "
-"'users'\">Impossible de partager un lien pour un type de rendez-vous auquel "
-"aucun utilisation n'est assigné.</span>\n"
-"                    <span invisible=\"schedule_based_on != "
-"'resources'\">Impossible de partager un lien pour un type de rendez-vous "
-"auquel aucune ressource n'est assignée.</span>"
+"                    <span invisible=\"schedule_based_on != 'users'\">"
+"Impossible de partager un lien pour un type de rendez-vous auquel aucun "
+"utilisateur n’est assigné.</span>\n"
+"                    <span invisible=\"schedule_based_on != 'resources'\">"
+"Impossible de partager un lien pour un type de rendez-vous auquel aucune "
+"ressource n’est assignée.</span>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -1592,9 +1594,9 @@ msgstr ""
 "                    <span invisible=\"schedule_based_on != 'users'\">Vous "
 "devez faire partie d'un type de rendez-vous pour pouvoir partager un lien "
 "personnel.</span>\n"
-"                    <span invisible=\"schedule_based_on != "
-"'resources'\">Vous ne pouvez pas créer un lien personnel pour un type de "
-"rendez-vous basé sur des ressources.</span>"
+"                    <span invisible=\"schedule_based_on != 'resources'\">"
+"Vous ne pouvez pas créer un lien personnel pour un type de rendez-vous basé "
+"sur des ressources.</span>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
@@ -1646,13 +1648,12 @@ msgid ""
 "                    </span>"
 msgstr ""
 "<span class=\"me-1\">Les\n"
-"                        <span invisible=\"not "
-"unavailable_partner_ids\">participants suivants</span>\n"
+"                        <span invisible=\"not unavailable_partner_ids\">"
+"participants suivants</span>\n"
 "                        <span invisible=\"not unavailable_partner_ids or not "
 "unavailable_resource_ids\">/</span>\n"
-"                        <span invisible=\"not "
-"unavailable_resource_ids\">ressources suivantes</span> ne sont pas "
-"disponibles à l’heure sélectionnée\n"
+"                        <span invisible=\"not unavailable_resource_ids\">"
+"ressources suivantes</span> ne sont pas disponibles à l’heure sélectionnée\n"
 "                    </span>"
 
 #. module: appointment
@@ -1717,7 +1718,7 @@ msgstr "<span> heures</span>"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_form
 msgid "<span>Add more details about you</span>"
-msgstr "<span>Ajoutez plus de détails sur vous-même</span>"
+msgstr "<span>Ajoutez plus de détails à votre sujet</span>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -1804,8 +1805,8 @@ msgstr "Une question par défaut doit être réutilisable."
 msgid ""
 "A list of slots information is needed to create a custom appointment type"
 msgstr ""
-"Une liste d'informations sur les créneaux horaires est nécessaire pour créer "
-"un type de rendez-vous personnalisé"
+"Une liste d’informations sur les créneaux est nécessaire pour créer un type "
+"de rendez-vous personnalisé"
 
 #. module: appointment
 #. odoo-python
@@ -1823,8 +1824,8 @@ msgid ""
 "A punctual appointment type should be limited between a start and end "
 "datetime."
 msgstr ""
-"Un type de rendez-vous ponctuel doit être limité entre un datetime de début "
-"et de fin."
+"Un type de rendez-vous ponctuel doit être limité entre une date et heure de "
+"début et une date et heure de fin."
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated

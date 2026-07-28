@@ -467,8 +467,9 @@ select:focus {
     left: 0;
 }
 
-.textLayer {
-    z-index: 2 !important; /* allow for text selection after adding canvas_layer_0 */
+.textLayer,
+.annotationLayer section {
+    z-index: 2 !important; /* allow text selection and link clicks after adding canvas_layer_0 */
 }
 
 .o_sign_sign_item.o_sign_sign_item_constant {

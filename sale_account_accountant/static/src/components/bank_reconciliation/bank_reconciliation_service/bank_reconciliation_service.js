@@ -8,28 +8,43 @@ patch(BankReconciliationService.prototype, {
         this.partnersWithSales = reactive({});
     },
     async fetchPartnersWithSales(records) {
-        const partner_ids = records
+        const partnerIds = records
             .filter((record) => !!record.data.partner_id.id)
             .map((record) => record.data.partner_id.id);
 
-        const result = await this.orm.webReadGroup(
+        const groups = await this.orm.formattedReadGroup(
             "sale.order",
-            [["partner_id", "in", partner_ids]],
+            [
+                ["partner_id", "in", partnerIds],
+                ["invoice_status", "!=", "invoiced"],
+            ],
             ["partner_id"],
-            []
+            ["amount_total:array_agg"]
         );
         this.partnersWithSales = {};
-        result.groups.forEach((group) => {
-            this.partnersWithSales[group.partner_id[0]] = true;
+        groups.forEach((group) => {
+            this.partnersWithSales[group.partner_id[0]] = group["amount_total:array_agg"];
         });
     },
-    async checkPartnerSales(partner_id) {
-        if (partner_id in this.partnersWithSales) {
+    async updatePartnersWithSales(partnerId) {
+        if (partnerId in this.partnersWithSales) {
             return;
         }
-        const result = await this.orm.search("sale.order", [["partner_id", "=", partner_id]], {
-            limit: 1,
-        });
-        this.partnersWithSales[partner_id] = result.length > 0;
+        const result = await this.orm.webSearchRead(
+            "sale.order",
+            [
+                ["partner_id", "=", partnerId],
+                ["invoice_status", "!=", "invoiced"],
+            ],
+            {
+                specification: {
+                    amount_total: {},
+                },
+            }
+        );
+
+        this.partnersWithSales[partnerId] = result.records.map(
+            (saleOrder) => saleOrder.amount_total
+        );
     },
 });

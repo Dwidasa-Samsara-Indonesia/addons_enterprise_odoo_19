@@ -2,14 +2,16 @@
 # This file contains the translation of the following modules:
 # * l10n_fr_reports
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# "Manon Rondou (ronm)" <ronm@odoo.com>, 2026.
+# "Cécile Collart (cco)" <cco@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.5a1+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 19:04+0000\n"
-"PO-Revision-Date: 2025-11-18 17:11+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-10 18:16+0000\n"
+"PO-Revision-Date: 2026-07-13 14:12+0000\n"
+"Last-Translator: \"Cécile Collart (cco)\" <cco@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_fr_reports/fr/>\n"
 "Language: fr\n"
@@ -17,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_fr_reports
 #. odoo-python
@@ -36,16 +38,6 @@ msgstr "%(field)s est requis sur %(model)s"
 #: code:addons/l10n_fr_reports/wizard/l10n_fr_send_vat_report.py:0
 msgid "%(report_common_name)s_reimbursement_%(index)s"
 msgstr "%(report_common_name)s_remboursement_%(index)s"
-
-#. module: l10n_fr_reports
-#. odoo-python
-#: code:addons/l10n_fr_reports/models/account_report_async_document.py:0
-msgid ""
-"<b> Warning, the report has not been fully processed by the recipient yet </"
-"b>"
-msgstr ""
-"<b> Attention, le rapport n'a pas encore été entièrement traité par le "
-"destinataire. </b>"
 
 #. module: l10n_fr_reports
 #: model_terms:ir.ui.view,arch_db:l10n_fr_reports.view_l10n_fr_reports_report_form
@@ -197,6 +189,11 @@ msgid "Attachment Name"
 msgstr "Nom de la pièce jointe"
 
 #. module: l10n_fr_reports
+#: model:account.return.type,name:l10n_fr_reports.l10n_fr_audit_return_type
+msgid "Audit (FR)"
+msgstr "Audit (FR)"
+
+#. module: l10n_fr_reports
 #: model_terms:ir.ui.view,arch_db:l10n_fr_reports.view_l10n_fr_reports_report_form
 msgid "BIC"
 msgstr "BIC"
@@ -205,6 +202,12 @@ msgstr "BIC"
 #: model:ir.model.fields,field_description:l10n_fr_reports.field_l10n_fr_reports_send_vat_report_bank_account_line__bank_bic
 msgid "BIC Code"
 msgstr "Code BIC"
+
+#. module: l10n_fr_reports
+#. odoo-python
+#: code:addons/l10n_fr_reports/wizard/l10n_fr_send_vat_report.py:0
+msgid "Balance tax current account (receivable)"
+msgstr ""
 
 #. module: l10n_fr_reports
 #: model:ir.model.fields,field_description:l10n_fr_reports.field_l10n_fr_reports_send_vat_report_bank_account_line__bank_id
@@ -479,6 +482,8 @@ msgstr "Nom"
 msgid ""
 "No closing entry was found. Please create one it before sending your report."
 msgstr ""
+"Aucune écriture de clôture n’a été trouvée. Veuillez en créer une avant "
+"d’envoyer votre rapport."
 
 #. module: l10n_fr_reports
 #. odoo-python
@@ -532,7 +537,7 @@ msgstr "Traiter les exports asynchrones en attente"
 #. module: l10n_fr_reports
 #: model:ir.actions.client,name:l10n_fr_reports.account_financial_report_l10n_fr_cdr_action
 msgid "Profit and loss account"
-msgstr "Compte de résultats"
+msgstr "Compte de résultat"
 
 #. module: l10n_fr_reports
 #: model:ir.model.fields,field_description:l10n_fr_reports.field_account_report_async_export__recipient
@@ -801,6 +806,12 @@ msgstr "Montant de la TVA"
 
 #. module: l10n_fr_reports
 #. odoo-python
+#: code:addons/l10n_fr_reports/models/account_report_async_document.py:0
+msgid "Warning, the report has not been fully processed by the recipient yet"
+msgstr ""
+
+#. module: l10n_fr_reports
+#. odoo-python
 #: code:addons/l10n_fr_reports/wizard/l10n_fr_send_vat_report.py:0
 msgid "You can use maximum 3 accounts."
 msgstr "Vous pouvez utiliser un maximum de 3 comptes."
@@ -883,6 +894,13 @@ msgstr "l'administration."
 #: model_terms:ir.ui.view,arch_db:l10n_fr_reports.view_l10n_fr_reports_report_form
 msgid "to"
 msgstr "à"
+
+#~ msgid ""
+#~ "<b> Warning, the report has not been fully processed by the recipient yet "
+#~ "</b>"
+#~ msgstr ""
+#~ "<b> Attention, le rapport n'a pas encore été entièrement traité par le "
+#~ "destinataire. </b>"
 
 #~ msgid "FEC Report Custom Handler"
 #~ msgstr "Gestionnaire personnalisé du rapport FEC"

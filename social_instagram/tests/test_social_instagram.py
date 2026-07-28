@@ -1,3 +1,6 @@
+import requests
+from unittest.mock import patch
+
 from odoo.addons.social_instagram.tests.common import SocialInstagramCommon
 
 
@@ -7,6 +10,17 @@ class SocialInstagramCase(SocialInstagramCommon):
         super().setUp()
         # default to single account to simplify basic tests
         self.social_post.account_ids = self.social_account
+
+    def test_post_instagram_request_exception(self):
+        """ Test that a network error during posting results in a clean failed state. """
+        self.social_post.image_ids = self.social_post.image_ids[0]
+
+        with patch.object(requests.Session, 'post', side_effect=requests.exceptions.ReadTimeout):
+            self.social_post._action_post()
+
+        live_post = self.social_post.live_post_ids
+        self.assertEqual(live_post.state, 'failed')
+        self.assertTrue(live_post.failure_reason)
 
     def test_post_instagram_success_immediate(self):
         """ Test immediate success: FINISHED status on first check. """

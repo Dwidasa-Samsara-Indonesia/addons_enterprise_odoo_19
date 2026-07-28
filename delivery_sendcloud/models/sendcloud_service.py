@@ -72,6 +72,13 @@ class SendCloud:
         total_weight = int(carrier.sendcloud_convert_weight(total_weight, grams=True))
         if total_weight < carrier.sendcloud_shipping_id.min_weight and order:
             raise UserError(_('Order below minimum weight of carrier'))
+
+        packages_no = 1
+        if order:
+            default_package = carrier.sendcloud_default_package_type_id
+            target_weight = int(carrier.sendcloud_convert_weight(default_package.max_weight, grams=True)) if default_package else False
+            packages_no, total_weight = self._split_shipping(carrier.sendcloud_shipping_id, total_weight, target_weight)
+
         if parcel:
             shipping_methods = [{
                 'id': parcel.get('shipment', {}).get('id'),
@@ -79,19 +86,17 @@ class SendCloud:
             }]
         else:
             shipping_methods = self._get_shipping_methods(carrier, from_country, to_country, total_weight=total_weight, from_postal_code=from_postal_code, to_postal_code=to_postal_code)
-
         if not shipping_methods or (len(shipping_methods) == 1 and not shipping_methods[0]):
             raise UserError(_('There is no shipping method available for this order with the selected carrier'))
 
-        packages_no = 1
-        if order:
-            default_package = carrier.sendcloud_default_package_type_id
-            target_weight = default_package.max_weight if default_package else False
-            target_weight = int(carrier.sendcloud_convert_weight(target_weight, grams=True)) if target_weight else False
-            packages_no, total_weight = self._split_shipping(carrier.sendcloud_shipping_id, total_weight, target_weight)
         if packages_no > 1:
             # We're forcefully calling this method from a sale order, as we only want an estimation of the rating, take the 'heaviest' methods
-            shipping_methods = [m for m in shipping_methods if m['properties']['max_weight'] == carrier.sendcloud_shipping_id.max_weight]  # We're sure here there's at least one matching method as max_weight was updated in _get_shipping_methods
+            shipping_methods = [
+                m for m in shipping_methods
+                if
+                    (m['properties']['max_weight'] >= total_weight and m['properties']['min_weight'] <= total_weight) or
+                    m['properties']['max_weight'] == carrier.sendcloud_shipping_id.max_weight
+            ]  # We're sure here there's at least one matching method as max_weight was updated in _get_shipping_methods
         shipping_prices = self._get_shipping_prices(shipping_methods, to_country, from_country, total_weight, from_postal_code, to_postal_code)
 
         if not shipping_prices:
@@ -164,8 +169,9 @@ class SendCloud:
         shipping_count = 1
         shipping_weight = total_weight
         # max weight from sendcloud is 1 gram extra (eg. if max allowed weight = 3000g, sendcloud_shipping_id.max_weight = 3001g)
-        max_weight = target_weight if target_weight else shipping_product_id.max_weight - 1
-        if target_weight or total_weight > max_weight:
+        shipping_max_weight = shipping_product_id.max_weight - 1
+        max_weight = min(target_weight, shipping_max_weight) if target_weight else shipping_max_weight
+        if total_weight > max_weight:
             shipping_count = math.ceil(total_weight / max_weight)
             shipping_weight = max_weight
         return shipping_count, shipping_weight
@@ -281,11 +287,12 @@ class SendCloud:
     def _send_request(self, endpoint, method='get', data=None, params=None, route=BASE_URL):
 
         url = url_join(route, endpoint)
-        self.logger(f'{url}\n{method}\n{data}\n{params}', f'sendcloud request {endpoint}')
+        headers = {'Sendcloud-Partner-Id': '280b92c9-afae-4b9f-a66e-957bf5eb2f95'}
+        self.logger(f'{url}\n{headers}\n{method}\n{data}\n{params}', f'sendcloud request {endpoint}')
         if method not in ['get', 'post']:
             raise Exception(f'Unhandled request method {method}')
         try:
-            res = self.session.request(method=method, url=url, json=data, params=params, timeout=60)
+            res = self.session.request(method=method, url=url, headers=headers, json=data, params=params, timeout=60)
             self.logger(f'{res.status_code} {res.text}', f'sendcloud response {endpoint}')
             res = res.json()
         except Exception as err:
@@ -329,7 +336,7 @@ class SendCloud:
         return list(parcel_items.values())
 
     def _get_house_number(self, address):
-        house_number = re.search(r"(\d+(?:[-\/]?\d+)* ?[a-zA-Z]?\d*)(?![a-zA-Z])", address)
+        house_number = re.search(r"(\d+(?:[-\/.]?\d+)* ?[a-zA-Z]?\d*)(?![a-zA-Z])", address)
         if house_number:
             return house_number.group()
         return ' '
@@ -588,12 +595,13 @@ class SendCloud:
         apply_rules = carrier_id.sendcloud_shipping_rules
         sendcloud_product_id = carrier_id.sendcloud_return_id if is_return else carrier_id.sendcloud_shipping_id
 
+        shipping_cost = 0.0
         if picking.sale_id:
             currency_name = picking.sale_id.currency_id.name
-            shipping_cost = sum(sol.price_total for sol in picking.sale_id.order_line if sol.is_delivery)
+            if len(picking.sale_id.picking_ids.filtered(lambda p: p.state == 'done')) <= 1:  # Picking state is updated before the call to send the parcel
+                shipping_cost = sum(sol.price_total for sol in picking.sale_id.order_line if sol.is_delivery)
         else:
             currency_name = picking.company_id.currency_id.name
-            shipping_cost = sum(ml.sale_price for ml in picking.move_line_ids)
 
         parcel_common = {
             'name': (to_partner_id.name or to_partner_id.parent_id.name or '')[:75],

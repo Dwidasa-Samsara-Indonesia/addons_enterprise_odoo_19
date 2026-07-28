@@ -46,9 +46,9 @@ class SaleOrderLine(models.Model):
         return delivered_qties
 
     def _compute_display_name(self):
-        subscriptions = self.filtered(lambda sol: sol.order_id.is_subscription)
-        super(SaleOrderLine, subscriptions.with_context(skip_remaining_hours=True))._compute_display_name()
-        super(SaleOrderLine, self - subscriptions)._compute_display_name()
+        subscriptions_sudo = self.sudo().filtered(lambda sol: sol.order_id.is_subscription)
+        super(SaleOrderLine, subscriptions_sudo.with_context(skip_remaining_hours=True))._compute_display_name()
+        super(SaleOrderLine, self - subscriptions_sudo)._compute_display_name()
 
     def _compute_remaining_hours_available(self):
         subscription_lines = self.filtered(lambda sol: sol.order_id.is_subscription)

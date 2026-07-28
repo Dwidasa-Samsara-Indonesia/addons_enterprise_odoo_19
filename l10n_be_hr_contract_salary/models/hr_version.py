@@ -178,8 +178,12 @@ class HrVersion(models.Model):
         }
 
     def _get_benefit_values_wishlist_car_total_depreciated_cost(self, version_vals, benefits):
-        if benefits.get('fold_wishlist_car_total_depreciated_cost', False):
-            model_id = benefits['select_wishlist_car_total_depreciated_cost'].split('-')[1]
+        selected_car = (
+            benefits.get('fold_wishlist_car_total_depreciated_cost')
+            and benefits.get('select_wishlist_car_total_depreciated_cost')
+        )
+        if selected_car:
+            model_id = selected_car.split('-')[1]
             return {
                 'new_car': True,
                 'new_car_model_id': int(model_id)

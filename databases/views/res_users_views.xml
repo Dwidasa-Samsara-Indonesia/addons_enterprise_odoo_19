@@ -6,8 +6,8 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page string="Databases" name="databases">
-                    <div class="d-flex my-1">
+                <page string="Databases" name="databases" groups="databases.group_databases_user">
+                    <div class="d-flex my-1" groups="databases.group_databases_manager">
                         <div class="col-7 col-sm-6 col-lg-3 d-flex flex-column">
                             <span class="o_form_label">
                                 Manage access:

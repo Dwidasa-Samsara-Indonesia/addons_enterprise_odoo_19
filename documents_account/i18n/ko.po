@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2026-02-14 09:55+0000\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-04-20 15:43+0000\n"
 "Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/ko/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: documents_account
 #. odoo-python
@@ -105,6 +105,11 @@ msgstr "첨부 파일"
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_bank_statement
 msgid "Bank Statement"
 msgstr "은행거래명세서"
+
+#. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr ""
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -201,12 +206,12 @@ msgstr "%(model_name)s(%(journal_name)s) 생성"
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note_code
 msgid "Create Credit Note"
-msgstr "신용 전표 만들기"
+msgstr "대변전표 만들기"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note
 msgid "Create Customer Credit Note"
-msgstr "고객 신용 전표가 생성되었습니다."
+msgstr "고객 대변전표가 생성되었습니다."
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_customer_invoice
@@ -234,7 +239,7 @@ msgstr "공급업체 청구서 생성"
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_refund
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_refund_code
 msgid "Create Vendor Credit Note"
-msgstr "공급업체 신용 전표 생성"
+msgstr "공급업체 대변전표 생성"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_receipt
@@ -261,13 +266,13 @@ msgstr "작성일자"
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_refund
 msgid "Credit Note"
-msgstr "신용장"
+msgstr "대변전표"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Customer Credit Notes"
-msgstr ""
+msgstr "고객 대변전표"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_invoice
@@ -281,6 +286,7 @@ msgid "Customer Invoices"
 msgstr ""
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -342,6 +348,12 @@ msgstr "회계 보고서 내보내기 마법사"
 
 #. module: documents_account
 #. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr ""
+
+#. module: documents_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 #: code:addons/documents_account/static/src/js/tour.js:0
@@ -384,6 +396,7 @@ msgid "Has Embedded PDF"
 msgstr "PDF 포함"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -472,6 +485,12 @@ msgid ""
 msgstr ""
 "해당 메일에 재무 태그를 지정하세요.<br/><i>팁: 폴더별로 프로세스에 맞게 작업"
 "을 조정할 수 있습니다.</i>"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
+msgstr ""
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry
@@ -611,7 +630,7 @@ msgstr ""
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
-msgstr "공급업체 신용 전표"
+msgstr "공급업체 대변전표"
 
 #. module: documents_account
 #. odoo-python

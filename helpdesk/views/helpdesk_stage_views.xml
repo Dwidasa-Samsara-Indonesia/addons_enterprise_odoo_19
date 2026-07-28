@@ -58,7 +58,7 @@
                     <t t-name="card">
                         <field name="name" class="fw-bolder fs-5"/>
                         <field name="team_ids" options="{'color_field': 'color'}" widget="many2many_tags"/>
-                        <field name="rotting_threshold_days"/>
+                        <field name="rotting_threshold_days" invisible="1"/>
                     </t>
                 </templates>
             </kanban>

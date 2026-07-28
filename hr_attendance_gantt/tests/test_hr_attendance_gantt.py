@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 from odoo.tests.common import tagged, TransactionCase
-from pytz import utc
+from pytz import utc, timezone
 
 
 @tagged('-at_install', 'post_install')
@@ -189,6 +189,22 @@ class TestHrAttendanceGantt(TransactionCase):
         self.assertEqual(interval[emp1.id]['max_value'], 8)
         self.assertEqual(interval[emp2.id]['max_value'], 8)
 
+        # If the user is not in UTC time, the start and stop datetimes will not at midnight.
+        # This could cause issues with the calculation of attendance intervals and, in turn, max_value.
+        # This block simulates this case. We'll simulate in Europe/Zurich time
+
+        self.env.user.write({'tz': 'Europe/Zurich'})  # UTC+2 (summer) or UTC+1 (winter)
+        interval_non_utc = self.env['hr.attendance']._gantt_progress_bar(
+            'employee_id',
+            [emp1.id, emp2.id],
+            datetime(2024, 1, 7, 22, 0),
+            datetime(2024, 1, 14, 22, 0),
+        )
+
+        # The max value should be the same, regardless of the browser timezone
+        self.assertEqual(interval_non_utc[emp1.id]['max_value'], 8)
+        self.assertEqual(interval_non_utc[emp2.id]['max_value'], 8)
+
     def test_gantt_rows_exclude_archived_amployee(self):
         emp1 = self.env['hr.employee'].create({'name': 'Employee 1'})
         emp2 = self.env['hr.employee'].create({'name': 'Employee 2'})
@@ -352,3 +368,41 @@ class TestHrAttendanceGantt(TransactionCase):
             datetime(2024, 1, 15),
         )
         self.assertAlmostEqual(interval_east[employee.id]['max_value'], 40)
+
+    def test_time_off_hours_with_flex_schedule_timezone(self):
+        """
+        Checks that the start and end hours of a time off shown in the attendance calendar taken under a flexible
+        schedule with a timezone other than UTC are correct. When the schedule is flexible, the hours from midnight to
+        midnight the next day should be grayed out.
+        """
+        tz = timezone('Europe/Brussels')
+        employee = self.env['hr.employee'].create({
+            'name': 'Test Employee',
+            'tz': 'Europe/Brussels',
+            'date_version': date(2019, 1, 1),
+            'contract_date_start': date(2019, 1, 1),
+        })
+        flexible_calendar = self.env['resource.calendar'].create({
+            'name': 'Flex Calendar',
+            'tz': 'Europe/Brussels',
+            'flexible_hours': True,
+            'hours_per_day': 8,
+            'full_time_required_hours': 40,
+            'attendance_ids': [],
+        })
+        self.env['resource.calendar.leaves'].create({
+            'name': 'Time off',
+            'resource_id': employee.resource_id.id,
+            'date_from': datetime(2019, 1, 5, 8, 0, 0),
+            'date_to': datetime(2019, 1, 5, 16, 0, 0),
+        })
+        employee.resource_id.calendar_id = flexible_calendar
+        unavailabilities = self.env['hr.attendance']._gantt_unavailability(
+            'employee_id',
+            [employee.id],
+            tz.localize(datetime(2019, 1, 5, 0, 0)),
+            tz.localize(datetime(2019, 1, 5, 23, 59, 59)),
+            'day',
+        )
+        self.assertEqual(unavailabilities[employee.id][0]['start'], datetime(2019, 1, 4, 23, 0).astimezone(utc))
+        self.assertEqual(unavailabilities[employee.id][0]['stop'], datetime(2019, 1, 5, 22, 59, 59).astimezone(utc))

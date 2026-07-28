@@ -46,6 +46,26 @@ class TestSubscriptionStockOnOrder(TestSubscriptionStockCommon):
             self.assertEqual(move.quantity, 1, 'Move should be delivered now')
             self.assertEqual(sub.order_line.qty_delivered, 1, 'Order line should be marked as delivered')
 
+    def test_subscription_delivery_scheduled_date(self):
+        """Test that subscription deliveries are scheduled in the company timezone: the first
+        picking at the order confirmation datetime, and subsequent pickings at 00:00 local time
+        converted to UTC, so the scheduled date does not render as the previous day for users
+        in negative-offset timezones (e.g. UTC-3).
+        """
+        self.company_data['company'].partner_id.tz = 'America/Argentina/Buenos_Aires'
+        sub = self.subscription_order.copy()
+
+        with freeze_time("2022-03-02 14:30:00"), patch.object(self.env.cr, 'now', fields.Datetime.now):
+            sub.action_confirm()
+        first_picking = sub.picking_ids
+        self.assertEqual(first_picking.move_ids.date, sub.date_order)
+
+        self.simulate_period(sub, "2022-03-02 14:30:00")
+        with freeze_time("2022-04-02 10:00:00"):
+            self.env['sale.order']._cron_recurring_create_invoice()
+        second_picking = sub.picking_ids - first_picking
+        self.assertEqual(second_picking.move_ids.date, datetime.datetime(2022, 4, 2, 3, 0))
+
     def test_subscription_stock_order_cron(self):
 
         sub = self.subscription_order.copy()

@@ -96,8 +96,8 @@ class HrExpense(models.Model):
             currency_ocr = self._get_ocr_selected_value(ocr_results, 'currency', self.env.company.currency_id.name)
 
             # We need to set the user to ensure it will be translated in the same language
-            user_id = self.employee_id.user_id if self.employee_id.user_id else self.env.uid
-            default_receipt_name = self.with_user(user_id)._get_untitled_expense_name("").strip()
+            user_id = self.employee_id.user_id if self.employee_id.user_id else self.env.user
+            default_receipt_name = self.env['hr.expense'].with_context(lang=user_id.lang)._get_untitled_expense_name("").strip()
 
             if default_receipt_name in self.name:
                 predicted_product_id = self._predict_product(description_ocr)

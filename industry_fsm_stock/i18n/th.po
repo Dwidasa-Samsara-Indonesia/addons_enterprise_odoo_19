@@ -3,13 +3,14 @@
 # * industry_fsm_stock
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Nusara Boonma <nuboo@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:45+0000\n"
-"PO-Revision-Date: 2025-11-12 13:06+0000\n"
+"PO-Revision-Date: 2026-06-13 09:37+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Thai <https://translate.odoo.com/projects/odoo-19/"
 "industry_fsm_stock/th/>\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: industry_fsm_stock
 #: model_terms:ir.ui.view,arch_db:industry_fsm_stock.view_task_form2_inherit
@@ -167,7 +168,7 @@ msgstr "สินค้า"
 #. module: industry_fsm_stock
 #: model:ir.model,name:industry_fsm_stock.model_project_project
 msgid "Project"
-msgstr "โปรเจ็กต์"
+msgstr "โปรเจกต์"
 
 #. module: industry_fsm_stock
 #: model:ir.model.fields,field_description:industry_fsm_stock.field_fsm_stock_tracking_line__quantity
@@ -217,7 +218,7 @@ msgid ""
 "The ordered quantity cannot be decreased below the amount already delivered. "
 "Instead, create a return in your inventory."
 msgstr ""
-"ปริมาณที่สั่งไม่สามารถลดลงต่ำกว่าจำนวนที่จัดส่งไปแล้วได้ ให้สร้างการคืนสินค้าในสินค้าคงคลังของคุณแทน"
+"ปริมาณที่สั่งไม่สามารถลดลงต่ำกว่าจำนวนที่จัดส่งไปแล้วได้ ให้สร้างการคืนสินค้าในคลังสินค้าของคุณแทน"
 
 #. module: industry_fsm_stock
 #: model:ir.model,name:industry_fsm_stock.model_fsm_stock_tracking
@@ -233,6 +234,7 @@ msgstr "การติดตาม"
 
 #. module: industry_fsm_stock
 #: model:ir.model.fields,help:industry_fsm_stock.field_project_task__display_name
+#, fuzzy
 msgid ""
 "Use these keywords in the title to set new tasks:\n"
 "\n"
@@ -246,6 +248,17 @@ msgid ""
 "        Make sure to use the right format and order e.g. Improve the "
 "configuration screen 5h #feature #v16 @Mitchell !"
 msgstr ""
+"ใช้คีย์เวิร์ดเหล่านี้ในหัวข้อเพื่อเพิ่มงานใหม่:\n"
+"\n"
+"   30h (30 ชั่วโมง) จัดสรรเวลา 30h (30 ชั่วโมง) ให้กับงานนี้\n"
+"   #แท็ก เพิ่มแท็กในงาน\n"
+"   @ผู้ใช้ มอบหมายงานให้กับผู้ใช้\n"
+"   !  ตั้งค่างานเป็นลำดับความสำคัญปานกลาง\n"
+"   !!  ตั้งค่างานเป็นลำดับความสำคัญสูง\n"
+"   !!!  ตั้งค่างานเป็นลำดับความสำคัญเร่งด่วน\n"
+"\n"
+"   ตรวจสอบให้แน่ใจว่าใช้รูปแบบและลำดับที่ถูกต้อง เช่น ปรับปรุงหน้าจอการกำหนดค่า 5h #ฟีเจอร์ "
+"#v16 @Mitchell !"
 
 #. module: industry_fsm_stock
 #: model_terms:ir.ui.view,arch_db:industry_fsm_stock.fsm_stock_tracking_line_view_form

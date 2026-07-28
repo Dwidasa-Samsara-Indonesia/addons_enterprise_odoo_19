@@ -110,25 +110,25 @@
                                 <field name="label">tax_igst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2b_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_b2b_rcm_cgst_balance" model="account.report.expression">
                                 <field name="label">tax_cgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2b_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_b2b_rcm_sgst_balance" model="account.report.expression">
                                 <field name="label">tax_sgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2b_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_sgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_b2b_rcm_cess_balance" model="account.report.expression">
                                 <field name="label">tax_cess</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2b_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                         </field>
                     </record>
@@ -217,25 +217,25 @@
                                 <field name="label">tax_igst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2c_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_b2c_rcm_cgst_balance" model="account.report.expression">
                                 <field name="label">tax_cgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2c_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_b2c_rcm_sgst_balance" model="account.report.expression">
                                 <field name="label">tax_sgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2c_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_sgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_b2c_rcm_cess_balance" model="account.report.expression">
                                 <field name="label">tax_cess</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_b2c_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                         </field>
                     </record>
@@ -323,25 +323,25 @@
                                 <field name="label">tax_igst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnr_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_cdnr_rcm_cgst_balance" model="account.report.expression">
                                 <field name="label">tax_cgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnr_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_cdnr_rcm_sgst_balance" model="account.report.expression">
                                 <field name="label">tax_sgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnr_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_sgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_cdnr_rcm_cess_balance" model="account.report.expression">
                                 <field name="label">tax_cess</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnr_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                         </field>
                     </record>
@@ -379,9 +379,10 @@
                 </field>
                 <field name="hierarchy_level">0</field>
                 <field name="children_ids">
-                    <record id="account_report_gstr2b_cdnur_regular" model="account.report.line">
+                    <record id="account_report_gstr2b_cdnur_regular" model="account.report.line"> <!-- will be removed in master -->
                         <field name="name">B2C Overseas</field>
                         <field name="code">b2c_cdnur_regular</field>
+                        <field name="hide_if_zero" eval="True"/>
                         <field name="expression_ids">
                             <record id="account_report_gstr2b_cdnur_regular_taxable_amount_balance" model="account.report.expression">
                                 <field name="label">tax_base</field>
@@ -429,25 +430,25 @@
                                 <field name="label">tax_igst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnur_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_cdnur_rcm_cgst_balance" model="account.report.expression">
                                 <field name="label">tax_cgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnur_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_cdnur_rcm_sgst_balance" model="account.report.expression">
                                 <field name="label">tax_sgst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnur_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_sgst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_cdnur_rcm_cess_balance" model="account.report.expression">
                                 <field name="label">tax_cess</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_cdnur_rcm'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                         </field>
                     </record>
@@ -499,9 +500,10 @@
                             </record>
                         </field>
                     </record>
-                    <record id="account_report_gstr2b_imp_services" model="account.report.line">
+                    <record id="account_report_gstr2b_imp_services" model="account.report.line"> <!-- will be removed in master -->
                         <field name="name">Services received from overseas</field>
                         <field name="code">IMP_SERVICE</field>
+                        <field name="hide_if_zero" eval="True"/>
                         <field name="expression_ids">
                             <record id="account_report_gstr2b_imp_services_taxable_amount_balance" model="account.report.expression">
                                 <field name="label">tax_base</field>
@@ -513,13 +515,13 @@
                                 <field name="label">tax_igst</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_imp_services'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr2b_imp_services_cess_balance" model="account.report.expression">
                                 <field name="label">tax_cess</field>
                                 <field name="engine">domain</field>
                                 <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_imp_services'), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
-                                <field name="subformula">sum</field>
+                                <field name="subformula">-sum</field>
                             </record>
                         </field>
                     </record>
@@ -532,7 +534,7 @@
                     <record id="account_report_gstr2b_nil_exempt_nongst_taxable_amount_balance" model="account.report.expression">
                         <field name="label">tax_base</field>
                         <field name="engine">aggregation</field>
-                        <field name="formula">NIL.tax_base + EXEMPT.tax_base + NONGST.tax_base</field>
+                        <field name="formula">NIL.tax_base + EXEMPT.tax_base + NONGST.tax_base + CTS.tax_base</field>
                     </record>
                 </field>
                 <field name="hierarchy_level">0</field>
@@ -568,7 +570,19 @@
                             <record id="account_report_gstr2b_nongst_taxable_amount_balance" model="account.report.expression">
                                 <field name="label">tax_base</field>
                                 <field name="engine">domain</field>
-                                <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_nongst')]"/>
+                                <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_non_gst_supplies')]"/>
+                                <field name="subformula">sum</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="account_report_gstr2b_composition" model="account.report.line">
+                        <field name="name">Composition Taxable Supplies</field>
+                        <field name="code">CTS</field>
+                        <field name="expression_ids">
+                            <record id="account_report_gstr2b_composition_taxable_amount_balance" model="account.report.expression">
+                                <field name="label">tax_base</field>
+                                <field name="engine">domain</field>
+                                <field name="formula" eval="[('l10n_in_gstr_section', '=', 'purchase_composition_supplies')]"/>
                                 <field name="subformula">sum</field>
                             </record>
                         </field>

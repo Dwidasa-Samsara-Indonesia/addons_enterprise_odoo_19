@@ -227,7 +227,7 @@
                                 </a>
                             </td>
                             <td t-if="state.dashboardValues.rating_enable" t-attf-class="{{demoClass}} p-0">
-                                <t t-if="state.dashboardValues['7days'].rating > 0" t-set="success_rate_rating" t-value="`${formatFloat(state.dashboardValues['7days'].rating)} %`"/>
+                                <t t-if="state.dashboardValues['7days'].rating > 0" t-set="success_rate_rating" t-value="`${formatFloat(state.dashboardValues['7days'].rating, {'digits': [1, 1]})} / 5`"/>
                                 <a name="action_view_rating_7days"
                                    t-attf-class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal {{(state.dashboardValues.helpdesk_target_rating &lt;= state.dashboardValues['7days'].rating) ? 'btn-success': state.dashboardValues['7days'].rating &lt;= 0 ? 'btn-light bg-100' : 'btn-warning'}} {{showDemo ? 'o_cursor_default' : ''}}"
                                    title="Average Rating for the Past 7 Days"

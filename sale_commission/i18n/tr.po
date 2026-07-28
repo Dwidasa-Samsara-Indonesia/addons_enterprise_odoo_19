@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:53+0000\n"
+"POT-Creation-Date: 2026-07-10 17:53+0000\n"
 "PO-Revision-Date: 2025-11-21 14:41+0000\n"
 "Last-Translator: Odoo Turkish Import <dyki+tr@odoo.com>\n"
 "Language-Team: Turkish <https://translate.odoo.com/projects/odoo-19/"
@@ -577,12 +577,6 @@ msgid "From"
 msgstr "Başlama"
 
 #. module: sale_commission
-#. odoo-python
-#: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "From must be before To"
-msgstr "Kimden, Kime'den önce olmalıdır"
-
-#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
 msgid "Has Message"
 msgstr "Mesaj Var"
@@ -1010,9 +1004,22 @@ msgstr "Hedefler"
 
 #. module: sale_commission
 #. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid "The assignment start date must be before the end date"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The plan should have at least one target with an achievement rate of 0%"
 msgstr "Planda, gerçekleşme oranı %0 olan en az bir hedef bulunmalıdır"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid ""
+"The sales person's assignment must be within the commission plan period."
+msgstr ""
 
 #. module: sale_commission
 #. odoo-python
@@ -1126,8 +1133,8 @@ msgstr "Kullanıcı dönemi plandan sonra sona eremez."
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "User period cannot start before the plan."
-msgstr "Kullanıcı dönemi plandan önce başlayamaz."
+msgid "User period cannot start after the plan."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__website_message_ids
@@ -1169,3 +1176,9 @@ msgstr "ornek: Komisyon planı 2025"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "per"
 msgstr "başına"
+
+#~ msgid "From must be before To"
+#~ msgstr "Kimden, Kime'den önce olmalıdır"
+
+#~ msgid "User period cannot start before the plan."
+#~ msgstr "Kullanıcı dönemi plandan önce başlayamaz."

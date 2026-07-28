@@ -18,7 +18,12 @@ class QualityPointTest_Type(models.Model):
         store=False, default=False)
 
     def _get_domain_from_allow_registration(self, operator, value):
-        if value:
+        # The ORM will optimize the domain leaf before calling the search method:
+        # ('field', '=', True) and ('field', '!=', False) become ('field', 'in', OrderedSet([True]))
+        # ('field', '=', False) and ('field', '!=', True) become ('field', ' not in', OrderedSet([True]))
+        if operator not in ('in', 'not in'):
+            return NotImplemented
+        if operator == 'in':
             return []
         else:
             return [('technical_name', 'not in', ['register_production', 'register_byproducts', 'register_consumed_materials', 'print_label'])]
@@ -117,7 +122,7 @@ class QualityPoint(models.Model):
         for point in self:
             if point.test_type == 'register_byproducts':
                 point.component_ids = point.bom_id.byproduct_ids.product_id
-            else:
+            elif point.test_type == 'register_consumed_materials':
                 bom_products = point.bom_id.product_id or point.bom_id.product_tmpl_id.product_variant_ids
                 # If product_ids is set the step will exist only for these product variant then we can filter out for the bom explode
                 if point.product_ids:
@@ -357,6 +362,19 @@ class QualityCheck(models.Model):
             self.do_pass()
 
         return self.workorder_id._change_quality_check(position='next')
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_repair_chain(self):
+        for check in self:
+            prev = check.previous_check_id
+            nxt = check.next_check_id
+            if prev and nxt:
+                prev.next_check_id = nxt
+                nxt.previous_check_id = prev
+            elif prev:
+                prev.next_check_id = False
+            elif nxt:
+                nxt.previous_check_id = False
 
     def _insert_in_chain(self, position, relative):
         """Insert the quality check `self` in a chain of quality checks.

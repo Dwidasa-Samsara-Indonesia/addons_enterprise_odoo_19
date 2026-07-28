@@ -8,6 +8,14 @@ class EquityTransaction(models.Model):
     _name = 'equity.transaction'
     _inherit = ['mail.thread']
     _description = "Equity Transaction"
+    _check_company_auto = True
+
+    company_id = fields.Many2one(
+        'res.company',
+        related='partner_id.company_id',
+        string="Visible to",
+        help="Company to which this record is visible",
+    )
 
     transaction_type = fields.Selection(
         string="Transaction Type",
@@ -60,11 +68,12 @@ class EquityTransaction(models.Model):
     )
     notes = fields.Text()
 
-    seller_id = fields.Many2one(comodel_name='res.partner', string="Seller", tracking=True)
+    seller_id = fields.Many2one(comodel_name='res.partner', string="Seller", tracking=True, check_company=True)
     subscriber_id = fields.Many2one(
         comodel_name='res.partner',
         string="Subscriber",
         tracking=True,
+        check_company=True,
         help="Recipient of the securities of the transaction.",
     )
     subscriber_id_placeholder = fields.Char(compute='_compute_subscriber_id_placeholder')
@@ -206,7 +215,7 @@ class EquityTransaction(models.Model):
 
     @api.depends('date', 'partner_id')
     def _compute_security_price(self):
-        for transaction in self.filtered(lambda t: not bool(self._origin.id)):  # only set security price for newly created records
+        for transaction in self.filtered(lambda t: not bool(t._origin.id)):  # only set security price for newly created records
             transaction.security_price = self.search([
                 ('partner_id', '=', transaction.partner_id.id),
                 ('date', '<', transaction.date),

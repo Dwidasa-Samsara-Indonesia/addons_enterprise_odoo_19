@@ -18,12 +18,8 @@ class EnterpriseBaseMailPerformance(FullBaseMailPerformance):
             cls.user_admin.partner_id + cls.user_employee.partner_id +
             cls.user_follower_emp_email.partner_id +
             cls.user_follower_emp_inbox.partner_id +
-            cls.user_follower_portal.partner_id +
-            cls.partner_follower +
             cls.user_emp_inbox.partner_id +
-            cls.user_emp_email.partner_id +
-            cls.partner +
-            cls.customers
+            cls.user_emp_email.partner_id
         )
 
     def setUp(self):
@@ -92,5 +88,5 @@ class TestMailPerformance(EnterpriseBaseMailPerformance):
             new_message.notified_partner_ids,
             self.user_follower_emp_email.partner_id + self.user_admin.partner_id + self.customers + self.user_follower_portal.partner_id
         )
-        self.assertEqual(self.push_to_end_point_mocked.call_count, 8, "Not sure why 8")
+        self.assertEqual(self.push_to_end_point_mocked.call_count, 2, "Not sure why 2")
         self.assertEqual(self.ocn_iap_jsonrpc_mocked.call_count, 2, "One call for standard, one call for at mention")

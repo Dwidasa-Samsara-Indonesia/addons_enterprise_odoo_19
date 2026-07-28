@@ -9,8 +9,8 @@ class ResPartner(models.Model):
 
     @api.depends("ticket_ids.fold")
     def _compute_open_ticket_count(self):
-        def is_open(ticket):
-            return not ticket.fold
-
+        count_by_partner_id = self._count_tickets_by_partner_id(
+            extra_domain=[("fold", "=", False)],
+        )
         for partner in self:
-            partner.open_ticket_count = len(partner.ticket_ids.filtered(is_open))
+            partner.open_ticket_count = count_by_partner_id.get(partner.id, 0)

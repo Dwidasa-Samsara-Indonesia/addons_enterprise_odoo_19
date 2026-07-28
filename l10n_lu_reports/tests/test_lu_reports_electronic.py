@@ -147,6 +147,36 @@ class LuxembourgElectronicReportTest(TestAccountReportsCommon):
         )
 
     @freeze_time('2019-12-31')
+    def test_generate_xml_agent_rcs_number(self):
+        """Test that Agent/RCSNbr is correctly populated in all three cases:
+        - Agent set with RCS number  → agent's RCS number
+        - Agent set without RCS number (natural person) → 'NE'
+        - No agent set → company's company_registry
+        """
+        company = self.company_data['company']
+        ns = {'ecdf': 'http://www.ctie.etat.lu/2011/ecdf'}
+
+        def get_agent_rcs():
+            _, xml_bytes = self._get_xml_declaration('l10n_lu.tax_report')
+            return self.get_xml_tree_from_string(xml_bytes).findtext('.//ecdf:Agent/ecdf:RCSNbr', namespaces=ns)
+
+        agent = self.env['res.partner'].create({
+            'name': 'Accounting Firm',
+            'l10n_lu_agent_matr_number': '12345678901',
+            'l10n_lu_agent_ecdf_prefix': 'AG001A',
+        })
+
+        company.company_registry = 'B123456'
+        company.account_representative_id = agent
+        self.assertEqual(get_agent_rcs(), 'NE')
+
+        agent.l10n_lu_agent_rcs_number = 'B654321'
+        self.assertEqual(get_agent_rcs(), 'B654321')
+
+        company.account_representative_id = False
+        self.assertEqual(get_agent_rcs(), 'B123456')
+
+    @freeze_time('2019-12-31')
     def test_generate_xml(self):
         first_tax = self.env['account.tax'].search([('name', '=', '17% G'), ('company_id', '=', self.company_data['company'].id)], limit=1)
         second_tax = self.env['account.tax'].search([('name', '=', '14% S'), ('company_id', '=', self.company_data['company'].id)], limit=1)
@@ -815,6 +845,157 @@ class LuxembourgElectronicReportTest(TestAccountReportsCommon):
             ioss,
             sme,
         )
+
+        self.assertXmlTreeEqual(
+            self.get_xml_tree_from_string(declaration_to_compare),
+            self.get_xml_tree_from_string(expected_xml)
+        )
+
+    @freeze_time('2026-01-15')
+    def test_generate_balance_sheet_xml_current_year_earnings(self):
+        company_id = self.company_data['company'].id
+        tax_17 = self.env['account.tax'].search([('name', '=', '17% S'), ('company_id', '=', company_id)], limit=1)
+        account_142 = self.env['account.account'].search([('code', '=', '142000'), ('company_ids', '=', company_id)], limit=1)
+        account_999 = self.env['account.account'].search([('code', '=', '999999'), ('company_ids', '=', company_id)], limit=1)
+        if not account_999:
+            account_999 = self.env['account.account'].create({
+                'name': 'Account 999999',
+                'account_type': 'equity',
+                'code': '999999',
+            })
+        # Remove any potential noise.
+        self.env['account.move'].search([('company_id', '=', company_id), ('state', '=', 'posted')]).button_draft()
+
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'journal_id': self.company_data['default_journal_sale'].id,
+            'partner_id': self.partner_a.id,
+            'invoice_date': '2025-12-12',
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'quantity': 1.0,
+                'price_unit': 1_000_000.0,
+                'tax_ids': tax_17.ids,
+            })]
+        })
+        misc_entry = self.env['account.move'].create({
+            'move_type': 'entry',
+            'journal_id': self.company_data['default_journal_misc'].id,
+            'date': '2025-12-31',
+            'line_ids': [
+                Command.create({
+                    'name': '142',
+                    'account_id': account_142.id,
+                    'debit': 1_000_000.0,
+                    'credit': 0.0,
+                }),
+                Command.create({
+                    'name': '999',
+                    'account_id': account_999.id,
+                    'debit': 0.0,
+                    'credit': 1_000_000.0,
+                }),
+            ],
+        })
+        (invoice + misc_entry).action_post()
+
+        report = self.env.ref('l10n_lu_reports.account_financial_report_l10n_lu_bs')
+        options = self._generate_options(report, date_from='2025-01-01', date_to='2025-12-31')
+
+        wizard = self.env['l10n_lu.generate.accounts.report'].create({})
+        new_context = self.env.context.copy()
+        new_context['report_generation_options'] = options
+        wizard.with_context(new_context).get_xml()
+        declaration_to_compare = b64decode(wizard.report_data.decode("utf-8"))[38:]
+
+        expected_xml = """
+        <eCDFDeclarations xmlns="http://www.ctie.etat.lu/2011/ecdf">
+            <FileReference>___ignore___</FileReference>
+            <eCDFFileVersion>2.0</eCDFFileVersion>
+            <Interface>MODL5</Interface>
+            <Agent>
+                <MatrNbr>12345678900</MatrNbr>
+                <RCSNbr>NE</RCSNbr>
+                <VATNbr>12345613</VATNbr>
+            </Agent>
+            <Declarations>
+                <Declarer>
+                    <MatrNbr>12345678900</MatrNbr>
+                    <RCSNbr>NE</RCSNbr>
+                    <VATNbr>12345613</VATNbr>
+                    <DeclarationGroup>
+                        <Declaration type="CA_COMPP" model="1" language="EN">
+                            <Year>2025</Year>
+                            <Period>1</Period>
+                            <FormData>
+                                <TextField id="01">01/01/2025</TextField>
+                                <TextField id="02">31/12/2025</TextField>
+                                <TextField id="03">EUR</TextField>
+                                <NumericField id="701">1000000,00</NumericField>
+                                <NumericField id="667">1000000,00</NumericField>
+                                <NumericField id="669">1000000,00</NumericField>
+                            </FormData>
+                        </Declaration>
+                        <Declaration type="CA_BILAN" model="1" language="EN">
+                            <Year>2025</Year>
+                            <Period>1</Period>
+                            <FormData>
+                                <TextField id="01">01/12/2025</TextField>
+                                <TextField id="02">31/12/2025</TextField>
+                                <TextField id="03">EUR</TextField>
+                                <NumericField id="151">1000000,00</NumericField>
+                                <NumericField id="163">1000000,00</NumericField>
+                                <NumericField id="165">1170000,00</NumericField>
+                                <NumericField id="167">1170000,00</NumericField>
+                                <NumericField id="183">-170000,00</NumericField>
+                                <NumericField id="185">-170000,00</NumericField>
+                                <NumericField id="201">1000000,00</NumericField>
+                                <NumericField id="202">0,00</NumericField>
+                                <NumericField id="301">1000000,00</NumericField>
+                                <NumericField id="321">1000000,00</NumericField>
+                                <NumericField id="405">1000000,00</NumericField>
+                                <NumericField id="406">0,00</NumericField>
+                            </FormData>
+                        </Declaration>
+                        <Declaration type="CA_PLANCOMPTA" model="1" language="EN">
+                            <Year>2025</Year>
+                            <Period>1</Period>
+                            <FormData>
+                                <TextField id="01">01/12/2025</TextField>
+                                <TextField id="02">31/12/2025</TextField>
+                                <TextField id="03">EUR</TextField>
+                                <NumericField id="0565">1170000,00</NumericField>
+                                <NumericField id="0567">1170000,00</NumericField>
+                                <NumericField id="0569">1170000,00</NumericField>
+                                <NumericField id="0658">170000,00</NumericField>
+                                <NumericField id="0660">170000,00</NumericField>
+                                <NumericField id="0688">170000,00</NumericField>
+                                <NumericField id="0690">170000,00</NumericField>
+                                <NumericField id="0692">170000,00</NumericField>
+                                <NumericField id="1852">1000000,00</NumericField>
+                                <NumericField id="2780">1000000,00</NumericField>
+                                <NumericField id="1862">1000000,00</NumericField>
+                                <NumericField id="1111">1170000,00</NumericField>
+                                <NumericField id="1112">170000,00</NumericField>
+                                <NumericField id="2257">0,00</NumericField>
+                                <NumericField id="2258">1000000,00</NumericField>
+                                <NumericField id="2956">0,00</NumericField>
+                                <NumericField id="2957">1170000,00</NumericField>
+                                <NumericField id="2958">1170000,00</NumericField>
+                                <NumericField id="0161">1000000,00</NumericField>
+                                <NumericField id="0158">0,00</NumericField>
+                                <NumericField id="2939">1,00</NumericField>
+                                <Choice id="2940">1</Choice>
+                                <Choice id="2941">1</Choice>
+                                <Choice id="2942">1</Choice>
+                            </FormData>
+                        </Declaration>
+                        <MappingTable mapping="standard"></MappingTable>
+                    </DeclarationGroup>
+                </Declarer>
+            </Declarations>
+        </eCDFDeclarations>
+        """
 
         self.assertXmlTreeEqual(
             self.get_xml_tree_from_string(declaration_to_compare),

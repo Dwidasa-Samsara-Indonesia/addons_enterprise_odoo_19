@@ -7,9 +7,11 @@ import pytz
 from datetime import datetime, timedelta
 from freezegun import freeze_time
 from lxml import html
+from unittest.mock import patch
 
 from odoo import Command, http
 from odoo.addons.appointment.tests.common import AppointmentCommon
+from odoo.addons.base.models.ir_qweb import IrQweb
 from odoo.addons.mail.tests.common import mail_new_test_user
 from odoo.tests import common, tagged, users
 from odoo.tools import float_compare
@@ -446,6 +448,70 @@ class AppointmentUITest(AppointmentUICommon):
                 event_answers_copy.pop(question_key)
                 res = self.url_open(f"/appointment/{self.apt_type_bxls_2days.id}/submit", {**event_values, **event_answers_copy})
                 self.assertEqual(res.status_code, 422)
+
+    @freeze_time('2022-03-25 08:00:00')
+    def test_appointment_calendar_navigation_far_min_schedule_hours(self):
+        """ Check that later months still show their slots when a large minimum
+        booking delay moves the first free slot into a later month. """
+        # Monday only. On Fri 2022-03-25 the 96h delay lands on Tue 03-29, past
+        # March's last Monday (03-28), so the first free slot is Mon 04-04.
+        apt_type = self.env['appointment.type'].create({
+            'appointment_tz': 'UTC',
+            'appointment_duration': 1,
+            'category': 'recurring',
+            'is_auto_assign': True,
+            'max_schedule_days': 90,
+            'min_schedule_hours': 96,
+            'name': 'Monday Appt Type',
+            'schedule_based_on': 'users',
+            'slot_ids': [Command.create({'weekday': '1', 'start_hour': 8, 'end_hour': 9})],
+            'staff_user_ids': [Command.link(self.staff_user_bxls.id)],
+        })
+        invite = self.env['appointment.invite'].create({
+            'appointment_type_ids': [Command.set(apt_type.ids)],
+        })
+
+        captured_slots = []
+        render_origin = IrQweb._render
+
+        def _capture_render(self, template, values=None, **options):
+            """ Capture the month list the controller feeds to the calendar template. """
+            if template == 'appointment.appointment_calendar':
+                captured_slots.append(values['slots'])
+            return render_origin(self, template, values, **options)
+
+        def _navigate_to_month(month_id, month_before_update=None):
+            """ Make the same call the browser makes and return the rendered months. """
+            with patch.object(IrQweb, '_render', _capture_render):
+                response = self.url_open(
+                    '/appointment/%s/update_available_slots' % apt_type.id,
+                    data=json.dumps({'params': {
+                        'invite_token': invite.access_token,
+                        'filter_appointment_type_ids': json.dumps(apt_type.ids),
+                        'filter_staff_user_ids': '[]',
+                        'filter_resource_ids': '[]',
+                        'timezone': 'UTC',
+                        'month_id': month_id,
+                        'month_before_update': month_before_update,
+                    }}),
+                    headers={'Content-Type': 'application/json'},
+                )
+            self.assertEqual(response.status_code, 200)
+            return captured_slots[-1]
+
+        # The calendar opens on April, since March has no Monday left after the delay.
+        slots = _navigate_to_month(month_id=0)
+        self.assertEqual(slots[0]['month'], 'April 2022')
+        self.assertTrue(
+            slots[0]['has_availabilities'],
+            "The first displayed month (April) should list bookable slots")
+
+        # Click 'next': the browser asks for the following month by its index.
+        slots = _navigate_to_month(month_id=1, month_before_update='May 2022')
+        self.assertEqual(slots[1]['month'], 'May 2022')
+        self.assertTrue(
+            slots[1]['has_availabilities'],
+            "Navigating to May must display its Monday slots instead of an empty month")
 
     @freeze_time('2022-02-14')
     @users('apt_manager')

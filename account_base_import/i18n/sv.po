@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-04-08 09:03+0000\n"
+"PO-Revision-Date: 2026-06-11 17:55+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_base_import/sv/>\n"
@@ -19,17 +19,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_base_import
 #: model_terms:ir.ui.view,arch_db:account_base_import.res_config_settings_import_view_form
 msgid "<span class=\"text-muted\">(end of year balances)</span>"
-msgstr "<span class=\"text-muted\">(saldo vid årets slut)</span>"
+msgstr "<span class=\"text-muted\">(saldo vid årsbokslut)</span>"
 
 #. module: account_base_import
 #: model_terms:ir.ui.view,arch_db:account_base_import.res_config_settings_import_view_form
 msgid "<span class=\"text-muted\">(for full history)</span>"
-msgstr "<span class=\"text-muted\">(för fullständig historik)</span>"
+msgstr "<span class=\"text-muted\">(för en fullständig historik)</span>"
 
 #. module: account_base_import
 #: model:ir.model,name:account_base_import.model_account_account
@@ -143,7 +143,7 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:account_base_import.view_account_base_import_list
 #: model_terms:ir.ui.view,arch_db:account_base_import.view_account_setup_base_import_list
 msgid "Import"
-msgstr "Importer"
+msgstr "Importera"
 
 #. module: account_base_import
 #. odoo-javascript
@@ -176,7 +176,7 @@ msgstr "Importera kontakter"
 #: code:addons/account_base_import/static/src/xml/account_import.xml:0
 #: model:ir.actions.client,name:account_base_import.action_account_move_line_import
 msgid "Import Journal Items"
-msgstr "Importera affärshändelser"
+msgstr "Importera verifikationsrader"
 
 #. module: account_base_import
 #: model:ir.actions.client,name:account_base_import.action_partner_import
@@ -197,7 +197,7 @@ msgstr "Importera sammanfattning av konton"
 #. module: account_base_import
 #: model:ir.model.fields,field_description:account_base_import.field_account_import_summary__import_summary_journal_ids
 msgid "Import Summary Journal"
-msgstr "Importera sammanfattning av verifikationsserier"
+msgstr "Importera sammanfattning av en journal"
 
 #. module: account_base_import
 #: model:ir.model.fields,field_description:account_base_import.field_account_import_summary__import_summary_move_ids
@@ -253,7 +253,7 @@ msgstr "Importerad data"
 #. module: account_base_import
 #: model_terms:ir.ui.view,arch_db:account_base_import.res_config_settings_import_view_form
 msgid "Initial Setup"
-msgstr "Initiala inställningar"
+msgstr "Ursprungliga inställningar"
 
 #. module: account_base_import
 #. odoo-javascript
@@ -264,13 +264,13 @@ msgstr "Installera en modul"
 #. module: account_base_import
 #: model:ir.model,name:account_base_import.model_account_move_line
 msgid "Journal Item"
-msgstr "Affärshändelse"
+msgstr "Verifikationsrad"
 
 #. module: account_base_import
 #. odoo-javascript
 #: code:addons/account_base_import/static/src/js/account_import_action.js:0
 msgid "Journal Items"
-msgstr "Affärshändelser"
+msgstr "Verifikationsrader"
 
 #. module: account_base_import
 #: model:ir.model.fields,field_description:account_base_import.field_account_import_summary__write_uid
@@ -386,7 +386,7 @@ msgid ""
 msgstr ""
 "Tips: Vi rekommenderar att man importerar sin ingående balans med hjälp av "
 "funktionen för import av kontoplan. Använd endast verktyget för att "
-"importera affärshändelser för icke avstämda bokföringsposter i dina konton "
+"importera verifikationsrader för icke avstämda verifikationer i dina konton "
 "för leverantörsskulder och kundfordringar."
 
 #. module: account_base_import
@@ -411,7 +411,7 @@ msgid ""
 "that will stay in draft."
 msgstr ""
 "Vi hjälper dig att konfigurera din kontoplan samt en historik över dina "
-"bokföringsposter, som kommer att förbli i utkast."
+"verifikationer, som kommer att förbli i utkast."
 
 #. module: account_base_import
 #. odoo-javascript
@@ -475,18 +475,18 @@ msgid ""
 msgstr ""
 "krävs för att importera SIE 5-filer och SIE 5-poster.\n"
 "                                    För allmänna SIE 5-filer, ställer vi in "
-"din kontoplan med balanser, journaler, partners, samt en historik över "
-"bokföringsposter\n"
-"                                    (data från bokföringsjournalerna måste "
-"vara inkluderat i filen).\n"
+"din kontoplan med balanser, journaler, partners, samt en "
+"verifikationshistorik\n"
+"                                    (journaldata måste vara inkluderat i "
+"filen).\n"
 "                                    För SIE 5-poster, skapas endast "
-"bokföringsposter och partners, resterande information måste redan finnas i "
+"verifikationer och partners, resterande information måste redan finnas i "
 "systemet."
 
 #. module: account_base_import
 #: model_terms:ir.ui.view,arch_db:account_base_import.account_import_summary_form
 msgid "journals imported"
-msgstr "importerade verifikationsserier"
+msgstr "importerade journaler"
 
 #. module: account_base_import
 #: model_terms:ir.ui.view,arch_db:account_base_import.account_import_summary_form
@@ -530,8 +530,8 @@ msgid ""
 "                            Support versions: Winbooks Desktop 5.50, 6, 7, 8."
 msgstr ""
 "att importera en fullständig säkerhetskopia av Winbooks (Underhåll > "
-"Säkerhetskopiering) för att konfigurera kontoplan, kontakter, skatter, "
-"historik över bokföringsposter samt dokument.\n"
+"Säkerhetskopiering) för att konfigurera en kontoplan, kontakter, skatter, "
+"verifikationshistorik samt dokument.\n"
 "                            Versioner som stöds: Winbooks Desktop 5.50, 6, 7 "
 "och 8."
 
@@ -543,7 +543,7 @@ msgid ""
 "history of journal entries."
 msgstr ""
 "för att importera FEC-filen. Vi hjälper dig att konfigurera kontoplaner samt "
-"en historik över bokföringsposter."
+"en historik över verifikationer."
 
 #. module: account_base_import
 #. odoo-javascript

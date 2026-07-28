@@ -1,10 +1,14 @@
+import csv
+import io
 import json
 
 from collections import defaultdict
 from itertools import groupby
+from textwrap import shorten
 
 from odoo import models, fields, _
-from odoo.tools import SQL
+from odoo.tools import float_repr, SQL
+from odoo.exceptions import UserError
 
 
 class AccountGeneralLedgerReportHandler(models.AbstractModel):
@@ -13,6 +17,14 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
     _description = 'General Ledger Custom Handler'
 
     def _custom_options_initializer(self, report, options, previous_options):
+        options['buttons'].append({
+            'name': _("CSV"),
+            'sequence': 50,
+            'action': 'export_file',
+            'action_param': 'generate_csv_export',
+            'file_export_type': _('CSV'),
+        })
+
         super()._custom_options_initializer(report, options, previous_options=previous_options)
         # Remove multi-currency columns if needed
         if self.env.user.has_group('base.group_multi_currency'):
@@ -25,6 +37,9 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
 
         # Automatically unfold the report when printing it, unless some specific lines have been unfolded
         options['unfold_all'] = (options['export_mode'] == 'print' and not options.get('unfolded_lines')) or options['unfold_all']
+
+        if options.get('force_not_unfold_all'):
+            options['unfold_all'] = False
 
         options['custom_display_config'] = {
             'templates': {
@@ -91,8 +106,9 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                     aml_keys.append(grouping_key)
 
             records_unsorted = self.env['account.move.line'].browse(ids_to_browse)
+            records_unsorted.fetch(['display_name'])
             for record, aml_key in zip(records_unsorted, aml_keys):
-                keys_names_in_sequence[aml_key] = record.display_name
+                keys_names_in_sequence[aml_key] = shorten(record.display_name, width=200)
 
             return keys_names_in_sequence
 
@@ -120,6 +136,61 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                     return json.dumps([fields.Date.to_string(row['date']), row['id']])
             return row[groupby] if groupby else None
 
+        query = self._get_query(options, current_groupby, offset=offset, limit=limit)
+
+        rows_by_key = defaultdict(lambda: {
+            'date': None,
+            'partner_name': None,
+            'amount_currency': None,
+            'currency_id': self.env.company.currency_id.id,
+            'debit': 0,
+            'credit': 0,
+            'balance': 0,
+            'has_sublines': True,
+        })
+
+        for row in self.env.execute_query_dict(query):
+            aml_key = get_grouping_key(row, current_groupby)
+
+            if aml_key not in rows_by_key:
+                rows_by_key[aml_key].update({
+                    'debit': row['debit'],
+                    'credit': row['credit'],
+                    'balance': row['balance'],
+                })
+
+                if current_groupby == 'id_with_accumulated_balance':
+                    rows_by_key[aml_key]['has_sublines'] = False
+                    rows_by_key[aml_key]['account_id'] = row['account_id']  # Needed for batching
+
+                    if 'balance_line' not in aml_key:
+                        rows_by_key[aml_key]['date'] = row['date']
+                        rows_by_key[aml_key]['partner_name'] = row['partner_name']
+                        rows_by_key[aml_key]['line_name'] = row['line_name']
+                        rows_by_key[aml_key]['account_code'] = row['account_code']
+                        rows_by_key[aml_key]['account_name'] = row['account_name']
+                        rows_by_key[aml_key]['move_name'] = row['move_name']
+                    if row['currency_id'] != self.env.company.currency_id.id:
+                        rows_by_key[aml_key]['amount_currency'] = row['amount_currency']
+                        rows_by_key[aml_key]['currency_id'] = row['currency_id']
+                elif current_groupby == 'account_id':
+                    rows_by_key[aml_key]['has_sublines'] = True
+                    if row.get('currency_id'):
+                        rows_by_key[aml_key]['amount_currency'] = row['amount_currency']
+                        rows_by_key[aml_key]['currency_id'] = row['currency_id']
+            else:
+                rows_by_key[aml_key]['debit'] += row['debit']
+                rows_by_key[aml_key]['credit'] += row['credit']
+                rows_by_key[aml_key]['balance'] += row['balance']
+                if row.get('currency_id'):
+                    rows_by_key[aml_key]['currency_id'] += row['currency_id']
+
+        if not current_groupby:
+            return rows_by_key[None]  # None is the key for total line as there is no groupby
+
+        return [(key, entry) for key, entry in rows_by_key.items()]
+
+    def _get_query(self, options, current_groupby, order_by_account=False, offset=0, limit=None):
         report = self.env['account.report'].browse(options['report_id'])
         options_date_from = fields.Date.from_string(options['date']['date_from'])
         current_fiscalyear_date_from = self.env.company.compute_fiscalyear_dates(options_date_from)['date_from']
@@ -175,7 +246,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 account_name_select=account_name_select,
                 account_code_select=account_code_select,
             )
-            groupby = [SQL("1"), SQL("2"), SQL("account_id")]
+            groupby = [SQL("1"), SQL("2"), SQL("account_move_line.account_id")]
         elif current_groupby == 'account_id':
             additional_select = SQL("""
                 account_move_line__account_id.id AS account_id,
@@ -188,6 +259,15 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             groupby_field_sql = self.env['account.move.line']._field_to_sql('account_move_line', current_groupby, report_query)
             additional_select = SQL("%s AS %s,", groupby_field_sql, SQL.identifier(current_groupby))
             groupby = [groupby_field_sql]
+
+        report_query.left_join('account_move_line', 'account_id', 'account_account', 'id', 'account_id')
+        if current_groupby == 'account_id' or order_by_account:
+            order_clause = [self.env['account.account']._order_to_sql(self.env['account.account']._order, report_query, 'account_move_line__account_id')]
+            groupby = order_clause + groupby
+        else:
+            order_clause = []
+        if current_groupby == 'id_with_accumulated_balance':
+            order_clause.append(SQL("2 NULLS FIRST, move_name, 1 NULLS FIRST"))
 
         query = SQL(
             """
@@ -220,62 +300,11 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             where_clause=report_query.where_clause,
             search_bar_sql=search_bar_sql,
             additional_groupby=SQL("GROUP BY %s", SQL(",").join(groupby)) if groupby else SQL(),
-            orderby_clause=SQL("ORDER BY 2 NULLS FIRST, move_name, 1 NULLS FIRST") if current_groupby == 'id_with_accumulated_balance' else SQL(),
+            orderby_clause=SQL("ORDER BY %s", SQL(",").join(order_clause)) if order_clause else SQL(),
             offset_clause=SQL("OFFSET %s", offset) if offset else SQL(),
             limit=limit
         )
-
-        rows_by_key = defaultdict(lambda: {
-            'date': None,
-            'partner_name': None,
-            'amount_currency': None,
-            'currency_id': self.env.company.currency_id.id,
-            'debit': 0,
-            'credit': 0,
-            'balance': 0,
-            'has_sublines': True,
-        })
-
-        for row in self.env.execute_query_dict(query):
-            aml_key = get_grouping_key(row, current_groupby)
-
-            if aml_key not in rows_by_key:
-                rows_by_key[aml_key].update({
-                    'debit': row['debit'],
-                    'credit': row['credit'],
-                    'balance': row['balance'],
-                })
-
-                if current_groupby == 'id_with_accumulated_balance':
-                    rows_by_key[aml_key]['has_sublines'] = False
-                    rows_by_key[aml_key]['account_id'] = row['account_id']  # Needed for batching
-
-                    if 'balance_line' not in aml_key:
-                        rows_by_key[aml_key]['date'] = row['date']
-                        rows_by_key[aml_key]['partner_name'] = row['partner_name']
-                        rows_by_key[aml_key]['line_name'] = row['line_name']
-                        rows_by_key[aml_key]['account_code'] = row['account_code']
-                        rows_by_key[aml_key]['account_name'] = row['account_name']
-                        rows_by_key[aml_key]['move_name'] = row['move_name']
-                    if row['currency_id'] != self.env.company.currency_id.id:
-                        rows_by_key[aml_key]['amount_currency'] = row['amount_currency']
-                        rows_by_key[aml_key]['currency_id'] = row['currency_id']
-                elif current_groupby == 'account_id':
-                    rows_by_key[aml_key]['has_sublines'] = True
-                    if row.get('currency_id'):
-                        rows_by_key[aml_key]['amount_currency'] = row['amount_currency']
-                        rows_by_key[aml_key]['currency_id'] = row['currency_id']
-            else:
-                rows_by_key[aml_key]['debit'] += row['debit']
-                rows_by_key[aml_key]['credit'] += row['credit']
-                rows_by_key[aml_key]['balance'] += row['balance']
-                if row.get('currency_id'):
-                    rows_by_key[aml_key]['currency_id'] += row['currency_id']
-
-        if not current_groupby:
-            return rows_by_key[None]  # None is the key for total line as there is no groupby
-
-        return [(key, entry) for key, entry in rows_by_key.items()]
+        return query
 
     def _report_expand_unfoldable_line_with_groupby(self, line_dict_id, groupby, options, progress, offset, unfold_all_batch_data=None):
         """
@@ -454,3 +483,133 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                                 )
 
         return results
+
+    def generate_csv_export(self, options):
+        if len(options['column_groups']) > 1:
+            raise UserError(_("CSV export only works with one column group"))
+
+        report = self.env['account.report'].browse(options['report_id'])
+        return {
+            'file_content': self._generate_csv_lazy_export(options),
+            'file_type': 'csv',
+            'file_name': report.get_default_report_filename(options, 'csv')
+        }
+
+    def _generate_csv_lazy_export(self, options):
+        with self.pool.cursor() as new_cr:
+            self.env.flush_all()
+            handler = self.with_env(self.env(cr=new_cr))
+            cur_data = {
+                currency.id: {'name': currency.name, 'decimal_places': currency.decimal_places}
+                for currency in handler.env['res.currency'].with_context(active_test=False).search([])
+            }
+            company_currency_id = handler.env.company.currency_id.id
+
+            def csv_format_account_line(account_line, has_code=True):
+                if has_code:
+                    cells = list(handler.env['account.account']._split_code_name(account_line['name']))
+                else:
+                    cells = ['/', account_line['name']]
+
+                for col in account_line['columns']:
+                    cell = col['name']
+                    currency_id = col['currency'].id if col.get('currency') else company_currency_id
+
+                    if col['figure_type'] == 'monetary' and isinstance(cell, float):
+                        cell = float_repr(cell, cur_data[currency_id]['decimal_places'])
+
+                    if col['expression_label'] == 'amount_currency':
+                        cells.append(cell)
+                        cell = cur_data[currency_id]['name'] if currency_id != company_currency_id else ''
+
+                    cells.append(cell)
+
+                return csv_format(cells)
+
+            def csv_format_aml_res(aml_res):
+                cells = ['', aml_res.get('move_name', '')]
+                for col in options['columns']:
+                    cell = aml_res.get(col['expression_label'], '')
+
+                    if col['figure_type'] == 'monetary' and isinstance(cell, float):
+                        if col['expression_label'] == 'amount_currency':
+                            currency_id = aml_res['currency_id']
+                            amount_cur_cell = float_repr(cell, cur_data[currency_id]['decimal_places']) if currency_id != company_currency_id else ''
+                            cells.append(amount_cur_cell)
+                            cell = cur_data[currency_id]['name'] if currency_id != company_currency_id else ''
+                        else:
+                            cell = float_repr(cell, cur_data[company_currency_id]['decimal_places'])
+                    cells.append(cell)
+
+                return csv_format(cells)
+
+            def csv_format(cells):
+                with io.StringIO() as buf:
+                    writer = csv.writer(buf, delimiter=',', lineterminator='\n')
+                    writer.writerow(cells)
+                    return buf.getvalue().encode()
+
+            col_names = [col['name'] for col in options['columns']]
+            currency_idx = next((i for i, col in enumerate(options['columns']) if col.get('expression_label') == 'amount_currency'), None)
+            header = [_("Code"), _("Name")]
+
+            if currency_idx is not None:
+                header += [
+                    *col_names[:currency_idx],
+                    _("Amount Currency"),
+                    _("Currency"),
+                    *col_names[currency_idx + 1:]
+                ]
+            else:
+                header += col_names
+
+            yield csv_format(header)
+
+            report = handler.env['account.report'].browse(options['report_id'])
+            agg_lines_options = report.get_options(previous_options={**options, 'unfolded_lines': [], 'force_not_unfold_all': True})
+            agg_lines = report.with_context(no_format=True)._get_lines(agg_lines_options)
+
+            # Exclude total lines
+            account_lines = []
+            accounts = []
+            for agg_line in agg_lines:
+                line_id = agg_line['id']
+                markup, model, res_id = report._parse_line_id(line_id)[-1]
+                if markup != 'total':
+                    if model == 'account.account':
+                        accounts.append(res_id)
+                    account_lines.append(agg_line)
+
+            if not account_lines:
+                return
+
+            accounts_with_codes = {account.id for account in handler.env['account.account'].browse(accounts) if account.code}
+
+            account_lines_iter = iter(account_lines)
+            account_line = next(account_lines_iter)
+            _model, account_id = report._get_model_info_from_id(account_line['id'])
+            yield csv_format_account_line(account_line, has_code=account_id in accounts_with_codes)
+
+            aml_query = handler._get_query(options, 'id_with_accumulated_balance', order_by_account=True)
+            handler.env.cr.execute(SQL("%s", aml_query))
+            progress = 0
+            while aml_line := handler.env.cr.dictfetchone():
+                while account_id != aml_line['account_id']:
+                    account_line = next(account_lines_iter)
+                    _model, account_id = report._get_model_info_from_id(account_line['id'])
+                    yield csv_format_account_line(account_line, has_code=account_id in accounts_with_codes)
+                    progress = 0
+
+                if aml_line['id'] is None:
+                    aml_line['move_name'] = _("Initial Balance")
+                    aml_line['partner_name'] = ''
+
+                progress = aml_line['balance'] = (progress + aml_line['balance'])
+                yield csv_format_aml_res(aml_line)
+
+            # These are the "Result Brought Forward" lines
+            for account_line in account_lines_iter:
+                yield csv_format_account_line(account_line, has_code=False)
+
+            total_line = agg_lines[-1]
+            yield csv_format_account_line(total_line)

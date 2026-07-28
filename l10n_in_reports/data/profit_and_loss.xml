@@ -136,6 +136,21 @@
                     </record>
                 </field>
             </record>
+            <record id="account_financial_report_in_other_expense0" model="account.report.line">
+                <field name="name">Less Other Expenses</field>
+                <field name="code">OTH_EXP_IN</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="account_financial_report_in_other_expense0_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">domain</field>
+                        <field name="formula" eval="[('account_id.account_type', '=', 'expense_other')]"/>
+                        <field name="subformula">sum</field>
+                        <field name="green_on_positive" eval="False"/>
+                    </record>
+                </field>
+            </record>
             <record id="account_financial_report_in_depreciation0" model="account.report.line">
                 <field name="name">Less Depreciation</field>
                 <field name="code">DEP_IN</field>
@@ -159,7 +174,7 @@
                     <record id="account_financial_report_in_net_profit0_balance" model="account.report.expression">
                         <field name="label">balance</field>
                         <field name="engine">aggregation</field>
-                        <field name="formula">OPINC_IN.balance + OIN_IN.balance + CLS_IN.balance - OPS_IN.balance - COS_IN.balance - EXP_IN.balance - DEP_IN.balance</field>
+                        <field name="formula">OPINC_IN.balance + OIN_IN.balance + CLS_IN.balance - OPS_IN.balance - COS_IN.balance - EXP_IN.balance - OTH_EXP_IN.balance - DEP_IN.balance</field>
                     </record>
                 </field>
             </record>

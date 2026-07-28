@@ -63,19 +63,19 @@ class PosPreparationState(models.Model):
         return True
 
     def _record_stage_change_prep_time(self, pdis_state, old_last_stage_change, prep_order_completion_time):
+        pos_order_line = pdis_state.prep_line_id.pos_order_line_id
         # If new stage is the first one & line is not done, it means the order has been reset
         if pdis_state.stage_id.is_stage_position(0):
-            if pdis_state.prep_line_id.pos_order_line_id.preparation_time != -1:
-                pdis_state.prep_line_id.pos_order_line_id.preparation_time = -1
-            if pdis_state.prep_line_id.pos_order_line_id.service_time != -1:
-                pdis_state.prep_line_id.pos_order_line_id.service_time = -1
+            if pos_order_line.preparation_time != -1:
+                pos_order_line.preparation_time = -1
+            if pos_order_line.service_time != -1:
+                pos_order_line.service_time = -1
         # If new stage is the second last one & line is done, write the preparation_time
-        if len(pdis_state.stage_id) > 1:
-            if pdis_state.prep_line_id.pos_order_line_id.preparation_time == -1 and pdis_state.stage_id.is_stage_position(-2):
-                pdis_state.prep_line_id.pos_order_line_id.preparation_time = compute_seconds_since(old_last_stage_change)
+        if pos_order_line.preparation_time == -1 and pdis_state.stage_id.is_stage_position(-2):
+            pos_order_line.preparation_time = compute_seconds_since(old_last_stage_change)
         # If new stage is the last one & line is done, write the service_time
-        if pdis_state.prep_line_id.pos_order_line_id.service_time == -1 and pdis_state.stage_id.is_stage_position(-1):
-            pdis_state.prep_line_id.pos_order_line_id.service_time = compute_seconds_since(old_last_stage_change)
+        if pos_order_line.service_time == -1 and pdis_state.stage_id.is_stage_position(-1):
+            pos_order_line.service_time = compute_seconds_since(old_last_stage_change)
 
         # If the order is done, write the completion_time
         # Also, if all the quantities are cancelled (don't have pos_order_line_id in that case), no need to update the completion_time

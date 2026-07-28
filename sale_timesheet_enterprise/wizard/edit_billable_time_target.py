@@ -31,6 +31,7 @@ class EditBillableTimeTarget(models.Model):
     avatar_128 = fields.Image("Avatar 128", related='employee_id.avatar_128', compute_sudo=True)
     avatar_1920 = fields.Image("Avatar 1920", related='employee_id.avatar_1920', compute_sudo=True)
     image_1024 = fields.Image("Image 1024", related='employee_id.image_1024', compute_sudo=True)
+    work_location_type = fields.Selection(related='employee_id.work_location_type', compute_sudo=True)
     work_email = fields.Char(readonly=True)
     work_phone = fields.Char(readonly=True)
     mobile_phone = fields.Char(readonly=True)

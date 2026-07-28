@@ -6,6 +6,7 @@ from odoo import fields
 from odoo.addons.test_whatsapp.tests.common import WhatsAppFullCase
 from odoo.addons.whatsapp.tests.common import MockIncomingWhatsApp
 from odoo.tests import tagged, users
+from odoo.addons.mail.tests.common import mail_new_test_user
 
 
 @tagged('wa_message', 'discuss_channel')
@@ -287,3 +288,84 @@ class DiscussChannel(WhatsAppFullCase, MockIncomingWhatsApp):
 
             self.assertEqual(len(self._wa_msg_sent_vals), 2, "Two API calls should've been made for two different emojis (🚀 → 🔥).")
             self.assertEqual(self._wa_msg_sent_vals[-1]["emoji"], "🔥", "Last API call should've sent 🔥 as emoji.")
+
+
+@tagged('wa_message')
+class DiscussChannelMultiUsers(WhatsAppFullCase, MockIncomingWhatsApp):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+        cls.user_employee_2 = mail_new_test_user(
+            cls.env,
+            company_id=cls.company_admin.id,
+            country_id=cls.env.ref('base.us').id,
+            groups='base.group_user,mail.group_mail_template_editor',
+            login='employee_2',
+            name='Arthur Employee',
+            notification_type='email',
+            signature='--\nArthur'
+        )
+
+        cls.whatsapp_account.write({'notify_user_ids': [(4, cls.user_employee.id), (4, cls.user_employee_2.id)]})
+
+        country_us_id = cls.env.ref('base.be').id
+        cls.test_partner_us = cls.env['res.partner'].create({
+            'country_id': country_us_id,
+            'email': 'whatsapp.customer@test.example.com',
+            'name': 'WhatsApp Customer',
+            'phone': '+1 804-555-0268',
+        })
+
+        cls.test_base_us_records = cls.env['whatsapp.test.base'].create([
+            {
+                'country_id': country_us_id,
+                'name': "Test <b>Without Partner</b>r",
+                'phone': '+1 804-555-0268',
+            }, {
+                'country_id': country_us_id,
+                'customer_id': cls.test_partner_us.id,
+                'name': "Test <b>With partner</b>",
+            }
+        ])
+        cls.test_base_us_record_nopartner, cls.test_base_us_record_partner = cls.test_base_us_records
+
+    def test_receiving_unformatted_number(self):
+        """
+        Verify that messages from the same phone number, whether formatted or
+        unformatted, are routed to the same discuss channel. Templates are
+        created with the formatted number, but WhatsApp may deliver incoming
+        messages using the unformatted variant.
+        :param self: Description
+        """
+        self.send_template(self.whatsapp_template,
+                                     self.test_base_us_record_partner,
+                                     with_user=self.user_employee
+                                     )
+
+        not_formatted_sender_phone_number = '+1 804-555-0268'
+        formatted_sender_phone_number = '18045550268'
+
+        # Send and checks the unformatted number correctly stores the template message with formatted number but doesnt associate the template whatsapp message with the dicuss channel.
+        with self.mockWhatsappGateway():
+            self._receive_whatsapp_message(self.whatsapp_account, 'Hello', not_formatted_sender_phone_number)
+        # stores both the template message and the received whatsapp message in the same discuss channel therefore wa_msg_count=1, msg_count=2
+        discuss_channel_1 = self.assertWhatsAppDiscussChannel('18045550268', wa_msg_count=1, msg_count=2)
+        self.assertEqual(len(discuss_channel_1), 1, f'Should find exactly one channel for number {formatted_sender_phone_number}')
+
+        # Checking The responsible users
+        channel_members = discuss_channel_1.channel_member_ids.mapped('partner_id')
+        self.assertEqual(len(channel_members), 2)
+        self.assertNotIn(self.user_wa_admin.partner_id, channel_members)
+        self.assertIn(self.user_employee.partner_id, channel_members)
+        self.assertNotIn(self.user_employee_2.partner_id, channel_members)
+        self.assertIn(self.test_partner_us, channel_members)
+
+        # Send and check the formatted number finds the same discuss channel as the unformatted number.
+        # Stores both the template message and both received whatsapp message in the same discuss channel therefore wa_msg_count=2, msg_count=3
+        with self.mockWhatsappGateway():
+            self._receive_whatsapp_message(self.whatsapp_account, 'Hello again', formatted_sender_phone_number)
+        discuss_channel_2 = self.assertWhatsAppDiscussChannel('18045550268', wa_msg_count=2, msg_count=3)
+        self.assertEqual(len(discuss_channel_2), 1, f'Should find exactly one channel for number {formatted_sender_phone_number}')
+        self.assertEqual(discuss_channel_1.id, discuss_channel_2.id, 'Both discuss channels should be the same')

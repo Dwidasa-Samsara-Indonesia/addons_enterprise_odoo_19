@@ -5,6 +5,8 @@ import re
 
 from odoo.addons.mail.tests.common import mail_new_test_user
 from odoo.tests import common, freeze_time, Form
+from odoo import Command
+from zoneinfo import ZoneInfo
 
 
 @freeze_time('2020-01-01')
@@ -231,3 +233,45 @@ class TestProjectLeaves(common.TransactionCase):
                         "should show the start of the 6st leave and end of the 7nd")
         leave_warning = task.with_context(allowed_company_ids=company_1.ids).leave_warning
         self.assertNotEqual(task.leave_warning, False)
+
+    def test_multicompany_gantt_unavailability_with_time_off(self):
+        """
+        Flow:
+        - Create one user linked to two companies
+        - Create one employee per company for that user
+        - Approve a time off in one company
+        - Check Gantt unavailability with:
+            - check with My Company only -> should be unavailable
+            - check with both companies -> should be unavailable
+            - check with the other company (Opoo) -> should be available
+        """
+
+        company_1 = self.env['res.company'].create({'name': 'Opoo'})
+        self.user_hruser.company_ids = [Command.link(company_1.id)]
+
+        self.env['hr.employee'].create({
+            'name': 'Employee B',
+            'user_id': self.user_hruser.id,
+            'company_id': company_1.id,
+        })
+
+        self.env['hr.leave'].create({
+            'holiday_status_id': self.leave_type.id,
+            'employee_id': self.employee_hruser.id,
+            'request_date_from': '2026-01-26',
+            'request_date_to': '2026-01-26',
+        }).action_approve()
+
+        leave = datetime.datetime(2026, 1, 26, 10, 0, tzinfo=ZoneInfo("UTC"))
+        start = datetime.datetime(2026, 1, 25, 0, 0)
+        stop = datetime.datetime(2026, 1, 31, 23, 59)
+
+        def is_unavailable(allowed_company_ids):
+            unavailability = self.env['project.task'].with_context(
+                allowed_company_ids=allowed_company_ids
+            )._gantt_unavailability('user_id', [self.user_hruser.id], start, stop, 'week')
+            return any(i['start'] <= leave <= i['stop'] for i in unavailability[self.user_hruser.id])
+
+        self.assertTrue(is_unavailable(self.env.company.ids), "A leave day must be unavailable when the leave company is selected.")
+        self.assertTrue(is_unavailable(self.user_hruser.company_ids.ids), "A leave day must be unavailable when multiple companies are selected.")
+        self.assertFalse(is_unavailable(company_1.ids), "A leave day must remain available when only a non-leave company is selected.")

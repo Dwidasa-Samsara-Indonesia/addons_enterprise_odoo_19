@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:48+0000\n"
-"PO-Revision-Date: 2026-03-03 17:21+0000\n"
+"POT-Creation-Date: 2026-05-22 17:49+0000\n"
+"PO-Revision-Date: 2026-04-20 09:05+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "hr_contract_salary/it/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.1\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -51,6 +51,11 @@ msgstr "%s ha configurato manualmente l'offerta come Rifiutata"
 #: model:hr.contract.salary.personal.info,helper:hr_contract_salary.hr_contract_salary_personal_info_name
 msgid "(Lastname Firstname)"
 msgstr "(Cognome Nome)"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ". Signing this offer will archive it."
+msgstr ". La firma di questa offerta ne determinerà l'archiviazione."
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form
@@ -226,6 +231,15 @@ msgid "<span class=\"text-muted mr4 ml4\">|</span>"
 msgstr "<span class=\"text-muted mr4 ml4\">|</span>"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ""
+"<span class=\"text-muted\" invisible=\"contract_end_date or not "
+"is_contract_amendment\">No limit</span>"
+msgstr ""
+"<span class=\"text-muted\" invisible=\"contract_end_date or not "
+"is_contract_amendment\">Nessun limite</span>"
+
+#. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span class=\"text-muted\">/ month</span>"
 msgstr "<span class=\"text-muted\">/mese</span>"
@@ -270,6 +284,12 @@ msgstr "<span>/ mese</span>"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span>/ year</span>"
 msgstr "<span>/ anno</span>"
+
+#. module: hr_contract_salary
+#. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "A contract start date is required."
+msgstr "È richiesta una data di inizio del contratto."
 
 #. module: hr_contract_salary
 #: model:ir.model.constraint,message:hr_contract_salary.constraint_hr_contract_salary_benefit_required_fold_res_field_id
@@ -480,6 +500,11 @@ msgstr "Sei sicuro di voler eliminare questo file in maniera definitiva?"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__activity_responsible_id
 msgid "Assigned to"
 msgstr "Assegnato a"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "At least one contract is scheduled to start on"
+msgstr "È previsto l'avvio di almeno un contratto il"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_attachment_count
@@ -1243,12 +1268,31 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Icona Font Awesome es. fa-tasks"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__contract_start_date
+msgid ""
+"For employees, The contract start date determines whether this offer creates "
+"a new contract or amends an existing one. If the selected start date falls "
+"within the period of an existing contract for the employee, it will be "
+"treated as an amendment rather than a new contract."
+msgstr ""
+"Per i dipendenti, la data di inizio del contratto determina se questa "
+"offerta crea un nuovo contratto o modifica uno esistente. Se la data di "
+"inizio selezionata rientra nel periodo di validità di un contratto esistente "
+"per il dipendente, verrà trattata come una modifica piuttosto che come un "
+"nuovo contratto."
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_recruitment_report__fully_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_recruitment_report__offer_state__full_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_offer__state__full_signed
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.contract_recruitment_report_view_search
 msgid "Fully Signed"
 msgstr "Firma completa"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__future_version_date
+msgid "Future Version Date"
+msgstr "Data versione futura"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_applicant_view_form
@@ -1459,6 +1503,11 @@ msgstr "Informazioni"
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_personal_info__display_type__integer
 msgid "Integer"
 msgstr "Intero"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__is_contract_amendment
+msgid "Is Contract Amendment"
+msgstr "È modifica contratto"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_is_follower
@@ -2662,6 +2711,14 @@ msgstr "Il contratto dal quale è stato duplicato."
 
 #. module: hr_contract_salary
 #. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "The contract start date cannot be after the contract end date."
+msgstr ""
+"La data di inizio del contratto non può essere successiva alla data di fine "
+"del contratto."
+
+#. module: hr_contract_salary
+#. odoo-python
 #: code:addons/hr_contract_salary/models/hr_job.py:0
 msgid "The contract template's company must match the job's company."
 msgstr ""
@@ -3017,11 +3074,6 @@ msgid "e.g. Offer 70k Employer Cost"
 msgstr "ad es. Offerta costo datore di lavoro 70k"
 
 #. module: hr_contract_salary
-#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
-msgid "e.g. Permanent, Replacement, Short term"
-msgstr "ad es. Indeterminato, Sostituzione, A breve termine"
-
-#. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action
 msgid "here"
 msgstr "qui"
@@ -3047,6 +3099,9 @@ msgid "{{ object.company_id.name }}: Job Offer - {{ object.employee_id.name }}"
 msgstr ""
 "{{ object.company_id.name }}: Offerta di lavoro - "
 "{{ object.employee_id.name }}"
+
+#~ msgid "e.g. Permanent, Replacement, Short term"
+#~ msgstr "ad es. Indeterminato, Sostituzione, A breve termine"
 
 #~ msgid "00.00.00-000.00"
 #~ msgstr "00.00.00-000.00"

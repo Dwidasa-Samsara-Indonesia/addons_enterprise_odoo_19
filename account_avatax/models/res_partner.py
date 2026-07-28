@@ -33,7 +33,7 @@ class ResPartner(models.Model):
     def _compute_avalara_show_address_validation(self):
         for partner in self:
             company = partner.company_id or self.env.company
-            partner.avalara_show_address_validation = company.avalara_address_validation and partner.street and (not partner.country_id or partner.fiscal_country_codes in ('US', 'CA'))
+            partner.avalara_show_address_validation = company.avalara_address_validation and partner.street and (not partner.country_id or 'US' in partner.fiscal_country_codes or 'CA' in partner.fiscal_country_codes)
 
     def action_open_validation_wizard(self):
         self.ensure_one()

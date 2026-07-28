@@ -50,7 +50,7 @@
                             <record id="account_financial_report_fr_bilan_actif_total_column3" model="account.report.expression">
                                 <field name="label">net</field>
                                 <field name="engine">aggregation</field>
-                                <field name="formula">CAPITAL_NON_APPELE.net + ACTIF_IMMOBILISE.net + ACTIF_CIRCULANT.net + REGULARISATION.net </field>
+                                <field name="formula">CAPITAL_NON_APPELE.net + FRAIS_ETABLISS.net + ACTIF_IMMOBILISE.net + ACTIF_CIRCULANT.net + REGULARISATION.net </field>
                             </record>
                         </field>
                         <field name="children_ids">
@@ -66,6 +66,28 @@
                                         <field name="label">net</field>
                                         <field name="engine">account_codes</field>
                                         <field name="formula">109</field>
+                                    </record>
+                                </field>
+                            </record>
+                            <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif" model="account.report.line">
+                                <field name="name">Establishment costs</field>
+                                <field name="name@fr">Frais d'établissement</field>
+                                <field name="code">FRAIS_ETABLISS</field>
+                                <field name="expression_ids">
+                                    <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif_column1" model="account.report.expression">
+                                        <field name="label">brut</field>
+                                        <field name="engine">account_codes</field>
+                                        <field name="formula">201</field>
+                                    </record>
+                                    <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif_column2" model="account.report.expression">
+                                        <field name="label">amort</field>
+                                        <field name="engine">account_codes</field>
+                                        <field name="formula">-2801 - 2901</field>
+                                    </record>
+                                    <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif_column3" model="account.report.expression">
+                                        <field name="label">net</field>
+                                        <field name="engine">account_codes</field>
+                                        <field name="formula">201 + 2801</field>
                                     </record>
                                 </field>
                             </record>
@@ -91,32 +113,10 @@
                                             <record id="account_financial_report_line_02_1_0_fr_bilan_actif_column3" model="account.report.expression">
                                                 <field name="label">net</field>
                                                 <field name="engine">aggregation</field>
-                                                <field name="formula">FRAIS_ETABLISS.net + FRAIS_DEVELOPEMENT.net + CONCESSION_SIMILAIRES.net + AUTRES.net + FONDS_COMMERCIAL.net + IMMOBILIS_COURS.net + AVANCES_ACOMPTES_CORPORE.net</field>
+                                                <field name="formula">FRAIS_DEVELOPEMENT.net + CONCESSION_SIMILAIRES.net + AUTRES.net + FONDS_COMMERCIAL.net + IMMOBILIS_COURS.net + AVANCES_ACOMPTES_CORPORE.net</field>
                                             </record>
                                         </field>
                                         <field name="children_ids">
-                                            <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif" model="account.report.line">
-                                                <field name="name">Establishment costs</field>
-                                                <field name="name@fr">Frais d'établissement</field>
-                                                <field name="code">FRAIS_ETABLISS</field>
-                                                <field name="expression_ids">
-                                                    <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif_column1" model="account.report.expression">
-                                                        <field name="label">brut</field>
-                                                        <field name="engine">account_codes</field>
-                                                        <field name="formula">201</field>
-                                                    </record>
-                                                    <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif_column2" model="account.report.expression">
-                                                        <field name="label">amort</field>
-                                                        <field name="engine">account_codes</field>
-                                                        <field name="formula">-2801 - 2901</field>
-                                                    </record>
-                                                    <record id="account_financial_report_line_02_1_0_1_fr_bilan_actif_column3" model="account.report.expression">
-                                                        <field name="label">net</field>
-                                                        <field name="engine">account_codes</field>
-                                                        <field name="formula">201 + 2801</field>
-                                                    </record>
-                                                </field>
-                                            </record>
                                             <record id="account_financial_report_line_02_1_0_2_fr_bilan_actif" model="account.report.line">
                                                 <field name="name">Research and development costs</field>
                                                 <field name="name@fr">Frais de recherche et de développement</field>
@@ -291,12 +291,12 @@
                                                     <record id="account_financial_report_line_02_2_0_1_fr_bilan_actif_column2" model="account.report.expression">
                                                         <field name="label">amort</field>
                                                         <field name="engine">account_codes</field>
-                                                        <field name="formula">-2911 - 2811 - 2812</field>
+                                                        <field name="formula">-2911 - 2912 - 2811 - 2812</field>
                                                     </record>
                                                     <record id="account_financial_report_line_02_2_0_1_fr_bilan_actif_column3" model="account.report.expression">
                                                         <field name="label">net</field>
                                                         <field name="engine">account_codes</field>
-                                                        <field name="formula">211 + 212 + 2911 + 2811 + 2812</field>
+                                                        <field name="formula">211 + 212 + 2911 + 2912 + 2811 + 2812</field>
                                                     </record>
                                                 </field>
                                             </record>
@@ -315,12 +315,12 @@
                                                     <record id="account_financial_report_line_02_2_0_2_fr_bilan_actif_column2" model="account.report.expression">
                                                         <field name="label">amort</field>
                                                         <field name="engine">account_codes</field>
-                                                        <field name="formula">-2813 - 2814</field>
+                                                        <field name="formula">-2813 - 2814 - 2913 - 2914</field>
                                                     </record>
                                                     <record id="account_financial_report_line_02_2_0_2_fr_bilan_actif_column3" model="account.report.expression">
                                                         <field name="label">net</field>
                                                         <field name="engine">account_codes</field>
-                                                        <field name="formula">213 + 214 + 2813 + 2814 </field>
+                                                        <field name="formula">213 + 214 + 2813 + 2814 + 2913 + 2914</field>
                                                     </record>
                                                 </field>
                                             </record>
@@ -339,12 +339,12 @@
                                                     <record id="account_financial_report_line_02_2_0_3_fr_bilan_actif_column2" model="account.report.expression">
                                                         <field name="label">amort</field>
                                                         <field name="engine">account_codes</field>
-                                                        <field name="formula">-2815</field>
+                                                        <field name="formula">-2815 - 2915</field>
                                                     </record>
                                                     <record id="account_financial_report_line_02_2_0_3_fr_bilan_actif_column3" model="account.report.expression">
                                                         <field name="label">net</field>
                                                         <field name="engine">account_codes</field>
-                                                        <field name="formula">215 + 2815</field>
+                                                        <field name="formula">215 + 2815 + 2915</field>
                                                     </record>
                                                 </field>
                                             </record>
@@ -1221,6 +1221,7 @@
                                                 <field name="label">net</field>
                                                 <field name="engine">aggregation</field>
                                                 <field name="formula">REPORT_NOUVEAU.past_pnl + REPORT_NOUVEAU.deprecated_income - REPORT_NOUVEAU.deprecated_expense + REPORT_NOUVEAU.accounts</field>
+                                                <field name="subformula" eval="False"/>
                                             </record>
                                         </field>
                                     </record>

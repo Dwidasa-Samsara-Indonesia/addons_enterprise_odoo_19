@@ -106,7 +106,7 @@ class AccountMoveSend(models.AbstractModel):
     def _get_ubl_available_attachments(self, mail_attachments_widget, invoice_edi_format):
         if not invoice_edi_format or not mail_attachments_widget:
             return self.env['ir.attachment'], self.env['ir.attachment']
-        attachment_ids = [values['id'] for values in mail_attachments_widget if values.get('manual')]
+        attachment_ids = [values['id'] for values in mail_attachments_widget if values.get('manual') or values.get('mail_template_id')]
         attachments = self.env['ir.attachment'].browse(attachment_ids)
 
         ubl_format_info = self.env['res.partner']._get_ubl_cii_formats_info().get(invoice_edi_format, {})
@@ -188,11 +188,7 @@ class AccountMoveSend(models.AbstractModel):
         writer = OdooPdfFileWriter()
         writer.cloneReaderDocumentRoot(reader)
 
-        attachment_name = 'factur-x.xml'
-        if invoice.commercial_partner_id.country_code == 'DE' and invoice.commercial_partner_id.peppol_eas != '0204':
-            attachment_name = 'zugferd-invoice.xml'
-
-        writer.addAttachment(attachment_name, xml_facturx, subtype='text/xml')
+        writer.addAttachment('factur-x.xml', xml_facturx, subtype='text/xml', afrelationship='/Alternative')
 
         # PDF-A.
         if ((invoice_data.get('ubl_cii_xml_options', {}).get('ubl_cii_format') in ('facturx', 'zugferd')

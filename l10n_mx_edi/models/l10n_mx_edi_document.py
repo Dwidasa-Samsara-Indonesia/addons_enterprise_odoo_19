@@ -20,6 +20,7 @@ from odoo.exceptions import UserError
 from odoo.fields import Domain
 from odoo.tools.float_utils import float_is_zero, float_round
 from odoo.addons.base.models.ir_qweb import keep_query
+from odoo.tools.misc import clean_context
 
 CFDI_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 CANCELLATION_REASON_SELECTION = [
@@ -357,6 +358,20 @@ class L10n_Mx_EdiDocument(models.Model):
 
         return self.env['l10n_mx_edi.document'].search(
             [('id', '!=', self.id), ('state', '=', self.state), ('attachment_origin', '=like', f'04|{uuid}%')],
+            limit=1,
+        )
+
+    def _get_original_document(self):
+        """
+        Get the document for which the current document is the substitution.
+        """
+        self.ensure_one()
+        if not self.attachment_origin:
+            return self.env['l10n_mx_edi.document']
+        origin_uuid = self.attachment_origin
+        doc_id = self.id
+        return self.env['l10n_mx_edi.document'].search(
+            [('id', '!=', doc_id), ('attachment_uuid', '=like', origin_uuid[3:])],
             limit=1,
         )
 
@@ -855,7 +870,7 @@ class L10n_Mx_EdiDocument(models.Model):
 
         for base_line in base_lines:
             is_negative = base_line['tax_details']['raw_total_excluded_currency'] < 0.0
-            if is_negative and not base_line['special_type']:
+            if is_negative:
                 base_line['special_type'] = 'global_discount'
         return base_lines
 
@@ -1223,7 +1238,7 @@ class L10n_Mx_EdiDocument(models.Model):
         if currency.is_zero(cfdi_values['descuento']):
             cfdi_values['descuento'] = None
         for concepto in cfdi_values['conceptos_list']:
-            if currency.is_zero(concepto['descuento']):
+            if float_is_zero(concepto['descuento'], precision_digits=6):
                 concepto['descuento'] = None
             for key in ('traslados_list', 'retenciones_list'):
                 for tax_values in concepto[key]:
@@ -1868,7 +1883,7 @@ Content-Disposition: form-data; name="xml"; filename="xml"
         :return                     The newly created or updated document.
         """
         def create_attachment(attachment_values):
-            return self.env['ir.attachment'].with_user(SUPERUSER_ID).create({
+            return self.env['ir.attachment'].with_context(clean_context(self.env.context)).with_user(SUPERUSER_ID).create({
                 **attachment_values,
                 'res_model': records._name,
                 'res_id': records.id if len(records) == 1 else None,
@@ -2406,6 +2421,7 @@ Content-Disposition: form-data; name="xml"; filename="xml"
         :param: cadena:         The path to the cadenaoriginal xslt file.
         """
         self.ensure_one()
+        self.sat_state = self.sat_state  # force update write_date - see _fetch_and_update_sat_status
 
         cfdi_infos = self.env['l10n_mx_edi.document']._decode_cfdi_attachment(self.attachment_id.raw)
         if not cfdi_infos:
@@ -2418,10 +2434,7 @@ Content-Disposition: form-data; name="xml"; filename="xml"
             cfdi_infos['uuid'],
         )
 
-        if self.sat_state == sat_results['value']:
-            # force update write_date
-            self.sat_state = sat_results['value']
-        else:
+        if self.sat_state != sat_results['value']:
             self._update_document_sat_state(sat_results['value'], error=sat_results.get('error'))
 
         if self._can_commit():
@@ -2492,12 +2505,31 @@ Content-Disposition: form-data; name="xml"; filename="xml"
         :param batch_size:      The maximum size of the batch of documents to process to avoid timeout.
         :param extra_domain:    An optional extra domain to be injected when searching for documents to update.
         """
+        now = fields.Datetime.now()
         domain = self._get_update_sat_status_domain(extra_domain=extra_domain)
-        domain = Domain.AND([domain, [('write_date', '>=', fields.Date.today() - timedelta(days=60))]])
-        documents = self.search(domain, limit=batch_size + 1, order='write_date, id')
 
+        # 1. Outgoing documents (state != 'invoice_received', checked up to 60 days, re-checked if > 4h ago)
+        out_domain = Domain.AND([domain, [
+            ('state', '!=', 'invoice_received'),
+            ('write_date', '<=', now - timedelta(hours=4)),
+            ('create_date', '>=', now - timedelta(days=60)),
+        ]])
+        documents = self.search(out_domain, limit=batch_size + 1, order='create_date, id')
+
+        # 2. Vendor bills (state == 'invoice_received', checked up to 7 days, re-checked if > 12 hours ago)
+        if len(documents) <= batch_size:  # we want to enter even if we are exactly at the batch size to check if we need to retrigger
+            in_domain = Domain.AND([domain, [
+                ('state', '=', 'invoice_received'),
+                ('write_date', '<=', now - timedelta(hours=12)),
+                ('create_date', '>=', now - timedelta(days=7)),
+            ]])
+            remaining_limit = batch_size + 1 - len(documents)
+            vendor_docs = self.search(in_domain, limit=remaining_limit, order='create_date, id')
+            documents |= vendor_docs
+
+        need_retrigger = len(documents) > batch_size
         for document in documents[:batch_size]:
             document._update_sat_state()
 
-        if len(documents) == batch_size:
+        if need_retrigger:
             self.env.ref('l10n_mx_edi.ir_cron_update_pac_status_invoice')._trigger()

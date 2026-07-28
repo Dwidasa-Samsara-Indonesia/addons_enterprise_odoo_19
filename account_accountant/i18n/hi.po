@@ -2,13 +2,13 @@
 # This file contains the translation of the following modules:
 # * account_accountant
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2025-11-08 19:59+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-06-13 09:43+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Hindi <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/hi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -366,6 +366,13 @@ msgstr ""
 "से पहले उसे जोड़ दें।"
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "सभी रेकन्सिलीऐशन मॉडल"
@@ -509,6 +516,7 @@ msgstr "अपने-आप रेन्कंसाइल की गई एं�
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "बैलेंस:"
@@ -745,8 +753,9 @@ msgstr "इन्होंने बनाया"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_accountant_view_account_reconcile_model_search
+#, fuzzy
 msgid "Created by User"
-msgstr ""
+msgstr "उपयोगकर्ता ने बनाया"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_auto_reconcile_wizard__create_date
@@ -1215,9 +1224,19 @@ msgid "Has Abnormal Deferred Dates"
 msgstr "स्थगित करने की तारीखें ठीक नहीं हैं"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
 msgstr "डिफर्ड मूव है"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1328,6 +1347,11 @@ msgstr "अमान्य स्टेटमेंट"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Invoice Date"
 msgstr "इनवॉइस की तारीख"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -2037,6 +2061,11 @@ msgid "Reconciled"
 msgstr "मिलाया जा चुका"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr "रेकन्सिलीऐशन मॉडल"
@@ -2069,8 +2098,9 @@ msgstr "ड्रॉफ़्ट के लिए रीसेट करें"
 
 #. module: account_accountant
 #: model:ir.actions.server,name:account_accountant.model_account_statement_line_button_draft
+#, fuzzy
 msgid "Reset to draft"
-msgstr ""
+msgstr "ड्रॉफ़्ट के लिए रीसेट करें"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
@@ -2289,8 +2319,9 @@ msgstr "12 महीने का सब्सक्रिप्शन"
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+#, fuzzy
 msgid "Suggestions"
-msgstr ""
+msgstr "सुझाव"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -2346,13 +2377,6 @@ msgstr "इस इनवॉइस से जुड़ी वो एंट्र�
 #: code:addons/account_accountant/models/account_fiscal_year.py:0
 msgid "The ending date must not be prior to the starting date."
 msgstr "आखिरी तारीख, शुरू की तारीख से पहले नहीं आ सकती।"
-
-#. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr "इस तारीख से पहले के इनवॉइस को हिसाब-किताब में नहीं जोड़ा जाएगा."
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
@@ -2548,6 +2572,12 @@ msgid "Try to reconcile automatically your statement lines"
 msgstr "अपनी स्टेटमेंट एंट्रीज़ का हिसाब अपने-आप मिलाने की कोशिश करें"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr ""
+
+#. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Unposted"
 msgstr "अनपोस्टेड"
@@ -2734,6 +2764,11 @@ msgid "You need to select who the exception applies to."
 msgstr "आपको चुनना होगा कि यह छूट किस पर लागू होगी।"
 
 #. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h
 msgid "for 1 hour"
 msgstr "1 घंटे के लिए"
@@ -2790,6 +2825,11 @@ msgstr "सेकंडरी करंसी"
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_journal_dashboard_kanban_view
 msgid "to reconcile"
 msgstr "मिलाने करने के लिए"
+
+#~ msgid ""
+#~ "The invoices before this date will not be taken into account as "
+#~ "accounting entries"
+#~ msgstr "इस तारीख से पहले के इनवॉइस को हिसाब-किताब में नहीं जोड़ा जाएगा."
 
 #~ msgid "Reconciliation model %s applied"
 #~ msgstr "रेकन्सिलीऐशन मॉडल %s लागू किया गया"

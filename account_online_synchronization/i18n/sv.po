@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-04-13 09:42+0000\n"
+"PO-Revision-Date: 2026-06-18 12:51+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_online_synchronization/sv/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -33,30 +33,30 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Rapportera inte detta problem igen om du redan öppnat ett ärende: en "
-"kundtjänstagent kommer att kontakta dig inom kort."
+"Rapportera inte problemet igen om du redan har ett öppet ärende: en "
+"kundtjänstagent kontaktar dig inom kort."
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_journal_duplicate_transactions.py:0
 msgid "%s duplicate transactions"
-msgstr ""
+msgstr "%s dubblera transaktioner"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/refresh_spin_journal_widget/refresh_spin_journal_widget.xml:0
 msgid "0 transaction fetched"
-msgstr ""
+msgstr "0 transaktioner hämtades"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_duplicate_transaction_wizard_view_form
 msgid "<i class=\"fa fa-trash me-1\"/> Delete Selected"
-msgstr ""
+msgstr "<i class=\"fa fa-trash me-1\"/> Radera markerade"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_journal_form
 msgid "<i class=\"oi oi-arrow-right me-2\"/> Send Now"
-msgstr ""
+msgstr "<i class=\"oi oi-arrow-right me-2\"/> Skicka nu"
 
 #. module: account_online_synchronization
 #: model:mail.template,body_html:account_online_synchronization.email_template_sync_reminder
@@ -157,16 +157,111 @@ msgid ""
 "                </table>\n"
 "            "
 msgstr ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: "
+"16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; "
+"color: #454748; width: 100%; border-collapse:separate;\">\n"
+"                    <tr>\n"
+"                        <td align=\"center\">\n"
+"                            <table border=\"0\" cellpadding=\"0\" "
+"cellspacing=\"0\" width=\"590\" style=\"padding: 16px; background-color: "
+"#FFFFFF; color: #454748; border-collapse:separate;\">\n"
+"                                <tbody>\n"
+"                                    <!-- CONTENT -->\n"
+"                                    <tr>\n"
+"                                        <td align=\"center\" style=\"min-"
+"width: 590px;\">\n"
+"                                            <table border=\"0\" "
+"cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; "
+"background-color: white; padding: 0px 8px 0px 8px; border-"
+"collapse:separate;\">\n"
+"                                                <tr>\n"
+"                                                    <td valign=\"top\" "
+"style=\"font-size: 13px;\">\n"
+"                                                        <div>\n"
+"                                                            Hej,<br/><br/>\n"
+"                                                            Anslutningen "
+"mellan <b><a t-att-href=\"object.get_base_url()\" t-out=\"object.get_base_url"
+"() or ''\">https://yourcompany.odoo.com</a></b> och <t t-"
+"out=\"object.account_online_link_id.name or ''\">Belfius</t> <t t-if=\"not "
+"object.expiring_synchronization_due_day\">expired.</t><t t-else=\"\">går ut "
+"inom <t t-out=\"object.expiring_synchronization_due_day or ''\">10</t> "
+"dagar.</t><br/>\n"
+"                                                            <div "
+"style=\"margin: 16px 0px 16px 0px;\">\n"
+"                                                                <a t-attf-"
+"href=\"{{ website_url }}/renew_consent/{{ object.id }}?access_token={"
+"{object.access_token}}\" style=\"background-color: #4caf50; padding: 8px "
+"16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-"
+"size:13px;\">\n"
+"                                                                    "
+"Uppdatera medgivande\n"
+"                                                                </a>\n"
+"                                                            </div>\n"
+"                                                            Säkerhetstips: "
+"Kontrollera att den domän du omdirigeras till är: <b><a t-att-"
+"href=\"object.get_base_url()\" t-out=\"object.get_base_url() or ''\">https://"
+"yourcompany.odoo.com</a></b>\n"
+"                                                        </div>\n"
+"                                                    </td>\n"
+"                                                </tr>\n"
+"                                                <tr>\n"
+"                                                    <td style=\"text-"
+"align:center;\">\n"
+"                                                        <hr width=\"100%\" "
+"style=\"background-color:rgb(204,204,204);border:medium "
+"none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; "
+"margin: 16px 0px 16px 0px;\"/>\n"
+"                                                    </td>\n"
+"                                                </tr>\n"
+"                                            </table>\n"
+"                                        </td>\n"
+"                                    </tr>\n"
+"                                </tbody>\n"
+"                            </table>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                    <!-- POWERED BY -->\n"
+"                    <tr>\n"
+"                        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"                            <table border=\"0\" cellpadding=\"0\" "
+"cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: "
+"#F1F1F1; color: #454748; padding: 8px; border-collapse:separate;\">\n"
+"                                <tr>\n"
+"                                    <td style=\"text-align: center; font-"
+"size: 13px;\">\n"
+"                                        Drivs av <a target=\"_blank\" "
+"href=\"https://www.odoo.com?utm_source=db&amp;utm_medium=auth\" t-attf-"
+"style=\"color: {{object.company_id.email_secondary_color or '#875A7B'}};\">"
+"Odoo</a>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                            <table border=\"0\" cellpadding=\"0\" "
+"cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; color: #454748; "
+"padding: 8px; border-collapse:separate;\">\n"
+"                                <tr>\n"
+"                                    <td style=\"text-align: center; font-"
+"size: 11px;\">\n"
+"                                        OBS: Detta är ett automatiskt "
+"meddelande som skickas av Odoos ekonomiavdelning för att påminna dig om att "
+"en anslutning till en bank behöver uppdateras inom kort.\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                </table>\n"
+"            "
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__access_token
 msgid "Access Token"
-msgstr "Åtkomsttecken"
+msgstr "Åtkomsttoken"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__account_data
 msgid "Account Data"
-msgstr ""
+msgstr "Kontouppgifter"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__name
@@ -176,7 +271,7 @@ msgstr "Kontonamn"
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__name
 msgid "Account Name as provided by third party provider"
-msgstr ""
+msgstr "Kontonamn hämtats från en extern leverantör"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line_transient__account_number
@@ -190,7 +285,7 @@ msgstr "Kontonummer"
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__account_online_account_id
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__account_online_account_ids
 msgid "Account Online Account"
-msgstr ""
+msgstr "Konto för online-konto"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__account_online_link_id
@@ -198,27 +293,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__account_online_link_id
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__account_online_link_id
 msgid "Account Online Link"
-msgstr ""
+msgstr "Länk till online-konto"
 
 #. module: account_online_synchronization
 #: model:ir.actions.server,name:account_online_synchronization.online_sync_cron_waiting_synchronization_ir_actions_server
 msgid "Account: Journal online Waiting Synchronization"
-msgstr ""
+msgstr "Konto: Journal för väntande synkroniseringar online"
 
 #. module: account_online_synchronization
 #: model:ir.actions.server,name:account_online_synchronization.online_sync_cron_ir_actions_server
 msgid "Account: Journal online sync"
-msgstr ""
+msgstr "Konto: Journal för synkningar online"
 
 #. module: account_online_synchronization
 #: model:ir.actions.server,name:account_online_synchronization.online_sync_unused_connection_cron_ir_actions_server
 msgid "Account: Journal online sync cleanup unused connections"
 msgstr ""
+"Konto: Journal för rensning av oanvända anslutningar vid synkningar online"
 
 #. module: account_online_synchronization
 #: model:ir.actions.server,name:account_online_synchronization.online_sync_mail_cron_ir_actions_server
 msgid "Account: Journal online sync reminder"
-msgstr ""
+msgstr "Konto: Journal för påminnelser relaterade till synkningar online"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__message_needaction
@@ -263,12 +359,12 @@ msgstr "Antal bilagor"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__auto_sync
 msgid "Automatic synchronization"
-msgstr ""
+msgstr "Automatiska synkroniseringar"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__available_balance
 msgid "Available Balance"
-msgstr ""
+msgstr "Tillgängligt saldo"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__available_balance
@@ -276,12 +372,14 @@ msgid ""
 "Available balance of the account sent by the third party provider. This is "
 "typically the balance plus/minus pending transactions."
 msgstr ""
+"Tillgängligt saldo som hämtats från en extern leverantör. Det utgörs "
+"vanligtvis av saldot plus/minus väntande transaktioner."
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/bank_reconciliation/statement_summary/statement_summary.xml:0
 msgid "Available balance with pending"
-msgstr ""
+msgstr "Tillgängligt saldo inklusive väntande transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__balance
@@ -291,7 +389,7 @@ msgstr "Saldo"
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__balance
 msgid "Balance of the account sent by the third party provider"
-msgstr ""
+msgstr "Kontots saldo som hämtats från en extern leverantör"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
@@ -301,7 +399,7 @@ msgstr "Bank"
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_online_link
 msgid "Bank Connection"
-msgstr ""
+msgstr "Anslutning till banken"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_bank_statement_line
@@ -312,12 +410,12 @@ msgstr "Rad på kontoutdrag"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Bank Synchronization: Update your consent"
-msgstr ""
+msgstr "Synkronisering med banken: Uppdatera ditt medgivande"
 
 #. module: account_online_synchronization
 #: model:mail.template,name:account_online_synchronization.email_template_sync_reminder
 msgid "Bank connection expiration reminder"
-msgstr ""
+msgstr "Påminnelse om att anslutningen till banken är på väg att gå ut"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_missing_transaction_wizard_view_form
@@ -329,27 +427,27 @@ msgstr "Avbryt"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Check the documentation"
-msgstr ""
+msgstr "Kolla dokumentationen"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_missing_transaction_wizard_view_form
 msgid "Choose a date and a journal from which you want to fetch transactions"
-msgstr ""
+msgstr "Välj det datum och den journal från vilken du vill hämta transaktioner"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_duplicate_transaction_wizard_view_form
 msgid "Choose a date from which you want to check the transactions."
-msgstr ""
+msgstr "Välj ett datum från vilket du vill kontrollera transaktionerna."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__client_id
 msgid "Client"
-msgstr "Klient"
+msgstr "Kund"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
 msgid "Client id"
-msgstr ""
+msgstr "Kundnummer"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_journal__renewal_contact_email
@@ -358,6 +456,9 @@ msgid ""
 "Comma separated list of email addresses to send consent renewal "
 "notifications 15, 3 and 1 days before expiry"
 msgstr ""
+"Lista över e-postadresser, separerade med kommatecken, för att skicka "
+"påminnelser om att uppdatera medgivandet 15, 3 och 1 dag(ar) innan "
+"medgivandet går ut"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_res_company
@@ -379,22 +480,22 @@ msgstr "Anslut"
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.view_account_bank_selection_form_wizard
 msgid "Connect Bank"
-msgstr ""
+msgstr "Anslut till bank"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_journal_dashboard_inherit_online_sync
 msgid "Connect bank"
-msgstr ""
+msgstr "Anslut till bank"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
 msgid "Connect my Bank"
-msgstr ""
+msgstr "Anslut till min bank"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
 msgid "Connect your bank account to Odoo"
-msgstr ""
+msgstr "Anslut ditt bankkonto till Odoo"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_online_link__state__connected
@@ -405,23 +506,23 @@ msgstr "Ansluten"
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/connected_until_widget/connected_until_widget.xml:0
 msgid "Connected until"
-msgstr ""
+msgstr "Ansluten till och med"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__renewal_contact_email
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__renewal_contact_email
 msgid "Connection Requests"
-msgstr ""
+msgstr "Anslutningsförfrågningar"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__connection_state_details
 msgid "Connection State Details"
-msgstr ""
+msgstr "Information om anslutningsstatus"
 
 #. module: account_online_synchronization
 #: model:mail.message.subtype,name:account_online_synchronization.bank_sync_consent_renewal
 msgid "Consent Renewal"
-msgstr ""
+msgstr "Uppdatera medgivande"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_res_partner
@@ -468,7 +569,7 @@ msgstr "Datum"
 #: model:ir.model.fields,help:account_online_synchronization.field_account_journal__expiring_synchronization_date
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__expiring_synchronization_date
 msgid "Date when the consent for this connection expires"
-msgstr ""
+msgstr "Datum när medgivandet för den här anslutningen går ut"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__display_name
@@ -500,60 +601,60 @@ msgstr "Fel"
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__expiring_synchronization_date
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__expiring_synchronization_date
 msgid "Expiring Synchronization Date"
-msgstr ""
+msgstr "Datum då synkroniseringen går ut"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__expiring_synchronization_due_day
 msgid "Expiring Synchronization Due Day"
-msgstr ""
+msgstr "Det datum då synkroniseringen går ut"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/connected_until_widget/connected_until_widget.xml:0
 msgid "Extend Connection"
-msgstr ""
+msgstr "Utöka anslutning"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__account_data
 msgid "Extra information needed by third party provider"
-msgstr ""
+msgstr "Ytterligare information som krävs av en extern leverantör"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_missing_transaction_wizard_view_form
 msgid "Fetch"
-msgstr ""
+msgstr "Hämta"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_duplicate_transaction_wizard_view_form
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_missing_transaction_wizard_view_form
 msgid "Fetch Missing Bank Statements Wizard"
-msgstr ""
+msgstr "Guide till att hämta saknade kontoutdrag"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/refresh_spin_journal_widget/refresh_spin_journal_widget.xml:0
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
 msgid "Fetch Transactions"
-msgstr ""
+msgstr "Hämta transaktioner"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.view_bank_statement_line_search_bank_rec_widget_inherit
 msgid "Fetched Transactions"
-msgstr ""
+msgstr "Hämtade transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__online_sync_fetching_status
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__fetching_status
 msgid "Fetching Status"
-msgstr ""
+msgstr "Status för hämtning"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/refresh_spin_journal_widget/refresh_spin_journal_widget.xml:0
 msgid "Fetching..."
-msgstr ""
+msgstr "Hämtar..."
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -561,7 +662,7 @@ msgstr ""
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 #: code:addons/account_online_synchronization/static/src/components/bank_reconciliation/find_duplicate_transactions_cog_menu.xml:0
 msgid "Find Duplicate Transactions"
-msgstr ""
+msgstr "Hitta dubblerade transaktioner"
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -569,12 +670,12 @@ msgstr ""
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 #: code:addons/account_online_synchronization/static/src/components/bank_reconciliation/fetch_missing_transactions_cog_menu.xml:0
 msgid "Find Missing Transactions"
-msgstr ""
+msgstr "Hitta saknade transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_duplicate_transaction_wizard__first_ids_in_group
 msgid "First Ids In Group"
-msgstr ""
+msgstr "Första ID-nummer i gruppen"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__message_follower_ids
@@ -604,13 +705,13 @@ msgstr "Har meddelande"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__has_unlinked_accounts
 msgid "Has Unlinked Accounts"
-msgstr ""
+msgstr "Har oanslutna konton"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Here"
-msgstr ""
+msgstr "Här"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__id
@@ -640,6 +741,7 @@ msgstr "Ikon för att indikera en undantagsaktivitet."
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__online_identifier
 msgid "Id used to identify account by third party provider"
 msgstr ""
+"ID-nummer som används av en extern leverantör för att identifiera kontot"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__message_needaction
@@ -655,12 +757,12 @@ msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__inverse_balance_sign
 msgid "If checked, the balance sign will be inverted"
-msgstr ""
+msgstr "Om ikryssat, kommer saldot att inverteras"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__inverse_transaction_sign
 msgid "If checked, the transaction sign will be inverted"
-msgstr ""
+msgstr "Om ikryssad, kommer transaktionens belopp att inverteras"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__auto_sync
@@ -671,24 +773,29 @@ msgid ""
 "If the automatic sync is disabled. that will be due to security policy on "
 "the bank's end. So, they have to launch the sync manually"
 msgstr ""
+"Om möjligt kommer vi att försöka att automatiskt hämta nya transaktioner för "
+"den här handlingen\n"
+"                \n"
+"Om automatisk synkronisering inte är aktiverad, så är det på grund av "
+"bankens egna policy. I sådana fall kan synkroniseringen lanseras manuellt"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/transient_bank_statement_line_list_view/transient_bank_statement_line_list_view.xml:0
 msgid "Import Transactions"
-msgstr ""
+msgstr "Importera transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_bank_selection__institution_name
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__name
 msgid "Institution Name"
-msgstr ""
+msgstr "Institutets namn"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Internal Error"
-msgstr ""
+msgstr "Internt fel"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -700,17 +807,17 @@ msgstr "Ogiltig URL"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Invalid value for proxy_mode config parameter."
-msgstr ""
+msgstr "Ogiltigt värde för parametern proxy_mode."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__inverse_balance_sign
 msgid "Inverse Balance Sign"
-msgstr ""
+msgstr "Invertera saldo"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__inverse_transaction_sign
 msgid "Inverse Transaction Sign"
-msgstr ""
+msgstr "Invertera transaktionsbelopp"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__message_is_follower
@@ -726,7 +833,7 @@ msgstr "Är Följare"
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__journal_ids
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
 msgid "Journal"
-msgstr "Journal"
+msgstr "Bokföringsjournal"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -736,16 +843,19 @@ msgid ""
 "already has existing entries. You can't link selected bank account in %"
 "(currency_name)s to it"
 msgstr ""
+"Journalen %(journal_name)s har redan ställts in med en annan valuta och har "
+"redan befintliga verifikationer. Det är därmed inte möjligt att ansluta det "
+"valda bankkontot med %(currency_name)s"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__last_refresh
 msgid "Last Synchronization"
-msgstr ""
+msgstr "Senaste synkronisering"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__last_sync
 msgid "Last Transaction Synchronized on"
-msgstr ""
+msgstr "Senaste transaktionen synkroniserades den"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__write_uid
@@ -770,18 +880,18 @@ msgstr "Senast uppdaterad den"
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
 msgid "Latest Balance"
-msgstr ""
+msgstr "Senaste saldo"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_bank_selection
 msgid "Link a bank account to the selected journal"
-msgstr ""
+msgstr "Anslut ett bankkonto till den valda journalen"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_journal_missing_transactions.py:0
 msgid "Manual Bank Statement Lines"
-msgstr ""
+msgstr "Manuella kontoutdragsrader"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -803,12 +913,12 @@ msgstr "Meddelanden"
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_journal_missing_transactions.py:0
 msgid "Missing and Pending Transactions"
-msgstr ""
+msgstr "Saknade och väntande transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Mina aktiviteters deadline"
+msgstr "Tidsgräns för mina aktiviteter"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__institution_name
@@ -824,12 +934,12 @@ msgstr "Nästa aktivitetshändelse i kalendern"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Nästa slutdatum för aktivitet"
+msgstr "Nästa tidsgräns för en aktivitet"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__activity_summary
 msgid "Next Activity Summary"
-msgstr "Nästa aktivitetssammanställning"
+msgstr "Nästa aktivitetssammanfattning"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__activity_type_id
@@ -839,18 +949,18 @@ msgstr "Nästa aktivitetstyp"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__next_refresh
 msgid "Next synchronization"
-msgstr ""
+msgstr "Nästa synkronisering"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 msgid "No Pending Transactions"
-msgstr ""
+msgstr "Inga väntande transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_online_link__state__disconnected
 msgid "Not Connected"
-msgstr ""
+msgstr "Inte ansluten"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__message_needaction_counter
@@ -880,29 +990,29 @@ msgstr "Odoo"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line__online_account_id
 msgid "Online Account"
-msgstr "Onlinekonto"
+msgstr "Online-konto"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
 msgid "Online Accounts"
-msgstr ""
+msgstr "Online-konton"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_account__online_identifier
 msgid "Online Identifier"
-msgstr ""
+msgstr "ID-nummer online"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_journal__next_link_synchronization
 msgid "Online Link Next synchronization"
-msgstr "Online Link Nästa synkronisering"
+msgstr "Länk till nästa synkronisering online"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line__online_partner_information
 #: model:ir.model.fields,field_description:account_online_synchronization.field_res_partner__online_partner_information
 #: model:ir.model.fields,field_description:account_online_synchronization.field_res_users__online_partner_information
 msgid "Online Partner Information"
-msgstr ""
+msgstr "Partneruppgifter online"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -911,19 +1021,19 @@ msgstr ""
 #: model:ir.ui.menu,name:account_online_synchronization.menu_action_online_link_account
 #: model_terms:ir.actions.act_window,help:account_online_synchronization.action_account_online_link_form
 msgid "Online Synchronization"
-msgstr "Online Synkronisering"
+msgstr "Synkronisering online"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line__online_transaction_identifier
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line_transient__online_transaction_identifier
 msgid "Online Transaction Identifier"
-msgstr ""
+msgstr "Transaktionsnummer online"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_bank_statement.py:0
 msgid "Opening Statement: First Synchronization"
-msgstr ""
+msgstr "Ingående kontoutdrag: Första synkroniseringen"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line_transient__partner_name
@@ -933,7 +1043,7 @@ msgstr "Företagsnamn"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line_transient__payment_ref
 msgid "Payment Ref"
-msgstr "Betalning Ref"
+msgstr "Betalningsreferens"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_bank_statement_line_transient__state__pending
@@ -944,60 +1054,60 @@ msgstr "Väntande"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 msgid "Pending Transactions"
-msgstr ""
+msgstr "Väntande transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_online_account__fetching_status__planned
 msgid "Planned"
-msgstr "Planerad"
+msgstr "Planerade"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_journal_missing_transactions.py:0
 msgid "Please enter a valid Starting Date to continue."
-msgstr ""
+msgstr "Vänligen ange ett giltigt startdatum för att fortsätta."
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Please reconnect your online account."
-msgstr ""
+msgstr "Vänligen återanslut ditt online-konto."
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_bank_statement_line.py:0
 msgid "Please select first the transactions you wish to import."
-msgstr ""
+msgstr "Vänligen välj först de transaktioner som du vill importera."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_bank_statement_line_transient__state__posted
 msgid "Posted"
-msgstr "Bokförd"
+msgstr "Bokförda"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.missing_bank_statement_line_search
 msgid "Posted Transactions"
-msgstr ""
+msgstr "Bokförda transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_online_account__fetching_status__processing
 msgid "Processing"
-msgstr "Bearbetning"
+msgstr "Pågående"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_duplicate_transaction_wizard__provider_duplicate_ids
 msgid "Provider Duplicate"
-msgstr ""
+msgstr "Dubblett från leverantören"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_duplicate_transaction_wizard_view_form
 msgid "Provider Duplicates"
-msgstr ""
+msgstr "Leverantörsdubbletter"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__provider_type
 msgid "Provider Type"
-msgstr ""
+msgstr "Leverantörstyp"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__rating_ids
@@ -1007,7 +1117,7 @@ msgstr "Omdömen"
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
 msgid "Reconnect"
-msgstr ""
+msgstr "Återanslut"
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -1015,7 +1125,7 @@ msgstr ""
 #: code:addons/account_online_synchronization/static/src/components/refresh_spin_journal_widget/refresh_spin_journal_widget.xml:0
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_journal_dashboard_inherit_online_sync
 msgid "Reconnect Bank"
-msgstr ""
+msgstr "Återanslut till bank"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -1038,18 +1148,19 @@ msgstr "Uppdatera token"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 msgid "Report Issue"
-msgstr ""
+msgstr "Rapportera fel"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Report issue"
-msgstr ""
+msgstr "Rapportera fel"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__client_id
 msgid "Represent a link for a given user towards a banking institution"
 msgstr ""
+"Representerar en koppling för en enskild användare till ett bankinstitut"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
@@ -1070,7 +1181,7 @@ msgstr "Leveransfel för SMS"
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/bank_configure/bank_configure.xml:0
 msgid "Search over"
-msgstr ""
+msgstr "Sök bland"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
@@ -1078,35 +1189,37 @@ msgid ""
 "Security Tip: always check the domain name of this page, before clicking on "
 "the button."
 msgstr ""
+"Säkerhetstips: kontrollera alltid sidans domännamn, innan du klickar på "
+"knappen."
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/refresh_spin_journal_widget/refresh_spin_journal_widget.xml:0
 msgid "See error"
-msgstr ""
+msgstr "Visa fel"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.view_account_bank_selection_form_wizard
 msgid "Select a Bank Account"
-msgstr ""
+msgstr "Välj ett bankkonto"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Select a Credit Card Account"
-msgstr ""
+msgstr "Välj ett kreditkortskonto"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.view_account_bank_selection_form_wizard
 msgid "Select the"
-msgstr ""
+msgstr "Välj"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_selection__selected_account
 msgid "Selected Account"
-msgstr ""
+msgstr "Markerat konto"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line_transient__sequence
@@ -1116,19 +1229,19 @@ msgstr "Sekvens"
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_account__account_number
 msgid "Set if third party provider has the full account number"
-msgstr ""
+msgstr "Anges om den externa leverantören har det fullständiga kontonumret"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/bank_configure/bank_configure.xml:0
 msgid "Setup Bank"
-msgstr ""
+msgstr "Konfigurera bank"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "Setup Bank Account"
-msgstr "Upprätta bankkonto"
+msgstr "Konfigurera bankkonto"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -1139,13 +1252,13 @@ msgstr "Skapa kreditkortskonto"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__show_sync_actions
 msgid "Show Sync Actions"
-msgstr ""
+msgstr "Visa synkroniseringsåtgärder"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/views/account_online_authorization_kanban_controller.xml:0
 msgid "Some transactions"
-msgstr ""
+msgstr "Vissa transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_duplicate_transaction_wizard__date
@@ -1169,9 +1282,9 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baserad på aktiviteter\n"
-"Försenade: Leveranstidpunkten har passerat\n"
-"Idag: Aktivitetsdatum är idag\n"
-"Kommande: Framtida aktiviteter."
+"Försenade: Aktivitetsdatum har redan passerat\n"
+"Idag: Aktivitetsdatum är dagens datum\n"
+"Planerade: Kommande aktiviteter."
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
@@ -1182,7 +1295,7 @@ msgstr "Tack!"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "The consent for the selected account has expired."
-msgstr ""
+msgstr "Medgivandet för det markerade kontot har gått ut."
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -1191,25 +1304,25 @@ msgid ""
 "The online synchronization service is not available at the moment. Please "
 "try again later."
 msgstr ""
-"Synkroniseringstjänsten Online är inte tillgänglig för tillfället. Försök "
+"Synkroniseringen online är inte tillgänglig för tillfället. Vänligen försök "
 "igen senare."
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/transient_bank_statement_line_list_view/transient_bank_statement_line_list_view.xml:0
 msgid "There are cancelled"
-msgstr ""
+msgstr "Det finns avbrutna"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 msgid "There are no pending transactions for this journal."
-msgstr ""
+msgstr "Det finns inga väntande transaktioner för den här journalen."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__provider_type
 msgid "Third Party Provider"
-msgstr ""
+msgstr "Extern leverantör"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_duplicate_transaction_wizard_view_form
@@ -1217,11 +1330,13 @@ msgid ""
 "This action will delete all selected transactions. Are you sure you want to "
 "proceed?"
 msgstr ""
+"Den här åtgärden kommer att radera alla markerade transaktioner. Är du säker "
+"på att du vill gå vidare?"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
 msgid "This button will reset the fetching status"
-msgstr ""
+msgstr "Den här knappen kommer att återställa hämtningsstatusen"
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -1230,6 +1345,9 @@ msgid ""
 "This version of Odoo appears to be outdated and does not support the '%s' "
 "sync mode. Installing the latest update might solve this."
 msgstr ""
+"Den här versionen av Odoo verkar vara föråldrad och stöder inte "
+"synkroniseringsläget '%s'. Du kan lösa problemet genom att installera den "
+"senaste uppdateringen."
 
 #. module: account_online_synchronization
 #: model_terms:ir.actions.act_window,help:account_online_synchronization.action_account_online_link_form
@@ -1237,16 +1355,18 @@ msgid ""
 "To create a synchronization with your banking institution,<br>\n"
 "                please click on <b>Add a Bank Account</b>."
 msgstr ""
+"För att skapa en synkronisering med ditt bankinstitut,<br>\n"
+"                vänligen klicka på <b>Lägg till bankkonto</b>."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__access_token
 msgid "Token used to access API."
-msgstr ""
+msgstr "Token använd för att få åtkomst till API."
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__refresh_token
 msgid "Token used to sign API request, Never disclose it"
-msgstr ""
+msgstr "Token som används för att skriva på API-förfrågningar, Dela aldrig den"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_duplicate_transaction_wizard__transaction_ids
@@ -1256,7 +1376,7 @@ msgstr "Transaktion"
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_bank_statement_line_transient__transaction_details
 msgid "Transaction Details"
-msgstr "Detaljer om transaktionen"
+msgstr "Transaktionsuppgifter"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_duplicate_transaction_wizard_view_form
@@ -1266,7 +1386,7 @@ msgstr "Transaktioner"
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_bank_statement_line_transient
 msgid "Transient model for bank statement line"
-msgstr ""
+msgstr "Övergångsmodell för kontoutdragsrader"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__has_unlinked_accounts
@@ -1274,6 +1394,8 @@ msgid ""
 "True if that connection still has accounts that are not linked to an Odoo "
 "journal"
 msgstr ""
+"Sant om anslutningen fortfarande har konton som inte är kopplade till en "
+"journal i Odoo"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__activity_exception_decoration
@@ -1283,12 +1405,12 @@ msgstr "Typ av undantagsaktivitet som har registrerats."
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.account_online_link_view_form
 msgid "Update Credentials"
-msgstr ""
+msgstr "Uppdatera inloggningsuppgifter"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields.selection,name:account_online_synchronization.selection__account_online_account__fetching_status__waiting
 msgid "Waiting"
-msgstr "Väntar"
+msgstr "Pågående"
 
 #. module: account_online_synchronization
 #: model:ir.model.fields,field_description:account_online_synchronization.field_account_online_link__website_message_ids
@@ -1298,17 +1420,17 @@ msgstr "Hemsidesmeddelanden"
 #. module: account_online_synchronization
 #: model:ir.model.fields,help:account_online_synchronization.field_account_online_link__website_message_ids
 msgid "Website communication history"
-msgstr "Webbplatsens kommunikationshistorik"
+msgstr "Hemsidans kommunikationshistorik"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_duplicate_transaction_wizard
 msgid "Wizard for duplicate transactions"
-msgstr ""
+msgstr "Guide till dubblerade transaktioner"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_missing_transaction_wizard
 msgid "Wizard for missing transactions"
-msgstr ""
+msgstr "Guide till saknade transaktioner"
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -1318,24 +1440,29 @@ msgid ""
 "synchronization\n"
 "                    ("
 msgstr ""
+"Du importerar transaktioner från innan du skapade synkroniseringen online\n"
+"                    ("
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "You can contact Odoo support"
-msgstr ""
+msgstr "Du kan kontakta Odoos kundtjänst"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "You can manage your bank synchronization consent for this connection %s"
 msgstr ""
+"Du kan hantera ditt medgivande för synkronisering med den anslutna banken %s"
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_journal.py:0
 msgid "You can only execute this action for bank-synchronized journals."
 msgstr ""
+"Det är endast möjligt att genomföra den här åtgärden för journaler som "
+"synkroniseras med banken."
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -1343,6 +1470,8 @@ msgstr ""
 #: code:addons/account_online_synchronization/wizard/account_journal_missing_transactions.py:0
 msgid "You can't find missing transactions for a journal that isn't connected."
 msgstr ""
+"Det är inte möjligt att hitta saknade transaktioner för en journal utan "
+"anslutning."
 
 #. module: account_online_synchronization
 #. odoo-python
@@ -1350,12 +1479,13 @@ msgstr ""
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "You cannot have two journals associated with the same Online Account."
 msgstr ""
+"Det är inte möjligt att ha två journaler kopplade till samma online-konto."
 
 #. module: account_online_synchronization
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_bank_statement_line.py:0
 msgid "You cannot import pending transactions."
-msgstr ""
+msgstr "Det är inte möjligt att importera väntande transaktioner."
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -1367,17 +1497,17 @@ msgstr "Du har"
 #. odoo-python
 #: code:addons/account_online_synchronization/wizard/account_journal_missing_transactions.py:0
 msgid "You have to select one journal to continue."
-msgstr ""
+msgstr "En av journalerna måste markeras för att gå vidare."
 
 #. module: account_online_synchronization
 #: model:mail.template,subject:account_online_synchronization.email_template_sync_reminder
 msgid "Your bank connection is expiring soon"
-msgstr ""
+msgstr "Din anslutning till banken går ut inom kort"
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.view_account_bank_selection_form_wizard
 msgid "account to connect:"
-msgstr ""
+msgstr "konto att ansluta:"
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -1395,7 +1525,7 @@ msgstr "poster"
 #. odoo-python
 #: code:addons/account_online_synchronization/models/account_online.py:0
 msgid "here."
-msgstr ""
+msgstr "här."
 
 #. module: account_online_synchronization
 #. odoo-javascript
@@ -1407,33 +1537,33 @@ msgstr "laddar..."
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/views/account_online_authorization_kanban_controller.xml:0
 msgid "may be duplicates."
-msgstr ""
+msgstr "kan vara dubbletter."
 
 #. module: account_online_synchronization
 #: model_terms:ir.ui.view,arch_db:account_online_synchronization.portal_renew_consent
 msgid "on"
-msgstr "på"
+msgstr "den"
 
 #. module: account_online_synchronization
 #: model:ir.model,name:account_online_synchronization.model_account_online_account
 msgid "representation of an online bank account"
-msgstr ""
+msgstr "representation av ett bankkonto online"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/refresh_spin_journal_widget/refresh_spin_journal_widget.xml:0
 msgid "transactions fetched"
-msgstr ""
+msgstr "hämtade transaktioner"
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/transient_bank_statement_line_list_view/transient_bank_statement_line_list_view.xml:0
 msgid ""
 "within this period that were not created using the online synchronization."
-msgstr ""
+msgstr "inom den här perioden som inte skapades genom synkronisering online."
 
 #. module: account_online_synchronization
 #. odoo-javascript
 #: code:addons/account_online_synchronization/static/src/components/transient_bank_statement_line_list_view/transient_bank_statement_line_list_view.xml:0
 msgid "within this period."
-msgstr ""
+msgstr "inom den här perioden."

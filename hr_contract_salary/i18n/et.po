@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:48+0000\n"
+"POT-Creation-Date: 2026-05-22 17:49+0000\n"
 "PO-Revision-Date: 2025-11-08 20:23+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Estonian <https://translate.odoo.com/projects/odoo-19/"
@@ -59,6 +59,11 @@ msgstr "%s määras pakkumise manuaalselt tagasilükatuks"
 #: model:hr.contract.salary.personal.info,helper:hr_contract_salary.hr_contract_salary_personal_info_name
 msgid "(Lastname Firstname)"
 msgstr "(Perekonnanimi Eesnimi)"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ". Signing this offer will archive it."
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form
@@ -240,6 +245,13 @@ msgid "<span class=\"text-muted mr4 ml4\">|</span>"
 msgstr "<span class=\"text-muted mr4 ml4\">|</span>"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ""
+"<span class=\"text-muted\" invisible=\"contract_end_date or not "
+"is_contract_amendment\">No limit</span>"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span class=\"text-muted\">/ month</span>"
 msgstr "<span class=\"text-muted\">/ kuu</span>"
@@ -283,6 +295,12 @@ msgstr "<span>/ kuu</span>"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span>/ year</span>"
 msgstr "<span>/ aasta</span>"
+
+#. module: hr_contract_salary
+#. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "A contract start date is required."
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.constraint,message:hr_contract_salary.constraint_hr_contract_salary_benefit_required_fold_res_field_id
@@ -490,6 +508,11 @@ msgstr "Oled kindel, et soovid selle faili kustutada jäädavalt?"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__activity_responsible_id
 msgid "Assigned to"
 msgstr "Määratud"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "At least one contract is scheduled to start on"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_attachment_count
@@ -1247,12 +1270,26 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesome icon e.g. fa-tasks"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__contract_start_date
+msgid ""
+"For employees, The contract start date determines whether this offer creates "
+"a new contract or amends an existing one. If the selected start date falls "
+"within the period of an existing contract for the employee, it will be "
+"treated as an amendment rather than a new contract."
+msgstr ""
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_recruitment_report__fully_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_recruitment_report__offer_state__full_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_offer__state__full_signed
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.contract_recruitment_report_view_search
 msgid "Fully Signed"
 msgstr "Allkirjastatud"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__future_version_date
+msgid "Future Version Date"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_applicant_view_form
@@ -1462,6 +1499,11 @@ msgstr "Andmed"
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_personal_info__display_type__integer
 msgid "Integer"
 msgstr "Täisarv"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__is_contract_amendment
+msgid "Is Contract Amendment"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_is_follower
@@ -2648,6 +2690,12 @@ msgstr "Lepingu ankeet, millest antud leping on kopeeritud."
 
 #. module: hr_contract_salary
 #. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "The contract start date cannot be after the contract end date."
+msgstr ""
+
+#. module: hr_contract_salary
+#. odoo-python
 #: code:addons/hr_contract_salary/models/hr_job.py:0
 msgid "The contract template's company must match the job's company."
 msgstr "Lepingu malli ettevõte peab vastama töökoha ettevõttele."
@@ -2984,11 +3032,6 @@ msgstr "nt Toidukupongid"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
 msgid "e.g. Offer 70k Employer Cost"
 msgstr "nt pakkumine 70k tööandja kulu"
-
-#. module: hr_contract_salary
-#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
-msgid "e.g. Permanent, Replacement, Short term"
-msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action

@@ -9,7 +9,7 @@ export const patchKanbanControllerExportSelection = {
         super.setup();
         this.canInsertInSpreadsheet = session.can_insert_in_spreadsheet;
         this.insertInSpreadsheet = useInsertInSpreadsheet(this.env, () =>
-            this.getExportableFields()
+            this.getExportableFields().filter((f) => !f.relatedPropertyField)
         );
     },
 

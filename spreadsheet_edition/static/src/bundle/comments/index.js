@@ -60,14 +60,13 @@ cellPopoverRegistry.add("OdooCellComment", {
                 ?.at(-1) || {};
         return {
             Component: CellThreadPopover,
-            cellCorner: "TopRight",
+            cellCorner: "top-right",
             props: {
                 threadId: thread.threadId,
                 position,
                 isInteractive: true,
             },
             isOpen: true,
-            positioning: "TopRight",
         };
     },
     onHover: (position, getters) => {
@@ -83,14 +82,13 @@ cellPopoverRegistry.add("OdooCellComment", {
         }
         return {
             Component: CellThreadPopover,
-            cellCorner: "TopRight",
+            cellCorner: "top-right",
             props: {
                 threadId: threads.at(-1).threadId,
                 position,
                 isInteractive: false,
             },
             isOpen: true,
-            positioning: "TopRight",
         };
     },
 });

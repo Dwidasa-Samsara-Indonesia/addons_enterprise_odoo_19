@@ -3,15 +3,15 @@
 # * hr_payroll_holidays
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 18:07+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:10+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll_holidays/da/>\n"
 "Language: da\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.actions.act_window,help:hr_payroll_holidays.hr_leave_work_entry_action
@@ -47,7 +47,7 @@ msgstr "Virksomheder"
 #. module: hr_payroll_holidays
 #: model:ir.model.fields.selection,name:hr_payroll_holidays.selection__hr_leave__payslip_state__done
 msgid "Computed in current payslip"
-msgstr ""
+msgstr "Beregnet på denne lønseddel"
 
 #. module: hr_payroll_holidays
 #: model:ir.model,name:hr_payroll_holidays.model_res_config_settings
@@ -57,23 +57,23 @@ msgstr "Konfigurationsindstillinger"
 #. module: hr_payroll_holidays
 #: model:ir.actions.server,name:hr_payroll_holidays.ir_actions_server_report_to_next_month
 msgid "Defer to Next Month"
-msgstr ""
+msgstr "Udsæt til næste måned"
 
 #. module: hr_payroll_holidays
 #: model:ir.actions.server,name:hr_payroll_holidays.ir_actions_server_mark_as_reported
 msgid "Defer to next Payslip"
-msgstr ""
+msgstr "Udsæt til næste lønseddel"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
 msgid "Deferred Time Off"
-msgstr ""
+msgstr "Udsæt fravær"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_company__deferred_time_off_manager
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_config_settings__deferred_time_off_manager
 msgid "Deferred Time Off Manager"
-msgstr ""
+msgstr "Udsæt fraværsadministrator"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_hr_employee__display_name
@@ -85,7 +85,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_company__display_name
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_res_config_settings__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: hr_payroll_holidays
 #: model:ir.model,name:hr_payroll_holidays.model_hr_employee
@@ -130,7 +130,7 @@ msgstr "Forlad"
 #: model:mail.activity.type,name:hr_payroll_holidays.mail_activity_data_hr_leave_to_defer
 #: model:mail.activity.type,summary:hr_payroll_holidays.mail_activity_data_hr_leave_to_defer
 msgid "Leave to Defer"
-msgstr ""
+msgstr "Ferie, der skal udsættes"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.actions.act_window,help:hr_payroll_holidays.hr_leave_work_entry_action
@@ -140,7 +140,7 @@ msgstr "Velkommen til fraværsdashboardet."
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
 msgid "No one will be notified"
-msgstr ""
+msgstr "Ingen underrettes"
 
 #. module: hr_payroll_holidays
 #. odoo-python
@@ -149,12 +149,14 @@ msgid ""
 "Not enough attendance work entries to report the time off %s. Please make "
 "the operation manually"
 msgstr ""
+"Der er ikke nok registreringer af tilstedeværelse til at rapportere fraværet "
+"%s. Udfør venligst handlingen manuelt"
 
 #. module: hr_payroll_holidays
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_leave.py:0
 msgid "Only an employee time off to defer can be reported to next month"
-msgstr ""
+msgstr "Kun fravær, der skal flyttes, kan overføres til næste måned"
 
 #. module: hr_payroll_holidays
 #: model:ir.model,name:hr_payroll_holidays.model_hr_payslip
@@ -164,23 +166,23 @@ msgstr "Lønseddel"
 #. module: hr_payroll_holidays
 #: model:ir.model.fields,field_description:hr_payroll_holidays.field_hr_leave__payslip_state
 msgid "Payslip State"
-msgstr ""
+msgstr "Status på lønseddel"
 
 #. module: hr_payroll_holidays
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_leave.py:0
 msgid "Please create manually the work entry for %s"
-msgstr ""
+msgstr "Opret venligst arbejdsposteringen manuelt for %s"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
 msgid "Postpone time off after payslip validation"
-msgstr ""
+msgstr "Udsæt fravær efter lønsedlens validering"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.hr_leave_view_form_inherit
 msgid "Report to Next Month"
-msgstr ""
+msgstr "Overfør til næste måned"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
@@ -194,6 +196,8 @@ msgid ""
 "The next month work entries are not generated yet or are validated already "
 "for time off %s"
 msgstr ""
+"Arbejdsposterne for næste måned er endnu ikke genereret eller er allerede "
+"valideret for fravær %s"
 
 #. module: hr_payroll_holidays
 #. odoo-python
@@ -202,6 +206,8 @@ msgid ""
 "The pay of the month is already validated with this day included. If you "
 "need to adapt, please refer to HR."
 msgstr ""
+"Månedens løn er allerede godkendt med denne dag inkluderet. Hvis du har brug "
+"for at ændre den, skal du kontakte HR."
 
 #. module: hr_payroll_holidays
 #. odoo-python
@@ -210,64 +216,66 @@ msgid ""
 "The time off %s can not be reported because it is defined over more than 2 "
 "months"
 msgstr ""
+"Fritiden %s kan ikke rapporteres, da den er defineret over mere end to "
+"måneder"
 
 #. module: hr_payroll_holidays
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_leave.py:0
 msgid "There is no work entries linked to this time off to report"
-msgstr ""
+msgstr "Der er ingen arbejdsposter tilknyttet dette fravær, som kan rapporteres"
 
 #. module: hr_payroll_holidays
 #: model:ir.actions.act_window,name:hr_payroll_holidays.hr_leave_work_entry_action
 #: model:ir.model,name:hr_payroll_holidays.model_hr_leave
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.res_config_settings_view_form
 msgid "Time Off"
-msgstr "Fri"
+msgstr "Fravær"
 
 #. module: hr_payroll_holidays
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_holidays.hr_payroll_dashboard_warning_leaves_no_allocation
 msgid "Time Off Not Related To An Allocation"
-msgstr ""
+msgstr "Fravær, der ikke er knyttet til en tildeling"
 
 #. module: hr_payroll_holidays
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_holidays.hr_payroll_dashboard_warning_leaves_to_defer
 msgid "Time Off To Defer"
-msgstr ""
+msgstr "Fravær, der skal udsættes"
 
 #. module: hr_payroll_holidays
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_holidays.hr_payroll_dashboard_warning_leaves_no_document
 msgid "Time Off Without Joined Document"
-msgstr ""
+msgstr "Fravær uden vedhæftet dokument"
 
 #. module: hr_payroll_holidays
 #: model:ir.actions.act_window,name:hr_payroll_holidays.hr_leave_action_open_to_defer
 msgid "Time Off to Defer"
-msgstr ""
+msgstr "Fravær, der skal udsættes"
 
 #. module: hr_payroll_holidays
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_payslip.py:0
 #: model:ir.ui.menu,name:hr_payroll_holidays.menu_work_entry_leave_to_approve
 msgid "Time Offs"
-msgstr ""
+msgstr "Fravær"
 
 #. module: hr_payroll_holidays
 #: model_terms:ir.ui.view,arch_db:hr_payroll_holidays.hr_leave_view_search
 msgid "To Defer"
-msgstr ""
+msgstr "Skal udsættes"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields.selection,name:hr_payroll_holidays.selection__hr_leave__payslip_state__normal
 msgid "To compute in next payslip"
-msgstr ""
+msgstr "Beregnes på næste lønseddel"
 
 #. module: hr_payroll_holidays
 #: model:ir.model.fields.selection,name:hr_payroll_holidays.selection__hr_leave__payslip_state__blocked
 msgid "To defer to next payslip"
-msgstr ""
+msgstr "Udsættes til næste lønseddel"
 
 #. module: hr_payroll_holidays
 #. odoo-python
 #: code:addons/hr_payroll_holidays/models/hr_leave.py:0
 msgid "Validated Time Off to Defer"
-msgstr ""
+msgstr "Valideret fravær, der skal udsættes"

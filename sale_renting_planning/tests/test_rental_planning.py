@@ -32,6 +32,7 @@ class TestRentalPlanning(TestSalePlanning):
             'planning_role_id': cls.planning_role_projector.id,
             'rent_ok': True,
         })
+        cls.planning_role_junior.sync_shift_rental = True
 
     def test_planning_rental_sol_confirmation(self):
         plannable_employees = (
@@ -57,7 +58,7 @@ class TestRentalPlanning(TestSalePlanning):
         self.planning_role_junior.resource_ids = plannable_employees.resource_id
         self.plannable_product.rent_ok = True
 
-        basic_so, resource_time_off_so, public_holiday_so = self.env['sale.order'].with_context(
+        basic_so, resource_time_off_so, public_holiday_so, public_holiday_so_2 = self.env['sale.order'].with_context(
             in_rental_app=True,
         ).create([{
             'partner_id': self.planning_partner.id,
@@ -76,7 +77,17 @@ class TestRentalPlanning(TestSalePlanning):
             'order_line': [
                 Command.create({
                     'product_id': self.plannable_product.id,
-                    'product_uom_qty': 2,
+                    'product_uom_qty': 1,
+                }),
+            ],
+        }, {
+            'partner_id': self.planning_partner.id,
+            'rental_start_date': datetime(2023, 10, 25, 8, 0),
+            'rental_return_date': datetime(2023, 10, 25, 15, 0),
+            'order_line': [
+                Command.create({
+                    'product_id': self.plannable_product.id,
+                    'product_uom_qty': 1,
                 }),
             ],
         }, {
@@ -119,6 +130,11 @@ class TestRentalPlanning(TestSalePlanning):
 
         self.assertEqual(slot_3.resource_id, plannable_employee1.resource_id, 'First resource should be assign on public holiday as first resource is working flexible hours')
         self.assertEqual(slot_3.state, 'published')
+
+        with self.assertRaises(ValidationError, msg="Error should be raised since no resource is available for the product inside Rental Order."):
+            public_holiday_so_2.action_confirm()
+
+        self.assertFalse(public_holiday_so_2.order_line.planning_slot_ids, 'No slots should be generated since the confirmation of the rental order failed due to no resource available.')
 
     def test_planning_rental_for_material_resource(self):
         """

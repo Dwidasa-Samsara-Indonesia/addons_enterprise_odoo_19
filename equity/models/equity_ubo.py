@@ -31,6 +31,14 @@ class EquityUbo(models.Model):
     _name = 'equity.ubo'
     _inherit = ['mail.thread']
     _description = "Ultimate Beneficial Owner"
+    _check_company_auto = True
+
+    company_id = fields.Many2one(
+        'res.company',
+        related='partner_id.company_id',
+        string="Visible to",
+        help="Company to which this record is visible",
+    )
 
     partner_id = fields.Many2one(
         'res.partner',
@@ -45,6 +53,7 @@ class EquityUbo(models.Model):
         required=True,
         domain=[('is_company', '=', False)],
         index=True,
+        check_company=True,
     )
 
     start_date = fields.Date(string="Control Start Date", required=True)

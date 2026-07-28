@@ -80,53 +80,61 @@ class HrExpense(models.Model):
         if not card:
             raise UserError(_("An Expense card that doesn't exist on the database was used"))
 
-        if self.env['hr.expense'].search([('stripe_authorization_id', '=', auth_object['id'])], limit=1):
-            return self._update_from_stripe_authorization(auth_object)
-        card = card.with_company(card.company_id)
-        domain = Domain('can_be_expensed', '=', True)
-        domain &= Domain('stripe_mcc_ids', 'any', [('code', '=', merchant_data['category_code'])])
-        default_product = self.env.ref('hr_expense.product_product_no_cost', raise_if_not_found=False)
-        product = self.env['product.product'].search(domain, limit=1) or default_product
-        if not product:
-            raise UserError(_("There is no product available for this expense. Please contact your administrator."))
+        expense = self.env['hr.expense'].search([('stripe_authorization_id', '=', auth_object['id'])], limit=1)
+        if expense and not refusal_reason:
+            # We don't update expenses that are refused because they may be reversed (their amount would be set to 0)
+            expense._update_from_stripe_authorization(auth_object)
+        elif not expense:
+            # Create the expense if it doesn't exist yet, which should be the common case
+            # when receiving the event `issuing_authorization.created`
+            card = card.with_company(card.company_id)
+            domain = Domain('can_be_expensed', '=', True)
+            domain &= Domain('stripe_mcc_ids', 'any', [('code', '=', merchant_data['category_code'])])
+            default_product = self.env.ref('hr_expense.product_product_no_cost', raise_if_not_found=False)
+            product = self.env['product.product'].search(domain, limit=1) or default_product
+            if not product:
+                raise UserError(_("There is no product available for this expense. Please contact your administrator."))
 
-        amount_company_currency = amount_currency = format_amount_from_stripe(amount_object['amount'], card.currency_id)
-        merchant_currency = (
-            self.env['res.currency'].with_context(active_test=False).search([
-                    ('name', '=ilike', amount_object['merchant_currency']),
-                ],
-                limit=1,
+            amount_company_currency = amount_currency = format_amount_from_stripe(amount_object['amount'], card.currency_id)
+            merchant_currency = (
+                self.env['res.currency'].with_context(active_test=False).search([
+                        ('name', '=ilike', amount_object['merchant_currency']),
+                    ],
+                    limit=1,
+                )
+                or card.currency_id
             )
-            or card.currency_id
-        )
-        if merchant_currency and not merchant_currency.active:
-            merchant_currency.active = True
-        if merchant_currency != card.currency_id:
-            amount_currency = format_amount_from_stripe(amount_object['merchant_amount'], merchant_currency)
+            if merchant_currency and not merchant_currency.active:
+                merchant_currency.active = True
+            if merchant_currency != card.currency_id:
+                amount_currency = format_amount_from_stripe(amount_object['merchant_amount'], merchant_currency)
 
-        mcc_tag = self.env['product.mcc.stripe.tag'].search([('code', '=', merchant_data['category_code'])], limit=1)
-        create_dict = {
-            'payment_mode': 'company_account',
-            'name': merchant_data['name'],
-            'employee_id': card.employee_id.id,
-            'card_id': card.id,
-            'mcc_tag_id': mcc_tag.id,
-            'manager_id': False,
-            'stripe_authorization_id': auth_object['id'],
-            'stripe_transaction_id': False,
-            'product_id': product and product.id,
-            'total_amount': amount_company_currency,
-            'total_amount_currency': amount_currency,
-            'currency_id': merchant_currency.id,
-            'journal_id': card.journal_id.id,
-            'payment_method_line_id': card.payment_method_line_id.id,
-        }
-        new_expense = self.env['hr.expense'].with_company(card.company_id).with_context(lang=card.user_id.lang or self.env.lang).create([create_dict])
-        if refusal_reason:
-            new_expense._do_refuse(refusal_reason)
+            mcc_tag = self.env['product.mcc.stripe.tag'].search([('code', '=', merchant_data['category_code'])], limit=1)
+            create_dict = {
+                'payment_mode': 'company_account',
+                'name': merchant_data['name'],
+                'employee_id': card.employee_id.id,
+                'card_id': card.id,
+                'mcc_tag_id': mcc_tag.id,
+                'manager_id': False,
+                'stripe_authorization_id': auth_object['id'],
+                'stripe_transaction_id': False,
+                'product_id': product and product.id,
+                'total_amount': amount_company_currency,
+                'total_amount_currency': amount_currency,
+                'currency_id': merchant_currency.id,
+                'journal_id': card.journal_id.id,
+                'payment_method_line_id': card.payment_method_line_id.id,
+            }
+            expense = self.env['hr.expense'].with_company(card.company_id).with_context(lang=card.user_id.lang or self.env.lang).create([create_dict])
+
+        if refusal_reason and expense.state != 'refused':
+            # Refused and reversed authorizations should be refused in Odoo as well
+            expense._do_refuse(refusal_reason or self.env._("Expense was refused by Stripe, or an error occurred"))
         else:
-            new_expense._stripe_create_user_activity()
-        return new_expense
+            # Ask the user to upload the receipt
+            expense._stripe_create_user_activity()
+        return expense
 
     def _update_from_stripe_authorization(self, auth_object):
         """
@@ -135,10 +143,6 @@ class HrExpense(models.Model):
             or when `issuing_authorization.created` is received, following an approved `issuing_authorization.request`
              """
         if not self:
-            return
-
-        if auth_object['status'] in {'reversed', 'expired'}:
-            self.with_context(lang=self.card_id.user_id.lang or self.env.lang)._do_refuse(self.env._("Expense was refused by Stripe, or an error occurred"))
             return
 
         update_vals = {}

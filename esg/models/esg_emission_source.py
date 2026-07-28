@@ -79,13 +79,13 @@ class EsgEmissionSource(models.Model):
     @api.depends('scope', 'activity_flow_indirect_others')
     def _compute_activity_flow(self):
         for source in self:
+            source.activity_flow_direct_indirect = source.activity_flow = False
             match source.scope:
                 case 'direct':
                     source.activity_flow_direct_indirect = source.activity_flow = 'company_reporting'
                 case 'indirect':
                     source.activity_flow_direct_indirect = source.activity_flow = 'upstream'
                 case 'indirect_others':
-                    source.activity_flow_direct_indirect = False
                     source.activity_flow = source.activity_flow_indirect_others
 
     @api.depends('name', 'parent_id.complete_name', 'scope')

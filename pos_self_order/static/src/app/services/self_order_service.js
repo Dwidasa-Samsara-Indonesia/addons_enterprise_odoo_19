@@ -32,6 +32,7 @@ export class SelfOrder extends Reactive {
         super();
         this.ready = this.setup(...args).then(() => this);
     }
+    orderReceiptComponent = OrderReceipt;
 
     async setup(
         env,
@@ -92,15 +93,8 @@ export class SelfOrder extends Reactive {
             }
         });
         if (this.config.self_ordering_mode === "kiosk") {
-            this.data.connectWebSocket("STATUS", ({ status }) => {
-                if (status === "closed") {
-                    this.pos_session = [];
-                    this.ordering = false;
-                } else {
-                    // reload to get potential new settings
-                    // more easier than RPC for now
-                    window.location.reload();
-                }
+            this.data.connectWebSocket("STATUS", async ({ status }) => {
+                await this.handleKioskSessionStatusChange(status);
             });
             this.data.connectWebSocket("PAYMENT_STATUS", ({ payment_result, data }) => {
                 if (payment_result === "Success") {
@@ -149,7 +143,7 @@ export class SelfOrder extends Reactive {
                 return;
             }
             const productTemplate = product.product_tmpl_id;
-            if (productTemplate.isConfigurable()) {
+            if (this.isProductConfigurable(productTemplate)) {
                 this.router.navigate("product", { id: productTemplate.id });
                 return;
             }
@@ -165,6 +159,16 @@ export class SelfOrder extends Reactive {
             initLNA(this.notification);
         } else {
             odoo.use_lna = false;
+        }
+    }
+    async handleKioskSessionStatusChange(status) {
+        if (status === "closed") {
+            this.pos_session = [];
+            this.ordering = false;
+        } else {
+            // reload to get potential new settings
+            // more easier than RPC for now
+            window.location.reload();
         }
     }
 
@@ -243,7 +247,7 @@ export class SelfOrder extends Reactive {
             if (
                 combo_item_ids.length > 1 ||
                 combo.qty_max > 1 ||
-                combo_item_ids[0]?.product_id.isConfigurable()
+                this.isProductConfigurable(combo_item_ids[0]?.product_id)
             ) {
                 return { show: true, selectedCombos: [] };
             }
@@ -257,6 +261,16 @@ export class SelfOrder extends Reactive {
             });
         }
         return { show: false, selectedCombos };
+    }
+
+    isProductConfigurable(product) {
+        if (!product) {
+            return false;
+        }
+        if (!this.kioskMode) {
+            return product.isConfigurable();
+        }
+        return product.attribute_line_ids.some((a) => a.product_template_value_ids.length > 1);
     }
 
     async addToCart(
@@ -301,7 +315,9 @@ export class SelfOrder extends Reactive {
             orderAccessToken: access_token || this.currentOrder.access_token,
             screenMode: screen_mode,
         });
-        this.printKioskChanges(access_token);
+        if (this.kioskMode) {
+            this.printKioskChanges(access_token);
+        }
         this.resetCategorySelection();
     }
 
@@ -521,10 +537,6 @@ export class SelfOrder extends Reactive {
     }
 
     async printKioskChanges(access_token = "") {
-        if (!this.kioskMode) {
-            return;
-        }
-
         const d = new Date();
         let hours = "" + d.getHours();
         hours = hours.length < 2 ? "0" + hours : hours;
@@ -600,19 +612,17 @@ export class SelfOrder extends Reactive {
     }
 
     async initMobileData() {
-        if (this.config.self_ordering_mode !== "qr_code") {
-            if (
-                this.session &&
-                this.access_token &&
-                this.config.self_ordering_mode !== "consultation"
-            ) {
-                await this.getUserDataFromServer();
-                this.ordering = true;
-            }
+        if (
+            this.session &&
+            this.access_token &&
+            this.config.self_ordering_mode !== "consultation"
+        ) {
+            await this.getUserDataFromServer();
+            this.ordering = true;
+        }
 
-            if (!this.ordering) {
-                return;
-            }
+        if (!this.ordering) {
+            return;
         }
     }
 
@@ -916,19 +926,14 @@ export class SelfOrder extends Reactive {
     }
 
     getProductPriceInfo(productTemplate, product) {
-        const pricelist = this.currentOrder.preset_id?.pricelist_id || this.config.pricelist_id;
-        const price = productTemplate.getPrice(pricelist, 1, 0, false, product);
-
-        if (!product) {
-            product = productTemplate;
-        }
-
-        // Taxes computation.
         const order = this.currentOrder;
-        const taxesData = product.getTaxDetails({
+        const pricelist = order.preset_id?.pricelist_id || this.config.pricelist_id;
+        const productVariant = product || productTemplate.product_variant_ids[0];
+        const price = productTemplate.getPrice(pricelist, 1, 0, false, productVariant);
+        const taxesData = (productVariant || productTemplate).getTaxDetails({
             overridedValues: {
                 price,
-                fiscalPosition: order?.fiscal_position_id || false,
+                fiscalPosition: order.fiscal_position_id || false,
             },
         });
         return { pricelist_price: price, ...taxesData };

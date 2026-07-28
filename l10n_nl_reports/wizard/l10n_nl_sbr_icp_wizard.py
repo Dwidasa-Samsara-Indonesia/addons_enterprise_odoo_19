@@ -52,6 +52,7 @@ class L10n_Nl_ReportsSbrIcpWizard(models.TransientModel):
         # The wsdl address points to a wsdl file on the government server.
         # It contains the definition of the 'aanleveren' function, which actually sends the message.
         options = self.env.context['options']
+        self._check_sbr_certificates()
         # Need to change report because there is no ICP report return
         tax_report = self.env.ref('l10n_nl.tax_report')
         tax_report_options = tax_report.get_options(previous_options=options)
@@ -88,19 +89,21 @@ class L10n_Nl_ReportsSbrIcpWizard(models.TransientModel):
         try:
             with NamedTemporaryFile(delete=False) as f:
                 f.write(serv_root_cert)
-            wsdl = 'https://' + ('preprod-' if self.is_test else '') + 'dgp2.procesinfrastructuur.nl/wus/2.0/aanleverservice/1.2?wsdl'
-            delivery_client = SoapClientWrapper().create_soap_client(wsdl, f, certificate, private_key)
-            factory = delivery_client.type_factory('ns0')
-            aanleverkenmerk = wsse.utils.get_unique_id()
-            response = delivery_client.service.aanleveren(
-                berichtsoort='ICP',
-                aanleverkenmerk=aanleverkenmerk,
-                identiteitBelanghebbende=factory.identiteitType(nummer=self._get_sbr_identifier(), type='BTW'),
-                rolBelanghebbende='Bedrijf',
-                berichtInhoud=factory.berichtInhoudType(mimeType='application/xml', bestandsnaam='ICPReport.xbrl', inhoud=report_file),
-                autorisatieAdres='http://geenausp.nl',
-            )
-            kenmerk = response.kenmerk
+                f.flush()
+                wsdl = 'https://' + ('preprod-' if self.is_test else '') + 'dgp2.procesinfrastructuur.nl/wus/2.0/aanleverservice/1.2?wsdl'
+                service_address = 'https://' + ('wus.preproductie.digipoort.' if self.is_test else 'wus.digipoort.') + 'logius.nl/wus/2.0/aanleverservice/1.2'
+                client, service = SoapClientWrapper().create_soap_client_logius(wsdl, f, certificate, private_key, serv_root_cert, service_address)
+                factory = client.type_factory('ns0')
+                aanleverkenmerk = wsse.utils.get_unique_id()
+                response = service.aanleveren(
+                    berichtsoort='ICP',
+                    aanleverkenmerk=aanleverkenmerk,
+                    identiteitBelanghebbende=factory.identiteitType(nummer=self._get_sbr_identifier(options), type='BTW'),
+                    rolBelanghebbende='Bedrijf',
+                    berichtInhoud=factory.berichtInhoudType(mimeType='application/xml', bestandsnaam='ICPReport.xbrl', inhoud=report_file),
+                    autorisatieAdres='http://geenausp.nl',
+                )
+                kenmerk = response.kenmerk
         except Fault as fault:
             detail_fault = fault.detail.getchildren()[0]
             raise RedirectWarning(

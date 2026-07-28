@@ -2,8 +2,10 @@ import { renderStaticFileBox } from "@html_editor/main/media/media_dialog/docume
 import { Plugin } from "@html_editor/plugin";
 import { _t } from "@web/core/l10n/translation";
 import { MAIN_PLUGINS } from "@html_editor/plugin_sets";
-
-import { SelectAddDocumentCreateDialog } from "@documents/views/view_dialogs/select_add_document_create_dialog";
+import {
+    getAddDocumentDialogProps,
+    SelectAddDocumentCreateDialog,
+} from "@documents/views/view_dialogs/select_add_document_create_dialog";
 
 export class AddDocumentsAttachmentPlugin extends Plugin {
     static id = "add_documents_attachment";
@@ -25,18 +27,7 @@ export class AddDocumentsAttachmentPlugin extends Plugin {
 
     openSelectAddDocumentCreateDialog() {
         this.dependencies.dialog.addDialog(SelectAddDocumentCreateDialog, {
-            resModel: "documents.document",
-            title: _t("Search: Documents"),
-            noCreate: true,
-            domain: [
-                ["type", "=", "binary"],
-                ["shortcut_document_id", "=", false],
-            ],
-            context: {
-                list_view_ref: "documents.documents_view_list_add_documents_attachment",
-                documents_search_panel_no_trash: true,
-                documents_view_secondary: true,
-            },
+            ...getAddDocumentDialogProps(),
             chatterParams: {
                 isPlugin: true,
                 isNewRecord: !this.config.getRecordInfo().resId,

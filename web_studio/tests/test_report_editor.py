@@ -998,7 +998,7 @@ class TestReportEditorUIUnit(HttpCase):
          <t t-call="web_studio.test_report_document" ws-call-key="2" ws-view-id="{self.main_view.id}">
            <t t-name="web_studio.test_report_document" ws-view-id="{self.main_view_document.id}">
              <t oe-origin-t-out="0">
-                <t ws-view-id="{self.main_view.id}" ws-call-group-key="1" ws-call-key="2" ws-real-children="1">
+                <t ws-view-id="{self.main_view.id}" ws-call-group-key="1" ws-call-key="2" ws-view-name="{self.main_view.name}" ws-real-children="1">
                   <h1/>
                 </t>
              </t>
@@ -1009,7 +1009,7 @@ class TestReportEditorUIUnit(HttpCase):
         <t t-call="web_studio.test_report_document" ws-call-key="3" ws-view-id="{self.main_view.id}">
            <t t-name="web_studio.test_report_document" ws-view-id="{self.main_view_document.id}">
              <t oe-origin-t-out="0">
-               <t ws-view-id="{self.main_view.id}" ws-call-group-key="1" ws-call-key="3" ws-real-children="1">
+               <t ws-view-id="{self.main_view.id}" ws-call-group-key="1" ws-call-key="3" ws-view-name="{self.main_view.name}" ws-real-children="1">
                  <h2/>
                </t>
              </t>
@@ -1072,10 +1072,10 @@ class TestReportEditorUIUnit(HttpCase):
         verification_tree = etree.fromstring(
         """<div id="wrapwrap" oe-context="{&quot;docs&quot;: {&quot;model&quot;: &quot;res.partner&quot;, &quot;name&quot;: &quot;Contact&quot;, &quot;in_foreach&quot;: false}, &quot;company&quot;: {&quot;model&quot;: &quot;res.company&quot;, &quot;name&quot;: &quot;Companies&quot;, &quot;in_foreach&quot;: false}}">
            <main>
-             <t ws-was-t-out="1">
-               <t ws-view-id="{html_container.id}" ws-call-group-key="1" ws-call-key="1" ws-real-children="1">
-                 <t ws-was-t-out="1">
-                   <t ws-view-id="{main_view.id}" ws-call-group-key="1" ws-call-key="1" ws-real-children="1">
+             <t oe-origin-t-out="0">
+               <t ws-view-id="{html_container.id}" ws-call-group-key="1" ws-call-key="1" ws-view-name="{html_container.key}" ws-real-children="1">
+                 <t oe-origin-t-out="0">
+                   <t ws-view-id="{main_view.id}" ws-call-group-key="1" ws-call-key="1" ws-view-name="{main_view.key}" ws-real-children="1">
                      <div>
                        <p>
                          <br/>
@@ -1088,16 +1088,16 @@ class TestReportEditorUIUnit(HttpCase):
                              <t t-call="web_studio.t_call_0" ws-call-key="1" ws-view-id="{main_view_document.id}">
                                <t t-name="web_studio.t_call_0" ws-view-id="{tcalled_0.id}" oe-context="{&quot;docs&quot;: {&quot;model&quot;: &quot;res.partner&quot;, &quot;name&quot;: &quot;Contact&quot;, &quot;in_foreach&quot;: false}, &quot;company&quot;: {&quot;model&quot;: &quot;res.company&quot;, &quot;name&quot;: &quot;Companies&quot;, &quot;in_foreach&quot;: false}, &quot;doc&quot;: {&quot;model&quot;: &quot;res.partner&quot;, &quot;name&quot;: &quot;Contact&quot;, &quot;in_foreach&quot;: true}}">
                                  <div class="call_0">
-                                   <t ws-was-t-out="1">
-                                     <t ws-view-id="{main_view_document.id}" ws-call-group-key="1" ws-call-key="1" ws-real-children="1">
+                                   <t oe-origin-t-out="0">
+                                     <t ws-view-id="{main_view_document.id}" ws-call-group-key="1" ws-call-key="1" ws-view-name="{main_view_document.key}" ws-real-children="1">
                                        <div>
                                          <p> call zero one </p>
                                          <t t-call="web_studio.t_call_1" ws-call-key="2" ws-view-id="{main_view_document.id}">
                                            <t t-name="web_studio.t_call_1" ws-view-id="{tcalled_1.id}" oe-context="{&quot;docs&quot;: {&quot;model&quot;: &quot;res.partner&quot;, &quot;name&quot;: &quot;Contact&quot;, &quot;in_foreach&quot;: false}, &quot;company&quot;: {&quot;model&quot;: &quot;res.company&quot;, &quot;name&quot;: &quot;Companies&quot;, &quot;in_foreach&quot;: false}, &quot;doc&quot;: {&quot;model&quot;: &quot;res.partner&quot;, &quot;name&quot;: &quot;Contact&quot;, &quot;in_foreach&quot;: true}}">
                                              <div class="call_1">
                                                <p> call one </p>
-                                               <t ws-was-t-out="1">
-                                                 <t ws-view-id="{main_view_document.id}" ws-call-group-key="1" ws-call-key="2" ws-real-children="1">
+                                               <t oe-origin-t-out="0">
+                                                 <t ws-view-id="{main_view_document.id}" ws-call-group-key="1" ws-call-key="2" ws-view-name="{main_view_document.key}" ws-real-children="1">
                                                    <p> call zero two </p>
                                                  </t>
                                                </t>
@@ -1124,7 +1124,7 @@ class TestReportEditorUIUnit(HttpCase):
 
         self.assertXMLEqual(
             etree.tostring(tree),
-            etree.tounicode(tree).format(
+            etree.tounicode(verification_tree).format(
                 main_view=self.main_view, main_view_document=self.main_view_document, tcalled_0=tcalled_0, tcalled_1=tcalled_1, html_container=html_container
             )
         )

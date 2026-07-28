@@ -21,7 +21,7 @@ class AccountMoveLine(models.Model):
         readonly=False,
     )
 
-    @api.depends('tax_ids', 'move_id.company_id', 'move_id.l10n_mx_edi_cfdi_to_public', 'move_id.l10n_mx_edi_is_cfdi_needed', 'move_id.partner_id')
+    @api.depends('price_unit', 'tax_ids', 'move_id.company_id', 'move_id.l10n_mx_edi_cfdi_to_public', 'move_id.l10n_mx_edi_is_cfdi_needed', 'move_id.partner_id')
     def _compute_l10n_mx_edi_tax_object(self):
         L10nMxEdiDocument = self.env['l10n_mx_edi.document']
         for move, lines in self.grouped('move_id').items():

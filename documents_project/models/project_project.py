@@ -47,6 +47,10 @@ class ProjectProject(models.Model):
             ('id', 'child_of', self.documents_folder_id.ids)
         ])
         for project in self:
+            if not project.documents_folder_id:
+                project.document_ids = self.env['documents.document']
+                project.document_count = 0
+                continue
             document_ids = documents.filtered(lambda doc: doc.parent_path.startswith(project.documents_folder_id.parent_path))
             project.document_ids = document_ids
             project.document_count = len(document_ids)
@@ -92,8 +96,15 @@ class ProjectProject(models.Model):
                             'Please update the company of all projects so that they remain in the same company as their folder, or leave the company of the "%(folder)s" folder blank.',
                             other_company=other_projects.company_id.name, other_folders='\n'.join(lines), folder=project.documents_folder_id.name))
 
-        if 'name' in vals and len(self.documents_folder_id.sudo().project_ids) == 1 and self.name == self.documents_folder_id.sudo().name:
-            self.documents_folder_id.sudo().name = vals['name']
+        if 'name' in vals:
+            projects = self.filtered(
+                lambda p: (
+                    (folder := p.documents_folder_id.sudo())
+                    and len(folder.project_ids) == 1
+                    and p.name == folder.name
+                )
+            )
+            projects.documents_folder_id.sudo().name = vals['name']
 
         if new_visibility := vals.get('privacy_visibility'):
             (self.documents_folder_id | self.document_ids).action_update_access_rights(
@@ -144,14 +155,21 @@ class ProjectProject(models.Model):
 
     def action_view_documents_project(self):
         self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("documents.document_action_preference")
-        default_user_folder_id = str(self.documents_folder_id.id) if self.documents_folder_id else False
-        return action | {
-            'view_mode': 'kanban,list',
-            'context': {
+        action = self.documents_folder_id.get_formview_action()
+        if action['tag'] != 'display_notification':
+            action['context'] |= {
                 'active_id': self.id,
                 'active_model':  'project.project',
-                'searchpanel_default_user_folder_id': default_user_folder_id,
-                'no_documents_unique_folder_id': True,
             }
-        }
+        return action
+
+    def create_template_from_project_undo_callback(self, callbacks):
+        super().create_template_from_project_undo_callback(callbacks)
+        if self.documents_folder_id and callbacks.get("unarchive_project"):
+            self.documents_folder_id.action_unarchive()
+
+    def _get_template_from_project_undo_callbacks(self):
+        callbacks = super()._get_template_from_project_undo_callbacks()
+        if self.documents_folder_id and callbacks.get("unarchive_project"):
+            self.documents_folder_id.action_archive()
+        return callbacks

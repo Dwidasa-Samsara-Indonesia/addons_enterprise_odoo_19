@@ -868,6 +868,7 @@ class AppointmentType(models.Model):
         if not self.active:
             return []
         now = datetime.utcnow()
+
         if not reference_date:
             reference_date = now
 
@@ -912,30 +913,81 @@ class AppointmentType(models.Model):
         if filter_resources and not valid_resources:
             return []
         # Used to check availabilities for the whole last day as _slot_generate will return all slots on that date.
-        last_day_end_of_day = datetime.combine(
-            last_day.astimezone(pytz.timezone(self.appointment_tz)),
-            time.max
+        first_day_as_utc = first_day.astimezone(pytz.utc)
+        appointment_tz = pytz.timezone(self.appointment_tz)
+        last_day_end_of_day_utc = datetime.combine(
+            last_day.astimezone(appointment_tz),
+            time.max,
+            # this seems broken but it's the existing behaviour as far as I can tell:
+            # - datetime.combine keeps the tzinfo of the *time*
+            # - time.max doesn't have a tzinfo
+            # - datetime(tzinfo=None).astimezone(...) treats the input a local
+            #   datetime, which for odoo should mean UTC, so astimezone(UTC)
+            #   does no conversion and sets the UTC on the dt
+            tzinfo=pytz.utc,
         )
+
+        # By default we fill the first month, based on the first day. When the visitor
+        # navigates the calendar, the month is counted from the first bookable slot,
+        # where their month list starts, so the filled month matches what they see even
+        # when the booking delay pushed that first slot into a later month.
+        month = first_day_as_utc.month
+        year = first_day_as_utc.year
+        month_offset = self.env.context.get('appointment_slots_force_month_offset')
+        if month_offset is not None and self.category != 'custom':
+            navigated_month = slots[0][timezone][0] + relativedelta(months=month_offset)
+            month, year = navigated_month.month, navigated_month.year
+
+        fill_slots_from = datetime.combine(
+            first_day_as_utc.replace(day=1, month=month, year=year) if self.category != 'custom' else first_day_as_utc,
+            time.min,
+            tzinfo=pytz.utc,
+        )
+        fill_slots_to = datetime.combine(
+            fill_slots_from + relativedelta(months=1, days=-1) if self.category != 'custom' else last_day_end_of_day_utc,
+            time.max,
+            tzinfo=pytz.utc,
+        )
+
+        self._slots_fill_availability(
+            slots,
+            fill_slots_from,
+            fill_slots_to,
+            valid_resources,
+            valid_users,
+            asked_capacity=asked_capacity
+        )
+
         if self.schedule_based_on == 'users':
-            self._slots_fill_users_availability(
-                slots,
-                first_day.astimezone(pytz.UTC),
-                last_day_end_of_day.astimezone(pytz.UTC),
-                valid_users,
-                asked_capacity,
-            )
             slot_field_label = 'available_staff_users' if not self.is_auto_assign and self.is_date_first else 'staff_user_id'
         else:
-            self._slots_fill_resources_availability(
-                slots,
-                first_day.astimezone(pytz.UTC),
-                last_day_end_of_day.astimezone(pytz.UTC),
-                valid_resources,
-                asked_capacity,
-            )
             slot_field_label = 'available_resource_ids'
-
         total_nb_slots = sum(slot_field_label in slot for slot in slots)
+
+        if self.env.context.get('appointment_slots_force_month_offset') is not None:
+            # Moving from reference date to max date in months until a slot exists.
+            fill_slots_from = datetime.combine(first_day_as_utc.replace(day=1), time.min, tzinfo=pytz.utc)
+            fill_slots_to = datetime.combine(
+                fill_slots_from + relativedelta(months=1, days=-1),
+                time.max,
+            )
+        while not total_nb_slots and fill_slots_from < last_day_end_of_day_utc:
+            if (fill_slots_from.month, fill_slots_to.year) != (month, year):
+                self._slots_fill_availability(
+                    slots,
+                    fill_slots_from,
+                    fill_slots_to,
+                    valid_resources,
+                    valid_users,
+                    asked_capacity=asked_capacity
+                )
+                total_nb_slots = sum(slot_field_label in slot for slot in slots)
+            fill_slots_from += relativedelta(months=1)
+            fill_slots_to = datetime.combine(
+                fill_slots_from + relativedelta(months=1, days=-1),
+                time.max,
+            )
+
         # If there is no slot for the minimum capacity then we return an empty list.
         # This will lead to a screen informing the customer that there is no availability.
         # We don't want to return an empty list if the capacity as been tempered by the customer
@@ -971,7 +1023,8 @@ class AppointmentType(models.Model):
                             if (slots[0][tz][0].date() == day) and (slot_field_label in slots[0]):
                                 slot_start_dt_tz, slot_end_dt_tz = slots[0][tz]
                                 slot_start_dt_tz_formatted = slot_start_dt_tz.strftime('%Y-%m-%d %H:%M:%S')
-                                slot_duration = slots[0]['slot'].duration or str((slot_end_dt_tz - slot_start_dt_tz).total_seconds() / 3600)
+                                real_slot_end_dt_tz = slot_end_dt_tz + relativedelta(days=1) if is_allday else slot_end_dt_tz
+                                slot_duration = (real_slot_end_dt_tz - slot_start_dt_tz).total_seconds() / 3600
                                 # Remove one second in case the end time slot reached midnight of the next day
                                 # e.g. 6PM (June 1st) to 12AM (June 2nd) should not be considered as a multi day slot
                                 is_multi_day = (
@@ -1047,6 +1100,16 @@ class AppointmentType(models.Model):
             })
             start = start + relativedelta(months=1)
         return months
+
+    def _slots_fill_availability(self, slots, start, end, resources, users, asked_capacity=0):
+        if self.schedule_based_on == 'users':
+            self.with_context(
+                appointment_specific_interval_only=True
+            )._slots_fill_users_availability(slots, start, end, users, asked_capacity)
+        else:
+            self.with_context(
+                appointment_specific_interval_only=True
+            )._slots_fill_resources_availability(slots, start, end, resources, asked_capacity)
 
     def _check_appointment_is_valid_slot(self, staff_user, resources, asked_capacity, timezone, start_dt, duration, allday):
         """
@@ -1202,7 +1265,12 @@ class AppointmentType(models.Model):
             available_users_tz, start_dt, end_dt
         )
 
-        for slot in slots:
+        # We only check availability for slots starting in the given interval
+        interval_slots = filter(
+            lambda slot: start_dt.replace(tzinfo=None) <= slot['UTC'][0] <= end_dt.replace(tzinfo=None), slots
+        ) if self.env.context.get('appointment_specific_interval_only') else slots
+
+        for slot in interval_slots:
             if (self.is_date_first and not self.is_auto_assign) or self.env.context.get('slots_check_all_users', False):
                 available_staff_users = available_users_tz.filtered(
                     lambda staff_user: self._slot_availability_is_user_available(
@@ -1476,38 +1544,50 @@ class AppointmentType(models.Model):
         )
 
         capacity_info_to_best_resources = {}
-        for slot in slots:
+        # We only check availability for slots starting in the given interval
+        interval_slots = filter(
+            lambda slot: start_dt_utc.replace(tzinfo=None) <= slot['UTC'][0] <= end_dt_utc.replace(tzinfo=None), slots
+        ) if self.env.context.get('appointment_specific_interval_only') else slots
+
+        for slot in interval_slots:
             capacity_info = {}
-            for resource in available_resources:
-                if not self._slot_availability_is_resource_available(slot, resource, availability_values):
-                    continue
-                resources_remaining_capacity = self._get_resources_remaining_capacity(
-                    resource,
-                    slot['UTC'][0],
-                    slot['UTC'][1],
-                    resource_to_bookings=availability_values.get('resource_to_bookings'),
-                    filter_resources=slot['slot'].restrict_to_resource_ids & available_resources or available_resources,
-                    with_linked_resources=self.manage_capacity,
+            # Check slot restrictions and availability from availability_values
+            slot_available_resources = self._slot_available_resources(slot, available_resources, availability_values)
+            resources_remaining_capacity = self._get_resources_remaining_capacity(
+                slot_available_resources,
+                slot['UTC'][0],
+                slot['UTC'][1],
+                resource_to_bookings=availability_values.get('resource_to_bookings'),
+                filter_resources=None,
+                with_linked_resources=False,
+            )
+            if resources_remaining_capacity['total_remaining_capacity'] < asked_capacity:
+                continue
+            del resources_remaining_capacity['total_remaining_capacity']
+            # Restrict to slot_available_resources
+            for resource in resources_remaining_capacity:
+                total_remaining_capacity = sum(
+                    resources_remaining_capacity.get(resource, 0)
+                    for resource in resource | (resource.linked_resource_ids & slot_available_resources)
                 )
-                if resources_remaining_capacity['total_remaining_capacity'] < asked_capacity:
+                if total_remaining_capacity < asked_capacity:
                     continue
                 capacity_info[resource] = {
-                    'total_remaining_capacity': resources_remaining_capacity['total_remaining_capacity'],
                     'remaining_capacity': resources_remaining_capacity[resource],
+                    'total_remaining_capacity': total_remaining_capacity,
                 }
-                # Keep only the potential linked resources and add them in capacity_info
-                del resources_remaining_capacity['total_remaining_capacity']
-                del resources_remaining_capacity[resource]
-                for linked_resource, remaining_capacity in resources_remaining_capacity.items():
-                    if not remaining_capacity or linked_resource in capacity_info:
+                # Keep also the potential linked resources and add them in capacity_info
+                for linked_resource in resource.linked_resource_ids & slot_available_resources:
+                    if linked_resource in capacity_info:
                         continue
                     capacity_info[linked_resource] = {
-                        'total_remaining_capacity': remaining_capacity,
-                        'remaining_capacity': remaining_capacity,
+                        'remaining_capacity': resources_remaining_capacity[linked_resource],
+                        'total_remaining_capacity': total_remaining_capacity,
                     }
+
             capacity_info = frozendict(capacity_info)
             if capacity_info:
-                # Compute the best resource a single time for each capacity info
+                # Compute the best resource a single time for each capacity info as we loop on slots
                 if not capacity_info_to_best_resources.get(capacity_info):
                     best_resources_selected = self._slot_availability_select_best_resources(
                         capacity_info,
@@ -1520,39 +1600,59 @@ class AppointmentType(models.Model):
                     slot['available_resource_ids'] = best_resources_selected
 
     def _slot_availability_is_resource_available(self, slot, resource, availability_values):
-        """ This method verifies if the resource is available on the given slot.
+        return bool(self._slot_available_resources(slot, resource, availability_values))
+
+    def _slot_available_resources(self, slot, resources, availability_values):
+        """
+        This method checks if the resources are available on the given slot.
         It checks whether the resource has bookings clashing and if it
         is included in slot's restricted resources.
 
         Can be overridden to add custom checks.
 
         :param dict slot: a slot as generated by ``_slots_generate``;
-        :param <appointment.resource> resource: resource to check against slot boundaries.
-          At this point timezone should be correctly set in context;
+        :param <appointment.resource> resources: resources to check against slot
+          boundaries. At this point timezone should be correctly set in context;
         :param dict availability_values: dict of data used for availability check.
           See ``_slot_availability_prepare_resources_values()`` for more details;
 
-        :return: boolean: is resource available for an appointment for given slot
+        :return: <appointment.resource>: resources within 'resources' available
+          for the given slot.
         """
-        if slot['slot'].restrict_to_resource_ids and resource not in slot['slot'].restrict_to_resource_ids:
-            return False
+        if not resources:
+            return self.env['appointment.resource']
+
+        valid_resources = resources
+        if restricted_resources := slot['slot'].restrict_to_resource_ids:
+            valid_resources &= restricted_resources
 
         slot_start_dt_utc, slot_end_dt_utc = slot['UTC'][0], slot['UTC'][1]
-        resource_to_bookings = availability_values.get('resource_to_bookings')
-        # Check if there is already a booking line for the time slot and make it unavailable
-        # if manage capacity is on and resource is not shareable.
-        # This avoid to mark the resource as "available" and compute unnecessary remaining capacity computation
-        # because of potential linked resources.
-        if resource_to_bookings.get(resource):
-            if resource_to_bookings[resource].filtered(lambda bl: bl.event_start < slot_end_dt_utc and bl.event_stop > slot_start_dt_utc):
-                return resource.shareable if self.manage_capacity else True
-
         slot_start_dt_utc_l, slot_end_dt_utc_l = pytz.utc.localize(slot_start_dt_utc), pytz.utc.localize(slot_end_dt_utc)
-        for i_start, i_stop in availability_values.get('resource_unavailabilities', {}).get(resource, []):
-            if (i_stop - i_start) > timedelta(microseconds=1) and i_start < slot_end_dt_utc_l and i_stop > slot_start_dt_utc_l:
-                return False
-
-        return True
+        resource_to_bookings = availability_values.get('resource_to_bookings')
+        # Mark as unavailable any resource that already has a booking in the time slot,
+        # unless the resource can still absorb more bookings — in which case the
+        # remaining-capacity check below is what actually filters it.
+        # That applies when:
+        #   - manage_capacity is enabled and the resource is shareable
+        #     (e.g. a bar counter: usable while it has remaining capacity); or
+        #   - manage_capacity is disabled, where max_bookings (on the appointment type)
+        #     governs how many bookings a resource accepts per slot.
+        return valid_resources.filtered(lambda resource:
+            not (  # Overlapping event while not shareable or with max_bookings managed on aptmt type
+                resource_to_bookings.get(resource) and
+                self.manage_capacity and not resource.shareable and
+                any(
+                    booking_line.event_start < slot_end_dt_utc and booking_line.event_stop > slot_start_dt_utc
+                    for booking_line in resource_to_bookings.get(resource, [])
+                )
+            )
+            and not (  # Resource unavailable
+                any(
+                    (i_stop - i_start) > timedelta(microseconds=1) and i_start < slot_end_dt_utc_l and i_stop > slot_start_dt_utc_l
+                    for i_start, i_stop in availability_values.get('resource_unavailabilities', {}).get(resource, [])
+                )
+            )
+        )
 
     def _get_resources_remaining_capacity(self, resources, slot_start_utc, slot_stop_utc, resource_to_bookings=None, with_linked_resources=True, filter_resources=None):
         """ Compute the remaining capacities for resources in a particular time slot.

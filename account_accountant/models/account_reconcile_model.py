@@ -287,14 +287,19 @@ class AccountReconcileModel(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        unreconciled_statement_lines = self.env['account.bank.statement.line'].search([
+        unreconciled_domain = [
             *self._check_company_domain(self.env.company),
             ('is_reconciled', '=', False),
-        ])
+        ]
+        unreconciled_statement_lines = self.env['account.bank.statement.line'].search(unreconciled_domain)
         if unreconciled_statement_lines:
-            unreconciled_statement_lines.line_ids.filtered(
+            move_lines = self.env['account.move.line'].search([
+                ('reconcile_model_id', 'in', self.ids),
+                ('move_id.statement_line_id', 'any', unreconciled_domain)
+            ])
+            move_lines.filtered(
                 lambda line:
-                line.account_id == line.move_id.journal_id.suspense_account_id and line.reconcile_model_id in self
+                line.account_id == line.move_id.journal_id.suspense_account_id
             ).reconcile_model_id = False
             self._apply_reconcile_models(unreconciled_statement_lines)
 

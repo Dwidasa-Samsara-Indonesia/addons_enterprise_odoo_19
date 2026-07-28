@@ -91,10 +91,14 @@ class AccountWinbooksImportWizard(models.TransientModel):
                     'active': not rec.get('ISLOCKED'),
                     'category_id': [(6, 0, [category_data.get(rec.get('CATEGORY'))])] if category_data.get(rec.get('CATEGORY')) else False
                 }
-                if partner_data_dict.get(rec.get('NUMBER')):
-                    for key, value in partner_data_dict[rec.get('NUMBER')].items():
-                        if value:  # Winbooks has different partners for customer/supplier. Here we merge the data of the 2
+                if existing_data := partner_data_dict.get(rec.get('NUMBER')):
+                    for key, value in existing_data.items():
+                        if value and key not in ('vat', 'country_id'):
                             data[key] = value
+                    # vat should be coupled with the country
+                    if existing_data['vat'] and (existing_data['country_id'] or not data['country_id']):
+                        data['vat'] = existing_data['vat']
+                        data['country_id'] = existing_data['country_id']
                 if rec.get('NAME2'):
                     data['child_ids'] = [Command.create({'name': rec['NAME2']})]
                 # manage the bank account of the partner

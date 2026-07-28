@@ -9,7 +9,7 @@
 Add a dynamic report about recruitment.
     """,
     'website': 'https://www.odoo.com/app/recruitment',
-    'depends': ['hr_recruitment'],
+    'depends': ['hr_recruitment', 'web_cohort'],
     'data': [
         'security/ir.model.access.csv',
         'security/hr_recruitment_reports_security.xml',

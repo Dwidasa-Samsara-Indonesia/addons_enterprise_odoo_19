@@ -59,9 +59,9 @@ patch(GenericHooks, {
                 "receipt_header_l10n_co_edi_type",
                 "Factura Electrónica de Venta"
             ),
-            this._receiptContains(
+            this._receiptContainsRegex(
                 "receipt_header_l10n_co_edi_document_number",
-                "Número de Documento: SETF990000001"
+                /^Número de Documento: SETF\d+$/
             ),
             this._receiptContains(
                 "receipt_header_l10n_co_edi_authorization_number",

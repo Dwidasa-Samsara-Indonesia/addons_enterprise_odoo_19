@@ -26,20 +26,22 @@ class L10nBeHrPayrollExportAcerta(models.Model):
         [0]        - 3      - CHAR      - code                  ('KLX')
         [3]        - 1      - CHAR      - identifier            ('1')
         [4]        - 7      - NUMERIC   - legal entity number   (res.company.legal_number)
-        [11]       - 20     - CHAR      - contract number       (hr.contract.acerta_number) (padded with 0)
+        [11]       - 17     - CHAR      - contract number       (hr.contract.acerta_number) (padded with 0)
+        [28]       - 3      - CHAR      - 3 spaces              ('   ')
         [31]       - 10     - CHAR      - date                  (work_entry.start_date in DD/MM/YYYY format)
-        [41]       - 2      - NUMERIC   - sequence number       /
-        [43]       - 6      - CHAR      - work entry code       (work_entry_type.acerta_code)
+        [41]       - 2      - CHAR      - 2 spaces              ('  ')
+        [43]       - 4      - CHAR      - work entry code       (work_entry_type.acerta_code)
+        [47]       - 2      - CHAR      - 2 spaces              ('  ')
         [49]       - 4      - NUMERIC   - hours worked          (work_entry.duration in hours, minutes in hundredths)
 
-        eg: 'KLX176543210000000000000000001714/10/2024  100   0800'
+        eg: 'KLX1765432100000000000000017   14/10/2024  0100  0800'
         """
 
         work_entry = we_dotdict.work_entries[0]
         duration = we_dotdict.duration
-        return 'KLX1' + self.company_id.acerta_code + contract.acerta_code.zfill(20) \
+        return 'KLX1' + self.company_id.acerta_code + contract.acerta_code.zfill(17) + '   ' \
             + work_entry.date.strftime('%d/%m/%Y') + '  '  \
-            + work_entry.work_entry_type_id.acerta_code.ljust(6) \
+            + work_entry.work_entry_type_id.acerta_code.zfill(4) + '  ' \
             + str(int(duration // 3600)).zfill(2) \
             + str(int(ceil(duration % 3600 // 100))).zfill(2) + '\n'
 

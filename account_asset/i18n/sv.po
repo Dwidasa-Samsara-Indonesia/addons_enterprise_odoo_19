@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-04-10 12:11+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-06-23 10:57+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/sv/>\n"
@@ -31,58 +31,58 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
 msgid "# Depreciation Entries"
-msgstr "# avskrivningsrader"
+msgstr "# Avskrivningsposter"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__gross_increase_count
 msgid "# Gross Increases"
-msgstr "# bruttoökningar"
+msgstr "# Bruttoökningar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__depreciation_entries_count
 msgid "# Posted Depreciation Entries"
-msgstr "# bokförda avskrivningstransaktioner"
+msgstr "# Bokförda avskrivningsposter"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "%(asset)s: Disposal"
-msgstr "%(asset)s: Avyttring"
+msgstr "%(asset)s: Bortskaffning"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "%(asset)s: Sale"
-msgstr ""
+msgstr "%(asset)s: Försäljning"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_assets_report.py:0
 msgid "%(months)s m"
-msgstr "%(months)s m"
+msgstr "%(months)s månader"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "%(move_line)s (%(current)s of %(total)s)"
-msgstr ""
+msgstr "%(move_line)s (%(current)s av %(total)s)"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_assets_report.py:0
 msgid "%(years)s y"
-msgstr "%(years)s å"
+msgstr "%(years)s år"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "%s (copy)"
-msgstr "%s (copy)"
+msgstr "%s (kopia)"
 
 #. module: account_asset
 #. odoo-python
@@ -124,9 +124,9 @@ msgid ""
 "> %(extra_text)s Future entries will be recomputed to depreciate the asset "
 "following the changes."
 msgstr ""
-"En avskrivningspost kommer att bokföras från och med datumet %(date)s. <br/> "
-"%(extra_text)s Framtida poster kommer att räknas om för att skriva av "
-"tillgången efter ändringarna."
+"En avskrivningspost kommer att bokföras från och med %(date)s. <br/> %"
+"(extra_text)s Framtida poster räknas om för att ta med den nya posten i "
+"beräkningen."
 
 #. module: account_asset
 #. odoo-python
@@ -136,8 +136,8 @@ msgid ""
 "A disposal entry will be posted on the %(account_type)s account <b>%"
 "(account)s</b>."
 msgstr ""
-"En avskrivningspost kommer att bokföras från och med datumet %(date)s.<br/> "
-"En avyttringspost kommer att bokföras på kontot %(account_type)s <b>%"
+"En avskrivningspost kommer att bokföras från och med %(date)s.<br/> En "
+"avyttringspost kommer att bokföras på %(account_type)s-kontot <b>%"
 "(account)s</b>."
 
 #. module: account_asset
@@ -148,34 +148,33 @@ msgid ""
 "A second entry will neutralize the original income and post the  outcome of "
 "this sale on account <b>%(account)s</b>."
 msgstr ""
-"En avskrivningspost kommer att bokföras från och med datumet %(date)s.<br/> "
-"En andra post kommer att neutralisera den ursprungliga inkomsten och bokföra "
-"resultatet av denna försäljning på konto <b>%(account)s</b>."
+"En avskrivningspost kommer att bokföras från och med %(date)s.<br/> En andra "
+"post neutraliserar den ursprungliga intäkten och bokför resultatet av "
+"försäljningen på kontot <b>%(account)s</b>."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "A depreciation entry will be posted on and including the date %s."
-msgstr "En avskrivningspost kommer att publiceras på och inklusive datumet %s."
+msgstr "En avskrivningspost kommer att bokföras på och inklusive datumet %s."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "A document linked to %(move_line_name)s has been deleted: %(link)s"
-msgstr ""
-"Ett dokument länkat till %(move_line_name)s har blivit borttaget: %(link)s"
+msgstr "Ett dokument kopplat till %(move_line_name)s har tagits bort: %(link)s"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "A document linked to this move has been deleted: %s"
-msgstr "Ett dokument länkat till denna transaktion har blivit borttaget: %s"
+msgstr "Ett dokument kopplat till denna transaktion har tagits bort: %s"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "A gross increase has been created: %(link)s"
-msgstr ""
+msgstr "En bruttoökning har skapats: %(link)s"
 
 #. module: account_asset
 #. odoo-python
@@ -184,8 +183,8 @@ msgid ""
 "A non deductible tax value of %(tax_value)s was added to %(name)s's initial "
 "value of %(purchase_value)s"
 msgstr ""
-"Ett icke avdragsgillt skattevärde på %(tax_value)s lades till %(name)s:s "
-"ursprungliga värde på %(purchase_value)s"
+"Ett icke-avdragsgillt skattevärde på %(tax_value)s lades till på det "
+"ursprungliga värdet på %(purchase_value)s för %(name)s"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_account
@@ -204,14 +203,15 @@ msgid ""
 "legal reports, and set the rules to close a fiscal year and generate opening "
 "entries."
 msgstr ""
-"Kontotyp används för informationsändamål, för att skapa landsspecifika "
-"juridiska rapporter och ange reglerna för att stänga ett räkenskapsår och "
-"generera öppningsposter."
+"Kontotyp som används för informationsändamål, för att skapa landsspecifika "
+"juridiska rapporter och ange de regler som ska gälla vid ett bokslut samt "
+"för att generera ut- och ingående balansräkning."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_depreciation_id
 msgid "Account used in the depreciation entries, to decrease the asset value."
-msgstr "Konto som används vid avskrivning för att minska tillgångens värde."
+msgstr ""
+"Konto som anges på avskrivningsposter, för att minska tillgångens värde."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_depreciation_expense_id
@@ -219,41 +219,38 @@ msgid ""
 "Account used in the periodical entries, to record a part of the asset as "
 "expense."
 msgstr ""
-"Konto som används i de periodiska posterna för att registrera en del av "
-"tillgången som kostnad."
+"Konto som anges på periodiseringsposter för att registrera en andel av "
+"tillgången som en kostnad."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__account_asset_id
 msgid "Account used to record the purchase of the asset at its original price."
 msgstr ""
-"Konto som används för att registrera köpet av tillgången till dess "
+"Konto som användes för att registrera köpet av tillgången till dess "
 "ursprungliga pris."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__gain_account_id
 msgid "Account used to write the journal item in case of gain"
-msgstr "Konto som används för att skriva journalrad vid vinst"
+msgstr "Konto som används för att skapa verifikationsrader vid vinst"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_res_company__gain_account_id
 msgid ""
 "Account used to write the journal item in case of gain while selling an asset"
-msgstr ""
-"Konto som används för att skriva journalrad vid vinst vid försäljning av en "
-"tillgång"
+msgstr "Konto som används för att bokföra vinst vid försäljning av en tillgång"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__loss_account_id
 msgid "Account used to write the journal item in case of loss"
-msgstr "Konto som används för att skriva journalrad vid förlust"
+msgstr "Konto som används för att skapa verifikationsrader vid förlust"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_res_company__loss_account_id
 msgid ""
 "Account used to write the journal item in case of loss while selling an asset"
 msgstr ""
-"Konto som används för att skriva journalrad vid förlust vid försäljning av "
-"en tillgång"
+"Konto som används för att bokföra förlust vid försäljning av en tillgång"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -268,7 +265,7 @@ msgstr "Bokföringsrapport"
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_return
 msgid "Accounting Return"
-msgstr "Redovisningsåterbäring"
+msgstr "Bokföringsdeklaration"
 
 #. module: account_asset
 #. odoo-python
@@ -317,27 +314,27 @@ msgstr "Ikon för aktivitetstyp"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
 msgid "Add an internal note"
-msgstr "Lägg till en intern notering"
+msgstr "Lägg till en intern anteckning"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 #: code:addons/account_asset/models/account_move.py:0
 msgid "All the lines should be from the same account"
-msgstr "Alla rader ska vara från samma konto"
+msgstr "Alla rader bör vara från samma konto"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "All the lines should be from the same company"
-msgstr ""
+msgstr "Alla rader bör vara från ett och samma företag"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 #: code:addons/account_asset/models/account_move.py:0
 msgid "All the lines should be posted"
-msgstr "Alla rader ska bokföras"
+msgstr "Alla rader bör vara bokförda"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__already_depreciated_amount_import
@@ -348,8 +345,8 @@ msgstr "Import av redan avskrivet belopp"
 #: model:ir.model.fields,help:account_asset.field_account_asset__parent_id
 msgid "An asset has a parent when it is the result of gaining value"
 msgstr ""
-"En tillgång har en överordnad när det är resultatet av att den har ökat i "
-"värde"
+"En tillgång har en överordnad tillgång när den är ett resultat av en ökning "
+"i tillgångens värde"
 
 #. module: account_asset
 #. odoo-python
@@ -363,22 +360,24 @@ msgid ""
 "An asset wil be created for each asset model when this account is used on a "
 "vendor bill or a refund"
 msgstr ""
+"En tillgång kommer att skapas för varje tillgångsmodell när det här kontot "
+"används på en leverantörsfaktura eller en återbetalning"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "An asset will be created for the value increase of the asset. <br/>"
-msgstr "En tillgång kommer att skapas för värdeökningen av tillgången. <br/>"
+msgstr "En tillgång skapas för tillgångens värdeökning. <br/>"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__analytic_distribution
 msgid "Analytic Distribution"
-msgstr "Objektfördelning"
+msgstr "Analytisk fördelning"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__analytic_precision
 msgid "Analytic Precision"
-msgstr "Objektprecision"
+msgstr "Analytisk precision"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -408,12 +407,12 @@ msgstr "Tillgångskonto"
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Asset Cancelled"
-msgstr "Tillgång avbruten"
+msgstr "Avbruten tillgång"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__account_asset_counterpart_id
 msgid "Asset Counterpart Account"
-msgstr "Tillgång Motpartskonto"
+msgstr "Tillgångens motsvarande konto"
 
 #. module: account_asset
 #. odoo-python
@@ -423,18 +422,18 @@ msgstr "Tillgång Motpartskonto"
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_group_form_view
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_group_list_view
 msgid "Asset Group"
-msgstr ""
+msgstr "Tillgångsgrupp"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_id_display_name
 #: model:ir.model.fields,field_description:account_asset.field_account_move__asset_id_display_name
 msgid "Asset Id Display Name"
-msgstr "Visningsnamn för tillgångs-id"
+msgstr "Visningsnamn för tillgångens ID-nummer"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__asset_lifetime_days
 msgid "Asset Lifetime Days"
-msgstr "Tillgångens livslängd, dagar"
+msgstr "Tillgångens ekonomiska livslängd i dagar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__asset_model_ids
@@ -461,36 +460,36 @@ msgstr "Tillgångsmodeller"
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_move_type
 #: model:ir.model.fields,field_description:account_asset.field_account_move__asset_move_type
 msgid "Asset Move Type"
-msgstr ""
+msgstr "Typ av tillgångsrörelse"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__name
 msgid "Asset Name"
-msgstr "Inventarienamn"
+msgstr "Tillgångens namn"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__asset_paused_days
 msgid "Asset Paused Days"
-msgstr "Pausade tillgångar, dagar"
+msgstr "Dagar då tillgången pausats"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_value_change
 #: model:ir.model.fields,field_description:account_asset.field_account_move__asset_value_change
 msgid "Asset Value Change"
-msgstr "Förändring av tillgångsvärde"
+msgstr "Förändring av tillgångens värde"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Asset Values"
-msgstr "Tillgångsvärde"
+msgstr "Tillgångsvärden"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Asset created"
-msgstr "Tillgången skapad"
+msgstr "Tillgång skapad"
 
 #. module: account_asset
 #. odoo-python
@@ -501,13 +500,13 @@ msgstr "Tillgång skapad från faktura: %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
-msgstr "Tillgång disponerad. %s"
+msgid "Asset disposed. %(message)s"
+msgstr "Tillgång avyttrad. %(message)s"
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
 msgid "Asset movement and accounting treatment"
-msgstr ""
+msgstr "Behandling av rörelser och bokföring relaterade till tillgångar"
 
 #. module: account_asset
 #. odoo-python
@@ -518,14 +517,20 @@ msgstr "Tillgång pausad. %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
-msgstr "Tillgång såld. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr "Tillgång såld. %(message)s Visa %(invoice_links)s"
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
+msgstr "Tillgång såld: %s"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "Asset unpaused. %s"
-msgstr "Tillgång ospärrad. %s"
+msgstr "Tillgång inte längre pausad. %s"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_group_form_view
@@ -553,7 +558,7 @@ msgstr "Tillgångar"
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset_report_handler
 msgid "Assets Report Custom Handler"
-msgstr "Anpassad hanterare för tillgångsrapport"
+msgstr "Anpassad hantering av tillgångsrapporter"
 
 #. module: account_asset
 #: model:ir.ui.menu,name:account_asset.menu_finance_config_assets
@@ -563,12 +568,12 @@ msgstr "Tillgångar och intäkter"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Assets in closed state"
-msgstr "Tillgångar i status \"stängd\""
+msgstr "Tillgångar med avslutad status"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Assets in draft and open states"
-msgstr "Tillgångar i preleminär eller öppen status"
+msgstr "Tillgångar som är öppna eller i utkast"
 
 #. module: account_asset
 #. odoo-python
@@ -577,7 +582,7 @@ msgid ""
 "Atleast one asset (%s) couldn't be set as running because it lacks any "
 "required information"
 msgstr ""
-"Minst en tillgång (%s) kunde inte sättas som pågående eftersom den saknar "
+"Minst en tillgång (%s) kunde inte anges som löpande eftersom den saknar "
 "nödvändig information"
 
 #. module: account_asset
@@ -610,7 +615,7 @@ msgstr "Leverantörsfakturor"
 #: code:addons/account_asset/models/account_assets_report.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__book_value
 msgid "Book Value"
-msgstr "Bokningsvärde"
+msgstr "Bokfört värde"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__can_create_asset
@@ -644,6 +649,9 @@ msgid ""
 "Check depreciation periods for new acquisitions and ensure consistency with "
 "similar assets. Document any changes in accounting methods."
 msgstr ""
+"Kontrollera avskrivningsperioder för nya införskaffningar för att "
+"säkerställa att de stämmer överens med liknande tillgångar. Dokumentera "
+"eventuella ändringar i bokföringsmetoder."
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__children_ids
@@ -659,11 +667,11 @@ msgid ""
 "  * Declining then Straight Line: Like Declining but with a minimum "
 "depreciation value equal to the straight line value."
 msgstr ""
-"Välj metoden som ska användas för att beräkna beloppet av "
-"avskrivningslinjer.\n"
-"  * Linjär: Beräknas på basis av: Bruttovärde / Varaktighet\n"
-"  * Degressiv: Beräknas på basis av: Restvärde * Degressiv faktor\n"
-"  * Degressiv sedan linjär: Som degressiv men med ett minimalt "
+"Välj den metod som ska användas för att beräkna de angivna beloppen på "
+"avskrivningsrader.\n"
+"  * Linjär: Beräknas utifrån: Bruttovärde / Varaktighet\n"
+"  * Degressiv: Beräknas utifrån: Restvärde * Degressiv faktor\n"
+"  * Degressiv sedan linjär: Samma som degressiv men med ett minsta "
 "avskrivningsvärde lika med det linjära värdet."
 
 #. module: account_asset
@@ -714,17 +722,17 @@ msgstr "Konstanta perioder"
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__count_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_move__count_asset
 msgid "Count Asset"
-msgstr "Räkna tillgång"
+msgstr "Antal tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__count_linked_asset
 msgid "Count Linked Asset"
-msgstr ""
+msgstr "Antal kopplade tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset_group__count_linked_assets
 msgid "Count Linked Assets"
-msgstr ""
+msgstr "Antal kopplade tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__country_code
@@ -782,12 +790,12 @@ msgstr "Valuta"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Current"
-msgstr "Aktuellt"
+msgstr "Aktuell"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Current Values"
-msgstr "Nuvarande värden"
+msgstr "Aktuella värden"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__invoice_ids
@@ -804,32 +812,32 @@ msgstr "Datum"
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_depreciation_beginning_date
 #: model:ir.model.fields,field_description:account_asset.field_account_move__asset_depreciation_beginning_date
 msgid "Date of the beginning of the depreciation"
-msgstr "Datum för början av avskrivningen"
+msgstr "Datum för avskrivningens start"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_assets_report.py:0
 msgid "Dec. then Straight"
-msgstr "Minskande sedan Rakt"
+msgstr "Degressiv sedan linjär"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_assets_report.py:0
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method__degressive
 msgid "Declining"
-msgstr "Minskande"
+msgstr "Degressiv"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__method_progress_factor
 msgid "Declining Factor"
-msgstr "Minskande faktor"
+msgstr "Degressionsfaktor"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method__degressive_then_linear
 msgid "Declining then Straight Line"
-msgstr "Avtagande och sedan rak linje"
+msgstr "Degressiv och sedan linjär"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__value_residual
@@ -872,18 +880,18 @@ msgstr "Avskrivningskonto"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Depreciation Board"
-msgstr "Avskrivningsinfopanel"
+msgstr "Avskrivningspanel"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Depreciation Date"
-msgstr "Avskrivningsdatutm"
+msgstr "Avskrivningsdatum"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__depreciation_move_ids
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Depreciation Lines"
-msgstr "Avskrivningsrad"
+msgstr "Avskrivningsrader"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -895,7 +903,7 @@ msgstr "Avskrivningsmetod"
 #: model:ir.actions.client,name:account_asset.action_account_report_assets
 #: model:ir.ui.menu,name:account_asset.menu_action_account_report_assets
 msgid "Depreciation Schedule"
-msgstr "Avskrivningsplan"
+msgstr "Avskrivningsplaner"
 
 #. module: account_asset
 #. odoo-python
@@ -913,12 +921,12 @@ msgstr "Avskrivningspost %(name)s bokförd (%(value)s)"
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Depreciation entry %(name)s reversed (%(value)s)"
-msgstr "Avskrivningspost %(name)s omvänd (%(value)s)"
+msgstr "Avskrivningspost %(name)s återkallad (%(value)s)"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__display_account_asset_id
 msgid "Display Account Asset"
-msgstr "Visa kontotillgång"
+msgstr "Visa tillgångskonto"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__display_name
@@ -943,19 +951,19 @@ msgstr "Avyttring"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__disposal_date
 msgid "Disposal Date"
-msgstr "Datum för Avyttring"
+msgstr "Datum för avyttring"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Disposal Move"
-msgstr "Flytt av Avyttring"
+msgstr "Avyttringspost"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Disposal Moves"
-msgstr "Flytt av Avyttringar"
+msgstr "Avyttringsposter"
 
 #. module: account_asset
 #. odoo-python
@@ -967,12 +975,12 @@ msgstr "Avyttra"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__distribution_analytic_account_ids
 msgid "Distribution Analytic Account"
-msgstr "Distribution Analytic Account"
+msgstr "Analytisk kontofördelning"
 
 #. module: account_asset
 #: model:ir.actions.server,name:account_asset.action_server_download_asset_template
 msgid "Download Asset Import Template"
-msgstr ""
+msgstr "Ladda ner mall för att importera tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__draft
@@ -983,7 +991,7 @@ msgstr "Utkast"
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__draft_asset_exists
 #: model:ir.model.fields,field_description:account_asset.field_account_move__draft_asset_exists
 msgid "Draft Asset Exists"
-msgstr "Utkast till tillgång finns"
+msgstr "Ett utkast till tillgången finns redan"
 
 #. module: account_asset
 #. odoo-python
@@ -998,7 +1006,7 @@ msgstr "Varaktighet"
 #. module: account_asset
 #: model:account.report.column,name:account_asset.assets_report_duration_rate
 msgid "Duration / Rate"
-msgstr "Varaktighet / Pris"
+msgstr "Varaktighet / Sats"
 
 #. module: account_asset
 #. odoo-python
@@ -1007,6 +1015,8 @@ msgid ""
 "Either \"Months\" or \"Years\" (case-insensitive). Specifies the unit of "
 "duration."
 msgstr ""
+"Antingen \"Månader\" eller \"År\" (skiftlägeskänsligt). Specificerar i "
+"vilken enhet varaktigheten ska anges."
 
 #. module: account_asset
 #: model:account.return.check.template,description:account_asset.account_return_check_template_monitoring_of_depreciation
@@ -1016,6 +1026,11 @@ msgid ""
 "align with tax requirements (e.g. linear depreciation, pro rata temporis "
 "application, no double declining for tax purposes)."
 msgstr ""
+"Säkerställ att avskrivningsredovisningen följer gällande "
+"skattelagstiftning.\n"
+"Bekräfta att avskrivningsmetoderna, avskrivningsperioden, samt startdatum "
+"följer gällande föreskrifter (t.ex. linjär avskrivning, tillämpning enligt "
+"pro rata temporis, samt ingen dubblerad avskrivning)."
 
 #. module: account_asset
 #. odoo-python
@@ -1032,13 +1047,13 @@ msgstr "Kostnadskonto"
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__account_asset_id
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_model_search
 msgid "Fixed Asset Account"
-msgstr "Konto för fasta tillgångar"
+msgstr "Konto för materiella tillgångar"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_return.py:0
 msgid "Fixed Assets"
-msgstr "Anläggningstillgångar"
+msgstr "Materiella tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_follower_ids
@@ -1058,7 +1073,7 @@ msgstr "Font Awesome-ikon t.ex. fa-tasks"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__form_view_ref
 msgid "Form View Ref"
-msgstr "Formulärvy Ref"
+msgstr "Formulär-vy referens"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
@@ -1084,7 +1099,7 @@ msgstr "Vinst eller förlust"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__gain_value
 msgid "Gain Value"
-msgstr "Vinst Värde"
+msgstr "Vinstvärde"
 
 #. module: account_asset
 #. odoo-python
@@ -1096,12 +1111,12 @@ msgstr "Bruttoökning"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__account_asset_id
 msgid "Gross Increase Account"
-msgstr "Konto för bruttoökning"
+msgstr "Konto för bruttoökningar"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__gross_increase_value
 msgid "Gross Increase Value"
-msgstr "Bruttoökning Värde"
+msgstr "Värde för bruttoökning"
 
 #. module: account_asset
 #. odoo-javascript
@@ -1113,7 +1128,7 @@ msgstr "Gruppera efter konto"
 #. odoo-javascript
 #: code:addons/account_asset/static/src/components/depreciation_schedule/groupby.xml:0
 msgid "Group By Asset Group"
-msgstr ""
+msgstr "Gruppera efter tillgångsgrupp"
 
 #. module: account_asset
 #. odoo-javascript
@@ -1125,7 +1140,7 @@ msgstr "Gruppera efter konto"
 #. odoo-javascript
 #: code:addons/account_asset/static/src/components/depreciation_schedule/groupby.xml:0
 msgid "Group by Asset Group"
-msgstr ""
+msgstr "Gruppera efter tillgångsgrupp"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__has_message
@@ -1163,11 +1178,14 @@ msgid ""
 "Identify acquisitions, disposals, write-offs, etc. Ensure correct accounting "
 "treatment, depreciation, and capital gains processing."
 msgstr ""
+"Identifiera införskaffningar, överlåtelser, avskrivningar, osv. Säkerställ "
+"att bokföring, avskrivningar och kapitalvinst behandlas korrekt."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
+msgstr ""
+"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__message_has_error
@@ -1181,6 +1199,8 @@ msgid ""
 "Import your fixed assets' original data and their already accumulated "
 "depreciation."
 msgstr ""
+"Importera den ursprungliga informationen samt eventuella avskrivningar som "
+"redan gjorts för anläggningstillgångar."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__already_depreciated_amount_import
@@ -1189,9 +1209,9 @@ msgid ""
 "to have the right depreciation table report. This is the value that was "
 "already depreciated with entries not computed from this model"
 msgstr ""
-"Vid import från ett annat program kan du behöva använda detta fält för att "
-"få rätt avskrivningsrapporttabell. Detta är det värde som redan har skrivits "
-"av med poster som inte har beräknats från denna modell"
+"Vid import från en extern mjukvara kan du behöva använda detta fält för att "
+"få fram rätt avskrivningstabell. Detta redovisar de avskrivningar som redan "
+"skett innan importen genomfördes"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__informational_text
@@ -1212,7 +1232,7 @@ msgstr "Är Följare"
 #: model:ir.model.fields,help:account_asset.field_account_asset__salvage_value
 #: model:ir.model.fields,help:account_asset.field_account_asset__salvage_value_pct
 msgid "It is the amount you plan to have that you cannot depreciate."
-msgstr "Belopp som enligt plan inte kan avskrivas."
+msgstr "Belopp som inte kan avskrivas enligt planen."
 
 #. module: account_asset
 #. odoo-python
@@ -1226,25 +1246,25 @@ msgstr "Journal"
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Journal Entries"
-msgstr "Bokföringsposter"
+msgstr "Verifikationer"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_move
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Journal Entry"
-msgstr "Bokföringspost"
+msgstr "Verifikation"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_move_line
 msgid "Journal Item"
-msgstr "Affärshändelse"
+msgstr "Verifikationsrad"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__original_move_line_ids
 msgid "Journal Items"
-msgstr "Affärshändelser"
+msgstr "Verifikationsrader"
 
 #. module: account_asset
 #. odoo-python
@@ -1253,7 +1273,7 @@ msgid ""
 "Journal Items of %(account)s should have a label in order to generate an "
 "asset"
 msgstr ""
-"Journalposter på %(account)s bör ha en etikett för att kunna generera en "
+"Verifikationsrader på %(account)s bör ha en etikett för att kunna skapa en "
 "tillgång"
 
 #. module: account_asset
@@ -1284,7 +1304,7 @@ msgstr "Linjär"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__linked_assets_ids
 msgid "Linked Assets"
-msgstr ""
+msgstr "Kopplade tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__asset_modify__gain_or_loss__loss
@@ -1306,7 +1326,7 @@ msgstr "Hantera objekt"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "Mandatory column. This is the name of the asset."
-msgstr ""
+msgstr "Obligatorisk kolumn. Det här är tillgångens namn."
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_has_error
@@ -1336,7 +1356,7 @@ msgstr "Modell"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__asset_properties_definition
 msgid "Model Properties"
-msgstr ""
+msgstr "Modellens egenskaper"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
@@ -1359,7 +1379,7 @@ msgstr "Ändra avskrivningar"
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_monitoring_of_depreciation
 msgid "Monitoring of Depreciation "
-msgstr ""
+msgstr "Mätning av avskrivningar"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method_period__1
@@ -1371,7 +1391,7 @@ msgstr "Månader"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "Months/Years"
-msgstr ""
+msgstr "Månader/År"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_account__multiple_assets_per_line
@@ -1384,8 +1404,8 @@ msgid ""
 "Multiple asset items will be generated depending on the bill line quantity "
 "instead of 1 global asset."
 msgstr ""
-"Flera tillgångsposter kommer att genereras beroende på antalet fakturarader "
-"i stället för en global tillgång."
+"Flera tillgångshändelser skapas beroende på antalet fakturarader i stället "
+"för att skapa en omfattande tillgång."
 
 #. module: account_asset
 #. odoo-python
@@ -1394,16 +1414,17 @@ msgid ""
 "Must match the selected company during import. Use the company's display "
 "name."
 msgstr ""
+"Måste matcha det valda företaget vid import. Använd företagets visningsnamn."
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "My Activities"
-msgstr "Mina aktivieteter"
+msgstr "Mina aktiviteter"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Mina aktiviteters deadline"
+msgstr "Tidsgräns för mina aktiviteter"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset_group__name
@@ -1413,27 +1434,27 @@ msgstr "Namn"
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_move__asset_move_type__negative_revaluation
 msgid "Negative revaluation"
-msgstr ""
+msgstr "Negativ omvärdering"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__net_gain_on_sale
 msgid "Net gain on sale"
-msgstr ""
+msgstr "Nettovinst vid försäljning"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__net_gain_on_sale
 msgid "Net value of gain or loss on sale of an asset"
-msgstr ""
+msgstr "Nettovärde för vinster eller förluster vid försäljning av en tillgång"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__value_residual
 msgid "New residual amount for the asset"
-msgstr "Nytt restvärde för tillgången"
+msgstr "Nytt återstående värde för tillgången"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__salvage_value
 msgid "New salvage amount for the asset"
-msgstr "Nytt restvärde för tillgången"
+msgstr "Nytt skrotvärde för tillgången"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_calendar_event_id
@@ -1443,12 +1464,12 @@ msgstr "Nästa aktivitetshändelse i kalendern"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Nästa slutdatum för aktivitet"
+msgstr "Nästa tidsgräns för en aktivitet"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_summary
 msgid "Next Activity Summary"
-msgstr "Nästa aktivitetssammanställning"
+msgstr "Nästa aktivitetssammanfattning"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_type_id
@@ -1465,35 +1486,35 @@ msgstr "Nej"
 #. odoo-javascript
 #: code:addons/account_asset/static/src/components/depreciation_schedule/groupby.xml:0
 msgid "No Grouping"
-msgstr ""
+msgstr "Ingen gruppering"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__prorata_computation_type__none
 msgid "No Prorata"
-msgstr "Ingen proportionell andel"
+msgstr "Ej pro-rata"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__non_deductible_tax_value
 #: model:ir.model.fields,field_description:account_asset.field_account_move_line__non_deductible_tax_value
 msgid "Non Deductible Tax Value"
-msgstr "Icke avdragsgillt skattevärde"
+msgstr "Icke-avdragsgillt skattevärde"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__salvage_value
 msgid "Not Depreciable Amount"
-msgstr "Inte avskrivningsbart Belopp"
+msgstr "Icke-avskrivningsbart belopp"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__salvage_value
 msgid "Not Depreciable Value"
-msgstr "Inte avskrivningsbart Värde"
+msgstr "Icke-avskrivningsbart värde"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__salvage_value_pct
 msgid "Not Depreciable Value Percent"
-msgstr ""
+msgstr "Icke-avskrivningsbart värde i procent"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__name
@@ -1519,7 +1540,7 @@ msgstr "Antal månader i en period"
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__gross_increase_count
 msgid "Number of assets made to increase the value of the asset"
-msgstr "Antal tillgångar som gjorts för att öka tillgångens värde"
+msgstr "Antal tillgångar som skapats för att öka tillgångens värde"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_number_days
@@ -1530,7 +1551,7 @@ msgstr "Antal dagar"
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__total_depreciation_entries_count
 msgid "Number of depreciation entries (posted or not)"
-msgstr "Antal avskrivningsposter (bokförda eller inte)"
+msgstr "Antal avskrivningsposter (bokförda eller icke)"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_has_error_counter
@@ -1555,6 +1576,10 @@ msgid ""
 "recorded for this period. Ensure assets are properly registered for "
 "automatic depreciation calculation."
 msgstr ""
+"Odoo hanterar avskrivningar för dina anläggningstillgångar. Ingen "
+"avskrivning har registrerats för den här perioden. Försäkra dig om att "
+"tillgångar är korrekt registrerade för att kunna använda dig av automatisk "
+"beräkning av avskrivningar."
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__paused
@@ -1568,12 +1593,14 @@ msgid ""
 "Only applicable for Declining Balance method (e.g., 2 for double declining). "
 "Ignored for Straight Line."
 msgstr ""
+"Endast tillämpbart vid degressiv avskrivning (t.ex. 2 för dubbel degressiv "
+"avskrivning). Ignoreras vid linjär avskrivning."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_assets_report.py:0
 msgid "Open Asset"
-msgstr "Öppen Tillgång"
+msgstr "Öppna tillgång"
 
 #. module: account_asset
 #. odoo-python
@@ -1582,6 +1609,8 @@ msgid ""
 "Optional. The name or external ID of the asset group. Must exist in Odoo "
 "(e.g., Office Equipment, Vehicles, Machinery)."
 msgstr ""
+"Valfritt. Tillgångsgruppens namn eller externa ID-nummer. Måste redan finnas "
+"i Odoo (t.ex., kontorsutrustning, fordon, maskineri)."
 
 #. module: account_asset
 #. odoo-python
@@ -1601,7 +1630,7 @@ msgstr "Överordnad"
 #: code:addons/account_asset/models/account_asset.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Parent Asset"
-msgstr "Huvudtillgång"
+msgstr "Överordnad tillgång"
 
 #. module: account_asset
 #. odoo-python
@@ -1613,7 +1642,7 @@ msgstr "Pausa"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__paused_prorata_date
 msgid "Paused Prorata Date"
-msgstr "Pausat proportionellt datum"
+msgstr "Datum för pausad pro-rata"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_model_tree
@@ -1623,30 +1652,30 @@ msgstr "Periodens längd"
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_move__asset_move_type__positive_revaluation
 msgid "Positive revaluation"
-msgstr ""
+msgstr "Positiv omvärdering"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Posted Entries"
-msgstr "Bokförda verifikat"
+msgstr "Bokförda verifikationer"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__asset_properties
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Properties"
-msgstr "Fastigheter"
+msgstr "Egenskaper"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__prorata_date
 msgid "Prorata Date"
-msgstr "Prorata Datum"
+msgstr "Datum för pro-rata"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_move__asset_move_type__purchase
 msgid "Purchase"
-msgstr "Köp"
+msgstr "Inköp"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__rating_ids
@@ -1675,7 +1704,7 @@ msgstr "Relaterat inköpsvärde"
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Reset to running"
-msgstr "Återställs till pågående"
+msgstr "Återställ till löpande"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__activity_user_id
@@ -1687,7 +1716,7 @@ msgstr "Ansvarig användare"
 #: code:addons/account_asset/wizard/asset_modify.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
 msgid "Resume"
-msgstr "Meritförteckning"
+msgstr "Återuppta"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -1701,18 +1730,17 @@ msgid ""
 "Reverse the depreciation entries posted in the future in order to modify the "
 "depreciation"
 msgstr ""
-"Återkalla de avskrivningsposter som bokförs i framtiden för att ändra "
-"avskrivningarna"
+"Återkalla framtida avskrivningsposter för att kunna redigera avskrivningen"
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_review_depreciation_periods_new_acquisitions
 msgid "Review depreciation periods for new acquisitions"
-msgstr ""
+msgstr "Granska avskrivningsperioder för nya tillgångar"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__open
 msgid "Running"
-msgstr "Pågående"
+msgstr "Löpande"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_has_sms_error
@@ -1750,23 +1778,23 @@ msgstr "Sälj"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Set to Draft"
-msgstr "Sätt till utkast"
+msgstr "Ändra till utkast"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Set to Running"
-msgstr "Ställ in på Pågående"
+msgstr "Ange som löpande"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Show all records whose next activity date is past"
-msgstr "Visa alla poster vars nästa aktivitetsdatum är passerat"
+msgstr "Visa alla handlingar vars nästkommande aktivitetsdatum har passerat"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Some fields are missing %s"
-msgstr "Vissa fält saknas %s"
+msgstr "Vissa fält saknar %s"
 
 #. module: account_asset
 #. odoo-python
@@ -1781,6 +1809,8 @@ msgid ""
 "Start date of the depreciation period. Should be in MM-DD-YYYY format. If "
 "left blank, it defaults to the acquisition date."
 msgstr ""
+"Avskrivningsperiodens startdatum. Bör anges i formatet MM-DD-YYYY. Om fältet "
+"lämnas tomt, så används istället införskaffningsdatumet."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__prorata_date
@@ -1788,8 +1818,8 @@ msgid ""
 "Starting date of the period used in the prorata calculation of the first "
 "depreciation"
 msgstr ""
-"Startdatum för perioden som används i den proportionella beräkningen av den "
-"första avskrivningen"
+"Startdatum för perioden som används i pro-rata-beräkningen av den första "
+"avskrivningen"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__state
@@ -1805,14 +1835,14 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baserad på aktiviteter\n"
-"Försenade: Leveranstidpunkten har passerat\n"
-"Idag: Aktivitetsdatum är idag\n"
-"Kommande: Framtida aktiviteter."
+"Försenade: Aktivitetsdatum har redan passerat\n"
+"Idag: Aktivitetsdatum är dagens datum\n"
+"Planerade: Kommande aktiviteter."
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method__linear
 msgid "Straight Line"
-msgstr "Rak linje"
+msgstr "Linjär"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__book_value
@@ -1820,8 +1850,8 @@ msgid ""
 "Sum of the depreciable value, the salvage value and the book value of all "
 "value increase items"
 msgstr ""
-"Summan av det avskrivningsbara värdet, återvinningsvärdet och det bokförda "
-"värdet av alla värdehöjande poster"
+"Summan av det avskrivningsbara värdet, skrotvärdet samt det bokförda värdet "
+"av alla värdehöjande verifikationsrader"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__country_code
@@ -1851,18 +1881,21 @@ msgid ""
 "The accumulated depreciation account (contra-asset account). Must exist in "
 "Odoo and be of \"Fixed Asset\" or \"Non-current Assets\" type."
 msgstr ""
+"Kontot för ackumulerade avskrivningar (motkonto till tillgångar). Måste "
+"finnas i Odoo och vara av typen \"Materiella tillgångar\" eller "
+"\"Anläggningstillgångar\"."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__method_period
 #: model:ir.model.fields,help:account_asset.field_asset_modify__method_period
 msgid "The amount of time between two depreciations"
-msgstr "Tiden mellan två avskrivningar"
+msgstr "Tid mellan två avskrivningar"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "The amount will be considered in company currency."
-msgstr ""
+msgstr "Beloppet tas i beräkning i företagets valuta."
 
 #. module: account_asset
 #. odoo-python
@@ -1872,9 +1905,9 @@ msgid ""
 "Purchase's value (%(purchase_value)s). Please make sure this is what you "
 "want."
 msgstr ""
-"Beloppet du har angett (%(entered_amount)s) matchar inte värdet på den "
-"relaterade inköpet (%(purchase_value)s). Vänligen säkerställ att detta är "
-"vad du vill."
+"Beloppet du har angett (%(entered_amount)s) stämmer inte överens med värdet "
+"på den relaterade inköpet (%(purchase_value)s). Vänligen kontrollera att "
+"detta är den önskade åtgärden."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__asset_id
@@ -1889,11 +1922,14 @@ msgid ""
 "Asset\"). Must exist in Odoo and be of \"Fixed Asset\" or \"Non-current "
 "Assets\" type."
 msgstr ""
+"Det konto i balansräkningen som är kopplat till tillgången (t.ex., \"151000 "
+"Materiella tillgångar\"). Måste finnas i Odoo och vara av typen "
+"\"\"Materiella tillgångar\" eller \"Anläggningstillgångar\"."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__children_ids
 msgid "The children are the gains in value of this asset"
-msgstr "De underordnade är värdeökningen av denna tillgång"
+msgstr "De underordnade utgör vinsten i tillgångens värde"
 
 #. module: account_asset
 #. odoo-python
@@ -1903,13 +1939,16 @@ msgid ""
 "(e.g., MISC - Miscellaneous Operations, INV - Customer Invoices, BILL - "
 "Vendor Bills)."
 msgstr ""
+"Koden eller namnet på den relaterade bokföringsjournalen i Odoo för "
+"avskrivningsposter (t.ex., MISC - Diverse operationer, INV - Kundfakturor, "
+"BILL - Leverantörsfakturor)."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__invoice_ids
 msgid ""
 "The disposal invoice is needed in order to generate the closing journal "
 "entry."
-msgstr "Avyttringsfakturan behövs för att skapa den avslutande journalposten."
+msgstr "En avyttringsfaktura krävs för att skapa det utgående saldot."
 
 #. module: account_asset
 #. odoo-python
@@ -1918,6 +1957,8 @@ msgid ""
 "The estimated residual value of the asset at the end of its useful life. "
 "This amount will not be depreciated. Considered in company currency."
 msgstr ""
+"Det uppskattade återstående värdet för tillgången vid slutet på dess "
+"ekonomiska livslängd. Beloppet skrivs inte av. Anges i företagets valuta."
 
 #. module: account_asset
 #. odoo-python
@@ -1927,11 +1968,14 @@ msgid ""
 "\"630000 Depreciation Expenses\"). Must exist in Odoo and be of "
 "\"Depreciation\" or \"Expense\" type."
 msgstr ""
+"Kostnadskonto för att bokföra periodvisa avskrivningsposter (t.ex., \"630000 "
+"Avskrivningskostnader\"). Måste finnas i Odoo och vara av typen "
+"\"Avskrivningar\" eller \"Kostnader\"."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__method_number
 msgid "The number of depreciations needed to depreciate your asset"
-msgstr "Antal avskrivningar för att anse tillgången helt avskriven"
+msgstr "Antal avskrivningar för att tillgången ska anses vara helt avskriven"
 
 #. module: account_asset
 #. odoo-python
@@ -1946,6 +1990,8 @@ msgid ""
 "The total amount of depreciation already recorded for the asset before "
 "import. This amount will be considered in company currency."
 msgstr ""
+"Det totalt avskrivna beloppet som redan registrerats för tillgången innan "
+"importen. Beloppet anges i företagets valuta."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__invoice_line_ids
@@ -1959,8 +2005,8 @@ msgid ""
 "There are unposted depreciations prior to the selected operation date, "
 "please deal with them first."
 msgstr ""
-"Det finns oredovisade avskrivningar före det valda driftdatumet, vänligen "
-"hantera dem först."
+"Det finns oredovisade avskrivningar före det valda datumet, vänligen hantera "
+"dem först."
 
 #. module: account_asset
 #. odoo-javascript
@@ -1971,7 +2017,7 @@ msgstr "Denna flytt har återkallats"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_search
 msgid "Today Activities"
-msgstr "Välj ledighetstyp"
+msgstr "Dagens aktiviteter"
 
 #. module: account_asset
 #. odoo-python
@@ -1988,7 +2034,7 @@ msgstr "Totalt avskrivningsbart värde"
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Turn as an asset"
-msgstr "Omvandlas till en tillgång"
+msgstr "Omvandla till en tillgång"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__account_type
@@ -2025,7 +2071,7 @@ msgstr "Synlig för alla"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__warning_count_assets
 msgid "Warning Count Assets"
-msgstr ""
+msgstr "Varning om antal tillgångar"
 
 #. module: account_asset
 #. odoo-python
@@ -2041,7 +2087,7 @@ msgstr "Hemsidesmeddelanden"
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__website_message_ids
 msgid "Website communication history"
-msgstr "Webbplatsens kommunikationshistorik"
+msgstr "Hemsidans kommunikationshistorik"
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_account_asset__state
@@ -2054,18 +2100,18 @@ msgid ""
 "You can manually close an asset when the depreciation is over.\n"
 "By cancelling an asset, all depreciation entries will be reversed"
 msgstr ""
-"När en tillgång skapas är statusen ’Utkast’.\n"
-"Om tillgången bekräftas ändras statusen till ’Pågående’ och "
-"avskrivningslinjerna kan bokföras i redovisningen.\n"
+"När en tillgång skapas är dess status ’Utkast’.\n"
+"Om tillgången bekräftas ändras statusen till ’Löpande’ och "
+"avskrivningsraderna kan redovisas i bokföringen.\n"
 "Statusen ’Pausad’ kan ställas in manuellt när du vill pausa avskrivningen av "
-"en tillgång för en tid.\n"
+"en tillgång under en viss tid.\n"
 "Du kan manuellt avsluta en tillgång när avskrivningen är över.\n"
-"Genom att annullera en tillgång kommer alla avskrivningsposter att reverseras"
+"Genom att annullera en tillgång återkallas alla avskrivningsposter"
 
 #. module: account_asset
 #: model_terms:ir.actions.act_window,help:account_asset.action_account_asset_form
 msgid "With our template"
-msgstr ""
+msgstr "Med vår mall"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method_period__12
@@ -2078,6 +2124,8 @@ msgstr "År"
 #: code:addons/account_asset/static/src/views/fields/properties/properties_field.js:0
 msgid "You can add Property fields only on Assets with an Asset Model set."
 msgstr ""
+"Det är bara möjligt att lägga till egenskapsfält på tillgångar med angivna "
+"tillgångsmodeller."
 
 #. module: account_asset
 #. odoo-python
@@ -2086,14 +2134,15 @@ msgid ""
 "You can't post an entry related to a draft asset. Please post the asset "
 "before."
 msgstr ""
-"Du kan inte bokföra en post relaterad till en utkaststillgång. Vänligen "
-"bokför tillgången först."
+"Det är inte möjligt att redovisa en post relaterad till en tillgång i "
+"utkast. Vänligen redovisa först själva tillgången."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "You can't re-evaluate the asset before the lock date."
-msgstr "Du kan inte omvärdera tillgången före spärrdatumet."
+msgstr ""
+"Det är inte möjligt att omvärdera en tillgång innan gällande låsningsdatum."
 
 #. module: account_asset
 #. odoo-python
@@ -2101,12 +2150,14 @@ msgstr "Du kan inte omvärdera tillgången före spärrdatumet."
 msgid ""
 "You cannot add or remove bills when the asset is already running or closed."
 msgstr ""
+"Det är inte möjligt att lägga till eller ta bort leverantörsfakturor när "
+"tillgången redan används eller är avslutad."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "You cannot archive a record that is not closed"
-msgstr "Du kan inte arkivera en post som inte är avslutad"
+msgstr "Det är inte möjligt att arkivera en handling som inte är avslutad"
 
 #. module: account_asset
 #. odoo-python
@@ -2116,8 +2167,8 @@ msgid ""
 "You cannot automate the journal entry for an asset that has a running gross "
 "increase. Please use 'Dispose' on the increase(s)."
 msgstr ""
-"Du kan inte automatisera journalanteckningen för en tillgång som har en "
-"pågående ökning av bruttobeloppet. Använd ”Avyttra” för ökningen/ökningarna."
+"Det är inte möjligt att automatisera verifikationer för en tillgång som har "
+"en löpande bruttovärdeökning. Vänligen \"Avyttra\" ökningen."
 
 #. module: account_asset
 #. odoo-python
@@ -2126,14 +2177,14 @@ msgid ""
 "You cannot create an asset from lines containing credit and debit on the "
 "account or with a null amount"
 msgstr ""
-"Du kan inte skapa en tillgång från rader som innehåller kredit och debet på "
-"kontot eller med ett nollbelopp"
+"Det är inte möjligt att skapa en tillgång utifrån rader som innehåller både "
+"kredit och debet på kontot eller som har ett nollställt belopp"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "You cannot delete a document that is in %s state."
-msgstr "Du kan inte radera ett dokument som är i status %s."
+msgstr "Det är inte möjligt att radera ett dokument som har status %s."
 
 #. module: account_asset
 #. odoo-python
@@ -2143,36 +2194,39 @@ msgid ""
 "You should either confirm the asset, then, sell or dispose of it, or cancel "
 "the linked journal entries."
 msgstr ""
-"Du kan inte ta bort en tillgång som är kopplad till bokförda poster.\n"
-"Du måste antingen bekräfta tillgången och sedan sälja eller avyttra den "
-"eller makulera de kopplade journalposterna."
+"Det är inte möjligt att radera en tillgång som är kopplad till bokförda "
+"verifikationer.\n"
+"Du bör antingen bekräfta tillgången för att därefter sälja eller avyttra "
+"den, eller makulera relaterade verifikationer."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "You cannot dispose of an asset before the lock date."
-msgstr "Du kan inte avyttra en tillgång före spärrdatumet."
+msgstr ""
+"Det är inte möjligt att avyttra en tillgång innan gällande låsningsdatum."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "You cannot reset to draft an entry related to a posted asset"
 msgstr ""
-"Du kan inte återställa till utkast en post som avser en bokförd tillgång"
+"Det är inte möjligt att återställa en post relaterad till en bokförd "
+"tillgång till utkast"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "You cannot resume at a date equal to or before the pause date"
 msgstr ""
-"Du kan inte återuppta arbetet vid ett datum som är lika med eller tidigare "
-"än pausdatumet"
+"Det är inte möjligt att återuppta avskrivningar före eller på samma datum "
+"som pausen"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "You cannot select the same account as the Depreciation Account"
-msgstr "Du kan inte välja samma konto som avskrivningskonto"
+msgstr "Det är inte möjligt att välja samma konto som avskrivningskontot"
 
 #. module: account_asset
 #. odoo-python
@@ -2202,7 +2256,7 @@ msgstr "acquisition_date"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "already_depreciated_amount_import"
-msgstr ""
+msgstr "already_depreciated_amount_import"
 
 #. module: account_asset
 #. odoo-python
@@ -2242,7 +2296,7 @@ msgstr "avskrivningsbara)"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "e.g. 01-27-2025 (format: MM-DD-YYYY)"
-msgstr ""
+msgstr "t.ex. 01-27-2025 (format: MM-DD-YYYY)"
 
 #. module: account_asset
 #. odoo-python
@@ -2251,11 +2305,13 @@ msgid ""
 "e.g. 3 for 3 years, or 12 for 12 months. It must be an integer representing "
 "the total number of periods."
 msgstr ""
+"t.ex. 3 för 3 år, eller 12 för 12 månader. Det måste bestå av ett heltal som "
+"representerar det totala antalet tidsperioder."
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "e.g. Laptop iBook"
-msgstr "t.ex. Bärbar dator MacBook Pro"
+msgstr "t.ex. Bärbar dator iBook"
 
 #. module: account_asset
 #. odoo-python
@@ -2264,6 +2320,8 @@ msgid ""
 "e.g. No Prorata, Constant Periods, Based on days per period. This determines "
 "how the first depreciation entry is calculated."
 msgstr ""
+"t.ex. Utan pro-rata, Konstanta perioder, eller Baserat på antal dagar per "
+"period. Detta avgör hur den första periodiseringsposten ska beräknas."
 
 #. module: account_asset
 #. odoo-python
@@ -2272,6 +2330,8 @@ msgid ""
 "e.g. Straight Line, Declining Balance. Determines how depreciation is "
 "calculated."
 msgstr ""
+"t.ex. linjär eller degressiv avskrivning. Avgör hur avskrivningen ska "
+"beräknas."
 
 #. module: account_asset
 #. odoo-python
@@ -2283,7 +2343,7 @@ msgstr "poster"
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "entry"
-msgstr "inträde"
+msgstr "post"
 
 #. module: account_asset
 #. odoo-python
@@ -2319,31 +2379,31 @@ msgstr "metod"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "method_number"
-msgstr ""
+msgstr "method_number"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "method_period"
-msgstr ""
+msgstr "method_period"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "method_progress_factor"
-msgstr ""
+msgstr "method_progress_factor"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "modify"
-msgstr "ändra"
+msgstr "redigera"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "original_value"
-msgstr ""
+msgstr "original_value"
 
 #. module: account_asset
 #. odoo-python
@@ -2355,7 +2415,7 @@ msgstr "paus"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "prorata_computation_type"
-msgstr ""
+msgstr "prorata_computation_type"
 
 #. module: account_asset
 #. odoo-python
@@ -2367,13 +2427,19 @@ msgstr "prorata_date"
 #. odoo-python
 #: code:addons/account_asset/controller/asset_template_controller.py:0
 msgid "salvage_value"
-msgstr ""
+msgstr "salvage_value"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "sell"
-msgstr ""
+msgstr "sälj"
+
+#~ msgid "Asset disposed. %s"
+#~ msgstr "Tillgång avyttrad. %s"
+
+#~ msgid "Asset sold. %s"
+#~ msgstr "Tillgång avyttrad. %s"
 
 #~ msgid " (copy)"
 #~ msgstr " (kopia)"

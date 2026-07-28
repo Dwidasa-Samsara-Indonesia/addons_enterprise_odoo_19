@@ -3,7 +3,7 @@ import logging
 from collections import defaultdict
 
 from odoo import _lt, api, fields, models
-from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.exceptions import AccessError, RedirectWarning, UserError, ValidationError
 from odoo.tools import format_date
 
 from odoo.addons.hr_expense_stripe.utils import STRIPE_CURRENCY_MINOR_UNITS, make_request_stripe_proxy
@@ -217,7 +217,11 @@ class HrExpenseStripeCard(models.Model):
     def _check_company_id(self):
         for card in self:
             if not card.company_id.stripe_id:
-                raise ValidationError(self.env._("The Stripe issuing account isn't properly set. Please connect to Stripe in the settings"))
+                raise RedirectWarning(
+                    message=self.env._("The Stripe issuing account isn't properly set. Please connect to Stripe in the settings"),
+                    action=self.env.ref("hr_expense.action_hr_expense_configuration").id,
+                    button_text=self.env._("Expense Settings"),
+                )
 
     @api.constrains('employee_id')
     def _check_employee_has_user(self):
@@ -448,7 +452,7 @@ class HrExpenseStripeCard(models.Model):
         """ Check if the card employee is still valid, and apply spending policy rules
 
         :param float amount: The amount of the payment to check
-        :param :class:`~hr_expense_stripe.models.product_mcc_stripe_tag.ProductMCCSTripeTag` mcc: The MCC of the merchant
+        :param :class:`~hr_expense_stripe.models.product_mcc_stripe_tag.ProductMCCSTripeTag` mcc: The MCC fake record of the merchant
         :param :class:`~odoo.addons.base.models.res_country.ResCountry` country: The country of the merchant
         :return: (can_pay, refusal_reason)
         :rtype: tuple[bool, str]
@@ -491,16 +495,14 @@ class HrExpenseStripeCard(models.Model):
         if card_country_ids and country.id not in card_country_ids:
             return False, self.env._("Country %(country_name)s not allowed", country_name=country.name)
 
-        # Validate MCC
-        if not mcc:
-            return False, self.env._("No MCC found")
-
         valid_mcc = card.env['product.mcc.stripe.tag'].search([('product_id', '!=', False)])
         if not valid_mcc:
             return False, self.env._("No MCC is properly set")
 
-        if mcc not in (card.spending_policy_category_tag_ids or valid_mcc):  # If no MCC is set, we allow all valid MCCs
-            return False, self.env._("MCC %(mcc_code)s %(mcc_name)s not allowed", mcc_name=mcc.name, mcc_code=mcc.code)
+        card_mccs = card.spending_policy_category_tag_ids or valid_mcc  # If no MCC is set, we allow all valid MCCs
+        error = card_mccs._get_mcc_invalid_reason(mcc.code)
+        if error:  # If no product, there will always be an error message
+            return False, error
 
         # Validate Limits
         existing_expenses_data = process_existing_expenses_data(card.env['hr.expense']._read_group(

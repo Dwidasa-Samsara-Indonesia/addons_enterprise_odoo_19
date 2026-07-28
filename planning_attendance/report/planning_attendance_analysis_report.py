@@ -60,7 +60,7 @@ class PlanningAttendanceAnalysisReport(models.Model):
                           S.company_id AS company_id,
                           E.hourly_cost AS hourly_cost,
                           0.0 AS worked_hours,
-                          S.allocated_hours AS allocated_hours
+                          (S.allocated_hours / NULLIF((S.end_datetime::date - S.start_datetime::date + 1), 0)) AS allocated_hours
                      FROM generate_series(
                             (SELECT min(start_datetime) FROM planning_slot)::date,
                             CURRENT_DATE,

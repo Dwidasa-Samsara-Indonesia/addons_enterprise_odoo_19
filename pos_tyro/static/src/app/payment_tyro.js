@@ -7,6 +7,7 @@ import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { TYRO_LIB_URLS } from "@pos_tyro/urls";
 import { FailureDialog } from "@pos_tyro/app/components/failure_dialog";
 import { QuestionDialog } from "@pos_tyro/app/components/question_dialog";
+import { _t } from "@web/core/l10n/translation";
 
 export class PaymentTyro extends PaymentInterface {
     setup() {
@@ -45,8 +46,10 @@ export class PaymentTyro extends PaymentInterface {
         if (!this.pos.config.tip_product_id || !this.pos.config.iface_tipproduct) {
             this.pos.addTyroSurcharge(tipAmount, this.payment_method_id.tyro_surcharge_product_id);
             this._showError(
-                "A tip was added on the Tyro terminal, but tipping is not enabled for this Point of Sale. It will instead be recorded as a surcharge.",
-                "Tyro Warning"
+                _t(
+                    "A tip was added on the Tyro terminal, but tipping is not enabled for this Point of Sale. It will instead be recorded as a surcharge."
+                ),
+                _t("Tyro Warning")
             );
         } else {
             const tipProduct = this.pos.config.tip_product_id;
@@ -149,7 +152,7 @@ export class PaymentTyro extends PaymentInterface {
         const amountDue = order.remainingDue;
         const line = order.getSelectedPaymentline();
         if (totalAmount < 0 && amountDue > line.amount) {
-            this._showError("You cannot refund more than the original amount.");
+            this._showError(_t("You cannot refund more than the original amount."));
             return false;
         }
         return true;
@@ -242,7 +245,7 @@ export class PaymentTyro extends PaymentInterface {
 
     _showError(msg, title) {
         if (!title) {
-            title = "Tyro Error";
+            title = _t("Tyro Error");
         }
         this.dialog.add(AlertDialog, {
             title: title,

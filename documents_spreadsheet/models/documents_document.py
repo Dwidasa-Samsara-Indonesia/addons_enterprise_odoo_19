@@ -195,6 +195,9 @@ class DocumentsDocument(models.Model):
         spreadsheet_docs.file_extension = False
         super(DocumentsDocument, self - spreadsheet_docs)._compute_file_extension()
 
+    def _has_versioning(self):
+        return super()._has_versioning() and self.handler not in ("spreadsheet", "frozen_spreadsheet")
+
     @api.depends("attachment_id", "handler")
     def _compute_spreadsheet_data(self):
         for document in self.with_context(bin_size=False):

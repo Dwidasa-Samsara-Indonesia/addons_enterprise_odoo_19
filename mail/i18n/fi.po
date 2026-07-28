@@ -37,24 +37,25 @@
 # Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2023
 # Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2023
 # Tuomo Aura <tuomo.aura@web-veistamo.fi>, 2023
-# "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tiffany Chang (tic)" <tic@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # Saara Hakanen <sahak@odoo.com>, 2025, 2026.
+# Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-04-07 09:12+0000\n"
+"POT-Creation-Date: 2026-07-17 17:37+0000\n"
+"PO-Revision-Date: 2026-07-24 12:09+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
-"Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/mail/fi/"
-">\n"
+"Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/mail/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_ir_actions_server__followers_type
@@ -1193,15 +1194,15 @@ msgid ""
 "                    (e.g. \"Onboarding\", \"Prospect Follow-up\", \"Project "
 "Milestone Meeting\", ...)"
 msgstr ""
-"Toimintasuunnitelmien avulla voidaan määrittää luettelo toiminnoista vain "
-"muutamalla napsautuksella\n"
-"                    (esim. \"Perehdytys\", \"Prospektin seuranta\", "
-"\"Projektin virstanpylväspalaveri\", ...)"
+"Toimintasuunnitelmien avulla voi määrittää luettelon toimenpiteistä vain "
+"muutamalla klikkauksella\n"
+"                    (esim. \"Perehdytys\", \"Potentiaalisen asiakkaan "
+"seuranta\", \"Projektin välitavoitepalaveri\", ...)"
 
 #. module: mail
 #: model:ir.model,name:mail.model_mail_activity_schedule
 msgid "Activity schedule plan Wizard"
-msgstr "Toiminta-aikataulun suunnittelun ohjattu toiminto"
+msgstr "Ohjattu toimenpideaikataulun suunnittelutoiminto"
 
 #. module: mail
 #. odoo-javascript
@@ -1263,24 +1264,34 @@ msgid "Add Star"
 msgstr "Lisää tähti"
 
 #. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/core/common/message_actions.js:0
-msgid "Add a Reaction"
-msgstr "Lisää reaktio"
-
-#. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Add a Tenor GIF API key to enable GIFs support."
-msgstr "Lisää Tenor GIF API -avain ottaaksesi GIF:t käyttöön."
+msgid ""
+"Add a Klipy GIF API key to enable GIFs support. If you were using a Tenor "
+"GIF API key (service shutdown on June 30, 2026), please replace it here with "
+"a Klipy GIF API key"
+msgstr ""
+"Lisää Klipy GIF API-avain ottaaksesi GIF-tuen käyttöön. Jos olet käyttänyt "
+"Tenor GIF API-avainta (palvelu lopetetaan 30. kesäkuuta 2026), korvaa se "
+"tässä Klipy GIF API-avaimella"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings__tenor_api_key
 msgid ""
-"Add a Tenor GIF API key to enable GIFs support. https://"
-"developers.google.com/tenor/guides/quickstart#setup"
+"Add a Klipy GIF API key to enable GIFs support. https://docs.klipy.com/"
+"getting-started\n"
+"If you were using a Tenor GIF API key (service shutdown on June 30, 2026), "
+"please replace it here with a Klipy GIF API key"
 msgstr ""
-"Lisää Tenor GIF API -avain ottaaksesi GIF:t käyttöön. https://"
-"developers.google.com/tenor/guides/quickstart#setup"
+"Lisää Klipy GIF API-avain ottaaksesi GIF-tuen käyttöön. https://"
+"docs.klipy.com/getting-started\n"
+"Jos olet käyttänyt Tenor GIF API-avainta (palvelu lopetetaan 30. kesäkuuta "
+"2026), korvaa se tässä Klipy GIF API-avaimella"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/message_actions.js:0
+msgid "Add a Reaction"
+msgstr "Lisää reaktio"
 
 #. module: mail
 #. odoo-javascript
@@ -2003,12 +2014,12 @@ msgstr "Pohja"
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__mail_template__template_category__base_template
 msgid "Base Template"
-msgstr "Pohjamalli"
+msgstr "Perusmallipohja"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_template_search
 msgid "Base Templates"
-msgstr "Pohjamallit"
+msgstr "Perusmallipohjat"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings__sfu_server_key
@@ -3376,12 +3387,12 @@ msgstr "Mukautettu SFU-palvelin"
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__mail_template__template_category__custom_template
 msgid "Custom Template"
-msgstr "Mukautettu malli"
+msgstr "Mukautettu mallipohja"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_template_search
 msgid "Custom Templates"
-msgstr "Mukautetut mallit"
+msgstr "Mukautetut mallipohjat"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_discuss_channel_member__custom_channel_name
@@ -4661,6 +4672,13 @@ msgid ""
 "Template Source Snippet:\n"
 "%(template_src)s"
 msgstr ""
+"Renderöinti epäonnistui QWeb-mallipohjalle %(template_label)s\n"
+"Kohdemalli: %(model_name)s\n"
+"Kielikonteksti: %(lang_context)s\n"
+"Virhe: %(error_details)s\n"
+"\n"
+"Mallipohjan lähdekoodin katkelma:\n"
+"%(template_src)s"
 
 #. module: mail
 #. odoo-python
@@ -5333,7 +5351,7 @@ msgstr "Piilotettu"
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__mail_template__template_category__hidden_template
 msgid "Hidden Template"
-msgstr "Kätketty malli"
+msgstr "Piilotettu mallipohja"
 
 #. module: mail
 #. odoo-javascript
@@ -5726,6 +5744,16 @@ msgstr "Jos haluat ottaa SFU-palvelimen käyttöön suurille ryhmäpuheluille."
 #: model:ir.model.fields,help:mail.field_res_config_settings__use_twilio_rtc_servers
 msgid "If you want to use twilio as TURN/STUN server provider"
 msgstr "If you want to use Twilio as TURN/STUN server provider"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid ""
+"If you were using a Tenor API key, please replace it with a Klipy API key in "
+"the General Settings."
+msgstr ""
+"Jos olet käyttänyt Tenor API-avainta, korvaa se Klipy API-avaimella "
+"yleisasetuksissa."
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_discuss_channel__image_128
@@ -6281,10 +6309,10 @@ msgid ""
 "- auth: The auth value should be treated as a secret and not shared outside "
 "of Odoo"
 msgstr ""
-"Viittaa selaimen näppäimiin, joita ilmoitus käyttää:\n"
+"Viittaa ilmoituksen käyttämiin sovellusavaimiin:\n"
 "- p256dh: Se on selaimen luoma tilauksen julkinen avain. Selain\n"
 "          pitää yksityisen avaimen salassa ja käyttää sitä hyötykuorman "
-"purkamiseen\n"
+"salauksen purkamiseen\n"
 "- auth: Auth-arvoa on käsiteltävä salaisuutena, eikä sitä saa jakaa Odoon "
 "ulkopuolelle"
 
@@ -6402,6 +6430,16 @@ msgstr "Avain"
 #: model_terms:ir.ui.view,arch_db:mail.message_notification_limit_email
 msgid "Kind Regards"
 msgstr "Ystävällisin terveisin"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
+msgid "Klipy API key"
+msgstr "Klipy API-avain"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF API key"
+msgstr "Klipy GIF API-avain"
 
 #. module: mail
 #. odoo-javascript
@@ -6771,7 +6809,7 @@ msgstr "Kirjaa sisäinen huomautus…"
 #: code:addons/mail/static/src/chatter/web/chatter.xml:0
 #: code:addons/mail/static/src/core/common/composer.js:0
 msgid "Log note"
-msgstr "Kirjaa muistiinpano"
+msgstr "Muistiinpano"
 
 #. module: mail
 #. odoo-javascript
@@ -6920,7 +6958,7 @@ msgstr "Viestipohja: '%(name)s' (Tunnus: %(record_id)s)"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.model_search_view
 msgid "Mail Thread"
-msgstr "Sähköpostiketju"
+msgstr "Viestiketju"
 
 #. module: mail
 #: model:ir.model,name:mail.model_mail_tracking_value
@@ -7083,7 +7121,7 @@ msgstr "Merkitse tehdyksi"
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid "Mass Mailing Template: '%(name)s' (ID: %(record_id)s)"
-msgstr ""
+msgstr "Massapostituksen mallipohja: '%(name)s' (Tunnus: %(record_id)s)"
 
 #. module: mail
 #. odoo-javascript
@@ -7222,7 +7260,7 @@ msgstr "Ongelma viestin toimituksessa"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_tracking_value__mail_message_id
 msgid "Message ID"
-msgstr "Viestin ID"
+msgstr "Viestin tunnus"
 
 #. module: mail
 #. odoo-javascript
@@ -7288,7 +7326,7 @@ msgstr "Viestin id, jonka edessä erottimen pitäisi näkyä"
 
 #. module: mail
 #. odoo-javascript
-#: code:addons/mail/static/src/core/common/composer.js:0
+#: code:addons/mail/static/src/core/common/store_service.js:0
 msgid "Message posted on \"%s\""
 msgstr "Viesti lähetetty kohteeseen \"%s\""
 
@@ -7362,7 +7400,7 @@ msgstr "Viestin yksilöivä tunniste"
 #: model:ir.model.fields,field_description:mail.field_mail_mail__message_id
 #: model:ir.model.fields,field_description:mail.field_mail_message__message_id
 msgid "Message-Id"
-msgstr "Viestin ID"
+msgstr "Viestin tunnus"
 
 #. module: mail
 #. odoo-javascript
@@ -8475,7 +8513,7 @@ msgstr "Avaa Keskustelusovellus"
 #: model_terms:ir.ui.view,arch_db:mail.mail_alias_view_form
 #: model_terms:ir.ui.view,arch_db:mail.mail_alias_view_tree
 msgid "Open Document"
-msgstr "Avaa dokumentti"
+msgstr "Avaa asiakirja"
 
 #. module: mail
 #. odoo-javascript
@@ -9828,7 +9866,7 @@ msgstr "Vaihda salasana"
 #: model_terms:ir.ui.view,arch_db:mail.email_template_form
 #: model_terms:ir.ui.view,arch_db:mail.mail_template_reset_view_form
 msgid "Reset Template"
-msgstr "Nollaa malli"
+msgstr "Nollaa mallipohja"
 
 #. module: mail
 #. odoo-javascript
@@ -10164,6 +10202,12 @@ msgstr "Etsi saapuvan sähköpostin palvelimia"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "Search Klipy"
+msgstr "Hae Klipy"
+
+#. module: mail
+#. odoo-javascript
 #: code:addons/mail/static/src/core/common/search_messages_panel.js:0
 msgid "Search Message"
 msgstr "Etsi viestiä"
@@ -10218,12 +10262,6 @@ msgstr "Hae nimellä"
 #: code:addons/mail/static/src/core/public_web/discuss_search.xml:0
 msgid "Search conversations"
 msgstr "Hae keskusteluja"
-
-#. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
-msgid "Search for a GIF"
-msgstr "GIF:n etsiminen"
 
 #. module: mail
 #. odoo-javascript
@@ -10477,7 +10515,7 @@ msgstr "Lähetä postituksia tai ilmoituksia suoraan"
 #: code:addons/mail/static/src/chatter/web/chatter.xml:0
 #: code:addons/mail/static/src/discuss/web/avatar_card/avatar_card_popover.xml:0
 msgid "Send message"
-msgstr "Lähetä viesti"
+msgstr "Viestin lähetys"
 
 #. module: mail
 #. odoo-javascript
@@ -10538,7 +10576,7 @@ msgstr "Lähetetty"
 #: model:ir.model.fields,field_description:mail.field_mail_message_link_preview__sequence
 #: model:ir.model.fields,field_description:mail.field_mail_message_subtype__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_server_form
@@ -11167,7 +11205,7 @@ msgstr "Kohdemalli"
 #: model:ir.model.fields,field_description:mail.field_res_partner__vat
 #: model:ir.model.fields,field_description:mail.field_res_users__vat
 msgid "Tax ID"
-msgstr "Verotunniste"
+msgstr "Verotunnus"
 
 #. module: mail
 #: model:ir.ui.menu,name:mail.discuss_technical
@@ -11193,34 +11231,34 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template_reset__template_ids
 msgid "Template"
-msgstr "Malli"
+msgstr "Mallipohja"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template__template_category
 msgid "Template Category"
-msgstr "Mallin kategoria"
+msgstr "Mallipohjan kategoria"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template__description
 msgid "Template Description"
-msgstr "Mallin kuvaus"
+msgstr "Mallipohjan kuvaus"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template__template_fs
 #: model:ir.model.fields,field_description:mail.field_template_reset_mixin__template_fs
 msgid "Template Filename"
-msgstr "Mallin tiedostonimi"
+msgstr "Mallipohjan tiedostonimi"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__template_name
 #: model_terms:ir.ui.view,arch_db:mail.email_template_form
 msgid "Template Name"
-msgstr "Mallin nimi"
+msgstr "Mallipohjan nimi"
 
 #. module: mail
 #: model:ir.actions.act_window,name:mail.mail_template_preview_action
 msgid "Template Preview"
-msgstr "Mallin esikatselu"
+msgstr "Mallipohjan esikatselu"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template_preview__lang
@@ -11278,17 +11316,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:mail.mail_compose_message_view_form_template_save
 #: model_terms:ir.ui.view,arch_db:mail.view_email_template_search
 msgid "Templates"
-msgstr "Mallit"
-
-#. module: mail
-#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
-msgid "Tenor API key"
-msgstr "Tenor API-avain"
-
-#. module: mail
-#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Tenor GIF API key"
-msgstr "Tenor GIF API-avain"
+msgstr "Mallipohjat"
 
 #. module: mail
 #. odoo-javascript
@@ -11305,7 +11333,7 @@ msgstr "Testaa ja vahvista"
 #. odoo-javascript
 #: code:addons/mail/static/src/views/fields/mail_server_configurator_selection/mail_server_configurator_selection.xml:0
 msgid "Test Connection"
-msgstr "Testaa yhteyttä"
+msgstr "Yhteyden testaus"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_template_preview_view_form
@@ -11350,17 +11378,6 @@ msgstr ""
 "aktiivinen. Jos haluat ottaa Paina puhuaksesi -toiminnon käyttöön tämän "
 "välilehden ulkopuolella, suosittelemme lataamaan %(anchor_start)s "
 "laajennuksemme%(anchor_end)s."
-
-#. module: mail
-#: model:ir.model.fields,help:mail.field_res_partner__vat
-#: model:ir.model.fields,help:mail.field_res_users__vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
-msgstr ""
-"Verotunniste. Tässä olevat arvot validoidaan maamuodon perusteella. Voit "
-"käyttää '/'-merkkiä osoittaaksesi, että kumppani ei ole verovelvollinen."
 
 #. module: mail
 #. odoo-python
@@ -12180,12 +12197,12 @@ msgstr "Käännös epäonnistui"
 #: model:ir.model.fields,field_description:mail.field_mail_activity_plan_template__delay_from
 #: model:ir.model.fields,field_description:mail.field_mail_activity_type__triggered_next_type_id
 msgid "Trigger"
-msgstr "Liipaisin"
+msgstr "Laukaisin"
 
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__mail_activity_type__chaining_type__trigger
 msgid "Trigger Next Activity"
-msgstr "Laukaise seuraava toimenpide"
+msgstr "Laukaise seuraava toiminto"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_type_view_tree
@@ -12240,20 +12257,20 @@ msgid ""
 "actions\n"
 msgstr ""
 "Palvelintoiminnon tyyppi. Saatavilla seuraavat arvot:\n"
-"- 'Päivitä kirjaus': päivitä kirjauksen arvot\n"
-"- 'Luo toiminta': luo toiminnan (Viestintä)\n"
+"- 'Päivitä kirjaus': päivittää kirjauksen arvot\n"
+"- 'Luo toimenpide': luo toimenpiteen (Viestintä)\n"
 "- 'Lähetä sähköposti': lähettää viestin, huomautuksen tai sähköpostin "
 "(Viestintä)\n"
-"- 'Lähetä tekstiviesti': lähetä tekstiviestejä, kirjaa ne asiakirjoihin "
+"- 'Lähetä tekstiviesti': lähettää tekstiviestejä, kirjaa ne asiakirjoihin "
 "(Tekstiviesti)\n"
-"- 'Lisää/poista seuraajia': lisää tai poista seuraajia kirjaukseen "
+"- 'Lisää/poista seuraajia': lisää tai poistaa tietueen seuraajia "
 "(Viestintä)\n"
-"- 'Luo kirjaus': luo uusi kirjaus uusilla arvoilla\n"
-"- 'Suorita koodi': Python-koodin pätkä, joka suoritetaan\n"
-"- 'Lähetä Webhook-ilmoitus': lähetä POST-pyyntö ulkoiseen järjestelmään, "
-"joka tunnetaan myös nimellä Webhook\n"
-"- 'Suorita useita toimintoja': Määritä toiminto, joka käynnistää useita "
-"muita palvelintoimintoja\n"
+"- 'Luo kirjaus': luo uuden kirjauksen uusilla arvoilla\n"
+"- 'Suorita koodi': pätkä Python-koodia, joka suoritetaan\n"
+"- 'Lähetä Webhook-ilmoitus': lähettää JULKAISU-pyynnön ulkoiseen "
+"järjestelmään, joka tunnetaan myös nimellä Webhook\n"
+"- 'Useita toimintoja': määrittää toiminnon, joka laukaisee useita muita "
+"palvelintoimintoja\n"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_ir_actions_server__activity_exception_decoration
@@ -12550,7 +12567,7 @@ msgstr "Lataa tiedosto"
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
 msgid "Upload:"
-msgstr "Lähetä:"
+msgstr "Lataa:"
 
 #. module: mail
 #. odoo-javascript
@@ -12674,7 +12691,7 @@ msgstr "Käytä mikrofonia ja kameraa"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__template_id
 msgid "Use template"
-msgstr "Käytä mallia"
+msgstr "Käytä mallipohjaa"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_res_users_settings__use_push_to_talk
@@ -12725,10 +12742,10 @@ msgid ""
 msgstr ""
 "Käytetään viestigeneraattorin luokitteluun\n"
 "'email': syntyy saapuvan sähköpostin, esim. mailgatewayn, tuloksena\n"
-"'kommentti': syntyy käyttäjän syötteestä esim. discuss- tai composer-"
-"ohjelmassa\n"
-"'email_outgoing': syntyy postituksesta\n"
-"'notification': järjestelmän tuottama esim. seurantaviestit\n"
+"'kommentti': syntyy käyttäjän syöttämänä, esim. viestinnän tai "
+"kirjoitustoiminnon kautta\n"
+"'email_outgoing': postituksen luoma\n"
+"'notification': järjestelmän tuottama, esim. viestien seuranta\n"
 "'auto_comment': automaattisen ilmoitusmekanismin tuottama, esim. kuittaus\n"
 "'user_notification': luodaan tietylle vastaanottajalle"
 
@@ -12974,19 +12991,19 @@ msgstr "Katso %s"
 #: code:addons/mail/static/src/core/web/recipients_popover.xml:0
 #: code:addons/mail/static/src/discuss/web/avatar_card/avatar_card_popover.xml:0
 msgid "View Profile"
-msgstr "Näytä profiili"
+msgstr "Katso profiili"
 
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/core/common/message_actions.js:0
 msgid "View Reactions"
-msgstr "Näytä reaktiot"
+msgstr "Katso reaktiot"
 
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/core/public_web/message_actions.js:0
 msgid "View Thread"
-msgstr "Katso ketju"
+msgstr "Katso viestiketju"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_ir_actions_act_window_view__view_mode
@@ -12998,7 +13015,7 @@ msgstr "Näkymän tyyppi"
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/activity_menu.xml:0
 msgid "View all activities"
-msgstr "Näytä kaikki aktiviteetit"
+msgstr "Katso kaikki toimenpiteet"
 
 #. module: mail
 #. odoo-javascript
@@ -13010,13 +13027,13 @@ msgstr "Katso keskustelu %(channel_name)s kanssa"
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/core/web/discuss_sidebar_categories_patch.js:0
 msgid "View or join channels"
-msgstr "Kanavien katselu tai niihin liittyminen"
+msgstr "Katso kanavia tai liity niihin"
 
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/call_invitation.js:0
 msgid "View the %(channel_name)s channel"
-msgstr "Katso %(channel_name)s -kanava"
+msgstr "Katso %(channel_name)s kanava"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_plan_view_form
@@ -13035,7 +13052,7 @@ msgstr "Ääni"
 #. module: mail
 #: model:ir.ui.menu,name:mail.menu_call_settings
 msgid "Voice & Video"
-msgstr "Ääni ja video"
+msgstr "Ääni & video"
 
 #. module: mail
 #. odoo-javascript
@@ -13043,7 +13060,7 @@ msgstr "Ääni ja video"
 #: code:addons/mail/static/src/discuss/call/web/quick_voice_settings_patch.js:0
 #: model:ir.actions.client,name:mail.discuss_call_settings_action
 msgid "Voice & Video Settings"
-msgstr "Puhe- ja videoasetukset"
+msgstr "Ääni- & videoasetukset"
 
 #. module: mail
 #. odoo-javascript
@@ -13411,6 +13428,18 @@ msgid "You can still turn off your %s anytime."
 msgstr "Voit yhä sammuttaa %s koska tahansa."
 
 #. module: mail
+#: model:ir.model.fields,help:mail.field_res_partner__vat
+#: model:ir.model.fields,help:mail.field_res_users__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr "Voit käyttää '/' osoittaaksesi, ettei asiakkaalla ole verotunnusta."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_alias_domain.py:0
+msgid "You cannot assign an empty domain name."
+msgstr "Et voi määrittää tyhjää domain-nimeä."
+
+#. module: mail
 #. odoo-python
 #: code:addons/mail/models/mail_activity_type.py:0
 msgid "You cannot delete %(activity_names)s as it is required in various apps."
@@ -13711,10 +13740,8 @@ msgstr "loi tämän kanavan."
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/js/rotting_mixin/rotting_statusbar.xml:0
-#, fuzzy
-#| msgid "id"
 msgid "d"
-msgstr "tunniste"
+msgstr "p"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.account_security_alert
@@ -13948,7 +13975,7 @@ msgstr "on juuri antanut sinulle seuraavan tehtävän:"
 #. odoo-python
 #: code:addons/mail/wizard/mail_activity_schedule.py:0
 msgid "id"
-msgstr "tunniste"
+msgstr "tunnus"
 
 #. module: mail
 #. odoo-javascript
@@ -14163,12 +14190,12 @@ msgstr "näyttö"
 #. odoo-python
 #: code:addons/mail/models/mail_alias.py:0
 msgid "some specific addresses"
-msgstr "joitakin erityisiä osoitteita"
+msgstr "joitain tiettyjä osoitteita"
 
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__mail_ice_server__server_type__stun
 msgid "stun:"
-msgstr "tainnuttaa:"
+msgstr "stun:"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_ice_server_form
@@ -14190,12 +14217,12 @@ msgstr "tiimi."
 #. odoo-python
 #: code:addons/mail/models/mail_thread.py:0
 msgid "template"
-msgstr "malli"
+msgstr "mallipohja"
 
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__mail_ice_server__server_type__turn
 msgid "turn:"
-msgstr "käännä:"
+msgstr "turn:"
 
 #. module: mail
 #. odoo-python
@@ -14225,7 +14252,7 @@ msgstr "ylös ICE:"
 #. odoo-python
 #: code:addons/mail/models/mail_thread.py:0
 msgid "view"
-msgstr "näytä"
+msgstr "katso"
 
 #. module: mail
 #: model:ir.model,name:mail.model_ir_websocket
@@ -14260,13 +14287,40 @@ msgstr "aliaksesi"
 #. odoo-python
 #: code:addons/mail/models/discuss/discuss_channel_member.py:0
 msgid "“%(member_name)s” in “%(channel_name)s”"
-msgstr "\"%(member_name)s\" kohdassa \"%(channel_name)s\""
+msgstr "\"%(member_name)s\" kanavalla \"%(channel_name)s\""
 
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/activity.js:0
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
+
+#~ msgid "Search for a GIF"
+#~ msgstr "GIF:n etsiminen"
+
+#~ msgid ""
+#~ "The Tax Identification Number. Values here will be validated based on the "
+#~ "country format. You can use '/' to indicate that the partner is not "
+#~ "subject to tax."
+#~ msgstr ""
+#~ "Verotunniste. Tässä olevat arvot validoidaan maamuodon perusteella. Voit "
+#~ "käyttää '/'-merkkiä osoittaaksesi, että kumppani ei ole verovelvollinen."
+
+#~ msgid "Add a Tenor GIF API key to enable GIFs support."
+#~ msgstr "Lisää Tenor GIF API -avain ottaaksesi GIF:t käyttöön."
+
+#~ msgid ""
+#~ "Add a Tenor GIF API key to enable GIFs support. https://"
+#~ "developers.google.com/tenor/guides/quickstart#setup"
+#~ msgstr ""
+#~ "Lisää Tenor GIF API -avain ottaaksesi GIF:t käyttöön. https://"
+#~ "developers.google.com/tenor/guides/quickstart#setup"
+
+#~ msgid "Tenor API key"
+#~ msgstr "Tenor API-avain"
+
+#~ msgid "Tenor GIF API key"
+#~ msgstr "Tenor GIF API-avain"
 
 #~ msgid "111.222.333.444"
 #~ msgstr "111.222.333.444"

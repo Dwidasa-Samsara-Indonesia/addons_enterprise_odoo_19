@@ -312,12 +312,17 @@ class SignRequestItem(models.Model):
         elif self.sign_request_id.validity and self.sign_request_id.validity < fields.Date.today():
             raise UserError(_('This sign request is not valid anymore'))
 
+        # Constant items are populated automatically and cannot be modified by the signer,
+        # so they are excluded from required field validation.
         required_ids = set(self.sign_request_id.template_id.sign_item_ids.filtered(
-            lambda r: r.responsible_id.id == self.role_id.id and r.required).ids)
+            lambda r: r.responsible_id.id == self.role_id.id and r.required and not r.constant).ids)
         signature_ids = {int(k) for k in signature} if isinstance(signature, dict) else set()
         if not (required_ids <= signature_ids):  # Security check
             raise UserError(_("Some required items are not filled"))
-
+        if self.state != 'sent' or self.sign_request_id.state != 'sent':
+            raise UserError(_("This sign request item cannot be filled"))
+        if not self.env.su:
+            raise UserError(_("This function can only be called with sudo."))
         self._fill(signature, **kwargs)
         if not kwargs.get('validation_required', False):
             self._post_fill_request_item()
@@ -371,11 +376,6 @@ class SignRequestItem(models.Model):
         :param signature: dictionary containing signature values and corresponding ids / signature image
         """
         self.ensure_one()
-        if not self.env.su:
-            raise UserError(_("This function can only be called with sudo."))
-        if self.state != 'sent' or self.sign_request_id.state != 'sent':
-            raise UserError(_("This sign request item cannot be filled"))
-
         authorised_ids = set(self.sign_request_id.template_id.sign_item_ids.filtered(lambda r: r.responsible_id.id == self.role_id.id).ids)
         signature_ids = {int(k) for k in signature} if isinstance(signature, dict) else set()
         if not (signature_ids <= authorised_ids):

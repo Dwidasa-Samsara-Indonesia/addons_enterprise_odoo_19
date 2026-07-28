@@ -57,7 +57,7 @@
     <record id="solved_ticket_request_email_template" model="mail.template">
         <field name="name">Helpdesk: Ticket Closed</field>
         <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
-        <field name="subject">Ticket Closed - Reference {{ object.id if object.id else 15 }}</field>
+        <field name="subject">Ticket Closed - Reference {{ object.ticket_ref if object.ticket_ref else 15 }}</field>
         <field name="email_from">{{ (object.team_id.alias_email_from or object.company_id.email_formatted or object.user_id.email_formatted or user.email_formatted) }}</field>
         <field name="email_to" eval="False"/>
         <field name="partner_to" eval="False"/>
@@ -66,7 +66,7 @@
         <field name="body_html" type="html">
     <div>
         Dear <t t-out="object.sudo().partner_id.name or 'Madam/Sir'">Madam/Sir</t>,<br /><br />
-        We would like to inform you that we have closed your ticket (reference <t t-out="object.id or ''">15</t>). 
+        We would like to inform you that we have closed your ticket (reference <t t-out="object.ticket_ref or ''">15</t>).
         We trust that the services provided have met your expectations and that you have found a satisfactory resolution to your issue.<br /><br />
         However, if you have any further questions or comments, please do not hesitate to reply to this email to re-open your ticket. 
         Our team is always here to help you and we will be happy to assist you with any further concerns you may have.<br /><br />

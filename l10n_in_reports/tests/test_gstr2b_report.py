@@ -202,3 +202,27 @@ class TestReports(L10nInTestAccountReportsCommon):
         self.assertEqual(self.fully_matched_bill.l10n_in_gstr2b_reconciliation_status, "pending")
         self.assertEqual(self.fully_matched_bill.l10n_in_account_return_id.id, False)
         self.assertEqual(self.fully_matched_bill.l10n_in_exception, False)
+
+    def test_gstr2b_foreign_currency_bill(self):
+        """ Test GSTR-2B matching for a bill in foreign currency """
+
+        usd_currency = self.env.ref('base.USD')
+        self.env['res.currency.rate'].create({
+            'name': "2023-05-20",
+            'rate': 0.0125,
+            'currency_id': usd_currency.id,
+            'company_id': self.company_data['company'].id,
+        })
+        foreign_bill = self._init_inv(move_type='in_invoice', ref='FC-INV/001', taxes=self.comp_igst_18, partner=self.partner_b, invoice_date=self.test_date, line_vals={'price_unit': 100})
+        foreign_bill.button_draft()
+        foreign_bill.currency_id = usd_currency.id
+        foreign_bill.action_post()
+
+        gstr2b_foreign_currency = self._read_mock_json('gstr2b_foreign_currency.json')
+        self.report.l10n_in_gstr2b_json_ids = self.env['ir.attachment'].create({
+            'name': 'gstr2b_foreign.json',
+            'mimetype': 'application/json',
+            'raw': json.dumps(gstr2b_foreign_currency),
+        })
+        self.report.gstr2b_match_data()
+        self.assertEqual(foreign_bill.l10n_in_gstr2b_reconciliation_status, "matched")

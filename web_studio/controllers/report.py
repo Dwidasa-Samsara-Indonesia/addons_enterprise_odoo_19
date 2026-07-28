@@ -550,6 +550,7 @@ class WebStudioReportController(main.WebStudioController):
 
         def inline_t_call(tree, variables, recursive_set):
             view_id = tree.get("ws-view-id")
+            view_name = tree.get("t-name")
 
             if recursive_set is None:
                 recursive_set = set()
@@ -598,6 +599,8 @@ class WebStudioReportController(main.WebStudioController):
                         "ws-call-group-key": group_key,
                         "ws-call-key": call_key,
                     })
+                    if view_name:
+                        group_element.set("ws-view-name", view_name)
                     if are_real:
                         group_element.set("ws-real-children", "1")
                         zero.append(group_element)
@@ -653,9 +656,9 @@ class WebStudioReportController(main.WebStudioController):
 
         html_container = IrQweb._render("web.html_container", {"studio": True})
         html_container = html.fromstring(html_container)
-        main_qweb.xpath("//*[@id='wrapwrap']")[0]
+        qweb_wrap = main_qweb.xpath("//*[@id='wrapwrap']")[0]
         wrap = html_container.xpath("//*[@id='wrapwrap']")[0]
-        wrap.getparent().replace(wrap, main_qweb.xpath("//*[@id='wrapwrap']")[0])
+        wrap.getparent().replace(wrap, qweb_wrap)
 
         return html.tostring(html_container)
 
@@ -781,7 +784,7 @@ class WebStudioReportController(main.WebStudioController):
             return any(att in attribs for att in ("t-set", "t-call", "t-name", "t-field"))
 
         differ = KeyedXmlDiffer(
-            ignore_attributes=["ws-view-id", "ws-call-key", "ws-call-group-key"],
+            ignore_attributes=["ws-view-id", "ws-call-key", "ws-call-group-key", "ws-view-name"],
             is_subtree=is_subtree,
             xpath_with_meta=True)
         studio_view_arch = differ.diff_xpath(etree.tostring(original), etree.tostring(new_arch))

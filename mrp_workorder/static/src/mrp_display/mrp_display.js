@@ -14,7 +14,15 @@ import { PinPopup } from "@mrp_workorder/components/pin_popup";
 import { useConnectedEmployee } from "@mrp_workorder/mrp_display/hooks/employee_hooks";
 import { MrpDisplaySearchBar } from "@mrp_workorder/mrp_display/search_bar";
 import { CheckboxItem } from "@web/core/dropdown/checkbox_item";
-import { Component, onWillRender, onWillStart, useState, useSubEnv } from "@odoo/owl";
+import {
+    Component,
+    onMounted,
+    onWillRender,
+    onWillStart,
+    onWillUnmount,
+    useState,
+    useSubEnv,
+} from "@odoo/owl";
 import { MrpEmployeeDialog } from "./dialog/mrp_employee_dialog";
 
 const defaultWorkcenterButtons = [
@@ -152,6 +160,12 @@ export class MrpDisplay extends Component {
         onWillRender(() => {
             this.defineRelevantRecords();
         });
+        onMounted(() => {
+            document.body.classList.add("o_mrp_workorder_o_mrp_display");
+        });
+        onWillUnmount(() => {
+            document.body.classList.remove("o_mrp_workorder_o_mrp_display");
+        });
     }
 
     removeRecordIdFromCache(id) {
@@ -208,7 +222,7 @@ export class MrpDisplay extends Component {
             }
             // 2. Check if there is a move with this product (WO/MO)
             for (const move of record.data.move_raw_ids.records) {
-                if (move.data.product_barcode === barcode && move.data.manual_consumption) {
+                if (move.data.product_barcode === barcode && move.data.operation_id) {
                     return move.component.onClick();
                 }
             }
@@ -366,7 +380,16 @@ export class MrpDisplay extends Component {
                     const v2 = statesComparativeValues[wo2.data.state];
                     const d1 = wo1.data.date_start;
                     const d2 = wo2.data.date_start;
-                    return v1 - v2 || d1 - d2;
+
+                    // primary: sort by state
+                    if (v1 !== v2) return v1 - v2;
+
+                    // tiebreaker: sort by date, false dates go last
+                    if (!d1 && !d2) return 0;
+                    if (!d1) return 1;
+                    if (!d2) return -1;
+
+                    return d1 - d2;
                 });
             }
             const recordIds = recordsNotInCache.map((r) => r.resId);

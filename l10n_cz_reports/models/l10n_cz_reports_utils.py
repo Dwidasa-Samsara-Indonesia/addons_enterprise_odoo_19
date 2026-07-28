@@ -41,12 +41,24 @@ def get_veta_d_vals(report, options):
     }
 
 
-def get_veta_p_vals(sender_company):
-    return {
+def get_veta_p_vals(sender_company, is_vies=False):
+    is_company = sender_company.partner_id.is_company
+    veta_p_vals = {
         'workplace_code': sender_company.l10n_cz_tax_office_id.workplace_code,
         'office_code': sender_company.l10n_cz_tax_office_id.code,
         'vat': compact(sender_company.vat),
-        'email': sender_company.email,
-        'company_type': "F" if sender_company.partner_id.company_type == 'person' else "P",
+        'company_type': "P" if is_company else "F",
         'company_name': sender_company.name,
     }
+
+    if is_vies:
+        veta_p_vals['city'] = sender_company.partner_id.city.upper() if sender_company.partner_id.city else None
+        if is_company:
+            veta_p_vals['company_registry'] = sender_company.company_registry
+        else:
+            split_name = sender_company.partner_id.name.split(" ")
+            veta_p_vals['person_name'] = " ".join(split_name[:-1])
+            veta_p_vals['person_surname'] = split_name[-1]
+    else:
+        veta_p_vals['email'] = sender_company.email
+    return veta_p_vals

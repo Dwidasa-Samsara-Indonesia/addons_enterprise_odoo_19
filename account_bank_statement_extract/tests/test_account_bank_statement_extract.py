@@ -122,6 +122,40 @@ class TestBankStatementExtractProcess(AccountTestInvoicingCommon, TestExtractMix
         self.assertEqual(str(self.bank_statement.date), extract_results['date']['selected_value']['content'])
         self.assertEqual(len(self.bank_statement.line_ids), len(extract_results['bank_statement_lines']))
 
+    def test_csv_import_debit_credit_not_double_parsed(self):
+        """ Test that debit/credit are parsed once when imported from a CSV: with
+        this module installed they are real fields already parsed by the generic
+        importer, so the wizard must not parse them again and scale them by 100. """
+        attachment = self.env['ir.attachment'].create({
+            'mimetype': 'text/csv',
+            'name': 'test_debit_credit.csv',
+            'raw': b'1.234,56;0,00\n'
+                   b'0,00;2.000,00\n',
+        })
+        action = self.bank_journal.create_document_from_attachment(attachment.ids)
+        import_wizard = self.env['base_import.import'].browse(
+            action['params']['context']['wizard_id']
+        ).with_context(action['params']['context'])
+        res = import_wizard.execute_import(
+            ['debit', 'credit'],
+            [],
+            {
+                'encoding': 'utf-8',
+                'quoting': '"',
+                'bank_stmt_import': True,
+                'headers': False,
+                'separator': ';',
+                'float_thousand_separator': '.',
+                'float_decimal_separator': ',',
+            },
+        )
+
+        lines = self.env['account.bank.statement.line'].browse(res['ids'])
+        self.assertRecordValues(lines.sorted('amount'), [
+            {'amount': -1234.56},
+            {'amount': 2000.00},
+        ])
+
     def test_no_send_for_digitization(self):
         # test that the `no_send` mode for digitization prevents the users from sending
         self.env.company.extract_bank_statement_digitalization_mode = 'no_send'

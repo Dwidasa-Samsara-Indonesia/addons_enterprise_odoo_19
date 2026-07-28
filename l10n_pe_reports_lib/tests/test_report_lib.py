@@ -65,7 +65,6 @@ class TestPeReportsLib(TestAccountReportsCommon):
 
     def create_move_on_account_product(self, account, move_type='out_invoice', partner=None, amount=100):
         date_invoice = "2024-07-01"
-        date_invoice = "2024-07-01"
         move = self.env['account.move'].create({
             'move_type': move_type,
             'partner_id': self.partner_a.id if not partner else partner.id,
@@ -190,6 +189,7 @@ class TestPeReportsLib(TestAccountReportsCommon):
         move_1 = self.create_move_on_account_payment_term(account)
         account = self.env['account.account'].search([("code_store", "=like", "13%")], limit=1)
         move_2 = self.create_move_on_account_payment_term(account)
+        draft_move = self._create_invoice(invoice_date='2024-07-01')
         report_data = self.handler._l10n_pe_get_lib_3_3_data(*self.report_args)
         self.assertEqual([OrderedDict(data) for data in report_data], [
             OrderedDict({
@@ -212,6 +212,17 @@ class TestPeReportsLib(TestAccountReportsCommon):
                 'partner_name': 'partner_a',
                 'move_date': '01/07/2024',
                 'move_amount_residual': '100.00',
+                'op_status': '1'
+            }),
+            OrderedDict({
+                'report_date': '20241231',
+                'move_name': '',
+                'move_number': ("M%9d" % int(draft_move.id)).replace(' ', '0'),
+                'id_type_code': '6',
+                'partner_vat': '20557912879',
+                'partner_name': 'partner_a',
+                'move_date': '01/07/2024',
+                'move_amount_residual': '279.66',
                 'op_status': '1'
             }),
             OrderedDict({

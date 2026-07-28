@@ -148,7 +148,7 @@ class SignSendRequest(models.TransientModel):
         for wiz in self:
             display_name = self.env._("Sign Request ")
             if wiz.reference_doc:
-                display_name = self.env._("Sign Request - %s", wiz.reference_doc.display_name)
+                display_name = self.env._("Sign Request - %(template_name)s - %(res_name)s", template_name=wiz.template_id.display_name, res_name=wiz.reference_doc.display_name or '')
             wiz.display_name = display_name
 
     @api.depends('template_id', 'reference_doc')
@@ -166,7 +166,7 @@ class SignSendRequest(models.TransientModel):
         for wiz in self:
             filename = self.env._("Sign Request")
             if wiz.reference_doc:
-                filename = self.env._("Sign Request - %s", wiz.reference_doc.display_name)
+                filename = self.env._("Sign Request - %(template_name)s - %(res_name)s", template_name=wiz.template_id.display_name, res_name=wiz.reference_doc.display_name or '')
             elif wiz.template_id:
                 filename = wiz.template_id.display_name
             wiz.filename = filename

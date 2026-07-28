@@ -57,10 +57,20 @@ class L10nBeIntervatController(http.Controller):
                         make sure the Accounting firm field is set in the Intervat settings. Otherwise, only the client can submit the VAT return through API.
                     """, company_id.vat)
                 return_id._message_log(body=message)
+
+                notification_error_message = request.env._("""
+                    SPF Finances authorization denied.
+                    Initial consent requires an official mandate.
+                    Please ask a user with the appropriate rights to perform the first connection for this client.
+                    Access will then be unlocked.
+                """)
+            else:
+                notification_error_message = f"{kwargs['error']}: {kwargs['error_description']}"
+
             request.env.user._bus_send('simple_notification', {
                 'type': 'danger',
                 'title': request.env._("Authentication Failed"),
-                'message': f"{kwargs['error']}: {kwargs['error_description']}",
+                'message': notification_error_message,
                 'sticky': True,
             })
         else:

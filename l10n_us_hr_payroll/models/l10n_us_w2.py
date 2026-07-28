@@ -246,4 +246,4 @@ class L10nUsW2(models.Model):
             ])
 
         self.csv_file = base64.b64encode(output.getvalue().encode())
-        self.csv_filename = f"form_w2_{self.date_end.year}.csv"
+        self.csv_filename = f"form_w2_{(self.date_end or date.today()).year}.csv"

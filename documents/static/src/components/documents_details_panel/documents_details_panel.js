@@ -73,12 +73,22 @@ export class DocumentsDetailsPanel extends Component {
         });
     }
 
+    get canChangeOwner() {
+        return (
+            !this.userPermissionViewOnly &&
+            (this.documentService.userIsDocumentManager ||
+                (!this.record.data?.owner_id && this.record.data?.user_can_move) ||
+                this.record.data?.owner_id?.id === user.userId)
+        );
+    }
+
     get userPermissionViewOnly() {
         return (
             !!this.record.data?.lock_uid ||
             this.record.data?.user_permission !== "edit" ||
             (!this.documentService.userIsDocumentManager &&
-                this.record.data?.user_folder_id === "COMPANY")
+                this.record.data?.user_folder_id === "COMPANY" &&
+                this.record.data?.type === "folder")
         );
     }
 

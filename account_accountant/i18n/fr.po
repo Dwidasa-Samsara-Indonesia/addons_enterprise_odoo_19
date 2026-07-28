@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2026-04-07 15:51+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-05-30 09:40+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/fr/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -400,6 +400,15 @@ msgstr ""
 "fournisseur n'est trouvé, ajoutez-en un avant de valider."
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+"Toutes les écritures comptables créées par Facturation avant cette date "
+"seront ignorées dans Comptabilité."
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "Tous les modèles de rapprochement"
@@ -547,6 +556,7 @@ msgstr "Écritures lettrées automatiquement"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "Solde :"
@@ -1260,9 +1270,19 @@ msgid "Has Abnormal Deferred Dates"
 msgstr "A des Dates Différées Anormales"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
 msgstr "A des mouvements à reporter"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1379,6 +1399,11 @@ msgid "Invoice Date"
 msgstr "Date de facturation"
 
 #. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr "Facturation & banques"
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__invoicing_switch_threshold
 msgid "Invoicing Switch Threshold"
@@ -1442,7 +1467,7 @@ msgstr "Journal"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_statement_line_search_bank_rec_widget
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Journal Entry"
-msgstr "Écriture comptable"
+msgstr "Pièce comptable"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_move_line
@@ -1567,7 +1592,7 @@ msgstr "Tout verrouiller pour moi"
 #. module: account_accountant
 #: model:ir.actions.act_window,name:account_accountant.action_view_account_change_lock_date
 msgid "Lock Journal Entries"
-msgstr "Verrouiller les écritures comptables"
+msgstr "Verrouiller les pièces comptables"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_change_lock_date__purchase_lock_date
@@ -2099,6 +2124,11 @@ msgid "Reconciled"
 msgstr "Lettré"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr "Modèle de lettrage"
@@ -2417,15 +2447,6 @@ msgid "The ending date must not be prior to the starting date."
 msgstr "La date de fin ne peut être antérieure à la date de début."
 
 #. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
-"Les factures antérieures à cette date ne seront pas prises en compte comme "
-"écritures comptables."
-
-#. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
 #: model:ir.model.fields,help:account_accountant.field_account_move__deferred_original_move_ids
 msgid "The original invoices that created the deferred entries"
@@ -2619,6 +2640,12 @@ msgstr "Transférer vers %s"
 #: model:ir.actions.server,name:account_accountant.auto_reconcile_bank_statement_line_ir_actions_server
 msgid "Try to reconcile automatically your statement lines"
 msgstr "Essayez de réconcilier automatiquement vos lignes de relevé bancaire"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr "Annuler le lettrage"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -2822,6 +2849,13 @@ msgid "You need to select who the exception applies to."
 msgstr "Sélectionnez les personnes auxquelles l'exception s'applique."
 
 #. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
+"ajoute le tableau de bord comptable, la gestion des banques et les rapports "
+"de relance."
+
+#. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h
 msgid "for 1 hour"
 msgstr "pendant 1 heure"
@@ -2878,6 +2912,13 @@ msgstr "devise secondaire"
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_journal_dashboard_kanban_view
 msgid "to reconcile"
 msgstr "à réconcilier"
+
+#~ msgid ""
+#~ "The invoices before this date will not be taken into account as "
+#~ "accounting entries"
+#~ msgstr ""
+#~ "Les factures antérieures à cette date ne seront pas prises en compte "
+#~ "comme écritures comptables."
 
 #~ msgid "Reconciliation model %s applied"
 #~ msgstr "Modèle de rapprochement %s appliqué"

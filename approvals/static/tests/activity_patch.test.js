@@ -75,8 +75,8 @@ test("activity with approval to be made by another user", async () => {
     await contains(".o-mail-Activity .btn", { count: 0, text: "Cancel" });
     await contains(".o-mail-Activity .btn", { count: 0, text: "Mark Done" });
     await contains(".o-mail-Activity .btn", { count: 0, text: "Upload Document" });
-    await contains(".o-mail-Activity button", { count: 1, text: "Approve" });
-    await contains(".o-mail-Activity button", { count: 1, text: "Refuse" });
+    await contains(".o-mail-Activity button", { count: 0, text: "Approve" });
+    await contains(".o-mail-Activity button", { count: 0, text: "Refuse" });
 });
 
 test("approve approval", async () => {

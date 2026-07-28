@@ -1,8 +1,8 @@
 from odoo import models
 
 
-class AccountReturnType(models.Model):
-    _inherit = 'account.return.type'
+class AccountReturn(models.Model):
+    _inherit = 'account.return'
 
     def _get_vat_closing_entry_additional_domain(self):
         # EXTENDS account_reports

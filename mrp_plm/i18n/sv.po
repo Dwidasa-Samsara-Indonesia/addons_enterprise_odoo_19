@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-04-10 14:44+0000\n"
+"PO-Revision-Date: 2026-06-23 16:49+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/mrp_plm/"
 "sv/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__document_count
@@ -384,7 +384,7 @@ msgstr ""
 "Med hjälp av materialförteckningar kan du definiera listan över nödvändiga "
 "komponenter\n"
 "som används för att tillverka en färdig produkt; genom en\n"
-"tillverkningsorder eller ett produktpaket."
+"produktionsorder eller ett produktpaket."
 
 #. module: mrp_plm
 #. odoo-python
@@ -1167,12 +1167,12 @@ msgstr "Manuell förändring av varaktighet"
 #. module: mrp_plm
 #: model:ir.model,name:mrp_plm.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Tillverkningsorder"
+msgstr "Produktionsorder"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__production_id
 msgid "Manufacturing Orders"
-msgstr "Tillverkningsorder"
+msgstr "Produktionsordrar"
 
 #. module: mrp_plm
 #: model:ir.ui.menu,name:mrp_plm.menu_mrp_plm_master_data
@@ -1209,7 +1209,7 @@ msgstr "Mina aktivieteter"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Mina aktiviteters deadline"
+msgstr "Tidsgräns för mina aktiviteter"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_search
@@ -1272,12 +1272,12 @@ msgstr "Nästa aktivitetshändelse i kalendern"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Nästa slutdatum för aktivitet"
+msgstr "Nästa tidsgräns för en aktivitet"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__activity_summary
 msgid "Next Activity Summary"
-msgstr "Nästa aktivitetssammanställning"
+msgstr "Nästa aktivitetssammanfattning"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__activity_type_id
@@ -1635,7 +1635,7 @@ msgstr "Ta bort"
 #. module: mrp_plm
 #: model:ir.ui.menu,name:mrp_plm.menu_mrp_plm_reporting
 msgid "Reporting"
-msgstr "Rapportering"
+msgstr "Rapporter"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_approval__required_user_ids
@@ -1694,7 +1694,7 @@ msgstr "Visa Tillämpa Ändra"
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_search
 msgid "Show all records whose next activity date is past"
-msgstr "Visa alla poster vars nästa aktivitetsdatum är passerat"
+msgstr "Visa alla handlingar vars nästkommande aktivitetsdatum har passerat"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__stage_id
@@ -1738,9 +1738,9 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baserad på aktiviteter\n"
-"Försenade: Leveranstidpunkten har passerat\n"
-"Idag: Aktivitetsdatum är idag\n"
-"Kommande: Framtida aktiviteter."
+"Försenade: Aktivitetsdatum har redan passerat\n"
+"Idag: Aktivitetsdatum är dagens datum\n"
+"Planerade: Kommande aktiviteter."
 
 #. module: mrp_plm
 #. odoo-python
@@ -1956,7 +1956,7 @@ msgstr "Hemsidesmeddelanden"
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco__website_message_ids
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco_type__website_message_ids
 msgid "Website communication history"
-msgstr "Webbplatsens kommunikationshistorik"
+msgstr "Hemsidans kommunikationshistorik"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_routing_change__workcenter_id
@@ -2034,7 +2034,7 @@ msgstr "produkt"
 #. odoo-python
 #: code:addons/mrp_plm/models/mrp_eco.py:0
 msgid "res_model"
-msgstr ""
+msgstr "res_model"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_kanban

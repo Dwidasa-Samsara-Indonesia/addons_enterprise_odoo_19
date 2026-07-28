@@ -71,11 +71,11 @@ class TestWorksheet(TransactionCase):
             ],
         })
 
-        subtask1_worksheet_template_id = self.task.child_ids[0].worksheet_template_id
-        subtask2_worksheet_template_id = self.task.child_ids[1].worksheet_template_id
+        subtask1_worksheet_template_id = self.task.child_ids.sorted('name')[0].worksheet_template_id
+        subtask2_worksheet_template_id = self.task.child_ids.sorted('name')[1].worksheet_template_id
         task_copy = self.task.copy()
-        subtask1_copy_worksheet_template_id = task_copy.child_ids[0].worksheet_template_id
-        subtask2_copy_worksheet_template_id = task_copy.child_ids[1].worksheet_template_id
+        subtask1_copy_worksheet_template_id = task_copy.child_ids.sorted('name')[0].worksheet_template_id
+        subtask2_copy_worksheet_template_id = task_copy.child_ids.sorted('name')[1].worksheet_template_id
         self.assertEqual(subtask1_copy_worksheet_template_id, subtask1_worksheet_template_id, "When duplicating a task, subtasks should keep the same worksheet template that we set before.")
         self.assertEqual(subtask2_copy_worksheet_template_id, subtask2_worksheet_template_id, "When duplicating a task, subtasks should keep the same worksheet template that we set before.")
 

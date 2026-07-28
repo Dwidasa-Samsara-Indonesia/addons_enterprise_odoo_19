@@ -13,7 +13,7 @@
     <template id="saft_template_inherit_l10n_no_saft" inherit_id="account_saft.saft_template" primary="True">
         <xpath expr="//StandardAccountID" position="replace">
             <GroupingCategory>RF-1167</GroupingCategory>
-            <GroupingCode t-out="account.code[-4:]"/>
+            <GroupingCode t-out="account.code[:4]"/>
         </xpath>
         <xpath expr="//TaxCodeDetails" position="before">
             <TaxType>MVA</TaxType>

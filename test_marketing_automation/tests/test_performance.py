@@ -431,6 +431,6 @@ class TestMAPerformance(MAPerformanceCommon):
         self.assertEqual(self._mock_part_write.call_count, 7)
         self.assertEqual(self._mock_trace_create.call_count, 1000,
                          'New traces for new begin activity created sequentially')
-        self.assertEqual(self._mock_trace_search.call_count, 11)
+        self.assertEqual(self._mock_trace_search.call_count, 13)
         self.assertEqual(self._mock_trace_write.call_count, 1000,
                          'Looks like sequential update')

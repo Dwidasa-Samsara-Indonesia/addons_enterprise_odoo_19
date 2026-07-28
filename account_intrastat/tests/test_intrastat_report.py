@@ -1330,6 +1330,23 @@ class TestIntrastatReport(TestAccountReportsCommon):
         credit_note = self.env['account.move'].browse(action['res_id'])
         self.assertEqual(credit_note.line_ids.intrastat_transaction_id, self.intrastat_codes['transaction'])
 
+    def test_intrastat_preserved_on_autocomplete(self):
+        """Ensure intrastat_transaction_id is set correctly when using autocomplete (invoice_vendor_bill_id)"""
+        bill = self._create_invoice(
+            move_type='in_invoice',
+            invoice_line_ids=[self._prepare_invoice_line(
+                product_id=self.product_1,
+                intrastat_transaction_id=self.intrastat_codes['transaction'].id,
+            )]
+        )
+        new_bill = self.env['account.move'].create({'move_type': 'in_invoice', 'partner_id': bill.partner_id.id})
+        new_bill.invoice_vendor_bill_id = bill
+        new_bill._onchange_invoice_vendor_bill()
+        self.assertEqual(
+            bill.invoice_line_ids[0].intrastat_transaction_id,
+            new_bill.invoice_line_ids[0].intrastat_transaction_id,
+        )
+
     @freeze_time('2022-02-01')
     def test_weight_decimal_separator_depending_on_language(self):
         self.product_3.weight = 1230.5

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-06-06 11:19+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting/ja/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_renting
 #. odoo-python
@@ -47,7 +47,6 @@ msgstr "%(amount)s / %(duration)s"
 
 #. module: sale_renting
 #. odoo-python
-#: code:addons/sale_renting/models/product_template.py:0
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "%(duration)s %(unit)s"
 msgstr "%(duration)s %(unit)s"
@@ -67,6 +66,12 @@ msgid ""
 msgstr ""
 "(object.rental_status が ('draft', 'sent') にない、および'配送または返品入荷 "
 "- %s' %(object.name)) または 'オーダ - %s' % (object.name)"
+
+#. module: sale_renting
+#. odoo-python
+#: code:addons/sale_renting/models/product_template.py:0
+msgid "/ %(duration)s %(unit)s"
+msgstr ""
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
@@ -932,7 +937,7 @@ msgstr "価格表"
 #: model:ir.actions.act_window,name:sale_renting.product_pricing_action
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricing_tree
 msgid "Prices"
-msgstr "物価"
+msgstr "価格"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_template_form_view_rental
@@ -1313,7 +1318,7 @@ msgstr "販売オーダに遅延コストが加算されます"
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_report_search_view
 msgid "State"
-msgstr "都道府県・州"
+msgstr "ステータス"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard__status

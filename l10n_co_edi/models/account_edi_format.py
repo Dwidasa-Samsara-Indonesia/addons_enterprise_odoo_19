@@ -569,6 +569,7 @@ class AccountEdiFormat(models.Model):
             else:
                 return {
                     'post': self._l10n_co_edi_post_invoice_step_1,
+                    'edi_content': self._l10n_co_edi_generate_xml,
                 }
 
     def _check_move_configuration(self, move):
@@ -580,7 +581,7 @@ class AccountEdiFormat(models.Model):
 
         company = move.company_id
         journal = move.journal_id
-        now = fields.Datetime.now()
+        now = fields.Datetime.context_timestamp(self.with_context(tz='America/Bogota'), fields.Datetime.now()).date()
         oldest_date = now - timedelta(days=6)
         newest_date = now + timedelta(days=6)
         if not company.sudo().l10n_co_edi_username or not company.sudo().l10n_co_edi_password or not company.l10n_co_edi_company or \
@@ -600,7 +601,7 @@ class AccountEdiFormat(models.Model):
         if move.l10n_co_edi_type == L10N_CO_EDI_TYPE['Export Invoice'] and \
                 any(l.product_id and not l.product_id.l10n_co_edi_customs_code for l in move.invoice_line_ids):
             edi_result.append(_("Every exportation product must have a customs code."))
-        elif move.invoice_date and not (oldest_date <= fields.Datetime.to_datetime(move.invoice_date) <= newest_date):
+        elif move.invoice_date and not (oldest_date <= move.invoice_date <= newest_date):
             move.message_post(body=_('The issue date can not be older than 6 days or more than 6 days in the future.'))
         elif any(l.product_id and not l.product_id.default_code and \
                  not l.product_id.barcode and not l.product_id.unspsc_code_id for l in move.invoice_line_ids):

@@ -57,7 +57,12 @@ class MrpBom(models.Model):
         self.ensure_one()
         action = self.env["ir.actions.actions"]._for_xml_id("mrp_plm.mrp_eco_action_main")
         previous_boms = self._get_previous_boms()
-        action['domain'] = ['&', ('bom_id', 'in', list(previous_boms.keys())), ('type', '=', 'bom')]
+        relevant_bom_ids = [
+            bom_id
+            for bom_id, current_bom_set in previous_boms.items()
+            if self.id in current_bom_set
+        ]
+        action['domain'] = [('bom_id', 'in', relevant_bom_ids), ('type', '=', 'bom')]
         action['context'] = {
             'default_bom_id': self.id,
             'default_product_tmpl_id': self.product_tmpl_id.id,

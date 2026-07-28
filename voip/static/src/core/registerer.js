@@ -33,10 +33,8 @@ export class Registerer {
 
     constructor(voip, sipJsUserAgent) {
         this.voip = voip;
-        this.__sipJsRegisterer = new SIP.Registerer(sipJsUserAgent, {
-            expires: Registerer.EXPIRATION_INTERVAL,
-        });
-        this.__sipJsRegisterer.stateChange.addListener((state) => this._onStateChanged(state));
+        this.__sipJsUserAgent = sipJsUserAgent;
+        this._createSipJsRegisterer();
         window.addEventListener("beforeunload", () => {
             voip.isUnloading = true;
             this.__sipJsRegisterer.unregister();
@@ -49,11 +47,34 @@ export class Registerer {
         });
     }
 
+    _createSipJsRegisterer() {
+        this.__sipJsRegisterer = new SIP.Registerer(this.__sipJsUserAgent, {
+            expires: Registerer.EXPIRATION_INTERVAL,
+        });
+        this._onStateChangedListener = (state) => this._onStateChanged(state);
+        this.__sipJsRegisterer.stateChange.addListener(this._onStateChangedListener);
+    }
+
+    _reset() {
+        this.__sipJsRegisterer.stateChange.removeListener(this._onStateChangedListener);
+        this.__sipJsRegisterer.dispose();
+        this._createSipJsRegisterer();
+    }
+
     /**
      * Sends the REGISTER request to the Registrar.
      */
     register() {
-        this.__sipJsRegisterer.register({
+        if (this.__sipJsRegisterer.waiting) {
+            // When the WebSocket drops while a REGISTER is in flight, SIP.js
+            // can keep this flag set until Timer F expires (~32s). Reconnecting
+            // on the same instance would then reject with RequestPendingError,
+            // so this recreates it before sending a fresh REGISTER.
+            // Do not reset a healthy registerer: disposing a registered
+            // instance sends an unregister that can race with the new register.
+            this._reset();
+        }
+        return this.__sipJsRegisterer.register({
             requestDelegate: {
                 onReject: (response) => this._onRegistrationRejected(response),
             },

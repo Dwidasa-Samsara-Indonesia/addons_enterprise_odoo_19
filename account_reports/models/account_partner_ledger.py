@@ -56,6 +56,8 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
                 partner_values[column_group_key]['credit'] = partner_sum.get('credit', 0.0)
                 partner_values[column_group_key]['amount'] = partner_sum.get('amount', 0.0)
                 partner_values[column_group_key]['balance'] = partner_sum.get('balance', 0.0)
+                partner_values[column_group_key]['amount_currency'] = partner_sum.get('amount_currency')
+                partner_values[column_group_key]['currency_id'] = partner_sum.get('currency_id')
 
                 totals_by_column_group[column_group_key]['debit'] += partner_values[column_group_key]['debit']
                 totals_by_column_group[column_group_key]['credit'] += partner_values[column_group_key]['credit']
@@ -228,8 +230,16 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
             fields_to_assign = ['balance', 'debit', 'credit', 'amount']
             if any(not company_currency.is_zero(row[field]) for field in fields_to_assign):
                 groupby_partners.setdefault(row['groupby'], defaultdict(lambda: defaultdict(float)))
+                partner_vals = groupby_partners[row['groupby']][row['column_group_key']]
                 for field in fields_to_assign:
-                    groupby_partners[row['groupby']][row['column_group_key']][field] += row[field]
+                    partner_vals[field] += row[field]
+
+                if row['amount_currency'] is not None and partner_vals['amount_currency'] is not None:
+                    partner_vals['amount_currency'] += row['amount_currency']
+                    partner_vals['currency_id'] = row['currency_id']
+                else:
+                    partner_vals['amount_currency'] = None
+                    partner_vals['currency_id'] = None
 
         company_currency = self.env.company.currency_id
 
@@ -273,7 +283,11 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
         # Create the currency table.
         for column_group_key, column_group_options in report._split_options_per_column_group(options).items():
             query = report._get_report_query(column_group_options, 'from_beginning')
-            date_from = options['date']['date_from']
+
+            # With the followup reports, date_from should be None
+            date_from = report._get_date_bounds_info(column_group_options, 'strict_range')[0]
+            date_filter = SQL("account_move_line.date >= %(date_from)s", date_from=date_from) if date_from else SQL("TRUE")
+
             queries.append(SQL(
                 """
                 (WITH partner_sums AS (
@@ -281,19 +295,32 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
                         account_move_line.partner_id                            AS groupby,
                         %(column_group_key)s                                    AS column_group_key,
                         SUM(
-                            CASE WHEN account_move_line.date >= %(date_from)s
+                            CASE WHEN %(date_filter)s
                             THEN %(debit_select)s
                             ELSE 0
                             END
                         )                                                       AS debit,
                         SUM(
-                            CASE WHEN account_move_line.date >= %(date_from)s
+                            CASE WHEN %(date_filter)s
                             THEN %(credit_select)s
                             ELSE 0
                             END
                         )                                                       AS credit,
                         SUM(%(balance_select)s)                                 AS amount,
                         SUM(%(balance_select)s)                                 AS balance,
+                        CASE
+                            WHEN MIN(CASE WHEN %(date_filter)s THEN account_move_line.currency_id ELSE NULL END)
+                               = MAX(CASE WHEN %(date_filter)s THEN account_move_line.currency_id ELSE NULL END)
+                            THEN MIN(CASE WHEN %(date_filter)s THEN account_move_line.currency_id ELSE NULL END)
+                            ELSE NULL
+                        END                                                     AS currency_id,
+                        CASE
+                            WHEN MIN(CASE WHEN %(date_filter)s THEN account_move_line.currency_id ELSE NULL END)
+                               = MAX(CASE WHEN %(date_filter)s THEN account_move_line.currency_id ELSE NULL END)
+                             AND MIN(CASE WHEN %(date_filter)s THEN account_move_line.currency_id ELSE NULL END) != %(company_currency)s
+                            THEN SUM(CASE WHEN %(date_filter)s THEN account_move_line.amount_currency ELSE 0 END)
+                            ELSE NULL
+                        END                                                     AS amount_currency,
                         MAX(account_move_line.date)                             AS latest_date
                     FROM %(table_references)s
                     %(currency_table_join)s
@@ -303,23 +330,30 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
                 SELECT *
                 FROM partner_sums
                 WHERE partner_sums.balance != 0
-                OR partner_sums.latest_date >= %(date_from)s
+                OR partner_sums.latest_date >= %(date_from_or_min)s
                 )""",
                 column_group_key=column_group_key,
-                date_from=date_from,
+                date_filter=date_filter,
+                date_from_or_min=date_from or '1900-01-01',
                 debit_select=report._currency_table_apply_rate(SQL("account_move_line.debit")),
                 credit_select=report._currency_table_apply_rate(SQL("account_move_line.credit")),
                 balance_select=report._currency_table_apply_rate(SQL("account_move_line.balance")),
                 table_references=query.from_clause,
                 currency_table_join=report._currency_table_aml_join(column_group_options),
                 search_condition=query.where_clause,
+                company_currency=self.env.company.currency_id.id,
             ))
 
         return SQL(' UNION ALL ').join(queries)
 
     def _get_initial_balance_values(self, partner_ids, options):
+        report = self.env['account.report'].browse(options['report_id'])
+
+        if not report.filter_date_range:
+            # Happens when the report has been manually customized to not use date ranges anymore.
+            return {partner_id: {col_group_key: {} for col_group_key in options['column_groups']} for partner_id in partner_ids}
+
         queries = []
-        report = self.env.ref('account_reports.partner_ledger_report')
         for column_group_key, column_group_options in report._split_options_per_column_group(options).items():
             # Get sums for the initial balance.
             # period: [('date' <= options['date_from'] - 1)]
@@ -722,8 +756,9 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
             col_expr_label = column['expression_label']
             value = None if options.get('hide_partner_totals') else partner_values[column['column_group_key']].get(col_expr_label)
             unfoldable = unfoldable or (col_expr_label in ('debit', 'credit', 'amount') and value and not company_currency.is_zero(value))
-            column_values.append(report._build_column_dict(value, column, options=options))
-
+            currency_id = partner_values[column['column_group_key']].get('currency_id')
+            currency = self.env['res.currency'].browse(currency_id) if column['expression_label'] == 'amount_currency' and currency_id else False
+            column_values.append(report._build_column_dict(value, column, options=options, currency=currency))
 
         line_id = report._get_generic_line_id('res.partner', partner.id) if partner else report._get_generic_line_id('res.partner', None, markup='no_partner')
 
@@ -814,6 +849,9 @@ class AccountPartnerLedgerReportHandler(models.AbstractModel):
         partners = options.get('partner_ids', [])
         if not partners:
             report = self.env['account.report'].browse(options['report_id'])
+            # Unlike the regular rendering flow, this path (sending the report by
+            # email) doesn't initialize the currency table joined by _get_query_sums.
+            report._init_currency_table(options)
             self.env.cr.execute(self._get_query_sums(report, options))
             partners = [row['groupby'] for row in self.env.cr.dictfetchall() if row['groupby']]
         return self.env['res.partner'].browse(partners)

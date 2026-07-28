@@ -24,6 +24,7 @@ class HrPayslip(models.Model):
         else:
             iso20022_uetr = False
 
+        index = 1
         allocations = self.compute_salary_allocations()
         for ba in self.employee_id.bank_account_ids:
             amount = allocations[str(ba.id)]
@@ -31,7 +32,7 @@ class HrPayslip(models.Model):
                 continue
             payment = {
                 'id': self.id,
-                'name': str(self.id),
+                'name': str(self.id) if len(self.employee_id.bank_account_ids) == 1 else f'{self.id}-{index}',
                 'payment_date': payment_date,
                 'amount': amount,
                 'journal_id': journal_id.id,
@@ -49,16 +50,22 @@ class HrPayslip(models.Model):
             if iso20022_uetr:
                 payment['iso20022_uetr'] = iso20022_uetr
             payments.append(payment)
+            index += 1
         return payments
 
     def action_payslip_payment_report(self, export_format='sepa'):
         action = super().action_payslip_payment_report()
-        if self.company_id.currency_id.name != 'EUR':
-            return action
-        action.update({
-            'context': {
-                **action['context'],
-                'default_export_format': export_format,
-            },
-        })
+        default_export_format = None
+        if self.company_id.country_code == 'CH':
+            default_export_format = 'iso20022_ch'
+        elif self.company_id.currency_id.name == 'EUR':
+            default_export_format = export_format
+
+        if default_export_format:
+            action.update({
+                'context': {
+                    **action['context'],
+                    'default_export_format': default_export_format,
+                },
+            })
         return action

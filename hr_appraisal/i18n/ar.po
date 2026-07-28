@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-01-06 10:37+0000\n"
+"PO-Revision-Date: 2026-05-05 12:52+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
 "hr_appraisal/ar/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: hr_appraisal
 #. odoo-python
@@ -448,7 +448,7 @@ msgstr "<span class=\"o_stat_text\">الأهداف</span>"
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_goal_template_view_hierarchy
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_goal_view_hierarchy
 msgid "<span id=\"span_tag\" invisible=\"not tag_ids\">Tags:</span>"
-msgstr ""
+msgstr "<span id=\"span_tag\" invisible=\"not tag_ids\">علامات التصنيف:</span>"
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -457,6 +457,11 @@ msgid ""
 "                                            <strong class=\"text-success\" "
 "invisible=\"not employee_feedback_published\">Shared to Appraisers</strong>"
 msgstr ""
+"<span invisible=\"employee_feedback_published\">تمت مشاركته مع مسؤولي "
+"التقييم</span>\n"
+"                                            <strong class=\"text-success\" "
+"invisible=\"not employee_feedback_published\">تمت مشاركته مع مسؤولي التقييم</"
+"strong>"
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -465,6 +470,9 @@ msgid ""
 "                                            <strong class=\"text-success\" "
 "invisible=\"not manager_feedback_published\">Shared to Employee</strong>"
 msgstr ""
+"<span invisible=\"manager_feedback_published\">تمت مشاركته مع الموظف</span>\n"
+"                                            <strong class=\"text-success\" "
+"invisible=\"not manager_feedback_published\">تمت مشاركته مع الموف</strong>"
 
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_manager_feedback_template:hr_appraisal.hr_appraisal_default_template
@@ -556,6 +564,10 @@ msgid ""
 "                                            <span invisible=\"not "
 "employee_feedback_published\">Private</span>"
 msgstr ""
+"<strong class=\"text-info\" invisible=\"employee_feedback_published\">خاص</"
+"strong>\n"
+"                                            <span invisible=\"not "
+"employee_feedback_published\">خاص</span>"
 
 #. module: hr_appraisal
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -565,6 +577,10 @@ msgid ""
 "                                            <span invisible=\"not "
 "manager_feedback_published\">Private</span>"
 msgstr ""
+"<strong class=\"text-info\" invisible=\"manager_feedback_published\">خاص</"
+"strong>\n"
+"                                            <span invisible=\"not "
+"manager_feedback_published\">خاص</span>"
 
 #. module: hr_appraisal
 #: model_terms:hr.appraisal.template,appraisal_employee_feedback_template:hr_appraisal.hr_appraisal_probationary_period_template
@@ -1244,7 +1260,7 @@ msgstr "التقييم بانتظار البدء"
 msgid ""
 "Appraisal's managers have been updated due to the end of collaboration with "
 "an employee."
-msgstr ""
+msgstr "تم تحديث مديري التقييم نظراً لانتهاء التعاون مع أحد الموظفين."
 
 #. module: hr_appraisal
 #: model:ir.actions.server,name:hr_appraisal.ir_cron_scheduler_appraisal_ir_actions_server

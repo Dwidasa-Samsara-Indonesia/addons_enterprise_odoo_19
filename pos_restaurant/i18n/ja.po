@@ -4,17 +4,17 @@
 #
 # Translators:
 # Martin Trigaux, 2022
-# Ryoko Tsuda <ryoko@quartile.co>, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2026.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-03-19 11:56+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2026-07-03 17:35+0000\n"
+"PO-Revision-Date: 2026-07-13 06:43+0000\n"
+"Last-Translator: Ryoko Tsuda <ryoko@quartile.co>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "pos_restaurant/ja/>\n"
 "Language: ja\n"
@@ -22,19 +22,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
-
-#. module: pos_restaurant
-#. odoo-javascript
-#: code:addons/pos_restaurant/static/src/app/services/pos_store.js:0
-msgid " and $1"
-msgstr " および $1"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: pos_restaurant
 #. odoo-javascript
 #: code:addons/pos_restaurant/static/src/app/screens/split_bill_screen/split_bill_screen.xml:0
 msgid "% discount"
 msgstr "% 割引"
+
+#. module: pos_restaurant
+#. odoo-javascript
+#: code:addons/pos_restaurant/static/src/app/screens/tip_screen/tip_screen.js:0
+msgid ""
+"%(amount)s is more than 25% of the order's total amount. Are you sure of "
+"this tip amount?"
+msgstr ""
+
+#. module: pos_restaurant
+#. odoo-javascript
+#: code:addons/pos_restaurant/static/src/app/screens/tip_screen/tip_screen.js:0
+msgid "%(original)s + %(tip)s tip = %(overall)s"
+msgstr ""
 
 #. module: pos_restaurant
 #. odoo-javascript
@@ -188,6 +196,7 @@ msgstr "アーカイブ済"
 #. module: pos_restaurant
 #. odoo-javascript
 #: code:addons/pos_restaurant/static/src/app/screens/floor_screen/floor_screen.js:0
+#: code:addons/pos_restaurant/static/src/app/screens/tip_screen/tip_screen.js:0
 msgid "Are you sure?"
 msgstr "間違いありませんか？"
 
@@ -343,7 +352,7 @@ msgstr "構成設定"
 #. odoo-javascript
 #: code:addons/pos_restaurant/static/src/app/screens/receipt_screen/receipt_screen.xml:0
 msgid "Continue"
-msgstr "次へ進む"
+msgstr "続行"
 
 #. module: pos_restaurant
 #: model:product.template,name:pos_restaurant.product_cosmopolitan_product_template
@@ -470,7 +479,7 @@ msgstr "事前のレシート印刷"
 #. module: pos_restaurant
 #: model:ir.model,name:pos_restaurant.model_pos_preset
 msgid "Easily load a set of configuration options"
-msgstr "設定オプションのセットを簡単に読み込みます。"
+msgstr "設定オプションセットの簡易ロード"
 
 #. module: pos_restaurant
 #. odoo-javascript
@@ -606,7 +615,7 @@ msgstr "フロア & テーブルマップ"
 #. module: pos_restaurant
 #: model:pos.category,name:pos_restaurant.food
 msgid "Food"
-msgstr "食品"
+msgstr "食べ物"
 
 #. module: pos_restaurant
 #. odoo-javascript
@@ -721,6 +730,18 @@ msgstr "最終更新者"
 #: model:ir.model.fields,field_description:pos_restaurant.field_restaurant_table__write_date
 msgid "Last Updated on"
 msgstr "最終更新日"
+
+#. module: pos_restaurant
+#. odoo-javascript
+#: code:addons/pos_restaurant/static/src/app/screens/floor_screen/floor_screen.js:0
+msgid "Link Table"
+msgstr ""
+
+#. module: pos_restaurant
+#. odoo-javascript
+#: code:addons/pos_restaurant/static/src/app/screens/floor_screen/floor_screen.js:0
+msgid "Link Table %(sourceTable)s with %(destinationTable)s"
+msgstr ""
 
 #. module: pos_restaurant
 #. odoo-javascript
@@ -1072,6 +1093,12 @@ msgstr "フロアを削除すると元に戻すことはできません。それ
 #: code:addons/pos_restaurant/static/src/app/screens/floor_screen/floor_screen.js:0
 msgid "Removing a table cannot be undone"
 msgstr "フロアを削除すると元に戻すことはできません。"
+
+#. module: pos_restaurant
+#. odoo-javascript
+#: code:addons/pos_restaurant/static/src/app/screens/floor_screen/floor_screen.js:0
+msgid "Removing floor %s"
+msgstr ""
 
 #. module: pos_restaurant
 #. odoo-javascript
@@ -1550,7 +1577,7 @@ msgstr "幅"
 #. odoo-javascript
 #: code:addons/pos_restaurant/static/src/app/screens/split_bill_screen/split_bill_screen.xml:0
 msgid "With"
-msgstr "以下と一緒に："
+msgstr "込："
 
 #. module: pos_restaurant
 #. odoo-javascript
@@ -1639,6 +1666,9 @@ msgstr "アイテム"
 #: code:addons/pos_restaurant/static/src/app/screens/split_bill_screen/split_bill_screen.xml:0
 msgid "product(s) selected"
 msgstr "プロダクトが選択されました"
+
+#~ msgid " and $1"
+#~ msgstr " および $1"
 
 #~ msgid "________________________"
 #~ msgstr "________________________"

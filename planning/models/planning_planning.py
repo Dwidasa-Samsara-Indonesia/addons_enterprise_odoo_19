@@ -81,12 +81,13 @@ class PlanningPlanning(models.Model):
             # /!\ For security reason, we only given the public employee to render mail template
             for employee in self.env['hr.employee.public'].browse(employees.ids):
                 if employee.work_email:
+                    assigned_new_shift = bool(slots.filtered(lambda slot: slot.employee_id.id == employee.id))
                     template_context['employee'] = employee
                     template_context['start_datetime'] = self.date_start
                     template_context['end_datetime'] = self.date_end
                     template_context['planning_url'] = employee_url_map[employee.id]
-                    template_context['planning_url_ics'] = ics_url_per_employee_id[employee.id]
-                    template_context['assigned_new_shift'] = bool(slots.filtered(lambda slot: slot.employee_id.id == employee.id))
+                    template_context['planning_url_ics'] = ics_url_per_employee_id[employee.id] if assigned_new_shift else False
+                    template_context['assigned_new_shift'] = assigned_new_shift
                     template.with_context(**template_context).send_mail(self.id, email_values={'email_to': employee.work_email, 'email_from': email_from}, email_layout_xmlid='mail.mail_notification_light')
         # mark as sent
         slots.write({

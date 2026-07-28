@@ -67,6 +67,7 @@ export class DocumentsSearchPanel extends SearchPanel {
         this.dialog = useService("dialog");
 
         onWillStart(async () => {
+            await this.env.searchModel.sectionsPromise;
             if (this.env.model.config.context.active_model) {
                 // Ensure folders in search panel are folded when users come from another app
                 const categories = await this.env.searchModel.getSections(

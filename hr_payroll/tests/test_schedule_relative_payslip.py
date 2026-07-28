@@ -8,6 +8,7 @@ from freezegun import freeze_time
 
 PAY_SCHEDULES = {
     'monthly': 30,
+    'semi-monthly': 14,
     'quarterly': 89,
     'semi-annually': 180,
     'annually': 364,

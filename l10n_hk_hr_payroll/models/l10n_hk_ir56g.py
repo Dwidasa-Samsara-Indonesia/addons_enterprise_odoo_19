@@ -38,7 +38,7 @@ class L10n_HkIr56g(models.Model):
         for payslip in all_payslips:
             employee_payslips[payslip.employee_id] |= payslip
 
-        line_codes = ['BASIC', 'COMMISSION', 'REFERRAL_FEE', 'END_OF_YEAR_PAYMENT', 'BACKPAY', 'ALW.INT', 'HRA', 'MPF_GROSS', 'EEMC', 'ERMC', 'EEVC', 'ERVC']
+        line_codes = ['BASIC', 'COMMISSION', 'REFERRAL_FEE', 'END_OF_YEAR_PAYMENT', 'BACKPAY', 'ALW.INT', 'HRA', 'MPF_GROSS', 'EEMC', 'ERMC', 'EEVC', 'ERVC', 'GLOBAL_REIMBURSEMENT', 'GLOBAL_DEDUCTION']
         all_line_values = all_payslips._get_line_values(line_codes, vals_list=['total', 'quantity'])
 
         sequence = 0
@@ -70,7 +70,7 @@ class L10n_HkIr56g(models.Model):
                 'RTN_ASS_YR': self.end_year,
                 'StartDateOfEmp': start_date,
                 'EndDateOfEmp': end_date,
-                'AmtOfSalary': int(mapped_total['BASIC']),
+                'AmtOfSalary': int(mapped_total['BASIC'] + mapped_total['GLOBAL_REIMBURSEMENT'] + mapped_total['GLOBAL_DEDUCTION']),
                 'AmtOfCommFee': int(mapped_total['COMMISSION']) + int(mapped_total['REFERRAL_FEE']),
                 'AmtOfBonus': int(mapped_total['END_OF_YEAR_PAYMENT']),
                 'AmtOfBpEtc': int(mapped_total['BACKPAY']),

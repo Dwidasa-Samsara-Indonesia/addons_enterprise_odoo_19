@@ -43,7 +43,7 @@ export const FDM_MESSAGES = {
  */
 export class IotHttpService {
     webRtcFailedTimestamp = null;
-    connectionStatus = "webrtc"; // webrtc, longpolling, websocket, offline
+    connectionStatus = "longpolling"; // webrtc, longpolling, websocket, offline
     connectionTypes = [
         this._webRtc.bind(this),
         this._longpolling.bind(this),
@@ -114,13 +114,15 @@ export class IotHttpService {
     }
 
     async _longpolling({ ip, deviceIdentifier, data, messageId, onSuccess, onFailure }) {
-        this.longpolling.onMessage(ip, deviceIdentifier, onSuccess, onFailure, messageId);
-        if (data) {
-            const response =
-                await this.longpolling.sendMessage(ip, { device_identifier: deviceIdentifier, data }, messageId, true);
-            if (response?.result === false || response?.result?.status === "disconnected") {  // compat. v19.1+ IoT Boxes
-                onFailure({ status: "disconnected" }, deviceIdentifier, messageId);
-            }
+        const onMessagePromise = this.longpolling.onMessage(ip, deviceIdentifier, onSuccess, onFailure, messageId);
+        if (!data) {
+            return await onMessagePromise;
+        }
+
+        const response =
+            await this.longpolling.sendMessage(ip, { device_identifier: deviceIdentifier, data }, messageId, true);
+        if (response?.result === false || response?.result?.status === "disconnected") {  // compat. v19.1+ IoT Boxes
+            onFailure({ status: "disconnected" }, deviceIdentifier, messageId);
         }
         this.connectionStatus = "longpolling";
     }

@@ -1,20 +1,32 @@
 from odoo import http, fields
 from odoo.addons.pos_self_order.controllers.orders import PosSelfOrderController
-from werkzeug.exceptions import Unauthorized
+from werkzeug.exceptions import BadRequest, Unauthorized
 
 
 class PosSelfOrderControllerIot(PosSelfOrderController):
+    def _verify_pos_config_kiosk(self, access_token):
+        pos_config = self._verify_pos_config(access_token)
+        if pos_config.self_ordering_mode != "kiosk":
+            raise BadRequest()
+        return pos_config
+
     @http.route("/pos-self-order/iot-payment-cancelled/", auth="public", type="jsonrpc", website=True)
     def iot_payment_cancelled(self, access_token, order_id):
-        pos_config = self._verify_pos_config(access_token)
+        pos_config = self._verify_pos_config_kiosk(access_token)
         order = pos_config.env["pos.order"].search([("id", "=", order_id), ("config_id", "=", pos_config.id)])
+        if not order or order.state != "draft":
+            raise BadRequest()
         order._send_payment_result('fail')
 
     @http.route("/pos-self-order/iot-payment-success/", auth="public", type="jsonrpc", website=True)
     def iot_payment_success(self, access_token, order_id, payment_method_id, payment_info):
-        pos_config = self._verify_pos_config(access_token)
-        payment_method = pos_config.payment_method_ids.filtered(lambda p: p.id == payment_method_id)
+        pos_config = self._verify_pos_config_kiosk(access_token)
+        payment_method = pos_config.payment_method_ids.filtered(lambda p: p.id == payment_method_id and p.iot_device_id)
+        if not payment_method:
+            raise BadRequest()
         order = pos_config.env["pos.order"].search([("id", "=", order_id), ("config_id", "=", pos_config.id)])
+        if not order or order.state != "draft":
+            raise BadRequest()
         order.add_payment({
             "amount": order.amount_total,
             "payment_date": fields.Datetime.now(),
@@ -27,9 +39,7 @@ class PosSelfOrderControllerIot(PosSelfOrderController):
         })
 
         order.action_pos_order_paid()
-
-        if order.config_id.self_ordering_mode == "kiosk":
-            order._send_payment_result('Success')
+        order._send_payment_result('Success')
 
     @http.route("/pos-self-order/get-iot-box-data/", auth="public", type="jsonrpc", website=True)
     def get_iot_box_data(self, access_token, iot_box_id):

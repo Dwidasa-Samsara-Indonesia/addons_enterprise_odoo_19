@@ -65,7 +65,7 @@ class L10n_LuGenerateXml(models.TransientModel):
             'interface': 'MODL5',
             'agent_vat': agent_vat or "NE",
             'agent_matr_number': agent.l10n_lu_agent_matr_number or company.matr_number or "NE",
-            'agent_rcs_number': agent.l10n_lu_agent_rcs_number or company.company_registry or "NE",
+            'agent_rcs_number': (agent.l10n_lu_agent_rcs_number if agent else company.company_registry) or "NE",
             'declarations': []
         }
         # The Matr. Number is required

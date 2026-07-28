@@ -83,18 +83,14 @@ class HrContractSalaryOffer(models.Model):
                 'wage': new_wage,
                 'wage_with_holidays': new_wage,
             })
-        if self.employee_id and self.employee_id.active:
-            self.with_context(tracking_disable=True)._archive_future_versions(version=self.employee_id.version_id)
-        self.employee_id.version_id.with_context(tracking_disable=True).write({
-            'contract_date_end': False
-        })
-        contract_date_start = self.employee_id.version_id.contract_date_start or fields.Date.today().replace(day=1)
+        employee = version.employee_id
+        if employee and employee.active:
+            self.with_context(tracking_disable=True)._archive_future_versions(version=employee.version_id)
         version_vals.update({
-            'date_version': max(d for d in [fields.Date.today(), contract_date_start, self.contract_start_date] if d) + relativedelta(days=1),
-            'contract_date_start': contract_date_start,
+            'contract_date_start': version.contract_date_start or fields.Date.today().replace(day=1),
             'contract_date_end': False,
         })
-        version.with_context(active_test=True).write(version_vals)
+        version.write(version_vals)
         version._inverse_wage_with_holidays()
         return version
 

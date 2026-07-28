@@ -7,7 +7,7 @@ SCHEM_NAME_PER_BANK_BIC = {
         'CUST': {'NDEASESS'},
     },
     'dbtr': {
-        'BANK': {'NDEASESS'},
+        'BANK': {'NDEASESS', 'SWEDSESS'},
         'CUST': {},
     },
 }

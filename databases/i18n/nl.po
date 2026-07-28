@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:44+0000\n"
-"PO-Revision-Date: 2026-02-16 10:59+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-07-06 13:34+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/databases/"
 "nl/>\n"
@@ -19,19 +19,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: databases
 #. odoo-python
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "%(nb_failed_dbs)s databases could not be synchronized.\n"
-msgstr ""
+msgstr "%(nb_failed_dbs)s databases konden niet gesynchroniseerd worden.\n"
 
 #. module: databases
 #. odoo-python
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "%(nb_new_dbs)s new databases, %(nb_updated_dbs)s updated."
 msgstr "%(nb_new_dbs)s nieuwe databases, %(nb_updated_dbs)s bijgewerkt."
+
+#. module: databases
+#. odoo-python
+#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
+msgid "- … and %(nb_dbs)d more!\n"
+msgstr "- … en %(nb_dbs)d meer!\n"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
@@ -43,6 +49,13 @@ msgid ""
 "                                useful to cut all access at once\n"
 "                            </span>"
 msgstr ""
+"<span class=\"o_form_label\">\n"
+"                                Toegang beheren:\n"
+"                           </span>\n"
+"                            <span class=\"text-muted\"> \n"
+"                                handig om alle toegang in één keer te "
+"blokkeren\n"
+"                           </span>"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.edit_project
@@ -106,6 +119,14 @@ msgstr "Aantal documenten in Inbox"
 #: code:addons/databases/wizard/databases_manage_users_wizard.py:0
 msgid "An error occurred: %s"
 msgstr "Er is een onbekende fout opgetreden: %s"
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
+msgid ""
+"Automatically connect to SaaS databases using Odoo.com as an OAuth provider."
+msgstr ""
+"Maak automatisch verbinding met SaaS-databases via Odoo.com als OAuth-"
+"provider."
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.databases_manage_users_wizard_view_form
@@ -285,7 +306,7 @@ msgstr "Weergavenaam"
 #: model:ir.model.fields.selection,name:databases.selection__databases_manage_users_wizard__state__done
 #: model:project.task.type,name:databases.stage_done
 msgid "Done"
-msgstr "Gereed"
+msgstr "Voltooid"
 
 #. module: databases
 #: model:ir.model.fields.selection,name:databases.selection__databases_manage_users_wizard__state__draft
@@ -314,6 +335,12 @@ msgid ""
 msgstr ""
 "Fout bij het verbinden met %(url)s: De databasenaam, de api-login of de api-"
 "sleutel ontbreekt\n"
+
+#. module: databases
+#. odoo-python
+#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
+msgid "Error while creating an API key on %(nb_dbs)d databases:\n"
+msgstr "Fout bij het aanmaken van een API-sleutel op %(nb_dbs)d databases:\n"
 
 #. module: databases
 #. odoo-python
@@ -483,6 +510,11 @@ msgid "Mode"
 msgstr "Modus"
 
 #. module: databases
+#: model:ir.model.fields,field_description:databases.field_res_config_settings__module_databases_auth
+msgid "Module Databases Auth"
+msgstr "Module Databases Auth"
+
+#. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_user__name
 msgid "Name"
 msgstr "Naam"
@@ -638,7 +670,7 @@ msgstr "Gebruikers verwijderen"
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "Remove this user from all databases"
-msgstr ""
+msgstr "Verwijder deze gebruiker uit alle databases"
 
 #. module: databases
 #: model:ir.ui.menu,name:databases.menu_reporting
@@ -653,7 +685,17 @@ msgstr "Verantwoordelijke"
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "Revoke all access"
-msgstr ""
+msgstr "Alle toegang intrekken"
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
+msgid "SaaS SSO Auto-login"
+msgstr "SaaS SSO Automatisch inloggen"
+
+#. module: databases
+#: model:ir.model.fields,field_description:databases.field_res_config_settings__databases_saas_single_sign_on
+msgid "Saas SSO"
+msgstr "Saas SSO"
 
 #. module: databases
 #. odoo-python
@@ -774,7 +816,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/databases/models/res_users.py:0
 msgid "This user has no access to remove."
-msgstr ""
+msgstr "Deze gebruiker heeft geen toegang om te verwijderen."
 
 #. module: databases
 #: model:ir.model.constraint,message:databases.constraint_project_project_database_url_required
@@ -785,7 +827,7 @@ msgstr "Oei! Het lijkt erop dat een URL voor een database ontbreekt!"
 #. odoo-python
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "Unreachable"
-msgstr ""
+msgstr "Onbereikbaar"
 
 #. module: databases
 #: model:ir.model,name:databases.model_res_users
@@ -834,11 +876,13 @@ msgstr ""
 msgid ""
 "You can't revoke your own access. You wouldn't want to lock yourself out!"
 msgstr ""
+"Je kunt je eigen toegang niet intrekken. Je wilt jezelf toch niet "
+"buitensluiten?"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "remote user"
-msgstr ""
+msgstr "externe gebruiker"
 
 #~ msgid "Error while resolving %(url)s: %(exception)s\n"
 #~ msgstr "Fout bij het oplossen van %(url)s: %(exception)s\n"

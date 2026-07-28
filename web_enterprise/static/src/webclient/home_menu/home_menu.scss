@@ -47,6 +47,14 @@
     }
 
     .o_app {
+        --AppSwitcherIcon-box-shadow: var(--AppSwitcherIcon-inset-shadow, inset 0 0 0 1px rgba(0,0,0, .2)),
+            0 1px 1px rgba(0, 0, 0, .02),
+            0 2px 2px rgba(0, 0, 0, .02),
+            0 4px 4px rgba(0, 0, 0, .02),
+            0 8px 8px rgba(0, 0, 0, .02),
+            0 16px 16px rgba(0, 0, 0, .02);
+        --AppSwitcherIcon-transition: box-shadow ease-in 0.1s, transform ease-in 0.1s;
+
         .o_app_icon {
             width: $o-home-menu-app-icon-max-width;
             aspect-ratio: 1;
@@ -54,32 +62,28 @@
             background-color: var(--AppSwitcherIcon-background, #{$o-home-menu-app-icon-background-color});
             object-fit: cover;
             transform-origin: center bottom;
-            transition: box-shadow ease-in 0.1s, transform ease-in 0.1s;
-            box-shadow: var(--AppSwitcherIcon-inset-shadow, inset 0 0 0 1px rgba(0,0,0, .2)), 
-                0 1px 1px rgba(#000, .02),
-                0 2px 2px rgba(#000, .02),
-                0 4px 4px rgba(#000, .02),
-                0 8px 8px rgba(#000, .02),
-                0 16px 16px rgba(#000, .02);
+            transform: var(--AppSwitcherIcon-transform);
+            transition: var(--AppSwitcherIcon-transition);
+            box-shadow: var(--AppSwitcherIcon-box-shadow);
 
             .fa {
                 font-size: $o-home-menu-app-icon-max-width * 0.5;
             }
         }
         
-        &:hover .o_app_icon {
-            box-shadow: var(--AppSwitcherIcon-inset-shadow, inset 0 0 0 1px rgba(0,0,0, .2)), 
-                0 2px 2px rgba(#000, .03),
-                0 4px 4px rgba(#000, .03),
-                0 8px 8px rgba(#000, .03),
-                0 12px 12px rgba(#000, .03),
-                0 24px 24px rgba(#000, .03);
-            transform: translateY(-2px);
+        &:hover {
+            --AppSwitcherIcon-box-shadow: var(--AppSwitcherIcon-inset-shadow, inset 0 0 0 1px rgba(0, 0, 0, 0.2)),
+                0 2px 2px rgba(0, 0, 0, 0.03),
+                0 4px 4px rgba(0, 0, 0, 0.03),
+                0 8px 8px rgba(0, 0, 0, 0.03),
+                0 12px 12px rgba(0, 0, 0, 0.03),
+                0 24px 24px rgba(0, 0, 0, 0.03);
+            --AppSwitcherIcon-transform: translateY(-2px);
         }
 
-        &:active .o_app_icon {
-            transform: translateY(-2px) scale(.98);
-            transition: none;
+        &:active {
+            --AppSwitcherIcon-transform: translateY(-2px) scale(.98);
+            --AppSwitcherIcon-transition: none;
         }
 
         .o_caption {

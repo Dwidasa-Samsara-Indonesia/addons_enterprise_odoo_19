@@ -137,12 +137,16 @@ class MarketingParticipant(models.Model):
         self.write({'state': 'running'})
 
     def action_set_unlink(self):
+        return self._action_set_unlink()
+
+    def _action_set_unlink(self, trace_message=False):
         self.write({'state': 'unlinked'})
         self.env['marketing.trace'].search([
             ('participant_id', 'in', self.ids),
             ('state', '=', 'scheduled')
         ]).write({
+            'schedule_date': self.env.cr.now(),
             'state': 'canceled',
-            'state_msg': _('Record deleted'),
+            'state_msg': trace_message or _('Record deleted'),
         })
         return True

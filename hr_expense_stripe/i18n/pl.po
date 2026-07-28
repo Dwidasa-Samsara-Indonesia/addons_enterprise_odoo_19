@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-04-08 14:23+0000\n"
+"POT-Creation-Date: 2026-07-03 17:42+0000\n"
+"PO-Revision-Date: 2026-06-16 14:52+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense_stripe/pl/>\n"
@@ -19,13 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.16.2\n"
-
-#. module: hr_expense_stripe
-#. odoo-javascript
-#: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
-msgid "(Fetching...)"
-msgstr "(Pobieranie...)"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
@@ -82,7 +76,7 @@ msgstr "<span>na transakcję</span>"
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "<span>per</span>"
-msgstr "<span>na</span>"
+msgstr "<span>za</span>"
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_topup_wizard_form
@@ -982,6 +976,144 @@ msgstr ""
 "        "
 
 #. module: hr_expense_stripe
+#: model:mail.template,body_html:hr_expense_stripe.email_template_hr_expense_stripe_restriction
+msgid ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: "
+"16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; "
+"color: #454748; width: 100%; border-collapse:separate;\"><tr><td "
+"align=\"center\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"padding: 16px; background-color: white; color: "
+"#454748; border-collapse:separate;\">\n"
+"            <tbody>\n"
+"            <tr>\n"
+"                <td align=\"center\" style=\"min-width: 590px;\">\n"
+"                <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+"0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                    <tr><td valign=\"middle\">\n"
+"                    <t t-set=\"company\" t-value=\"object\"/>\n"
+"                    <span style=\"font-size: 10px;\">Stripe Account "
+"Notification</span><br/>\n"
+"                    <span style=\"font-size: 20px; font-weight: bold;"
+"\">Action Required</span>\n"
+"                    </td></tr>\n"
+"                    <tr><td valign=\"middle\" align=\"right\" t-if=\"not "
+"company.uses_default_logo\">\n"
+"                    <img t-attf-src=\"/logo.png?company={{ company.id }}\" "
+"style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-"
+"alt=\"company.name\"/>\n"
+"                    </td></tr>\n"
+"                    <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
+"                    <hr width=\"100%\" style=\"background-"
+"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+"size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+"                    </td></tr>\n"
+"                </table>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr>\n"
+"                <td align=\"center\" style=\"min-width: 590px;\">\n"
+"                <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+"0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                    <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
+"                        <p>Dear <t t-out=\"ctx.get('user_name')\"/>,</p>\n"
+"                        <t t-if=\"ctx.get('due_date')\">\n"
+"                            <p>\n"
+"                                Stripe has identified an issue while "
+"reviewing your connected account.\n"
+"                                If this issue is not resolved, your account "
+"will be restricted soon, by <t t-out=\"ctx.get('due_date')\"/>,\n"
+"                                and you won't be able to issue expense "
+"cards.\n"
+"                            </p>\n"
+"                        </t>\n"
+"                        <t t-else=\"\">\n"
+"                            <p>\n"
+"                                Stripe has identified an issue while "
+"reviewing your connected account.\n"
+"                                If this issue is not resolved, your account "
+"will be restricted soon\n"
+"                                and you won't be able to issue expense "
+"cards.\n"
+"                            </p>\n"
+"                        </t>\n"
+"                        <p>\n"
+"                            To address this, please review and update the "
+"required information by going to\n"
+"                            <strong>Expense &gt; Configuration &gt; Expense "
+"Card &gt; Configure</strong>, or by using the following link:\n"
+"                        </p>\n"
+"                        <p>\n"
+"                            <a t-attf-href=\"{{ object.get_base_url() }}/"
+"odoo/settings#hr_expense\" style=\"color: #875A7B; text-decoration: "
+"underline;\">Update Information</a>\n"
+"                        </p>\n"
+"                        <p>\n"
+"                            Once the update is completed, Stripe will review "
+"the information again.\n"
+"                            If you need any assistance, please don’t "
+"hesitate to contact our support team.\n"
+"                        </p>\n"
+"                        <p>Kind regards,</p><br/>\n"
+"                        <p><t t-out=\"object.name\"/></p>\n"
+"                    </td></tr>\n"
+"                    <tr><td style=\"text-align:center;\">\n"
+"                    <hr width=\"100%\" style=\"background-"
+"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+"size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+"                    </td></tr>\n"
+"                </table>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr>\n"
+"                <td align=\"center\" style=\"min-width: 590px;\">\n"
+"                <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: white; font-size: "
+"11px; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                    <tr><td valign=\"middle\" align=\"left\">\n"
+"                        <t t-out=\"company.name or ''\">YourCompany</t>\n"
+"                    </td></tr>\n"
+"                    <tr><td valign=\"middle\" align=\"left\" "
+"style=\"opacity: 0.7;\">\n"
+"                    <t t-if=\"company.phone\">\n"
+"                        <t t-out=\"company.phone or ''\">+1 650-123-4567</t> "
+"|\n"
+"                    </t>\n"
+"                    <t t-if=\"company.email\">\n"
+"                        <a t-attf-href=\"'mailto:%s' % {{ company.email }}\" "
+"style=\"text-decoration:none; color: #454748;\" t-out=\"company.email or "
+"''\">info@yourcompany.com</a> |\n"
+"                    </t>\n"
+"                    <t t-if=\"company.website\">\n"
+"                        <a t-attf-href=\"'%s' % {{ company.website }}\" "
+"style=\"text-decoration:none; color: #454748;\" t-out=\"company.website or "
+"''\">http://www.example.com</a>\n"
+"                    </t>\n"
+"                    </td></tr>\n"
+"                </table>\n"
+"                </td>\n"
+"            </tr>\n"
+"            </tbody>\n"
+"            </table>\n"
+"            </td></tr>\n"
+"            <tr><td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: #F1F1F1; color: "
+"#454748; padding: 8px; border-collapse:separate;\">\n"
+"            <tr><td style=\"text-align: center; font-size: 13px;\">\n"
+"                Powered by <a target=\"_blank\" href=\"https://www.odoo.com?"
+"utm_source=db&amp;utm_medium=mail\" t-attf-style=\"color: "
+"{{company.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
+"            </td></tr>\n"
+"            </table>\n"
+"            </td></tr>\n"
+"            </table>\n"
+"        "
+msgstr ""
+
+#. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/res_company.py:0
 msgid "A Webhook URL already exists for this company."
@@ -1037,6 +1169,11 @@ msgid "Action Needed"
 msgstr "Wymagane działanie"
 
 #. module: hr_expense_stripe
+#: model:mail.template,subject:hr_expense_stripe.email_template_hr_expense_stripe_restriction
+msgid "Action Required: Stripe Issuing Verification"
+msgstr ""
+
+#. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.hr_expense_stripe_card_receive_wizard_form
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_hr_expense_stripe_card_form
 msgid "Activate"
@@ -1054,12 +1191,18 @@ msgid "Advertising Services"
 msgstr "Usługi reklamowe"
 
 #. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.agricultural_cooperative
+msgid "Agricultural Cooperative"
+msgstr "Spółdzielnia rolnicza"
+
+#. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "Agricultural services"
 msgstr "Usługi rolnicze"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.airlines_air_carriers
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.airlines_air_carriers_specific
 msgid "Airlines Air Carriers"
 msgstr "Przewoźnicy lotniczy"
 
@@ -1123,8 +1266,8 @@ msgstr "Użyto karty wydatków, która nie istnieje w bazie danych."
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "An insecure authorization method was used"
-msgstr "Zastosowano niebezpieczną metodę autoryzacji."
+msgid "An insecure authorization method was used."
+msgstr "Użyto niezabezpieczonej metody autoryzacji."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.antique_reproductions
@@ -1173,6 +1316,11 @@ msgid "Auto Paint Shops"
 msgstr "Warsztaty lakiernicze"
 
 #. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.car_rental_agencies_specific
+msgid "Auto Rental Agency"
+msgstr "Wypożyczalnia samochodów"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.auto_service_shops
 msgid "Auto Service Shops"
 msgstr "Warsztaty samochodowe"
@@ -1181,6 +1329,11 @@ msgstr "Warsztaty samochodowe"
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.auto_and_home_supply_stores
 msgid "Auto and Home Supply Stores"
 msgstr "Sklepy z artykułami motoryzacyjnymi i wyposażeniem domu"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.automated_cash_disburse
+msgid "Automated Cash Disburse"
+msgstr "Automatyczna wypłata gotówki"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.automated_fuel_dispensers
@@ -1362,6 +1515,16 @@ msgstr "Powód anulowania"
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.candy_nut_and_confectionery_stores
 msgid "Candy Nut and Confectionery Stores"
 msgstr "Sklepy ze słodyczami i cukierkami"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.car_rental_agencies
+msgid "Car Rental Agencies"
+msgstr "Wypożyczalnie samochodów"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.car_washes
+msgid "Car Washes"
+msgstr "Myjnie samochodowe"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.car_and_truck_dealers_new_used
@@ -1765,7 +1928,7 @@ msgstr "Kraj"
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Country %(country_name)s not allowed"
-msgstr ""
+msgstr "Kraj %(country_name)s nie jest dozwolony"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.country_clubs
@@ -1850,6 +2013,11 @@ msgstr "Sklepy z produktami mleczarskimi"
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.dance_hall_studios_schools
 msgid "Dance Hall Studios Schools"
 msgstr "Szkoły Dance Hall Studios"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.dating_escort_services
+msgid "Dating/Escort Services"
+msgstr "Usługi randkowe/eskortowe"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields.selection,name:hr_expense_stripe.selection__hr_expense_stripe_card__spending_policy_interval__daily
@@ -2132,11 +2300,26 @@ msgstr "Agencje pracy tymczasowej"
 
 #. module: hr_expense_stripe
 #. odoo-javascript
-#: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.xml:0
-msgid "Enter the code we sent to the cardholder's phone number ending in"
+#: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
+msgid "Enter the code we sent to the cardholder's email %(email)s."
+msgstr "Wprowadź kod, który wysłaliśmy na e-mail posiadacza karty %(email)s."
+
+#. module: hr_expense_stripe
+#. odoo-javascript
+#: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
+msgid ""
+"Enter the code we sent to the cardholder's phone number ending in %(phone)s."
 msgstr ""
-"Wprowadź kod, który wysłaliśmy na numer telefonu posiadacza karty, kończący "
-"się na"
+"Podaj kod, który wysłaliśmy na numer telefonu posiadacza karty, kończący się "
+"na %(phone)s."
+
+#. module: hr_expense_stripe
+#. odoo-javascript
+#: code:addons/hr_expense_stripe/static/src/components/private_card_view_action.js:0
+msgid "Enter the code we sent to the cardholder's phone or email: Fetching ..."
+msgstr ""
+"Podaj kod, który wysłaliśmy na numer telefonu lub e-mail posiadacza karty: "
+"Pobieranie..."
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.equipment_rental
@@ -2427,6 +2610,11 @@ msgid "Grocery Stores Supermarkets"
 msgstr "Sklepy spożywcze, supermarkety"
 
 #. module: hr_expense_stripe
+#: model:mail.template,name:hr_expense_stripe.email_template_hr_expense_stripe_restriction
+msgid "HR Expense Stripe Account Restriction"
+msgstr ""
+
+#. module: hr_expense_stripe
 #: model:mail.template,name:hr_expense_stripe.email_template_hr_expense_stripe_card_assigned
 msgid "HR Expense Stripe Card Assigned"
 msgstr "Karta Stripe wydatków HR przypisana"
@@ -2499,6 +2687,7 @@ msgstr "Szpitale"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.hotels_motels_and_resorts
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.hotels_motels_and_resorts_specific
 msgid "Hotels Motels and Resorts"
 msgstr "Hotele, motele i ośrodki wypoczynkowe"
 
@@ -2619,6 +2808,11 @@ msgid "Information Retrieval Services"
 msgstr "Usługi wyszukiwania informacji"
 
 #. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.insurance_default
+msgid "Insurance - Default"
+msgstr "Ubezpieczenie - Domyślne"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.insurance_underwriting_premiums
 msgid "Insurance Underwriting Premiums"
 msgstr "Składki ubezpieczeniowe"
@@ -2682,6 +2876,12 @@ msgid "Is Follower"
 msgstr "Jest obserwatorem"
 
 #. module: hr_expense_stripe
+#: model:ir.model.fields,field_description:hr_expense_stripe.field_res_company__is_stripe_issuing_supported
+#: model:ir.model.fields,field_description:hr_expense_stripe.field_res_config_settings__is_stripe_issuing_supported
+msgid "Is Stripe Issuing Supported"
+msgstr "Czy Stripe Issuing jest obsługiwane?"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.jewelry_stores_watches_clocks_and_silverware_stores
 msgid "Jewelry Stores Watches Clocks and Silverware Stores"
 msgstr "Sklepy jubilerskie, sklepy z zegarkami i srebrem"
@@ -2726,7 +2926,7 @@ msgstr "Nazwisko"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_topup_wizard__write_uid
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_product_mcc_stripe_tag__write_uid
 msgid "Last Updated by"
-msgstr "Ostatnio aktualizowane przez"
+msgstr "Ostatnio zaktualizowane przez"
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__write_date
@@ -2803,14 +3003,27 @@ msgstr "MCC"
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+#: code:addons/hr_expense_stripe/models/product_mcc_stripe_tag.py:0
+msgid ""
+"MCC %(mcc_code)s %(mcc_name)s not allowed, because it is not mapped to any "
+"expense product."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/product_mcc_stripe_tag.py:0
+msgid "MCC code %(mcc_code)s is not allowed or was not found."
 msgstr ""
 
 #. module: hr_expense_stripe
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.view_product_mcc_stripe_tag_search
 msgid "MCCs"
 msgstr "MCC"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.manual_cash_disburse
+msgid "Manual Cash Disburse"
+msgstr "Ręczna wypłata gotówki"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.marinas_service_and_supplies
@@ -2953,6 +3166,11 @@ msgid "Miscellaneous Recreation Services"
 msgstr "Różne usługi rekreacyjne"
 
 #. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_repair_shops
+msgid "Miscellaneous Repair Shops"
+msgstr "Różne warsztaty naprawcze"
+
+#. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.miscellaneous_specialty_retail
 msgid "Miscellaneous Specialty Retail"
 msgstr "Różne specjalistyczne sklepy detaliczne"
@@ -3065,9 +3283,9 @@ msgstr "Saloniki prasowe"
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
-msgid "No MCC found"
-msgstr "Nie znaleziono MCC"
+#: code:addons/hr_expense_stripe/models/product_mcc_stripe_tag.py:0
+msgid "No MCC code provided."
+msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3177,6 +3395,8 @@ msgid ""
 "Only BACS is supported for Stripe Issuing funding instructions in the UK "
 "right now"
 msgstr ""
+"Obecnie w Wielkiej Brytanii w ramach Stripe Issuing obsługiwane są wyłącznie "
+"instrukcje finansowania BACS"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3185,6 +3405,8 @@ msgid ""
 "Only IBAN or BACS are supported for Stripe Issuing funding instructions "
 "right now"
 msgstr ""
+"Obecnie w przypadku instrukcji finansowania Stripe Issuing obsługiwane są "
+"wyłącznie IBAN lub BACS"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3193,6 +3415,8 @@ msgid ""
 "Only SEPA is supported for Stripe Issuing funding instructions in the EU "
 "right now"
 msgstr ""
+"Obecnie w UE w przypadku wydawania instrukcji finansowania przez Stripe "
+"Issuing obsługiwana jest wyłącznie strefa SEPA"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3330,7 +3554,7 @@ msgstr "Zapłać"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_card__payment_method_line_id
 msgid "Payment Method Line"
-msgstr "Metoda płatności, Linia"
+msgstr "Wiersz metody płatności"
 
 #. module: hr_expense_stripe
 #: model:ir.model,name:hr_expense_stripe.model_account_payment_method_line
@@ -3362,7 +3586,7 @@ msgstr "Ropa naftowa i produkty ropopochodne"
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__phone_number
 msgid "Phone Number"
-msgstr "Numer Telefonu"
+msgstr "Numer telefonu"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.photo_developing
@@ -3608,6 +3832,11 @@ msgid "Security Brokers Dealers"
 msgstr "Brokerzy i dealerzy zajmujący się bezpieczeństwem"
 
 #. module: hr_expense_stripe
+#: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_restriction
+msgid "Sent to the administrator when Stripe restricts the account"
+msgstr ""
+
+#. module: hr_expense_stripe
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_canceled
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_ordered
 #: model:mail.template,description:hr_expense_stripe.email_template_hr_expense_stripe_card_shipped
@@ -3713,6 +3942,11 @@ msgstr "Sklepy z znaczkami i monetami"
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_hr_expense_stripe_cardholder_wizard__billing_state_id
 msgid "State"
 msgstr "Stan"
+
+#. module: hr_expense_stripe
+#: model:product.mcc.stripe.tag,name:hr_expense_stripe.stationary_office_supplies_printing_and_writing_paper
+msgid "Stationary Office Supplies Printing and Writing Paper"
+msgstr "Artykuły biurowe, papier do drukowania i pisania"
 
 #. module: hr_expense_stripe
 #: model:product.mcc.stripe.tag,name:hr_expense_stripe.stationery_stores_office_and_school_supply_stores
@@ -3875,7 +4109,7 @@ msgstr ""
 msgid ""
 "Stripe Issuing funding instructions with USD currency aren't supported right "
 "now"
-msgstr ""
+msgstr "Stripe Issuing finansowania w walucie USD nie jest obecnie obsługiwane"
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -3954,13 +4188,29 @@ msgstr ""
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/res_company.py:0
+msgid ""
+"Stripe has restricted your account. Please update your information by %s to "
+"avoid disruption."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/models/res_company.py:0
+msgid ""
+"Stripe has restricted your account. Please update your information soon to "
+"avoid disruption."
+msgstr ""
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Stripe timed-out or encountered an error when communicating with the card "
-"network"
+"network."
 msgstr ""
-"Wystąpił błąd lub przekroczono limit czasu podczas komunikacji z siecią kart "
-"płatniczych."
+"Wystąpił błąd lub przekroczono limit czasu Stripe podczas komunikacji z "
+"siecią kart płatniczych."
 
 #. module: hr_expense_stripe
 #: model:ir.model.fields,field_description:hr_expense_stripe.field_account_bank_statement_line__stripe_id
@@ -4062,6 +4312,16 @@ msgstr "Posiadacz karty został pomyślnie zaktualizowany."
 
 #. module: hr_expense_stripe
 #. odoo-python
+#: code:addons/hr_expense_stripe/models/product_mcc_stripe_tag.py:0
+msgid ""
+"The MCC code '%(code)s' is not valid. It must be either a 4-digit code or a "
+"range in the format 'XXXX-XXXX'."
+msgstr ""
+"Kod MCC „%(code)s ” jest nieprawidłowy. Musi to być kod czterocyfrowy lub "
+"zakres w formacie „XXXX-XXXX”."
+
+#. module: hr_expense_stripe
+#. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "The Stripe account specified in the request wasn't found. Please check your "
@@ -4094,47 +4354,58 @@ msgstr "Adres, pod który karta zostanie dostarczona."
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The authorization failed required verification checks"
-msgstr "Autoryzacja nie powiodła się, wymagane są kontrole weryfikacyjne."
+msgid "The authorization failed required verification checks."
+msgstr "Autoryzacja nie spełniła wymaganych kroków weryfikacyjnych."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/controllers/main.py:0
+msgid ""
+"The authorization was approved by the webhook, but was later reversed or "
+"closed without any capture."
+msgstr ""
+"Autoryzacja została zatwierdzona przez webhook, ale została później cofnięta "
+"lub zamknięta bez żadnego przechwycenia."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The authorization was approved by your Odoo database"
-msgstr "Autoryzacja została zatwierdzona przez bazę danych Odoo."
+msgid "The authorization was approved by your Odoo database."
+msgstr "Autoryzacja została zaakceptowana przez Twoją bazę danych Odoo."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The authorization was refused by your Odoo database"
-msgstr "Autoryzacja została odrzucona przez bazę danych Odoo."
+msgid "The authorization was refused by your Odoo database."
+msgstr "Autoryzacja została odrzucona przez Twoją bazę danych Odoo."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The authorization was suspected as fraudulent by Stripe's risk controls"
+msgid ""
+"The authorization was suspected as fraudulent by Stripe's risk controls."
 msgstr ""
 "Autoryzacja została uznana za podejrzaną przez dział kontroli ryzyka Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The card has expired"
-msgstr "Karta straciła ważność"
+msgid "The card has expired."
+msgstr "Karta straciła ważność."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
-"The card is active, and there was no control setup on your Stripe account"
+"The card is active, and there was no control setup on your Stripe account."
 msgstr ""
-"Karta jest aktywna i nie skonfigurowano żadnych kontroli na koncie Stripe"
+"Karta jest aktywna i nie skonfigurowano żadnych kontroli na koncie Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The card is currently inactive, please activate it first"
-msgstr "Karta jest obecnie nieaktywna, proszę ją najpierw aktywować"
+msgid "The card is currently inactive, please activate it first."
+msgstr "Karta jest obecnie nieaktywna, proszę ją najpierw aktywować."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4151,8 +4422,8 @@ msgstr "Karta musi mieć datę dostawy, jeśli jest oznaczona jako dostarczona."
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The card used was blocked"
-msgstr "Karta została zablokowana"
+msgid "The card used was blocked."
+msgstr "Użyta karta została zablokowana."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4167,14 +4438,14 @@ msgstr ""
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The card was declined because of the Stripe spending controls"
-msgstr "Karta została odrzucona z powodu kontroli wydatków Stripe"
+msgid "The card was declined because of the Stripe spending controls."
+msgstr "Karta została odrzucona z powodu kontroli wydatków Stripe."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The card's PIN is blocked"
-msgstr "PIN karty jest zablokowany"
+msgid "The card's PIN is blocked."
+msgstr "PIN karty jest zablokowany."
 
 #. module: hr_expense_stripe
 #: model:mail.message.subtype,description:hr_expense_stripe.mt_stripe_cardholder_updated
@@ -4184,20 +4455,20 @@ msgstr "Dane posiadacza karty zostały zaktualizowane w Stripe"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The cardholder is currently inactive"
-msgstr "Posiadacz karty jest obecnie nieaktywny"
+msgid "The cardholder is currently inactive."
+msgstr "Posiadacz karty jest obecnie nieaktywny."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The cardholder is still under verification"
-msgstr "Posiadacz karty jest nadal w trakcie weryfikacji"
+msgid "The cardholder is still under verification."
+msgstr "Posiadacz karty jest nadal w trakcie weryfikacji."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "The cardholder was blocked"
-msgstr "Posiadacz karty został zablokowany"
+msgid "The cardholder was blocked."
+msgstr "Posiadacz karty został zablokowany."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4223,6 +4494,12 @@ msgstr "Kod dostępu do karty wydatków Odoo to: %(code)s"
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
+msgid "The country of the phone number is not supported for SMS."
+msgstr "Kraj numeru telefonu nie jest obsługiwany w przypadku wiadomości SMS."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "The creation rate limit for this type of cards has been reached. Please try "
 "again later."
@@ -4235,6 +4512,7 @@ msgstr ""
 msgid ""
 "The delivery address must be in the European Union or in the United Kingdom."
 msgstr ""
+"Adres dostawy musi znajdować się w Unii Europejskiej lub w Wielkiej Brytanii."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4373,9 +4651,29 @@ msgstr ""
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "There was an error in your Odoo database and Stripe received an invalid "
-"response"
+"response."
 msgstr ""
-"W bazie danych Odoo wystąpił błąd, a Stripe otrzymał nieprawidłową odpowiedź"
+"W bazie danych Odoo wystąpił błąd, a Stripe otrzymał nieprawidłową odpowiedź."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/utils.py:0
+msgid ""
+"There was an error when sending the SMS, please try again later. If the "
+"problem persists, please contact the support."
+msgstr ""
+"Wystąpił błąd podczas wysyłania SMS-a, spróbuj ponownie później. Jeśli "
+"problem nadal występuje, skontaktuj się z pomocą techniczną."
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/utils.py:0
+msgid ""
+"There was an error when sending the email, please try again later. If the "
+"problem persists, please contact the support."
+msgstr ""
+"Wystąpił błąd podczas wysyłania wiadomości e-mail. Spróbuj ponownie później. "
+"Jeśli problem nadal występuje, skontaktuj się z pomocą techniczną."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -4491,19 +4789,20 @@ msgstr "Transakcja zaakceptowana"
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Transaction amount (%(amount)s) exceeds the maximum allowed"
-msgstr ""
+msgstr "Kwota transakcji (%(amount)s) przekracza maksymalną dopuszczalną kwotę"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/models/hr_expense_stripe_card.py:0
 msgid "Transaction amount (%(total_spent)s) exceeds the interval limit"
-msgstr ""
+msgstr "Kwota transakcji (%(total_spent)s) przekracza limit przedziału"
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
-"Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"
+"Transaction amount exceeded the card daily/transaction hard limit of "
+"50.000 €."
 msgstr ""
 "Kwota transakcji przekroczyła dzienny limit karty/limit transakcji wynoszący "
 "50 000 EUR."
@@ -4583,7 +4882,6 @@ msgstr "Uniformy Odzież komercyjna"
 
 #. module: hr_expense_stripe
 #. odoo-python
-#: code:addons/hr_expense_stripe/controllers/main.py:0
 #: code:addons/hr_expense_stripe/wizard/hr_expense_stripe_topup_wizard.py:0
 msgid "Unknown"
 msgstr "Nieznany"
@@ -4593,6 +4891,12 @@ msgstr "Nieznany"
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid "Unknown Error Code"
 msgstr "Nieznany kod błędu"
+
+#. module: hr_expense_stripe
+#. odoo-python
+#: code:addons/hr_expense_stripe/controllers/main.py:0
+msgid "Unknown reason."
+msgstr "Nieznany powód."
 
 #. module: hr_expense_stripe
 #. odoo-javascript
@@ -5058,16 +5362,16 @@ msgstr "Twoja karta wydatków została zamówiona"
 #: code:addons/hr_expense_stripe/utils.py:0
 msgid ""
 "Your Odoo database failed to respond to Stripe in time, and the "
-"authorization was refused by default"
+"authorization was refused by default."
 msgstr ""
-"Twoja baza danych Odoo nie odpowiedziała na czas Stripe, a autoryzacja "
+"Twoja baza danych Odoo nie odpowiedziała Stripe na czas, a autoryzacja "
 "została domyślnie odrzucona."
 
 #. module: hr_expense_stripe
 #. odoo-python
 #: code:addons/hr_expense_stripe/utils.py:0
-msgid "Your Stripe account is disabled"
-msgstr "Twoje konto Stripe zostało dezaktywowane"
+msgid "Your Stripe account is disabled."
+msgstr "Twoje konto Stripe zostało zdezaktywowane."
 
 #. module: hr_expense_stripe
 #. odoo-python
@@ -5096,6 +5400,98 @@ msgstr "id"
 #: model_terms:ir.ui.view,arch_db:hr_expense_stripe.res_config_settings_view_form
 msgid "terms and conditions"
 msgstr "Warunki"
+
+#~ msgid "MCC %(mcc_code)s %(mcc_name)s not allowed"
+#~ msgstr "MCC %(mcc_code)s %(mcc_name)s niedozwolone"
+
+#~ msgid "No MCC found"
+#~ msgstr "Nie znaleziono MCC"
+
+#~ msgid "An insecure authorization method was used"
+#~ msgstr "Zastosowano niebezpieczną metodę autoryzacji."
+
+#~ msgid ""
+#~ "Stripe timed-out or encountered an error when communicating with the card "
+#~ "network"
+#~ msgstr ""
+#~ "Wystąpił błąd lub przekroczono limit czasu podczas komunikacji z siecią "
+#~ "kart płatniczych."
+
+#~ msgid "The authorization failed required verification checks"
+#~ msgstr "Autoryzacja nie powiodła się, wymagane są kontrole weryfikacyjne."
+
+#~ msgid "The authorization was approved by your Odoo database"
+#~ msgstr "Autoryzacja została zatwierdzona przez bazę danych Odoo."
+
+#~ msgid "The authorization was refused by your Odoo database"
+#~ msgstr "Autoryzacja została odrzucona przez bazę danych Odoo."
+
+#~ msgid ""
+#~ "The authorization was suspected as fraudulent by Stripe's risk controls"
+#~ msgstr ""
+#~ "Autoryzacja została uznana za podejrzaną przez dział kontroli ryzyka "
+#~ "Stripe."
+
+#~ msgid "The card has expired"
+#~ msgstr "Karta straciła ważność"
+
+#~ msgid ""
+#~ "The card is active, and there was no control setup on your Stripe account"
+#~ msgstr ""
+#~ "Karta jest aktywna i nie skonfigurowano żadnych kontroli na koncie Stripe"
+
+#~ msgid "The card is currently inactive, please activate it first"
+#~ msgstr "Karta jest obecnie nieaktywna, proszę ją najpierw aktywować"
+
+#~ msgid "The card used was blocked"
+#~ msgstr "Karta została zablokowana"
+
+#~ msgid "The card was declined because of the Stripe spending controls"
+#~ msgstr "Karta została odrzucona z powodu kontroli wydatków Stripe"
+
+#~ msgid "The card's PIN is blocked"
+#~ msgstr "PIN karty jest zablokowany"
+
+#~ msgid "The cardholder is currently inactive"
+#~ msgstr "Posiadacz karty jest obecnie nieaktywny"
+
+#~ msgid "The cardholder is still under verification"
+#~ msgstr "Posiadacz karty jest nadal w trakcie weryfikacji"
+
+#~ msgid "The cardholder was blocked"
+#~ msgstr "Posiadacz karty został zablokowany"
+
+#~ msgid ""
+#~ "There was an error in your Odoo database and Stripe received an invalid "
+#~ "response"
+#~ msgstr ""
+#~ "W bazie danych Odoo wystąpił błąd, a Stripe otrzymał nieprawidłową "
+#~ "odpowiedź"
+
+#~ msgid ""
+#~ "Transaction amount exceeded the card daily/transaction hard limit of "
+#~ "50.000 €"
+#~ msgstr ""
+#~ "Kwota transakcji przekroczyła dzienny limit karty/limit transakcji "
+#~ "wynoszący 50 000 EUR."
+
+#~ msgid ""
+#~ "Your Odoo database failed to respond to Stripe in time, and the "
+#~ "authorization was refused by default"
+#~ msgstr ""
+#~ "Twoja baza danych Odoo nie odpowiedziała na czas Stripe, a autoryzacja "
+#~ "została domyślnie odrzucona."
+
+#~ msgid "Your Stripe account is disabled"
+#~ msgstr "Twoje konto Stripe zostało dezaktywowane"
+
+#~ msgid "(Fetching...)"
+#~ msgstr "(Pobieranie...)"
+
+#~ msgid "Enter the code we sent to the cardholder's phone number ending in"
+#~ msgstr ""
+#~ "Wprowadź kod, który wysłaliśmy na numer telefonu posiadacza karty, "
+#~ "kończący się na"
 
 #~ msgid "Country not allowed"
 #~ msgstr "Kraj niedozwolony"

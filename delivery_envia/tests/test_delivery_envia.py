@@ -7,11 +7,13 @@ import requests
 
 from odoo import Command
 from odoo.exceptions import ValidationError
+from odoo.fields import Domain
 from odoo.tests import TransactionCase, tagged
+from odoo.addons.delivery_envia.models.envia_request import STATE_CODE_MAP_ENVIA, Envia
 
 
 @contextmanager
-def _mock_envia_call():
+def _mock_envia_call(specific_envia_check=None):
     def _mock_request(*args, **kwargs):
         method = kwargs.get('method') or args[1]
         url = kwargs.get('url') or args[2]
@@ -43,6 +45,15 @@ def _mock_envia_call():
                         {'fieldId': 'state', 'fieldName': 'state', 'rules': {'required': True, 'min': '2', 'max': '3', 'validationType': 'select'}},
                         {'fieldId': 'reference', 'fieldName': 'reference', 'rules': {'required': False, 'max': '50'}}
                     ],
+                'zipcode/CO/730001': [{
+                    'zip_code': '730001',
+                    'country': {'name': 'Colombia', 'code': 'CO'},
+                    'state': {'name': 'Tolima', 'code': {'1digit': None, '2digit': 'TO', '3digit': 'TOL'}},
+                    'locality': 'San Antonio',
+                    'suburbs': ['73675000'],
+                    'info': {'stat': '73001', 'stat_8digit': '73001000'},
+                    'regions': {'region_1': 'Tolima', 'region_2': 'Ibagué', 'region_3': 'Ibagué'},
+                }],
                 'uploads/ups': ['WyJtb2NrTGFiZWw9PT09Il0=']
             },
             'POST': {
@@ -73,6 +84,8 @@ def _mock_envia_call():
 
         for endpoint, content in responses[method].items():
             if endpoint in url:
+                if specific_envia_check:
+                    specific_envia_check(endpoint, json.loads(kwargs.get('data') or '{}'))
                 response = requests.Response()
                 response._content = json.dumps(content).encode()
                 response.status_code = 200
@@ -123,7 +136,28 @@ class TestDeliveryEnvia(TransactionCase):
             'email': 'azure.Interior24@example.com',
             'phone': '(870)-931-0505',
         })
-
+        cls.co_partner = cls.env['res.partner'].create({
+            'name': 'Colombia Partner',
+            'street': 'Crr 14 no. 149 - 75 int 10 Apto 402',
+            'street2': 'Conjunto Monterrey, el salado',
+            'city': 'Ibagué',
+            'zip': '730001',
+            'country_id': cls.env.ref('base.co').id,
+            'state_id': cls.env.ref('base.state_co_14').id,
+            'email': 'colombia@example.com',
+            'phone': '+57 310 3460237',
+        })
+        cls.cl_partner = cls.env['res.partner'].create({
+            'name': 'Chile Partner',
+            'street': 'Avenida Providencia 1432, Depto 402',
+            'street2': '',
+            'city': 'Santiago',
+            'zip': '8320000',
+            'country_id': cls.env.ref('base.cl').id,
+            'state_id': cls.env.ref('base.state_cl_13').id,
+            'email': 'chile@example.com',
+            'phone': '+56 9 4012 3456',
+        })
 
         cls.product_to_ship1 = cls.env["product.product"].create({
             'name': 'Door with Legs',
@@ -195,6 +229,45 @@ class TestDeliveryEnvia(TransactionCase):
             with self.assertRaises(ValidationError):
                 choose_delivery_carrier.update_price()
 
+    def test_envia_code_map_data_integrity(self):
+        """
+        Check the integrity of data used in the STATE_CODE_MAP_ENVIA used to convert
+        Odoo's nomenclature to envia's one.
+        """
+        country_codes, state_codes = map(set, zip(*STATE_CODE_MAP_ENVIA))
+        state_domain = Domain([('code', 'in', state_codes), ('country_id.code', 'in', country_codes)])
+        state_match = self.env['res.country.state'].search(state_domain).grouped('code')
+
+        def is_valid(country_code, state_code):
+            return any(state.country_id.code == country_code for state in state_match[state_code])
+
+        self.assertTrue(
+            all(is_valid(country_code, state_code) for country_code, state_code in STATE_CODE_MAP_ENVIA),
+            'Each country/state code combination must be represented by an existing state in Odoo'
+        )
+
+    def test_prepare_address_values_uses_envia_codes(self):
+        envia_request = Envia(self.envia, prod_environment=True, debug_logger=lambda *args, **kwargs: None)
+
+        # Colombia
+        with _mock_envia_call():
+            address = envia_request._prepare_address_values(self.co_partner, is_cust=True)
+
+        self.assertEqual(address['city'], '73001000')
+        self.assertEqual(address['city_select'], 'Ibagué')
+        self.assertEqual(address['postalCode'], '73001000')
+        self.assertEqual(address['state'], self.co_partner.state_id.code)
+
+        # Chile
+        with _mock_envia_call():
+            address = envia_request._prepare_address_values(self.cl_partner, is_cust=True)
+
+        self.assertEqual(address['city'], 'Santiago')
+        self.assertEqual(address['postalCode'], '8320000')
+        # Check that the envia state code is used
+        country_code, state_code = self.cl_partner.country_id.code, self.cl_partner.state_id.code
+        self.assertEqual(address['state'], STATE_CODE_MAP_ENVIA.get((country_code, state_code)))
+
     def test_shipping_order(self):
         """ Ensure that the shipping of an order works properly. """
         sale_order = self.env['sale.order'].create({
@@ -231,3 +304,86 @@ class TestDeliveryEnvia(TransactionCase):
             # Check that we the PDF is there with the correct title.
             pdf = picking.message_ids.attachment_ids.filtered(lambda m: m.description == 'LabelShipping-envia-1Z48746Q48746.PDF')
             self.assertNotEqual(pdf, self.env['ir.attachment'], "The label should be present as a pdf attachment.")
+
+    def test_shipping_with_insurance(self):
+        """
+        Ensure insurance information is included when getting a rate and booking the shipment.
+        """
+        def insurance_format_check(endpoint, payload):
+            if endpoint in ['ship/rate', 'ship/generate']:
+                insurance_service = [
+                    s for s in payload['packages'][0]['additionalServices']
+                    if s['service'] == 'envia_insurance' and s.get('data', {}).get('amount', '0') == '40.0'
+                ]
+                self.assertTrue(insurance_service)
+
+        self.envia.shipping_insurance = 50
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.br_partner.id,
+            'order_line': [
+                Command.create({
+                    'product_id': self.product_to_ship1.id,
+                    'price_unit': 42,
+                }),
+                Command.create({
+                    'product_id': self.product_to_ship2.id,
+                    'price_unit': 38,
+                })
+            ]
+        })
+        wiz_action = sale_order.action_open_delivery_wizard()
+        choose_delivery_carrier = self.env[wiz_action['res_model']].with_context(wiz_action['context']).create({
+            'carrier_id': self.envia.id,
+            'order_id': sale_order.id
+        })
+        with _mock_envia_call(insurance_format_check):
+            choose_delivery_carrier.update_price()
+            choose_delivery_carrier.button_confirm()
+            sale_order.action_confirm()
+            self.assertGreater(len(sale_order.picking_ids), 0)
+
+            picking = sale_order.picking_ids[0]
+            picking.action_assign()
+            picking.move_ids.picked = True
+            self.assertGreater(picking.weight, 0.0)
+
+            picking._action_done()
+
+
+@tagged('post_install', '-at_install')
+class TestDeliveryEnviaWithLocalisations(TestDeliveryEnvia):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+        required_locas = [
+            'l10n_co_edi',
+        ]
+
+        if not all(loca.state == 'installed' for loca in cls.env['ir.module.module'].search([('name', 'in', required_locas)])):
+            cls.skipTest(cls, "This class requires for localisations to be installed")
+
+        cls.co_partner_2 = cls.env['res.partner'].create({
+            'name': 'Colombia Partner in Medellin',
+            'street': 'Cra. 25a #1 A Sur 45 local 1009',
+            'street2': '',
+            'city': '',
+            'zip': '050011',
+            'city_id': cls.env.ref('l10n_co_edi.city_co_01').id,
+            'country_id': cls.env.ref('base.co').id,
+            'state_id': cls.env.ref('base.state_co_01').id,
+            'email': 'colombia@example.com',
+            'phone': '+57 310 3460239',
+        })
+
+    def test_prepare_address_values(self):
+        envia_request = Envia(self.envia, prod_environment=True, debug_logger=lambda *args, **kwargs: None)
+
+        with _mock_envia_call():
+            address = envia_request._prepare_address_values(self.co_partner_2, is_cust=True)
+
+        self.assertEqual(address['city'], '05001000')
+        self.assertEqual(address['city_select'], 'MEDELLÍN')
+        self.assertEqual(address['postalCode'], '05001000')
+        self.assertEqual(address['state'], self.co_partner_2.state_id.code)

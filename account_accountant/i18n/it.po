@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2026-02-28 09:33+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-07-13 09:11+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/it/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -395,6 +395,15 @@ msgstr ""
 "sono stati trovati fornitori aggiungine uno prima della validazione."
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+"Tutte le registrazioni create da Fatturazione prima di tale data saranno "
+"ignorate in Contabilità."
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "Tutti i modelli di riconciliazione"
@@ -542,6 +551,7 @@ msgstr "Registrazioni riconciliate automaticamente"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "Saldo:"
@@ -761,7 +771,7 @@ msgid ""
 "Create your first vendor bill.<br/><br/><i>Tip: If you don’t have one on "
 "hand, use our sample bill.</i>"
 msgstr ""
-"Crea la tua prima fattura fornitore.<br/><br/><i>Suggerimento: Se non ne hai "
+"Crea la tua prima fattura fornitore.<br/><br/><i>Suggerimento: se non ne hai "
 "a disposizione, usa la nostra fattura campione.</i>"
 
 #. module: account_accountant
@@ -1252,9 +1262,19 @@ msgid "Has Abnormal Deferred Dates"
 msgstr "Ha date di storno anomale"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr "Ha allegati"
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
 msgstr "Ha movimenti stornati"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr "Ha analitica non valida"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1369,6 +1389,11 @@ msgstr "Estratti conto non validi"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Invoice Date"
 msgstr "Data fattura"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr "Fatturazione e banche"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -2090,6 +2115,11 @@ msgid "Reconciled"
 msgstr "Riconciliato"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr "Nome righe riconciliate"
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr "Modello di riconciliazione"
@@ -2407,15 +2437,6 @@ msgid "The ending date must not be prior to the starting date."
 msgstr "La data di fine non deve essere antecedente a quella di inizio."
 
 #. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
-"Non verranno prese in considerazione come registrazioni in contabilità le "
-"fatture precedenti a questa data"
-
-#. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
 #: model:ir.model.fields,help:account_accountant.field_account_move__deferred_original_move_ids
 msgid "The original invoices that created the deferred entries"
@@ -2608,6 +2629,12 @@ msgstr "Trasferimento a %s"
 #: model:ir.actions.server,name:account_accountant.auto_reconcile_bank_statement_line_ir_actions_server
 msgid "Try to reconcile automatically your statement lines"
 msgstr "Prova a riconciliare automaticamente le righe del tuo estratto conto"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr "Annulla riconciliazione"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -2806,6 +2833,13 @@ msgid "You need to select who the exception applies to."
 msgstr "È necessario selezionare a chi si applica l'eccezione,"
 
 #. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
+"aggiunge la dashboard della contabilità, la gestione bancaria e i resoconti "
+"di follow-up."
+
+#. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h
 msgid "for 1 hour"
 msgstr "per 1 ora"
@@ -2862,6 +2896,13 @@ msgstr "valuta secondaria"
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_journal_dashboard_kanban_view
 msgid "to reconcile"
 msgstr "da riconciliare"
+
+#~ msgid ""
+#~ "The invoices before this date will not be taken into account as "
+#~ "accounting entries"
+#~ msgstr ""
+#~ "Non verranno prese in considerazione come registrazioni in contabilità le "
+#~ "fatture precedenti a questa data"
 
 #~ msgid "Reconciliation model %s applied"
 #~ msgstr "Modello di riconciliazione %s applicato"

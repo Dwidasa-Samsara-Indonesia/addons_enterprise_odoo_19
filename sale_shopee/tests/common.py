@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta
 
-from odoo.tests import TransactionCase
+from odoo.addons.base.tests.common import BaseCommon
 
 ORDER_SN_MOCK = 'O123456789'
 
@@ -35,40 +35,64 @@ ORDER_ITEM_MOCK = {
     'promotion_type': 'flash_sale',
 }
 
-PACKAGE_ITEM_MOCK = {
-    'item_list': [
-        {
-            'item_id': 111111,
-            'model_id': 222222,
-            'model_quantity': 1,
-            'order_item_id': 111111,
-            'promotion_group_id': 0,
-        }
-    ],
-    'package_number': 'A123456789',
-    'shipping_carrier': 'Fake Ship',
-}
 
-# Mock data for an order
-ORDER_MOCK = {
-    'actual_shipping_fee_confirmed': True,
-    'buyer_user_id': 444444,
-    'buyer_username': 'Gederic Frilson',
-    'update_time': 1579050000,  # 2020-01-15
-    'create_time': 1579050000,  # 2020-01-15
-    'currency': 'VND',
-    'actual_shipping_fee': 10,
-    'estimated_shipping_fee': 10,
-    'fulfillment_flag': 'fulfilled_by_local_seller',
-    'item_list': [ORDER_ITEM_MOCK],
-    'order_sn': ORDER_SN_MOCK,
-    'order_status': 'READY_TO_SHIP',
-    'package_list': [PACKAGE_ITEM_MOCK],
-    'recipient_address': BUYER_ADDRESS_MOCK,
-    'region': 'VN',
-    'shipping_carrier': 'Fake Ship',
-    'total_amount': 170,
-}
+def build_order_mock(
+    order_sn=ORDER_SN_MOCK, items=None, buyer_paid_shipping_fee=10, currency="VND", **extra
+):
+    """Build a Shopee order-detail payload for tests.
+
+    The buyer-paid shipping fee is conveyed through the escrow detail (see
+    :func:`build_escrow_mock`), not the order detail; it is only used here to compute the
+    ``total_amount`` the order must reconcile to. Any keyword in ``extra`` overrides the default
+    payload key of the same name, or adds a new key if absent.
+
+    :param str order_sn: Shopee order reference.
+    :param list items: List of dicts compatible with ORDER_ITEM_MOCK shape.
+    :param float buyer_paid_shipping_fee: Buyer-paid shipping fee included in ``total_amount``.
+    :param str currency: Currency code.
+    :return: An order-detail payload dict.
+    """
+    if items is None:
+        items = [ORDER_ITEM_MOCK]
+    total_amount = (
+        sum(item["model_quantity_purchased"] * item["model_discounted_price"] for item in items)
+        + buyer_paid_shipping_fee
+    )
+    payload = {
+        "actual_shipping_fee_confirmed": True,
+        "buyer_user_id": 444444,
+        "buyer_username": "Gederic Frilson",
+        "update_time": 1579050000,  # 2020-01-15
+        "create_time": 1579050000,  # 2020-01-15
+        "currency": currency,
+        "fulfillment_flag": "fulfilled_by_local_seller",
+        "item_list": items,
+        "order_sn": order_sn,
+        "order_status": "READY_TO_SHIP",
+        "package_list": [
+            {
+                "item_list": [
+                    {
+                        "item_id": item["item_id"],
+                        "model_id": item["model_id"],
+                        "model_quantity": item["model_quantity_purchased"],
+                        "order_item_id": item.get("order_item_id", item["item_id"]),
+                        "promotion_group_id": 0,
+                    }
+                    for item in items
+                ],
+                "package_number": "PKG_" + order_sn,
+                "shipping_carrier": "Fake Ship",
+            }
+        ],
+        "recipient_address": BUYER_ADDRESS_MOCK,
+        "region": "VN",
+        "shipping_carrier": "Fake Ship",
+        "total_amount": total_amount,
+    }
+    payload.update(extra)
+    return payload
+
 
 # Mock data for the response of the getOrders API
 GET_ACCESS_TOKEN_RESPONSE_MOCK = {
@@ -86,7 +110,37 @@ REFRESH_TOKEN_RESPONSE_MOCK = {
     'partner_id': 100,
 }
 
-GET_ORDER_DETAILS_RESPONSE_MOCK = {'order_list': [ORDER_MOCK]}
+GET_ORDER_DETAILS_RESPONSE_MOCK = {"order_list": [build_order_mock()]}
+
+
+def build_escrow_mock(
+    buyer_paid_shipping_fee=10, voucher_from_seller=0, voucher_from_shopee=0, coins=0, **extra
+):
+    """Build a Shopee escrow-detail payload for tests.
+
+    Carries the buyer-side income breakdown: the buyer-paid shipping fee (the source of the
+    shipping line) and the order-level discounts. The defaults mirror :func:`build_order_mock`
+    (shipping 10, no discount) so an order reconciles to its ``total_amount`` without an adjustment
+    line. Any keyword in ``extra`` overrides or adds an ``order_income`` key.
+
+    :param float buyer_paid_shipping_fee: Buyer-paid shipping fee.
+    :param float voucher_from_seller: Seller-funded order-level voucher.
+    :param float voucher_from_shopee: Platform-funded order-level voucher.
+    :param float coins: Shopee coins redeemed.
+    :return: An escrow-detail payload dict.
+    """
+    return {
+        "order_income": {
+            "buyer_paid_shipping_fee": buyer_paid_shipping_fee,
+            "voucher_from_seller": voucher_from_seller,
+            "voucher_from_shopee": voucher_from_shopee,
+            "coins": coins,
+            **extra,
+        }
+    }
+
+
+GET_ESCROW_DETAIL_RESPONSE_MOCK = build_escrow_mock()
 
 GET_ORDER_LIST_RESPONSE_MOCK = {
     'order_list': [{'order_sn': ORDER_SN_MOCK}],
@@ -111,21 +165,22 @@ GET_SHOP_INFO_RESPONSE_MOCK = {
 
 # Map of API operations to their corresponding response data
 OPERATIONS_RESPONSES_MAP = {
-    'refresh_token': REFRESH_TOKEN_RESPONSE_MOCK,
-    'get_token': GET_ACCESS_TOKEN_RESPONSE_MOCK,
-    'get_shop_info': GET_SHOP_INFO_RESPONSE_MOCK,
-    'get_order_list': GET_ORDER_LIST_RESPONSE_MOCK,
-    'get_order_detail': {'order_list': [ORDER_MOCK]},
-    'get_tracking_number': {'tracking_number': 'MY200448706479IT'},
-    'create_shipping_document': {'result_list': [{'order_sn': ORDER_SN_MOCK}]},
-    'get_shipping_document_result': GET_SHIPMENT_RESPONSE_MOCK,
-    'download_shipping_document': b'%PDF-1.4\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF',
-    'update_stock': None,
+    "refresh_token": REFRESH_TOKEN_RESPONSE_MOCK,
+    "get_token": GET_ACCESS_TOKEN_RESPONSE_MOCK,
+    "get_shop_info": GET_SHOP_INFO_RESPONSE_MOCK,
+    "get_order_list": GET_ORDER_LIST_RESPONSE_MOCK,
+    "get_order_detail": {"order_list": [build_order_mock()]},
+    "get_escrow_detail": GET_ESCROW_DETAIL_RESPONSE_MOCK,
+    "get_tracking_number": {"tracking_number": "MY200448706479IT"},
+    "create_shipping_document": {"result_list": [{"order_sn": ORDER_SN_MOCK}]},
+    "get_shipping_document_result": GET_SHIPMENT_RESPONSE_MOCK,
+    "download_shipping_document": b"%PDF-1.4\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF",
+    "update_stock": None,
 }
 
 
 # Test class for common Shopee-related functionality
-class TestShopeeCommon(TransactionCase):
+class TestShopeeCommon(BaseCommon):
 
     def setUp(self):
         super().setUp()
@@ -166,4 +221,21 @@ class TestShopeeCommon(TransactionCase):
             'shopee_model_identifier': ORDER_ITEM_MOCK['model_id'],
             'last_inventory_sync_date': self.initial_sync_date,
             'sync_to_shopee': True,
+        })
+
+        tax_group = self.env["account.tax.group"].create({
+            "name": "Shopee Test Tax Group",
+        })
+
+        self.tax_price_include_7 = self.env["account.tax"].create({
+            "name": "Shopee Test Tax 7% Included",
+            "amount": 7.0,
+            "price_include_override": "tax_included",
+            "tax_group_id": tax_group.id,
+        })
+        self.tax_price_exclude_7 = self.env["account.tax"].create({
+            "name": "Shopee Test Tax 7% Excluded",
+            "amount": 7.0,
+            "price_include_override": "tax_excluded",
+            "tax_group_id": tax_group.id,
         })

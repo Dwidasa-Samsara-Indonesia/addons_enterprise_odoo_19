@@ -141,45 +141,64 @@ class GermanTaxReportTest(AccountSalesReportCommon):
         report = self.env.ref('l10n_de.tax_report')
         options = report.get_options({})
 
-        expected_xml = """
-        <Anmeldungssteuern art="UStVA" version="2019">
+        vat_return_element = f"""
+        <Umsatzsteuervoranmeldung>
+            <Jahr>2019</Jahr>
+            <Zeitraum>11</Zeitraum>
+            <Steuernummer>{self.company.get_l10n_de_stnr_national()}</Steuernummer>
+            <Kz43>800</Kz43>
+            <Kz61>22.65</Kz61>
+            <Kz66>83.00</Kz66>
+            <Kz67>9.50</Kz67>
+            <Kz81>150</Kz81>
+            <Kz83>-40.00</Kz83>
+            <Kz84>50</Kz84>
+            <Kz85>9.50</Kz85>
+            <Kz86>200</Kz86>
+            <Kz89>75</Kz89>
+            <Kz93>120</Kz93>
+        </Umsatzsteuervoranmeldung>
+        """
+
+        data_provider_element = f"""
+        <DatenLieferant>
+            <Name>{self.company.name}</Name>
+            <Strasse>{self.company.street or ''}</Strasse>
+            <PLZ>{self.company.zip or ''}</PLZ>
+            <Ort>{self.company.city or ''}</Ort>
+            <Telefon>{self.company.phone or ''}</Telefon>
+            <Email>{self.company.email or ''}</Email>
+        </DatenLieferant>
+        """
+
+        submitter_data_element = f"""
+        <Unternehmer>
+            <Bezeichnung>{self.company.name}</Bezeichnung>
+            <Str>{self.company.street or ''}</Str>
+            <Ort>{self.company.city or ''}</Ort>
+            <PLZ>{self.company.zip or ''}</PLZ>
+            <Telefon>{self.company.phone or ''}</Telefon>
+            <Email>{self.company.email or ''}</Email>
+        </Unternehmer>
+        """
+
+        is_elster_enabled = 'l10n_de_reports_elster' in self.env['ir.module.module']._installed()
+
+        registration_taxes_element_header = '<Anmeldungssteuern xmlns="http://finkonsens.de/elster/elsteranmeldung/ustva/v2019" version="2019">' \
+            if is_elster_enabled \
+            else '<Anmeldungssteuern art="UStVA" version="2019">'
+
+        expected_xml = f"""
+        {registration_taxes_element_header}
             <Erstellungsdatum>20191231</Erstellungsdatum>
-            <DatenLieferant>
-                <Name>company_1_data</Name>
-                <Strasse />
-                <PLZ />
-                <Ort />
-                <Telefon>+32475123456</Telefon>
-                <Email>jsmith@mail.com</Email>
-            </DatenLieferant>
+            {data_provider_element}
             <Steuerfall>
-                <Unternehmer>
-                    <Bezeichnung>company_1_data</Bezeichnung>
-                    <Str />
-                    <Ort />
-                    <PLZ />
-                    <Telefon>+32475123456</Telefon>
-                    <Email>jsmith@mail.com</Email>
-                </Unternehmer>
-                <Umsatzsteuervoranmeldung>
-                    <Jahr>2019</Jahr>
-                    <Zeitraum>11</Zeitraum>
-                    <Steuernummer>4151081508156</Steuernummer>
-                    <Kz43>800</Kz43>
-                    <Kz61>22.65</Kz61>
-                    <Kz66>83.00</Kz66>
-                    <Kz67>9.50</Kz67>
-                    <Kz81>150</Kz81>
-                    <Kz84>50</Kz84>
-                    <Kz85>9.50</Kz85>
-                    <Kz86>200</Kz86>
-                    <Kz89>75</Kz89>
-                    <Kz93>120</Kz93>
-                </Umsatzsteuervoranmeldung>
+                {submitter_data_element}
+                {vat_return_element}
             </Steuerfall>
         </Anmeldungssteuern>
         """
         self.assertXmlTreeEqual(
             self.get_xml_tree_from_string(self.env[report.custom_handler_model_name].export_tax_report_to_xml(options)['file_content']),
-            self.get_xml_tree_from_string(expected_xml)
+            self.get_xml_tree_from_string(expected_xml),
         )

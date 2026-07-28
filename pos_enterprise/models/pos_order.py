@@ -56,8 +56,6 @@ class PosOrder(models.Model):
         # When an order is cancelled from the backend UI, ensure the preparation display
         # is updated to reflect the cancellation
         for order in orders['pos.order']:
-            if order['state'] != 'cancel':
-                continue
             self.env['pos.prep.order'].process_order(order['id'], {'cancelled': True})
         return orders
 

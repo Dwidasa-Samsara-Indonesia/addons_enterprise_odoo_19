@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 
 from odoo import fields
-from odoo.tests import TransactionCase
+from odoo.addons.base.tests.common import BaseCommon
 
 ORDER_ID_MOCK = 123456789
 
@@ -22,43 +22,67 @@ BUYER_ADDRESS_MOCK = {
 }
 
 ORDER_ITEM_MOCK = {
-    'order_id': ORDER_ID_MOCK,
-    'name': 'Test Product',
-    'item_price': 100.0,
-    'tax_amount': 0.0,
-    'status': 'pending',
-    'paid_price': 80.0,
-    'sku': 'TEST-SKU-001',
-    'sku_id': '10001',
-    'order_item_id': 90001,
-    'currency': 'VND',
-    'buyer_id': 30001,
-    'shipping_provider_type': 'standard',
-    'shipment_provider': '',
-    'updated_at': '2020-01-15 00:00:00 +0000',
-    'is_fbl': 0,
-    'package_id': '',
-    'tracking_code': '',
+    "order_id": ORDER_ID_MOCK,
+    "name": "Test Product",
+    "item_price": "100.0",
+    "tax_amount": "0.0",
+    "status": "pending",
+    "paid_price": "80.0",
+    "sku": "TEST-SKU-001",
+    "sku_id": "10001",
+    "order_item_id": 90001,
+    "currency": "VND",
+    "buyer_id": 30001,
+    "shipping_provider_type": "standard",
+    "shipment_provider": "",
+    "updated_at": "2020-01-15 00:00:00 +0000",
+    "is_fbl": 0,
+    "package_id": "",
+    "tracking_code": "",
 }
 
-ORDER_MOCK = {
-    'order_id': ORDER_ID_MOCK,
-    'created_at': '2020-01-15 00:00:00 +0000',
-    'updated_at': '2020-01-15 00:00:00 +0000',
-    'address_billing': BUYER_ADDRESS_MOCK,
-    'address_shipping': BUYER_ADDRESS_MOCK,
-    'customer_last_name': 'Frilson',
-    'customer_first_name': 'Gederic',
-    'shipping_fee': 10.0,
-    'payment_method': 'COD',
-    'statuses': ['pending'],
-    'price': '170.0',
-    'items_count': 1,
-    'voucher': 10.0,
-    'voucher_platform': 5.0,
-    'voucher_seller': 5.0,
-    'order_number': ORDER_ID_MOCK,
-}
+
+def build_order_mock(
+    order_id=ORDER_ID_MOCK, items=None, shipping_fee=10.0, currency="VND", **extra
+):
+    """Build a Lazada order-detail payload for tests.
+
+    Any keyword in ``extra`` overrides the default payload key of the same name,
+    or adds a new key if absent.
+
+    :param order_id: Lazada order identifier.
+    :param list items: List of dicts compatible with ORDER_ITEM_MOCK shape.
+    :param float shipping_fee: Shipping fee to embed in the payload.
+    :param str currency: Currency code used when building items if needed.
+    :return: An order-detail payload dict.
+    :rtype: dict
+    """
+    if items is None:
+        items = [ORDER_ITEM_MOCK]
+    non_canceled_items = [i for i in items if i.get("status") != "canceled"]
+    total_paid = sum(float(item["paid_price"]) for item in non_canceled_items)
+    payload = {
+        "order_id": order_id,
+        "created_at": "2020-01-15 00:00:00 +0000",
+        "updated_at": "2020-01-15 00:00:00 +0000",
+        "address_billing": BUYER_ADDRESS_MOCK,
+        "address_shipping": BUYER_ADDRESS_MOCK,
+        "customer_last_name": "Frilson",
+        "customer_first_name": "Gederic",
+        "order_items": items,
+        "shipping_fee": str(shipping_fee),
+        "payment_method": "COD",
+        "statuses": ["pending"],
+        "price": str(total_paid),
+        "items_count": len(items),
+        "voucher": str(0.0),
+        "voucher_platform": str(0.0),
+        "voucher_seller": str(0.0),
+        "order_number": order_id,
+    }
+    payload.update(extra)
+    return payload
+
 
 AUTH_RESPONSE_MOCK = {
     'code': '0',
@@ -78,9 +102,9 @@ GET_SELLER_RESPONSE_MOCK = {
 }
 
 GET_ORDERS_RESPONSE_MOCK = {
-    'code': '0',
-    'request_id': '0001',
-    'data': {'countTotal': 1, 'count': 1, 'orders': [ORDER_MOCK]},
+    "code": "0",
+    "request_id": "0001",
+    "data": {"countTotal": 1, "count": 1, "orders": [build_order_mock()]},
 }
 
 GET_ORDER_ITEMS_RESPONSE_MOCK = {
@@ -91,7 +115,7 @@ GET_ORDER_ITEMS_RESPONSE_MOCK = {
     ],
 }
 
-GET_ORDER_RESPONSE_MOCK = {'code': '0', 'request_id': '0001', 'data': ORDER_MOCK}
+GET_ORDER_RESPONSE_MOCK = {"code": "0", "request_id": "0001", "data": build_order_mock()}
 
 GET_PRODUCTS_RESPONSE_MOCK = {
     'code': '0',
@@ -177,7 +201,7 @@ OPERATIONS_RESPONSES_MAP = {
 
 
 # Test class for common Lazada-related functionality
-class TestLazadaCommon(TransactionCase):
+class TestLazadaCommon(BaseCommon):
     def setUp(self):
         super().setUp()
         self.initial_sync_date = datetime(2020, 1, 1)
@@ -216,3 +240,20 @@ class TestLazadaCommon(TransactionCase):
         })
 
         self.partner = self.env['res.partner'].create({'name': "Test Partner"})
+
+        tax_group = self.env["account.tax.group"].create({
+            "name": "Lazada Test Tax Group",
+        })
+
+        self.tax_price_include_7 = self.env["account.tax"].create({
+            "name": "Lazada Test Tax 7% Included",
+            "amount": 7.0,
+            "price_include_override": "tax_included",
+            "tax_group_id": tax_group.id,
+        })
+        self.tax_price_exclude_7 = self.env["account.tax"].create({
+            "name": "Lazada Test Tax 7% Excluded",
+            "amount": 7.0,
+            "price_include_override": "tax_excluded",
+            "tax_group_id": tax_group.id,
+        })

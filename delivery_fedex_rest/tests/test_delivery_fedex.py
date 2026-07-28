@@ -71,6 +71,23 @@ def _mock_request_call(specific_fedex_check=None):
         yield
 
 
+def _check_request_format(check_list):
+    """
+    Performs all given checks before sending the request to the server.
+
+    :param check_list: A list of functions accepting both url and data as arguments eg. check(url, data).
+        Every check might raise an Exception
+    """
+    original_send_fedex_request = FedexRequest._send_fedex_request
+
+    def patched_send_fedex_request(self, url, data, method='POST'):
+        for check in check_list:
+            check(url, data)
+        return original_send_fedex_request(self, url, data, method)
+
+    return patch.object(FedexRequest, '_send_fedex_request', side_effect=patched_send_fedex_request, autospec=True)
+
+
 @tagged('post_install', '-at_install')
 class TestDeliveryFedex(TransactionCase):
 
@@ -176,7 +193,13 @@ class TestDeliveryFedex(TransactionCase):
             'default_carrier_id': self.env.ref('delivery_fedex_rest.delivery_carrier_fedex_us').id
         }))
         choose_delivery_carrier = delivery_wizard.save()
-        with _mock_request_call():
+
+        def check_presence_of_customer_reference(url, data):
+            if ('ship' in url and not 'cancel' in url):
+                if not any(ref.get('customerReferenceType') == 'CUSTOMER_REFERENCE' for ref in data['requestedShipment']['requestedPackageLineItems'][0]['customerReferences']):
+                    raise (Exception("Shipment is missing transfer reference"))
+
+        with _mock_request_call(), _check_request_format([check_presence_of_customer_reference]):
             choose_delivery_carrier.update_price()
             self.assertGreater(choose_delivery_carrier.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
             choose_delivery_carrier.button_confirm()

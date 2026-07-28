@@ -13,6 +13,7 @@ class TestProjectProject(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env['ir.config_parameter'].set_param('databases.saas_single_sign_on', "False")
 
         cls.user_db_user = new_test_user(cls.env, login='db_user@company.tld', groups="databases.group_databases_user")
         cls.user_db_manager = new_test_user(cls.env, login='db_manager@company.tld', groups="databases.group_databases_manager")

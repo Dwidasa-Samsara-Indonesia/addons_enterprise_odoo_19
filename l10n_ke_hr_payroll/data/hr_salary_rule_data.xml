@@ -245,7 +245,9 @@ result = employee.l10n_ke_mortgage
         <field name="code">NSSF_EMPLOYEE_TIER_1</field>
         <field name="sequence">110</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = not version.l10n_ke_is_secondary</field>
+        <field name="condition_python">
+result = not (version.l10n_ke_is_secondary or payslip._l10n_ke_is_employee_at_least_60())
+        </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 lower_limit = payslip._rule_parameter('l10n_ke_nssf_lower_limit')
@@ -263,7 +265,9 @@ result_rate = 6
         <field name="code">NSSF_EMPLOYEE_TIER_2</field>
         <field name="sequence">111</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = not version.l10n_ke_is_secondary</field>
+        <field name="condition_python">
+result = not (version.l10n_ke_is_secondary or payslip._l10n_ke_is_employee_at_least_60())
+        </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 lower_limit = payslip._rule_parameter('l10n_ke_nssf_lower_limit')
@@ -303,7 +307,9 @@ result_rate = payslip._rule_parameter('l10n_ke_ahl_employee') * 100
         <field name="code">NSSF_AMOUNT</field>
         <field name="sequence">121</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = not version.l10n_ke_is_secondary</field>
+        <field name="condition_python">
+result = not (version.l10n_ke_is_secondary or payslip._l10n_ke_is_employee_at_least_60())
+        </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result = result_rules['NSSF_EMPLOYEE_TIER_1']['total'] + result_rules['NSSF_EMPLOYEE_TIER_2']['total']
@@ -789,7 +795,9 @@ result = payslip._rule_parameter('l10n_ke_nita')
         <field name="code">NSSF_EMP</field>
         <field name="sequence">161</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = not version.l10n_ke_is_secondary</field>
+        <field name="condition_python">
+result = not (version.l10n_ke_is_secondary or payslip._l10n_ke_is_employee_at_least_60())
+        </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result = result_rules['NSSF_AMOUNT']['total']

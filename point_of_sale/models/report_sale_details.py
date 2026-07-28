@@ -138,6 +138,18 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
             for session in sessions:
                 configs.append(session.config_id)
 
+        cash_rounding_total = 0.0
+        for order in orders:
+            order_currency = order.session_id.currency_id
+            rounding_diff = order.amount_paid - order.amount_total
+            if user_currency != order_currency:
+                cash_rounding_total += order_currency._convert(
+                    rounding_diff, user_currency, order.company_id,
+                    order.date_order or fields.Date.today())
+            else:
+                cash_rounding_total += rounding_diff
+        cash_rounding_total = user_currency.round(cash_rounding_total)
+
         for payment in payments:
             payment['count'] = False
 
@@ -150,10 +162,14 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
                 account_payments = self.env['account.payment'].search([('pos_session_id', '=', session.id)])
                 if payment['session'] == session.id:
                     if not payment['cash']:
+                        payment_method = self.env['pos.payment.method'].browse(payment['id'])
                         ref_value = "Closing difference in %s (%s)" % (payment['name'], session.name)
-                        account_move = self.env['account.move'].search([("ref", "=", ref_value)], limit=1)
+                        # We add the journal to the query to benefit from index `account_move_journal_id_company_id_idx`
+                        account_move = self.env['account.move'].search([
+                            ('ref', '=', ref_value),
+                            ('journal_id', '=', payment_method.journal_id.id),
+                        ], limit=1)
                         if account_move:
-                            payment_method = self.env['pos.payment.method'].browse(payment['id'])
                             is_loss = any(l.account_id == payment_method.journal_id.loss_account_id for l in account_move.line_ids)
                             is_profit = any(l.account_id == payment_method.journal_id.profit_account_id for l in account_move.line_ids)
                             payment['final_count'] = payment['total']
@@ -291,12 +307,13 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
             'precision': user_currency.decimal_places,
         }
 
+        order_sessions = orders.mapped('session_id')
         session_name = False
-        if len(sessions) == 1:
-            state = sessions[0].state
-            date_start = sessions[0].start_at
-            date_stop = sessions[0].stop_at
-            session_name = sessions[0].name
+        if len(order_sessions) == 1 and session_ids:
+            state = order_sessions[0].state
+            date_start = order_sessions[0].start_at
+            date_stop = order_sessions[0].stop_at
+            session_name = order_sessions[0].name
         else:
             state = "multiple"
 
@@ -304,8 +321,9 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
         for config in configs:
             config_names.append(config.name)
 
-        discount_number = len(orders.filtered(lambda o: o.lines.filtered(lambda l: l.discount > 0)))
-        discount_amount = sum(l._get_discount_amount() for l in orders.lines.filtered(lambda l: l.discount > 0))
+        lines_with_discount = orders.mapped('lines').filtered(lambda l: l._has_discount())
+        discount_number = len(lines_with_discount)
+        discount_amount = sum(l._get_discount_amount_for_report() for l in lines_with_discount)
 
         invoiceList = []
         invoiceTotal = 0
@@ -327,6 +345,7 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
                     payments_per_method[payment['id']]['total'] += payment['total']
                 else:
                     payments_per_method[payment['id']] = {
+                        'id': payment['id'],
                         'name': method_name,
                         'total': payment['total'],
                     }
@@ -358,6 +377,7 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
             'total_paid': totalPaymentsAmount,
             'payments_per_method': payments_per_method.values(),
             'show_payment_per_method': not session_ids,
+            'cash_rounding_total': cash_rounding_total,
         }
 
     def _get_product_total_amount(self, line):

@@ -86,6 +86,7 @@ class HrEmployee(models.Model):
             raise AccessError(_('You cannot access the employee\'s folder.'))
         return {
             'type': 'ir.actions.act_url',
+            'target': 'self',
             # do not use the document's access_url, as it uses the web.base.url and could redirect on a domain you are not connected
             # on if web.base.url points to a different domain than the one you are connected on (and web.base.url.freeze is set)
             'url': f"/odoo/documents/{quote(self.hr_employee_folder_id.sudo().access_token, safe='')}",

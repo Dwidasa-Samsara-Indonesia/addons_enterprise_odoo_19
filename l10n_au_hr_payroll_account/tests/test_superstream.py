@@ -30,6 +30,19 @@ class TestPayrollSuperStream(AccountTestInvoicingCommon):
             "country_id": cls.env.ref("base.au").id,
             "currency_id": cls.env.ref("base.AUD").id,
             "vat": '85658499097',
+            "l10n_au_bms_id": "ODOO-TEST-BMS",
+            "l10n_au_branch_code": "1",
+            "email": "company@test.com",
+            "phone": "123456789",
+            "zip": "2000",
+        })
+        cls.env['l10n_au.stp'].search([]).unlink()
+        cls.env['ir.sequence'].create({
+            'name': 'STP Sequence',
+            'code': 'stp.transaction',
+            'prefix': 'PAYEVENT0004',
+            'padding': 10,
+            'number_next': 1,
         })
         clearing_house = cls.env.ref('l10n_au_hr_payroll_account.res_partner_clearing_house')
         clearing_house.with_company(cls.australian_company).property_account_payable_id = cls.account_21400
@@ -143,7 +156,11 @@ class TestPayrollSuperStream(AccountTestInvoicingCommon):
             "company_id": cls.australian_company.id,
             "private_street": "1 Test Street",
             "private_city": "Sydney",
+            "private_state_id": cls.env.ref("base.state_au_2").id,
+            "private_zip": "2000",
             "private_country_id": cls.env.ref("base.au").id,
+            "private_email": "mel@test.com",
+            "private_phone": "123456789",
             "work_phone": "123456789",
             "work_email": "mel@test.com",
             "birthday": date.today() - relativedelta(years=22),
@@ -163,6 +180,7 @@ class TestPayrollSuperStream(AccountTestInvoicingCommon):
             # "l10n_au_previous_payroll_id": "odoo_f47ac10b_001",
             "user_id": cls.employee_user.id,
         })
+        cls.australian_company.l10n_au_stp_responsible_id = cls.australian_company.l10n_au_hr_super_responsible_id
 
     def _test_super_stream(self, superstream, expected_saff_lines: list, payment_total: float):
         superstream.journal_id = self.journal_id
@@ -380,3 +398,306 @@ class TestPayrollSuperStream(AccountTestInvoicingCommon):
              "end_date": "2023-09-30"}
         ])
         self._test_super_stream(superstream, expected_lines, 570)
+
+    def test_remove_source_entity_id_type_on_super_stream(self):
+        """Test that removing the source entity id type from the Super Contributions."""
+        superstream_form = Form(self.env["l10n_au.super.stream"])
+        superstream_form.source_entity_id_type = False
+
+        self.assertFalse(superstream_form.source_entity_id)
+
+    @freeze_time("2026-07-31")
+    @mock_skip_stp_api_calls()
+    def test_payday_super_separate_superstreams(self):
+        self.employee.write({
+            'contract_date_start': "2026-01-01",
+            'contract_date_end': "2026-12-31",
+        })
+        batch_1 = self.env["hr.payslip.run"].create(
+                    {
+                        "date_start": "2026-07-02",
+                        "date_end": "2026-07-15",
+                        "name": "January Batch",
+                        "company_id": self.company.id,
+                    }
+                )
+        batch_1.generate_payslips(employee_ids=self.employee.ids)
+        batch_1.slip_ids.compute_sheet()
+        batch_1.action_validate()
+        superstream_1 = batch_1.slip_ids._get_superstreams()
+
+        self.assertEqual(len(superstream_1), 1, "First payrun should create exactly one superstream")
+        self.assertEqual(superstream_1.state, "draft")
+
+        batch_2 = self.env["hr.payslip.run"].create(
+                    {
+                        "date_start": "2026-07-16",
+                        "date_end": "2026-07-31",
+                        "name": "January Batch",
+                        "company_id": self.company.id,
+                    }
+                )
+        batch_2.generate_payslips(employee_ids=self.employee.ids)
+        batch_2.slip_ids.compute_sheet()
+        batch_2.action_validate()
+        superstream_2 = batch_2.slip_ids._get_superstreams()
+
+        self.assertEqual(len(superstream_2), 1, "Second payrun should create its own superstream")
+        self.assertNotEqual(
+            superstream_1, superstream_2,
+            "Second payrun must not be merged into the first draft superstream",
+        )
+
+    def _create_payslip_for_period(self, date_from, date_to):
+        return self.env['hr.payslip'].create({
+            'company_id': self.australian_company.id,
+            'employee_id': self.employee.id,
+            'name': 'Roger Payslip %s' % date_from.strftime("%Y-%m"),
+            'date_from': date_from,
+            'date_to': date_to,
+            'input_line_ids': [(5, 0, 0), (0, 0, {
+                'input_type_id': self.env.ref('hr_payroll.input_child_support').id,
+                'amount': 200,
+            })],
+        })
+
+    @mock_skip_stp_api_calls()
+    @freeze_time(date(2026, 6, 15))
+    def test_amending_payslip_after_super_stream_paid(self):
+        """
+        Amending a payslip via a Full File Replacement after its super stream has been
+        paid and STP submitted should create a new super stream covering the delta
+        of the missed super contribution.
+
+        Runs against the current date so the active ATO rules apply. The payslip
+        covers the current pay period so the wizard resolves to FFR.
+        """
+        # Discard setUp payslips so the auto-created STP only covers the new slip
+        self.payslips.unlink()
+        today = date.today()
+        slip = self._create_payslip_for_period(today.replace(day=1), today + relativedelta(day=31))
+        slip.compute_sheet()
+        slip.action_payslip_done()
+
+        # Pay the original super stream
+        superstream = slip._get_superstreams()
+        superstream.journal_id = self.journal_id
+        superstream.action_confirm()
+        slip.move_id.action_post()
+        superstream.action_register_super_payment()
+        self.assertEqual(superstream.state, 'done')
+
+        # Submit STP so the payslip is locked under FFR rules
+        stp = self.env["l10n_au.stp"].search([("payslip_ids", "in", slip.id)])
+        self.assertTrue(stp, "An STP record should be created when the payslip is validated")
+        stp.submit_date = today
+        submit_wizard = self.env['l10n_au.stp.submit'].create({
+            'l10n_au_stp_id': stp.id,
+            'stp_terms': True,
+        })
+        submit_wizard.action_submit()
+        self.assertEqual(stp.state, 'sent')
+
+        # Run the FFR wizard to reset the payslip for amendment
+        action = stp.action_replace_file()
+        ffr_wizard = self.env["l10n_au.stp.ffr.wizard"].with_context(action['context']).create({})
+        self.assertEqual(ffr_wizard.amendment_type, 'ffr',
+                         "Wizard should resolve to FFR while the pay period is current")
+        ffr_wizard.ffr_payslip_ids.write({"to_reset": True})
+        ffr_wizard.action_create_ffr()
+        self.assertEqual(slip.state, 'draft', "Payslip should be reset to draft after FFR")
+
+        # Amend the payslip with an extra bonus and re-validate
+        self.env['hr.payslip.input'].create({
+            'payslip_id': slip.id,
+            'input_type_id': self.env.ref('l10n_au_hr_payroll.input_bonus_commissions').id,
+            'amount': 1000,
+        })
+        slip.compute_sheet()
+        slip.action_payslip_done()
+
+        # A second super stream covering only the delta should be created
+        new_superstream = slip._get_superstreams() - superstream
+        self.assertEqual(len(new_superstream), 1, "A new super stream should be created for the delta")
+        new_lines = new_superstream.l10n_au_super_stream_lines
+        self.assertEqual(len(new_lines), 1, "The new super stream should only contain the delta line of the amended payslip")
+        self.assertEqual(new_lines.payslip_id, slip, "The new super stream should not contain lines for other payslips")
+        self.assertRecordValues(new_lines, [{
+            'superannuation_guarantee_amount': 120,
+            'award_or_productivity_amount': 0,
+            'salary_sacrificed_amount': 0,
+            'voluntary_amount': 0,
+            'amount_total': 120,
+        }])
+
+        # Both the original and the FFR report should declare the full YTD super
+        # amount, the delta is only deducted on the super stream record.
+        ffr_stp = self.env["l10n_au.stp"].search([("payslip_ids", "in", slip.id), ("ffr", "=", True)])
+        self.assertEqual(len(ffr_stp), 1, "An FFR STP record should be created for the amended payslip")
+        full_super = slip._get_line_values(['SUPER'], vals_list=['total'])['SUPER'][slip.id]['total']
+        self.assertEqual(
+            full_super,
+            superstream.l10n_au_super_stream_lines['superannuation_guarantee_amount'] + 120,
+            "The recomputed SUPER line should hold the full amount, not the delta",
+        )
+        ffr_stp.submit_date = today
+        for report in stp + ffr_stp:
+            contributions = report._get_rendering_data()[1][0]["SuperannuationContributionCollection"]
+            super_liability = next(c for c in contributions if c["EntitlementTypeC"] == "L")
+            self.assertEqual(
+                super_liability["EmployerContributionsYearToDateA"],
+                full_super,
+                "STP report %s should declare the full YTD super liability" % report.name,
+            )
+
+    @mock_skip_stp_api_calls()
+    @freeze_time(date(2026, 6, 15))
+    def test_unamended_payslip_creates_no_zero_super_stream(self):
+        """
+        Re-validating a payslip without any change after an FFR reset should not
+        create a new super stream, since the full super contribution has already
+        been paid and the delta is zero.
+        """
+        # Discard setUp payslips so the auto-created STP only covers the new slip
+        self.payslips.unlink()
+        today = date.today()
+        slip = self._create_payslip_for_period(today.replace(day=1), today + relativedelta(day=31))
+        slip.compute_sheet()
+        slip.action_payslip_done()
+
+        # Pay the original super stream
+        superstream = slip._get_superstreams()
+        superstream.journal_id = self.journal_id
+        superstream.action_confirm()
+        slip.move_id.action_post()
+        superstream.action_register_super_payment()
+        self.assertEqual(superstream.state, 'done')
+
+        # Submit STP and reset the payslip through the FFR wizard
+        stp = self.env["l10n_au.stp"].search([("payslip_ids", "in", slip.id)])
+        stp.submit_date = today
+        submit_wizard = self.env['l10n_au.stp.submit'].create({
+            'l10n_au_stp_id': stp.id,
+            'stp_terms': True,
+        })
+        submit_wizard.action_submit()
+
+        action = stp.action_replace_file()
+        ffr_wizard = self.env["l10n_au.stp.ffr.wizard"].with_context(action['context']).create({})
+        ffr_wizard.ffr_payslip_ids.write({"to_reset": True})
+        ffr_wizard.action_create_ffr()
+
+        # Re-validate without amending: the super delta is zero
+        slip.compute_sheet()
+        slip.action_payslip_done()
+        self.assertEqual(
+            slip._get_superstreams(), superstream,
+            "No new super stream should be created when the super contribution is already fully paid",
+        )
+        self.assertFalse(
+            self.env["l10n_au.super.stream"].search([("state", "=", "draft"), ("company_id", "=", self.australian_company.id)]),
+            "No empty draft super stream should be left behind for a zero delta",
+        )
+
+    @mock_skip_stp_api_calls()
+    @freeze_time(date(2026, 6, 15))
+    def test_amending_payslip_after_super_stream_paid_update_event(self):
+        """
+        With two payslips/STPs submitted, amending the older (first) one via the
+        FFR wizard should resolve to an Update Event because a newer submit STP
+        exists. It should:
+          - keep both original submit STPs intact (no FFR replacement),
+          - create a new STP record of type "update" for the amended payslip,
+          - generate a delta super stream covering the missed super contribution.
+        """
+        # Discard setUp payslips so the auto-created STPs only cover the new slips
+        self.payslips.unlink()
+        today = date.today()
+        # Two past periods: two months ago and previous month
+        first_of_this_month = today.replace(day=1)
+        period2_end = first_of_this_month - relativedelta(days=1)
+        period2_start = period2_end.replace(day=1)
+        period1_end = period2_start - relativedelta(days=1)
+        period1_start = period1_end.replace(day=1)
+
+        slips = []
+        stps = []
+        for idx, (start, end) in enumerate([(period1_start, period1_end), (period2_start, period2_end)]):
+            slip = self._create_payslip_for_period(start, end)
+            slip.compute_sheet()
+            slip.action_payslip_done()
+
+            superstream = slip._get_superstreams()
+            superstream.journal_id = self.journal_id
+            superstream.action_confirm()
+            slip.move_id.action_post()
+            superstream.action_register_super_payment()
+            self.assertEqual(superstream.state, 'done')
+
+            stp = self.env["l10n_au.stp"].search([("payslip_ids", "in", slip.id)])
+            # Stagger submit_date so the second STP is the most recent
+            stp.submit_date = end + relativedelta(days=1)
+            submit_wizard = self.env['l10n_au.stp.submit'].create({
+                'l10n_au_stp_id': stp.id,
+                'stp_terms': True,
+            })
+            submit_wizard.action_submit()
+            self.assertEqual(stp.state, 'sent')
+            slips.append(slip)
+            stps.append(stp)
+
+        first_slip, second_slip = slips
+        first_stp, second_stp = stps
+        first_superstream = first_slip._get_superstreams()
+
+        # Amending the older STP should auto-resolve to Update Event since a newer submit STP exists
+        action = first_stp.action_replace_file()
+        amend_wizard = self.env["l10n_au.stp.ffr.wizard"].with_context(action['context']).create({})
+        self.assertEqual(amend_wizard.amendment_type, 'update',
+                         "Wizard should auto-resolve to an Update Event when a newer submit STP exists")
+        amend_wizard.ffr_payslip_ids.write({"to_reset": True})
+        amend_wizard.action_create_ffr()
+
+        # Both original STPs should remain sent submit events, not replaced by FFR
+        self.assertEqual(first_stp.state, 'sent')
+        self.assertEqual(second_stp.state, 'sent')
+        self.assertFalse(first_stp.is_replaced, "First STP should not be marked as replaced when amending via update event")
+        self.assertFalse(second_stp.is_replaced, "Second STP should not be impacted by amending the first")
+        self.assertFalse(
+            self.env["l10n_au.stp"].search_count([("previous_report_id", "=", first_stp.id), ("ffr", "=", True)]),
+            "No FFR STP record should be created in the update-event amend flow",
+        )
+        self.assertEqual(first_slip.state, 'draft', "First payslip should be reset to draft to allow amendment")
+        self.assertEqual(second_slip.state, 'validated', "Second payslip should be untouched")
+
+        # Amend the first payslip and re-validate
+        self.env['hr.payslip.input'].create({
+            'payslip_id': first_slip.id,
+            'input_type_id': self.env.ref('l10n_au_hr_payroll.input_bonus_commissions').id,
+            'amount': 1000,
+        })
+        first_slip.compute_sheet()
+        first_slip.action_payslip_done()
+
+        # A new update-type STP should be created for the amendment of the first slip.
+        # Update events track employees instead of payslips.
+        update_stp = self.env["l10n_au.stp"].search([
+            ("l10n_au_stp_emp.employee_id", "in", first_slip.employee_id.ids),
+            ("payevent_type", "=", "update"),
+            ("ffr", "=", False),
+        ])
+        self.assertEqual(len(update_stp), 1, "An update event STP should be created for the amended payslip")
+
+        # A delta super stream should be created for the first slip only
+        new_superstream = first_slip._get_superstreams() - first_superstream
+        self.assertEqual(len(new_superstream), 1, "A delta super stream should be created for the first slip")
+        new_lines = new_superstream.l10n_au_super_stream_lines
+        self.assertEqual(len(new_lines), 1, "The new super stream should only contain the delta line of the amended payslip")
+        self.assertEqual(new_lines.payslip_id, first_slip, "The new super stream should not contain lines of the second payslip")
+        self.assertRecordValues(new_lines, [{
+            'superannuation_guarantee_amount': 120,
+            'award_or_productivity_amount': 0,
+            'salary_sacrificed_amount': 0,
+            'voluntary_amount': 0,
+            'amount_total': 120,
+        }])

@@ -3,14 +3,14 @@
 # * account_intrastat
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
 # "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2025-10-08 02:40+0000\n"
+"POT-Creation-Date: 2026-06-05 19:37+0000\n"
+"PO-Revision-Date: 2026-06-09 04:49+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/account_intrastat/es_419/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_intrastat
 #. odoo-javascript
@@ -393,6 +393,12 @@ msgstr "Código de transacción Intrastat"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid "Invalid Intrastat Code"
+msgstr "Código Intrastat no válido"
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Invalid commodity intrastat code products."
 msgstr "Productos con códigos Intrastat no válidos."
@@ -449,6 +455,16 @@ msgstr "Producto faltante"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"Note that the selected commodity code is invalid based on its start or "
+"expiry date. You can still select it."
+msgstr ""
+"Ten en cuenta que el código comercial seleccionado no es válido según su "
+"fecha de inicio o vencimiento. Aun así, puedes seleccionarlo."
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_return.py:0
 msgid "Only business customers"
 msgstr "Solo clientes empresariales"
@@ -469,7 +485,7 @@ msgstr "Solo transacciones intra-UE"
 #. odoo-javascript
 #: code:addons/account_intrastat/static/src/components/intrastat_report/filters/filter_intrastat_report.xml:0
 msgid "Only with VAT numbers"
-msgstr "Solo con RFC"
+msgstr "Solo con números de identificación fiscal"
 
 #. module: account_intrastat
 #: model_terms:ir.ui.view,arch_db:account_intrastat.report_invoice_document_intrastat_2019
@@ -552,7 +568,7 @@ msgstr "Algunas líneas tienen el Intrastat anticipado"
 #. odoo-javascript
 #: code:addons/account_intrastat/static/src/components/intrastat_report/warnings.xml:0
 msgid "Some lines have undefined"
-msgstr "Algunas líneas tienen un caracter indefinido"
+msgstr "Algunas líneas tienen un carácter indefinido"
 
 #. module: account_intrastat
 #. odoo-javascript
@@ -616,6 +632,16 @@ msgstr "El rango de fechas debe ser un mes o un trimestre completo."
 #: model:ir.model.fields,help:account_intrastat.field_product_template__intrastat_supplementary_unit_amount
 msgid "The number of supplementary units per product quantity."
 msgstr "El número de unidades suplementarias por cantidad del producto."
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"The product template has no products/variants. At least one variant is "
+"required to set the Intrastat values."
+msgstr ""
+"La plantilla del producto no tiene productos ni variantes. Debe tener al "
+"menos una variante para definir los valores de Intrastat."
 
 #. module: account_intrastat
 #. odoo-python
@@ -731,7 +757,7 @@ msgstr "ct/l"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__g
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__g
 msgid "g"
-msgstr ""
+msgstr "g"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__gi_f_/_s
@@ -743,7 +769,7 @@ msgstr "gi F / S"
 #. odoo-javascript
 #: code:addons/account_intrastat/static/src/components/intrastat_report/warnings.xml:0
 msgid "journals items with no product"
-msgstr "asientos de diaro sin producto"
+msgstr "asientos contables sin producto"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__kg_90_%_sdt
@@ -809,7 +835,7 @@ msgstr "kg/net eda"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__l
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__l
 msgid "l"
-msgstr ""
+msgstr "l"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__l_alc__100_%
@@ -821,7 +847,7 @@ msgstr "l alc. 100 %"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__m
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__m
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__m2

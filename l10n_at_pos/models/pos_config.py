@@ -1,3 +1,9 @@
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+import base64
+import io
+import json
+import zipfile
 from datetime import datetime
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
@@ -49,18 +55,26 @@ class PosConfig(models.Model):
         fiskaly_client = FiskalyClient(self.company_id, self.company_id.l10n_at_fiskaly_api_key, self.company_id.l10n_at_fiskaly_api_secret)
         starting_time, ending_time = (int(dt.timestamp()) for dt in (start_date, end_date))
 
-        report_duration_msg = _("This is the entire Report of this cash register")
-        if ending_time - starting_time != 0:
-            report_duration_msg = "This is the Report of this cash register from %s to %s" % (start_date, end_date)
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', 0) as zf:
+            for config in self:
+                if config.l10n_at_cash_regid:
+                    audit_report_response = fiskaly_client.get_dep_data(config.company_id.l10n_at_fiskaly_access_token, config.l10n_at_cash_regid, starting_time, ending_time)
+                    filename = f"{config.name}_{start_date}_to_{end_date}_DEP_KassenID.json".replace(" ", "_")
+                    zf.writestr(filename, json.dumps(audit_report_response, indent=4, default=str))
+        zip_buffer.seek(0)
 
-        report_data = {"config_reports": [], "report_duration": report_duration_msg}
+        attachment = self.env['ir.attachment'].create({
+            'name': 'dep7_reports.zip',
+            'type': 'binary',
+            'datas': base64.b64encode(zip_buffer.read()),
+            'mimetype': 'application/zip',
+        })
 
-        for config in self:
-            if config.l10n_at_cash_regid:
-                audit_report_response = fiskaly_client.get_dep_data(config.company_id.l10n_at_fiskaly_access_token, config.l10n_at_cash_regid, starting_time, ending_time)
-                report_data["config_reports"].append({config.name: audit_report_response})
-
-        return self.env.ref('l10n_at_pos.fiskaly_register_report').report_action(self, data=report_data)
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+        }
 
     def fetch_fiskaly_closing_receipt_data(self, selection_date, period):
         self.ensure_one()
@@ -74,8 +88,16 @@ class PosConfig(models.Model):
         # Calculate the total difference in months
         total_month_diff = (year_diff * 12 + month_diff)
         offset = total_month_diff if period == "monthly" else year_diff
-        receipt_type = "MONTHLY_CLOSE" if period == "monthly" else "YEARLY_CLOSE"
-        return fiskaly_client.get_closing_receipt(self.l10n_at_cash_regid, receipt_type, offset, self.company_id.l10n_at_fiskaly_access_token)
+        message = _("No closing receipt found for the selected period.")
+        # Closings exist only for past months, so the most recent closing (at the bottom) is for last month.
+        # Therefore, Calculate the offset from last month
+        if offset - 1 >= 0:
+            receipt_type = "MONTHLY_CLOSE" if period == "monthly" else "YEARLY_CLOSE"
+            response = fiskaly_client.get_closing_receipt(self.l10n_at_cash_regid, receipt_type, offset - 1, self.company_id.l10n_at_fiskaly_access_token)
+            if response.get('data'):
+                message = "success"
+            return {'data': response.get('data'), 'message': message}
+        return {'data': [], 'message': message}
 
 
 class ReportL10nAtPosConfigAuditTemplate(models.AbstractModel):

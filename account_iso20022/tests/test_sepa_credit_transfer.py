@@ -190,6 +190,39 @@ class TestSEPACreditTransfer(TestSEPACreditTransferCommon):
         EndToEndId = ct_doc.findtext('.//ns:EndToEndId', namespaces=namespaces)
         self.assertEqual(len(EndToEndId), 32, "A 32 character UUID hex value should have been generated")
 
+    def test_sepa_ampersand_in_partner_name(self):
+        """
+        '&' in partner name must be preserved as '&amp;' in the XML output (<Nm> field).
+        '&' in reference/identifier fields (InstrId, Ustrd) must be replaced with '+'.
+        """
+        self.partner_a.name = "test & test GMBH"
+        self.partner_a.bank_ids.acc_holder_name = "test & test GMBH"
+        self.partner_a.city = "City"
+        self.partner_a.country_id = self.env.ref('base.be')
+
+        payment = self.createPayment(self.partner_a, 500, memo="Invoice & Order")
+        payment.action_post()
+
+        self.bank_journal.bank_id.bic = "BBRUBEBB"
+        self.bank_journal.sepa_pain_version = 'pain.001.001.03'
+        batch = self.env['account.batch.payment'].create({
+            'journal_id': self.bank_journal.id,
+            'payment_ids': [(4, payment.id, None)],
+            'payment_method_id': self.sepa_ct_method.id,
+            'batch_type': 'outbound',
+        })
+        batch.validate_batch()
+
+        ct_doc = etree.fromstring(base64.b64decode(batch.export_file))
+        namespaces = {'ns': 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.03'}
+        name = ct_doc.findtext('.//ns:Cdtr/ns:Nm', namespaces=namespaces)
+        ustrd = ct_doc.findtext('.//ns:Ustrd', namespaces=namespaces)
+        instr_id = ct_doc.findtext('.//ns:InstrId', namespaces=namespaces)
+
+        self.assertEqual(name, "test & test GMBH", "'&' in <Nm> must be preserved (XML-escaped to &amp; by lxml)")
+        self.assertEqual(ustrd, "Invoice + Order", "'&' in <Ustrd> must be replaced with '+'")
+        self.assertTrue(instr_id.endswith("-Invoice + Order"), "'&' in <InstrId> must be replaced with '+'")
+
     def _check_structured_reference(self, country_code, payment):
         if country_code == 'ch':
             payment.partner_bank_id.sudo().allow_out_payment = False
@@ -241,6 +274,37 @@ class TestSEPACreditTransfer(TestSEPACreditTransferCommon):
         self.partner_a.country_id = self.env.ref('base.ch')
         payment = self.createPayment(self.partner_a, 500, '000000000000000000000012371')
         self._check_structured_reference('ch', payment)
+
+    def test_ch_qr_iban_journal_reference_with_special_chars_is_sanitized(self):
+        """
+        Test that the reference is sanitized when generating a
+        QR-IBAN SEPA credit transfer.
+        """
+        self.bank_journal.bank_account_id.allow_out_payment = False
+        self.bank_journal.bank_acc_number = 'CH59 3007 6011 6238 5295 7'
+        self.partner_a.country_id = self.env.ref('base.ch')
+        ch_bank_account = self.env['res.partner.bank'].create({
+            'acc_number': 'CH59 3007 6011 6238 5295 7',
+            'partner_id': self.partner_a.id,
+            'allow_out_payment': True,
+        })
+
+        payment = self.createPayment(self.partner_a, 500, '°°°REF123°°°')
+        payment.partner_bank_id = ch_bank_account
+        payment.action_post()
+
+        batch = self.env['account.batch.payment'].create({
+            'journal_id': self.bank_journal.id,
+            'payment_ids': [Command.link(payment.id)],
+            'payment_method_id': self.sepa_ct_method.id,
+            'batch_type': 'outbound',
+        })
+        batch.validate_batch()
+
+        namespaces = {'ns': 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.09'}
+        ct_doc = etree.fromstring(base64.b64decode(batch.export_file))
+        strd = ct_doc.findtext('.//ns:Strd/ns:CdtrRefInf/ns:Ref', namespaces=namespaces)
+        self.assertEqual('000000000000000...REF123...', strd)
 
     def test_structured_reference_fi(self):
         self.partner_a.country_id = self.env.ref('base.fi')

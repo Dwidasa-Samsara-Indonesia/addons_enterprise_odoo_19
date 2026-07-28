@@ -35,5 +35,29 @@
             <field name="domain_force">[(1, '=', 1)]</field>
             <field name="groups" eval="[(4, ref('equity.group_equity_viewer'))]"/>
         </record>
+
+        <record id="cap_table_company_rule" model="ir.rule">
+            <field name="name">Company cap table</field>
+            <field name="model_id" ref="model_equity_cap_table"/>
+            <field name="domain_force">['|', ('company_id', 'parent_of', company_ids), ('company_id', '=', False)]</field>
+        </record>
+
+        <record id="transaction_company_rule" model="ir.rule">
+            <field name="name">Company transaction</field>
+            <field name="model_id" ref="model_equity_transaction"/>
+            <field name="domain_force">['|', ('company_id', 'parent_of', company_ids), ('company_id', '=', False)]</field>
+        </record>
+
+        <record id="ubo_company_rule" model="ir.rule">
+            <field name="name">Company UBO</field>
+            <field name="model_id" ref="model_equity_ubo"/>
+            <field name="domain_force">['|', ('company_id', 'parent_of', company_ids), ('company_id', '=', False)]</field>
+        </record>
+
+        <record id="valuation_company_rule" model="ir.rule">
+            <field name="name">Company valuation</field>
+            <field name="model_id" ref="model_equity_valuation"/>
+            <field name="domain_force">['|', ('company_id', 'parent_of', company_ids), ('company_id', '=', False)]</field>
+        </record>
     </data>
 </odoo>

@@ -161,7 +161,7 @@ class SocialAccount(models.Model):
         }
         for tweet in result.json().get('data', []):
             public_metrics = tweet.get('public_metrics', {})
-            last_tweets_stats['engagement'] += public_metrics.get('like_count', 0)
+            last_tweets_stats['engagement'] += public_metrics.get('like_count', 0) + public_metrics.get('reply_count', 0)
             last_tweets_stats['stories'] += public_metrics.get('retweet_count', 0)
         return last_tweets_stats
 

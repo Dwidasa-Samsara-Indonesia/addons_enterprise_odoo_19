@@ -1,6 +1,7 @@
 .account_report {
     .o_account_report_scroll_container {
         margin-inline: 0 !important;
+        padding-bottom: 40px;
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -62,7 +63,16 @@
         border: 1px solid $o-gray-300;
         border-radius: 0.25rem;
 
-        > :not(caption) > * > * { padding: 0.25rem 0.75rem } //!\\ Override of bootstrap, keep selector
+        --row-action-color: #{ $o-gray-300 }; // color take below at button section
+        --row-action-opacity: 0;
+        --row-muted-color: #{ var(--AccountReport-muted-data-color, $o-gray-300) };
+
+        td, th { //!\\ Override of bootstrap selector `> :not(caption) > * > *`
+            padding: 0.25rem 0.75rem !important;
+        }
+        .content > a.cursor-pointer {
+            color: inherit;
+        }
 
         > thead {
             > tr {
@@ -81,13 +91,13 @@
             > tr {
                 &.unfolded { font-weight: bold }
                 > td {
-                    a { cursor: pointer }
+                    border-bottom: 1px solid var(--AccountReport-fine-line-separator-color, $o-gray-200);
+
                     .clickable { color: $o-enterprise-action-color }
-                    &.muted { color: var(--AccountReport-muted-data-color, $o-gray-300) }
+                    &.muted { color: var(--row-muted-color) }
                     &:empty::after{ content: "\00a0" } //!\\ Prevents the collapse of empty table rows
                     &:empty { line-height: 1 }
                     .btn_annotation {
-                        opacity: 0;
                         color: $o-gray-400;
 
                         &.o_account_report_chatter_selected {
@@ -98,38 +108,40 @@
                         &.o_account_report_chatter_annoted {
                             opacity: 1;
                         }
+
+                        .o_web_client.o_touch_device & {
+                            opacity: 1;
+                        }
                     }
                 }
 
-                &:not(.empty) > td { border-bottom: 1px solid var(--AccountReport-fine-line-separator-color, $o-gray-200) }
+                &.empty > td { border-bottom: unset; }
                 &.total { font-weight: bold }
                 &.o_bold_tr { font-weight: bold }
 
                 &.unfolded {
+                    --row-action-opacity: 1;
+
                     > td { border-bottom: 1px solid $o-gray-300 }
-                    .btn_action { opacity: 1 }
-                    .btn_more { opacity: 1 }
+                }
+
+
+                .btn_action, .btn_more, .btn_edit, .btn_dropdown, .btn_foldable, .btn_ellipsis,
+                .btn_annotation_go, .btn_debug {
+                    color: var(--row-action-color);
+                }
+
+                .btn_action, .btn_more, .btn_annotation {
+                    opacity: var(--row-action-opacity);
                 }
 
                 &:hover {
-                    &.empty > * { --table-accent-bg: transparent }
-                    .auditable {
-                        color: $o-enterprise-action-color !important;
+                    --row-action-opacity: 1;
+                    --row-action-color: #{ $o-enterprise-action-color };
+                    --row-muted-color: #{ $o-gray-800 };
 
-                        > a:hover { cursor: pointer }
-                    }
-                    .muted { color: $o-gray-800 }
-                    .btn_action, .btn_more {
-                        opacity: 1;
-                        color: $o-enterprise-action-color;
-                    }
-                    .btn_edit { color: $o-enterprise-action-color }
-                    .btn_dropdown { color: $o-enterprise-action-color }
-                    .btn_foldable { color: $o-enterprise-action-color }
-                    .btn_ellipsis { color: $o-enterprise-action-color }
-                    .btn_annotation { opacity: 1 }
-                    .btn_annotation_go { color: $o-enterprise-action-color }
-                    .btn_debug { color: $o-enterprise-action-color }
+                    &.empty > * { --table-accent-bg: transparent }
+                    > td.auditable { color: $o-enterprise-action-color !important; }
                 }
             }
         }
@@ -142,10 +154,22 @@
 
     table.striped {
         //!\\ Changes the background of every even column starting with the 3rd one
-        > thead > tr:not(:first-child) > th:nth-child(2n+3) { background: $o-gray-100 }
-        > tbody {
-            > tr:not(.line_level_0):not(.empty) > td:nth-child(2n+3) { background: $o-gray-100 }
-            > tr.line_level_0 > td:nth-child(2n+3) { background: $o-gray-300 }
+        > thead > tr:not(:first-child) > th:nth-child(2n+3) {
+            background: $o-gray-100;
+        }
+
+        > tbody > tr {
+            > td.line_cell_odd {
+                background: $o-gray-100;
+            }
+
+            &.line_level_0 > td.line_cell_odd {
+                background: $o-gray-300;
+            }
+
+            &.empty > td.line_cell_odd {
+                background: unset;
+            }
         }
     }
 
@@ -258,7 +282,7 @@
         color: $o-gray-300;
         font-size: inherit;
         font-weight: normal;
-        padding: 0;
+        padding: 0 !important;
         text-align: center;
         width: 20px;
         white-space: nowrap;
@@ -284,7 +308,7 @@
         background-color: $o-view-background-color;
         color: $o-gray-600;
         width: auto;
-        padding: 0 0.25rem;
+        padding: 0 0.25rem !important;
         margin: 0 0.25rem;
         border: 1px solid $o-gray-300;
         border-radius: 0.25rem;
@@ -300,7 +324,8 @@
     //------------------------------------------------------------------------------------------------------------------
     .o_account_report_chatter {
         border-left: 1px solid var(--border-color);
-        max-width: calc(#{$o-mail-Chatter-minWidth} + 20px + var(--Chatter-asideExtraWidth));
+        // using Min instead of min to trick scss since it doesn't like the usage of additions and var.
+        max-width: Min(calc(#{$o-mail-Chatter-minWidth} + 20px + var(--Chatter-asideExtraWidth)), 100%);
         transition: max-width 0.2s ease-in-out;
 
         .o-mail-Chatter-topbar {
@@ -489,5 +514,25 @@ label:focus-within input { border: 0; }
             &.start-0::after { border-bottom-color: $o-white; }
             &.end-0::after { border-top-color: $o-white; }
         }
+    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Chatter
+//----------------------------------------------------------------------------------------------------------------------
+.o_account_report_mobile_chatter {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    height: 60vh;
+    background-color: $o-view-background-color;
+    transform: translateY(0);
+    transition: transform 0.2s ease-in-out;
+    overflow: scroll;
+    
+    &.o_account_report_mobile_chatter_hidden {
+        transform: translateY(100%);
     }
 }

@@ -20,6 +20,7 @@ class ResConfigSettings(models.TransientModel):
         related='company_id.account_representative_id',
         readonly=False,
     )
+    l10n_be_intervat_show_settings = fields.Boolean(related='company_id.l10n_be_intervat_show_settings')
 
     def action_close_intervat_connection(self):
         self.company_id.write({

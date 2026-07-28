@@ -39,7 +39,7 @@ class PlanningSlotTemplate(models.Model):
     def _check_start_and_end_times(self):
         for template in self:
             if template.end_time < template.start_time and template.duration_days <= 1:
-                raise ValidationError(_('The start hour cannot be before the end hour for a one-day shift template.'))
+                raise ValidationError(_('The start hour cannot be after the end hour for a one-day shift template.'))
 
     @api.depends('start_time', 'end_time')
     def _compute_name(self):

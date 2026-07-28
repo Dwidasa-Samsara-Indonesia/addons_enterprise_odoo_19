@@ -103,7 +103,7 @@ class TestL10nCoReportsTrialBalanceReport(TestAccountReportsCommon):
                 (self.account_receivable_name,                          '',       -3000.0,        0.0,        0.0,      -3000.0),
                 ('partner_a',                                      '11111',       -3000.0,        0.0,        0.0,      -3000.0),
 
-                ('Undistributed Profits/Losses - company_1_data',       '',        -300.0,        0.0,        0.0,       -300.0),
+                ('Result Brought Forward - company_1_data',             '',        -300.0,        0.0,        0.0,       -300.0),
                 ('Total',                                               '',           0.0,        0.0,        0.0,          0.0),
             ],
             options,

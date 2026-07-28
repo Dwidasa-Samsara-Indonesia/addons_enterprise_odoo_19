@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"POT-Creation-Date: 2026-07-17 17:44+0000\n"
 "PO-Revision-Date: 2026-04-09 11:22+0000\n"
 "Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -194,6 +194,18 @@ msgstr "第13期工资"
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "1st semester of %s"
 msgstr "%s的上半年"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "2 months"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "2 weeks"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
@@ -1815,6 +1827,11 @@ msgid "Define the applicability rules for this rule."
 msgstr "定义此规则的适用条件。"
 
 #. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
+msgid "Define when payslips are printed and sent to employees"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__schedule_pay
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure_type__default_schedule_pay
 msgid "Defines the frequency of the wage payment."
@@ -3217,6 +3234,11 @@ msgid "Main Attachment"
 msgstr "主要附件"
 
 #. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__never
+msgid "Manually"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__3
 #: model:ir.model.fields.selection,name:hr_payroll.selection__res_company__ytd_reset_month__3
 msgid "March"
@@ -4259,6 +4281,11 @@ msgid "Payslips - Show final results of the computation."
 msgstr "工资单 － 显示最终计算结果。"
 
 #. module: hr_payroll
+#: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__payslip_generate_and_send_trigger
+msgid "Payslips Generate and Send Trigger"
+msgstr ""
+
+#. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslips_previous_contract
 msgid "Payslips Generated On Previous Contract"
 msgstr "上一份合同产生的工资单"
@@ -4968,6 +4995,11 @@ msgstr "选择您的福利"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_default_boolean
 msgid "Selected by Default"
 msgstr "默认选中"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
+msgid "Send payslips to employees"
+msgstr ""
 
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_hr_payroll_remove_from_payrun
@@ -5896,6 +5928,16 @@ msgid "Weeks %(week)s and %(week1)s of %(year)s"
 msgstr "%(year)s年的第%(week)s周和第%(week1)s周"
 
 #. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__on_confirmed
+msgid "When Confirmed"
+msgstr ""
+
+#. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__on_paid
+msgid "When Paid"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__title
 msgid ""
 "When selected, this salary rule will only be displayed as a title with its "
@@ -6283,9 +6325,33 @@ msgid "You'll be able to access all the steps of the payroll process"
 msgstr "您可以访问薪酬管理流程的所有步骤"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "bi-monthly"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "bi-weekly"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__current_companies_country_codes
 msgid "country codes"
 msgstr "国家/地区代码"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "daily"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "day"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_form
@@ -6352,6 +6418,18 @@ msgid "gross"
 msgstr "毛额"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "half-month"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "half-year"
+msgstr ""
+
+#. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "have been affected by this version's changes."
 msgstr "已受到此版本变更的影响。"
@@ -6381,6 +6459,18 @@ msgid "id"
 msgstr "id"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "month"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "monthly"
+msgstr ""
+
+#. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payrun_card/payrun_card.xml:0
 msgid "net"
@@ -6406,9 +6496,33 @@ msgid "payslips"
 msgstr "工资单"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "quarter"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "quarterly"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__amount_percentage_base
 msgid "result will be affected to a variable"
 msgstr "结果将影响一个变量"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "semi-annually"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "semi-monthly"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
@@ -6420,6 +6534,24 @@ msgstr "直到"
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "used to"
 msgstr "用于"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "week"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "weekly"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "year"
+msgstr ""
 
 #. module: hr_payroll
 #: model:mail.template,subject:hr_payroll.mail_template_new_payslip

@@ -53,6 +53,10 @@ class KnowledgeArticle(models.Model):
 
     def _prepare_template(self, ref):
         fragment = super()._prepare_template(ref)
+        account_report_elements = fragment.xpath('//*[@data-embedded="accountReport"]')
+        if not account_report_elements:
+            return fragment
+
         if 'target_article_id' in self.env.context:
             target_article = self.env['knowledge.article'].browse(
                 self.env.context['target_article_id'])
@@ -61,7 +65,7 @@ class KnowledgeArticle(models.Model):
             def transform_xmlid_to_res_id(match):
                 return str(ref(match.group('xml_id')))
 
-            for element in fragment.xpath('//*[@data-embedded="accountReport"]'):
+            for element in account_report_elements:
                 embedded_props = ast.literal_eval(re.sub(
                     r'(?<![\w])ref\(\'(?P<xml_id>\w+\.\w+)\'\)',
                     transform_xmlid_to_res_id,
@@ -83,7 +87,7 @@ class KnowledgeArticle(models.Model):
                         })
                 element.set('data-embedded-props', json.dumps(embedded_props))
         else:
-            for element in fragment.xpath('//*[@data-embedded="accountReport"]'):
+            for element in account_report_elements:
                 embedded_props = ast.literal_eval(re.sub(
                     r'(?<![\w])ref\(\'(?P<xml_id>\w+\.\w+)\'\)',
                     lambda match: '0',
@@ -94,3 +98,13 @@ class KnowledgeArticle(models.Model):
                 }))
 
         return fragment
+
+    @api.autovacuum
+    def _gc_trashed_articles(self):
+        articles = self.with_context(active_test=False).search(
+            self._get_gc_trashed_articles_domain(), limit=100,
+        )
+        self.env['audit.report'].search([
+            ('knowledge_article_id', 'in', articles.ids),
+        ]).unlink()
+        return articles.unlink()

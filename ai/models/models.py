@@ -33,12 +33,13 @@ class Model(models.AbstractModel):
 
         for field_name, field_attrs in fields_info.items():
             field_type = field_attrs["type"]
-            field_value = self[field_name]
-
-            if field_type == 'char' and field_name in self._ai_field_names_to_truncate():
-                field_value = self._ai_truncate(field_value)
 
             try:
+                field_value = self[field_name]
+
+                if field_type == 'char' and field_name in self._ai_field_names_to_truncate():
+                    field_value = self._ai_truncate(field_value)
+
                 # Handle relational fields
                 if field_type == "many2one":
                     result[field_name] = (
@@ -251,7 +252,7 @@ class Model(models.AbstractModel):
         files_dict = {}  # files are sent separately to LLMs
         for model, info in models.items():
             records = self.env[model].browse(info['ids'])
-            snapshot[model], files_dict = records._ai_read(info['fields'], files_dict)
+            snapshot[model], files_dict = records._ai_read(list(info['fields']), files_dict)
 
         def _ai_context_json_default(obj):
             """NewId is not json serializable, use its string representation"""

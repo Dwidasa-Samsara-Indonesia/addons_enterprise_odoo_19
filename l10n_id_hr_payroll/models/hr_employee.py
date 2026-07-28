@@ -1,10 +1,23 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models
+from odoo import fields, models
 
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
+
+    l10n_id_bpjs_jkk = fields.Float(
+        readonly=False,
+        related="version_id.l10n_id_bpjs_jkk",
+        inherited=True,
+        groups="hr_payroll.group_hr_payroll_user",
+    )
+    l10n_id_kode_ptkp = fields.Selection(
+        readonly=False,
+        related="version_id.l10n_id_kode_ptkp",
+        inherited=True,
+        groups="hr_payroll.group_hr_payroll_user",
+    )
 
     def l10n_id_action_view_historical_lines(self):
         """ As the historical payslip line values of 'GROSS' and 'PPH21' is used to calculate

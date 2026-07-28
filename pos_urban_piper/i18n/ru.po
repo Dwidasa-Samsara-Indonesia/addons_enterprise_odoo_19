@@ -4,13 +4,14 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-11-08 19:56+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-03 17:45+0000\n"
+"PO-Revision-Date: 2026-07-13 13:09+0000\n"
+"Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "pos_urban_piper/ru/>\n"
 "Language: ru\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -40,12 +41,14 @@ msgid ""
 "\"%s\" is not synchronized with the UrbanPiper. Please sync it before "
 "proceeding."
 msgstr ""
+"\"%s\" is not synchronized with the UrbanPiper. Please sync it before "
+"proceeding."
 
 #. module: pos_urban_piper
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/services/pos_store.js:0
 msgid "%s is %s online food delivery for all platform in this locations."
-msgstr ""
+msgstr "%s is %s online food delivery for all platform in this locations."
 
 #. module: pos_urban_piper
 #. odoo-python
@@ -99,7 +102,7 @@ msgstr "Доступные страны"
 #: model:ir.model.fields,field_description:pos_urban_piper.field_product_product__urbanpiper_pos_platform_ids
 #: model:ir.model.fields,field_description:pos_urban_piper.field_product_template__urbanpiper_pos_platform_ids
 msgid "Available on"
-msgstr ""
+msgstr "Available on"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_product_product__urbanpiper_pos_config_ids
@@ -125,6 +128,12 @@ msgid "Cancelled"
 msgstr "Отменен"
 
 #. module: pos_urban_piper
+#. odoo-python
+#: code:addons/pos_urban_piper/models/pos_urban_piper_request.py:0
+msgid "Cannot reach the server. Please try again later."
+msgstr "Cannot reach the server. Please try again later."
+
+#. module: pos_urban_piper
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/components/popups/order_info_popup/order_info_popup.js:0
 msgid "Card on Delivery"
@@ -146,7 +155,7 @@ msgstr "Канал"
 #: model:ir.model.fields,help:pos_urban_piper.field_product_product__urbanpiper_pos_platform_ids
 #: model:ir.model.fields,help:pos_urban_piper.field_product_template__urbanpiper_pos_platform_ids
 msgid "Check this if the product is available for following platform."
-msgstr ""
+msgstr "Check this if the product is available for following platform."
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_product_product__urbanpiper_pos_config_ids
@@ -256,7 +265,7 @@ msgstr "Канал доставки"
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__delivery_charge
 msgid "Delivery Charge"
-msgstr ""
+msgstr "Delivery Charge"
 
 #. module: pos_urban_piper
 #: model:product.template,name:pos_urban_piper.product_delivery_charges_product_template
@@ -271,7 +280,7 @@ msgstr "ID доставки"
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__delivery_instruction
 msgid "Delivery Instructions"
-msgstr ""
+msgstr "Delivery Instructions"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_order__delivery_json
@@ -326,7 +335,7 @@ msgstr "Время доставки / временной интервал"
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__delivery_charge
 msgid "Delivery charges for test order."
-msgstr ""
+msgstr "Delivery charges for test order."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -391,12 +400,12 @@ msgstr "Содержит яйца"
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
 msgid "Enter your API Key"
-msgstr ""
+msgstr "Enter your API Key"
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
 msgid "Enter your username"
-msgstr ""
+msgstr "Enter your username"
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -417,10 +426,16 @@ msgid "Error to send in preparation display."
 msgstr "Ошибка при передаче данных на кухонный дисплей."
 
 #. module: pos_urban_piper
+#. odoo-python
+#: code:addons/pos_urban_piper/models/pos_urban_piper_request.py:0
+msgid "Failed to parse server response."
+msgstr "Failed to parse server response."
+
+#. module: pos_urban_piper
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/components/popups/product_info_popup/product_info_popup.js:0
 msgid "Failed to update food delivery availability."
-msgstr ""
+msgstr "Failed to update food delivery availability."
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
@@ -440,17 +455,17 @@ msgstr "Фискальная позиция для синхронизации м
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__discount_amount
 msgid "Fixed Discount Amount"
-msgstr ""
+msgstr "Fixed Discount Amount"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__discount_amount
 msgid "Fixed discount value for test order."
-msgstr ""
+msgstr "Fixed discount value for test order."
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.product_template_search_view_inherit_pos_urban_piper
 msgid "Food Delivery Location"
-msgstr ""
+msgstr "Food Delivery Location"
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
@@ -524,7 +539,7 @@ msgstr "Указывает, содержит ли товар алкоголь."
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__delivery_instruction
 msgid "Instructions for test order."
-msgstr ""
+msgstr "Instructions for test order."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -618,7 +633,7 @@ msgstr "Мин"
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/override/components/order_display/order_display.xml:0
 msgid "Min(s)"
-msgstr ""
+msgstr "Min(s)"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields.selection,name:pos_urban_piper.selection__product_template__urbanpiper_meal_type__4
@@ -675,7 +690,7 @@ msgstr "Недоступно для онлайн-заказов."
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.product_template_only_form_view_inherit_pos_urban_piper
 msgid "Not available on any platforms."
-msgstr ""
+msgstr "Not available on any platforms."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -698,13 +713,13 @@ msgstr "Поставщики услуг по доставке еды"
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/components/popups/product_info_popup/product_info_popup.xml:0
 msgid "Online Food Delivery:"
-msgstr ""
+msgstr "Online Food Delivery:"
 
 #. module: pos_urban_piper
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/services/pos_store.js:0
 msgid "Online Order"
-msgstr ""
+msgstr "Online Order"
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -715,6 +730,8 @@ msgid ""
 "Online orders cannot be deleted. If needed, reject the order instead or "
 "contact the food delivery provider."
 msgstr ""
+"Online orders cannot be deleted. If needed, reject the order instead or "
+"contact the food delivery provider."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -737,7 +754,7 @@ msgstr "OTP-код заказа"
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_prep_order__order_otp
 msgid "Order Otp"
-msgstr ""
+msgstr "Order Otp"
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -783,12 +800,12 @@ msgstr "ID POS"
 #. odoo-python
 #: code:addons/pos_urban_piper/wizard/pos_urban_piper_test_order.py:0
 msgid "POS ID is required to place test order.\n"
-msgstr ""
+msgstr "POS ID is required to place test order.\n"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__packaging_charge
 msgid "Packaging Charge"
-msgstr ""
+msgstr "Packaging Charge"
 
 #. module: pos_urban_piper
 #: model:product.template,name:pos_urban_piper.product_packaging_charges_product_template
@@ -798,7 +815,7 @@ msgstr "Стоимость упаковки"
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__packaging_charge
 msgid "Packaging charge for test order."
-msgstr ""
+msgstr "Packaging charge for test order."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -843,7 +860,7 @@ msgstr "Размещен"
 #. odoo-python
 #: code:addons/pos_urban_piper/wizard/pos_urban_piper_test_order.py:0
 msgid "Please start a POS session first.\n"
-msgstr ""
+msgstr "Please start a POS session first.\n"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_config__name
@@ -888,12 +905,12 @@ msgstr "ID POS из Urban Piper (Atlas)"
 #. module: pos_urban_piper
 #: model:ir.model,name:pos_urban_piper.model_pos_prep_display
 msgid "Pos Preparation Display"
-msgstr ""
+msgstr "Pos Preparation Display"
 
 #. module: pos_urban_piper
 #: model:ir.model,name:pos_urban_piper.model_pos_prep_order
 msgid "Pos Preparation Order"
-msgstr ""
+msgstr "Pos Preparation Order"
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -1016,7 +1033,7 @@ msgstr ""
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__delivery_provider_id
 msgid "Responsible delivery provider for test order, e.g., UberEats, Zomato."
-msgstr ""
+msgstr "Responsible delivery provider for test order, e.g., UberEats, Zomato."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -1033,7 +1050,7 @@ msgstr "Курьер недоступен"
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
 msgid "Select Delivery Platform"
-msgstr ""
+msgstr "Select Delivery Platform"
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
@@ -1043,7 +1060,7 @@ msgstr "Выберите фискальную позицию"
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
 msgid "Select Pricelist"
-msgstr ""
+msgstr "Select Pricelist"
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
@@ -1131,28 +1148,28 @@ msgstr "Техническое название поставщика услуг,
 #. odoo-python
 #: code:addons/pos_urban_piper/models/res_config_settings.py:0
 msgid "Test Food Delivery Order"
-msgstr ""
+msgstr "Test Food Delivery Order"
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
 msgid "Test Order"
-msgstr ""
+msgstr "Test Order"
 
 #. module: pos_urban_piper
 #. odoo-python
 #: code:addons/pos_urban_piper/wizard/pos_urban_piper_test_order.py:0
 msgid "Test order generated successfully."
-msgstr ""
+msgstr "Test order generated successfully."
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__product_id
 msgid "Test order product"
-msgstr ""
+msgstr "Test order product"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_pos_urbanpiper_test_order_wizard__quantity
 msgid "Test order quantity"
-msgstr ""
+msgstr "Test order quantity"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,help:pos_urban_piper.field_res_company__pos_urbanpiper_apikey
@@ -1197,7 +1214,7 @@ msgstr "Прайс-лист для заказов, оформленных чер
 #: model:ir.model.fields,help:pos_urban_piper.field_res_company__pos_urbanpiper_username
 #: model:ir.model.fields,help:pos_urban_piper.field_res_config_settings__urbanpiper_username
 msgid "The username of the UrbanPiper api account."
-msgstr ""
+msgstr "The username of the UrbanPiper api account."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -1211,6 +1228,8 @@ msgid ""
 "This action will flush(delete) the entire menu from Atlas for this store and "
 "re-sync it if any menu data is available."
 msgstr ""
+"This action will flush(delete) the entire menu from Atlas for this store and "
+"re-sync it if any menu data is available."
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -1270,7 +1289,7 @@ msgstr "Прайс-лист Urban Piper"
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_pos_prep_order__urban_piper_test
 msgid "Urban Piper Test"
-msgstr ""
+msgstr "Urban Piper Test"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_res_config_settings__pos_urbanpiper_webhook_url
@@ -1347,7 +1366,7 @@ msgstr "Urbanpiper"
 #. module: pos_urban_piper
 #: model:ir.model,name:pos_urban_piper.model_pos_urbanpiper_test_order_wizard
 msgid "Urbanpiper test order wizard"
-msgstr ""
+msgstr "Urbanpiper test order wizard"
 
 #. module: pos_urban_piper
 #: model_terms:ir.ui.view,arch_db:pos_urban_piper.res_config_settings_view_form_pos_urban_piper
@@ -1388,10 +1407,10 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/services/pos_store.js:0
 msgid "disabled"
-msgstr ""
+msgstr "disabled"
 
 #. module: pos_urban_piper
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/services/pos_store.js:0
 msgid "enabled"
-msgstr ""
+msgstr "enabled"

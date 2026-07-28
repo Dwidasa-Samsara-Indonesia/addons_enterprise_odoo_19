@@ -14,14 +14,15 @@
 # Boris Kodelja <boris@hbs.si>, 2022
 # Martin Trigaux, 2023
 # Tomaž Jug <tomaz@editor.si>, 2023
-# "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tiffany Chang (tic)" <tic@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Žiga Trček <ziga.trcek@implex.si>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2025-11-08 19:10+0000\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-06-29 10:44+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-19/"
 "project/sl/>\n"
@@ -31,12 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 5.12.2\n"
-
-#. module: project
-#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
-msgid " All internal users and invited portal users"
-msgstr ""
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__rating_count
@@ -90,7 +86,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/project/models/project_project.py:0
 msgid "%(name)s's Milestones"
-msgstr ""
+msgstr "%(name)s' - Mejniki"
 
 #. module: project
 #. odoo-python
@@ -715,7 +711,9 @@ msgstr "Administrator"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_manager
-msgid "Administrator can manage the employees' schedule"
+msgid ""
+"Administrator: Can manage projects and stages, with access to reporting and "
+"configuration."
 msgstr ""
 
 #. module: project
@@ -787,6 +785,11 @@ msgstr "Vsa opravila"
 #: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__employees
 msgid "All internal users"
 msgstr "Vsi interni uporabniki"
+
+#. module: project
+#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
+msgid "All internal users and invited portal users"
+msgstr ""
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__allocated_hours
@@ -3450,7 +3453,7 @@ msgstr "Vodja projekta"
 #. module: project
 #: model:ir.model,name:project.model_project_milestone
 msgid "Project Milestone"
-msgstr ""
+msgstr "Mejnik projekta"
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_project_view_activity
@@ -4191,7 +4194,7 @@ msgstr "Nastavitve"
 #: model_terms:ir.ui.view,arch_db:project.project_share_wizard_view_form
 #: model_terms:ir.ui.view,arch_db:project.view_project_kanban
 msgid "Share Project"
-msgstr ""
+msgstr "Deli projekt"
 
 #. module: project
 #: model:ir.actions.act_window,name:project.portal_share_action
@@ -5336,7 +5339,7 @@ msgstr "Uporabniške nastavitve"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_user
-msgid "User can user the your employees' schedule"
+msgid "User: Can manage tasks in projects shared with them."
 msgstr ""
 
 #. module: project

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:53+0000\n"
+"POT-Creation-Date: 2026-07-10 17:53+0000\n"
 "PO-Revision-Date: 2025-10-08 18:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -666,13 +666,6 @@ msgid "From"
 msgstr "Boshlanish sanasi"
 
 #. module: sale_commission
-#. odoo-python
-#: code:addons/sale_commission/model/commission_plan_user.py:0
-#, fuzzy
-msgid "From must be before To"
-msgstr "Boshlanish sanasi tugash sanasidan oldin bo‘lishi kerak"
-
-#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
 #, fuzzy
 msgid "Has Message"
@@ -1172,10 +1165,23 @@ msgstr "Maqsadlar"
 
 #. module: sale_commission
 #. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid "The assignment start date must be before the end date"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 #, fuzzy
 msgid "The plan should have at least one target with an achievement rate of 0%"
 msgstr "Rejada kamida bitta maqsadning bajarilish darajasi 0% bo‘lishi kerak"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid ""
+"The sales person's assignment must be within the commission plan period."
+msgstr ""
 
 #. module: sale_commission
 #. odoo-python
@@ -1306,9 +1312,8 @@ msgstr "Foydalanuvchi muddati rejadan keyin tugashi mumkin emas"
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
-#, fuzzy
-msgid "User period cannot start before the plan."
-msgstr "Foydalanuvchi muddati rejadan oldin boshlanishi mumkin emas"
+msgid "User period cannot start after the plan."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__website_message_ids
@@ -1358,3 +1363,11 @@ msgstr "masalan, 2025-yilgi komissiyalar rejasi"
 #, fuzzy
 msgid "per"
 msgstr "uchun"
+
+#, fuzzy
+#~ msgid "From must be before To"
+#~ msgstr "Boshlanish sanasi tugash sanasidan oldin bo‘lishi kerak"
+
+#, fuzzy
+#~ msgid "User period cannot start before the plan."
+#~ msgstr "Foydalanuvchi muddati rejadan oldin boshlanishi mumkin emas"

@@ -87,6 +87,7 @@ export class ReportEditorPlugin extends Plugin {
 
     CUSTOM_BRANDING_ATTR = [
         "ws-view-id",
+        "ws-view-name",
         "ws-call-key",
         "ws-call-group-key",
         "ws-real-children",
@@ -116,10 +117,17 @@ export class ReportEditorPlugin extends Plugin {
     selection_placeholder_container_predicates(container) {
         if (this.protectedCracksParents.has(container)) {
             return false;
-        } else if (
-            ["header", "article", "footer"].some((cls) => container.classList.contains(cls))
-        ) {
+        }
+        if (["header", "footer"].some((cls) => container.classList.contains(cls))) {
             return true;
+        }
+        if (container.classList.contains("article")) {
+            const viewNode = container.closest("[ws-view-id]");
+            const viewName =
+                viewNode?.getAttribute("t-name") || viewNode?.getAttribute("ws-view-name");
+            if (viewName && viewName.startsWith("web.")) {
+                return false;
+            }
         }
     }
 

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
+"POT-Creation-Date: 2026-04-17 18:48+0000\n"
 "PO-Revision-Date: 2026-02-28 09:34+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
@@ -26,8 +26,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
-"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || "
-"(n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Weblate 5.14.3\n"
 
 #. module: documents_project
@@ -68,6 +68,11 @@ msgid "Default Project Folder"
 msgstr "Domyślny folder projektu"
 
 #. module: documents_project
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__display_name
+msgid "Destination Display Name"
+msgstr ""
+
+#. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__display_name
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__display_name
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__display_name
@@ -97,6 +102,11 @@ msgid "Documents Folder"
 msgstr "Folder dokumentów"
 
 #. module: documents_project
+#: model:ir.model,name:documents_project.model_documents_operation
+msgid "Documents Operation"
+msgstr ""
+
+#. module: documents_project
 #: model:documents.document,name:documents_project.project_1_document_3
 msgid "First Floor Plan"
 msgstr "Plan pierwszego piętra"
@@ -120,6 +130,7 @@ msgstr "Folder, gdzie tworzone są nowe projekty"
 
 #. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__id
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__id
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__id
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__id
 #: model:ir.model.fields,field_description:documents_project.field_project_project__id
@@ -187,6 +198,12 @@ msgstr ""
 "wykorzystywane przez następujące projekty:\n"
 "%(projects)s\n"
 "Aby kontynuować, wybierz różne foldery dla tych projektów."
+
+#. module: documents_project
+#. odoo-python
+#: code:addons/documents_project/wizard/documents_operation.py:0
+msgid "This document belongs to %(task)s."
+msgstr ""
 
 #. module: documents_project
 #. odoo-python

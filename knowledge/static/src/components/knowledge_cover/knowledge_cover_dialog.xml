@@ -6,9 +6,10 @@
                                 save.bind="save" 
                                 searchTerm="props.articleName"
                                 selectMedia="(media)=>this.selectedMedia=media"
+                                setAbortUploadsCallback="(abortFunc) => (this.abortUploads = abortFunc)"
                                 modalRef="modalRef"/>
         <t t-set-slot="footer">
-            <button class="btn btn-secondary" t-on-click="() => this.props.close()">Discard</button>
+            <button class="btn btn-secondary" t-on-click="() => this.close()">Discard</button>
         </t>
     </Dialog>
 </t>

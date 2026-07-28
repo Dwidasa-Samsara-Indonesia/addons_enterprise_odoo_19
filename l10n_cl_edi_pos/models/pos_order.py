@@ -79,7 +79,6 @@ class PosOrder(models.Model):
         if order_country != "CL":
             return result
 
-        if len(self.filtered(lambda order: order.state in ['paid', 'invoiced'])) > 0:
-            result['account_move'] = self.env['account.move']._load_pos_data_read(self.account_move, config)
+        if len(self.filtered(lambda order: order.state in ['paid', 'done'])) > 0:
             result['l10n_latam.document.type'] = self.env['l10n_latam.document.type']._load_pos_data_read(self.account_move.l10n_latam_document_type_id, config)
         return result

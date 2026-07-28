@@ -1169,7 +1169,7 @@ describe("grid_view_desktop", () => {
         ar_SY: "الأحد،\n٢٩ كانون الثاني",
         he_IL: "יום א׳,\n29 בינו׳",
         fa_IR: "یکشنبه\n۱۰ بهمن",
-        th_TH: "อา.\n29 ม.ค.",
+        th_TH: /(อา\.|อาทิตย์)\n29 ม\.ค\./, // matches diff. between Chrome < 148 and the other browsers
         tr_TR: "29 Oca Paz",
         pl_PL: "niedz.,\n29 sty",
         // for CJK locales: keep everything on one line
@@ -1196,7 +1196,11 @@ describe("grid_view_desktop", () => {
             await makeMockEnv();
             await mountView(view);
             const text = queryAllTexts(".o_grid_column_title")[1];
-            expect(text).toEqual(expected);
+            if (expected instanceof RegExp) {
+              expect(text).toMatch(expected);
+            } else {
+              expect(text).toEqual(expected);
+            }
         });
     }
 
@@ -2168,6 +2172,26 @@ describe("grid_view_desktop", () => {
         await contains(`.o_scale_button_year`).click();
         expect(".scale_button_selection").toHaveText("Year");
         expect.verifySteps(["scale_year"]);
+    });
+
+    test("Selection field label is displayed instead of its key when clicking on cell magnifier", async () => {
+        Line._views["grid"] = `<grid>
+            <field name="selection_field" type="row"/>
+            <field name="task_id" type="col"/>
+            <field name="unit_amount" type="measure" widget="float_time"/>
+        </grid>`;
+        await mountWithCleanup(WebClient);
+        await getService("action").doAction({
+            res_model: "analytic.line",
+            type: "ir.actions.act_window",
+            views: [[false, "grid"]],
+        });
+
+        await hover(".o_grid_row .o_grid_cell_readonly:eq(3)");
+        await contains(".o_grid_cell button.o_grid_search_btn").click();
+        expect(queryAllTexts(".o_control_panel_breadcrumbs .o_last_breadcrumb_item")).toEqual([
+            "GHI (BS task)",
+        ]);
     });
 });
 describe.tags("mobile");

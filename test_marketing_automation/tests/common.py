@@ -49,11 +49,14 @@ class TestMACommon(
                 {
                     'check_sms': participant_info.get('check_sms', True),
                     'content': participant_info.get('trace_content'),
+                    'failure_reason': participant_info.get('trace_failure_reason', False),
                     'failure_type': participant_info.get('trace_failure_type', False),
                     'number': participant_info.get('trace_sms_number', record.phone_sanitized),  # TDE FIXME: make it generic
                     'partner': record.customer_id,  # TDE FIXME: make it generic
                     'record': record,
+                    'sms_values': participant_info.get('sms_values'),
                     'trace_status': participant_info['trace_status'],
+                    'trace_values': participant_info.get('mailing_trace_values'),
                 } for record in participant_info['records']
             ],
             activity.mass_mailing_id,
@@ -65,9 +68,14 @@ class TestMACommon(
         numbers = participant_info.get('records_to_number', {})
         partners = participant_info.get('records_to_partner', {})
         wa_from_mock = participant_info.get('wa_from_mock', True)
-        wa_msg_state = participant_info.get('trace_status')
+        trace_status = participant_info.get('trace_status')
         wa_msg_failure_type = participant_info.get('trace_failure_type', False)
         wa_msg_failure_reason = participant_info.get('trace_failure_reason', False)
+        wa_msg_values = participant_info.get('wa_msg_values') or {}
+
+        status_mapping = {
+            'bounce': 'bounced',
+        }
 
         for record in participant_info['records']:
             phone_number = numbers.get(record.id, record.phone)  # improve me
@@ -88,11 +96,14 @@ class TestMACommon(
             if participant_info.get('trace_content'):
                 fields_values['body'] = participant_info['trace_content']
                 mail_message_values['body'] = participant_info['trace_content']
+            fields_values.update(**wa_msg_values)
+
+            wa_status = fields_values.pop('state', False) or status_mapping.get(trace_status, trace_status)
 
             if wa_from_mock:
                 self.assertWAMessageFromRecord(
                     record,
-                    status=wa_msg_state,
+                    status=wa_status,
                     fields_values=fields_values,
                     mail_message_values=mail_message_values,
                 )
@@ -101,7 +112,7 @@ class TestMACommon(
                 wa_msg = trace.whatsapp_message_id
                 self.assertTrue(wa_msg)
                 self._assertWAMessage(
-                    wa_msg, status=wa_msg_state,
+                    wa_msg, status=wa_status,
                     fields_values=fields_values,
                     mail_message_values=mail_message_values,
                 )

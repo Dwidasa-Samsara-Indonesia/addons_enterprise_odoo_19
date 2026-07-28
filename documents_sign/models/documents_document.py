@@ -55,11 +55,23 @@ class DocumentsDocument(models.Model):
         return template.go_to_custom_template(sign_directly_without_mail=True)
 
     def _get_gc_clear_bin_domain(self):
-        return Domain.AND([
+        # sign.document keeps an ondelete='restrict' foreign key on its
+        # attachment. A trashed document that shares that attachment aborts the
+        # whole GC autovacuum on the foreign key when unlinked, and its res_model
+        # is not always a sign one. Look only at the attachments still in the bin
+        # and keep the ones a sign.document holds.
+        domain = Domain.AND([
             super()._get_gc_clear_bin_domain(),
-            [("res_model", "!=", "sign.request")],
-            [("res_model", "!=", "sign.document")],
+            Domain("res_model", "not in", ["sign.request", "sign.document"]),
         ])
+        trashed_attachments = self.search(domain).attachment_id
+        if trashed_attachments:
+            protected = self.env['sign.document'].sudo().search(
+                [("attachment_id", "in", trashed_attachments.ids)],
+            ).attachment_id
+            if protected:
+                domain &= Domain("attachment_id", "not in", protected.ids)
+        return domain
 
     @api.model
     def _data_embed_sign_create_sign_template_direct(self):

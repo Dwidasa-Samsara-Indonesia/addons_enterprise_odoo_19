@@ -13,6 +13,7 @@ from odoo.addons.ai.utils.llm_providers import (
     EMBEDDING_MODELS_SELECTION,
     get_embedding_config,
     get_provider_for_embedding_model,
+    get_embedding_model,
 )
 
 _logger = logging.getLogger(__name__)
@@ -114,13 +115,16 @@ class AIEmbedding(models.Model):
                     )
 
                     # Prepare batch input
-                    batch_content = [emb.content for emb in batch]
-                    # Get embeddings for the entire batch
                     llm_service = LLMApiService(env=self.env, provider=provider)
+                    batch_content = [
+                        llm_service._format_for_embedding(content=emb.content, mode="document", title=emb.attachment_id.name)
+                        for emb in batch
+                    ]
+                    # Get embeddings for the entire batch
                     response = llm_service.get_embedding(
                         input=batch_content,
                         dimensions=self._get_dimensions(),
-                        model=model,
+                        model=get_embedding_model(provider),
                     )
                     # Update each embedding record with its corresponding vector
                     for idx, embedding in enumerate(batch):
@@ -161,6 +165,33 @@ class AIEmbedding(models.Model):
             return True
 
         return False
+
+    @api.autovacuum
+    def _cron_remove_deprecated_models_embeddings_and_recompute(self):
+        embeddings_to_unlink = self.env['ai.embedding'].search(
+            [('embedding_model', 'not in', [selection[0] for selection in EMBEDDING_MODELS_SELECTION])]
+        )
+        checksum_providers_to_embed = {
+            (embedding.checksum, get_provider_for_embedding_model(self.env, embedding.embedding_model))
+            for embedding in embeddings_to_unlink
+        }
+        embeddings_to_unlink.unlink()
+
+        candidate_sources = self.env['ai.agent.source'].search([
+            ('attachment_id.checksum', 'in', [checksum for checksum, _ in checksum_providers_to_embed])
+        ])
+        # The same attachment can be embedded multiple times using models from different providers.
+        # A source linked to an attachment will be re-embed only if the embedding model of the provider
+        # of its agent has been deprecated.
+        sources_to_embed = candidate_sources.filtered(
+            lambda source: (source.attachment_id.checksum, source.agent_id._get_provider()) in checksum_providers_to_embed
+        )
+        sources_to_embed.write({
+            'status': 'processing',
+            'is_active': False,
+            'error_details': False,
+        })
+        self.env.ref('ai.ir_cron_generate_embedding')._trigger()
 
     def _create_embedding_chunks(self):
         """

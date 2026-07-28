@@ -7,6 +7,8 @@ import logging
 from psycopg2.errors import SerializationFailure
 import re
 import requests
+from lxml import etree
+from lxml import html as lxml_html
 import tarfile
 import traceback
 from urllib.parse import urlparse
@@ -216,12 +218,12 @@ class Website_GeneratorRequest(models.Model):
         pattern_sorted_html = r'(' + '|'.join(map(re.escape, sorted_original_html)) + r')'
 
         homepage = odoo_blocks['homepage']
-        regex_html_replacements_mapping = homepage['regex_html_replacements_mapping']
-        homepage['body_html'] = self._apply_html_replacements(homepage.get('body_html', []), pattern_sorted_html, direct_html_replacements_mapping, regex_html_replacements_mapping)
+        image_replacement_mapping = homepage['image_replacement_mapping']
+        homepage['body_html'] = self._apply_html_replacements(homepage.get('body_html', []), pattern_sorted_html, direct_html_replacements_mapping, image_replacement_mapping)
 
         footer = homepage.get('footer', [])
         if footer:
-            homepage['footer'] = self._apply_html_replacements(footer, pattern_sorted_html, direct_html_replacements_mapping, regex_html_replacements_mapping)
+            homepage['footer'] = self._apply_html_replacements(footer, pattern_sorted_html, direct_html_replacements_mapping, image_replacement_mapping)
 
         header_buttons = homepage.get('header', {}).get('buttons', [])
         for button in header_buttons:
@@ -230,8 +232,8 @@ class Website_GeneratorRequest(models.Model):
 
         # Update the html urls for all pages
         for page_name, page_dict in odoo_blocks.get('pages', {}).items():
-            regex_html_replacements_mapping = page_dict['regex_html_replacements_mapping']
-            odoo_blocks['pages'][page_name]['body_html'] = self._apply_html_replacements(page_dict.get('body_html', []), pattern_sorted_html, direct_html_replacements_mapping, regex_html_replacements_mapping)
+            image_replacement_mapping = page_dict['image_replacement_mapping']
+            odoo_blocks['pages'][page_name]['body_html'] = self._apply_html_replacements(page_dict.get('body_html', []), pattern_sorted_html, direct_html_replacements_mapping, image_replacement_mapping)
 
     def _create_model_records(self, tar, odoo_blocks):
         # Each override will call super and create it's model records as well as any redirects it needs.
@@ -302,7 +304,7 @@ class Website_GeneratorRequest(models.Model):
         # Create attachments for all images (cropped)
         for page_dict in [odoo_blocks['homepage']] + list(odoo_blocks.get('pages', {}).values()):
             customized_images = page_dict.get('images_to_customize', [])
-            page_dict['regex_html_replacements_mapping'] = {}
+            page_dict['image_replacement_mapping'] = {}
             for ws_id, image_customizations in customized_images.items():
                 # Note, we give the 'ws_id' as the image_url because we may have multiple images
                 # with the same url but cropped differently (where the image_url is the
@@ -352,13 +354,10 @@ class Website_GeneratorRequest(models.Model):
                     rgba = f'rgba({int(color_filter["coords"][0] * 255)}, {int(color_filter["coords"][1] * 255)}, {int(color_filter["coords"][2] * 255)}, {color_filter["alpha"]})'
                     attributes.update({
                         'data-gl-filter': 'custom',
-                        'data-filter-options': f'{{&quot;filterColor&quot;:&quot;{rgba}&quot;}}'
+                        'data-filter-options': json.dumps({'filterColor': rgba}, separators=(',', ':')),
                     })
 
-                pattern = rf'<img[^>]*data-ws_id\s*=\s*["\']?{ws_id}["\']?[^>]*>'
-                # The 'style="" class=""' is needed and will be replaced by the class and style attributes of the original image.
-                customized_img_string = f'<img style="" class="" {" ".join([f"{k}={v!r}" for k, v in attributes.items()])}>'
-                page_dict['regex_html_replacements_mapping'][pattern] = customized_img_string
+                page_dict['image_replacement_mapping'][str(ws_id)] = attributes
 
     def try_create_image_attachment(self, img_name, img_url, tar):
         try:
@@ -382,11 +381,19 @@ class Website_GeneratorRequest(models.Model):
             logger.warning("Error attaching image %r : %s", img_url, e)
         return None
 
-    def _apply_html_replacements(self, body_html, pattern_sorted_html, direct_replacement_mapping, regex_replacement_mapping):
+    def _apply_html_replacements(self, body_html, pattern_sorted_html, direct_replacement_mapping,
+                                 image_replacement_mapping, template_key_to_filter_xmlid=None):
+        template_key_to_filter_xmlid = template_key_to_filter_xmlid or {}
+        template_key_to_filter_id = {
+            tk: self.env.ref(xmlid).id
+            for tk, xmlid in template_key_to_filter_xmlid.items()
+            if self.env.ref(xmlid, raise_if_not_found=False)
+        }
+
         new_block_list = []
         for block_html in body_html:
             page_html = self._replace_in_string(block_html, pattern_sorted_html, direct_replacement_mapping)
-            page_html = self._replace_in_string_regex(page_html, regex_replacement_mapping)
+            page_html = self._update_html(page_html, image_replacement_mapping, template_key_to_filter_id)
             new_block_list.append(page_html)
         return new_block_list
 
@@ -420,29 +427,46 @@ class Website_GeneratorRequest(models.Model):
         return all_images_info
 
     @staticmethod
-    def _replace_in_string_regex(page_html, regex_replacement_mapping):
-        # Since we need to have a mapping of the regex to the replacement
-        # and not a mapping of the matched string to the replacement,
-        # we have to do the sub on each iteration, rather than one group sub.
-        re_class_patern = re.compile(r'class="[^"]*"')
-        re_style_patern = re.compile(r'style="[^"]*"')
-        for pattern, replacement in regex_replacement_mapping.items():
-            def replace_but_keep_class_and_style(match):
-                # Replaces the matched string but keeps the original class and style attribute (if found).
-                result = match.group(0)
-                class_match = re_class_patern.search(result)
-                if class_match:
-                    prev_class = class_match.group(0)
-                    result = re_class_patern.sub(prev_class, replacement, count=1)
+    def _update_html(page_html, image_replacement_mapping, template_key_to_filter_id):
+        if not image_replacement_mapping and not template_key_to_filter_id:
+            return page_html
 
-                style_match = re_style_patern.search(match.group(0))
-                if style_match:
-                    prev_style = style_match.group(0)
-                    result = re_style_patern.sub(prev_style, result, count=1)
-                return result
+        try:
+            container = lxml_html.fragment_fromstring(page_html.replace('\ufeff', ''), create_parent='div')
+        except (etree.ParserError, ValueError) as e:
+            logger.warning("Could not parse snippet for image replacement: %s", e)
+            return page_html
 
-            page_html = re.sub(pattern, replace_but_keep_class_and_style, page_html)
-        return page_html
+        for el in container.xpath('.//*[@data-template-key]'):
+            target_filter_id = template_key_to_filter_id.get(el.get('data-template-key'))
+            if target_filter_id:
+                el.set('data-filter-id', str(target_filter_id))
+
+        for img in container.xpath('.//img[@data-ws_id]'):
+            replacement_attrs = image_replacement_mapping.get(img.get('data-ws_id'))
+            if not replacement_attrs:
+                continue
+
+            new_img = lxml_html.Element('img')
+            for attribute, value in replacement_attrs.items():
+                new_img.set(attribute, str(value))
+
+            # Preserve the original class/style attributes
+            img_class = img.get('class')
+            if img_class:
+                new_img.set('class', img_class)
+            img_style = img.get('style')
+            if img_style:
+                new_img.set('style', img_style)
+
+            img.getparent().replace(img, new_img)
+
+        # Serialize only the fragment content, not the temporary wrapper element
+        # created by fragment_fromstring(..., create_parent='div').
+        return (container.text or '') + ''.join(
+            etree.tostring(child, encoding='unicode')
+            for child in container
+        )
 
     @staticmethod
     def _replace_in_string(string, pattern_sorted_html, replacements):

@@ -1,4 +1,5 @@
 from odoo import models, api
+from odoo.tools.translate import TranslationImporter
 
 
 class MailTemplate(models.Model):
@@ -38,3 +39,27 @@ class MailTemplate(models.Model):
                 'record': credit_note_dian_template,
                 'noupdate': True,
             }])
+
+    @api.model
+    def _sync_dian_mail_templates_translations(self, langs):
+        pairs = [
+            ('account.email_template_edi_invoice', 'l10n_co_dian.email_template_edi_invoice'),
+            ('account.email_template_edi_credit_note', 'l10n_co_dian.email_template_edi_credit_note'),
+        ]
+
+        translation_importer = TranslationImporter(self.env.cr, verbose=False)
+
+        for src_xmlid, dian_xmlid in pairs:
+            src = self.env.ref(src_xmlid, raise_if_not_found=False)
+
+            fields_to_sync = ['body_html', 'description', 'name']
+
+            for field in fields_to_sync:
+                existing_translations, _ = src.get_field_translations(field, langs)
+
+                for lang in langs:
+                    translation_value = next(t['value'] for t in existing_translations if t['lang'] == lang)
+                    translation_importer.model_translations['mail.template'][field][dian_xmlid][lang] = translation_value
+                    translation_importer.imported_langs.add(lang)
+
+        translation_importer.save()

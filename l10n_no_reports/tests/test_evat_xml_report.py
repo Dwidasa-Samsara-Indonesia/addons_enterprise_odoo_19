@@ -176,17 +176,17 @@ class TestEvatXmlReport(TestAccountReportsCommon):
                             </periode>
                             <aar>2021</aar>
                         </skattleggingsperiode>
-                        <fastsattMerverdiavgift>1250.0</fastsattMerverdiavgift>
+                        <fastsattMerverdiavgift>1250</fastsattMerverdiavgift>
                         <mvaSpesifikasjonslinje>
                             <mvaKode>3</mvaKode>
                             <mvaKodeRegnskapsystem>25%</mvaKodeRegnskapsystem>
-                            <grunnlag>5000.0</grunnlag>
-                            <sats>25.0</sats>
-                            <merverdiavgift>1250.0</merverdiavgift>
+                            <grunnlag>5000</grunnlag>
+                            <sats>25</sats>
+                            <merverdiavgift>1250</merverdiavgift>
                         </mvaSpesifikasjonslinje>
                     </skattegrunnlagOgBeregnetSkatt>
                     <betalingsinformasjon>
-                        <kundeIdentifikasjonsnummer>NO072274687MVA</kundeIdentifikasjonsnummer>
+                        <kundeIdentifikasjonsnummer>072274687</kundeIdentifikasjonsnummer>
                     </betalingsinformasjon>
                     <skattepliktig>
                         <organisasjonsnummer>987654325</organisasjonsnummer>
@@ -221,22 +221,22 @@ class TestEvatXmlReport(TestAccountReportsCommon):
                             </periode>
                             <aar>2021</aar>
                         </skattleggingsperiode>
-                        <fastsattMerverdiavgift>-600.0</fastsattMerverdiavgift>
+                        <fastsattMerverdiavgift>-600</fastsattMerverdiavgift>
                         <mvaSpesifikasjonslinje>
                             <mvaKode>1</mvaKode>
                             <mvaKodeRegnskapsystem>25%</mvaKodeRegnskapsystem>
-                            <merverdiavgift>-2000.0</merverdiavgift>
+                            <merverdiavgift>-2000</merverdiavgift>
                         </mvaSpesifikasjonslinje>
                         <mvaSpesifikasjonslinje>
                             <mvaKode>3</mvaKode>
                             <mvaKodeRegnskapsystem>25%</mvaKodeRegnskapsystem>
-                            <grunnlag>5600.0</grunnlag>
-                            <sats>25.0</sats>
-                            <merverdiavgift>1400.0</merverdiavgift>
+                            <grunnlag>5600</grunnlag>
+                            <sats>25</sats>
+                            <merverdiavgift>1400</merverdiavgift>
                         </mvaSpesifikasjonslinje>
                     </skattegrunnlagOgBeregnetSkatt>
                     <betalingsinformasjon>
-                        <kundeIdentifikasjonsnummer>NO072274687MVA</kundeIdentifikasjonsnummer>
+                        <kundeIdentifikasjonsnummer>072274687</kundeIdentifikasjonsnummer>
                     </betalingsinformasjon>
                     <skattepliktig>
                         <organisasjonsnummer>987654325</organisasjonsnummer>

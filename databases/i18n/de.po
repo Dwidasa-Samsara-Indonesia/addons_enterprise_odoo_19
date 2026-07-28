@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:44+0000\n"
-"PO-Revision-Date: 2026-04-14 13:04+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-07-06 08:28+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/databases/"
 "de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: databases
 #. odoo-python
@@ -31,6 +31,12 @@ msgstr "%(nb_failed_dbs)s Datenbanken konnten nicht synchronisiert werden.\n"
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "%(nb_new_dbs)s new databases, %(nb_updated_dbs)s updated."
 msgstr "%(nb_new_dbs)s neue Datenbanken, %(nb_updated_dbs)s aktualisiert."
+
+#. module: databases
+#. odoo-python
+#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
+msgid "- … and %(nb_dbs)d more!\n"
+msgstr "- … und %(nb_dbs)d weitere!\n"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
@@ -112,6 +118,14 @@ msgstr "Anzahl Dokumente im Posteingang"
 #: code:addons/databases/wizard/databases_manage_users_wizard.py:0
 msgid "An error occurred: %s"
 msgstr "Es ist ein Fehler aufgetreten: %s"
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
+msgid ""
+"Automatically connect to SaaS databases using Odoo.com as an OAuth provider."
+msgstr ""
+"Stellen Sie automatisch eine Verbindung zu SaaS-Datenbanken her, indem Sie "
+"Odoo.com als OAuth-Anbieter verwenden."
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.databases_manage_users_wizard_view_form
@@ -323,6 +337,13 @@ msgstr ""
 
 #. module: databases
 #. odoo-python
+#: code:addons/databases/wizard/databases_synchronization_wizard.py:0
+msgid "Error while creating an API key on %(nb_dbs)d databases:\n"
+msgstr ""
+"Fehler beim Erstellen eines API-Schlüssels in %(nb_dbs)d Datenbanken:\n"
+
+#. module: databases
+#. odoo-python
 #: code:addons/databases/wizard/databases_manage_users_wizard.py:0
 msgid "Error while creating users on %(dbname)s: %(message)s\n"
 msgstr "Fehler beim Erstellen von Benutzern in %(dbname)s: %(message)s\n"
@@ -489,6 +510,11 @@ msgid "Mode"
 msgstr "Modus"
 
 #. module: databases
+#: model:ir.model.fields,field_description:databases.field_res_config_settings__module_databases_auth
+msgid "Module Databases Auth"
+msgstr "Modul zur Datenbanken-Authentifizierung"
+
+#. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_user__name
 msgid "Name"
 msgstr "Name"
@@ -646,7 +672,7 @@ msgstr "Benutzer entfernen"
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "Remove this user from all databases"
-msgstr ""
+msgstr "Diesen Benutzer aus allen Datenbanken entfernen"
 
 #. module: databases
 #: model:ir.ui.menu,name:databases.menu_reporting
@@ -661,7 +687,17 @@ msgstr "Verantwortlich"
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "Revoke all access"
-msgstr ""
+msgstr "Alle Zugänge widerrufen"
+
+#. module: databases
+#: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
+msgid "SaaS SSO Auto-login"
+msgstr "Automatische SSO-Anmeldung für SaaS"
+
+#. module: databases
+#: model:ir.model.fields,field_description:databases.field_res_config_settings__databases_saas_single_sign_on
+msgid "Saas SSO"
+msgstr "SSO für SaaS"
 
 #. module: databases
 #. odoo-python
@@ -782,7 +818,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/databases/models/res_users.py:0
 msgid "This user has no access to remove."
-msgstr ""
+msgstr "Dieser Benutzer hat keine Zugriffsrechte zum Entfernen."
 
 #. module: databases
 #: model:ir.model.constraint,message:databases.constraint_project_project_database_url_required
@@ -848,7 +884,7 @@ msgstr ""
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.view_users_form_databases_inherit
 msgid "remote user"
-msgstr ""
+msgstr "Remote-Benutzer"
 
 #~ msgid "Error while resolving %(url)s: %(exception)s\n"
 #~ msgstr "Fehler beim Auflösen von %(url)s: %(exception)s\n"

@@ -23,6 +23,7 @@ class L10n_Be_CodaboxConnectionWizard(models.TransientModel):
     fiduciary_vat = fields.Char(
         string='Accounting Firm VAT',
         related='company_id.l10n_be_codabox_fiduciary_vat',
+        readonly=False,
     )
     l10n_be_codabox_is_connected = fields.Boolean(related='company_id.l10n_be_codabox_is_connected')
     fidu_password = fields.Char(

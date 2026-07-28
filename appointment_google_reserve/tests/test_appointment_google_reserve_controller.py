@@ -99,6 +99,39 @@ class AppointmentGoogleReserveControllerTest(GoogleReserveCommon, common.HttpCas
 
     @freeze_time('2022-02-14 07-00-00')
     @patch('odoo.addons.appointment_google_reserve.tools.google_reserve_iap.GoogleReserveIAP.update_availabilities', autospec=True)
+    def test_google_reserve_availability_lookup_resource_on_leave(self, update_availabilities):
+        start_slot = datetime(2022, 2, 14, 15, 0, 0)
+        self.env['resource.calendar.leaves'].create({
+            'name': 'Table 1 on leave',
+            'resource_id': self.apt_type_resources_table_1.resource_id.id,
+            'date_from': datetime(2022, 2, 14, 14, 0, 0),
+            'date_to': datetime(2022, 2, 14, 17, 0, 0),
+        })
+
+        response = self.opener.get(
+            f'{self.base_url()}/appointment/{self.apt_type_resource_google.id}/{self.apt_type_resource_google.google_reserve_access_token}/google_reserve/availabilities',
+            data=json.dumps([{
+                'duration_sec': '3600',
+                'resource_ids': {
+                    'party_size': 4,
+                },
+                'start_sec': self._to_utc(start_slot),
+            }]),
+            headers={
+                'Content-Type': 'application/json',
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(bool(response.json()))
+        availability = response.json()[0]
+        slot_time = availability.get('slot_time')
+        self.assertEqual(slot_time.get('resource_ids').get('party_size'), 4)
+        self.assertEqual(slot_time.get('start_sec'), self._to_utc(start_slot))
+        self.assertFalse(availability.get('available'), False)
+
+    @freeze_time('2022-02-14 07-00-00')
+    @patch('odoo.addons.appointment_google_reserve.tools.google_reserve_iap.GoogleReserveIAP.update_availabilities', autospec=True)
     def test_google_reserve_availability_lookup_combinable(self, update_availabilities):
         self.apt_type_resources_table_1.write({
             'linked_resource_ids': [(4, self.apt_type_resources_table_2.id)],
@@ -246,6 +279,7 @@ class AppointmentGoogleReserveControllerTest(GoogleReserveCommon, common.HttpCas
         self.assertEqual(calendar_event.appointment_type_id, self.apt_type_resource_google)
         self.assertEqual(calendar_event.total_capacity_reserved, 4)
         self.assertEqual(calendar_event.start, start_slot)
+        self.assertEqual(calendar_event.appointment_booker_id.name, 'John Doe')
 
         self.assertEqual(update_availabilities.call_count, 1)
         args, _kwargs = update_availabilities.call_args_list[0]
@@ -684,6 +718,58 @@ class AppointmentGoogleReserveControllerTest(GoogleReserveCommon, common.HttpCas
         self.assertEqual(
             calendar_event.booking_line_ids[0].appointment_resource_id,
             self.apt_type_resources_table_1,
+        )
+
+        # STEP 5: test creation process that combines tables
+        create_response = self.url_open(
+            f'/appointment/{self.apt_type_resource_google.id}/{self.apt_type_resource_google.google_reserve_access_token}/google_reserve/booking/create',
+            data=json.dumps({
+                'idempotency_token': 'token2',
+                'slot': {
+                    'confirmation_mode': 'CONFIRMATION_MODE_SYNCHRONOUS',
+                    'duration_sec': '3600',
+                    'merchant_id': str(self.apt_type_resource_google.id),
+                    'resources': {
+                        'party_size': '11',
+                    },
+                    'service_id': str(self.apt_type_resource_google.id),
+                    'start_sec': self._to_utc(datetime(2022, 2, 14, 16, 0, 0))
+                },
+                'user_information': {
+                    'email': 'john.doe@test.com',
+                    'family_name': 'Doe',
+                    'given_name': 'John',
+                    'telephone': '+32476112233',
+                    'user_id': '1234567890',
+                }
+            }),
+            headers={
+                'Content-Type': 'application/json',
+            },
+        )
+
+        self.assertEqual(create_response.status_code, 200)
+        create_data = create_response.json()
+        self.env['calendar.event'].flush_model()
+
+        self.assertFalse(bool(create_data.get('booking_failure')))
+        self.assertTrue(bool(create_data.get('booking').get('booking_id')))
+        booking_id = create_data['booking']['booking_id']
+        calendar_event = self.env['calendar.event'].browse(int(booking_id))
+        self.assertTrue(bool(calendar_event.exists()))
+        self.assertEqual(calendar_event.appointment_type_id, self.apt_type_resource_google)
+        self.assertEqual(calendar_event.total_capacity_reserved, 11)
+        self.assertEqual(
+            len(calendar_event.booking_line_ids), 3,
+            "By combining all 3 tables we can accommodate 11 people"
+        )
+        self.assertEqual(
+            calendar_event.booking_line_ids.mapped('capacity_reserved'),
+            [5, 4, 2]
+        )
+        self.assertEqual(
+            calendar_event.booking_line_ids.mapped('capacity_used'),
+            [6, 4, 2]
         )
 
     @freeze_time('2022-02-14 07-00-00')

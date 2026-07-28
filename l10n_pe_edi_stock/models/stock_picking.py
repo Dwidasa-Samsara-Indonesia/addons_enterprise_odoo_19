@@ -68,6 +68,12 @@ ERROR_MESSAGES = {
     "response_unknown": _lt("Could not identify content in the response retrieved from SUNAT. Details:"),
 }
 
+# SUNAT validation codes returned when the submitted delivery guide is missing
+# data required by a newer regulation, meaning the installed module is out of
+# date and must be updated. 3617: the "Fecha de entrega de bienes al
+# transportista" is missing for public transport (R. S. N° 000108-2026/SUNAT).
+OUTDATED_MODULE_SUNAT_CODES = {"3617"}
+
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
@@ -285,6 +291,16 @@ class StockPicking(models.Model):
             edi_str = record._l10n_pe_edi_create_delivery_guide()
             res = record._l10n_pe_edi_sign(edi_str)
 
+            if res.get('error_reason') == 'outdated_module':
+                record.l10n_pe_edi_error = _(
+                    "SUNAT rejected the delivery guide because it is missing data now required by "
+                    "SUNAT (error %(code)s). Please update the \"Peruvian - Electronic Delivery "
+                    "Note\" (l10n_pe_edi_stock) module to its latest version, then send the "
+                    "delivery guide again.",
+                    code=res.get('error_code', ''),
+                )
+                continue
+
             if 'error' in res:
                 record.l10n_pe_edi_error = res['error']
                 continue
@@ -484,7 +500,10 @@ class StockPicking(models.Model):
         if isinstance(response_json.get("errors"), list) and len(response_json["errors"]) > 0 and isinstance(response_json["errors"][0], dict):
             code = response_json["errors"][0].get("cod", "")
             msg = response_json["errors"][0].get("msg", "")
-            return {"error": str(Markup("%s<br/>%s: %s") % (str(ERROR_MESSAGES["response_code"]), code, msg))}
+            error = {"error": str(Markup("%s<br/>%s: %s") % (str(ERROR_MESSAGES["response_code"]), code, msg))}
+            if code in OUTDATED_MODULE_SUNAT_CODES:
+                error.update({"error_reason": "outdated_module", "error_code": code})
+            return error
         if not response_json.get("numTicket"):
             return {"error": str(Markup("%s<br/>%s") % (str(ERROR_MESSAGES["response_unknown"]), response_json))}
 
@@ -522,6 +541,9 @@ class StockPicking(models.Model):
             if code == "1033":
                 error_msg = str(ERROR_MESSAGES["duplicate"])
                 return {"error": error_msg, "error_reason": "duplicate"}
+            elif code in OUTDATED_MODULE_SUNAT_CODES:
+                return {"error": str(Markup("%s %s: %s") % (ERROR_MESSAGES["response_code"], code, msg)),
+                        "error_reason": "outdated_module", "error_code": code}
             else:
                 return {"error": str(Markup("%s %s: %s") % (str(ERROR_MESSAGES["response_code"]), code, msg)), "error_reason": "rejected"}
         if not response_json.get("arcCdr") or response_json.get("codRespuesta") != "0":

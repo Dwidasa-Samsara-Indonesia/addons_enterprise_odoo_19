@@ -20,6 +20,11 @@ class AccountTrialBalanceReportHandler(models.AbstractModel):
     def _custom_options_initializer(self, report, options, previous_options):
         super()._custom_options_initializer(report, options, previous_options=previous_options)
 
+        # The load more limit feature isn't working properly for multiple column groups (which is the case for the trial balance)
+        # Issue no longer occurs in 19.1 since the load more feature has been reworked.
+        if report.load_more_limit:
+            report.load_more_limit = 0
+
         if options.get('comparison'):
             options['comparison']['period_order'] = 'ascending'  # Make comparisons ascending (always)
             options['comparison']['hide_period_order_filter'] = True

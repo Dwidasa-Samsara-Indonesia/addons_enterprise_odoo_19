@@ -181,7 +181,7 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
             missing_required_values['region_code'].append(item['grouping_key'])
 
         if not item['transport_code']:
-            missing_required_values['transport_code'].append(item['move_id'])
+            missing_required_values['transport_code'].append(item['grouping_key'])
 
         # default intrastat use QV OR QN for missing partner VAT code but France does not accept this notation
         if item['system'] == '21' and (not item['partner_vat'] or item['partner_vat'].startswith('QV') or item['partner_vat'].startswith('QN')):
@@ -210,6 +210,7 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
                     context={**self.env.context, 'create': False, 'delete': False, 'expand': True},
                     views=[(move_lines_view.id, "list"), (False, 'form')],
                     options=options,
+                    domain=[('id', '=', move_lines.ids)],
                 ),
             }
 
@@ -234,6 +235,7 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
                     name=_('Invalid transaction intrastat code entries.'),
                     context={**self.env.context, 'create': False, 'delete': False, 'expand': True},
                     views=[(move_lines_view.id, "list"), (False, 'form')],
+                    domain=[('id', '=', move_lines.ids)],
                 ),
             }
 
@@ -259,6 +261,7 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
                     name=_('Invalid transaction intrastat code entries.'),
                     context={**self.env.context, 'create': False, 'delete': False, 'expand': True},
                     views=[(move_lines_view.id, "list"), (False, 'form')],
+                    domain=[('id', '=', move_lines.ids)],
                 ),
             }
 
@@ -302,7 +305,7 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
 
             # Determine values fields
             if is_weight_required:
-                grouped_items = defaultdict(lambda: {'value': 0, 'weight': 0})
+                grouped_items = defaultdict(lambda: {'value': 0, 'weight': 0, 'supplementary_units': 0})
             else:
                 grouped_items = defaultdict(lambda: {'value': 0})
 
@@ -316,6 +319,7 @@ class AccountIntrastatGoodsReportHandler(models.AbstractModel):
                         weightless_product = self.env['product.template'].search([["id", '=', item['product_id']]])
                         raise UserError(_("%s requires a weight.", weightless_product.name))
                     grouped_items[item_group_key]['weight'] += float(item.get('weight', '0').replace(',', '.'))
+                    grouped_items[item_group_key]['supplementary_units'] += float((item.get('supplementary_units') or '0').replace(',', '.'))
 
             # Convert the grouped_items dictionary back to a list of dictionaries
             items[regime] = [dict(zip(grouping_key, grouped_item_key)) | grouped_item_values

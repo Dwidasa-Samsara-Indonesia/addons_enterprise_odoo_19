@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:46+0000\n"
-"PO-Revision-Date: 2026-04-10 12:11+0000\n"
+"POT-Creation-Date: 2026-07-10 17:47+0000\n"
+"PO-Revision-Date: 2026-06-18 17:10+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "currency_rate_live/sv/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: currency_rate_live
 #: model_terms:ir.ui.view,arch_db:currency_rate_live.res_config_settings_view_form
@@ -33,8 +33,8 @@ msgid ""
 "<i title=\"Update now\" role=\"img\" aria-label=\"Update now\" class=\"fa fa-"
 "fw fa-refresh\"/>"
 msgstr ""
-"<i title=\"Uppdatera nu\" role=\"img\" aria-label=\"Update now\" class=\"fa "
-"fa-fw fa-refresh\"/>"
+"<i title=\"Uppdatera nu\" role=\"img\" aria-label=\"Uppdatera nu\" "
+"class=\"fa fa-fw fa-refresh\"/>"
 
 #. module: currency_rate_live
 #: model:ir.model,name:currency_rate_live.model_res_company
@@ -49,12 +49,12 @@ msgstr "Inställningar"
 #. module: currency_rate_live
 #: model:ir.actions.server,name:currency_rate_live.ir_cron_currency_update_ir_actions_server
 msgid "Currency: rate update"
-msgstr "Valuta: ränteuppdatering"
+msgstr "Valuta: uppdatera växelkurs"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_interval_unit__daily
 msgid "Daily"
-msgstr "Dagligen"
+msgstr "Varje dag"
 
 #. module: currency_rate_live
 #: model:ir.model.fields,field_description:currency_rate_live.field_res_company__display_name
@@ -66,7 +66,7 @@ msgstr "Visningsnamn"
 #. odoo-python
 #: code:addons/currency_rate_live/models/res_config_settings.py:0
 msgid "Error updating the currency rates from the BCU: %s."
-msgstr ""
+msgstr "Fel när växelkursen skulle uppdateras från BCU: %s."
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__ecb
@@ -98,7 +98,7 @@ msgstr "Manuellt"
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_interval_unit__monthly
 msgid "Monthly"
-msgstr "Månatlig"
+msgstr "Varje månad"
 
 #. module: currency_rate_live
 #: model:ir.model.fields,field_description:currency_rate_live.field_res_company__currency_next_execution_date
@@ -109,13 +109,13 @@ msgstr "Nästa exekveringsdatum"
 #. module: currency_rate_live
 #: model_terms:ir.ui.view,arch_db:currency_rate_live.res_config_settings_view_form
 msgid "Next Run"
-msgstr "Nästa körning"
+msgstr "Nästa runda"
 
 #. module: currency_rate_live
 #. odoo-python
 #: code:addons/currency_rate_live/models/res_config_settings.py:0
 msgid "No available currency rate could be updated from the BCU."
-msgstr ""
+msgstr "Ingen uppdaterad växelkurs kunde hämtas från BCU."
 
 #. module: currency_rate_live
 #: model_terms:ir.ui.view,arch_db:currency_rate_live.res_config_settings_view_form
@@ -135,7 +135,7 @@ msgid ""
 "The selected exchange rate provider requires the GTQ and USD currencies to "
 "be active."
 msgstr ""
-"Den valda valutakursleverantören kräver att valutorna GTQ och USD är aktiva."
+"Den valda växelkursleverantören kräver att valutorna GTQ och USD är aktiva."
 
 #. module: currency_rate_live
 #. odoo-python
@@ -150,7 +150,7 @@ msgstr ""
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_interval_unit__weekly
 msgid "Weekly"
-msgstr "Veckovis"
+msgstr "Varje vecka"
 
 #. module: currency_rate_live
 #. odoo-python
@@ -160,17 +160,22 @@ msgid ""
 "Please choose another one."
 msgstr ""
 "Din huvudvaluta (%s) stöds inte av denna växelkursleverantör. Vänligen välj "
-"en annan."
+"en annan leverantör."
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__cbuae
 msgid "[AE] Central Bank of the UAE"
-msgstr "[AE] Central Bank of the UAE"
+msgstr "[AE] Förenade arabemiratens centralbank"
+
+#. module: currency_rate_live
+#: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__cbar
+msgid "[AZ] Central Bank of Azerbaijan"
+msgstr ""
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bnb
 msgid "[BG] Bulgaria National Bank"
-msgstr "[BG] Bulgariens nationella bank"
+msgstr "[BG] Bulgariens centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bbr
@@ -180,7 +185,7 @@ msgstr "[BR] Brasiliens centralbank"
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__boc
 msgid "[CA] Bank of Canada"
-msgstr "[CA] Bank of Canada"
+msgstr "[CA] Kanadas centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__fta
@@ -190,72 +195,72 @@ msgstr "[CH] Schweiz federala skatteförvaltning"
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__mindicador
 msgid "[CL] Central Bank of Chile via mindicador.cl"
-msgstr "[CL] Central Bank of Chile via mindicador.cl"
+msgstr "[CL] Chiles centralbank via mindicador.cl"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__banrepco
 msgid "[CO] Bank of the Republic"
-msgstr ""
+msgstr "[CO] Republikens bank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__cu
 msgid "[CU] Central Bank of Cuba"
-msgstr ""
+msgstr "[CU] Kubas centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__cnb
 msgid "[CZ] Czech National Bank"
-msgstr "[CZ] Tjeckiska nationalbanken"
+msgstr "[CZ] Tjeckiens centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__cbegy
 msgid "[EG] Central Bank of Egypt"
-msgstr "[EG] Central Bank of Egypt"
+msgstr "[EG] Egyptens centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__nbg
 msgid "[GE] National Bank of Georgia"
-msgstr ""
+msgstr "[GE] Georgiens centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__banguat
 msgid "[GT] Bank of Guatemala"
-msgstr "[GT] Bank of Guatemala"
+msgstr "[GT] Guatemalas centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__mnb
 msgid "[HU] Magyar Nemzeti Bank"
-msgstr ""
+msgstr "[HU] Magyar Nemzeti Bank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bi
 msgid "[ID] Bank Indonesia"
-msgstr ""
+msgstr "[ID] Bank Indonesia"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__boi
 msgid "[IT] Bank of Italy"
-msgstr ""
+msgstr "[IT] Italiens centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__nbkz
 msgid "[KZ] National Bank of Kazakhstan"
-msgstr ""
+msgstr "[KZ] Kazakhstans centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__banxico
 msgid "[MX] Bank of Mexico"
-msgstr "[MX] Bank of Mexico"
+msgstr "[MX] Mexikos centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bnm
 msgid "[MY] Bank Negara Malaysia"
-msgstr ""
+msgstr "[MY] Bank Negara Malaysia"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bcrp
 msgid "[PE] SUNAT (replaces Bank of Peru)"
-msgstr "[PE] SUNAT (ersätter Bank of Peru)"
+msgstr "[PE] SUNAT (ersätter Perus centralbank)"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__nbp
@@ -270,37 +275,37 @@ msgstr "[RO] Rumäniens centralbank"
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__srb
 msgid "[SE] Sveriges Riksbank"
-msgstr ""
+msgstr "[SE] Sveriges Riksbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bsi
 msgid "[SI] Bank of Slovenia"
-msgstr ""
+msgstr "[SI] Sloveniens centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bot
 msgid "[TH] Bank of Thailand"
-msgstr ""
+msgstr "[TH] Thailands centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__tcmb
 msgid "[TR] Central Bank of the Republic of Türkiye"
-msgstr ""
+msgstr "[TR] Republiken Turkiets centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__hmrc
 msgid "[UK] HM Revenue & Customs"
-msgstr "[UK] HM Revenue & Customs"
+msgstr "[UK] HM Intäkter och tullar"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__bcu
 msgid "[UY] Uruguayan Central Bank"
-msgstr ""
+msgstr "[UY] Uruguays centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__cbu
 msgid "[UZ] Central Bank of Uzbekistan"
-msgstr ""
+msgstr "[UZ] Uzbekistans centralbank"
 
 #. module: currency_rate_live
 #: model:ir.model.fields.selection,name:currency_rate_live.selection__res_company__currency_provider__xe_com

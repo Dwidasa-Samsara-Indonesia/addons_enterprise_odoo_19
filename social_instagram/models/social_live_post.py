@@ -66,6 +66,24 @@ class SocialLivePost(models.Model):
             live_post._post_instagram()
 
     def _post_instagram(self):
+        self.ensure_one()
+        try:
+            self._post_instagram_request()
+        except requests.exceptions.Timeout:
+            self.write({
+                'state': 'failed',
+                'failure_reason': self.env._(
+                    "Instagram took too long to process the request. "
+                    "This can happen with large images, try posting a smaller one."
+                ),
+            })
+        except requests.exceptions.RequestException:
+            self.write({
+                'state': 'failed',
+                'failure_reason': self.env._("An error occurred while contacting the Instagram API, please try again."),
+            })
+
+    def _post_instagram_request(self):
         """
         Handles the process of posting images to Instagram, supporting both single and multiple (carousel) posts.
 

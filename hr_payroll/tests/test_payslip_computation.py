@@ -711,3 +711,33 @@ class TestPayslipComputation(TestPayslipContractBase):
                         "Gross wage should be computed for flexible employees")
         self.assertAlmostEqual(payslip.net_wage, 7905.0, places=2,
                           msg="Net wage computation changed for flexible employees - possible regression")
+
+    def test_warning_cleared_after_recompute(self):
+        payslip = self.env['hr.payslip'].create({
+            'name': 'Payslip Test Warning',
+            'employee_id': self.richard_emp.id,
+            'version_id': self.contract_cdi.id,
+            'struct_id': self.developer_pay_structure.id,
+            'date_from': date(2026, 1, 1),
+            'date_to': date(2026, 1, 31),
+        })
+
+        payslip.compute_sheet()
+        payslip.action_payslip_done()
+
+        # Make a modification on the version that should trigger the warning on the payslip
+        # Note: we need to wait a bit before writing on the version to ensure that the payslip has been fully computed and the warning triggered before the write
+        # ,otherwise the warning will not be triggered at all and the test will be invalid.
+        self.richard_emp.write({
+            'wage': 10000.0,
+        })
+
+        # Cancel & draft the payslip
+        payslip.action_payslip_cancel()
+        payslip.action_payslip_draft()
+
+        # Recompute & validate the payslip again
+        payslip.compute_sheet()
+        payslip.action_payslip_done()
+
+        self.assertFalse(payslip.has_wrong_data, "Warning should not reappear after recompute.")

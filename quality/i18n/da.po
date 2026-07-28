@@ -11,15 +11,15 @@
 # Sanne Kristensen <sanne@vkdata.dk>, 2022
 # Mads Søndergaard, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 13:52+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-06-23 16:09+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/quality/"
 "da/>\n"
 "Language: da\n"
@@ -27,18 +27,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alert_count
 #: model:ir.model.fields,field_description:quality.field_quality_check__alert_count
 msgid "# Quality Alerts"
-msgstr "Kvalitetsalarmer"
+msgstr "# Kvalitetsmeddelelser"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__check_count
 msgid "# Quality Checks"
-msgstr "# Kvalitetstjek"
+msgstr "# Kvalitetskontroller"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_defaults
@@ -46,8 +46,14 @@ msgid ""
 "A Python dictionary that will be evaluated to provide default values when "
 "creating new records for this alias."
 msgstr ""
-"En Python-ordbog, der vil blive evalueret for at angive standardværdier, når "
-"du opretter nye poster til dette alias."
+"En Python-ordbog, der evalueres for at angive standardværdier ved oprettelse "
+"af nye poster via dette alias."
+
+#. module: quality
+#. odoo-python
+#: code:addons/quality/models/quality.py:0
+msgid "A quality team must have a company assigned."
+msgstr "Et kvalitetsteam skal være tilknyttet en virksomhed."
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_needaction
@@ -104,7 +110,7 @@ msgstr "Supplerende note"
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_check__additional_note
 msgid "Additional remarks concerning this check."
-msgstr "Yderligere bemærkninger i forhold til dette tjek."
+msgstr "Yderligere bemærkninger i forhold til denne kontrol."
 
 #. module: quality
 #: model:res.groups,name:quality.group_quality_manager
@@ -129,42 +135,42 @@ msgstr "Alias"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_contact
 msgid "Alias Contact Security"
-msgstr "Alias kontakt sikkerhed"
+msgstr "Aliaskontaktsikkerhed"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_domain_id
 msgid "Alias Domain"
-msgstr "Alias domæne"
+msgstr "Aliasdomæne"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_domain
 msgid "Alias Domain Name"
-msgstr "Alias domænenavn"
+msgstr "Aliasdomænenavn"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_full_name
 msgid "Alias Email"
-msgstr "Alias e-mail"
+msgstr "E-mailalias"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_name
 msgid "Alias Name"
-msgstr "Alias navn"
+msgstr "Aliasnavn"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_status
 msgid "Alias Status"
-msgstr "Alias status"
+msgstr "Aliasstatus"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_status
 msgid "Alias status assessed on the last message received."
-msgstr "Alias status vurderet ud fra den seneste modtagne besked."
+msgstr "Aliasstatus vurderet ud fra den senest modtagne besked."
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_model_id
 msgid "Aliased Model"
-msgstr "Aliased model"
+msgstr "Aliasmodel"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_point_view_form
@@ -188,12 +194,12 @@ msgstr "Årsag"
 #: model:ir.model.fields,field_description:quality.field_quality_alert__check_id
 #: model:ir.model.fields,field_description:quality.field_quality_point__check_ids
 msgid "Check"
-msgstr "Tjek"
+msgstr "Kontrol"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__check_count
 msgid "Check Count"
-msgstr "Antal tjek"
+msgstr "Antal kontroller"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__color
@@ -203,7 +209,7 @@ msgstr "Farve"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_tag__color
 msgid "Color Index"
-msgstr "Farve index"
+msgstr "Farveindeks"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__company_id
@@ -221,12 +227,12 @@ msgstr "Bekræftet"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__control_date
 msgid "Control Date"
-msgstr "Kontrol dato"
+msgstr "Kontroldato"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__point_id
 msgid "Control Point"
-msgstr "Kontrolpoint"
+msgstr "Kontrolpunkt"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__action_corrective
@@ -265,7 +271,7 @@ msgstr "Oprettelsesdato"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_bounced_content
 msgid "Custom Bounced Message"
-msgstr "Tilpasset Ikke modtaget Besked"
+msgstr "Tilpasset meddelelse om ikke-leveret post"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__date_assign
@@ -275,7 +281,7 @@ msgstr "Dato tildelt"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__date_close
 msgid "Date Closed"
-msgstr "Lukket dato"
+msgstr "Afslutningsdato"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_defaults
@@ -285,17 +291,17 @@ msgstr "Standardværdier"
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_point__test_type_id
 msgid "Defines the type of the quality control point."
-msgstr "Definere typen af kvantitets kontrol pointet."
+msgstr "Angiver typen af kvalitetskontrolpunkt."
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_point_view_form
 msgid "Describe the quality check to do..."
-msgstr "Beskriv kvalitetstjekket, der skal udføres"
+msgstr "Beskriv kvalitetskontrollen, der skal udføres ..."
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_point_view_form
 msgid "Describe why you need to perform this quality check..."
-msgstr "Beskriv hvorfor du skal udføre dette kvalitetstjek..."
+msgstr "Beskriv, hvorfor du skal udføre denne kvalitetskontrol ..."
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__description
@@ -312,7 +318,7 @@ msgstr "Beskrivelse"
 #: model:ir.model.fields,field_description:quality.field_quality_reason__display_name
 #: model:ir.model.fields,field_description:quality.field_quality_tag__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
@@ -322,32 +328,32 @@ msgstr "Udført"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_email
 msgid "Email Alias"
-msgstr "E-mail alias"
+msgstr "E-mailalias"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__email_cc
 msgid "Email cc"
-msgstr "Email cc"
+msgstr "E-mail-CC"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_domain
 msgid "Email domain e.g. 'example.com' in 'odoo@example.com'"
-msgstr "E-mail domæne f.eks. 'example.com' i 'odoo@example.com'"
+msgstr "E-maildomæne f.eks. 'eksempel.com' i 'odoo@eksempel.com'"
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_check__quality_state__fail
 msgid "Failed"
-msgstr "Fejlet"
+msgstr "Mislykket"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__failure_location_id
 msgid "Failure Location"
-msgstr ""
+msgstr "Fejlplacering"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__failure_location_ids
 msgid "Failure Locations"
-msgstr ""
+msgstr "Fejlplaceringer"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_stage__folded
@@ -374,7 +380,7 @@ msgstr "Følgere (partnere)"
 #: model:ir.model.fields,help:quality.field_quality_alert__activity_type_icon
 #: model:ir.model.fields,help:quality.field_quality_check__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Font Awesome-ikon, f.eks. fa-opgaver"
+msgstr "FontAwesome-ikon, f.eks. fa-opgaver"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
@@ -412,8 +418,8 @@ msgid ""
 "ID of the parent record holding the alias (example: project holding the task "
 "creation alias)"
 msgstr ""
-"ID for overordnet record indeholdende aliaset (eksempel: projekt, der "
-"indeholder opgaveoprettelses aliaset)"
+"ID for den overordnede aliaspost (f.eks. et projekt, der indeholder aliasset "
+"til oprettelse af opgaver)"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_exception_icon
@@ -456,6 +462,12 @@ msgid ""
 " /- all quantities of a product if control is per product\n"
 " /- all quantities of products in the operation if control is per operation"
 msgstr ""
+"Hvis kvalitetskontrollen ikke bestås, vælges et destinationslager fra denne "
+"liste for:\n"
+"- hver mængde, der ikke består kontrollen, hvis kontrollen udføres pr. "
+"mængde\n"
+" /- alle mængder af et produkt, hvis kontrollen udføres pr. produkt\n"
+" /- alle mængder af produkter i processen, hvis kontrollen udføres pr. proces"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_bounced_content
@@ -463,13 +475,13 @@ msgid ""
 "If set, this content will automatically be sent out to unauthorized users "
 "instead of the default message."
 msgstr ""
-"Hvis angivet vil dette indhold automatisk blive sendt ud til uautoriserede "
-"brugere, i stedet for standard beskeden."
+"Hvis angivet, sendes dette indhold automatisk til uautoriserede brugere i "
+"stedet for standardbeskeden."
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "In Progress"
-msgstr "I gang"
+msgstr "Behandles"
 
 #. module: quality
 #: model:quality.point.test_type,name:quality.test_type_instructions
@@ -517,17 +529,17 @@ msgstr "Forfaldne aktiviteter"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_incoming_local
 msgid "Local-part based incoming detection"
-msgstr "Lokal-del baseret indgående detektion"
+msgstr "Indgående detektion baseret på lokal del"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__lot_ids
 msgid "Lot"
-msgstr "Lot"
+msgstr "Parti"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__lot_ids
 msgid "Lot/Serial"
-msgstr "Lot/serienummer"
+msgstr "Parti-/serienummer"
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_alert__priority__1
@@ -613,6 +625,8 @@ msgid ""
 "No quality teams found for this company! Head over to the configuration menu "
 "to create your first quality team."
 msgstr ""
+"Der blev ikke fundet nogen kvalitetsteams for denne virksomhed. Gå til "
+"konfigurationsmenuen for at oprette det første kvalitetsteam."
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_alert__priority__0
@@ -624,12 +638,12 @@ msgstr "Normal"
 #: model:ir.model.fields,field_description:quality.field_quality_point__note
 #: model_terms:ir.ui.view,arch_db:quality.quality_point_view_form
 msgid "Note"
-msgstr "Notat"
+msgstr "Note"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_point_view_form
 msgid "Notes"
-msgstr "Notater"
+msgstr "Noter"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_needaction_counter
@@ -681,9 +695,9 @@ msgid ""
 "attached, even if they did not reply to it. If set, this will disable the "
 "creation of new records completely."
 msgstr ""
-"Valgfri ID for en tråd (record), som alle indgående meddelelser vil blive "
-"vedhæftet, selvom de ikke svarede på det. Hvis opsat, vil dette fuldstændigt "
-"deaktivere oprettelsen af nye poster."
+"Valgfrit ID for en tråd (post), som alle indgående meddelelser vil blive "
+"knyttet til, selv om de ikke er svar på tråden. Hvis det er angivet, vil "
+"oprettelsen af nye poster blive fuldstændigt deaktiveret."
 
 #. module: quality
 #: model:quality.reason,name:quality.reason_other
@@ -698,7 +712,7 @@ msgstr "Overordnet model"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_parent_thread_id
 msgid "Parent Record Thread ID"
-msgstr "Overordnet tråd (record) ID"
+msgstr "Tråd-ID for overordnet post"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_parent_model_id
@@ -714,12 +728,12 @@ msgstr ""
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__partner_id
 msgid "Partner"
-msgstr "Kontakt"
+msgstr "Partner"
 
 #. module: quality
 #: model:quality.reason,name:quality.reason_parts
 msgid "Parts Quality"
-msgstr "Dele kvalitet"
+msgstr "Delenes kvalitet"
 
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_check__quality_state__pass
@@ -746,16 +760,16 @@ msgid ""
 "- followers: only followers of the related document or members of following "
 "channels\n"
 msgstr ""
-"Politik til at oprette en besked på dokumentet ved hjælp af mailgatewayen.\n"
-"- alle: alle kan skrive\n"
-"- partnere: kun godkendte partnere\n"
-"- følgere: kun følgere af det relaterede dokument eller medlemmer af "
-"følgende kanaler\n"
+"Politik for oprettelse af beskeder på dokumentet via mailgatewayen:\n"
+"- Alle: Alle kan skrive.\n"
+"- Partnere: Kun godkendte partnere kan skrive.\n"
+"- Følgere: Kun følgere af det tilknyttede dokument eller medlemmer af de "
+"følgende kanaler kan skrive.\n"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__action_preventive
 msgid "Preventive Action"
-msgstr "Forebyggende Handling"
+msgstr "Forebyggende handling"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__priority
@@ -772,12 +786,12 @@ msgstr "Produkt"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__product_category_ids
 msgid "Product Categories"
-msgstr "Varekategorier"
+msgstr "Produktkategorier"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__product_id
 msgid "Product Variant"
-msgstr "Varevariant"
+msgstr "Produktvariant"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__product_ids
@@ -793,17 +807,17 @@ msgstr "Kvalitet"
 #: model:ir.model,name:quality.model_quality_alert
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Quality Alert"
-msgstr "Kvalitetsalarm"
+msgstr "Kvalitetsmeddelelse"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_alert_stage
 msgid "Quality Alert Stage"
-msgstr "Kvalitets advarsel stadie"
+msgstr "Kvalitetsmeddelelsesfase"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_alert_team
 msgid "Quality Alert Team"
-msgstr "Kvalitets alarm hold"
+msgstr "Kvalitetsmeddelelseshold"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_check
@@ -813,12 +827,12 @@ msgstr "Kvalitetskontrol"
 #. module: quality
 #: model:ir.model,name:quality.model_quality_point
 msgid "Quality Control Point"
-msgstr "Kvalitetskontrol punkt"
+msgstr "Kvalitetskontrolpunkt"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_point_test_type
 msgid "Quality Control Test Type"
-msgstr "Kvalitetskontrol test type"
+msgstr "Testtype for kvalitetskontrollen"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_point__product_category_ids
@@ -826,6 +840,7 @@ msgid ""
 "Quality Point will apply to every Products in the selected Product "
 "Categories."
 msgstr ""
+"Kvalitetspunkterne gælder for alle produkter i de valgte produktkategorier."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_point__product_ids
@@ -835,12 +850,12 @@ msgstr "Kvalitetspunkt gælder for alle valgte produkter."
 #. module: quality
 #: model:ir.model,name:quality.model_quality_tag
 msgid "Quality Tag"
-msgstr "Kvalitetstag"
+msgstr "Kvalitets-tag"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Quality Team"
-msgstr "Kvalitets hold"
+msgstr "Kvalitetsteam"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__rating_ids
@@ -853,7 +868,7 @@ msgstr "Bedømmelser"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alias_force_thread_id
 msgid "Record Thread ID"
-msgstr "Optag tråd ID"
+msgstr "Postens tråd-ID"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check__name
@@ -879,12 +894,12 @@ msgstr "Ansvarlig bruger"
 #: model:ir.model.fields,field_description:quality.field_quality_alert__reason_id
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Root Cause"
-msgstr "Hoved årsag"
+msgstr "Hovedårsag"
 
 #. module: quality
 #: model:ir.model,name:quality.model_quality_reason
 msgid "Root Cause for Quality Failure"
-msgstr "Hoved årsag for kvalitets fejl"
+msgstr "Hovedårsag for kvalitetsfejl"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_has_sms_error
@@ -904,12 +919,12 @@ msgstr "Sekvens"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point__show_failure_location
 msgid "Show Failure Location"
-msgstr ""
+msgstr "Vis fejlplacering"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Show all records whose next activity date is past"
-msgstr "Vis alle poster med en næste aktivitetsdato, der er før i dag"
+msgstr "Vis alle poster, hvis næste aktivitetsdato er før i dag"
 
 #. module: quality
 #: model:quality.alert.stage,name:quality.quality_alert_stage_3
@@ -979,7 +994,7 @@ msgstr "Teknisk navn"
 #: model:ir.model.fields,field_description:quality.field_quality_check__test_type_id
 #: model:ir.model.fields,field_description:quality.field_quality_point__test_type_id
 msgid "Test Type"
-msgstr "Test type"
+msgstr "Testtype"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_model_id
@@ -988,9 +1003,9 @@ msgid ""
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Modellen (Odoo Document Kind), som dette alias svarer til. Enhver indgående "
-"e-mail, der ikke svarer til en eksisterende post, vil medføre oprettelse af "
-"en ny rekord af denne model (f.eks. en projektopgave)"
+"Modellen (Odoo-dokumenttype), som dette alias svarer til. Enhver indgående e-"
+"mail, der ikke svarer til en eksisterende post, vil medføre oprettelse af en "
+"ny post af denne model (f.eks. en projektopgave)"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team__alias_name
@@ -998,8 +1013,8 @@ msgid ""
 "The name of the email alias, e.g. 'jobs' if you want to catch emails for "
 "<jobs@example.odoo.com>"
 msgstr ""
-"Navnet på e-mail aliaset, f.eks. 'jobs', hvis du vil fange e-mails til "
-"<jobs@example.odoo.com>"
+"Navnet på e-mailaliasset, f.eks. 'jobs', hvis du vil modtage e-mails sendt "
+"til <jobs@eksempel.odoo.com>"
 
 #. module: quality
 #: model:res.groups,comment:quality.group_quality_manager
@@ -1020,7 +1035,7 @@ msgstr "Titel"
 #. module: quality
 #: model:ir.model.fields.selection,name:quality.selection__quality_check__quality_state__none
 msgid "To do"
-msgstr "To do"
+msgstr "Gøremål"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
@@ -1042,7 +1057,7 @@ msgstr "Type registreret undtagelsesaktivitet."
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_tag__color
 msgid "Used in the kanban view"
-msgstr "Anvendt i kanban visningen"
+msgstr "Anvendt i Kanban-visningen"
 
 #. module: quality
 #: model:res.groups,name:quality.group_quality_user
@@ -1078,12 +1093,12 @@ msgstr "Hjemmesidens kommunikationshistorik"
 #. module: quality
 #: model:quality.reason,name:quality.reason_wo
 msgid "Work Operation"
-msgstr "Arbejds operation"
+msgstr "Arbejdsproces"
 
 #. module: quality
 #: model:quality.reason,name:quality.reason_workcenter
 msgid "Workcenter Failure"
-msgstr "Workcenter fejl"
+msgstr "Arbejdscenterfejl"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point_test_type__active

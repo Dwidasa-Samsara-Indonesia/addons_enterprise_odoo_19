@@ -13,6 +13,7 @@ class TestItEdiPredict(TestItEdi):
     def setUpClass(cls):
         super().setUpClass()
 
+        cls.italian_partner_a.l10n_it_codice_fiscale = '00465840031'
         cls.italian_partner_c = cls.env['res.partner'].create({
             'company_id': cls.company.id,
             'is_company': True,

@@ -3,6 +3,7 @@ import { isNull } from "@web/views/utils";
 import { KanbanRenderer } from "@web/views/kanban/kanban_renderer";
 import {AccountReturnKanbanRecord} from "./account_return_kanban_record";
 import { AccountReturnBaseKanbanRenderer } from "./account_return_base_kanban_renderer";
+import { useDeleteRecords } from "@web/views/view_hook";
 
 
 export class AccountReturnKanbanRenderer extends AccountReturnBaseKanbanRenderer {
@@ -21,6 +22,7 @@ export class AccountReturnKanbanRenderer extends AccountReturnBaseKanbanRenderer
         super.setup();
         this.orm = useService("orm");
         this.actionService = useService("action");
+        this.deleteRecordsWithConfirmation = useDeleteRecords(this.props.list.model);
 
         useBus(this.env.bus, "return_reload_model", (ev) => {
             const recordIds = ev.detail.resIds;
@@ -29,6 +31,10 @@ export class AccountReturnKanbanRenderer extends AccountReturnBaseKanbanRenderer
                 record.model.load();
             }
         });
+    }
+
+    deleteRecord(record) {
+        this.deleteRecordsWithConfirmation({}, [record]);
     }
 
     async openRecord(record, params) {

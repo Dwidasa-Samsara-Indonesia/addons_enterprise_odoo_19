@@ -9,13 +9,13 @@
 # Wichanon Jamwutthipreecha, 2023
 # Amin Cheloh <amincheloh@gmail.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2025-11-08 19:31+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-06-13 10:14+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Thai <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/th/>\n"
@@ -24,31 +24,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_accountant
 #. odoo-python
 #: code:addons/account_accountant/models/account_bank_statement.py:0
+#, fuzzy
 msgid " - %(reconcile_model_name)s"
-msgstr ""
+msgstr " - %(reconcile_model_name)s"
 
 #. module: account_accountant
 #. odoo-python
 #: code:addons/account_accountant/models/account_move.py:0
+#, fuzzy
 msgid "%(display_name_html)s will be entirely paid by the transaction."
-msgstr ""
+msgstr "%(display_name_html)s การชำระเงินทั้งหมดจะดำเนินการผ่านธุรกรรมนี้"
 
 #. module: account_accountant
 #. odoo-python
 #: code:addons/account_accountant/models/account_move.py:0
+#, fuzzy
 msgid "%(display_name_html)s will be fully reconciled by the transaction."
 msgstr ""
+"%(display_name_html)s จะได้รับการปรับปรุงให้สอดคล้องกันโดยสมบูรณ์จากการทำธุรกรรมนี้"
 
 #. module: account_accountant
 #. odoo-python
 #: code:addons/account_accountant/models/account_move.py:0
+#, fuzzy
 msgid "%(display_name_html)s will be reduced by %(amount)s."
-msgstr ""
+msgstr "%(display_name_html)s จะลดลง%(amount)s"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_bank_create_statement_form_bank_rec_widget
@@ -365,6 +370,13 @@ msgstr ""
 "ให้เพิ่มหนึ่งรายก่อนที่จะตรวจสอบความถูกต้อง"
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "โมเดลการกระทบยอดทั้งหมด"
@@ -502,6 +514,7 @@ msgstr "รายการกระทบยอดโดยอัตโนมั
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "ยอดคงเหลือ:"
@@ -1202,9 +1215,19 @@ msgid "Has Abnormal Deferred Dates"
 msgstr "มีวันที่รอการตัดบัญชีที่ผิดปกติ"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
 msgstr "มีการเคลื่อนไหวของรอการตัดบัญชี"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1313,6 +1336,11 @@ msgstr "คำสั่งไม่ถูกต้อง"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Invoice Date"
 msgstr "วันที่ใบแจ้งหนี้"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -2020,6 +2048,11 @@ msgid "Reconciled"
 msgstr "กระทบยอดแล้ว"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr "โมเดลการกระทบยอด"
@@ -2329,13 +2362,6 @@ msgid "The ending date must not be prior to the starting date."
 msgstr "วันที่สิ้นสุดจะต้องไม่อยู่ก่อนวันที่เริ่มต้น"
 
 #. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
-
-#. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
 #: model:ir.model.fields,help:account_accountant.field_account_move__deferred_original_move_ids
 msgid "The original invoices that created the deferred entries"
@@ -2522,6 +2548,12 @@ msgid "Try to reconcile automatically your statement lines"
 msgstr "พยายามกระทบยอดบรรทัดรายการเดินบัญชีของคุณโดยอัตโนมัติ"
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr ""
+
+#. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Unposted"
 msgstr "ยังไม่ได้ลงรายการ"
@@ -2704,6 +2736,11 @@ msgstr "คุณจะต้องเลือกระยะเวลาสำ
 #: code:addons/account_accountant/wizard/account_change_lock_date.py:0
 msgid "You need to select who the exception applies to."
 msgstr "คุณต้องเลือกผู้ที่จะรับข้อยกเว้น"
+
+#. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h

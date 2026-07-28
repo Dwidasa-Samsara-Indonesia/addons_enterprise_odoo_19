@@ -742,25 +742,16 @@ class TestSingleTouchPayroll(L10nPayrollAccountCommon):
         data_2 = stp_2._get_complex_rendering_data()
         remuneration_collection = data_2[self.employee_1.id]["Remuneration"]
         remuneration_collection = sorted(remuneration_collection, key=lambda x: x["IncomeStreamTypeC"])
-        self.assertEqual(len(remuneration_collection), 2)
+        self.assertEqual(len(remuneration_collection), 1)
         self.assertStpTupleEqual(
             remuneration_collection[0],
             {
-                "GrossA": 12000,
-                "IncomeStreamTypeC": "SAW",
-                "IncomeTaxPayAsYouGoWithholdingTaxWithheldA": 3402.0,
+                "GrossA": 17000.0,
+                "IncomeStreamTypeC": "WHM",
+                "IncomeTaxPayAsYouGoWithholdingTaxWithheldA": 4368.0,
 
             }
         )
-        self.assertStpTupleEqual(
-            remuneration_collection[1],
-            {
-                "GrossA": 5000,
-                "IncomeStreamTypeC": "WHM",
-                "IncomeTaxPayAsYouGoWithholdingTaxWithheldA": 966.0,
-            }
-        )
-        self.assertStpTupleEqual(remuneration_collection[0], data[self.employee_1.id]["Remuneration"][0])
         self._submit_stp(stp_2)
 
     @mock_skip_stp_api_calls()
@@ -947,3 +938,99 @@ class TestSingleTouchPayroll(L10nPayrollAccountCommon):
 
         seq_2 = stp_sequence.next_by_id()
         self.assertNotEqual(seq_2, seq_1, "The sequence should be unique")
+
+    @mock_skip_stp_api_calls()
+    def test_missed_reporting(self):
+        # Payrun for January
+        with freeze_time("2024-01-31"):
+            self.env.cr._now = datetime.now()
+            batch = self._prepare_payslip_run(employee_ids=self.employee_1 + self.employee_2, start_date="2024-01-01", end_date="2024-01-31")
+            stp = self.env["l10n_au.stp"].search([("payslip_batch_id", "=", batch.id)])
+            self.assertEqual(stp.payevent_type, "submit", "The STP record should be an Submit type")
+            self._submit_stp(stp)
+
+        # Payrun for March without submitting the STP for February (Payment date set in the next pay period)
+        with freeze_time("2024-03-31"):
+            self.env.cr._now = datetime.now()
+            batch = self._prepare_payslip_run(employee_ids=self.employee_1 + self.employee_2, start_date="2024-03-01", end_date="2024-03-31")
+            stp = self.env["l10n_au.stp"].search([("payslip_batch_id", "=", batch.id)])
+            self.assertEqual(stp.payevent_type, "submit", "The STP record should be an Submit type")
+            stp.submit_date = date(2024, 4, 1)
+            self._submit_stp(stp)
+
+        # Payslip for February, created at a later time. This should create an update STP
+        with freeze_time("2024-04-01"):
+            self.env.cr._now = datetime.now()
+            batch = self._prepare_payslip_run(employee_ids=self.employee_1 + self.employee_2, start_date="2024-02-01", end_date="2024-02-29")
+            self.assertTrue(all(slip._is_past_period() for slip in batch.slip_ids))
+            stp = batch.slip_ids._get_payslip_stp()[batch.slip_ids[0].id]
+            self.assertEqual(stp.payevent_type, "update", "The STP record should be an update type")
+            self._submit_stp(stp)
+
+        # Overlaping payment date on STP should not create an update action for April
+        with freeze_time("2024-04-30"):
+            self.env.cr._now = datetime.now()
+            batch = self._prepare_payslip_run(employee_ids=self.employee_1 + self.employee_2, start_date="2024-04-01", end_date="2024-04-30")
+            stp = batch.slip_ids._get_payslip_stp()[batch.slip_ids[0].id]
+            self.assertEqual(stp.payevent_type, "submit", "The STP record should be an Submit type")
+            self._submit_stp(stp)
+
+    def test_get_payslip_stp(self):
+        # _compute_stp_count calls _get_payslip_stp, so we can test both with the same assertions
+        batch = self._prepare_payslip_run(employee_ids=self.employee_1 + self.employee_2)
+        self.assertEqual(batch.l10n_au_stp_count, 1, "There should be 1 STP record for the 2 employees")
+
+        # Deleting the payslips
+        batch.action_draft()
+        batch.slip_ids.unlink()
+        self.assertEqual(batch.l10n_au_stp_count, 0, "There should be no STP record as there is no payslip")
+
+    @freeze_time("2026-07-31")
+    @mock_skip_stp_api_calls()
+    def test_stp_qe(self):
+        self.employee_1.write({
+            'l10n_au_child_support_garnishee_amount': 0.15,
+            'l10n_au_child_support_deduction': 120,
+            'contract_date_end': "2026-12-31",
+            'contract_date_start': "2026-01-01",
+            'l10n_au_salary_sacrifice_superannuation': 100,
+        })
+
+        self.employee_2.write({
+            'contract_date_end': "2026-12-31",
+            'contract_date_start': "2026-01-01",
+        })
+
+        batch = self._prepare_payslip_run(
+            self.employee_1 + self.employee_2,
+            {
+                "l10n_au_hr_payroll.input_child_support_garnishee_lump_sum": 1000,
+                "l10n_au_hr_payroll.input_bonus_commissions": 7000,
+                "l10n_au_hr_payroll.input_bonus_commissions_overtime": 1000,
+            },
+                start_date="2026-07-02",
+                end_date="2026-08-01",
+        )
+
+        self.assertTrue(
+            all(state == "ready" for state in batch.slip_ids.mapped("l10n_au_stp_status")),
+            "All payslips should be ready to be sent to STP"
+        )
+
+        stp = self.env["l10n_au.stp"].search([("payslip_batch_id", "=", batch.id)])
+        stp.submit_date = date.today()
+        data = stp._get_complex_rendering_data()
+        # Gross remains the same.
+        self.assertEqual(data[self.employee_1.id]["Remuneration"][0]["GrossA"], 5000)
+        self.assertEqual(data[self.employee_2.id]["Remuneration"][0]["GrossA"], 7000)
+        # Remuneration G should be a little bit more as QE is bigger.
+        self.assertListEqual(
+            data[self.employee_1.id]["Deduction"],
+            [
+                {"RemunerationTypeC": "G", "RemunerationA": 2266.3},
+                {"RemunerationTypeC": "D", "RemunerationA": 120.0},
+            ],
+        )
+        self.assertEqual(data[self.employee_1.id]["contributions"][0]["EntitlementTypeC"], "Q")
+        self.assertEqual(data[self.employee_1.id]["contributions"][0]["EmployerContributionsYearToDateA"], 13000)
+        self._submit_stp(stp)

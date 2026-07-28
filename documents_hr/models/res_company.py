@@ -58,5 +58,6 @@ class ResCompany(models.Model):
                 'folder_id': False,
                 'company_id': company.id,
                 'is_access_via_link_hidden': True,
+                'owner_id': False,
             })
         return self.mapped('documents_employee_folder_id')

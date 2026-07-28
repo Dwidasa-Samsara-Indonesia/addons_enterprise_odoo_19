@@ -48,13 +48,16 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
         return PosUrbanPiperController()
 
     def test_order_json(self, data):
-        taxes = data['product_id'].taxes_id.compute_all(
-            data['product_id'].list_price, data['product_id'].currency_id, data['quantity']
+        product = data['product_id']
+        tax_types = product.taxes_id.flatten_taxes_hierarchy().mapped('price_include')
+        taxes = product.taxes_id.compute_all(
+            product.list_price, product.currency_id, data['quantity']
         )
-        unit_price = data['product_id'].taxes_id.compute_all(
-            data['product_id'].list_price, data['product_id'].currency_id, 1
-        )['total_excluded']
-        price_with_tax = taxes['total_included']
+        unit_prices = product.taxes_id.compute_all(
+            product.list_price, product.currency_id, 1
+        )
+        unit_price = unit_prices['total_included'] if tax_types and tax_types[0] else unit_prices['total_excluded']
+        price_with_tax = taxes['total_included'] / data['quantity']
         price_without_tax = taxes['total_excluded']
         delivery_datetime = data['delivery_datetime']
         payload = {
@@ -93,7 +96,15 @@ class UrbanPiperTestOrderWizard(models.TransientModel):
                     "total_charge": 0.0,
                     "is_recommended": False,
                     "quantity": data['quantity'],
-                    "options_to_add": data['options_to_add']
+                    "options_to_add": data['options_to_add'],
+                    "taxes": [
+                        {
+                            "liability_on": "aggregator",
+                            "rate": tax.amount,
+                            "title": tax.tax_group_id.name,
+                        }
+                        for tax in data['product_id'].taxes_id
+                    ],
                 }],
                 "details": {
                     "coupon": "",

@@ -572,15 +572,15 @@ test("should not apply bold to selection placeholder nodes", async () => {
     await press(["ctrl", "b"]);
     expect(getContent(el)).toBe(
         unformat(`
-            <p data-selection-placeholder=""><br></p>
+            <p data-selection-placeholder="">[<br></p>
             <table class="o_selected_table">
                 <tbody>
                     <tr>
-                        <td class="o_selected_td"><strong>[1]</strong></td>
+                        <td class="o_selected_td"><strong>1</strong></td>
                     </tr>
                 </tbody>
             </table>
-            <p data-selection-placeholder=""><br></p>
+            <p data-selection-placeholder="">]<br></p>
         `)
     );
 });
@@ -589,7 +589,7 @@ test("should not apply bold formatting for partial selection inside contentedita
     const { editor, el } = await setupEditor(`<p contenteditable="false">T[e]st</p>`);
     bold(editor);
     expect(getContent(el)).toBe(
-        `<p data-selection-placeholder=""><br></p>[<p contenteditable="false">Test</p>]<p data-selection-placeholder="" style="margin: -9px 0px 8px;"><br></p>`
+        `<p data-selection-placeholder=""><br></p><p contenteditable="false">T[e]st</p><p data-selection-placeholder="" style="margin: -9px 0px 8px;"><br></p>`
     );
     expect(queryOne(`p[contenteditable="false"]`).childNodes.length).toBe(1);
 });
@@ -629,4 +629,14 @@ test("should toggle bold across nested spans", async () => {
     );
     bold(editor);
     expect(getContent(el)).toBe(`<p><span><span>[A</span> </span></p><p>B]</p>`);
+});
+
+test("should apply bold on fully selected list items with font-size style", async () => {
+    await testEditor({
+        contentBefore:
+            '<ol><li style="font-size: 18px; list-style-position: inside;">[abc]</li></ol>',
+        stepFunction: bold,
+        contentAfter:
+            '<ol><li style="font-size: 18px; list-style-position: inside;"><strong>[abc]</strong></li></ol>',
+    });
 });

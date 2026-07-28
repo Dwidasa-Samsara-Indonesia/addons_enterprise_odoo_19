@@ -9,14 +9,14 @@
 # Manon Rondou, 2025
 #
 # Bren Driesen <brdri@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 19:14+0000\n"
-"PO-Revision-Date: 2026-03-24 13:35+0000\n"
+"POT-Creation-Date: 2026-07-17 18:03+0000\n"
+"PO-Revision-Date: 2026-07-04 09:50+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_be_hr_payroll/nl/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,help:l10n_be_hr_payroll.field_hr_payslip_employee_depature_holiday_attests__net_n
@@ -66,6 +66,13 @@ msgstr ""
 "werknemer of je bedrijf, die Odoo niet\n"
 "kent.\n"
 "        "
+
+#. module: l10n_be_hr_payroll
+#. odoo-python
+#: code:addons/l10n_be_hr_payroll/models/hr_payslip.py:0
+#: code:addons/l10n_be_hr_payroll/models/hr_payslip_worked_days.py:0
+msgid " (Half-Day)"
+msgstr " (Halve dag)"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.dmfa_pdf_report
@@ -175,6 +182,12 @@ msgstr "%(months)s maanden"
 #: code:addons/l10n_be_hr_payroll/models/l10n_be_double_pay_recovery_line.py:0
 msgid "%(months)s months: %(amount).2f%(currency)s (%(rate).0f%%)"
 msgstr "%(months)s maanden: %(amount).2f%(currency)s (%(rate).0f%%)"
+
+#. module: l10n_be_hr_payroll
+#. odoo-python
+#: code:addons/l10n_be_hr_payroll/models/hr_payslip.py:0
+msgid "%(name)s%(duration_type)s"
+msgstr "%(name)s%(duration_type)s"
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -1590,7 +1603,7 @@ msgstr "<strong>Uitgesteld verlof</strong>"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_termination_fees
 msgid "<strong>Quantity</strong>"
-msgstr "<strong>Hoeveelheid</strong>"
+msgstr "<strong>Aantal</strong>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_termination_fees
@@ -2558,7 +2571,7 @@ msgstr "Blokkerende anomalie"
 #. module: l10n_be_hr_payroll
 #: model:hr.payroll.structure,payslip_name:l10n_be_hr_payroll.hr_payroll_structure_cp200_structure_cct90
 msgid "Bonus CCT90"
-msgstr "Bonus cao 90"
+msgstr "Loonbonus cao 90"
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -2967,7 +2980,7 @@ msgstr "Administratieve circulaire 19.03.1982 Ci.RH.241/315.785"
 #: model:ir.model.fields.selection,name:l10n_be_hr_payroll.selection__l10n_be_onss_declaration__environment__t
 #: model:ir.model.fields.selection,name:l10n_be_hr_payroll.selection__l10n_be_onss_file__environment__t
 msgid "Circuit Test"
-msgstr "Circuittest"
+msgstr "Testcircuit"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields.selection,name:l10n_be_hr_payroll.selection__l10n_be_dmfa__file_type__t
@@ -3460,7 +3473,7 @@ msgstr "Verplaatsing per fiets"
 #. module: l10n_be_hr_payroll
 #: model:hr.salary.rule,name:l10n_be_hr_payroll.cp200_employees_salary_cycle_transportation
 msgid "Cycle Transportation Reimbursement"
-msgstr "Verplaatsingsvergoeding fiets"
+msgstr "Fietsvergoeding"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_273S
@@ -4170,14 +4183,13 @@ msgstr "Dubbel basisloon december"
 
 #. module: l10n_be_hr_payroll
 #: model:hr.salary.rule,name:l10n_be_hr_payroll.cp200_employees_salary_double_december_basic_complementary
-#, fuzzy
 msgid "Double December Pay Basic Complementary"
-msgstr "Aanvullend dubbel vakantiegeld december basis"
+msgstr "Eindejaarspremie Basis Aanvullend"
 
 #. module: l10n_be_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_be_hr_payroll.input_double_december_pay_complementary
 msgid "Double December Pay Complementary"
-msgstr ""
+msgstr "Eindejaarspremie Aanvullend"
 
 #. module: l10n_be_hr_payroll
 #: model:hr.salary.rule,name:l10n_be_hr_payroll.cp200_employees_salary_double_december_gross
@@ -4794,7 +4806,7 @@ msgstr "Boekingen"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_individual_account
 msgid "Entry date"
-msgstr "Invoerdatum"
+msgstr "Indiensttreding"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,field_description:l10n_be_hr_payroll.field_l10n_be_onss_declaration__environment
@@ -5245,7 +5257,7 @@ msgstr "Niet verwerkbaar formulier"
 #. odoo-python
 #: code:addons/l10n_be_hr_payroll/models/l10n_be_onss_declaration.py:0
 msgid "Form cannot be processed in sequence"
-msgstr "Formulier kan niet sequentieel verwerkt worden"
+msgstr "Formulier kan niet sequentieel worden verwerkt"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_social_balance
@@ -7389,7 +7401,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_be_hr_payroll/models/l10n_be_onss_declaration.py:0
 msgid "More contributions due"
-msgstr "Meer verschuldigde bijdragen"
+msgstr "Meer bijdragen verschuldigd"
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -8434,7 +8446,7 @@ msgstr "RSZ certificaat"
 #: model:ir.model.fields,field_description:l10n_be_hr_payroll.field_res_company__onss_expeditor_number
 #: model:ir.model.fields,field_description:l10n_be_hr_payroll.field_res_config_settings__onss_expeditor_number
 msgid "ONSS Client ID"
-msgstr ""
+msgstr "RSZ klant-ID"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,field_description:l10n_be_hr_payroll.field_res_company__onss_company_id
@@ -8513,6 +8525,8 @@ msgid ""
 "ONSS Expeditor Number provided when registering service on the technical "
 "user. Eg: self_service_chaman_123456_98jdnvh63y"
 msgstr ""
+"RSZ verzendernummer verstrekt bij het registreren van de dienst op de "
+"technische gebruiker. Bv.: self_service_chaman_123456_98jdnvh63y"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model,name:l10n_be_hr_payroll.model_l10n_be_onss_file
@@ -9112,10 +9126,10 @@ msgid ""
 "previous year may be useful for you to complete information concerning the "
 "previous accounting year."
 msgstr ""
-"Hierbij treft je enkele gegevens aan die voor jou van nut kunnen zijn bij "
-"het opstellen van het Sociaal Verslag over het hieronder vermelde boekjaar. "
-"Het Sociaal Verslag over het voorgaande jaar kan nuttig zijn om de "
-"informatie over het voorgaande boekjaar aan te vullen."
+"Hieronder vind je enkele gegevens die nuttig voor je kunnen zijn bij het "
+"opstellen van de Sociale Balans over het hieronder vermelde boekjaar. De "
+"Sociale Balans van het voorgaande jaar kan nuttig zijn om de informatie over "
+"het voorgaande boekjaar aan te vullen."
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.l10n_be_dmfa_view_form
@@ -9470,7 +9484,7 @@ msgstr "Begin van het kwartaal"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.dmfa_pdf_report
 msgid "Quarter Start:"
-msgstr "Einde kwartaal:"
+msgstr "Begin kwartaal:"
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -10243,7 +10257,7 @@ msgstr ""
 #: code:addons/l10n_be_hr_payroll/wizard/l10n_be_social_security_certificate.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_social_security_certificate
 msgid "Special Social Cotisation"
-msgstr "Bijzondere sociale bijdrage"
+msgstr "Bijzondere bijdrage sociale zekerheid"
 
 #. module: l10n_be_hr_payroll
 #: model:hr.salary.rule.category,name:l10n_be_hr_payroll.hr_salary_rule_category_m_onss_total
@@ -10264,7 +10278,7 @@ msgstr "Bijzondere sociale bijdrage"
 #. module: l10n_be_hr_payroll
 #: model:hr.salary.rule,name:l10n_be_hr_payroll.cp200_employees_salary_mis_ex_onss
 msgid "Special social cotisation"
-msgstr "Speciale sociale bijdrage"
+msgstr "Bijzondere bijdrage sociale zekerheid"
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -10663,12 +10677,12 @@ msgstr "Vakantierechten bij uitdiensttreding N - 1"
 #. module: l10n_be_hr_payroll
 #: model:ir.actions.report,name:l10n_be_hr_payroll.action_report_termination_holidays_n
 msgid "Termination Holidays Current Year"
-msgstr "Beëindiging feestdagen huidig jaar"
+msgstr "Vakantieattest huidig jaar"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.actions.report,name:l10n_be_hr_payroll.action_report_termination_holidays_n1
 msgid "Termination Holidays Previous Year"
-msgstr "Beëindiging feestdagen vorig jaar"
+msgstr "Vakantieattest vorig jaar"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_social_security_certificate
@@ -10783,6 +10797,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_be_hr_payroll.field_hr_work_entry_type__dmfa_code
 msgid "The DMFA Code will identify the work entry in DMFA report."
 msgstr "De DMFA-code identificeert het werkinvoer in het DMFA-verslag."
+
+#. module: l10n_be_hr_payroll
+#. odoo-python
+#: code:addons/l10n_be_hr_payroll/models/hr_dmfa.py:0
+msgid "The DMFA location code must contain only numbers."
+msgstr "De DMFA-locatiecode mag alleen uit cijfers bestaan."
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -10909,6 +10929,8 @@ msgstr ""
 msgid ""
 "The ONSS company ID should contain digits only and be 10 characters long."
 msgstr ""
+"Het RSZ-bedrijfsnummer mag alleen cijfers bevatten en moet 10 tekens lang "
+"zijn."
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -11321,7 +11343,7 @@ msgid ""
 msgstr ""
 "De volgende werknemers zijn gekoppeld aan werkadressen zonder RSZ-"
 "identificatiecodes:\n"
-" %s"
+" %s "
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -12465,7 +12487,7 @@ msgstr "Element niet gekend"
 #. odoo-python
 #: code:addons/l10n_be_hr_payroll/models/l10n_be_onss_declaration.py:0
 msgid "Unknown flow success code for an ACR"
-msgstr "Verkeerd type prefix voor een ontvangstbewijs"
+msgstr "Onbekende flowsuccescode voor een ACR"
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -13002,7 +13024,7 @@ msgid ""
 "registered in the general staff register"
 msgstr ""
 "Werknemers waarvoor het bedrijf een DIMONA-aangifte heeft ingediend of die "
-"in het algemene personeelsregister zijn ingeschreven"
+"zijn ingeschreven in het algemeen personeelsregister"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,field_description:l10n_be_hr_payroll.field_l10n_be_dmfa_location_unit__partner_id
@@ -13175,7 +13197,7 @@ msgstr "Zone niet van toepassing"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_273S
 msgid "a)"
-msgstr ""
+msgstr "a)"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -13284,7 +13306,7 @@ msgstr "en op de"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_273S
 msgid "b)"
-msgstr ""
+msgstr "b)"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_45
@@ -13402,7 +13424,7 @@ msgstr "b) die in aanmerking komt voor het belastingkrediet van 52,54%"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_273S
 msgid "c)"
-msgstr ""
+msgstr "c)"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -13463,7 +13485,7 @@ msgstr ""
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_273S
 msgid "d)"
-msgstr ""
+msgstr "d)"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -13630,6 +13652,12 @@ msgstr "of de huwelijkspartner een beroepsinkomsten heeft of niet"
 #: code:addons/l10n_be_hr_payroll/models/hr_employee.py:0
 msgid "lower_secondary"
 msgstr "lower_secondary"
+
+#. module: l10n_be_hr_payroll
+#. odoo-python
+#: code:addons/l10n_be_hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "month"
+msgstr ""
 
 #. module: l10n_be_hr_payroll
 #: model:hr.salary.rule,name:l10n_be_hr_payroll.cp200_employees_termination_fees_notice_duration_month

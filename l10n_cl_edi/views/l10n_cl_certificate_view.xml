@@ -14,7 +14,7 @@
                     <group invisible="country_code != 'CL'">
                         <field name="user_id"/>
                         <field name="last_token"/>
-                        <field name="subject_serial_number" required="1"/>
+                        <field name="subject_serial_number" required="country_code == 'CL'"/>
                     </group>
                 </xpath>
             </field>

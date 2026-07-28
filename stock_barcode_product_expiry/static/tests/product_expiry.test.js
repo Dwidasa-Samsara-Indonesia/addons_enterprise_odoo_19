@@ -31,6 +31,7 @@ onRpc("/stock_barcode/get_barcode_data", (...args) => ({
         records: {
             "stock.picking": MockServer.current._models["stock.picking"],
             "stock.picking.type": MockServer.current._models["stock.picking.type"],
+            "stock.move": MockServer.current._models["stock.move"],
             "stock.move.line": MockServer.current._models["stock.move.line"],
             "product.product": MockServer.current._models["product.product"],
             "uom.uom": MockServer.current._models["uom.uom"],

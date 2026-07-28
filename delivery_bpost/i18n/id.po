@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~14.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
 "PO-Revision-Date: 2025-10-16 09:06+0000\n"
 "Last-Translator: \"Abe Manyo (abem)\" <abem@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/"
@@ -138,6 +138,11 @@ msgid "Domestic"
 msgstr "Lokal"
 
 #. module: delivery_bpost
+#: model_terms:ir.ui.view,arch_db:delivery_bpost.bpost_shipping_request
+msgid "EUR"
+msgstr ""
+
+#. module: delivery_bpost
 #: model:ir.model.fields.selection,name:delivery_bpost.selection__delivery_carrier__bpost_shipment_type__gift
 msgid "GIFT"
 msgstr "HADIAH"
@@ -204,6 +209,22 @@ msgstr "Kata sandi"
 #: code:addons/delivery_bpost/models/bpost_request.py:0
 msgid "Please provide at least one item to ship."
 msgstr "Mohon sediakan setidaknya satu barang untuk dikirim."
+
+#. module: delivery_bpost
+#. odoo-python
+#: code:addons/delivery_bpost/models/bpost_request.py:0
+msgid ""
+"Product [%s] is missing a Country of Origin, which is required for "
+"international shipping."
+msgstr ""
+
+#. module: delivery_bpost
+#. odoo-python
+#: code:addons/delivery_bpost/models/bpost_request.py:0
+msgid ""
+"Product [%s] is missing an HS Code, which is required for international "
+"shipping."
+msgstr ""
 
 #. module: delivery_bpost
 #: model:ir.model.fields,field_description:delivery_bpost.field_delivery_carrier__delivery_type

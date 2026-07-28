@@ -44,7 +44,7 @@
         </Dialog>
         <Dialog t-else="" size="'md'" title.translate="Two-Factor Authentification">
             <div class="d-flex flex-column mx-auto gap-3">
-                <div>Enter the code we sent to the cardholder's phone number ending in <t t-out="state.phone_number_last3"/>.</div>
+                <div><t t-out="this.state.message"/></div>
                 <InputVerificationCode nbInputs="6" onValidatedInput.bind="requestEphemeralKey"/>
             </div>
             <t t-set-slot="footer">

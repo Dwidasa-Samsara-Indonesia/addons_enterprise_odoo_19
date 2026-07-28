@@ -41,6 +41,11 @@ Documents app in the desired format(s).
         'web.assets_tests': [
             'documents_account/static/tests/tours/**/*',
         ],
+        'web.assets_unit_tests': [
+            'documents_account/static/tests/**/*',
+            ('remove', 'documents_account/static/tests/tours/**/*'),
+            ('remove', 'documents_account/static/tests/assets/**/*'),
+        ],
     },
     'post_init_hook': '_documents_account_post_init',
 }

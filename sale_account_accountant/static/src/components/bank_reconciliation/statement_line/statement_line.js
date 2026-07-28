@@ -18,6 +18,7 @@ patch(BankRecStatementLine.prototype, {
             name: "Sale Orders",
             context: {
                 search_default_partner_id: this.recordData.partner_id.id,
+                bank_rec_widget_statement_line_id: this.recordData.id,
             },
         });
     },

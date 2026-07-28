@@ -5,8 +5,8 @@
         <field name="model">sale.commission.achievement</field>
         <field name="arch" type="xml">
             <list editable="bottom">
-                <field name="add_user_id"/>
-                <field name="reduce_user_id"/>
+                <field name="add_user_id" options="{'no_quick_create': True}"/>
+                <field name="reduce_user_id" options="{'no_quick_create': True}"/>
                 <field name="company_id" optional="hide"/>
                 <field name="date"/>
                 <field name="achieved" sum="Total Achieved"/>

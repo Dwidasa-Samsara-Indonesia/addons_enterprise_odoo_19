@@ -2,6 +2,7 @@ import { _t } from "@web/core/l10n/translation";
 import { PaymentScreen } from "@point_of_sale/app/screens/payment_screen/payment_screen";
 import { patch } from "@web/core/utils/patch";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { floatIsZero } from "@web/core/utils/numbers";
 import { onWillUnmount } from "@odoo/owl";
 import OrderPaymentValidation from "@point_of_sale/app/utils/order_payment_validation";
 
@@ -19,7 +20,11 @@ patch(PaymentScreen.prototype, {
         const settleLines = order.lines.filter(
             (line) => line.isSettleDueLine() || line.isSettleInvoiceLine()
         );
-        if (settleLines.length || order.is_settling_account) {
+        if (
+            settleLines.length ||
+            order.is_settling_account ||
+            floatIsZero(order.totalDue, this.pos.currency.decimal_places)
+        ) {
             this.payment_methods_from_config = this.payment_methods_from_config.filter(
                 (pm) => pm.type !== "pay_later"
             );
@@ -46,7 +51,7 @@ patch(PaymentScreen.prototype, {
         }
     },
 
-    toggleIsToInvoice() {
+    async toggleIsToInvoice() {
         if (
             !this.currentOrder.isToInvoice() &&
             this.currentOrder.is_settling_account &&
@@ -57,7 +62,7 @@ patch(PaymentScreen.prototype, {
                 body: _t("Empty orders cannot be invoiced."),
             });
         } else {
-            super.toggleIsToInvoice();
+            await super.toggleIsToInvoice();
         }
     },
     get partnerInfos() {

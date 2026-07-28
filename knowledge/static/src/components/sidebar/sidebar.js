@@ -35,6 +35,7 @@ export const SORTABLE_TOLERANCE = 10;
  * The articles are stored in the state and have the following shape:
  * - {string} category,
  * - {array} child_ids,
+ * - {boolean} children_loaded,
  * - {string} icon,
  * - {boolean} is_article_item,
  * - {boolean} is_locked,
@@ -576,6 +577,7 @@ export class KnowledgeSidebar extends Component {
             this.state.articles[article.id] = {
                 ...article,
                 child_ids: children[article.id] ? children[article.id] : [],
+                children_loaded: false,
             };
             // Items could be shown in the favorite tree as root articles, but
             // they should not be shown as children of other articles
@@ -624,8 +626,8 @@ export class KnowledgeSidebar extends Component {
                 'order': 'sequence, id',
             }
         );
+        article.child_ids = children.map((child) => child.id);
         for (const child of children) {
-            article.child_ids.push(child.id);
             if (this.getArticle(child.id)) {
                 // Article was already loaded (if it is in the favorites)
                 continue;
@@ -634,11 +636,13 @@ export class KnowledgeSidebar extends Component {
                 ...child,
                 parent_id: article.id,
                 child_ids: [],
+                children_loaded: false,
                 category: article.category,
                 is_article_item: false,
                 is_user_favorite: false,
             };
         }
+        article.children_loaded = true;
     }
 
     /**
@@ -916,13 +920,19 @@ export class KnowledgeSidebar extends Component {
      */
     resetUnfoldedArticles() {
         this.unfoldedArticlesIds.forEach(id => {
-            if (!this.getArticle(id)) {
+            const article = this.getArticle(id);
+            if (!article) {
                 this.unfoldedArticlesIds.delete(id);
+            } else {
+                article.children_loaded = true;
             }
         });
         this.unfoldedFavoritesIds.forEach(id => {
-            if (!this.getArticle(id)) {
+            const article = this.getArticle(id);
+            if (!article) {
                 this.unfoldedFavoritesIds.delete(id);
+            } else {
+                article.children_loaded = true;
             }
         });
     }
@@ -973,8 +983,8 @@ export class KnowledgeSidebar extends Component {
      */
     async unfold(articleId, isFavorite) {
         const article = this.getArticle(articleId);
-        // Load the children of the article if it has not been unfolded yet
-        if (article.has_article_children && !article.child_ids.length) {
+        // Load the children of the article if they have not been loaded yet
+        if (article.has_article_children && !article.children_loaded) {
             await this.loadChildren(article);
         }
         if (isFavorite) {

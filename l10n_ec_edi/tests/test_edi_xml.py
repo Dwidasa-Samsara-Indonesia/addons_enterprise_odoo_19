@@ -621,7 +621,7 @@ class TestEcEdiXmls(TestEcEdiCommon):
         Fallback tax for services: company.l10n_ec_withhold_services_tax_id."""
         self.product_a.type = 'service'
         self.get_and_test_xml_tree_in_withhold(
-            xpath=self.get_withhold_xpath_for_taxes(tax_percent='2.75', withhold_amount='11.00', tax_code=3440)
+            xpath=self.get_withhold_xpath_for_taxes(tax_percent='3.00', withhold_amount='12.00', tax_code=3440)
         )
 
     def test_xml_tree_in_withhold_suggested_tax_taxpayer_type(self):

@@ -1,9 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import datetime
+from datetime import date, datetime
 
 from odoo import models, api, fields
-from odoo.tools import SQL
+from odoo.fields import Domain
 
 from odoo.addons.resource.models.utils import filter_domain_leaf
 
@@ -67,9 +67,11 @@ class SaleCommissionAchievementReport(models.Model):
         The date is converted to a string to allow updating the date value in view customizations.
         """
         # take date_to but not plan_id.date_to
-        date_to_domain = domain and filter_domain_leaf(domain, lambda field: 'date_to' in field and not 'plan_id' in field)
-        date_to_list = date_to_domain and [datetime.strptime(d[2], '%Y-%m-%d') for d in date_to_domain if len(d) == 3 and d[2]]
         model = self
+        domain = Domain(domain)
+        date_to_domain = filter_domain_leaf(domain, lambda field: 'date_to' in field and not 'plan_id' in field)
+        date_to_domain = date_to_domain.optimize_full(model)
+        date_to_list = [cond.value for cond in date_to_domain.iter_conditions() if isinstance(cond.value, date)]
         if date_to_list and not 'conversion_date' in self.env.context:
             conversion_date = max(date_to_list)
             model = model.with_context(conversion_date=conversion_date.strftime('%Y-%m-%d'))
@@ -502,7 +504,7 @@ invoices_rules AS (
 ),
 invoice_commission_lines_team AS (
     SELECT
-       (MAX(aml.id)::bigint <<20) | max(rules.id)::bigint <<10 | rules.user_id <<10 as id,
+       (MAX(aml.id)::bigint <<20) | max(rules.id)::bigint <<10 | rules.user_id as id,
        --max(aml.id)::bigint as id,
         {self._select_invoices()}
     FROM invoices_rules rules

@@ -248,7 +248,7 @@ class ApprovalRequest(models.Model):
 
     def action_cancel(self):
         self.sudo()._get_user_approval_activities(user=self.env.user).unlink()
-        self.mapped('approver_ids').write({'status': 'cancel'})
+        self.sudo().mapped('approver_ids').write({'status': 'cancel'})
 
     @api.depends_context('uid')
     @api.depends('approver_ids.status')

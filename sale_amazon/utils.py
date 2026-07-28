@@ -187,7 +187,11 @@ def make_sp_api_request(account, operation, path_parameter='', payload=None, met
         raise ValidationError(account.env._("Could not establish the connection to the API."))
     json_response = response.json()
     if const.API_OPERATIONS_MAPPING[operation].get('log_response', True):
-        _logger.info("SPAPI response for operation %s: %s", operation, pformat(json_response))
+        request_id = response.headers.get("x-amzn-RequestId") or "NA"
+        _logger.info(
+            "SPAPI response for operation %(operation)s (%(request_id)s):\n%(response)s",
+            {"operation": operation, "request_id": request_id, "response": pformat(json_response)},
+        )
     return json_response
 
 

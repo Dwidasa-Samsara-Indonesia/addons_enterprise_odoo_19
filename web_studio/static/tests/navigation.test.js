@@ -6,6 +6,9 @@ import {
     contains,
     defineActions,
     defineMenus,
+    defineModels,
+    fields,
+    models,
     getService,
     mountWithCleanup,
     onRpc,
@@ -22,6 +25,7 @@ import { FormEditorRenderer } from "@web_studio/client_action/view_editor/editor
 import { ListEditorRenderer } from "@web_studio/client_action/view_editor/editors/list/list_editor_renderer";
 import { ViewEditor } from "@web_studio/client_action/view_editor/view_editor";
 import { defineStudioEnvironment } from "./studio_tests_context";
+import { redirect } from "@web/core/utils/urls";
 
 describe.current.tags("desktop");
 
@@ -670,6 +674,121 @@ test("load with active_id active_ids", async () => {
     await animationFrame();
 
     expect.verifySteps(["onchange"]);
+});
+
+test("entering studio with active_id", async () => {
+    class Task extends models.Model {
+        project_id = fields.Many2one({ relation: "project" });
+        _records = [
+            {
+                id: 1,
+                display_name: "task1",
+                project_id: 1,
+            },
+            {
+                id: 2,
+                display_name: "task2",
+                project_id: 2,
+            },
+        ];
+        _views = {
+            list: `<list>
+                <field name="display_name" />
+                <button name="1" type="action" string="somebutton" column_invisible="context.get('active_id') != 1" />
+            </list>`,
+        };
+    }
+    class Project extends models.Model {
+        task_ids = fields.One2many({ relation: "task" });
+        _records = [
+            {
+                id: 1,
+                display_name: "paul bismuth",
+            },
+            {
+                id: 2,
+                display_name: "la santé",
+            },
+        ];
+
+        _views = {
+            list: `<list><field name="display_name" /></list>`,
+        };
+    }
+    defineModels([Project, Task]);
+    defineActions([
+        {
+            xml_id: "action_active_id_project",
+            id: 1,
+            type: "ir.actions.act_window",
+            res_model: "project",
+            name: "Projects",
+            target: "main",
+            views: [
+                [false, "list"],
+                [false, "form"],
+            ],
+        },
+        {
+            xml_id: "action_active_id_task",
+            id: 2,
+            type: "ir.actions.act_window",
+            res_model: "task",
+            name: "Tasks",
+            target: "current",
+            views: [
+                [false, "list"],
+                [false, "form"],
+            ],
+            domain: `[["project_id", "=", active_id]]`,
+        },
+    ]);
+    await mountWithCleanup(WebClientEnterprise);
+    await waitFor(".o_home_menu");
+    await animationFrame(); // wait for url to be pushed
+    expect(browser.location.href).toBe("https://www.hoot.test/odoo");
+
+    await getService("action").doAction("action_active_id_project");
+    await waitFor(".o_list_view .o_last_breadcrumb_item:contains(Projects)");
+    expect(".o_list_view button:contains(somebutton)").toHaveCount(0);
+    await animationFrame();
+    expect(browser.location.href).toBe("https://www.hoot.test/odoo/action-1");
+
+    await getService("action").doAction("action_active_id_task", {
+        additionalContext: { active_id: 1 },
+    });
+    await waitFor(".o_list_view .o_last_breadcrumb_item:contains(Tasks)");
+    expect(".o_list_view button:contains(somebutton)").toHaveCount(1);
+    await animationFrame();
+    expect(".o_breadcrumb").toHaveText("Projects\nTasks");
+    expect(browser.location.href).toBe("https://www.hoot.test/odoo/action-1/1/action-2");
+
+    await click(".o_web_studio_navbar_item button");
+    await waitFor(".o_web_studio_editor_manager");
+    expect(".o_list_view button:contains(somebutton)").toHaveCount(1);
+
+    await animationFrame();
+    expect(browser.location.href).toBe(
+        "https://www.hoot.test/odoo/action-1/1/action-2/studio?mode=editor&_tab=views&_view_type=list"
+    );
+
+    redirect("/odoo/action-1/1/action-2");
+    browser.dispatchEvent(new PopStateEvent("popstate", { state: {} }));
+    await waitFor(".o_list_view:not(.o_studio .o_list_view)");
+    expect(".o_list_view button:contains(somebutton)").toHaveCount(1);
+
+    await animationFrame();
+    expect(browser.location.href).toBe("https://www.hoot.test/odoo/action-1/1/action-2");
+
+    redirect("/odoo/action-1/1/action-2/studio?mode=editor&_tab=views&_view_type=list");
+    browser.dispatchEvent(new PopStateEvent("popstate", { state: {} }));
+    await waitFor(".o_studio .o_list_view");
+    expect(".o_list_view button:contains(somebutton)").toHaveCount(1);
+
+    await animationFrame();
+    expect(browser.location.href).toBe(
+        "https://www.hoot.test/odoo/action-1/1/action-2/studio?mode=editor&_tab=views&_view_type=list"
+    );
 });
 
 test("can edit ir.actions.act_window without id", async () => {

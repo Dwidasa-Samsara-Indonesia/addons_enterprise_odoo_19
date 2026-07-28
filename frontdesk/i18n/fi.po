@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-04-09 14:01+0000\n"
+"POT-Creation-Date: 2026-05-01 17:40+0000\n"
+"PO-Revision-Date: 2026-06-26 12:58+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "frontdesk/fi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: frontdesk
 #. odoo-python
@@ -614,6 +614,16 @@ msgid "Install"
 msgstr "Asenna"
 
 #. module: frontdesk
+#. odoo-python
+#: code:addons/frontdesk/controllers/main.py:0
+msgid ""
+"Invalid domain. Allowed filters are: department_id with '=' and display_name "
+"with 'ilike'."
+msgstr ""
+"Virheellinen domain. Sallitut suodattimet ovat: department_id ja '=' sekä "
+"display_name ja 'ilike'."
+
+#. module: frontdesk
 #: model:ir.model.fields,field_description:frontdesk.field_frontdesk_frontdesk__is_favorite
 msgid "Is Favorite"
 msgstr "On suosikki"
@@ -1035,7 +1045,7 @@ msgstr "Lähetä tekstiviesti isännälle vieraan saapuessa"
 #: model:ir.model.fields,field_description:frontdesk.field_frontdesk_drink__sequence
 #: model_terms:ir.ui.view,arch_db:frontdesk.frontdesk_drink_view_form
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: frontdesk
 #: model_terms:ir.ui.view,arch_db:frontdesk.frontdesk_visitor_view_form
@@ -1300,7 +1310,7 @@ msgstr "esim. Oma Yritys"
 #. odoo-javascript
 #: code:addons/frontdesk/static/src/visitor_form/visitor_form.xml:0
 msgid "e.g. john@company.com"
-msgstr "esim. john@company.com"
+msgstr "esim. john@yritys.fi"
 
 #. module: frontdesk
 #: model_terms:ir.ui.view,arch_db:frontdesk.frontdesk_mail_template
@@ -1311,7 +1321,7 @@ msgstr "on saapunut"
 #. odoo-javascript
 #: code:addons/frontdesk/static/src/end_page/end_page.xml:0
 msgid "has been informed."
-msgstr "on ilmoitettu."
+msgstr "on informoitu."
 
 #. module: frontdesk
 #. odoo-python

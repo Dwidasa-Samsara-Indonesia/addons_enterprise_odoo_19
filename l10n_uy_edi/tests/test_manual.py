@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 from odoo import Command, fields
+from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
 from . import common
@@ -144,6 +145,28 @@ class TestManual(common.TestUyEdi):
         self.assertEqual(refund.l10n_latam_document_type_id.code, "102", "Not Credit not document type.")
         self._send_and_print(refund)
         self._check_cfe(refund, "e-NCTK", "80_e_ticket_credit_note")
+
+    def test_81_e_ticket_credit_note_zero_amount(self):
+        """ Ensure that credit note of a 0.00 e-Ticket must keep the mandatory MntCFEref reference node (DGI CODE 31). """
+        invoice = self._create_move(invoice_line_ids=[Command.create({
+            "product_id": self.service_vat_22.id,
+            "price_unit": 0,
+        })])
+        invoice.action_post()
+        self.assertEqual(invoice.amount_total, 0.0, "Original e-Ticket should have a 0.00 total.")
+        self._send_and_print(invoice)
+
+        refund = self._create_credit_note(invoice)
+        refund.action_post()
+        self._send_and_print(refund)
+
+        cfe = self.get_xml_tree_from_attachment(refund.l10n_uy_edi_document_id.attachment_id)
+        namespace = {"cfe": "http://cfe.dgi.gub.uy"}
+        reference = cfe.find(".//cfe:Referencia/cfe:Referencia", namespace)
+        mnt_cfe_ref = reference.find("cfe:MntCFEref", namespace)
+        self.assertIsNotNone(mnt_cfe_ref, "MntCFEref must be present even when the referenced amount is 0.00.")
+        self.assertEqual(mnt_cfe_ref.text, "0.00")
+        self.assertIsNotNone(reference.find("cfe:TpoMonedaRef", namespace), "TpoMonedaRef must be present.")
 
     def test_90_e_ticket_debit_note(self):
         """ Create a credit note, validate it, check that we do not get any error. """
@@ -518,3 +541,65 @@ class TestManual(common.TestUyEdi):
         invoice.action_post()
         self._send_and_print(invoice)
         self._check_cfe(invoice, "e-FCE", "60_e_invoice_another_currency")
+
+    def test_e_expo_invoice_global_discount(self):
+        """ Create an Expo e-Invoice (CFE 121) with a global discount line. The discount must be
+        reported in the DscRcgGlobal section with IndFactDR = 10 (Exportación y asimiladas) and
+        ValorDR taken from the line tax base (quantity * price_unit, not just the unit price).
+        MntExpoyAsim and MntTotal must be the total after applying the discount. """
+        invoice = self._create_move(
+            l10n_latam_document_type_id=self.env.ref("l10n_uy.dc_e_inv_exp").id,
+            partner_id=self.foreign_partner.id,
+            invoice_incoterm_id=self.env.ref("account.incoterm_FOB").id,
+            l10n_uy_edi_cfe_sale_mode="1",
+            l10n_uy_edi_cfe_transport_route="1",
+            invoice_line_ids=[
+                Command.create({"product_id": self.product_vat_22.id, "price_unit": 100.0}),
+                # quantity 2 x -5.0: ValorDR must be 10.00 (the tax base), not abs(price_unit) = 5.00
+                Command.create({"name": "Global Discount", "quantity": 2.0, "price_unit": -5.0, "tax_ids": self.tax_0}),
+            ],
+        )
+        self.assertEqual(invoice.l10n_latam_document_type_id.code, "121", "Not Expo e-invoice")
+        invoice.action_post()
+        self.assertEqual(invoice.amount_total, 90.0, "Global discount not applied to the total")
+        self._send_and_print(invoice)
+        self._check_cfe(invoice, "e-FCE", "230_e_expo_invoice_global_discount")
+
+    def test_e_expo_invoice_full_discount(self):
+        """ Create an Expo e-Invoice fully discounted (total = 0.0). MntExpoyAsim is a mandatory tag
+        for expo CFEs, so it must be reported with 0.00 value instead of being removed from the XML """
+        invoice = self._create_move(
+            l10n_latam_document_type_id=self.env.ref("l10n_uy.dc_e_inv_exp").id,
+            partner_id=self.foreign_partner.id,
+            invoice_incoterm_id=self.env.ref("account.incoterm_FOB").id,
+            l10n_uy_edi_cfe_sale_mode="1",
+            l10n_uy_edi_cfe_transport_route="1",
+            invoice_line_ids=[
+                Command.create({"product_id": self.product_vat_22.id, "price_unit": 100.0}),
+                Command.create({"name": "Full Discount", "price_unit": -100.0, "tax_ids": self.tax_0}),
+            ],
+        )
+        self.assertEqual(invoice.l10n_latam_document_type_id.code, "121", "Not Expo e-invoice")
+        invoice.action_post()
+        self.assertEqual(invoice.amount_total, 0.0, "Global discount not applied to the total")
+        self._send_and_print(invoice)
+        self._check_cfe(invoice, "e-FCE", "235_e_expo_invoice_full_discount")
+
+    def test_global_discount_tax_mismatch(self):
+        """ A discount line whose taxes do not match the taxes of any regular line must be rejected
+        with a pre-send validation error (and the CFE should not be left in error state) """
+        invoice = self._create_move(
+            partner_id=self.partner_local.id,
+            l10n_latam_document_type_id=self.env.ref("l10n_uy.dc_e_inv").id,
+            invoice_line_ids=[
+                Command.create({"product_id": self.service_vat_22.id, "price_unit": 100.0, "tax_ids": self.tax_22}),
+                Command.create({"name": "Discount", "price_unit": -10.0, "tax_ids": self.tax_10}),
+            ],
+        )
+        invoice.action_post()
+        with self.assertRaisesRegex(UserError, "must be associated to another line having the same taxes"):
+            self._send_and_print(invoice)
+
+        # Since it is an internal pre-send validation, the CFE state/error must remain unset
+        self.assertFalse(invoice.l10n_uy_edi_cfe_state)
+        self.assertFalse(invoice.l10n_uy_edi_error)

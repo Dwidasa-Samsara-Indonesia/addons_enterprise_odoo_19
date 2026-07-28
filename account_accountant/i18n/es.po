@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2026-03-14 09:32+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-05-30 09:38+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/es/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -76,8 +76,8 @@ msgid ""
 "<b class=\"tip_title\">Tip: Find an Accountant or register your Accounting "
 "Firm</b>"
 msgstr ""
-"<b class=\"tip_title\">Consejo: encuentre un asesor fiscal o registre su "
-"asesoría contable</b>"
+"<b class=\"tip_title\">Consejo: encuentra un contable o registra tu asesoría "
+"contable</b>"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
@@ -235,7 +235,7 @@ msgstr "<span class=\"tip_button_text\">Encontrar un asesor fiscal</span>"
 #. module: account_accountant
 #: model_terms:digest.tip,tip_description:account_accountant.digest_tip_account_accountant_1
 msgid "<span class=\"tip_button_text\">Register your Accounting Firm</span>"
-msgstr "<span class=\"tip_button_text\">Registrar su asesoría contable</span>"
+msgstr "<span class=\"tip_button_text\">Registrar tu asesoría contable</span>"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_reconcile_wizard
@@ -396,6 +396,15 @@ msgstr ""
 "encontró un proveedor, añada uno antes de validarla."
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+"Todos los asientos creados por Facturación antes de esa fecha se ignorarán "
+"en Contabilidad."
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "Todos los modelos de conciliación"
@@ -544,6 +553,7 @@ msgstr "Conciliación de asientos automática"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "Saldo:"
@@ -1254,9 +1264,19 @@ msgid "Has Abnormal Deferred Dates"
 msgstr "Tiene fechas diferidas anormales"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
 msgstr "Tiene movimientos diferidos"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1371,6 +1391,11 @@ msgstr "Extractos bancarios no válidos"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Invoice Date"
 msgstr "Fecha de factura"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr "Facturación y bancos"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -2089,6 +2114,11 @@ msgid "Reconciled"
 msgstr "Conciliado"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr "Modelo de conciliación"
@@ -2402,15 +2432,6 @@ msgid "The ending date must not be prior to the starting date."
 msgstr "La fecha límite no debe ser anterior a la fecha de inicio."
 
 #. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
-"Las facturas anteriores a esta fecha no se tendrán en cuenta como asientos "
-"contables"
-
-#. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
 #: model:ir.model.fields,help:account_accountant.field_account_move__deferred_original_move_ids
 msgid "The original invoices that created the deferred entries"
@@ -2522,7 +2543,7 @@ msgstr "Consejo: actualice los apuntes contables de forma masiva"
 #. module: account_accountant
 #: model:digest.tip,name:account_accountant.digest_tip_account_accountant_1
 msgid "Tip: Find an Accountant or register your Accounting Firm"
-msgstr "Consejo: Encuentre un asesor fiscal o registre su asesoría contable"
+msgstr "Consejo: encuentra un contable o registra tu asesoría contable"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_auto_reconcile_wizard__to_date
@@ -2602,6 +2623,12 @@ msgstr "Transferir a %s"
 #: model:ir.actions.server,name:account_accountant.auto_reconcile_bank_statement_line_ir_actions_server
 msgid "Try to reconcile automatically your statement lines"
 msgstr "Intente conciliar automáticamente sus líneas de extracto bancario"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr "Deshacer la conciliación"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -2797,6 +2824,13 @@ msgid "You need to select who the exception applies to."
 msgstr "Necesita seleccionar a quién aplica la excepción."
 
 #. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
+"añade el panel de contabilidad, la gestión bancaria y los informes de "
+"seguimiento."
+
+#. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h
 msgid "for 1 hour"
 msgstr "por 1 hora"
@@ -2853,6 +2887,13 @@ msgstr "moneda secundaria"
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_journal_dashboard_kanban_view
 msgid "to reconcile"
 msgstr "a conciliar"
+
+#~ msgid ""
+#~ "The invoices before this date will not be taken into account as "
+#~ "accounting entries"
+#~ msgstr ""
+#~ "Las facturas anteriores a esta fecha no se tendrán en cuenta como "
+#~ "asientos contables"
 
 #~ msgid "Reconciliation model %s applied"
 #~ msgstr "Se ha aplicado el modelo de conciliación %s"

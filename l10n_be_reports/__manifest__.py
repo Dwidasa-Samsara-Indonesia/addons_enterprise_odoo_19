@@ -44,6 +44,7 @@ Accounting reports for Belgium
         'data/l10n_be.company.type.csv',
         'data/mail_templates.xml',
         'data/xbrl_templates/l10n_be_xbrl_template.xml',
+        'data/xbrl_templates/l10n_be_xbrl_template_disclosure.xml',
         'data/xbrl_templates/l10n_be_xbrl_template_acap.xml',
         'data/xbrl_templates/l10n_be_xbrl_template_fcap.xml',
         'data/xbrl_templates/l10n_be_xbrl_template_acon.xml',

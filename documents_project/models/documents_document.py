@@ -60,6 +60,15 @@ class DocumentsDocument(models.Model):
         if project_base_folder and project_base_folder in self and not project_base_folder.active:
             raise ValidationError(_("You cannot archive the project base folder (%s).", project_base_folder.name))
 
+    @api.model
+    def _get_gc_clear_bin_domain(self):
+        # Skip documents tied to a project: unlinking one would null the
+        # project's documents_folder_id reference.
+        return Domain.AND([
+            super()._get_gc_clear_bin_domain(),
+            [('project_ids', '=', False)],
+        ])
+
     @api.constrains('company_id')
     def _check_company_fits_projects_and_settings(self):
         folders = self.filtered(lambda d: d.type == 'folder')

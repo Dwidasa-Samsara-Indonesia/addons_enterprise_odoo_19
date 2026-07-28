@@ -320,6 +320,44 @@ class TestPayrollSEPACreditTransfer(TestPayrollSEPACreditTransferCommon):
         self.assertEqual(saved_form.partner_bank_id.id, self.miura_partner_bank.id)
         saved_form.action_create_payments()
 
+    def test_sepa_export_multi_bank_account_instr_id_uniqueness(self):
+        """ Test that a payslip split across multiple bank accounts generates unique SEPA InstrId (e.g., ID-1, ID-2) """
+
+        self.miura_work_contact.country_id = self.env.ref('base.be')
+        other_account = self.env['res.partner.bank'].create({
+            'acc_number': 'BE32707171912490',
+            'partner_id': self.miura_work_contact.id,
+            'acc_type': 'bank',
+            'bank_id': self.bnp_bank.id,
+        })
+
+        self.hr_employee_miura.write({
+            'bank_account_ids': [Command.link(other_account.id)],
+            'salary_distribution': {
+                str(self.miura_partner_bank.id): {'sequence': 1, 'amount': 50.0, 'amount_is_percentage': True},
+                str(other_account.id): {'sequence': 2, 'amount': 50.0, 'amount_is_percentage': True},
+            }
+        })
+
+        self.hr_payslip_miura.compute_sheet()
+        self.hr_payslip_miura.action_payslip_done()
+
+        self.env['hr.payroll.payment.report.wizard'].create({
+            'payslip_ids': self.hr_payslip_miura.ids,
+            'export_format': 'sepa',
+            'journal_id': self.miura_salaries_journal.id,
+        }).generate_payment_report()
+
+        file = self.hr_payslip_miura.payment_report
+        self.assertTrue(file)
+        xml_content = base64.b64decode(file).decode('utf-8')
+
+        expected_id_1 = f'<InstrId>{self.hr_payslip_miura.id}-1</InstrId>'
+        expected_id_2 = f'<InstrId>{self.hr_payslip_miura.id}-2</InstrId>'
+
+        self.assertIn(expected_id_1, xml_content, f'Missing unique InstrId: {expected_id_1}')
+        self.assertIn(expected_id_2, xml_content, f'Missing unique InstrId: {expected_id_2}')
+
 
 @tagged('external_l10n', 'post_install', '-at_install', '-standard')
 class TestPayrollSEPACreditTransferXmlValidity(TestPayrollSEPACreditTransferCommon):

@@ -8,7 +8,7 @@ from odoo.tools.intervals import Intervals
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
-    task_ids = fields.Many2many('project.task', relation='project_task_user_rel', column1='user_id', column2='task_id', string='Assigned Tasks')
+    task_ids = fields.Many2many('project.task', relation='project_task_user_rel', column1='user_id', column2='task_id', string='Assigned Tasks', copy=False)
 
     # -----------------------------------------
     # Business Methods

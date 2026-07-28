@@ -1,7 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from freezegun import freeze_time
-from unittest import skip
 
 from odoo import Command
 from odoo.exceptions import UserError
@@ -51,7 +50,6 @@ class TestKeEdiStockMocked(TestKeEdiStock):
         ]):
             self._test_send_invoiced_stock_moves()
 
-    @skip('Temporary to fast merge new valuation')
     def test_confirm_vendor_bill(self):
         with self.patch_session([
             ('selectTrnsPurchaseSalesList', 'get_purchases', 'get_purchases_2'),

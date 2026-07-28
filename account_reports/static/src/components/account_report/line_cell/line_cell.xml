@@ -15,7 +15,7 @@
                 <t t-if="!controller.filters.show_totals or !props.line.unfolded">
                     <t t-if="props.cell.info_popup_data">
                         <a
-                            class="fa fa-question-circle me-2"
+                            class="fa fa-question-circle cursor-pointer me-2"
                             t-on-click="(ev) => this.carryoverPopover(ev)"
                         />
                     </t>
@@ -31,7 +31,7 @@
 
                     <div class="content">
                         <t t-if="props.cell.auditable">
-                            <a t-on-click="() => this.audit()">
+                            <a class="cursor-pointer" t-on-click="() => this.audit()">
                                 <t t-component="env.component('AccountReportEllipsis')" t-props="{
                                     name: props.cell.name?.toString(),
                                     no_format: props.cell.no_format,

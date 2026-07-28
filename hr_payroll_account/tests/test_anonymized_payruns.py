@@ -168,3 +168,61 @@ class TestAnonymizedPayruns(BaseCommon):
         real_result = [(line.name, line.analytic_distribution, line.credit, line.debit) for line in payrun.move_id.line_ids]
 
         self.assertEqual(real_result, expected_result)
+
+    def test_batch_move_lines_keeps_distinct_analytic_percentages(self):
+        """ With batch_payroll_move_lines, employees sharing the same analytic
+        account but with different percentages must not be merged into a single
+        move line — each distribution must keep its own line.
+        """
+        self.company.batch_payroll_move_lines = True
+        self.nordic_warrior_structure.rule_ids.analytic_distribution = False
+        self.emp_thorfinn.version_id.analytic_distribution = {str(self.aa_1.id): 50}
+        self.emp_einar.version_id.analytic_distribution = {str(self.aa_1.id): 70}
+        self.emp_canute.version_id.analytic_distribution = {str(self.aa_1.id): 50}
+
+        payrun = self.env['hr.payslip.run'].create({
+            'name': 'Test Payrun Distinct Distributions',
+            'date_start': date(2026, 3, 1),
+            'date_end': date(2026, 3, 31),
+        })
+        payrun.generate_payslips(employee_ids=[self.emp_thorfinn.id, self.emp_einar.id, self.emp_canute.id])
+        payrun.action_validate()
+
+        expected_result = [
+            ('Basic Salary', {str(self.aa_1.id): 50}, 0.0, 6000.0),
+            ('Basic Salary', {str(self.aa_1.id): 50}, 6000.0, 0.0),
+            ('Additional Basic Salary', {str(self.aa_1.id): 50}, 0.0, 3000.0),
+            ('Additional Basic Salary', {str(self.aa_1.id): 50}, 3000.0, 0.0),
+            ('Basic Salary', {str(self.aa_1.id): 70}, 0.0, 3000.0),
+            ('Basic Salary', {str(self.aa_1.id): 70}, 3000.0, 0.0),
+            ('Additional Basic Salary', {str(self.aa_1.id): 70}, 0.0, 1500.0),
+            ('Additional Basic Salary', {str(self.aa_1.id): 70}, 1500.0, 0.0),
+        ]
+        real_result = [(line.name, line.analytic_distribution, line.credit, line.debit) for line in payrun.move_id.line_ids]
+        self.assertEqual(real_result, expected_result)
+
+    def test_batch_move_lines_merges_identical_version_distributions(self):
+        """ With batch_payroll_move_lines, employees sharing the exact same
+        version-level analytic distribution must be merged into a single line.
+        """
+        self.company.batch_payroll_move_lines = True
+        self.nordic_warrior_structure.rule_ids.analytic_distribution = False
+        distribution = {str(self.aa_1.id): 60}
+        (self.emp_thorfinn + self.emp_einar + self.emp_canute).version_id.analytic_distribution = distribution
+
+        payrun = self.env['hr.payslip.run'].create({
+            'name': 'Test Payrun Identical Distributions',
+            'date_start': date(2026, 3, 1),
+            'date_end': date(2026, 3, 31),
+        })
+        payrun.generate_payslips(employee_ids=[self.emp_thorfinn.id, self.emp_einar.id, self.emp_canute.id])
+        payrun.action_validate()
+
+        expected_result = [
+            ('Basic Salary', distribution, 0.0, 9000.0),
+            ('Basic Salary', distribution, 9000.0, 0.0),
+            ('Additional Basic Salary', distribution, 0.0, 4500.0),
+            ('Additional Basic Salary', distribution, 4500.0, 0.0),
+        ]
+        real_result = [(line.name, line.analytic_distribution, line.credit, line.debit) for line in payrun.move_id.line_ids]
+        self.assertEqual(real_result, expected_result)

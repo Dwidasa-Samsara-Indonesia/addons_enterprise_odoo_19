@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import base64
+import textwrap
 from datetime import timedelta
 from freezegun import freeze_time
 from itertools import product
@@ -624,9 +625,109 @@ class TestCaseDocumentsBridgeAccount(DocumentsAccountTestCommon, HttpCase):
         self.assertFalse(other_folder.exists(),
                         "folder not linked to journal setting should be deleted after gc_clear_bin")
 
+    def test_permissions_adding_document_attachment(self):
+        """Check that attachment of send_and_print can be copied in composer."""
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'invoice_date': '2016-01-01',
+            'partner_id': self.partner_a.id,
+            'invoice_line_ids': [Command.create({
+                'quantity': 1,
+                'price_unit': 500,
+                'tax_ids': [],
+            })]
+        })
+        attachment = self.env['ir.attachment'].create([{
+            'name': 'att.pdf',
+            'res_id': invoice.id,
+            'res_model': 'account.move',
+            'res_field': 'invoice_pdf_report_file',  # simulates send & print
+            'datas': 'test',
+            'type': 'binary',
+        }])
+        attachment.register_as_main_attachment()
+
+        document = self.env['documents.document'].search([('attachment_id', '=', attachment.id)], limit=1)
+        self.assertTrue(document)
+        document.with_user(self.simple_accountman).add_documents_attachment("mail.compose.message", 0)
+        attachment_copy = self.env['ir.attachment'].search([('original_id', '=', attachment.id)], limit=1)
+        self.assertTrue(attachment_copy)
+
 
 @tagged('post_install_l10n', 'post_install', '-at_install')
 class TestAccountMoveSendDocument(DocumentsAccountTestCommon, TestAccountMoveSendCommon):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.folder_test = cls.env['documents.document'].create({'name': 'folder_test', 'type': 'folder'})
+        cls.journal = cls.company_data['default_journal_purchase']
+        cls.setup_sync_journal_folder(cls.journal, cls.folder_test)
+
+    def test_log_note_and_incoming_email_document_creation(self):
+        """
+        Test that posting a file via log note or incoming email syncs to Documents ONLY if its mimetype
+        is explicitly allowed by `_should_attach_to_record` (e.g., PDFs, CSVs). Unlisted formats (e.g., images)
+        are orphaned and must not trigger a document sync.
+        """
+        test_cases = [
+            ('invoice.pdf', 'application/pdf', PDF, True),
+            ('receipt.png', 'image/png', base64.b64encode(b'dummy image content'), False),
+        ]
+        origins = ('log_note', 'email')
+        for origin, (filename, mimetype, content, should_sync) in product(origins, test_cases):
+            with self.subTest(origin=origin, filename=filename, mimetype=mimetype):
+                if origin == 'log_note':
+                    invoice = self.init_invoice("in_invoice", amounts=[1000], post=False)
+                    attachment = self.env['ir.attachment'].create({
+                        'name': filename,
+                        'datas': content,
+                        'mimetype': mimetype,
+                        'res_model': 'account.move',
+                        'res_id': invoice.id,
+                    })
+                    invoice.message_post(message_type='comment', attachment_ids=attachment.ids)
+                elif origin == 'email':
+                    content_str = content.decode() if isinstance(content, bytes) else content
+                    email_raw = textwrap.dedent(f"""\
+                        MIME-Version: 1.0
+                        Date: Fri, 26 Nov 2021 16:27:45 +0100
+                        Message-ID: <test-{filename}-{origin}@example.com>
+                        Subject: Incoming bill {filename}
+                        From: Someone <someone@some.company.com>
+                        To: {self.journal.alias_id.display_name}
+                        Content-Type: multipart/alternative; boundary="000000000000a47519057e029630"
+
+                        --000000000000a47519057e029630
+                        Content-Type: text/plain; charset="UTF-8"
+
+                        Here is your document.
+
+                        --000000000000a47519057e029630
+                        Content-Type: {mimetype}
+                        Content-Transfer-Encoding: base64
+                        Content-Disposition: attachment; filename="{filename}"
+
+                        {content_str}
+                        --000000000000a47519057e029630--
+                    """)
+                    invoice_id = self.env['mail.thread'].message_process(
+                        'account.move',
+                        email_raw,
+                        custom_values={'move_type': 'in_invoice', 'journal_id': self.journal.id}
+                    )
+                    invoice = self.env['account.move'].browse(invoice_id)
+                    attachment = self.env['ir.attachment'].search([('name', '=', filename)], limit=1)
+                    self.assertTrue(attachment)
+
+                self.assertEqual(invoice.message_main_attachment_id, attachment)
+                doc = self.env['documents.document'].search([('attachment_id', '=', attachment.id)])
+                if should_sync:
+                    self.assertEqual(attachment.res_model, 'account.move')
+                    self.assertTrue(doc)
+                else:
+                    self.assertFalse(attachment.res_model)
+                    self.assertFalse(doc)
 
     def test_send_and_print_document_creation(self):
         """

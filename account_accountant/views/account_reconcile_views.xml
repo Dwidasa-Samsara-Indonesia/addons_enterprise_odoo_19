@@ -119,7 +119,7 @@
         <field name="view_mode">list</field>
         <field name="search_view_id" ref="view_account_move_line_reconcile_search"/>
         <field name="view_id" ref="view_move_line_reconcile_tree"/>
-        <field name="domain">[('display_type', 'not in', ('line_section', 'line_subsection', 'line_note')), ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False)]</field>
+        <field name="domain">[('display_type', 'not in', ('line_section', 'line_subsection', 'line_note')), ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False), ('parent_state', '!=', 'cancel')]</field>
         <field name="context">{'auto_statement_processing': True, 'journal_type': 'general', 'search_default_posted_lines': True, 'search_default_unreconciled': True, 'search_default_group_by_account': True, 'search_default_group_by_partner': True}</field>
     </record>
 

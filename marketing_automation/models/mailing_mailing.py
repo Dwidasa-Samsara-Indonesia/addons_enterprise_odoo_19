@@ -63,3 +63,15 @@ class MailingMailing(models.Model):
                   mailing_names=", ".join(protected.mapped("name"))
                 )
             )
+
+    def action_retry_failed(self):
+        """
+        Prevent retrying mailings tied to marketing automation.
+        Retrying bypasses the automation filters and targets the entire model.
+        """
+        if self.filtered('use_in_marketing_automation'):
+            raise UserError(_(
+                "Oops! You can't retry sending emails from inside a Marketing Automation campaign."
+            ))
+
+        return super().action_retry_failed()

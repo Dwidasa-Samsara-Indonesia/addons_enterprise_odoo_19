@@ -11,7 +11,7 @@ registry.category("web_tour.tours").add('test_gs1_receipt_expiration_date', {
                 helper.assertLinesCount(1);
                 const line = helper.getLine({ barcode: "76543210" });
                 helper.assertLineIsHighlighted(line, false);
-                helper.assertLineQty(line, "0/20");
+                helper.assertLineQty(line, "0/32 Units");
             },
         },
         // The following scanned barcode should be decomposed like that:
@@ -32,7 +32,7 @@ registry.category("web_tour.tours").add('test_gs1_receipt_expiration_date', {
                 const date = formatDate(deserializeDateTime("2022-05-20"));
                 helper.assert(lot_with_date, `b1-b001 (${date})`, "lot line");
                 helper.assertLineIsHighlighted(line, true);
-                helper.assertLineQty(line, "8/20");
+                helper.assertLineQty(line, "8/32 Units");
             },
         },
         // The following scanned barcode should be decomposed like that:
@@ -55,9 +55,9 @@ registry.category("web_tour.tours").add('test_gs1_receipt_expiration_date', {
                 helper.assertSublinesCount(2);
                 const parentLine = helper.getLine({ barcode: "76543210" });
                 const [line1, line2] = helper.getSublines();
-                helper.assertLineQty(parentLine, "12/20");
-                helper.assertLineQty(line1, "8");
-                helper.assertLineQty(line2, "4");
+                helper.assertLineQty(parentLine, "12/32 Units");
+                helper.assertLineQty(line1, "8 Units");
+                helper.assertLineQty(line2, "4 Units");
                 helper.assertLineIsHighlighted(line1, false);
                 helper.assertLineIsHighlighted(line2, true);
                 const lot_with_date_1 = line1.querySelector('div[name="lot"]').innerText;
@@ -85,10 +85,10 @@ registry.category("web_tour.tours").add('test_gs1_receipt_expiration_date', {
                 helper.assertSublinesCount(3);
                 const parentLine = helper.getLine({ barcode: "76543210" });
                 const [line1, line2, line3] = helper.getSublines();
-                helper.assertLineQty(parentLine, "20/20");
-                helper.assertLineQty(line1, "8");
-                helper.assertLineQty(line2, "4");
-                helper.assertLineQty(line3, "8");
+                helper.assertLineQty(parentLine, "20/32 Units");
+                helper.assertLineQty(line1, "8 Units");
+                helper.assertLineQty(line2, "4 Units");
+                helper.assertLineQty(line3, "8 Units");
                 helper.assertLineIsHighlighted(line1, false);
                 helper.assertLineIsHighlighted(line2, false);
                 helper.assertLineIsHighlighted(line3, true);
@@ -101,6 +101,45 @@ registry.category("web_tour.tours").add('test_gs1_receipt_expiration_date', {
                 helper.assert(lot_with_date_1, `b1-b001 (${date1})`, "lot line");
                 helper.assert(lot_with_date_2, `b1-b002 (${date2})`, "lot line");
                 helper.assert(lot_with_date_3, `b1-b003 (${date3})`, "lot line");
+            },
+        },
+        // The following scanned barcode should be decomposed like this:
+        //      - (02)01234567890128    > packaging barcode
+        //      - (10)b1-b004           > lot (b1-b004)
+        //      - (15)220523            > best before date (5/23/2022)
+        // > expected expiration date should be best before + use time = 24/5/2022
+        {
+            trigger: ".o_barcode_client_action",
+            run: "scan 020123456789012810b1-b004\x1D15220523",
+        },
+        {
+            trigger: '.o_barcode_line:contains("b1-b004")',
+            run: function () {
+                helper.assertLinesCount(1);
+                helper.assertSublinesCount(4);
+                const parentLine = helper.getLine({ barcode: "76543210" });
+                const [line1, line2, line3, line4] = helper.getSublines();
+                helper.assertLineQty(parentLine, "32/32 Units");
+                helper.assertLineQty(line1, "8 Units");
+                helper.assertLineQty(line2, "4 Units");
+                helper.assertLineQty(line3, "8 Units");
+                helper.assertLineQty(line4, "1 Dozens");
+                helper.assertLineIsHighlighted(line1, false);
+                helper.assertLineIsHighlighted(line2, false);
+                helper.assertLineIsHighlighted(line3, false);
+                helper.assertLineIsHighlighted(line4, true);
+                const lot_with_date_1 = line1.querySelector('div[name="lot"]').innerText;
+                const lot_with_date_2 = line2.querySelector('div[name="lot"]').innerText;
+                const lot_with_date_3 = line3.querySelector('div[name="lot"]').innerText;
+                const lot_with_date_4 = line4.querySelector('div[name="lot"]').innerText;
+                const date1 = formatDate(deserializeDateTime("2022-05-20"));
+                const date2 = formatDate(deserializeDateTime("2022-05-21"));
+                const date3 = formatDate(deserializeDateTime("2022-05-22"));
+                const date4 = formatDate(deserializeDateTime("2022-05-24"));
+                helper.assert(lot_with_date_1, `b1-b001 (${date1})`, "lot line");
+                helper.assert(lot_with_date_2, `b1-b002 (${date2})`, "lot line");
+                helper.assert(lot_with_date_3, `b1-b003 (${date3})`, "lot line");
+                helper.assert(lot_with_date_4, `b1-b004 (${date4})`, "lot line");
             },
         },
         {

@@ -155,6 +155,6 @@ class AccountTestSIE4Export(TestAccountReportsCommon):
             '#KTYP  9993 K',
             '#KONTO 9994 "Cash Discount Gain"',
             '#KTYP  9994 I',
-            '#KONTO 999999 "Undistributed Profits/Losses"',
+            '#KONTO 999999 "Profit or Loss Appropriation"',
             '#KTYP  999999 S',
         ])

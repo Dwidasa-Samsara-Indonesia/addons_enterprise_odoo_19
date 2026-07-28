@@ -122,6 +122,17 @@ class LLMApiService:
             body=body,
         )
 
+    def _format_for_embedding(self, content: str, mode: str, title: str | None = None) -> str:
+        if self.provider != 'google':
+            return content
+
+        # https://ai.google.dev/gemini-api/docs/embeddings#task-types-embeddings-2
+        if mode == 'query':
+            return f'task: question answering | query: {content}'
+
+        if mode == 'document':
+            return f'title: {title} | text: {content}'
+
     def get_transcription(
             self,
             data: bytes,

@@ -71,6 +71,36 @@ class ResPartner(models.Model):
             due_amounts.append(partner.get_total_due(config_id))
         return due_amounts
 
+    def get_matching_paylater_orders(self):
+        self.ensure_one()
+
+        pay_later_refund_orders = self.env["pos.order"].search([
+            ("commercial_partner_id", "=", self.id),
+            ("state", "in", ["paid", "done"]),
+        ]).filtered(
+            lambda o: (
+                o.refunded_order_id
+                and any(
+                    p.payment_method_id.type == "pay_later"
+                    for p in o.payment_ids
+                )
+            )
+        )
+
+        original_orders = pay_later_refund_orders.mapped("refunded_order_id").filtered(lambda o: o.state in ["paid", "done"])
+
+        orders_matched = []
+        for order in original_orders:
+            refund_orders = pay_later_refund_orders.filtered(lambda o: o.refunded_order_id.id == order.id)
+
+            original_pay_later_amount = sum(order.payment_ids.filtered(lambda p: p.payment_method_id.type == "pay_later").mapped("amount"))
+            refund_pay_later_amount = sum(refund_orders.mapped("payment_ids").filtered(lambda p: p.payment_method_id.type == "pay_later").mapped("amount"))
+
+            if order.currency_id.is_zero(original_pay_later_amount + refund_pay_later_amount):
+                orders_matched += order.ids + refund_orders.ids
+
+        return orders_matched
+
     @api.model
     def _load_pos_data_fields(self, config):
         params = super()._load_pos_data_fields(config)

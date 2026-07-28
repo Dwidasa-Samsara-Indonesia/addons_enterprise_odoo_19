@@ -102,6 +102,7 @@ test("Allow SeenIndicators in WhatsApp Channels", async () => {
             Command.create({ partner_id: serverState.partnerId }),
             Command.create({ partner_id: partnerId2 }),
         ],
+        whatsapp_partner_id: partnerId2,
     });
     const messageId = pyEnv["mail.message"].create({
         author_id: serverState.partnerId,

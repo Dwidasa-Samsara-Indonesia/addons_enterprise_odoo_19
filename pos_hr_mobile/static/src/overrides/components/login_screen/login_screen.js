@@ -24,7 +24,10 @@ patch(LoginScreen.prototype, {
             // Here, we know the structure of the error raised by BarcodeScanner.
             this.dialog.add(AlertDialog, {
                 title: _t("Unable to scan"),
-                body: error?.message || error?.error?.message || "Unable to find barcode scanner.",
+                body:
+                    error?.message ||
+                    error?.error?.message ||
+                    _t("Unable to find barcode scanner."),
             });
             return;
         }
@@ -36,7 +39,7 @@ patch(LoginScreen.prototype, {
         } else {
             this.env.services.notification.notify({
                 type: "warning",
-                message: "Please, Scan again!",
+                message: _t("Please, Scan again!"),
             });
         }
     },

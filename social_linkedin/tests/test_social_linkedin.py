@@ -172,7 +172,7 @@ class SocialLinkedinCase(SocialCase):
         self.assertEqual(urn_to_id('urn:li:comment:(urn:li:activity:1234,5678)'), '5678')
 
     def test_fetch_media_urns(self):
-        """Test that all urns get a download url."""
+        """Test that valid media urns get a download url and missing image urls are ignored."""
         def _patched_linkedin_request(endpoint, *args, **kwargs):
             response = requests.Response()
             response.status_code = 200
@@ -180,6 +180,7 @@ class SocialLinkedinCase(SocialCase):
             if 'image' in endpoint:
                 content = {
                     'results': {
+                        'urn:li:image:123': {},
                         'urn:li:image:456': {'downloadUrl': 'https://example.com/456'},
                         'urn:li:image:789': {'downloadUrl': 'https://example.com/789'},
                     }

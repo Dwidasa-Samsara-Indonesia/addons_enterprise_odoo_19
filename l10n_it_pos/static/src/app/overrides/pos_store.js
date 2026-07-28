@@ -49,8 +49,8 @@ patch(PosStore.prototype, {
         } else if (!order.nb_print) {
             try {
                 result = order.to_invoice
-                    ? await this.fiscalPrinter.printFiscalInvoice()
-                    : await this.fiscalPrinter.printFiscalReceipt();
+                    ? await this.fiscalPrinter.printFiscalInvoice({ order: order })
+                    : await this.fiscalPrinter.printFiscalReceipt({ order: order });
             } catch (error) {
                 result.success = false;
                 if (!this.data.network.offline) {

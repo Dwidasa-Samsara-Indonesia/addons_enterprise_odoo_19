@@ -55,7 +55,7 @@
             <div class="btn-toolbar gap-1" role="toolbar" name="ganttToolbar">
                 <button class="btn btn-secondary fa"
                     t-att-class="{ 'fa-compress': model.displayParams.displayMode === 'sparse', 'fa-expand': model.displayParams.displayMode === 'dense'  }"
-                    t-att-title="model.displayParams.displayMode === 'dense' ? 'Activate sparse mode' : 'Activate dense mode'"
+                    t-att-title="displayModeTitle"
                     t-on-click="model.toggleDisplayMode.bind(model)"
                 >
                 </button>

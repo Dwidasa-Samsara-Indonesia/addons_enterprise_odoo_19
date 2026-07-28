@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:53+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-07-10 17:53+0000\n"
+"PO-Revision-Date: 2026-06-06 12:42+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "sale_commission/ja/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_commission
 #. odoo-python
@@ -574,12 +574,6 @@ msgid "From"
 msgstr "from"
 
 #. module: sale_commission
-#. odoo-python
-#: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "From must be before To"
-msgstr "開始は終了より前である必要があります"
-
-#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
 msgid "Has Message"
 msgstr "メッセージあり"
@@ -883,7 +877,7 @@ msgstr "ドラフトにリセット"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__team_id
@@ -948,7 +942,7 @@ msgstr "開始日"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__state
 msgid "State"
-msgstr "都道府県・州"
+msgstr "ステータス"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_user_wizard
@@ -1007,9 +1001,22 @@ msgstr "目標"
 
 #. module: sale_commission
 #. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid "The assignment start date must be before the end date"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The plan should have at least one target with an achievement rate of 0%"
 msgstr "プランには、達成率が0%の目標が少なくとも1つは含まれているべきです。"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid ""
+"The sales person's assignment must be within the commission plan period."
+msgstr ""
 
 #. module: sale_commission
 #. odoo-python
@@ -1123,8 +1130,8 @@ msgstr "ユーザ期間は計画の後に終了することはできません。
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "User period cannot start before the plan."
-msgstr "ユーザ期間は計画の前に終了することはできません。"
+msgid "User period cannot start after the plan."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__website_message_ids
@@ -1166,3 +1173,9 @@ msgstr "例: コミッション計画2025"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "per"
 msgstr "／"
+
+#~ msgid "From must be before To"
+#~ msgstr "開始は終了より前である必要があります"
+
+#~ msgid "User period cannot start before the plan."
+#~ msgstr "ユーザ期間は計画の前に終了することはできません。"

@@ -12,7 +12,8 @@ class SignRequest(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         sign_requests = super().create(vals_list)
-        attachment_ids = sign_requests.template_id.document_ids.attachment_id.ids
+        attachments = sign_requests.template_id.document_ids.attachment_id
+        attachment_ids = (attachments | attachments.original_id).ids
         documents = self.env['documents.document'].search([('attachment_id', 'in', attachment_ids)])
         attachment_docs = defaultdict(list)
         for doc in documents:
@@ -22,7 +23,8 @@ class SignRequest(models.Model):
             if sr.template_id.folder_id and not sr.reference_doc:
                 document_ids = []
                 for attachment in sr.template_id.document_ids.attachment_id:
-                    document_ids += attachment_docs[attachment.id]
+                    document_ids += attachment_docs[attachment.id] + attachment_docs[attachment.original_id.id]
+                document_ids = list(set(document_ids))
                 if len(document_ids) == 1:
                     sr.reference_doc = f"documents.document,{document_ids[0].id}"
                 elif document_ids and all(doc.folder_id == document_ids[0].folder_id for doc in document_ids):

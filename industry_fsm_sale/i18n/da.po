@@ -3,15 +3,16 @@
 # * industry_fsm_sale
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Lærke Hedegaard Mathiasen <lhm@flytconsulting.dk>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 18:44+0000\n"
-"PO-Revision-Date: 2025-11-08 20:19+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-24 17:44+0000\n"
+"PO-Revision-Date: 2026-06-23 17:31+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "industry_fsm_sale/da/>\n"
 "Language: da\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -31,25 +32,26 @@ msgstr "%(project_name)s - %(task_name)s"
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "<b>Click to edit."
-msgstr ""
+msgstr "<b>Klik for at redigere."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "<b>Invoice your time and material</b> to your customer."
-msgstr ""
+msgstr "<b>Fakturér din kunde tid og materialer</b>."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "<b>Review and sign</b> the <b>task report</b> with your customer."
 msgstr ""
+"<b>Gennemgå og underskriv</b> <b>opgaverapporten</b> sammen med din kunde."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "<b>Send your task report</b> to your customer."
-msgstr ""
+msgstr "<b>Send opgaverapporten</b> til din kunde."
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -68,6 +70,16 @@ msgid ""
 "                            in your profile from where to draw stock.\n"
 "                        </p>"
 msgstr ""
+"<p class=\"o_view_nocontent_smiling_face\">\n"
+"                            Ingen produkter fundet. Lad os oprette et! </p>"
+"<p>\n"
+"Hold styr på de produkter, du bruger til dine gøremål, og fakturér kunderne "
+"for varerne.\n"
+"Tip: Brug sæt til at tilføje flere produkter på én gang. </p><p>\n"
+"Når et gøremål markeres som udført, opdateres lageret automatisk. Vælg blot "
+"det lager\n"
+"i din profil, hvorfra varerne skal trækkes.\n"
+"                       </p>"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_view_form_inherit
@@ -75,6 +87,8 @@ msgid ""
 "<span invisible=\"not allow_material\" class=\"text-muted\">Hide prices on "
 "customer report</span>"
 msgstr ""
+"<span invisible=\"not allow_material\" class=\"text-muted\">Skjul priser på "
+"kunderapport</span>"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_view_form_inherit
@@ -84,6 +98,10 @@ msgid ""
 "time is billed based on their expertise, skills or experience.\n"
 "                </span>"
 msgstr ""
+"<span invisible=\"not is_fsm\">\n"
+"                    Definér tjenesten og den sats, hvormed en medarbejders "
+"tid faktureres, baseret på deres ekspertise, færdigheder eller erfaring.\n"
+"               </span>"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
@@ -94,7 +112,7 @@ msgstr "<span>Rabat%</span>"
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_sharing_project_task_inherit_view_form
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.view_task_form2_inherit
 msgid "<span>Products</span>"
-msgstr ""
+msgstr "<span>Produkter</span>"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
@@ -104,12 +122,12 @@ msgstr "<strong class=\"mr16\">Subtotal</strong>"
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
 msgid "<strong>Amount Due: </strong>"
-msgstr "<strong>Skyldigt beløb: </strong>"
+msgstr "<strong>Forfaldent beløb: </strong>"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
 msgid "<strong>Taxes</strong>"
-msgstr "<strong>Moms</strong>"
+msgstr "<strong>Skatter</strong>"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
@@ -119,13 +137,13 @@ msgstr "<strong>Total</strong>"
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
 msgid "<strong>Untaxed amount</strong>"
-msgstr "<strong>Beløb før moms</strong>"
+msgstr "<strong>Ubeskattet beløb</strong>"
 
 #. module: industry_fsm_sale
 #. odoo-python
 #: code:addons/industry_fsm_sale/models/project_task.py:0
 msgid "A customer should be set on the task to generate a worksheet."
-msgstr "en kunde bør være angivet på opgaven for at generere en arbejdsseddel."
+msgstr "En kunde bør være angivet på opgaven for at generere en arbejdsseddel."
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -136,7 +154,7 @@ msgstr "Tilføj produkter"
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.industry_fsm_sale_product_catalog_inherit_search_view
 msgid "Added Products"
-msgstr ""
+msgstr "Tilføjede produkter"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
@@ -147,12 +165,14 @@ msgstr "Beløb"
 #: model:ir.model.constraint,message:industry_fsm_sale.constraint_project_project_fsm_imply_task_rate
 msgid "An FSM project must be billed at task rate or employee rate."
 msgstr ""
+"Et serviceprojekt med udkørende opgaver skal faktureres enten efter "
+"opgavetakst eller medarbejdertakst."
 
 #. module: industry_fsm_sale
 #. odoo-python
 #: code:addons/industry_fsm_sale/wizard/sale_make_invoice_advance.py:0
 msgid "An invoice has been created: %s"
-msgstr ""
+msgstr "En faktura er oprettet: %s"
 
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_account_analytic_line
@@ -163,7 +183,7 @@ msgstr "Analytisk linje"
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/components/product_catalog/kanban_controller.xml:0
 msgid "Back to Task"
-msgstr ""
+msgstr "Tilbage til opgave"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__allow_billable
@@ -177,6 +197,8 @@ msgid ""
 "By saving this change, all timesheet entries will be linked to the selected "
 "Sales Order Item without distinction."
 msgstr ""
+"Når denne ændring gemmes, vil alle tidsregistreringer uden undtagelse blive "
+"knyttet til den valgte salgsordrepost."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
@@ -185,6 +207,8 @@ msgid ""
 "Choose a <b>name</b> for your product <i>(e.g. Bolts, Screws, Boiler, etc.)."
 "</i>"
 msgstr ""
+"Vælg et <b>-navn</b> til dit produkt <i>(f.eks. bolte, skruer, kedel osv.).</"
+"i>"
 
 #. module: industry_fsm_sale
 #. odoo-javascript
@@ -193,12 +217,14 @@ msgid ""
 "Click on a product to add it to your <b>list of materials</b>. <i>Tip: for "
 "large quantities, click on the number to edit it directly.</i>"
 msgstr ""
+"Klik på et produkt for at føje det til din <b>materialeliste</b>. <i>Tip: "
+"Ved større mængder kan du klikke på tallet for at redigere det direkte.</i>"
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Confirm the creation of your <b>invoice</b>."
-msgstr ""
+msgstr "Bekræft oprettelsen af din <b>faktura</b>."
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_task_view_list_fsm_sale_inherit
@@ -225,12 +251,12 @@ msgstr "Valuta"
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Customize your <b>layout</b>."
-msgstr ""
+msgstr "Tilpas dit <b>layout</b>."
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_view_form_inherit
 msgid "Default Service"
-msgstr "Standard Service"
+msgstr "Standardservice"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_account_analytic_line__display_name
@@ -239,18 +265,19 @@ msgstr "Standard Service"
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_sale_line_employee_map__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__display_name
+#: model:ir.model.fields,field_description:industry_fsm_sale.field_project_template_create_wizard__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_report_project_task_user_fsm__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_advance_payment_inv__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_order__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_order_line__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: industry_fsm_sale
 #. odoo-python
 #: code:addons/industry_fsm_sale/models/sale_order.py:0
 msgid "Extra Quotation Created: %s"
-msgstr ""
+msgstr "Ekstra tilbud oprettet: %s"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__allow_quotations
@@ -260,12 +287,12 @@ msgstr "Ekstra tilbud"
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_report_project_task_user_fsm
 msgid "FSM Tasks Analysis"
-msgstr "FSM Sags analyse"
+msgstr "Analyse af opgaver for udkørende service"
 
 #. module: industry_fsm_sale
 #: model:product.template,name:industry_fsm_sale.field_service_product_product_template
 msgid "Field Service"
-msgstr "Felt tjeneste"
+msgstr "Udkørende service"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields.selection,name:industry_fsm_sale.selection__report_project_task_user_fsm__invoice_status__invoiced
@@ -276,18 +303,18 @@ msgstr "Fuldt faktureret"
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Go back to your <b>task</b>."
-msgstr ""
+msgstr "Gå tilbage til din <b>-opgave</b>."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Go back to your Field Service <b>task</b>."
-msgstr ""
+msgstr "Gå tilbage til din udkørende service-<b>opgave</b>."
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__hide_price
 msgid "Hide price on customer report and portal"
-msgstr ""
+msgstr "Skjul pris på kunderapport og i portalen"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_account_analytic_line__id
@@ -296,6 +323,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_sale_line_employee_map__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__id
+#: model:ir.model.fields,field_description:industry_fsm_sale.field_project_template_create_wizard__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_report_project_task_user_fsm__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_advance_payment_inv__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_order__id
@@ -310,12 +338,16 @@ msgid ""
 "the customer. However, the inventory of consumed materials will still be "
 "updated."
 msgstr ""
+"Hvis dette felt er markeret, faktureres kunde ikke for den tid og de "
+"materialer, der er brugt på opgaven. Opgørelsen over forbrugte materialer "
+"opdateres dog stadig."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Invite your customer to <b>validate and sign your task report</b>."
 msgstr ""
+"Invitér din kunde til <b>at validere og underskrive din opgaverapport</b>."
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -326,19 +358,19 @@ msgstr "Faktura"
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__portal_invoice_count
 msgid "Invoice Count"
-msgstr "Fakturatælling"
+msgstr "Antal fakturaer"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_report_project_task_user_fsm__invoice_status
 msgid "Invoice Status"
-msgstr "Faktura status"
+msgstr "Fakturastatus"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.actions.act_window,help:industry_fsm_sale.project_task_action_to_invoice_fsm
 #: model_terms:ir.actions.act_window,help:industry_fsm_sale.project_task_action_to_invoice_fsm2
 msgid ""
 "Invoice your time and material to your customers once your tasks are done."
-msgstr "Fakturer din kunde for tid og materiale når dine opgaver er færdige."
+msgstr "Fakturér din kunde for tid og materialer, når dine opgaver er udførte."
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -352,23 +384,23 @@ msgstr "Fakturaer"
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Let's <b>track the material</b> you use for your task."
-msgstr ""
+msgstr "Lad os <b>spore det materiale</b>, du bruger til din opgave."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Let's create a new <b>product</b>."
-msgstr ""
+msgstr "Lad os oprette et nyt <b>produkt</b> ."
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__material_line_total_price
 msgid "Material Line Total Price"
-msgstr "Materiale linje total pris"
+msgstr "Samlet pris for materialelinjen"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_product_product__fsm_quantity
 msgid "Material Quantity"
-msgstr "Materiale kvantitet"
+msgstr "Materialemængde"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.view_task_form2_inherit
@@ -378,7 +410,7 @@ msgstr "Nyt tilbud"
 #. module: industry_fsm_sale
 #: model_terms:ir.actions.act_window,help:industry_fsm_sale.product_action_fsm
 msgid "No products found. Let's create one!"
-msgstr "Ingen produkter fundet. Lad os oprette en!"
+msgstr "Ingen produkter fundet. Lad os oprette et!"
 
 #. module: industry_fsm_sale
 #: model_terms:ir.actions.act_window,help:industry_fsm_sale.project_task_action_to_invoice_fsm
@@ -394,34 +426,34 @@ msgstr "Der er ikke noget at fakturere"
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__invoice_count
 msgid "Number of invoices"
-msgstr "Antal faktura"
+msgstr "Antal fakturaer"
 
 #. module: industry_fsm_sale
 #: model:product.template,name:industry_fsm_sale.field_service_product_zero_cost_1_product_template
 msgid "Plumbing Valves"
-msgstr ""
+msgstr "VVS-ventiler"
 
 #. module: industry_fsm_sale
 #: model:product.template,name:industry_fsm_sale.field_service_product_zero_cost_4_product_template
 msgid "Plumbing Washers"
-msgstr ""
+msgstr "VVS-skiver"
 
 #. module: industry_fsm_sale
 #. odoo-python
 #: code:addons/industry_fsm_sale/models/project_task.py:0
 msgid "Portal Invoices"
-msgstr ""
+msgstr "Fakturaer i portalen"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__portal_quotation_count
 msgid "Portal Quotation Count"
-msgstr ""
+msgstr "Antal portaltilbud"
 
 #. module: industry_fsm_sale
 #. odoo-python
 #: code:addons/industry_fsm_sale/models/project_task.py:0
 msgid "Portal Quotations"
-msgstr ""
+msgstr "Tilbud i portalen"
 
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_product_template
@@ -432,7 +464,7 @@ msgstr "Produkt"
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_product_product
 msgid "Product Variant"
-msgstr "Varevariant"
+msgstr "Produktvariant"
 
 #. module: industry_fsm_sale
 #: model:ir.actions.act_window,name:industry_fsm_sale.product_action_fsm
@@ -456,12 +488,17 @@ msgstr "Projekt"
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_project_sale_line_employee_map
 msgid "Project Sales line, employee mapping"
-msgstr "Projekt salgslinje, medarbejder kortlægning"
+msgstr "Projektsalgslinje, medarbejderkortlægning"
+
+#. module: industry_fsm_sale
+#: model:ir.model,name:industry_fsm_sale.model_project_template_create_wizard
+msgid "Project Template create Wizard"
+msgstr ""
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
 msgid "Quantity"
-msgstr "Antal"
+msgstr "Mængde"
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -485,17 +522,17 @@ msgstr "Tilbud"
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.view_order_form_inherit_sale_project
 msgid "Related Task"
-msgstr ""
+msgstr "Tilknyttet opgave"
 
 #. module: industry_fsm_sale
 #: model:product.template,name:industry_fsm_sale.field_service_product_zero_cost_2_product_template
 msgid "Safety Gloves"
-msgstr ""
+msgstr "Sikkerhedshandsker"
 
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
-msgstr "Salgsfaktura på forudbetaling"
+msgstr "Salgsfaktura for forudbetaling"
 
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_sale_order
@@ -505,7 +542,7 @@ msgstr "Salgsordre"
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__sale_line_id
 msgid "Sales Order Item"
-msgstr "Salgsordrelinje"
+msgstr "Salgsordrepost"
 
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_sale_order_line
@@ -521,26 +558,26 @@ msgid ""
 "It can be modified on each task and timesheet entry individually if "
 "necessary."
 msgstr ""
-"Salgsordrelinjen, der som standard vælges på opgaver og timesedler i dette "
-"projekt, medmindre medarbejderen på timesedlen eksplicit er knyttet til en "
-"anden salgsordrelinje i projektet.\n"
+"Den salgsordrepost, der som standard vælges på opgaver og tidsregistreringer "
+"i dette projekt, medmindre medarbejderen på tidsregistreringen er knyttet "
+"til en anden salgsordrepost i projektet.\n"
 "Den kan om nødvendigt ændres individuelt for hver opgave og tidsregistrering."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Save time by automatically generating a <b>signature</b>."
-msgstr ""
+msgstr "Spar tid ved automatisk at generere en <b>underskrift</b>."
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_sale_line_employee_map__timesheet_product_id
 msgid "Service"
-msgstr "Ydelse"
+msgstr "Tjenesteydelse"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_order__task_id
 msgid "Source Task"
-msgstr ""
+msgstr "Kildeopgave"
 
 #. module: industry_fsm_sale
 #: model:ir.model,name:industry_fsm_sale.model_project_task
@@ -550,18 +587,18 @@ msgstr "Opgave"
 #. module: industry_fsm_sale
 #: model:ir.model.fields,help:industry_fsm_sale.field_sale_order__task_id
 msgid "Task from which this quotation have been created"
-msgstr ""
+msgstr "Opgave, som dette tilbud er oprettet fra"
 
 #. module: industry_fsm_sale
 #. odoo-python
 #: code:addons/industry_fsm_sale/models/project_task.py:0
 msgid "Tasks need to be linked to a sales order to be invoiced."
-msgstr ""
+msgstr "Opgaver skal knyttes til en salgsordre for at kunne faktureres."
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
 msgid "Taxes"
-msgstr "Moms"
+msgstr "Skatter"
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -570,11 +607,13 @@ msgid ""
 "The following products are currently associated with a Field Service "
 "project, you cannot change their Invoicing Policy or Type:%s"
 msgstr ""
+"Følgende produkter er i øjeblikket tilknyttet et udkørende serviceprojekt, "
+"og deres faktureringspolitik eller -type kan derfor ikke ændres:%s"
 
 #. module: industry_fsm_sale
 #: model:ir.model.constraint,message:industry_fsm_sale.constraint_project_project_material_imply_billable
 msgid "The material can be allowed only when the task can be billed."
-msgstr "Materialet kan kun tillades, når sagen kan faktureres."
+msgstr "Materialet kan kun stilles til rådighed, hvis opgaven er fakturerbar."
 
 #. module: industry_fsm_sale
 #: model:ir.model.constraint,message:industry_fsm_sale.constraint_project_project_timesheet_product_required_if_billable_and_time
@@ -582,12 +621,14 @@ msgid ""
 "The timesheet product is required when the fsm project can be billed and "
 "timesheets are allowed."
 msgstr ""
+"Tidsregistreringsproduktet er påkrævet, når det udkørende serviceprojekt er "
+"fakturerbart, og tidsregistrering er tilladt."
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.portal_my_task
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_custom_page
 msgid "Time &amp; Material"
-msgstr "Tid &amp; Materiale"
+msgstr "Tid og materiale"
 
 #. module: industry_fsm_sale
 #: model:ir.actions.act_window,name:industry_fsm_sale.project_task_action_to_invoice_fsm
@@ -601,22 +642,23 @@ msgstr "Til fakturering"
 #. module: industry_fsm_sale
 #: model:ir.actions.server,name:industry_fsm_sale.project_task_to_invoice_fsm_server_action
 msgid "To Invoice Server Action"
-msgstr ""
+msgstr "Serveraktion \"Til fakturering\""
 
 #. module: industry_fsm_sale
 #: model_terms:ir.actions.act_window,help:industry_fsm_sale.product_action_fsm
 msgid "Track and bill the material used to complete your tasks."
-msgstr "Spor og fakturér anvendte materialer for at færdiggøre dine opgaver."
+msgstr ""
+"Registrer og fakturér de materialer, der bruges til at udføre dine opgaver."
 
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_view_form_inherit
 msgid "Track the material used to complete tasks"
-msgstr "Spor materialet brugt til at fuldføre sager"
+msgstr "Registrer materialer, der bruges til at udføre opgaver"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__under_warranty
 msgid "Under Warranty"
-msgstr ""
+msgstr "Under garanti"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_sale_line_employee_map__price_unit
@@ -633,7 +675,7 @@ msgstr "Mulighed for mersalg"
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Use the breadcrumbs to navigate to your <b>list of products</b>."
-msgstr ""
+msgstr "Brug brødkrummerne til at navigere til din <b>liste over produkter</b>."
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,help:industry_fsm_sale.field_project_task__display_name
@@ -655,15 +697,15 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Validate the <b>signature</b>."
-msgstr ""
+msgstr "Validér <b>underskriften</b>."
 
 #. module: industry_fsm_sale
 #. odoo-javascript
 #: code:addons/industry_fsm_sale/static/src/js/tours/industry_fsm_sale_tour.js:0
 msgid "Wait for the invoice to show up"
-msgstr ""
+msgstr "Vent på, at fakturaen vises"
 
 #. module: industry_fsm_sale
 #: model:product.template,name:industry_fsm_sale.field_service_product_zero_cost_3_product_template
 msgid "Water Testing Kits"
-msgstr ""
+msgstr "Vandtestkit"

@@ -671,6 +671,102 @@ registry.category("web_tour.tours").add("web_studio_main_and_rename", {
     ],
 });
 
+registry.category("web_tour.tours").add("web_studio_rename", {
+    url: "/odoo?debug=1",
+    steps: () => [
+        {
+            trigger: ".o_home_menu_background",
+        },
+        {
+            // open studio
+            trigger: ".o_main_navbar .o_web_studio_navbar_item",
+            run: "click",
+        },
+        {
+            trigger: ".o_web_studio_new_app",
+            run: "click",
+        },
+        {
+            // the next steps are here to create a new app
+            trigger: ".o_web_studio_app_creator_next",
+            run: "click",
+        },
+        {
+            trigger: ".o_web_studio_app_creator_name > input",
+            run: `edit ${(createdAppString = randomString(6))}`,
+        },
+        {
+            trigger: ".o_web_studio_app_creator_next.is_ready",
+            run: "click",
+        },
+        {
+            trigger: ".o_web_studio_menu_creator > input",
+            run: `edit ${(createdMenuString = randomString(6))}`,
+        },
+        {
+            trigger: ".o_web_studio_app_creator_next.is_ready",
+            run: "click",
+        },
+        {
+            trigger: ".o_web_studio_model_configurator_next",
+            run: "click",
+        },
+        {
+            trigger: ".o_menu_toggle:not(.o_menu_toggle_back)",
+        },
+        {
+            // wait for the form editor to be rendered because the sidebar is the same
+            // unfold 'Existing Fields' section
+            trigger: ".o_web_studio_existing_fields_header",
+            run: "click",
+        },
+        {
+            // add an new field
+            trigger:
+                ".o_web_studio_sidebar .o_web_studio_field_type_container:eq(1) .o_web_studio_field_char",
+            run: "drag_and_drop .o_web_studio_form_view_editor .o_inner_group",
+        },
+        {
+            trigger: '.o_web_studio_sidebar input[name="technical_name"]',
+        },
+        {
+            // click on the field
+            trigger: ".o_web_studio_form_view_editor .o_wrap_label:first label",
+            // when it's there
+            run: "click",
+        },
+        {
+            // rename the label
+            trigger: '.o_web_studio_sidebar input[name="string"]',
+            run: "edit السَّلَامُ عَلَيْكُمْ && click .o_web_studio_sidebar",
+        },
+        // stepNextTick(),
+        {
+            // verify that the field name has changed
+            trigger: '.o_web_studio_sidebar input[name="string"]:value(السَّلَامُ عَلَيْكُمْ)',
+            // the rename operation (/web_studio/rename_field + /web_studio/edit_view)
+            // takes a while and sometimes reaches the default 10s timeout
+            timeout: 20000,
+        },
+        {
+            // verify that the technical name hasn't changed
+            trigger: '.o_web_studio_sidebar input[name="technical_name"]',
+            run(_) {
+                const { value } = this.anchor;
+                if (!value.startsWith("char_field_")) {
+                    throw new Error(
+                        `Assert failed: expected string to starts with "char_field+", got: "${value}"`
+                    );
+                }
+            },
+        },
+        {
+            trigger: ".o_web_studio_snackbar .fa-check",
+            run() {},
+        },
+    ],
+});
+
 registry.category("web_tour.tours").add("web_studio_hide_fields_tour", {
     url: "/odoo/action-studio?mode=home_menu&debug=1",
     steps: () => [

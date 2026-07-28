@@ -59,32 +59,30 @@ class AccountReportAsyncDocument(models.Model):
             full_logs = json.loads(report.step_1_logs or '[]') + json.loads(report.step_2_logs or '[]')
             msg = report._get_message(full_logs)
             if report.state == 'to_send':
-                report.message = ""
+                report.message = Markup("")
             elif report.state == 'accepted':
-                report.message = Markup("<b> ") + _("The report has been fully processed by the recipient") + Markup(" </b>") + msg
+                report.message = Markup("<b>%s</b>") % _("The report has been fully processed by the recipient") + msg
             elif report.state == 'rejected':
-                report.message = Markup("<b> ") + _("The report has been rejected") + Markup(" </b>") + msg
+                report.message = Markup("<b>%s</b>") % _("The report has been rejected") + msg
             else:
-                report.message = _(
-                    "<b> Warning, the report has not been fully processed by the recipient yet </b>") + msg
+                report.message = Markup("<b>%s</b>") % _("Warning, the report has not been fully processed by the recipient yet") + msg
 
     @api.model
     def _get_message(self, logs):
-        """ Recursively build the message from the logs. See '_collect_errors_in_history'. """
+        """Recursively build the message from the logs."""
         if not logs:
-            return ""
-        msg = "<ul>"
+            return ''
+        errstyle = Markup(" class='text-danger'")
+        msg = [Markup("<ul>")]
         for log in logs:
-            if log['is_error']:
-                msg += "<li style='color: red;'>"
-            else:
-                msg += "<li>"
-            msg += log['name'] + ": " + log['label'] + "</li>"
-            # handle details
-            if log.get('details'):
-                msg += self._get_message(log['details'])
-        msg += "</ul>"
-        return msg
+            msg.append(Markup("<li{style}>{name}: {label}{details}</li>").format(
+                style=errstyle if log['is_error'] else '',
+                name=log['name'],
+                label=log['label'],
+                details=self._get_message(details) if (details := log.get('details')) else '',
+            ))
+        msg.append(Markup("</ul>"))
+        return Markup().join(msg)
 
     def _process_reports_async_documents(self):
         """

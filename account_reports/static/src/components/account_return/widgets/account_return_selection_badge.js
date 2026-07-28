@@ -54,9 +54,11 @@ export class AccountReturnSelectionBadge extends Component {
     async getEditableOptions () {
         const editableOptions = [false]
 
-        for (let [key, value] of Object.entries(this.props.options)) {
-            if ([true, undefined].includes(value.can_edit) || typeof value.can_edit == 'string' && await user.hasGroup(value.can_edit)) {
-                editableOptions.push(key);
+        if (await user.checkAccessRight(this.props.record.resModel, "write", this.props.record.resId)) {
+            for (let [key, value] of Object.entries(this.props.options)) {
+                if ([true, undefined].includes(value.can_edit) || typeof value.can_edit == 'string' && await user.hasGroup(value.can_edit)) {
+                    editableOptions.push(key);
+                }
             }
         }
 

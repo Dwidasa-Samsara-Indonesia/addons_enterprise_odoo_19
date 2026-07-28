@@ -1,12 +1,11 @@
-import copy
 import json
 import logging
 import re
 
 from io import BytesIO
-from lxml import html
+from lxml import html, etree
 from markupsafe import Markup
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlencode, urlsplit
 
 from odoo import http, tools
 from odoo.fields import Domain
@@ -56,7 +55,7 @@ def get_attached_pdfs(root):
     domains = []
     for element in root.xpath(f'.//*[@data-embedded="file" or { xpath_has_class("o_file_box") }]'):
         if element.get('data-embedded') == 'file':
-            embedded_props = json.loads(element.get('data-embedded-props'))
+            embedded_props = json.loads(element.get('data-embedded-props', '{}'))
             file_data = embedded_props.get('fileData')
             if file_data:
                 file_type = file_data.get('type')
@@ -68,7 +67,7 @@ def get_attached_pdfs(root):
                     ]])
         else:
             for link in element.xpath(f'.//*[{ xpath_has_class("o_link_readonly") }]'):
-                parsed_url = urlparse(link.get('href'))
+                parsed_url = urlsplit(link.get('href'))
                 match = re.search(r'^\/web\/content\/(?P<ir_attachment_id>[0-9]+)$', parsed_url.path)
                 if match:
                     url_params = parse_qs(parsed_url.query)
@@ -167,9 +166,10 @@ def get_front_cover_pdf(article):
 
     writer = PdfFileWriter()
     for k in range(front_cover_pdf.getNumPages()):
-        page = copy.deepcopy(front_cover_layout_pdf.getPage(0))
+        writer.addPage(front_cover_layout_pdf.getPage(0))
+        page = writer.getPage(-1)
         page.mergePage(front_cover_pdf.getPage(k))
-        writer.addPage(page)
+        page.compressContentStreams()
 
     output_stream = BytesIO()
     writer.write(output_stream)
@@ -289,6 +289,11 @@ class KnowledgeAuditReportController(http.Controller):
         template_variables = self._get_template_variables(root_article)
         html_template_variables = self._get_html_template_variables(root_article)
 
+        SUPPORTED_IMAGE_TYPES = {
+            'image/jpeg', 'image/png', 'image/gif',
+            'image/webp', 'image/svg+xml'
+        }
+
         def render_article_body(root, template_variables):
             def render_html_placeholder(element, template_variables):
                 for to_replace, value in template_variables.items():
@@ -321,6 +326,39 @@ class KnowledgeAuditReportController(http.Controller):
                 parent = element.getparent()
                 if parent is not None:
                     parent.remove(element)
+
+            # Replace the embedded images with standard <img /> tags:
+            for element in root.xpath('.//*[@data-embedded="file"]'):
+                try:
+                    embedded_props = json.loads(
+                        element.get('data-embedded-props', '{}'))
+                except json.JSONDecodeError:
+                    continue
+
+                if not isinstance(embedded_props, dict):
+                    continue
+
+                file_data = embedded_props.get('fileData', {})
+                if not isinstance(file_data, dict):
+                    continue
+
+                is_embedded_image = (
+                        file_data.get('type') == 'binary'
+                    and file_data.get('mimetype') in SUPPORTED_IMAGE_TYPES
+                )
+
+                if not is_embedded_image:
+                    continue
+
+                if attachment_id := file_data["id"]:
+                    url = f'/web/content/{attachment_id}'
+                    if access_token := file_data.get('access_token'):
+                        url += '?' + urlencode({'access_token': access_token})
+
+                    img = etree.Element('img', src=url, style='max-width: 100%')
+                    img.tail = element.tail
+                    parent = element.getparent()
+                    parent.replace(element, img)
 
             article_headings = root.xpath(
                 "//*[self::h1 or self::h2 or self::h3][translate(normalize-space(.), ' ', '') != '']")
@@ -474,6 +512,7 @@ class KnowledgeAuditReportController(http.Controller):
         for k in range(number_of_pages):
             page = writer.getPage(k + front_cover_pdf.getNumPages())
             page.mergePage(empty_pdf_for_page_numbers.getPage(k))
+            page.compressContentStreams()
 
         output_stream = BytesIO()
         writer.write(output_stream)

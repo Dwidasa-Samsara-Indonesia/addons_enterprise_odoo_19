@@ -255,7 +255,8 @@
                 <th/>
 
                 <t t-foreach="options['columns']" t-as="subheader">
-                    <th>
+                    <th
+                        t-att-class="subheader.get('class', '')">
                         <t t-out="subheader.get('name')"/>
                     </th>
                 </t>

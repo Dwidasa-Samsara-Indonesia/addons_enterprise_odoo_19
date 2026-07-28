@@ -212,7 +212,7 @@ export class appointmentSlotSelect extends Interaction {
     /**
      * Navigate between the months available in the calendar displayed
      */
-    onCalendarNavigate(ev) {
+    async onCalendarNavigate(ev) {
         const parentEl = this.el.querySelector(".o_appointment_month:not(.d-none)");
         let monthID = parseInt(parentEl.getAttribute("id").split("-")[1]);
         monthID += ev.currentTarget.getAttribute("id") === "nextCal" ? 1 : -1;
@@ -227,6 +227,19 @@ export class appointmentSlotSelect extends Interaction {
         this.slotsListEl.replaceChildren();
         this.resourceSelectionEl?.replaceChildren();
 
+        const monthTableEl = monthEl.querySelector("table");
+        const monthLoaderEl = monthEl.querySelector(".o_appointment_month_loading");
+        monthTableEl.classList.add("d-none");
+        if (monthLoaderEl) {
+            monthLoaderEl.classList.remove("d-none");
+        }
+        await this.onRefresh();
+        monthTableEl.classList.remove("d-none");
+        if (monthLoaderEl) {
+            monthLoaderEl.classList.add("d-none");
+        }
+
+        this.firstEl = this.el.querySelector('.o_slot_button');
         if (this.firstEl) {
             // If there is at least one slot available, check if it is in the current month.
             if (!monthEl.querySelector(".o_day")) {
@@ -418,6 +431,9 @@ export class appointmentSlotSelect extends Interaction {
                 "input[name='filter_staff_user_ids']"
             ).value;
             const inviteToken = this.el.querySelector("input[name='invite_token']").value;
+            const monthID = this.el.querySelector(
+                ".o_appointment_month:not(.d-none)"
+            )?.id.replace('month-', '');
             const previousMonthName = this.el.querySelector(
                 ".o_appointment_month:not(.d-none) .o_appointment_month_name"
             )?.textContent;
@@ -469,6 +485,7 @@ export class appointmentSlotSelect extends Interaction {
                     resource_selected_id: resourceID,
                     staff_user_id: staffUserID,
                     timezone: timezone,
+                    month_id: monthID,
                 }
             );
             if (updatedAppointmentCalendarHtml) {

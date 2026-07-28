@@ -1,5 +1,5 @@
 from odoo import api, models, _
-from odoo.exceptions import RedirectWarning
+from odoo.exceptions import RedirectWarning, UserError
 from odoo.tools import float_compare, float_is_zero, float_repr
 
 from lxml import etree
@@ -45,9 +45,14 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
 
         def insert_line(code, value):
 
+            # 83 must be there regardless of it's value
+            if code == '83':
+                elem = etree.SubElement(taxes, 'Kz83')
+                elem.text = float_repr(int(value), 2)
+                return
+
             # Some lines were made for intermediate calculations or guidance only and shouldn't be reported (ex DE_LINE36)
-            # Kz83 is calculated by the system and shouldn't be provided.
-            if not (value and code.isnumeric() and code != '83'):
+            if not (value and code.isnumeric()):
                 return
 
             formatted_value = (
@@ -78,11 +83,11 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
         if periodicity == 'monthly':
             template_context['period'] = date_to.strftime("%m")
         elif periodicity == 'quarterly':
-            month_end = int(date_to.month)
+            month_end = date_to.month
             if month_end % 3 != 0:
-                raise ValueError('Quarter not supported')
+                raise UserError(self.env._("Quarter not supported."))
             # For quarters, the period should be 41, 42, 43, 44 depending on the quarter.
-            template_context['period'] = int(month_end / 3 + 40)
+            template_context['period'] = month_end // 3 + 40
         template_context['creation_date'] = date.today().strftime("%Y%m%d")
         template_context['company'] = report._get_sender_company_for_export(options)
 
@@ -91,8 +96,8 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
         parser = etree.XMLParser(remove_blank_text=True)
         tree = etree.fromstring(doc, parser)
 
-        taxes = tree.xpath('//Umsatzsteuervoranmeldung')[0]
-        tax_number = tree.xpath('//Umsatzsteuervoranmeldung/Steuernummer')[0]
+        taxes = tree.xpath('//*[local-name()="Umsatzsteuervoranmeldung"]')[0]
+        tax_number = taxes.xpath('*[local-name()="Steuernummer"]')[0]
         tax_number.text = steuer_nummer
 
         # Add the values dynamically. We do it here because the tag is generated from the code and

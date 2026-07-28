@@ -61,6 +61,36 @@ class TestSignedDocument(TestCaseDocumentsBridgeSign):
         self.assertTrue(self.signed_document_pdf.exists(), "signed document should not be deleted after gc_clear_bin")
         self.assertFalse(self.trash_doc.exists(), "trash document should be deleted after gc_clear_bin")
 
+    def test_gc_clear_bin_shared_attachment(self):
+        """ A trashed document whose res_model is not a sign model but whose
+        attachment is held by a sign.document must survive the GC. Unlinking it
+        would abort the whole autovacuum on the ondelete='restrict' foreign key.
+        """
+        bare_attachment = self.env["ir.attachment"].create({
+            "name": "shared.pdf",
+            "datas": self.attachment.datas,
+            "res_model": False,
+            "res_id": False,
+        })
+        sign_document = self.env["sign.document"].create({
+            "attachment_id": bare_attachment.id,
+            "template_id": self.template_no_item.id,
+        })
+        shared_doc = self.env["documents.document"].create({
+            "name": "shared attachment doc",
+            "folder_id": self.folder_a_a.id,
+            "attachment_id": sign_document.attachment_id.id,
+            "res_model": False,
+            "active": False,
+        })
+        self.assertFalse(shared_doc.active)
+        deletion_date = shared_doc.write_date + timedelta(days=shared_doc.get_deletion_delay(), seconds=30)
+        with freeze_time(deletion_date):
+            self.env["documents.document"]._gc_clear_bin()
+
+        self.assertTrue(shared_doc.exists(), "a document sharing a sign.document attachment should survive gc_clear_bin")
+        self.assertTrue(sign_document.exists(), "the sign document should be untouched by gc_clear_bin")
+
     @mute_logger("odoo.models.unlink")
     def test_signed_document_unlink(self):
         """ Test that attempting to directly unlink a sign or signed document raises a foreign key

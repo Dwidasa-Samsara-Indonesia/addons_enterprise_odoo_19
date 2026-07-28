@@ -13,7 +13,7 @@ export class MrpEmployeeDialog extends ConfirmationDialog {
 
     setup() {
         super.setup();
-        this.imageBaseURL = `${browser.location.origin}/web/image?model=hr.employee&field=avatar_128&id=`;
+        this.imageBaseURL = `${browser.location.origin}/web/image?model=hr.employee.public&field=avatar_128&id=`;
         this.selected = useState({ ids: this.props.employees.connected.map((item) => item.id) });
         this.orm = useService("orm");
         this.barcode = useService("barcode");

@@ -440,6 +440,46 @@ class TestPayslipOvertime(HrWorkEntryAttendanceCommon):
             (date(2022, 12, 12), 6, self.overtime_type),
         ])
 
+    def test_15_overtime_intervals_no_within_day_overlap(self):
+        """ Two touching attendances on the same day must produce two distinct
+            (non-overlapping) overtime intervals.
+        """
+        full_day_ruleset = self.env['hr.attendance.overtime.ruleset'].create({
+            'name': "Full Day Overtime",
+            'rate_combination_mode': 'max',
+            'rule_ids': [Command.create({
+                'name': "All Day Overtime",
+                'base_off': 'timing',
+                'timing_type': 'work_days',
+                'timing_start': 0.0,
+                'timing_stop': 23.99,
+                'work_entry_type_id': self.overtime_type.id,
+                'paid': True,
+            })],
+        })
+        self.contract.ruleset_id = full_day_ruleset
+        self.env['hr.attendance'].create([
+            {
+                'employee_id': self.employee.id,
+                'check_in': datetime(2022, 12, 12, 5, 59, 58),
+                'check_out': datetime(2022, 12, 12, 7, 6, 13),
+            },
+            {
+                'employee_id': self.employee.id,
+                'check_in': datetime(2022, 12, 12, 7, 6, 13),
+                'check_out': datetime(2022, 12, 12, 14, 24, 5),
+            },
+        ])
+        intervals_by_resource = self.contract._get_overtime_intervals(
+            datetime(2022, 12, 12, 0, 0),
+            datetime(2022, 12, 12, 23, 0),
+        )
+        intervals = intervals_by_resource[self.employee.resource_id.id]
+        self.assertEqual(
+            len(intervals), 2,
+            "Expected 2 distinct overtime intervals"
+        )
+
     def test_check_approving_overtime_with_an_ongoing_attendance_on_the_same_check_in_day(self):
         self.env.company.write({
             "attendance_overtime_validation": "by_manager"

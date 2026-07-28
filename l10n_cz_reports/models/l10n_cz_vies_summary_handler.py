@@ -43,12 +43,14 @@ class CzechVIESSummaryReportCustomHandler(models.AbstractModel):
             line = {}
             for col in report_line['columns']:
                 line[col['expression_label']] = col['no_format']
+            if line.get('vat_number') and line['vat_number'][0].isalpha():
+                line['vat_number'] = self.env['res.partner']._split_vat(line['vat_number'])[1]
             lines.append(line)
 
         data = {
             'odoo_version': release.version,
             'veta_d': cz_utils.get_veta_d_vals(report, options),
-            'veta_p': cz_utils.get_veta_p_vals(sender_company),
+            'veta_p': cz_utils.get_veta_p_vals(sender_company, is_vies=True),
             'lines': lines,
         }
         xml_content = self.env['ir.qweb']._render('l10n_cz_reports.cz_vies_summary_template', values=data)
@@ -119,7 +121,7 @@ class CzechVIESSummaryReportCustomHandler(models.AbstractModel):
                     l10n_cz_transaction_code                                                                                                AS transaction_code,
                     l10n_cz_transaction_code                                                                                                AS supplies_code,
                     COUNT(DISTINCT account_move_line.move_id * (CASE WHEN am.move_type IN ('out_refund', 'in_refund') THEN -1 ELSE 1 END))  AS supplies_number,
-                    CEIL(SUM(ABS(account_move_line.balance) * (CASE WHEN am.move_type IN ('out_refund', 'in_refund') THEN -1 ELSE 1 END)))  AS total_value
+                    CEIL(SUM(account_move_line.balance * (CASE WHEN am.move_type IN ('out_refund', 'out_invoice') THEN -1 ELSE 1 END)))     AS total_value
                 FROM %(table_references)s
                 JOIN account_move am ON am.id = account_move_line.move_id
                 JOIN res_partner                partner         ON account_move_line.partner_id                 = partner.id

@@ -21,7 +21,7 @@ class L10nBeDimonaDeclaration(models.Model):
     ], compute='_compute_declaration_info', store=True, readonly=True)
     employee_id = fields.Many2one('hr.employee', compute='_compute_declaration_info', store=True, readonly=True)
     version_id = fields.Many2one('hr.version')
-    period_id = fields.Many2one('l10n.be.dimona.period', compute='_compute_declaration_info', store=True, readonly=True)
+    period_id = fields.Many2one('l10n.be.dimona.period', compute='_compute_declaration_info', store=True, readonly=True, index='btree_not_null')
     date_start = fields.Date(compute='_compute_declaration_info', store=True, readonly=True)
     date_end = fields.Date(compute='_compute_declaration_info', store=True, readonly=True)
     state = fields.Selection([

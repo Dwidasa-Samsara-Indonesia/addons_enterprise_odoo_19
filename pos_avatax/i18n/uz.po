@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:48+0000\n"
+"POT-Creation-Date: 2026-07-17 17:49+0000\n"
 "PO-Revision-Date: 2025-10-08 18:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -31,17 +31,7 @@ msgid "Avalara Code"
 msgstr "Avalara kodi"
 
 #. module: pos_avatax
-#. odoo-python
-#: code:addons/pos_avatax/models/pos_order.py:0
-#, fuzzy
-msgid ""
-"Avatax requires your current location or a customer to be set on the order "
-"with a proper zip, state and country."
-msgstr ""
-"Avatax buyurtmangizda joriy joylashuvingiz yoki mijozning to‘g‘ri pochta "
-"indeksi, shtati va mamlakatini belgilashni talab qiladi."
-
-#. module: pos_avatax
+#: model:ir.model.fields,field_description:pos_avatax.field_account_fiscal_position__display_name
 #: model:ir.model.fields,field_description:pos_avatax.field_pos_order__display_name
 #, fuzzy
 msgid "Display Name"
@@ -51,21 +41,16 @@ msgstr "Ko‘rsatiladigan nom"
 #. odoo-javascript
 #: code:addons/pos_avatax/static/src/app/services/pos_store.js:0
 #, fuzzy
-msgid ""
-"Enable to load Avatax taxes, please verify partner information and Avatax "
-"API configuration."
-msgstr ""
-"Avatax soliqlarini yuklashni yoqish uchun, iltimos, hamkor ma'lumotlari va "
-"Avatax API sozlamalarini tekshiring."
-
-#. module: pos_avatax
-#. odoo-javascript
-#: code:addons/pos_avatax/static/src/app/services/pos_store.js:0
-#, fuzzy
 msgid "Error while loading Avatax taxes"
 msgstr "Avatax soliqlarini yuklashda xatolik yuz berdi"
 
 #. module: pos_avatax
+#: model:ir.model,name:pos_avatax.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: pos_avatax
+#: model:ir.model.fields,field_description:pos_avatax.field_account_fiscal_position__id
 #: model:ir.model.fields,field_description:pos_avatax.field_pos_order__id
 #, fuzzy
 msgid "ID"
@@ -102,6 +87,12 @@ msgstr ""
 #. module: pos_avatax
 #. odoo-javascript
 #: code:addons/pos_avatax/static/src/app/services/pos_store.js:0
+msgid "Unable to load Avatax taxes, please verify Avatax API configuration."
+msgstr ""
+
+#. module: pos_avatax
+#. odoo-javascript
+#: code:addons/pos_avatax/static/src/app/services/pos_store.js:0
 #, fuzzy
 msgid "Updating Avatax taxes..."
 msgstr "Avatax soliqlari yangilanmoqda..."
@@ -111,3 +102,19 @@ msgstr "Avatax soliqlari yangilanmoqda..."
 #, fuzzy
 msgid "Use this code to cross-reference in the Avalara portal."
 msgstr "Avalara portalida kross-havola qilish uchun ushbu koddan foydalaning."
+
+#, fuzzy
+#~ msgid ""
+#~ "Avatax requires your current location or a customer to be set on the "
+#~ "order with a proper zip, state and country."
+#~ msgstr ""
+#~ "Avatax buyurtmangizda joriy joylashuvingiz yoki mijozning to‘g‘ri pochta "
+#~ "indeksi, shtati va mamlakatini belgilashni talab qiladi."
+
+#, fuzzy
+#~ msgid ""
+#~ "Enable to load Avatax taxes, please verify partner information and Avatax "
+#~ "API configuration."
+#~ msgstr ""
+#~ "Avatax soliqlarini yuklashni yoqish uchun, iltimos, hamkor ma'lumotlari "
+#~ "va Avatax API sozlamalarini tekshiring."

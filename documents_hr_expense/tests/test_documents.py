@@ -27,10 +27,10 @@ class TestCaseDocumentsBridgeExpense(TransactionCase):
             'group_ids': [Command.set([cls.env.ref('documents.group_documents_user').id])],
         })
 
-    def _create_txt_attachment_for_documents_user(self):
+    def _create_txt_attachment_for_documents_user(self, company=False):
         with file_open('base/tests/minimal.pdf', 'rb') as f:
             pdf_file = f.read()
-        return self.env['documents.document'].with_user(self.documents_user).create({
+        return self.env['documents.document'].with_user(self.documents_user).with_company(company or self.env.company).create({
             'raw': pdf_file,
             'name': 'file.pdf',
             'mimetype': 'application/pdf',
@@ -60,15 +60,37 @@ class TestCaseDocumentsBridgeExpense(TransactionCase):
         expense = self.env['hr.expense'].search([('id', '=', document_txt.res_id)])
         self.assertTrue(expense.exists(), 'expense sholud be created.')
         self.assertEqual(document_txt.res_id, expense.id, "Expense should be linked to document")
+        self.assertEqual(expense.employee_id, self.documents_user.employee_id)
 
     def test_create_document_to_expense_without_employee(self):
         """
         Make sure UserError is raised when creating expense from document
-        while the current user is not linked to an employee.
+        while the current user is not linked to an employee and has no rights to create an expense.
+        If the current user is not linked to an employee and has rights to create an expense,
+        it should create an expense with a random employee
+        Finally if there is no employee in the company, an error should raise
         """
+        # First, user has no employee and no rights
         attachment_txt = self._create_txt_attachment_for_documents_user()
-        with self.assertRaisesRegex(UserError, "You must be linked to an employee to create an expense."):
+        with self.assertRaisesRegex(UserError, "The current user has no related employee. Please, create one."):
             attachment_txt.with_user(self.documents_user).document_hr_expense_create_hr_expense()
 
         expense = self.env['hr.expense'].search([('id', '=', attachment_txt.res_id)])
         self.assertFalse(expense.exists())
+
+        # Then, add rights to the user and try to create an expense -> should create an expense with random employee_id
+        self.documents_user.group_ids += self.env.ref('hr_expense.group_hr_expense_manager')
+
+        attachment_txt.with_user(self.documents_user).document_hr_expense_create_hr_expense()
+        expense = self.env['hr.expense'].search([('id', '=', attachment_txt.res_id)])
+        self.assertTrue(expense.employee_id)
+        self.assertEqual(expense.employee_id.company_id, self.env.company)
+
+        # Finally, create an expense in a company that has no employees -> should raise
+        company = self.env['res.company'].create({
+            'name': 'test company',
+        })
+        self.documents_user.company_ids += company
+        attachment_txt = self._create_txt_attachment_for_documents_user(company=company)
+        with self.assertRaisesRegex(UserError, "There are no employee in the company. Please create one."):
+            attachment_txt.with_user(self.documents_user).with_company(company).document_hr_expense_create_hr_expense()

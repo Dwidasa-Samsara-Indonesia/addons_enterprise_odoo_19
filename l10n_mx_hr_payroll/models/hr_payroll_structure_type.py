@@ -10,12 +10,12 @@ class HrPayrollStructureType(models.Model):
     def _get_selection_schedule_pay(self):
         if self.env.company.country_code == 'MX':
             return [
-                ('daily', 'Daily'),
-                ('weekly', 'Weekly'),
-                ('10_days', '10 Days'),
-                ('14_days', '14 Days'),
-                ('bi-weekly', 'Bi-weekly'),
-                ('monthly', 'Monthly'),
-                ('bi-monthly', 'Bi-monthly'),
+                ('daily', self.env._('day')),
+                ('weekly', self.env._('week')),
+                ('10_days', self.env._('10 days')),
+                ('14_days', self.env._('14 days')),
+                ('bi-weekly', self.env._('2 weeks')),
+                ('monthly', self.env._('month')),
+                ('bi-monthly', self.env._('2 months')),
             ]
         return super()._get_selection_schedule_pay()

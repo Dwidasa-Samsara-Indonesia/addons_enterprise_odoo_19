@@ -12,7 +12,7 @@
                     t-on-touchcancel="onTouchMoveOrCancel"
                     t-on-touchend="onTouchEnd"
                     t-ref="root">
-                <div name="bank_statement_line" class="o_statement_line w-100 p-2" t-on-click="selectStatementLine" t-att-class="{'o_selected_statement_line': isSelected}">
+                <div name="bank_statement_line" class="o_statement_line w-100 p-2" t-on-click="selectStatementLine" t-att-class="{'o_selected_statement_line': isSelected, 'text-info': isDraft}">
                     <button t-if="!recordData.statement_id" type="button" class="o_statement_btn d-none d-md-block position-absolute top-0 end-0 btn btn-sm btn-secondary" t-on-click.stop="openStatementCreate">
                         Statement
                     </button>
@@ -67,12 +67,11 @@
                                     </span>
                                 </span>
                                 <div t-if="recordData.is_reconciled and !isUnfolded" class="text-start text-truncate text-muted" name="reconciled_line_name">
-                                    <t t-set="reconciledLineEntries" t-value="Object.entries(reconciledLineName)"/>
-                                    <t t-foreach="reconciledLineEntries" t-as="line" t-key="line_index">
-                                        <BankRecReconciledLineName statementLine="record" linesToReconcile="linesToReconcile" moveLineId="line[0]" valueToDisplay="line[1]"/>
-                                        <t t-if="line_index &lt; reconciledLineEntries.length - 1">, </t>
-                                    </t>
+                                    <div t-esc="recordData.reconciled_lines_name"/>
                                 </div>
+                                <button class="btn btn-link p-0 text-600" t-on-click.stop="undoReconciliation" t-if="recordData.is_reconciled" data-tooltip="Undo reconciliation">
+                                    <i class="fa fa-undo"/>
+                                </button>
                             </div>
                             <div class="d-flex align-items-start justify-content-between o_line_amount">
                                 <span class="text-muted w-50 text-end text-nowrap" t-if="recordData.foreign_currency_id">
@@ -106,11 +105,7 @@
                             <div class="o_button_line">
                                 <BankRecButtonList t-props="buttonListProps" suspenseAccountLine="suspenseAccountLine" t-if="!recordData.is_reconciled or (userCanReview and !recordData.checked)"/>
                                 <span t-if="recordData.is_reconciled and !isUnfolded" class="text-start text-muted">
-                                    <t t-set="reconciledLineEntries" t-value="Object.entries(reconciledLineName)"/>
-                                    <t t-foreach="reconciledLineEntries" t-as="line" t-key="line_index">
-                                        <BankRecReconciledLineName statementLine="record" linesToReconcile="linesToReconcile" moveLineId="line[0]" valueToDisplay="line[1]"/>
-                                        <t t-if="line_index &lt; reconciledLineEntries.length - 1">, </t>
-                                    </t>
+                                    <div t-esc="recordData.reconciled_lines_name"/>
                                 </span>
                             </div>
                         </div>

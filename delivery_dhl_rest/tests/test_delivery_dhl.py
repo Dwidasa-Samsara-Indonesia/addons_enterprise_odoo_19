@@ -43,6 +43,16 @@ class TestDeliveryDHLCommon(TransactionCase):
             'country_id': self.env.ref('base.be').id,
             'phone': '+1 555-555-5555',
         })
+        self.uk_co = self.env['res.company'].create({
+            'name': 'Fish n Chips Co',
+            'street': 'Downing street 10',
+            'street2': '',
+            'city': 'London',
+            'zip': 'SW1A 2AA',
+            'state_id': False,
+            'country_id': self.env.ref('base.uk').id,
+            'phone': '+1 555-555-5555',
+        })
         self.agrolait = self.env['res.partner'].create({
             'name': 'Agrolait',
             'phone': '(603)-996-3829',
@@ -359,7 +369,7 @@ class TestDeliveryDHL(TestDeliveryDHLCommon):
 
 
 @contextmanager
-def _mock_request_call():
+def _mock_request_call(specific_dhl_check=None):
     RATE_MOCK_RESPONSE = {
         "products": [
             {
@@ -808,6 +818,8 @@ def _mock_request_call():
 
         for endpoint, content in responses.items():
             if endpoint in url:
+                if specific_dhl_check:
+                    specific_dhl_check(endpoint, kwargs['json'])
                 response = requests.Response()
                 response._content = json.dumps(content).encode()
                 response.status_code = 200
@@ -878,3 +890,112 @@ class TestMockedDeliveryDHL(TestDeliveryDHLCommon):
         weight_needs_rounding = 1.23456789
         rounded_weight_precise = self.delivery_carrier_dhl_eu_intl._dhl_rest_convert_weight(weight_needs_rounding)
         self.assertEqual(rounded_weight_precise, 1.235)
+
+    def test_07_dhl_specific_label_format_request(self):
+        '''
+        Ensure that label format settings of the delivery method are correctly communicated in the
+        requests.
+        '''
+        def label_format_and_template_check_1(endpoint, payload):
+            # ZPL format, ECOM26_84_001 and not A4 label
+            if endpoint == 'shipments':
+                properties = payload['outputImageProperties']
+                self.assertEqual(properties['encodingFormat'], 'zpl')
+                self.assertEqual(properties['imageOptions'], [{
+                    'typeCode': 'label',
+                    'templateName': 'ECOM26_84_001',
+                    'fitLabelsToA4': False,
+                }])
+
+        def label_format_and_template_check_2(endpoint, payload):
+            # PDF format, ECOM26_A6_002 and A4 label
+            if endpoint == 'shipments':
+                properties = payload['outputImageProperties']
+                self.assertEqual(properties['encodingFormat'], 'pdf')
+                self.assertEqual(properties['imageOptions'], [{
+                    'typeCode': 'label',
+                    'templateName': 'ECOM26_A6_002',
+                    'fitLabelsToA4': True,
+                }])
+
+        sale_order_1, sale_order_2 = self.env['sale.order'].create([
+            {
+                'date_order': self.delivery_date,
+                'carrier_id': self.delivery_carrier_dhl_eu_intl.id,
+                'partner_id': self.delta_pc.id,
+                'order_line': [Command.create({
+                    'product_id': self.iPadMini.id,
+                    'name': "[A1232] Large Cabinet",
+                    'product_uom_id': self.uom_unit.id,
+                    'product_uom_qty': 1.0,
+                    'price_unit': self.iPadMini.lst_price,
+                })],
+            },
+            {
+                'date_order': self.delivery_date,
+                'carrier_id': self.delivery_carrier_dhl_eu_intl.id,
+                'partner_id': self.delta_pc.id,
+                'order_line': [Command.create({
+                    'product_id': self.iPadMini.id,
+                    'name': "[A1232] Large Cabinet",
+                    'product_uom_id': self.uom_unit.id,
+                    'product_uom_qty': 2.0,
+                    'price_unit': self.iPadMini.lst_price,
+                })],
+            },
+        ])
+
+        self.delivery_carrier_dhl_eu_intl.dhl_label_image_format = 'ZPL2'
+        self.delivery_carrier_dhl_eu_intl.dhl_label_template = '8X4_thermal'
+        delivery_wizard = Form(self.env['choose.delivery.carrier'].with_context({
+            'default_order_id': sale_order_1.id,
+            'default_carrier_id': self.delivery_carrier_dhl_eu_intl.id
+        }))
+        with _mock_request_call(label_format_and_template_check_1):
+            choose_delivery_carrier = delivery_wizard.save()
+            choose_delivery_carrier.update_price()
+            choose_delivery_carrier.button_confirm()
+
+            sale_order_1.action_confirm()
+            self.assertEqual(len(sale_order_1.picking_ids), 1)
+
+            picking = sale_order_1.picking_ids[0]
+            picking.move_ids[0].quantity = 1.0
+            picking.move_ids[0].picked = True
+            picking.scheduled_date = self.delivery_date
+            picking._action_done()
+            self.assertIsNot(picking.carrier_tracking_ref, False)
+
+        self.delivery_carrier_dhl_eu_intl.dhl_label_image_format = 'PDF'
+        self.delivery_carrier_dhl_eu_intl.dhl_label_template = '6X4_A4_PDF'
+        delivery_wizard = Form(self.env['choose.delivery.carrier'].with_context({
+            'default_order_id': sale_order_2.id,
+            'default_carrier_id': self.delivery_carrier_dhl_eu_intl.id
+        }))
+        with _mock_request_call(label_format_and_template_check_2):
+            choose_delivery_carrier = delivery_wizard.save()
+            choose_delivery_carrier.update_price()
+            choose_delivery_carrier.button_confirm()
+
+            sale_order_2.action_confirm()
+            self.assertEqual(len(sale_order_2.picking_ids), 1)
+
+            picking = sale_order_2.picking_ids[0]
+            picking.move_ids[0].quantity = 1.0
+            picking.move_ids[0].picked = True
+            picking.scheduled_date = self.delivery_date
+            picking._action_done()
+            self.assertIsNot(picking.carrier_tracking_ref, False)
+
+    def test_dhl_basic_international_flow_multi_company(self):
+        def commercial_invoice_data_check(endpoint, payload):
+            if endpoint == 'shipments':
+                invoice_number_string = payload['content']['exportDeclaration']['invoice']['number']
+                self.assertIsInstance(invoice_number_string, str)
+                invoice_number_int = int(''.join(filter(str.isnumeric, invoice_number_string)))
+                sequence = self.env['ir.sequence'].search([('code', '=', 'delivery_dhl_rest.commercial_invoice')])
+                self.assertEqual(invoice_number_int + sequence.number_increment, sequence.number_next_actual)
+
+        with _mock_request_call(commercial_invoice_data_check):
+            self.patch(self, 'env', self.uk_co.env)
+            super().dhl_basic_international_flow()

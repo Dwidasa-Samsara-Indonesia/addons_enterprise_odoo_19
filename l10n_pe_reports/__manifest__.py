@@ -27,6 +27,8 @@ P&L + balance Sheet
         "data/account_ple_sales_14_1_report.xml",
         "data/l10n_pe.ple.usage.csv",
         "data/res.country.csv",
+        "data/tax_report.xml",
+        "data/account_return_data.xml",
         "views/account_move_view.xml",
         "views/res_config_settings_views.xml",
     ],

@@ -54,7 +54,7 @@ class PurchaseOrderLine(models.Model):
     @api.model
     def _get_accrual_domain(self):
         accrual_date = self.env.context.get('accrual_entry_date')
-        ref_date = fields.Date.to_date(accrual_date) if accrual_date else fields.Date.today()
+        ref_date = fields.Date.to_date(accrual_date) if accrual_date else fields.Date.context_today(self)
         date_from = ref_date - relativedelta(years=1)
         domain = [
             ('product_id', '!=', False),

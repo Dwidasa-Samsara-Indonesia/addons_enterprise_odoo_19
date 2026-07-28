@@ -11,6 +11,8 @@ class EquityCapTable(models.Model):
     _description = "Cap Table"
     _auto = False
 
+    company_id = fields.Many2one('res.company', related='partner_id.company_id')
+
     partner_id = fields.Many2one('res.partner')
     holder_id = fields.Many2one('res.partner')
     security_class_id = fields.Many2one('equity.security.class')

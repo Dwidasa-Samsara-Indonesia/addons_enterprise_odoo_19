@@ -17,24 +17,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
-"PO-Revision-Date: 2026-04-09 11:29+0000\n"
-"Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-06-09 14:50+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
-"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.16.2\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
+">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "\" zostatok na účte je ovplyvnený"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -98,16 +104,18 @@ msgid ""
 "'%s' date scope cannot be evaluated for a report used by multiple return "
 "types using different periodicities."
 msgstr ""
+"Nie je možné stanoviť rozsah dátumu „%s “pre výkaz, ktorý používa viaceré "
+"typy výstupov s rôznymi obdobiami."
 
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
+"targetting accounts or Result Brought Forward."
 msgstr ""
-"Možnosť „Otvoriť hlavnú knihu“ je k dispozícii iba v riadkoch výkazu, ktoré "
-"sa týkajú účtov alebo nerozdelených ziskov/strát."
+"Možnosť „Otvoriť hlavnú knihu“ je k dispozícii iba v riadkoch výkazu "
+"zameraných na účty alebo používajúci prenesený výsledok."
 
 #. module: account_reports
 #. odoo-python
@@ -255,6 +263,45 @@ msgstr ""
 "\t                <t t-out=\"object._get_followup_responsible().name if "
 "is_html_empty(object._get_followup_responsible().signature) else "
 "object._get_followup_responsible().signature\"/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+
+#. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Pozdravujeme, <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    Termín pre podanie <strong t-out=\"object.name\"/> je "
+"<strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    Aby ste sa vyhli prípadnej pokute, prosím, zaistite, aby "
+"boli všetky zostávajúce dokumenty odoslané čo najskôr.<br/>\n"
+"                    Ak ste už všetko odoslali, ale aj tak ste dostali tento "
+"e-mail, je pravdepodobné, že Zúčtovanie dane nebolo v Odoo označené ako "
+"odoslané.<br/>\n"
+"                    Ak máte akékoľvek otázky alebo potrebujete pomoc, "
+"neváhajte nás kontaktovať.<br/><br/>\n"
+"                     S pozdravom,<br/>\n"
 "                </p>\n"
 "            </div>\n"
 "        "
@@ -827,7 +874,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_aged_partner_balance_report_handler
 msgid "Aged Partner Balance Custom Handler"
-msgstr ""
+msgstr "Vlastné spracovanie záväzkov po splatnosti"
 
 #. module: account_reports
 #: model:account.report,name:account_reports.aged_payable_report
@@ -930,7 +977,7 @@ msgstr "Všetky kontroly a schvaľovatelia boli resetované"
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "All customer VAT numbers are valid under VIES."
-msgstr ""
+msgstr "Všetky IČ DPH zákazníkov sú platné v systéme VIES."
 
 #. module: account_reports
 #. odoo-python
@@ -969,6 +1016,7 @@ msgstr "Suma"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -1030,15 +1078,33 @@ msgid "Analytic"
 msgstr "Analytika"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr "Analytické pokrytie"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "Analytické zoskupenie"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Analytický riadok"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "Analytická simulácia"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr "Analytické pokrytie"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1143,13 +1209,13 @@ msgstr "Archivovaný"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/views/accrual_list_view.xml:0
 msgid "As of"
-msgstr "Od"
+msgstr "K"
 
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid "As of %s"
-msgstr "Od%s"
+msgstr "K %s"
 
 #. module: account_reports
 #. odoo-javascript
@@ -1488,6 +1554,18 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr "CSV"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr "Export do CSV funguje len s jednou skupinou stĺpcov"
+
+#. module: account_reports
+#. odoo-python
 #: code:addons/account_reports/tests/common.py:0
 msgid "Can't use this helper to create a line with both tags and formula"
 msgstr "Tento pomocník nemožno použiť na vytvorenie riadku s tagmi aj vzorcom"
@@ -1789,6 +1867,7 @@ msgstr "Závierkový záznam bol zaúčtovaný a dátum uzavretia bolo aplikovan
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2131,6 +2210,8 @@ msgid "Credit"
 msgstr "Dal"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2174,12 +2255,7 @@ msgid "Current Liabilities"
 msgstr "Aktuálne záväzky"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "Nerozdelený zisk bežného roka"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "Nepridelené zisky bežného roku"
 
@@ -2198,12 +2274,12 @@ msgstr "Vlastné dátumy"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__custom_handler_model_id
 msgid "Custom Handler Model"
-msgstr ""
+msgstr "Model vlastnej obslužnej rutiny"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__custom_handler_model_name
 msgid "Custom Handler Model Name"
-msgstr ""
+msgstr "Názov modelu vlastnej obslužnej rutiny"
 
 #. module: account_reports
 #. odoo-python
@@ -2464,6 +2540,7 @@ msgstr "Zobraziť editor správ"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2676,8 +2753,8 @@ msgstr "Dan ES v tej istej krajine"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "VLASTNÉ IMANIE"
+msgid "EQUITY (& EARNINGS)"
+msgstr "VLASTNÝ KAPITÁL (A VÝNOSY)"
 
 #. module: account_reports
 #. odoo-python
@@ -2687,6 +2764,11 @@ msgid ""
 msgstr ""
 "Každá faktúra by mala mať priložený vlastný dokument ako dôkaz v prípade "
 "auditu."
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr "Výnosy"
 
 #. module: account_reports
 #. odoo-python
@@ -2857,6 +2939,7 @@ msgid "Entries with partners with no VAT"
 msgstr "Záznamy s partnermi bez IČ DPH (VAT)"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -3185,16 +3268,6 @@ msgid "Formula"
 msgstr "Vzorec"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr ""
-"Od %(date_from)s\n"
-"do %(date_to)s"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
 msgid "Function Parameter"
 msgstr "Parameter funkcie"
@@ -3447,6 +3520,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3842,6 +3916,11 @@ msgstr "Je odberateľ"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "Je hlavná spoločnosť aktívna"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr "Sú to hlavné údaje"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -4303,6 +4382,9 @@ msgid ""
 "your report, such as using the wrong VAT rate, wrongly exempting "
 "transactions."
 msgstr ""
+"Chýbajúce údaje o spoločnosti (ako je IČ DPH alebo krajina) môžu spôsobiť "
+"chyby vo vašom výkaze, napríklad použitie nesprávnej sadzby DPH alebo "
+"nesprávne oslobodenie transakcií od dane."
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__mode
@@ -4388,6 +4470,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4674,7 +4757,7 @@ msgstr "Staršie"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_return/widgets/account_audit_balance_clickable_char_field.js:0
 msgid "OnClick Handler"
-msgstr ""
+msgstr "Obslužná funkcia OnClick"
 
 #. module: account_reports
 #. odoo-python
@@ -4687,6 +4770,12 @@ msgstr "Jeden z vybraných formátov nie je možné exportovať do DMS"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_search_view
 msgid "Ongoing"
 msgstr "Prebieha"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr "Zúčtovanie môže vymazať iba účtovník."
 
 #. module: account_reports
 #. odoo-python
@@ -4717,6 +4806,12 @@ msgstr "Iba správca účtovníctva môže nastaviť/zrušiť nastavenie superv�
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "Iba zákazníci v rámci EÚ"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr "Vymazať možno len ručne vytvorené zúčtovania v stave „nové“."
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -5212,14 +5307,9 @@ msgid "Previous Years"
 msgstr "Predošlé roky"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "Nerozdelený zisk predchádzajúcich rokov"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "Nerozdelené zisk z predchádzajúcich rokov"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr "Výnosy minulého roku"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5397,6 +5487,12 @@ msgid "Reminder"
 msgstr "Pripomienka"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr ""
+"Pripomienka: Blížiaci sa termín pre {{ object.name }} – je potrebné konať"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5423,6 +5519,16 @@ msgstr "Výkaz raz otvorený"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "Možnosti výkazu"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
+"Výkaz sa načíta na pozadí. Zobrazené údaje boli uložené do vyrovnávacej "
+"pamäte a nemusia byť presné."
 
 #. module: account_reports
 #. odoo-python
@@ -5463,9 +5569,10 @@ msgid "Result"
 msgstr "Výsledok"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "Nerozdelený zisk"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr "Prenesený výsledok"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5904,6 +6011,11 @@ msgid "Show Companies"
 msgstr "Zobraziť spoločnosti"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr ""
+
+#. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/aged_partner_balance/filters.js:0
 msgid "Show Currency"
@@ -6207,6 +6319,11 @@ msgstr "Daňové priznanie"
 #: model_terms:ir.ui.view,arch_db:account_reports.view_move_form_vat_return
 msgid "Tax Return"
 msgstr "Zúčtovanie dane"
+
+#. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr "Termín podania zúčtovania dane"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -6767,11 +6884,6 @@ msgid "Type of the exception activity on record."
 msgstr "Typ výnimočnej aktivity v zázname."
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "Nerozdelený zisk"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6782,12 +6894,6 @@ msgstr "Zrušiť archiváciu"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "Nedefinované"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "Nerozdelený zisk/strata"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7231,6 +7337,13 @@ msgstr ""
 "Stav kontroly môžete zmeniť len v prípade, že závierka nebola skontrolovaná."
 
 #. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
@@ -7462,6 +7575,41 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Obnoviť na kurz z Odoo"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr ""
+#~ "Od %(date_from)s\n"
+#~ "do %(date_to)s"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr ""
+#~ "Možnosť „Otvoriť hlavnú knihu“ je k dispozícii iba v riadkoch výkazu, "
+#~ "ktoré sa týkajú účtov alebo nerozdelených ziskov/strát."
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "Nerozdelený zisk bežného roka"
+
+#~ msgid "EQUITY"
+#~ msgstr "VLASTNÉ IMANIE"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "Nerozdelený zisk predchádzajúcich rokov"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "Nerozdelené zisk z predchádzajúcich rokov"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "Nerozdelený zisk"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "Nerozdelený zisk"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "Nerozdelený zisk/strata"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

@@ -79,7 +79,7 @@ class AccountJournal(models.Model):
         if reference_type == 'be':
             return self.get_strd_tree(ref, cd='SCOR', issr='BBA')
         elif reference_type == 'ch':
-            ref = ref.rjust(27, '0')
+            ref = sanitize_communication(ref).rjust(27, '0')
             return self.get_strd_tree(ref, prtry='QRR')
         elif reference_type in ('fi', 'no', 'se'):
             return self.get_strd_tree(ref, cd='SCOR')

@@ -2,14 +2,14 @@
 # This file contains the translation of the following modules:
 # * l10n_at_pos
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Larissa Manderfeld (lman)" <lman@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 19:01+0000\n"
-"PO-Revision-Date: 2026-01-31 09:33+0000\n"
+"POT-Creation-Date: 2026-06-12 18:03+0000\n"
+"PO-Revision-Date: 2026-06-20 09:51+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_at_pos/de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_at_pos
 #: model_terms:ir.ui.view,arch_db:l10n_at_pos.report_config_audit_template
@@ -39,6 +39,11 @@ msgstr "API-Schlüssel"
 #: model_terms:ir.ui.view,arch_db:l10n_at_pos.view_company_form
 msgid "API Secret"
 msgstr "API-Geheimnis"
+
+#. module: l10n_at_pos
+#: model_terms:ir.ui.view,arch_db:l10n_at_pos.view_pos_fiskaly_details_wizard
+msgid "All PoS"
+msgstr "Alle Kassensysteme"
 
 #. module: l10n_at_pos
 #: model_terms:ir.ui.view,arch_db:l10n_at_pos.view_company_form
@@ -187,12 +192,6 @@ msgstr ""
 "Ihre PIN."
 
 #. module: l10n_at_pos
-#. odoo-javascript
-#: code:addons/l10n_at_pos/static/src/overrirde/point_of_sale/components/navbar/navbar.js:0
-msgid "Fetched data is empty"
-msgstr "Die abgerufenen Daten sind leer"
-
-#. module: l10n_at_pos
 #: model:ir.ui.menu,name:l10n_at_pos.pos_fiskaly_reports
 #: model_terms:ir.ui.view,arch_db:l10n_at_pos.view_company_form
 msgid "Fiskaly"
@@ -314,6 +313,12 @@ msgid "Get DEP7 Report for Session."
 msgstr "Fordern Sie den DEP7-Bericht für die Sitzung an."
 
 #. module: l10n_at_pos
+#. odoo-python
+#: code:addons/l10n_at_pos/models/res_company.py:0
+msgid "Go to Point of Sale"
+msgstr "Zum Kassensystem"
+
+#. module: l10n_at_pos
 #. odoo-javascript
 #: code:addons/l10n_at_pos/static/src/overrirde/point_of_sale/components/navbar/navbar.js:0
 msgid "Gross Amount Reduced 1"
@@ -397,10 +402,23 @@ msgid "Monthly / Yearly Receipts"
 msgstr "Monatliche/jährliche Belege"
 
 #. module: l10n_at_pos
+#. odoo-python
+#: code:addons/l10n_at_pos/models/pos_config.py:0
+msgid "No closing receipt found for the selected period."
+msgstr ""
+"Für den ausgewählten Zeitraum konnte kein Abschlussbeleg gefunden werden."
+
+#. module: l10n_at_pos
 #. odoo-javascript
 #: code:addons/l10n_at_pos/static/src/overrirde/point_of_sale/components/navbar/navbar.js:0
-msgid "No printer found"
-msgstr "Kein Drucker gefunden"
+msgid "No data found!"
+msgstr "Keine Daten gefunden!"
+
+#. module: l10n_at_pos
+#. odoo-javascript
+#: code:addons/l10n_at_pos/static/src/overrirde/point_of_sale/components/navbar/navbar.js:0
+msgid "No printer connected to print the receipt"
+msgstr "Es ist kein Drucker verbunden, um den Beleg zu drucken."
 
 #. module: l10n_at_pos
 #. odoo-python
@@ -436,12 +454,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_at_pos/models/res_company.py:0
 msgid ""
-"Please close and validate the following open PoS Sessions before "
-"authenticating FON.\n"
+"Please close and validate the following open PoS Sessions before generating "
+"Fiskaly Credentials.\n"
 "Open sessions: %s"
 msgstr ""
-"Schließen und validieren Sie die folgenden offenen Kassensitzungen, bevor "
-"Sie FON authentifizieren.\n"
+"Bitte schließen und validieren Sie die folgenden offenen Kassensitzungen, "
+"bevor Sie Fiskaly-Anmeldedaten generieren.\n"
 "Offene Sitzungen: %s"
 
 #. module: l10n_at_pos
@@ -611,12 +629,6 @@ msgid "The zip should not be empty"
 msgstr "Die PLZ sollte nicht leer sein"
 
 #. module: l10n_at_pos
-#. odoo-python
-#: code:addons/l10n_at_pos/models/pos_config.py:0
-msgid "This is the entire Report of this cash register"
-msgstr "Dies ist der vollständige Bericht dieser Registrierkasse"
-
-#. module: l10n_at_pos
 #: model:ir.model.fields,field_description:l10n_at_pos.field_res_company__l10n_at_fon_user_id
 msgid "User Identifier"
 msgstr "Benutzer-ID"
@@ -646,6 +658,24 @@ msgid ""
 msgstr ""
 "Ihre Fiskaly-Anmeldedaten sind konfiguriert, jedoch sind Sie nicht "
 "authentifiziert. Versuchen Sie, sich erneut zu authentifizieren."
+
+#~ msgid "Fetched data is empty"
+#~ msgstr "Die abgerufenen Daten sind leer"
+
+#~ msgid "No printer found"
+#~ msgstr "Kein Drucker gefunden"
+
+#~ msgid ""
+#~ "Please close and validate the following open PoS Sessions before "
+#~ "authenticating FON.\n"
+#~ "Open sessions: %s"
+#~ msgstr ""
+#~ "Schließen und validieren Sie die folgenden offenen Kassensitzungen, bevor "
+#~ "Sie FON authentifizieren.\n"
+#~ "Offene Sitzungen: %s"
+
+#~ msgid "This is the entire Report of this cash register"
+#~ msgstr "Dies ist der vollständige Bericht dieser Registrierkasse"
 
 #~ msgid "Fiskaly Authenticated Successfully!"
 #~ msgstr "Fiskaly erfolgreich authentifiziert!"

@@ -3,6 +3,7 @@
 import logging
 import mimetypes
 import psycopg2
+import re
 import secrets
 import string
 from markupsafe import Markup
@@ -13,6 +14,7 @@ from odoo.addons.whatsapp.tools.whatsapp_api import WhatsAppApi
 from odoo.addons.whatsapp.tools.whatsapp_exception import WhatsAppError
 from odoo.modules.registry import Registry
 from odoo.tools import plaintext2html
+from odoo.addons.whatsapp.tools import phone_validation as wa_phone_validation
 
 _logger = logging.getLogger(__name__)
 
@@ -190,23 +192,58 @@ class WhatsappAccount(models.Model):
         except psycopg2.Error:
             pass
 
+    def _find_active_channel_from_whatsapp_message_values(self, whatsapp_message_values, whatsapp_contacts_values, create_if_not_found=False):
+        self.ensure_one()
+        # FIXME? should probably try to match messages to contacts instead of assuming we'll only ever get one
+        sender_name = (whatsapp_contacts_values or [{}])[0].get('profile', {}).get('name')
+        sender_mobile_formatted = None
+
+        from_number = whatsapp_message_values.get('from')
+        if from_number and (sender_mobile_formatted := self._format_incoming_from_number(from_number)):
+            return self._find_active_channel(sender_mobile_formatted, sender_name=sender_name, create_if_not_found=create_if_not_found)
+        return self.env['discuss.channel']
+
     def _find_active_channel(self, sender_mobile_formatted, sender_name=False, create_if_not_found=False):
         """This method will find the active channel for the given sender mobile number."""
         self.ensure_one()
-        whatsapp_message = self.env['whatsapp.message'].sudo().search(
-            [
-                ('mobile_number_formatted', '=', sender_mobile_formatted),
-                ('wa_account_id', '=', self.id),
-                ('wa_template_id', '!=', False),
-                ('state', 'not in', ['outgoing', 'error', 'cancel']),
-            ], limit=1, order='id desc')
-        return self.env['discuss.channel'].sudo()._get_whatsapp_channel(
-            whatsapp_number=sender_mobile_formatted or '',
+        return self._find_active_channel_from_identifiers(
+            {'number': sender_mobile_formatted},
+            sender_name=sender_name, create_if_not_found=create_if_not_found,
+        )
+
+    def _get_message_identifiers_domain(self, identifiers):
+        if identifiers.get('number'):
+            return fields.Domain('mobile_number_formatted', '=', identifiers['number'])
+        return fields.Domain.FALSE
+
+    def _find_active_channel_from_identifiers(self, identifiers, sender_name=False, create_if_not_found=False):
+        """Find the active channel from whatsapp 'identifiers'.
+
+        :param identifiers: a dict of shape {'number': str, 'wa_id': str, 'bsuid': str}, or a subdict of it.
+        In the base module only 'number' will be passed around.
+        :param sender_name: an optional user-readable name for the sender if creating a channel and/or partner.
+        If not set will default to a field value, such as the phone number, or bsuid.
+        :param create_if_not_found: whether to create a channel, and implicitly whether to create a partner
+        to be linked to that channel and represent the sender.
+        """
+        self.ensure_one()
+        domain = self._get_message_identifiers_domain(identifiers) + [
+            ('wa_account_id', '=', self.id),
+            ('wa_template_id', '!=', False),
+            ('state', 'not in', ['outgoing', 'error', 'cancel']),
+        ]
+        whatsapp_message = self.env['whatsapp.message'].sudo().search(domain, limit=1, order='id desc')
+        channel = self.env['discuss.channel'].sudo()._get_whatsapp_channel_from_identifiers(
             wa_account_id=self,
+            identifiers=identifiers,
             sender_name=sender_name,
             create_if_not_found=create_if_not_found,
             related_message=whatsapp_message.mail_message_id,
         )
+        # sync any newly-learned identifiers onto the partner
+        if channel_partner := channel.whatsapp_partner_id:
+            channel_partner._update_from_whatsapp_identifiers(identifiers, self)
+        return channel
 
     def _process_messages(self, value):
         """
@@ -230,8 +267,6 @@ class WhatsappAccount(models.Model):
             parent_msg_id = False
             parent_id = False
             channel = False
-            sender_name = value.get('contacts', [{}])[0].get('profile', {}).get('name')
-            sender_mobile = messages['from']
             message_type = messages['type']
             if 'context' in messages and messages['context'].get('id'):
                 parent_whatsapp_message = self.env['whatsapp.message'].sudo().search([('msg_uid', '=', messages['context']['id'])])
@@ -242,7 +277,7 @@ class WhatsappAccount(models.Model):
                     channel = self.env['discuss.channel'].sudo().search([('message_ids', 'in', parent_id.id)], limit=1)
 
             if not channel:
-                channel = self._find_active_channel(sender_mobile, sender_name=sender_name, create_if_not_found=True)
+                channel = self._find_active_channel_from_whatsapp_message_values(messages, value.get('contacts'), create_if_not_found=True)
             kwargs = {
                 'message_type': 'whatsapp_message',
                 'author_id': channel.whatsapp_partner_id.id,
@@ -297,3 +332,19 @@ class WhatsappAccount(models.Model):
                 _logger.warning("Unsupported whatsapp message type: %s", messages)
                 continue
             channel.message_post(whatsapp_inbound_msg_uid=messages['id'], **kwargs)
+
+    # UTILS
+
+    @api.model
+    def _format_incoming_from_number(self, from_number):
+        if not from_number:
+            return from_number
+        cleaned_number = re.sub(r"[^\d+]", "", from_number)
+        cleaned_number = "+" + re.sub(r"\D", "", cleaned_number)
+        return wa_phone_validation.wa_phone_format(
+            self,
+            country=None,
+            number=cleaned_number,
+            force_format="WHATSAPP",
+            raise_exception=False,
+        ) or cleaned_number

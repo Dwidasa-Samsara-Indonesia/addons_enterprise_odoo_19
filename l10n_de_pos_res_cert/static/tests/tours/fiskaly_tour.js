@@ -18,9 +18,6 @@ registry.category("web_tour.tours").add("FiskalyTour", {
             FloorScreen.clickTable("5"),
             ProductScreen.clickPartnerButton(),
             ProductScreen.clickCustomer("AA Test Partner"),
-            // Customer without street name or a zip code is not allowed
-            Dialog.confirm(),
-            ProductScreen.clickCustomer("A powerful PoS man!"),
             ProductScreen.addOrderline("Coca-Cola", "1", "3"),
             ProductScreen.clickOrderButton(),
             FloorScreen.clickTable("5"),
@@ -49,8 +46,8 @@ registry.category("web_tour.tours").add("FiskalyTour", {
                 trigger: ".pos-receipt",
                 run: () => {
                     const tssInfoCount = document.querySelectorAll(".tss-info").length;
-                    if (tssInfoCount !== 11) {
-                        throw new Error("Expected 11 TSS info, found " + tssInfoCount);
+                    if (tssInfoCount !== 10) {
+                        throw new Error("Expected 10 TSS info, found " + tssInfoCount);
                     }
                 },
             },

@@ -37,5 +37,9 @@ class TestQualityCommon(common.TransactionCase):
         cls.picking_type_id = cls.env.ref('stock.picking_type_in').id
         cls.location_id = cls.env.ref('stock.stock_location_suppliers').id
         cls.location_dest_id = cls.env.ref('stock.stock_location_stock').id
+        cls.quality_team = cls.env['quality.alert.team'].create({
+            'name': 'Test Quality Team',
+            'company_id': cls.env.company.id,
+        })
         admin_user = cls.env.ref('base.user_admin')
         admin_user.write({'email': 'admin@example.com'})

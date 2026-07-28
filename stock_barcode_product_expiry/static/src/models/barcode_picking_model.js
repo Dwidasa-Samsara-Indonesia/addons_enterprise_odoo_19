@@ -34,10 +34,11 @@ patch(BarcodePickingModel.prototype, {
 
     async _parseBarcode(barcode, filters) {
         const barcodeData = await super._parseBarcode(...arguments);
-        const { product, useDate, expirationDate } = barcodeData;
-        if (product && useDate && !expirationDate) {
+        const { product, packaging, useDate, expirationDate } = barcodeData;
+        if ((product || packaging) && useDate && !expirationDate) {
             const value = new Date(useDate);
-            value.setDate(useDate.getDate() + product.use_time);
+            const used_product = product || this.cache.getRecord('product.product', packaging.product_id);
+            value.setDate(useDate.getDate() + used_product.use_time);
             barcodeData.expirationDate = getFormattedDate(value);
         }
         return barcodeData;

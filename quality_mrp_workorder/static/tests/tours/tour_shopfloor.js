@@ -119,3 +119,72 @@ registry.category("web_tour.tours").add("test_quality_fail_message", {
         },
     ],
 });
+
+registry.category("web_tour.tours").add("test_mass_produce_backorder_qc", {
+    steps: () => [
+        ...stepUtils.openWorkcentersSelector(),
+        ...stepUtils.confirmWorkcentersSelection(),
+        {
+            content: "Ensure we are on Overview",
+            trigger: ".o_work_center_btn:contains('Overview')",
+        },
+        {
+            content: "Select the MO card to Register Production",
+            trigger:
+                ".o_mrp_display_record:contains('Serial Gadget') button:contains('Quality Checks')",
+            run: "click",
+        },
+        {
+            content: "Pass the Quality Check",
+            trigger: ".modal-content button[name='do_pass']",
+            run: "click",
+        },
+        {
+            content: "Close the production for this unit",
+            trigger: "button:contains('Close Production')",
+            run: "click",
+        },
+        {
+            content: "Enter first serial number",
+            trigger: ".modal-content div[name='lot_name'] input",
+            run: "edit SN-0271",
+        },
+        {
+            content: "Generate Serials",
+            trigger: ".modal-content button[name='action_generate_serial_numbers']",
+            run: "click",
+        },
+        {
+            content: "Generate Serials",
+            trigger: ".modal-content button[name='action_apply']",
+            run: "click",
+        },
+    ],
+});
+
+registry.category("web_tour.tours").add("test_backorder_qc_without_auto_close", {
+    steps: () => [
+        ...stepUtils.openWorkcentersSelector(),
+        ...stepUtils.confirmWorkcentersSelection(),
+        {
+            content: "Ensure we are on Overview",
+            trigger: ".o_work_center_btn:contains('Overview')",
+        },
+        {
+            content: "Open the MO card to perform Quality Checks",
+            trigger:
+                ".o_mrp_display_record:contains('Serial Gadget') button:contains('Quality Checks')",
+            run: "click",
+        },
+        {
+            content: "Pass the Quality Check",
+            trigger: ".modal-content button[name='do_pass']",
+            run: "click",
+        },
+        {
+            content: "Ensure There is no close production button",
+            trigger:
+                ".o_mrp_display_record:contains('Serial Gadget'):not(:has(button:contains('Close Production')))",
+        },
+    ],
+});

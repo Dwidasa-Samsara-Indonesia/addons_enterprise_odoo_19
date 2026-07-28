@@ -174,6 +174,7 @@ export const studioService = {
         async function _loadParamsFromURL() {
             const urlState = router.current;
             if (urlState.action !== "studio") {
+                state.studioMode = null;
                 return;
             }
 
@@ -191,7 +192,10 @@ export const studioService = {
             const routerActionState = urlState.actionStack?.at(-2);
             const additionalContext = {};
             if (state.studioMode === MODES.EDITOR || (!state.studioMode && routerActionState)) {
-                const { active_id, active_ids } = urlState;
+                let { active_id, active_ids } = routerActionState;
+                if (!active_id) {
+                    active_id = urlState.active_id;
+                }
                 if (active_id) {
                     additionalContext.active_id = active_id;
                     additionalContext.active_ids = [active_id];
@@ -303,7 +307,7 @@ export const studioService = {
                     [URL_VIEW_KEY]: state.editedViewType,
                     [URL_REPORT_ID_KEY]: state.editedReport?.id,
                 });
-                await loadState({ actionStack });
+                await loadState({ actionStack, active_id: undefined });
             } catch (e) {
                 Object.assign(state, previousState);
                 throw e;
@@ -422,6 +426,9 @@ export const studioService = {
         }
 
         function pushState() {
+            if (!state.studioMode) {
+                return;
+            }
             const search = {};
             let replace;
             if (state._pushActionState) {
@@ -440,10 +447,6 @@ export const studioService = {
                 search[URL_VIEW_KEY] = state.editedViewType || undefined;
                 search[URL_TAB_KEY] = state.editorTab;
             }
-            if (state.editedAction?.context?.active_id) {
-                search.active_id = state.editedAction.context.active_id;
-            }
-
             if (state.editorTab === "reports" && state.editedReport) {
                 search[URL_REPORT_ID_KEY] = state.editedReport.res_id;
             }

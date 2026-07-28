@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-04-13 09:41+0000\n"
+"POT-Creation-Date: 2026-05-15 17:40+0000\n"
+"PO-Revision-Date: 2026-07-15 15:10+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "sale_subscription/sv/>\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_subscription
 #. odoo-python
@@ -84,7 +84,7 @@ msgstr "%(start)s till %(next)s"
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "%s Months"
-msgstr ""
+msgstr "%s Månader"
 
 #. module: sale_subscription
 #. odoo-python
@@ -722,16 +722,17 @@ msgid ""
 "                        </t>\n"
 "                    </t>\n"
 "                    <t t-else=\"\">\n"
-"                        Your subscription <t t-out=\"ctx.get('code') or "
-"''\">CODE</t> is due for renewal but we haven’t received your payment yet. "
-"To keep your subscription active, please make your payment as soon as "
+"                        Your subscription <t t-out=\"object.client_order_ref "
+"or ''\">CODE</t> is due for renewal but we haven’t received your payment "
+"yet. To keep your subscription active, please make your payment as soon as "
 "possible.\n"
 "                    </t>\n"
 "                    <br/><br/>\n"
-"                    Your subscription <t t-out=\"ctx.get('code') or "
+"                    Your subscription <t t-out=\"object.client_order_ref or "
 "''\">CODE</t> is still valid but will be <strong>suspended</strong>\n"
-"                    on <t t-out=\"format_date(ctx.get('date_close')) or "
-"''\">05/05/2021</t><br/>\n"
+"                    on <t t-"
+"out=\"format_date(object._get_subscription_close_date()) or ''\">05/05/2021</"
+"t><br/>\n"
 "                    <div style=\"margin: 16px 0px; text-align: center;\">\n"
 "                        <a t-attf-href=\"{{ ctx.get('payment_link', "
 "object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; padding: "
@@ -865,7 +866,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_account_move_send
 msgid "Account Move Send"
-msgstr "Skicka transaktioner"
+msgstr "Skicka verifikation"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__message_needaction
@@ -1066,13 +1067,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid "Automatic payment failed. Email sent to customer. Error: %s"
-msgstr ""
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
-"Automatic payment failed. No country specified on payment_token's partner"
 msgstr ""
 
 #. module: sale_subscription
@@ -2110,12 +2104,12 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_account_move
 msgid "Journal Entry"
-msgstr "Bokföringspost"
+msgstr "Verifikation"
 
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_account_move_line
 msgid "Journal Item"
-msgstr "Journalpost"
+msgstr "Verifikationsrad"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__kpi_1month_mrr_delta
@@ -2353,7 +2347,7 @@ msgstr ""
 #: model:sale.subscription.plan,name:sale_subscription.subscription_plan_month
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_plan_view_form
 msgid "Monthly"
-msgstr "Månatlig"
+msgstr "Per månad"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__recurring_monthly
@@ -3193,7 +3187,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.ui.menu,name:sale_subscription.menu_sale_subscription_report
 msgid "Reporting"
-msgstr "Rapportering"
+msgstr "Rapporter"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -3428,7 +3422,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
 msgid "Show all records whose next activity date is past"
-msgstr "Visa alla poster vars nästa aktivitetsdatum är passerat"
+msgstr "Visa alla handlingar vars nästkommande aktivitetsdatum har passerat"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__source_id
@@ -4256,7 +4250,7 @@ msgstr "Hemsidesmeddelanden"
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_order__website_message_ids
 msgid "Website communication history"
-msgstr "Webbplatsens kommunikationshistorik"
+msgstr "Hemsidans kommunikationshistorik"
 
 #. module: sale_subscription
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_subscription_plan__billing_period_unit__week
@@ -4303,6 +4297,14 @@ msgstr ""
 msgid ""
 "You are about to permanently close a subscription that is valid until\n"
 "                    &amp;nbsp;"
+msgstr ""
+
+#. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/product_template.py:0
+msgid ""
+"You can not change the recurring property of this product because it has "
+"been sold already (%s)"
 msgstr ""
 
 #. module: sale_subscription
@@ -4534,7 +4536,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/res_partner.py:0
 msgid "is_subscription"
-msgstr ""
+msgstr "is_subscription"
 
 #. module: sale_subscription
 #: model:sale.order.close.reason,retention_button_link:sale_subscription.close_reason_1
@@ -4550,7 +4552,7 @@ msgstr "Meddelande"
 #. odoo-python
 #: code:addons/sale_subscription/controllers/portal.py:0
 msgid "next_invoice_date"
-msgstr ""
+msgstr "next_invoice_date"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar

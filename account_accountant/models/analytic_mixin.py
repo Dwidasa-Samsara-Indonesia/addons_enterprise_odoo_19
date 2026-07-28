@@ -38,7 +38,7 @@ class AnalyticMixin(models.AbstractModel):
 
         patched_res = []
         for group in res:
-            group_criteria = group[0].id if isinstance(group[0], models.Model) else group[0]
+            group_criteria = group[0]
             records = records_by_group.get(group_criteria, all_records.browse())
             new_tuple = list(group)
             for field, index in fields_index.items():

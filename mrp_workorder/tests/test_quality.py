@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from itertools import product
+
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
+from odoo.tools.safe_eval import expr_eval
 from odoo import Command
 
 
@@ -156,6 +159,43 @@ class TestQuality(TransactionCase):
         self.assertEqual(new_check.previous_check_id, quality_checks[1])
         self.assertEqual(new_check.next_check_id, quality_checks[2])
 
+    def test_delete_middle_quality_check_repairs_chain(self):
+        """Test that deleting a middle quality check reconnects the surrounding checks.
+
+            Scenario:
+                - Given a BOM for P1 with a work order WO1 and 3 quality points linked to WO1.
+                - When a MO is confirmed, 3 quality checks A -> B -> C are generated.
+                - When B (the middle check) is deleted.
+                - Then the chain should be A -> C, ensuring C remains reachable.
+        """
+        operation = self.bom.operation_ids[0]
+        self.env['quality.point'].create([{
+            'title': f'QC {i}',
+            'product_ids': [Command.link(self.product_1.id)],
+            'operation_id': operation.id,
+            'test_type_id': self.env.ref('quality.test_type_instructions').id,
+        } for i in range(3)])
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product_1.id,
+            'product_qty': 1,
+            'bom_id': self.bom.id,
+        })
+        mo.action_confirm()
+        wo = mo.workorder_ids[0]
+        self.assertEqual(len(wo.check_ids), 3)
+
+        check_a = wo.check_ids.filtered(lambda c: not c.previous_check_id)
+        check_b = check_a.next_check_id
+        check_c = check_b.next_check_id
+
+        check_b.unlink()
+        self.assertFalse(check_b.exists())
+        # Chain should now be A -> C
+        self.assertEqual(check_a.next_check_id, check_c)
+        self.assertEqual(check_c.previous_check_id, check_a)
+        self.assertFalse(check_a.previous_check_id)
+        self.assertFalse(check_c.next_check_id)
+
     def test_merge_mo_from_orderpoints(self):
         """
         Ensure that triggering a manufacturing reordering rule:
@@ -216,3 +256,24 @@ class TestQuality(TransactionCase):
             {'product_qty': 2.0, 'product_id': self.product_1.id, 'warehouse_id': warehouse.id},
             {'product_qty': 1.0, 'product_id': self.product_1.id, 'warehouse_id': warehouse.id},
         ])
+
+    def test_manufacturing_specific_control_point_test_types(self):
+        """
+        Test that manufacturing-specific control test types are only available on operations.
+        """
+        # Include archived records to avoid requiring the option to be enabled
+        TestType = self.env['quality.point.test_type'].with_context(active_test=False)
+        all_types = TestType.search([])
+        manuf_types = TestType.browse([
+            self.ref('mrp_workorder.test_type_register_consumed_materials'),
+            self.ref('mrp_workorder.test_type_register_production'),
+            self.ref('mrp_workorder.test_type_register_byproducts'),
+            self.ref('mrp_workorder.test_type_print_label'),
+        ])
+        restricted_types = all_types - manuf_types
+        domain_to_eval = self.env['quality.point']._fields['test_type_id'].domain
+        for is_workorder_step, operation_id in product([False, True], repeat=2):
+            domain = expr_eval(domain_to_eval.replace("is_workorder_step", str(is_workorder_step)).replace("operation_id", str(operation_id)))
+            self.assertEqual(TestType.search(domain), all_types if is_workorder_step and operation_id else restricted_types)
+        # Fictional search equivalent to the [('allow_registration', '=', True)]
+        self.assertEqual(TestType.search([('allow_registration', 'not in', [False])]), all_types)

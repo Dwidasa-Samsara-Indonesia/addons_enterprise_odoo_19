@@ -46,7 +46,6 @@ export class TimesheetDisplayTimer extends Component {
 
     static defaultProps = {
         displayRed: true,
-        timerRunning: false,
     };
 
     static fieldDependencies = {
@@ -59,7 +58,9 @@ export class TimesheetDisplayTimer extends Component {
         this.timerReactive = this.timerService.timer;
         this.state = useState({
             timerStart: this.props.record.data.timer_start,
-            timerRunning: this.props.record.data.is_timer_running || this.props.timerRunning,
+            timerRunning:
+                Boolean(this.props.record.data.timer_start || this.props.timerRunning) &&
+                !this.props.record.data.timer_pause,
             value: this.props.record.data[this.props.name],
         });
         onWillStart(this.onWillStart);

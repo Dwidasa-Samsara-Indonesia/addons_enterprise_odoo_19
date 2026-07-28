@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 18:44+0000\n"
-"PO-Revision-Date: 2026-03-26 14:50+0000\n"
+"POT-Creation-Date: 2026-07-17 17:43+0000\n"
+"PO-Revision-Date: 2026-06-24 11:53+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/planning/"
 "nl/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: planning
 #. odoo-python
@@ -1273,7 +1273,7 @@ msgstr "Negeren"
 #: model:ir.model.fields,field_description:planning.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:planning.field_resource_resource__display_name
 msgid "Display Name"
-msgstr "Weergavenaam"
+msgstr "Schermnaam"
 
 #. module: planning
 #: model_terms:ir.actions.act_window,help:planning.planning_action_resources
@@ -1573,7 +1573,7 @@ msgstr "Inclusief openstaande diensten"
 #. module: planning
 #: model:ir.model.fields,field_description:planning.field_planning_planning__is_planning_preview
 msgid "Is Planning Preview"
-msgstr "Is Voorvertoning Planning"
+msgstr "Is Voorbeeld Planning"
 
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.hr_employee_view_form_simplified
@@ -2001,7 +2001,7 @@ msgstr "Planningsanalyserapport"
 #. module: planning
 #: model:ir.model,name:planning.model_planning_preview
 msgid "Planning Preview"
-msgstr "Voorvertoning planning"
+msgstr "Voorbeeld planning"
 
 #. module: planning
 #: model:ir.model,name:planning.model_planning_recurrency
@@ -2109,7 +2109,7 @@ msgstr "Voorbeeld"
 #. module: planning
 #: model:ir.actions.act_window,name:planning.resource_preview_action
 msgid "Preview Planning"
-msgstr "Voorvertoning van de planning bekijken"
+msgstr "Voorbeeld van de planning bekijken"
 
 #. module: planning
 #. odoo-javascript
@@ -2508,7 +2508,7 @@ msgstr "Dienstlijst"
 #. module: planning
 #: model:ir.model,name:planning.model_planning_slot_template
 msgid "Shift Template"
-msgstr "Dienstsjabloon"
+msgstr "Shiftsjabloon"
 
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_slot_template_view_form
@@ -2766,10 +2766,10 @@ msgstr "Het beginuur kan niet negatief zijn."
 #. odoo-python
 #: code:addons/planning/models/planning_template.py:0
 msgid ""
-"The start hour cannot be before the end hour for a one-day shift template."
+"The start hour cannot be after the end hour for a one-day shift template."
 msgstr ""
-"Het beginuur kan niet voor het einduur vallen voor het sjabloon van een "
-"eendagse dienst."
+"Het starttijdstip mag niet later zijn dan het eindtijdstip voor een sjabloon "
+"voor een eendaagse shift."
 
 #. module: planning
 #. odoo-python
@@ -3172,6 +3172,11 @@ msgid "e.g. John Doe"
 msgstr "b.v. John Doe"
 
 #. module: planning
+#: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban
+msgid "h"
+msgstr ""
+
+#. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban_inherit
 msgid "other shift(s) in conflict."
 msgstr "andere dienst(en) in conflict."
@@ -3208,6 +3213,12 @@ msgstr "t/m"
 #: model:mail.template,subject:planning.email_template_slot_single
 msgid "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
 msgstr "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
+
+#~ msgid ""
+#~ "The start hour cannot be before the end hour for a one-day shift template."
+#~ msgstr ""
+#~ "Het beginuur kan niet voor het einduur vallen voor het sjabloon van een "
+#~ "eendagse dienst."
 
 #~ msgid "The work email is missing for the following employees:"
 #~ msgstr "De werkmail ontbreekt voor de volgende medewerkers:"

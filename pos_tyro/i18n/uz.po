@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:48+0000\n"
+"POT-Creation-Date: 2026-07-03 17:45+0000\n"
 "PO-Revision-Date: 2025-10-08 18:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,6 +23,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid ""
+"A tip was added on the Tyro terminal, but tipping is not enabled for this "
+"Point of Sale. It will instead be recorded as a surcharge."
+msgstr ""
 
 #. module: pos_tyro
 #: model:ir.model.fields,field_description:pos_tyro.field_pos_payment_method__tyro_always_print_merchant_receipt
@@ -106,6 +114,13 @@ msgstr "Qaydlar"
 
 #. module: pos_tyro
 #. odoo-javascript
+#: code:addons/pos_tyro/static/src/actions/get_tyro_report.js:0
+#: code:addons/pos_tyro/static/src/actions/pair_tyro_terminal.js:0
+msgid "Merchant ID and/or Terminal ID are not configured."
+msgstr ""
+
+#. module: pos_tyro
+#. odoo-javascript
 #: code:addons/pos_tyro/static/src/app/components/failure_dialog.xml:0
 #, fuzzy
 msgid "OK"
@@ -116,6 +131,12 @@ msgstr "OK"
 #, fuzzy
 msgid "Pair Terminal"
 msgstr "Terminalni ulash"
+
+#. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/actions/pair_tyro_terminal.js:0
+msgid "Pairing timed out."
+msgstr ""
 
 #. module: pos_tyro
 #. odoo-javascript
@@ -180,6 +201,12 @@ msgstr "Hisobotlar"
 
 #. module: pos_tyro
 #. odoo-javascript
+#: code:addons/pos_tyro/static/src/actions/get_tyro_report.js:0
+msgid "Requesting Tyro Reconciliation Report"
+msgstr ""
+
+#. module: pos_tyro
+#. odoo-javascript
 #: code:addons/pos_tyro/static/src/actions/get_tyro_report.xml:0
 #, fuzzy
 msgid "Select a report type..."
@@ -236,6 +263,12 @@ msgid "Tyro"
 msgstr "Tyro"
 
 #. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid "Tyro Error"
+msgstr ""
+
+#. module: pos_tyro
 #: model:ir.model.fields,field_description:pos_tyro.field_pos_payment_method__tyro_merchant_id
 #, fuzzy
 msgid "Tyro Merchant ID"
@@ -266,6 +299,12 @@ msgid "Tyro Terminal ID"
 msgstr "Tyro terminal ID raqami"
 
 #. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid "Tyro Warning"
+msgstr ""
+
+#. module: pos_tyro
 #: model_terms:ir.ui.view,arch_db:pos_tyro.pos_payment_method_view_form_inherit_pos_tyro
 #, fuzzy
 msgid "Tyro logs"
@@ -290,3 +329,9 @@ msgstr "Hisobotlarni ko‘rish"
 #, fuzzy
 msgid "Waiting for card"
 msgstr "Karta kutilmoqda"
+
+#. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid "You cannot refund more than the original amount."
+msgstr ""

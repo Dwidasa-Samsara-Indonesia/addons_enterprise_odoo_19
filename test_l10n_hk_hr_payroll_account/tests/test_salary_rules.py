@@ -1,8 +1,12 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-
+import base64
 from datetime import date, datetime
-from dateutil.relativedelta import relativedelta
 
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import MONTHLY, rrule
+from codecs import BOM_UTF8
+
+from odoo import Command
 from odoo.tests import tagged
 
 from .common import TestL10NHkHrPayrollAccountCommon
@@ -29,6 +33,10 @@ class TestSalaryRules(TestL10NHkHrPayrollAccountCommon):
                 (0, 0, {'name': 'Saturday Morning', 'dayofweek': '5', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning', 'work_entry_type_id': cls.env.ref('hr_work_entry.l10n_hk_work_entry_type_weekend').id}),
                 (0, 0, {'name': 'Sunday Morning', 'dayofweek': '6', 'hour_from': 8, 'hour_to': 12, 'day_period': 'morning', 'work_entry_type_id': cls.env.ref('hr_work_entry.l10n_hk_work_entry_type_weekend').id}),
             ]
+        })
+        cls.env.company.write({
+            'l10n_hk_employer_name': 'Odoo S.A.',
+            'l10n_hk_employer_file_number': '123-12345678',
         })
 
     def test_001_a_regular_payslip(self):
@@ -679,3 +687,219 @@ class TestSalaryRules(TestL10NHkHrPayrollAccountCommon):
             self.assertEqual(
                 first_payslip_results[rule] + second_payslip_results[rule], control_value
             )
+
+    def test_sick_leaves_over_rest_days(self):
+        """ Validate that a sick leave doesn't take precedence over a rest day. """
+        date_start = date(2025, 1, 1)
+        self.contract.write({
+            'date_version': date_start,
+            'contract_date_start': date_start,
+        })
+
+        self._generate_leave(date(2025, 10, 3), date(2025, 10, 7), self.env.ref('hr_holidays.l10n_hk_leave_type_sick_leave_80'))
+        payslip = self._generate_payslip(date(2025, 10, 1), date(2025, 10, 31))
+        # In the 31 days of October 2025 we have:
+        # 20 work days (1-2, 8-10, 13-17, 20-24, 27-31)
+        # 8 weekend days (4-5, 11-12, 18-19, 25-26)
+        # 3 sick leave day (3, 6-7). The sick leave on the 4-5 are no taking precedence over the weekend work entry.
+        self._validate_worked_days(payslip, {
+            'HKLEAVE111': (3.0, 24.0, 0.0),  # ADW is zero due to no previous payslips, but this doesn't affect the test.
+            'HKLEAVE600': (8.0, 64.0, 5161.29),
+            'WORK100': (20.0, 160.0, 12903.23),
+        })
+
+    def test_global_reimbursement_and_deduction(self):
+        """Test whether GLOBAL_REIMBURSEMENT and GLOBAL_DEDUCTION are computed correctly and flow into IR56 AmtOfSalary."""
+        self.employee.write({
+            'l10n_hk_surname': 'Employee',
+            'l10n_hk_given_name': 'Test',
+            'sex': 'male',
+            'identification_id': 'A123456(0)',
+            'private_street': '1 Test Street',
+            'private_city': 'Hong Kong',
+            'private_state_id': self.env.ref('base.state_hk_hk').id,
+            'private_country_id': self.env.ref('base.hk').id,
+        })
+
+        payslip = self._generate_payslip(
+            date(2026, 1, 1),
+            date(2026, 1, 31),
+            input_line_ids=[
+                Command.create({'input_type_id': self.env.ref('l10n_hk_hr_payroll.input_global_reimbursement').id, 'amount': 1000.0}),
+                Command.create({'input_type_id': self.env.ref('l10n_hk_hr_payroll.input_global_deduction').id, 'amount': 500.0}),
+            ],
+        )
+        self._validate_payslip(payslip, {
+            'BASIC': 20000.0,
+            'ALW.INT': 200.0,
+            'GLOBAL_REIMBURSEMENT': 1000.0,
+            'GLOBAL_DEDUCTION': -500.0,
+            '713_GROSS': 20700.0,
+            'MPF_GROSS': 20700.0,
+            'EEMC': -1035.0,
+            'ERMC': -1035.0,
+            'GROSS': 21200.0,
+            'NET': 19665.0,
+            'MEA': 19665.0,
+        })
+        payslip.action_payslip_done()
+
+        ir56b = self.env['l10n_hk.ir56b'].create({
+            'start_year': 2025,
+            'start_month': '4',
+            'end_year': 2026,
+            'end_month': '3',
+            'name_of_signer': 'Test Signer',
+            'designation_of_signer': 'Manager',
+            'type_of_form': 'O',
+        })
+        data = ir56b._get_rendering_data(self.employee)
+        self.assertNotIn('error', data, data.get('error'))
+        self.assertEqual(data['employees_data'][0]['AmtOfSalary'], 20500)
+
+        self.employee.departure_reason_id = self.env.ref('hr.departure_resigned').id
+        ir56f = self.env['l10n_hk.ir56f'].create({
+            'start_year': 2025,
+            'start_month': '4',
+            'end_year': 2026,
+            'end_month': '1',
+            'name_of_signer': 'Test Signer',
+            'designation_of_signer': 'Manager',
+            'type_of_form': 'O',
+        })
+        ir56f.line_ids = [Command.create({
+            'employee_id': self.employee.id,
+            'res_model': 'l10n_hk.ir56f',
+            'res_id': ir56f.id,
+        })]
+        data = ir56f._get_rendering_data(self.employee)
+        self.assertNotIn('error', data, data.get('error'))
+        self.assertEqual(data['employees_data'][0]['AmtOfSalary'], 20500)
+
+        ir56g = self.env['l10n_hk.ir56g'].create({
+            'start_year': 2025,
+            'start_month': '4',
+            'end_year': 2026,
+            'end_month': '1',
+            'name_of_signer': 'Test Signer',
+            'designation_of_signer': 'Manager',
+            'type_of_form': 'O',
+        })
+        data = ir56g._get_rendering_data(self.employee)
+        self.assertNotIn('error', data, data.get('error'))
+        self.assertEqual(data['employees_data'][0]['AmtOfSalary'], 20500)
+
+    def test_ird_export_file_encoding(self):
+        """ Validate that we correctly export the files as UTF-8 with BOM, and that the header is correctly capitalized. """
+        self.employee.write({
+            'name': "Test Employee",
+            'l10n_hk_surname': 'NATALIE',
+            'l10n_hk_given_name': 'CHAN',
+            'identification_id': 'Z1234567',
+            'private_street': 'Another Address Line',
+            'private_state_id': self.env.ref('base.state_hk_hk').id,
+            'sex': 'female',
+            'marital': 'married',
+            'job_title': 'Experience Developer',
+            'spouse_complete_name': 'AU-YEUNG FUNG',
+            'l10n_hk_spouse_identification_id': 'Z683365A',
+        })
+
+        payruns_data = []
+        for dt in rrule(MONTHLY, dtstart=date(2024, 4, 1), until=date(2025, 3, 31)):
+            payruns_data.append({
+                'date_start': dt,
+                'date_end': dt + relativedelta(day=31),
+                'structure_id': self.env.ref('l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary').id,
+            })
+        payruns = self.env['hr.payslip.run'].create(payruns_data)
+        for payrun in payruns:
+            payrun.generate_payslips(employee_ids=self.employee.ids)
+        payruns.action_validate()
+        payruns.action_paid()
+
+        ir56b = self.env['l10n_hk.ir56b'].create({
+            'start_year': '2024',
+            'start_month': '4',
+            'end_year': '2025',
+            'end_month': '3',
+            'year_of_employer_return': '2025',
+            'name_of_signer': 'Marc Admin',
+            'designation_of_signer': 'Mr.',
+        })
+        ir56b.action_generate_declarations()
+        ir56b.action_generate_xml()
+        self.assertTrue(bool(ir56b.xml_file), 'The IRD reports were successfully generated.')
+        xml_bytes = base64.decodebytes(ir56b.xml_file)
+        self.assertTrue(
+            xml_bytes.startswith(BOM_UTF8),
+            "The UTF-8 BOM is missing!",
+        )
+        expected_header = b'<?xml version=\'1.0\' encoding=\'UTF-8\''
+        self.assertTrue(
+            xml_bytes[3:].startswith(expected_header),
+            "Header mismatch or incorrect capitalization after the BOM.",
+        )
+
+    def test_ir56f_warning_and_date_of_return(self):
+        """ Assert that we correctly warn about a missing reason of departure and that the date of return is correct for the ir56f. """
+        self.employee.write({
+            'l10n_hk_surname': 'Employee',
+            'l10n_hk_given_name': 'Test',
+            'sex': 'male',
+            'identification_id': 'A123456(0)',
+            'private_street': '1 Test Street',
+            'private_city': 'Hong Kong',
+            'private_state_id': self.env.ref('base.state_hk_hk').id,
+            'private_country_id': self.env.ref('base.hk').id,
+        })
+
+        payslip = self._generate_payslip(
+            date(2026, 1, 1),
+            date(2026, 1, 31),
+            input_line_ids=[
+                Command.create({'input_type_id': self.env.ref('l10n_hk_hr_payroll.input_global_reimbursement').id, 'amount': 1000.0}),
+                Command.create({'input_type_id': self.env.ref('l10n_hk_hr_payroll.input_global_deduction').id, 'amount': 500.0}),
+            ],
+        )
+        self._validate_payslip(payslip, {
+            'BASIC': 20000.0,
+            'ALW.INT': 200.0,
+            'GLOBAL_REIMBURSEMENT': 1000.0,
+            'GLOBAL_DEDUCTION': -500.0,
+            '713_GROSS': 20700.0,
+            'MPF_GROSS': 20700.0,
+            'EEMC': -1035.0,
+            'ERMC': -1035.0,
+            'GROSS': 21200.0,
+            'NET': 19665.0,
+            'MEA': 19665.0,
+        })
+        payslip.action_payslip_done()
+
+        self.employee.departure_reason_id = self.env.ref('l10n_hk_hr_payroll.hr_departure_reason_other').id
+        ir56f = self.env['l10n_hk.ir56f'].create({
+            'start_year': 2025,
+            'start_month': '4',
+            'end_year': 2026,
+            'end_month': '1',
+            'name_of_signer': 'Test Signer',
+            'designation_of_signer': 'Manager',
+            'type_of_form': 'O',
+        })
+        ir56f.line_ids = [Command.create({
+            'employee_id': self.employee.id,
+            'res_model': 'l10n_hk.ir56f',
+            'res_id': ir56f.id,
+        })]
+        data = ir56f._get_rendering_data(self.employee)
+        self.assertEqual(data['error'], "\nThe following employees don't have a reason set for their departure of type 'Other': HK Employee")
+        self.employee.write({
+            'departure_description': '<div data-oe-version="2.0">Reason</div>',  # Simulate the content of a HTML field to assert the sanitization.
+            'contract_date_end': date(2026, 1, 31),
+        })
+        data = ir56f._get_rendering_data(self.employee)
+        self.assertEqual(data['employees_data'][0]['RTN_ASS_YR'], 2026)
+        self.employee.contract_date_end = date(2026, 4, 1)
+        data = ir56f._get_rendering_data(self.employee)
+        self.assertEqual(data['employees_data'][0]['RTN_ASS_YR'], 2027)

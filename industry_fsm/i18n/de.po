@@ -9,12 +9,13 @@
 # Larissa Manderfeld, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
+# Nils Coenen <nils.coenen@nico-solutions.de>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-04-04 10:43+0000\n"
+"PO-Revision-Date: 2026-06-26 06:19+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "industry_fsm/de/>\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__nbr
@@ -347,7 +348,7 @@ msgstr "Unternehmen"
 #. module: industry_fsm
 #: model:ir.model,name:industry_fsm.model_base_document_layout
 msgid "Company Document Layout"
-msgstr "Dokumentenlayout des Unternehmens"
+msgstr "Dokumentlayout des Unternehmens"
 
 #. module: industry_fsm
 #: model:ir.model,name:industry_fsm.model_res_config_settings
@@ -409,7 +410,7 @@ msgstr "Erstellt am"
 #. module: industry_fsm
 #: model:ir.model,website_form_label:industry_fsm.model_res_partner
 msgid "Create a Customer"
-msgstr "Kunden erstellen"
+msgstr "Kunde erstellen"
 
 #. module: industry_fsm
 #: model:ir.actions.act_window,name:industry_fsm.open_create_project_fsm
@@ -1529,9 +1530,8 @@ msgid ""
 "lang_code=object.partner_id.lang) or '' }}"
 msgstr ""
 "Ihr Einsatz ist geplant {{ object.planned_date_begin and "
-"object.date_deadline and 'from the ' + "
-"format_datetime(object.planned_date_begin, tz=object.partner_id.tz, "
-"lang_code=object.partner_id.lang) + ' to the ' + "
+"object.date_deadline and 'vom' + format_datetime(object.planned_date_begin, "
+"tz=object.partner_id.tz, lang_code=object.partner_id.lang) + ' bis zum ' + "
 "format_datetime(object.date_deadline, tz=object.partner_id.tz, "
 "lang_code=object.partner_id.lang) or '' }}"
 

@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-04-10 14:44+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-06-18 12:53+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/quality/"
 "sv/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team__alert_count
@@ -53,6 +53,12 @@ msgid ""
 msgstr ""
 "Ett Pythonbibliotek som utvärderar för att tillhandahålla standardvärden när "
 "nya poster skapas för detta alias."
+
+#. module: quality
+#. odoo-python
+#: code:addons/quality/models/quality.py:0
+msgid "A quality team must have a company assigned."
+msgstr ""
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__message_needaction
@@ -438,7 +444,8 @@ msgstr "Ikon för att indikera en undantagsaktivitet."
 #: model:ir.model.fields,help:quality.field_quality_check__message_needaction
 #: model:ir.model.fields,help:quality.field_quality_point__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
+msgstr ""
+"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert__message_has_error
@@ -563,7 +570,7 @@ msgstr "Mina aktivieteter"
 #: model:ir.model.fields,field_description:quality.field_quality_alert__my_activity_date_deadline
 #: model:ir.model.fields,field_description:quality.field_quality_check__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Mina aktiviteters deadline"
+msgstr "Tidsgräns för mina aktiviteter"
 
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
@@ -596,13 +603,13 @@ msgstr "Nästa aktivitetshändelse i kalendern"
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_date_deadline
 #: model:ir.model.fields,field_description:quality.field_quality_check__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Nästa slutdatum för aktivitet"
+msgstr "Nästa tidsgräns för en aktivitet"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_summary
 #: model:ir.model.fields,field_description:quality.field_quality_check__activity_summary
 msgid "Next Activity Summary"
-msgstr "Nästa aktivitetssammanställning"
+msgstr "Nästa aktivitetssammanfattning"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert__activity_type_id
@@ -915,7 +922,7 @@ msgstr ""
 #. module: quality
 #: model_terms:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Show all records whose next activity date is past"
-msgstr "Visa alla poster vars nästa aktivitetsdatum är passerat"
+msgstr "Visa alla handlingar vars nästkommande aktivitetsdatum har passerat"
 
 #. module: quality
 #: model:quality.alert.stage,name:quality.quality_alert_stage_3
@@ -943,9 +950,9 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baserad på aktiviteter\n"
-"Försenade: Leveranstidpunkten har passerat\n"
-"Idag: Aktivitetsdatum är idag\n"
-"Kommande: Framtida aktiviteter."
+"Försenade: Aktivitetsdatum har redan passerat\n"
+"Idag: Aktivitetsdatum är dagens datum\n"
+"Planerade: Kommande aktiviteter."
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_tag__name
@@ -1079,7 +1086,7 @@ msgstr "Hemsidesmeddelanden"
 #: model:ir.model.fields,help:quality.field_quality_check__website_message_ids
 #: model:ir.model.fields,help:quality.field_quality_point__website_message_ids
 msgid "Website communication history"
-msgstr "Webbplatsens kommunikationshistorik"
+msgstr "Hemsidans kommunikationshistorik"
 
 #. module: quality
 #: model:quality.reason,name:quality.reason_wo

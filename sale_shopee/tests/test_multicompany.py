@@ -61,15 +61,21 @@ class TestShopeeMultiCompany(common.TestShopeeCommon):
             product_.product_tmpl_id.taxes_id = self.parent_tax
             return product_
 
-        with patch(
-            'odoo.addons.sale_shopee.utils.make_shopee_api_request',
-            new=lambda _shop, operation, *_args: common.OPERATIONS_RESPONSES_MAP[operation],
-        ), patch(
-            'odoo.addons.sale_shopee.models.shopee_shop.ShopeeShop._recompute_subtotal',
-            new=lambda _shop, subtotal_, *_args, **_kwargs: subtotal_,
-        ), patch(
-            'odoo.addons.sale_shopee.models.shopee_shop.ShopeeShop._find_matching_product',
-            new=find_matching_product_mock,
+        def api_mock(_shop, operation_, *_args):
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock()
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with (
+            patch("odoo.addons.sale_shopee.utils.make_shopee_api_request", new=api_mock),
+            patch(
+                "odoo.addons.sale_shopee.models.shopee_shop.ShopeeShop._recompute_subtotal",
+                new=lambda _shop, subtotal_, *_args, **_kwargs: subtotal_,
+            ),
+            patch(
+                "odoo.addons.sale_shopee.models.shopee_shop.ShopeeShop._find_matching_product",
+                new=find_matching_product_mock,
+            ),
         ):
             self.other_shopee_shop._sync_orders(auto_commit=False)
             self.assertEqual(self.other_shopee_shop.last_orders_sync_date, datetime.now())
@@ -77,9 +83,11 @@ class TestShopeeMultiCompany(common.TestShopeeCommon):
             order = self.env['sale.order'].search([('shopee_order_ref', '=', 'O123456789')])
             order_lines = self.env['sale.order.line'].search([('order_id', '=', order.id)])
             product_line = order_lines.filtered(lambda l: l.product_id.default_code == 'TEST_SKU')
+            shipping_line = order_lines - product_line
 
             self.assertEqual(len(order), 1)
             self.assertEqual(order.company_id.id, self.other_shopee_shop.company_id.id)
-            self.assertEqual(len(order_lines), 1) # product line only
-            self.assertEqual(product_line.price_unit, 100.0)
+            self.assertEqual(len(order_lines), 2)  # product line + shipping line
+            self.assertEqual(product_line.price_unit, 40.0)
             self.assertEqual(product_line.tax_ids, self.parent_tax)
+            self.assertEqual(shipping_line.tax_ids, self.parent_tax)

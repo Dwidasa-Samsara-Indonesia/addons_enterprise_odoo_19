@@ -2,9 +2,9 @@
 
 from datetime import datetime
 
-from odoo import Command, api, fields, models, _
-from odoo.exceptions import AccessError, RedirectWarning, UserError
-from odoo.tools import date_utils, SQL
+from odoo import Command, _, api, fields, models
+from odoo.exceptions import AccessError, RedirectWarning, UserError, ValidationError
+from odoo.tools import date_utils
 
 SDD_MIN_PRENOT_PERIOD = 2
 SDD_FIRST_MIN_PRENOT_PERIOD = 5
@@ -319,6 +319,12 @@ class SddMandate(models.Model):
                     "to allow enough time for the customer to check that their account is adequately funded.",
                     SDD_MIN_PRENOT_PERIOD
                 ))
+
+    @api.constrains('partner_id', 'partner_bank_id')
+    def _validate_partner_bank_id(self):
+        for mandate in self:
+            if mandate.partner_bank_id and mandate.partner_id != mandate.partner_bank_id.partner_id:
+                raise ValidationError(_("Mandate customer and bank account need to match."))
 
     def _ensure_required_data(self):
         """ Helper to make sure we don't send/validate a mandate missing the required data """

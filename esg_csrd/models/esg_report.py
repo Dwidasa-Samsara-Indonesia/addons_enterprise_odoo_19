@@ -2,7 +2,7 @@ import json
 from lxml import html
 
 from odoo import api, fields, models, Command
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class EsgReport(models.Model):
@@ -17,6 +17,10 @@ class EsgReport(models.Model):
         if self.env.user.has_group('esg_csrd.group_esg_csrd_reporting'):
             selection.append(('csrd', 'CSRD'))
         return selection
+
+    def _default_base_year(self):
+        last_year_report = self.search([], order='create_date desc', limit=1)
+        return last_year_report.base_year if last_year_report else fields.Date.today().year - 1
 
     report_type = fields.Selection(
         selection=lambda self: self._get_report_type_selection(),
@@ -66,7 +70,7 @@ class EsgReport(models.Model):
         help='''Select the histrocial reference year for tracking progress on metrics like GHG emissions, energy or water.
             It serves as a benchmark for future comparisons and may be adjusted if major structural changes occur.
         ''',
-        default=lambda self: self.search([], order='create_date desc', limit=1).base_year,
+        default=_default_base_year
     )
 
     @api.depends('company_id')
@@ -75,6 +79,12 @@ class EsgReport(models.Model):
             dates = report.company_id.sudo().compute_fiscalyear_dates(fields.Date.today())
             report.start_date = dates['date_from']
             report.end_date = dates['date_to']
+
+    @api.constrains('base_year')
+    def _check_base_year(self):
+        for report in self:
+            if report.base_year and not report._has_valid_base_year():
+                raise ValidationError(self.env._('The base year is not valid. It must be between 1000 and 9999.'))
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -207,3 +217,7 @@ class EsgReport(models.Model):
         action = self.env['ir.actions.actions']._for_xml_id('knowledge.ir_actions_server_knowledge_home_page')
         action['context'] = {'res_id': self.knowledge_article_id.id}
         return action
+
+    def _has_valid_base_year(self):
+        self.ensure_one()
+        return self.base_year >= 1000 and self.base_year <= 9999

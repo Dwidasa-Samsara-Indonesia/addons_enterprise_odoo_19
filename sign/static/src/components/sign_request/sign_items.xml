@@ -23,7 +23,7 @@
                     </span>
                 </t>
             </button>
-            <input t-if="type == 'text'" t-att-title="role" type="text"  t-attf-class="{{classes}} o_sign_sign_item"  t-att-style="style" t-att-placeholder="placeholder" t-att-value="value" t-att-disabled="constant"/>
+            <input t-if="type == 'text'" t-att-title="role" type="text"  t-attf-class="{{classes}} o_sign_sign_item"  t-att-style="style" t-att-placeholder="constant ? '': placeholder" t-att-value="value" t-att-disabled="constant"/>
             <input t-if="type == 'checkbox' and value == 'on'" t-att-title="role" type="checkbox" t-attf-class="{{classes}} o_sign_sign_item" t-att-style="style" checked="1"/>
             <input t-elif="type == 'checkbox'" t-att-title="role" type="checkbox" t-attf-class="{{classes}} o_sign_sign_item" t-att-style="style"/>
             <input t-if="type == 'radio'" t-att-title="role" type="radio" t-attf-class="{{classes}} o_sign_sign_item" t-att-style="style" t-att-value="value" t-att-name="radio_set_id"/>
@@ -32,7 +32,7 @@
                 t-att-title="role"
                 t-attf-class="{{classes}} o_sign_sign_item {{type == 'stamp' ? 'o_sign_stamp_field_border' : ''}}"
                 t-att-style="style"
-                t-attf-placeholder="{{placeholder}}"
+                t-attf-placeholder="{{constant ? '': placeholder}}"
                 t-att-value="value"
                 t-esc="value"
                 t-att-disabled="constant"

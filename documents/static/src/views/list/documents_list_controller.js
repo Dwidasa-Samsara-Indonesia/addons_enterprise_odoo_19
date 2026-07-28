@@ -42,6 +42,7 @@ export class DocumentsListController extends DocumentsControllerMixin(ListContro
             () => []
         );
 
+        onWillRender(() => this.openTrashIfNecessary());
         onWillRender(() => this.openInitialPreview());
     }
 

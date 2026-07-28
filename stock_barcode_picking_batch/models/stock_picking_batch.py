@@ -47,7 +47,13 @@ class StockPickingBatch(models.Model):
 
         :return: see `action_client_action`
         """
-        new_picking_batch = self.env['stock.picking.batch'].create({})
+        vals = {}
+        context = self.env.context
+        if context.get('active_model') == 'stock.picking.type':
+            picking_type = self.env['stock.picking.type'].browse(context.get('active_id'))
+            if picking_type.exists():
+                vals['picking_type_id'] = picking_type.id
+        new_picking_batch = self.env['stock.picking.batch'].create(vals)
         return new_picking_batch.action_client_action()
 
     def action_cancel_from_barcode(self):

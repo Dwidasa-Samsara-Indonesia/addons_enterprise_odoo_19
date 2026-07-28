@@ -9,7 +9,7 @@ class HrLeave(models.Model):
     _inherit = ['hr.leave', 'documents.mixin']
 
     def _get_document_folder(self):
-        return self.employee_id.company_id.documents_employee_folder_id
+        return self.employee_id.hr_employee_folder_id
 
     def _get_document_access_ids(self):
         return [(self.employee_id.work_contact_id, ('view', False))]

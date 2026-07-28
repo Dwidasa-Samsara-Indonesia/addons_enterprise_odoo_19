@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-01-13 21:57+0000\n"
+"POT-Creation-Date: 2026-06-05 19:37+0000\n"
+"PO-Revision-Date: 2026-06-09 14:52+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
 "account_intrastat/es/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_intrastat
 #. odoo-javascript
@@ -396,6 +396,12 @@ msgstr "Código de transacción Intrastat"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid "Invalid Intrastat Code"
+msgstr "Código Intrastat no válido"
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Invalid commodity intrastat code products."
 msgstr "Productos con código de intrastat no válidos."
@@ -449,6 +455,16 @@ msgstr "País de origen faltante"
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Missing product"
 msgstr "Producto faltante"
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"Note that the selected commodity code is invalid based on its start or "
+"expiry date. You can still select it."
+msgstr ""
+"Ten en cuenta que el código de mercancía seleccionado no es válido según su "
+"fecha de inicio o de vencimiento. Aun así, puedes seleccionarlo."
 
 #. module: account_intrastat
 #. odoo-python
@@ -622,6 +638,16 @@ msgstr "El número de unidades suplementarias por cantidad del producto."
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"The product template has no products/variants. At least one variant is "
+"required to set the Intrastat values."
+msgstr ""
+"La plantilla de producto no tiene productos ni variantes. Se necesita al "
+"menos una variante para establecer los valores de Intrastat."
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_return.py:0
 msgid "The value of goods should be VAT exclusive."
 msgstr "El valor de las mercancías debe indicarse sin IVA."
@@ -735,7 +761,7 @@ msgstr "ct/l"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__g
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__g
 msgid "g"
-msgstr ""
+msgstr "g"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__gi_f_/_s
@@ -813,7 +839,7 @@ msgstr "kg/net eda"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__l
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__l
 msgid "l"
-msgstr ""
+msgstr "l"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__l_alc__100_%
@@ -825,7 +851,7 @@ msgstr "l alc. 100 %"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__m
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__m
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__m2

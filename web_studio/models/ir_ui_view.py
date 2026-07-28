@@ -369,7 +369,24 @@ class IrUiView(models.Model):
         groupbys = list()
         fields.append(E.field(name=rec_name))
         if isinstance(model, self.pool['mail.activity.mixin']):
-            filters.append(E.filter(name="filter_activities_my", domain="[['activity_user_id', '=', uid]]"))
+            filters.append(E.filter(
+                invisible="1", string=_('My Activities'), name="filter_activities_my",
+                domain="[['activity_user_id', '=', uid]]")
+            )
+            filters.append(E.separator())
+            filters.append(E.filter(
+                invisible="1", string=_('Late Activities'), name='activities_overdue',
+                domain="[('my_activity_date_deadline', '<', 'today')]")
+            )
+            filters.append(E.filter(
+                invisible="1", string=_('Today Activities'), name='activities_today',
+                domain="[('my_activity_date_deadline', '=', 'today')]")
+            )
+            filters.append(E.filter(
+                invisible="1", string=_('Future Activities'), name='activities_upcoming_all',
+                domain="[('my_activity_date_deadline', '>', 'today')]")
+            )
+            filters.append(E.separator())
         if 'x_studio_partner_id' in model._fields:
             fields.append(E.field(name='x_studio_partner_id', operator='child_of'))
             groupbys.append(E.filter(name='groupby_x_partner', string=_('Partner'), context="{'group_by': 'x_studio_partner_id'}", domain="[]"))

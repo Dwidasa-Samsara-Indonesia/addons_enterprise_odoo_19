@@ -1,6 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from odoo import fields, models
-from odoo.tools import SQL
+from odoo.fields import Domain
+from odoo.tools import Query, SQL
 
 
 class BudgetReport(models.Model):
@@ -8,7 +9,7 @@ class BudgetReport(models.Model):
     _inherit = ['analytic.plan.fields.mixin']
     _description = "Budget Report"
     _auto = False
-    _order = False
+    _order = 'date desc'
 
     date = fields.Date('Date')
     res_model = fields.Char('Model', readonly=True)
@@ -24,7 +25,7 @@ class BudgetReport(models.Model):
     budget_line_id = fields.Many2one('budget.line', 'Budget Line', readonly=True)
 
     def _get_bl_query(self, plan_fnames):
-        budget_line_ids = self.env.context.get('budget_report_budget_line_ids')
+        budget_line_domain = self.env.context.get('budget_line_domain')
         return SQL(
             """
             SELECT CONCAT('bl', bl.id::TEXT) AS id,
@@ -50,22 +51,31 @@ class BudgetReport(models.Model):
                    %(plan_fields)s
               FROM budget_line bl
               JOIN budget_analytic ba ON ba.id = bl.budget_analytic_id
-              %(budget_line_ids_condition)s
+              %(budget_line_condition)s
             """,
             plan_fields=SQL(', ').join(self.env['budget.line']._field_to_sql('bl', fname) for fname in plan_fnames),
-            budget_line_ids_condition=SQL('WHERE bl.id = ANY(%(budget_line_ids)s)', budget_line_ids=budget_line_ids) if budget_line_ids else SQL(''),
+            budget_line_condition=SQL('WHERE %s', budget_line_domain._to_sql(self, 'bl', None)) if budget_line_domain else SQL(''),
         )
 
     def _get_aal_query(self, plan_fnames):
-        budget_line_ids = self.env.context.get('budget_report_budget_line_ids')
+        budget_line_domain = self.env.context.get('budget_line_domain')
 
-        company_conditions = [
-            SQL('aal.company_id = bl.company_id'),
-            SQL('bl.company_id IS NULL'),
+        # For performance reasons, we split the query into 3 parts and then UNION ALL the results
+        # (faster than doing a single query with an OR on the left join condition):
+        # Q1 - analytic lines with no matching budget line at all.
+        # Q2 - analytic lines matched to a null-company budget line.
+        # Q3 - analytic lines matched to a company-specific budget line.
+        company_budget_conditions = [
+            (SQL(''), SQL('AND bl.id IS NULL')),
+            (SQL('bl.company_id IS NULL AND'), SQL('AND bl.id IS NOT NULL')),
+            (SQL('aal.company_id = bl.company_id AND'), SQL('AND bl.id IS NOT NULL')),
         ]
 
         queries = []
-        for company_condition in company_conditions:
+        for company_condition, budget_line_condition in company_budget_conditions:
+            query = Query(self.env, alias='aal', table=SQL.identifier('account_analytic_line'))
+            analytic_profitability = self.env['account.analytic.line']._field_to_sql('aal', 'analytic_profitability', query)
+
             queries.append(SQL(
                 """
             SELECT CONCAT('aal', aal.id::TEXT) AS id,
@@ -84,23 +94,20 @@ class BudgetReport(models.Model):
                    aal.amount * CASE WHEN ba.budget_type = 'expense' THEN -1 ELSE 1 END AS achieved,
                    0 AS theoretical,
                    %(analytic_fields)s
-              FROM account_analytic_line aal
+              FROM %(from_clause)s
          LEFT JOIN budget_line bl ON %(company_condition)s
-                                 AND aal.date >= bl.date_from
+                                 aal.date >= bl.date_from
                                  AND aal.date <= bl.date_to
                                  AND %(condition)s
+                                 %(budget_line_join_condition)s
          LEFT JOIN account_account aa ON aa.id = aal.general_account_id
          LEFT JOIN budget_analytic ba ON ba.id = bl.budget_analytic_id
              WHERE CASE
                        WHEN ba.budget_type = 'expense' THEN (
-                           SPLIT_PART(aa.account_type, '_', 1) = 'expense'
-                           OR aa.account_type IN ('asset_current', 'asset_non_current', 'asset_fixed')
-                           OR (aa.account_type IS NULL AND aal.category NOT IN ('invoice', 'other'))
-                           OR (aa.account_type IS NULL AND aal.category = 'other' AND aal.amount < 0)
+                           (%(profitability)s) = 'loss'
                        )
                        WHEN ba.budget_type = 'revenue' THEN (
-                           SPLIT_PART(aa.account_type, '_', 1) = 'income'
-                           OR (aa.account_type IS NULL AND aal.category = 'other' AND aal.amount > 0)
+                           (%(profitability)s) = 'revenue'
                        )
                        ELSE TRUE
                    END
@@ -109,7 +116,7 @@ class BudgetReport(models.Model):
                        OR aa.account_type IN ('asset_current', 'asset_non_current', 'asset_fixed')
                        OR aa.account_type IS NULL
                    )
-                   %(budget_line_ids_condition)s
+                   %(budget_line_condition)s
                 """,
                 company_condition=company_condition,
                 analytic_fields=SQL(', ').join(self.env['account.analytic.line']._field_to_sql('aal', fname) for fname in plan_fnames),
@@ -118,7 +125,10 @@ class BudgetReport(models.Model):
                     bl=self.env['budget.line']._field_to_sql('bl', fname),
                     aal=self.env['budget.line']._field_to_sql('aal', fname),
                 ) for fname in plan_fnames),
-                budget_line_ids_condition=SQL('AND bl.id = ANY(%(budget_line_ids)s)', budget_line_ids=budget_line_ids) if budget_line_ids else SQL(''),
+                profitability=analytic_profitability,
+                budget_line_condition=budget_line_condition,
+                budget_line_join_condition=SQL('AND %s', budget_line_domain._to_sql(self, 'bl', None)) if budget_line_domain else SQL(''),
+                from_clause=query.from_clause,
             ))
 
         return SQL(' UNION ALL ').join(queries)
@@ -138,6 +148,16 @@ class BudgetReport(models.Model):
             "%s UNION ALL %s",
             self._get_bl_query(plan_fnames),
             self._get_aal_query(plan_fnames),
+        )
+
+    def _search(self, domain, offset=0, limit=None, order=None, *, active_test=True, bypass_access=False):
+        budget_line_domain = Domain(domain).map_conditions(lambda cond: (
+            cond if cond.field_expr == 'budget_analytic_id'
+            else Domain('id', cond.operator, cond.value) if cond.field_expr == 'budget_line_id'
+            else fields.Domain.TRUE
+        )).optimize_full(self.env['budget.line'])
+        return super(BudgetReport, self.with_context(budget_line_domain=budget_line_domain))._search(
+            domain, offset=offset, limit=limit, order=order, active_test=active_test, bypass_access=bypass_access,
         )
 
     def action_open_reference(self):

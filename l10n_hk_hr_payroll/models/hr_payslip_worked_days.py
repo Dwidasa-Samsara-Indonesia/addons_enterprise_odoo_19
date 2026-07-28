@@ -37,7 +37,11 @@ class HrPayslipWorkedDays(models.Model):
                     wd.number_of_hours for wd in payslip.worked_days_line_ids
                     if not wd.work_entry_type_id.is_extra_hours
                 )
-                sum_worked_days = attendance_hours / worked_days.version_id.resource_calendar_id.hours_per_day
+                calendar = worked_days.version_id.resource_calendar_id
+                if calendar and calendar.hours_per_day:
+                    sum_worked_days = attendance_hours / calendar.hours_per_day
+                else:
+                    sum_worked_days = 0
                 daily_wage = worked_days.version_id.contract_wage / (sum_worked_days or 1)
                 if worked_days.work_entry_type_id.l10n_hk_use_713:
                     daily_wage = payslip.l10n_hk_average_daily_wage

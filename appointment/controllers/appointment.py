@@ -1055,7 +1055,18 @@ class AppointmentController(http.Controller):
             filter_users = self._get_possible_staff_users(appointment_type, filter_staff_user_ids)
             filter_resources = self._get_possible_resources(appointment_type, filter_resource_ids)
         asked_capacity = int(asked_capacity)
-        slots = appointment_type._get_appointment_slots(request.session['timezone'], filter_users, filter_resources, asked_capacity=asked_capacity)
+        month_offset = None
+        if appointment_type.category != 'custom':
+            month_offset = int(kwargs.get('month_id', 0))
+
+        slots = appointment_type.with_context(
+            appointment_slots_force_month_offset=month_offset,
+        )._get_appointment_slots(
+            request.session['timezone'],
+            filter_users,
+            filter_resources,
+            asked_capacity=asked_capacity,
+        )
         month_first_available = next((month['id'] for month in slots if month['has_availabilities']), False)
         month_before_update = kwargs.get('month_before_update')
         month_kept_from_update = next((month['id'] for month in slots if month['month'] == month_before_update), False) if month_before_update else False

@@ -17,9 +17,9 @@ class PosSession(models.Model):
         self.config_id.set_urban_piper_provider_states({})
         return result
 
-    def delete_opening_control_session(self):
+    def _delete_session(self):
         self.config_id.set_urban_piper_provider_states({})
-        return super().delete_opening_control_session()
+        super()._delete_session()
 
     def get_closing_control_data(self):
         data = super().get_closing_control_data()

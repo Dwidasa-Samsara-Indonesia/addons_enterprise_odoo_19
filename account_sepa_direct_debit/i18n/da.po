@@ -10,13 +10,14 @@
 # Mads Søndergaard, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:47+0000\n"
-"PO-Revision-Date: 2025-11-16 05:24+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-07-06 13:35+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "account_sepa_direct_debit/da/>\n"
 "Language: da\n"
@@ -24,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.report,print_report_name:account_sepa_direct_debit.sdd_mandate_form_report_main
@@ -34,6 +35,10 @@ msgid ""
 "((object.partner_id.name).replace(' ', '_'), object.name)\n"
 "            "
 msgstr ""
+"\n"
+"                '%s_sdd_mandate_form_%s' % "
+"((object.partner_id.name).replace(' ', '_'), object.name)\n"
+"            "
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -43,7 +48,7 @@ msgstr "(hvis relevant)"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "(optional)"
-msgstr "(valgfrit)"
+msgstr "(valgfri)"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
@@ -52,6 +57,9 @@ msgid ""
 "                                Make sure the mandate isn't meant for the "
 "parent contact."
 msgstr ""
+".\n"
+"                                Sørg for, at mandatet ikke er aktivt for den "
+"overordnede kontakt."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_batch_payment_form_inherit
@@ -59,6 +67,8 @@ msgid ""
 ".\n"
 "                        SEPA requires a 5 days notice."
 msgstr ""
+".\n"
+"                        SEPA kræver 5 dages forudgående varsel."
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,body_html:account_sepa_direct_debit.email_template_sdd_new_mandate
@@ -93,11 +103,40 @@ msgid ""
 "                </div>\n"
 "            "
 msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;"
+"\">\n"
+"                        Hej <t t-out=\"object.partner_id.display_name or "
+"''\">Azure Interior</t>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        Her er dit SEPA-direktebetalingsmandat, som du skal "
+"underskrive for at give\n"
+"                        <t t-out=\"object.company_id.display_name or "
+"''\">DinVirksomhed</t>\n"
+"                        tilladelse til at sende instrukser til din bank om "
+"at debitere din konto i overensstemmelse med\n"
+"                        <t t-out=\"object.company_id.display_name or "
+"''\">DinVirksomheds</t>betalingsinstrukser\n"
+"                        Du er velkommen til at kontakte os, hvis du har "
+"spørgsmål.\n"
+"                        <br/>\n"
+"                        Med venlig hilsen\n"
+"                        <t t-if=\"not is_html_empty(user.signature)\" data-o-"
+"mail-quote-container=\"1\">\n"
+"                            <br/><br/>\n"
+"                            <div data-o-mail-quote=\"1\">--<br data-o-mail-"
+"quote=\"1\"/><t t-out=\"user.signature\" data-o-mail-quote=\"1\">Mitchell "
+"Admin</t></div>\n"
+"                        </t>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "<span> day(s)</span>"
-msgstr ""
+msgstr "<span> dag(e)</span>"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -117,7 +156,7 @@ msgstr "<strong>Land: </strong>"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "<strong>Creditor identifier:</strong>"
-msgstr "<strong>Kreditor ID:</strong>"
+msgstr "<strong>Kreditor-ID:</strong>"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -132,7 +171,7 @@ msgstr "<strong>IBAN:</strong>"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "<strong>Mandate identifier:</strong>"
-msgstr "<strong>Mandat ID:</strong>"
+msgstr "<strong>Mandat-ID:</strong>"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -142,12 +181,12 @@ msgstr "<strong>Telefon:</strong>"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "<strong>Start date:</strong>"
-msgstr "<strong>Start dato:</strong>"
+msgstr "<strong>Startdato:</strong>"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "<strong>Transaction type:</strong> recurrent"
-msgstr "<strong>Transaktion type:</strong> gentagende"
+msgstr "<strong>Transaktionstype:</strong> gentagende"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -285,6 +324,135 @@ msgid ""
 "</table>\n"
 "            "
 msgstr ""
+"<td align=\"center\" style=\"min-width: 590px;\"><table border=\"0\" "
+"cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: 16px; background-"
+"color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; "
+"width: 100%; border-collapse:separate;\"><tr><td align=\"center\">\n"
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
+"style=\"padding: 16px; background-color: white; color: #454748; border-"
+"collapse:separate;\">\n"
+"<tbody>\n"
+"    <!-- HEADER -->\n"
+"    <tr>\n"
+"        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+"0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                <tr><td valign=\"middle\">\n"
+"                    <t t-set=\"company\" t-value=\"object.company_id\"/>\n"
+"                    <span style=\"font-size: 10px;\">Forudgående meddelelse "
+"om direkte debitering</span><br/>\n"
+"                </td></tr>\n"
+"                <tr><td valign=\"middle\" align=\"right\" t-if=\"not "
+"company.uses_default_logo\">\n"
+"                    <img t-attf-src=\"/logo.png?company={{ company.id }}\" "
+"style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-"
+"alt=\"company.name\"/>\n"
+"                </td></tr>\n"
+"                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
+"                    <hr width=\"100%\" style=\"background-"
+"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+"size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+"                </td></tr>\n"
+"            </table>\n"
+"        </td>\n"
+"    </tr>\n"
+"\n"
+"    <!-- CONTENT -->\n"
+"    <tr>\n"
+"        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+"0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
+"                    Hej <t t-out=\"object.partner_id.name or ''\">Azure "
+"Interior</t><br/>\n"
+"                    <br/>\n"
+"                    En betalingsanmodning på\n"
+"                    <span style=\"font-weight:bold;\" t-"
+"out=\"format_amount(object.amount, object.currency_id) or ''\">0,00 kr.</"
+"span>\n"
+"                    vil blive sendt til din bank via direkte debitering.<br/"
+">\n"
+"                    Din konto, der slutter på <t t-"
+"out=\"ctx.get('iban_last_4') or ''\">1234,</t> debiteres automatisk den\n"
+"                    <span style=\"font-weight:bold;\" t-"
+"out=\"format_date(ctx.get('collection_date'))\">18.04.2020</span>,\n"
+"                    eller kort derefter.<br/>\n"
+"                    Sørg venligst for, at der er tilstrækkelige midler på "
+"kontoen.<br/>\n"
+"                    <br/>\n"
+"                    <t t-if=\"ctx.get('creditor_iban') or "
+"ctx.get('mandate_ref')\">\n"
+"                        Forhandlerdata:<br/>\n"
+"                        <ul>\n"
+"                            <t t-if=\"ctx.get('creditor_iban')\">\n"
+"                                <li>IBAN: <t t-out=\"ctx['creditor_iban'] or "
+"''\">NO 93 8601 1117947</t></li>\n"
+"                            </t>\n"
+"                            <t t-if=\"ctx.get('mandate_ref')\">\n"
+"                                <li>SEPA DIRECT DEBIT-MANDATREFERENCE: <t t-"
+"out=\"ctx['mandate_ref'] or ''\"/></li>\n"
+"                            </t>\n"
+"                        </ul>\n"
+"                    </t>\n"
+"                    <br/>\n"
+"                    Du er velkommen til at kontakte os, hvis du har "
+"spørgsmål.\n"
+"                </td></tr>\n"
+"                <tr><td style=\"text-align:center;\">\n"
+"                    <hr width=\"100%\" style=\"background-"
+"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+"size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+"                </td></tr>\n"
+"            </table>\n"
+"        </td>\n"
+"    </tr>\n"
+"    <!-- FOOTER -->\n"
+"    <tr>\n"
+"        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+"width=\"590\" style=\"min-width: 590px; background-color: white; font-size: "
+"11px; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                <tr><td valign=\"middle\" align=\"left\">\n"
+"                    <t t-out=\"company.name or ''\">DinVirksomhed</t>\n"
+"                </td></tr>\n"
+"                <tr><td valign=\"middle\" align=\"left\" style=\"opacity: "
+"0.7;\">\n"
+"                    <t t-if=\"company.phone\">\n"
+"                        <t t-out=\"company.phone or ''\">+1 650-123-4567</t> "
+"|\n"
+"                    </t>\n"
+"                    <t t-if=\"company.email\">\n"
+"                        <a t-attf-href=\"'mailto:%s' % {{ company.email }}\" "
+"style=\"text-decoration:none; color: #454748;\" t-out=\"company.email or "
+"''\">info@dinvirksomhed.com</a> |\n"
+"                    </t>\n"
+"                    <t t-if=\"company.website\">\n"
+"                        <a t-attf-href=\"'%s' % {{ company.website }}\" "
+"style=\"text-decoration:none; color: #454748;\" t-out=\"company.website or "
+"''\">http://www.eksempel.com</a>\n"
+"                    </t>\n"
+"                </td></tr>\n"
+"            </table>\n"
+"        </td>\n"
+"    </tr>\n"
+"</tbody>\n"
+"</table>\n"
+"</td></tr>\n"
+"<!-- POWERED BY -->\n"
+"<tr><td align=\"center\" style=\"min-width: 590px;\">\n"
+"    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
+"style=\"min-width: 590px; background-color: #F1F1F1; color: #454748; "
+"padding: 8px; border-collapse:separate;\">\n"
+"      <tr><td style=\"text-align: center; font-size: 13px;\">\n"
+"        Drevet af <a target=\"_blank\" href=\"https://www.odoo.com?"
+"utm_source=db&amp;utm_medium=mail\" style=\"color: #875A7B;\">Odoo</a>\n"
+"      </td></tr>\n"
+"    </table>\n"
+"</td></tr>\n"
+"</table>\n"
+"            "
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,body_html:account_sepa_direct_debit.email_template_sdd_mandate_expiring
@@ -394,6 +562,108 @@ msgid ""
 "                </table>\n"
 "            "
 msgstr ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: "
+"16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; "
+"color: #454748; width: 100%; border-collapse:separate;\">\n"
+"                    <tr>\n"
+"                        <td align=\"center\">\n"
+"                            <table border=\"0\" cellpadding=\"0\" "
+"cellspacing=\"0\" width=\"590\" style=\"padding: 16px; background-color: "
+"#FFFFFF; color: #454748; border-collapse:separate;\">\n"
+"                                <tbody>\n"
+"                                    <!-- CONTENT -->\n"
+"                                    <tr>\n"
+"                                        <td align=\"center\" style=\"min-"
+"width: 590px;\">\n"
+"                                            <table border=\"0\" "
+"cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; "
+"background-color: white; padding: 0px 8px 0px 8px; border-"
+"collapse:separate;\">\n"
+"                                                <tr>\n"
+"                                                    <td valign=\"top\" "
+"style=\"font-size: 13px;\">\n"
+"                                                        <div>\n"
+"                                                            Hej<br/><br/>\n"
+"                                                            Et SEPA Direct "
+"Debit-mandat udløber automatisk den <span t-out=\"format_date"
+"(object._get_expiry_date_per_mandate()[object])\">18.04.2020</span><br/>\n"
+"                                                            Dette kan "
+"skyldes én af følgende årsager:\n"
+"                                                            <ul>\n"
+"                                                                <li>\n"
+"                                                                    Datoen "
+"viser den mandatperiode, som blev fastlagt ved underskrivelsen.\n"
+"                                                                </li>\n"
+"                                                                <li>\n"
+"                                                                    Det er "
+"nu mere end 36 måneder siden, dette mandat sidst blev anvendt.\n"
+"                                                                </li>\n"
+"                                                            </ul>\n"
+"                                                            <div "
+"style=\"margin: 16px 0px 16px 0px;\">\n"
+"                                                                <a t-attf-"
+"href=\"{{ website_url }}/odoo/sdd-mandates/{{ object.id }}\" "
+"style=\"background-color: #4caf50; padding: 8px 16px 8px 16px; text-"
+"decoration: none; color: #fff; border-radius: 5px; font-size:13px;\">\n"
+"                                                                    Gå til "
+"mandat\n"
+"                                                                </a>\n"
+"                                                            </div>\n"
+"                                                            Sikkerhedstip: "
+"Kontrollér, at domænenavnet, som du omdirigeres til, er korrekt: <b><a t-att-"
+"href=\"object.get_base_url()\" t-out=\"object.get_base_url() or ''\">\n"
+"                                                            https://"
+"dinvirksomhed.odoo.com</a></b>\n"
+"                                                        </div>\n"
+"                                                    </td>\n"
+"                                                </tr>\n"
+"                                                <tr>\n"
+"                                                    <td style=\"text-"
+"align:center;\">\n"
+"                                                        <hr width=\"100%\" "
+"style=\"background-color:rgb(204,204,204);border:medium "
+"none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; "
+"margin: 16px 0px 16px 0px;\"/>\n"
+"                                                    </td>\n"
+"                                                </tr>\n"
+"                                            </table>\n"
+"                                        </td>\n"
+"                                    </tr>\n"
+"                                </tbody>\n"
+"                            </table>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                    <!-- POWERED BY -->\n"
+"                    <tr>\n"
+"                        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"                            <table border=\"0\" cellpadding=\"0\" "
+"cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: "
+"#F1F1F1; color: #454748; padding: 8px; border-collapse:separate;\">\n"
+"                                <tr>\n"
+"                                    <td style=\"text-align: center; font-"
+"size: 13px;\">\n"
+"                                        Drevet af <a target=\"_blank\" "
+"href=\"https://www.odoo.com?utm_source=db&amp;utm_medium=auth\" "
+"style=\"color: #875A7B;\">Odoo</a>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                            <table border=\"0\" cellpadding=\"0\" "
+"cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; color: #454748; "
+"padding: 8px; border-collapse:separate;\">\n"
+"                                <tr>\n"
+"                                    <td style=\"text-align: center; font-"
+"size: 11px;\">\n"
+"                                        P.S.: Dette er en automatisk e-mail "
+"fra Odoo Regnskab, som informerer dig om, at et SEPA Direct Debit-mandat "
+"lukkes automatisk.\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                </table>\n"
+"            "
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -402,19 +672,20 @@ msgid ""
 "A SEPA direct debit version should be selected to generate the addresses in "
 "the export file."
 msgstr ""
+"Vælg en SEPA Direct Debit-aftale for at generere eksportfilens adresser."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_payment.py:0
 msgid ""
 "A SEPA direct debit version should be selected to generate the export file."
-msgstr ""
+msgstr "Vælg en SEPA Direct Debit-aftale for at generere eksportfilen."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "A customer account is required to validate a SEPA Direct Debit mandate."
-msgstr ""
+msgstr "En kundekonto er påkrævet for at validere et SEPA Direct Debit-mandat."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.actions.act_window,help:account_sepa_direct_debit.account_sepa_direct_debit_mandate_tree_act
@@ -422,13 +693,13 @@ msgid ""
 "A mandate represents the authorization you receive from a customer\n"
 "                    to automatically collect money on her account."
 msgstr ""
-"Et mandat repræsenterer autoriseringen du modtog fra en kunde\n"
-"                      til automatisk at indsamle penge på deres konto."
+"Et mandat repræsenterer den autorisation, du har modtaget fra en kunde\n"
+"                      til automatisk at opkræve beløb på deres konto."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__partner_bank_id
 msgid "Account of the customer to collect payments from."
-msgstr "Konto på kunden der skal indhentes betalinger fra."
+msgstr "Kundenkonto, der skal bruges til betalinger."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__message_needaction
@@ -465,12 +736,12 @@ msgstr "Aktivitetstypeikon"
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "All the payments in the batch must have the same SDD scheme."
-msgstr "Alle betalinger i batchen skal have samme SDD skema."
+msgstr "Alle samlede betalinger skal anvende samme SDD-skema."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "Antwerp"
-msgstr ""
+msgstr "Antwerpen"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -481,6 +752,10 @@ msgid ""
 "be claimed within 8 weeks starting from the date on which your account was "
 "debited."
 msgstr ""
+"Inden for rammerne af dine rettigheder har du ret til at få en refusion fra "
+"din bank i henhold til betingelserne i din aftale med banken. Dine "
+"rettigheder fremgår af en erklæring, som kan fås hos banken. En refusion "
+"skal anmodes om inden for 8 uger fra den dato, hvor din konto blev debiteret."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_account_batch_payment__sdd_batch_booking
@@ -513,12 +788,12 @@ msgstr "Bankkonti"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_batch_payment_form_inherit
 msgid "Batch Booking"
-msgstr "Parti booking"
+msgstr "Samlet bogføring"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_account_batch_payment
 msgid "Batch Payment"
-msgstr "Parti betaling"
+msgstr "Samlet betaling"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -528,17 +803,17 @@ msgstr "Belgien"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__body_has_template_value
 msgid "Body content is the same as the template"
-msgstr "Kropsindholdet er det samme som skabelonen"
+msgstr "Tekstindholdet er det samme som skabelonen"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "Building C"
-msgstr ""
+msgstr "Bygning C"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "By signing this mandate form, you authorise (A)"
-msgstr "Ved at underskrive denne mandat formular, autorisere du (A)"
+msgstr "Ved at underskrive denne mandatformular autoriserer du (A)"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_sepa_direct_debit.selection__account_batch_payment__sdd_scheme__core
@@ -549,12 +824,12 @@ msgstr "KERNE"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "CREDIT-1234"
-msgstr ""
+msgstr "CREDIT-1234"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__can_edit_body
 msgid "Can Edit Body"
-msgstr "Kan Redigere Krop"
+msgstr "Kan redigere brødtekst"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
@@ -571,7 +846,7 @@ msgstr "Annulleret"
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/wizard/sdd_mandate_send.py:0
 msgid "Check Partner(s) Email(s)"
-msgstr "Tjek partner(e)s email(s)"
+msgstr "Tjek partner(e)s e-mail(s)"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
@@ -587,7 +862,7 @@ msgstr "Lukket"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "Collections"
-msgstr ""
+msgstr "Indbetalinger"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_res_company
@@ -603,7 +878,7 @@ msgstr "Virksomhed"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__company_id
 msgid "Company for whose invoices the mandate can be used."
-msgstr "Virksomhed for hvis faktura mandatet kan bruges."
+msgstr "Virksomhed, som fakturaens mandat gælder for."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_res_config_settings
@@ -623,7 +898,7 @@ msgstr "Indhold"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_payment__sdd_mandate_usable
 msgid "Could a SDD mandate be used?"
-msgstr "Kan et SDD mandat bruges?"
+msgstr "Kan et SDD-mandat bruges?"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,website_form_label:account_sepa_direct_debit.model_res_partner
@@ -633,12 +908,12 @@ msgstr "Opret en kunde"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.actions.act_window,help:account_sepa_direct_debit.account_sepa_direct_debit_mandate_tree_act
 msgid "Create a new direct debit customer mandate"
-msgstr "Opret et nyt direkte debit kunde mandat"
+msgstr "Opret nyt kundemandat til direkte debitering"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_form
 msgid "Create it."
-msgstr ""
+msgstr "Opret straks."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__create_uid
@@ -660,12 +935,12 @@ msgstr "Kreditor"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_config_settings__sdd_creditor_identifier
 msgid "Creditor Identifier"
-msgstr "Kreditor ID"
+msgstr "Kreditor-ID"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_res_config_settings__sdd_creditor_identifier
 msgid "Creditor identifier of your company within SEPA scheme."
-msgstr "Kreditor ID på din virksomhed indenfor SEPA skema."
+msgstr "Kreditor-ID for din virksomhed i SEPA-skemaet."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__partner_id
@@ -676,23 +951,23 @@ msgstr "Kunde"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "Customer mandate"
-msgstr "Kunde mandat"
+msgstr "Kundemandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__partner_id
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate_send__partner_id
 msgid "Customer whose payments are to be managed by this mandate."
-msgstr "Kunde hvis betalinger skal administreres af dette mandat."
+msgstr "Kunden, hvis betalinger håndteres via dette mandat."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "DEBT1234"
-msgstr ""
+msgstr "DEBT1234"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__start_date
 msgid "Date from which the mandate can be used (inclusive)."
-msgstr "Dato fra hvornår mandatet kan bruges (inklusiv)."
+msgstr "Dato fra hvilken mandatet kan anvendes (inklusive)."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__end_date
@@ -700,7 +975,7 @@ msgid ""
 "Date until which the mandate can be used. It will automatically be closed "
 "after this date."
 msgstr ""
-"Dato indtil hvornår mandatet kan bruges. Den vil automatisk blive lukket "
+"Datoen, indtil hvilket mandatet kan anvendes. Mandatet lukkes automatisk "
 "efter denne dato."
 
 #. module: account_sepa_direct_debit
@@ -709,6 +984,9 @@ msgid ""
 "Date when the company expects to receive the payments of this batch. It "
 "can't be inferior to the sending day + the minimum pre-notification period."
 msgstr ""
+"Dato, hvor virksomheden forventer at modtage betalingerne i denne bunke. "
+"Datoen må ikke ligge efter afsendelsesdatoen plus den minimale "
+"varslingsfrist."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -718,40 +996,40 @@ msgstr "Debitor"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__debtor_id_code
 msgid "Debtor Identifier"
-msgstr "Debitor ID"
+msgstr "Debitor-ID"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_sepa_direct_debit.selection__account_journal__debit_sepa_pain_version__pain_008_001_02
 msgid "Default (Pain 008.001.02)"
-msgstr ""
+msgstr "Standard (Pain 008.001.02)"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "Demo@email.com"
-msgstr ""
+msgstr "Demo@email.com"
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.act_window,name:account_sepa_direct_debit.account_sepa_direct_debit_mandate_tree_act
 #: model:ir.ui.menu,name:account_sepa_direct_debit.account_sepa_direct_debit_customer_mandates_menu
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sdd_res_partner_view
 msgid "Direct Debit Mandates"
-msgstr "Direkte debit mandater"
+msgstr "Direkte debiteringsmandater"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_journal_dashboard_kanban_view
 msgid "Direct Debit Payment to Collect"
-msgstr "Direkte debit betaling at indhente"
+msgstr "Opkrævning via direkte debitering"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__payments_to_collect_nber
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_journal_dashboard_kanban_view
 msgid "Direct Debit Payments to Collect"
-msgstr "Direkte debit betalinger at indhente"
+msgstr "Opkrævning via direkte debiteringer"
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.act_window,name:account_sepa_direct_debit.action_sdd_payments_to_collect
 msgid "Direct debit payments to collect"
-msgstr "Direkte debit betalinger at indhente"
+msgstr "Opkrævning via direkte debiteringer"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_batch_payment__display_name
@@ -767,7 +1045,7 @@ msgstr "Direkte debit betalinger at indhente"
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__display_name
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__checkbox_download
@@ -778,7 +1056,7 @@ msgstr "Download"
 #: model:ir.model.fields.selection,name:account_sepa_direct_debit.selection__sdd_mandate__state__draft
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sdd_mandate_search_view
 msgid "Draft"
-msgstr "Udkast"
+msgstr "Kladde"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__state
@@ -790,6 +1068,13 @@ msgid ""
 "valid.\n"
 "Revoked: Fraudulent mandates. Previous invoices might need reimbursement.\n"
 msgstr ""
+"Kladde: Skal valideres før brug.\n"
+"Aktiv: Gyldige mandater, der kan bruges til opkrævning af betalinger.\n"
+"Annulleret: Mandater, der aldrig blev valideret.\n"
+"Lukket: Udløbne eller manuelt lukkede mandater. Tidligere transaktioner "
+"forbliver gyldige.\n"
+"Tilbagekaldt: Mandater, der er blevet tilbagekaldt på grund af mistanke om "
+"svig. Tidligere fakturaer kan muligvis kræve refusion.\n"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__checkbox_send_mail
@@ -799,38 +1084,38 @@ msgstr "E-mail"
 #. module: account_sepa_direct_debit
 #: model:mail.template,description:account_sepa_direct_debit.email_template_sdd_new_mandate
 msgid "Email requesting the customer to sign the mandate attached"
-msgstr ""
+msgstr "E-mail til kunden med anmodning om at underskrive det vedlagte mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__template_id
 msgid "Email template"
-msgstr "Email skabelon"
+msgstr "E-mailskabelon"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__end_date
 msgid "End Date"
-msgstr "Slut dato"
+msgstr "Slutdato"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "End date"
-msgstr "Slut dato"
+msgstr "Slutdato"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_res_partner__sdd_mandate_ids
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_res_users__sdd_mandate_ids
 msgid "Every mandate belonging to this partner."
-msgstr "Hver mandat tilhørende denne partner."
+msgstr "Alle mandater, der tilhører denne partner."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__expiration_warning_already_sent
 msgid "Expiration warning sent"
-msgstr ""
+msgstr "Advarsel om udløb er sendt"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_batch_payment_form_inherit
 msgid "First-Time Payments"
-msgstr ""
+msgstr "Første betalinger"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__message_follower_ids
@@ -845,30 +1130,30 @@ msgstr "Følgere (partnere)"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Font Awesome-ikon, f.eks. fa-opgaver"
+msgstr "FontAwesome-ikon, f.eks. fa-opgaver"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__debtor_id_code
 msgid "Free reference identifying the debtor in your company."
-msgstr "Gratis reference der identificerer debitoren i din virksomhed."
+msgstr "Gratis reference, der identificerer debitoren i din virksomhed."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Go to journal"
-msgstr ""
+msgstr "Gå til journal"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Go to mandates"
-msgstr ""
+msgstr "Gå til mandater"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Go to payments"
-msgstr ""
+msgstr "Gå til betalinger"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -880,7 +1165,7 @@ msgstr "Gå til indstillinger"
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_payment_register_form_inherit_account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_form
 msgid "Good news! A valid SEPA Mandate is available."
-msgstr ""
+msgstr "God nyhed! Et gyldigt SEPA-mandat er nu tilgængeligt."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__has_message
@@ -944,35 +1229,35 @@ msgstr ""
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__payment_ids
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "In-process and completed payments generated under this mandate."
-msgstr ""
+msgstr "Dette mandat har genereret både løbende og afsluttede betalinger."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/res_company.py:0
 msgid "Invalid creditor identifier. Make sure you made no typo."
-msgstr "Ugyldig kreditor ID. Tjek du ikke lavede en slåfejl."
+msgstr "Ugyldigt kreditor-ID. Kontrollér, at der ikke er slåfejl."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/res_company.py:0
 msgid "Invalid creditor identifier. Wrong format."
-msgstr "Ugyldig keditor ID. Forkert format."
+msgstr "Ugyldigt kreditor-ID. Forkert format."
 
 #. module: account_sepa_direct_debit
 #: model:mail.message.subtype,description:account_sepa_direct_debit.sdd_mt_invoice_paid_with_mandate
 msgid "Invoice paid via direct debit."
-msgstr "Faktura betalt via direkte debit."
+msgstr "Faktura betalt via direkte debitering."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__paid_invoice_ids
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "Invoices Paid"
-msgstr "Fakturaer betalt"
+msgstr "Betalte fakturaer"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_invoice_filter
 msgid "Invoices matching a valid SEPA Direct Debit Mandate"
-msgstr "Faktura der stemmer overens med et gyldigt SEPA Direkte Debet Mandat"
+msgstr "Faktura, der er knyttet til et gyldigt SEPA Direct Debit-mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__paid_invoice_ids
@@ -1002,7 +1287,7 @@ msgstr "Journal"
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_account_move
 msgid "Journal Entry"
-msgstr "Journalbilag"
+msgstr "Journalpostering"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__lang
@@ -1024,32 +1309,38 @@ msgstr "Sidst opdateret den"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__message_main_attachment_id
 msgid "Main Attachment"
-msgstr "Vedhæftning"
+msgstr "Primære vedhæftning"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__mandate_id
 msgid "Mandate"
-msgstr ""
+msgstr "Mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__mandate_pdf_file
 msgid "Mandate Form PDF"
+msgstr "PDF-mandatformular"
+
+#. module: account_sepa_direct_debit
+#. odoo-python
+#: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
+msgid "Mandate customer and bank account need to match."
 msgstr ""
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.report,name:account_sepa_direct_debit.sdd_mandate_form_report_main
 msgid "Mandate form"
-msgstr "Mandat form"
+msgstr "Mandatformular"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.constraint,message:account_sepa_direct_debit.constraint_sdd_mandate_name_unique
 msgid "Mandate identifier must be unique! Please choose another one."
-msgstr ""
+msgstr "Mandat-ID skal være unikt! Vælg venligst et andet."
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.server,name:account_sepa_direct_debit.sdd_mandate_state_cron_ir_actions_server
 msgid "Mandate state updater"
-msgstr "Mandat status opdaterings agent"
+msgstr "Opdatering af mandatstatus"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1094,12 +1385,12 @@ msgstr "Næste aktivitetstype"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_payment_register__no_sdd_mandate_partner_ids
 msgid "No Sdd Mandate Partner"
-msgstr ""
+msgstr "Ingen partner til SDD-mandat"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.actions.act_window,help:account_sepa_direct_debit.action_sdd_payments_to_collect
 msgid "No direct debit payment to collect"
-msgstr "Ingen direkte debit betaling at indhente"
+msgstr "Ingen betalinger via direkte debitering at opkræve"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__message_needaction_counter
@@ -1116,11 +1407,12 @@ msgstr "Antal fejl"
 msgid ""
 "Number of in-process and completed payments generated under this mandate."
 msgstr ""
+"Antal igangværende og afsluttede betalinger genereret under dette mandat."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__paid_invoices_nber
 msgid "Number of invoices paid with this mandate."
-msgstr ""
+msgstr "Antal fakturaer betalt via dette mandat."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__message_needaction_counter
@@ -1135,7 +1427,7 @@ msgstr "Antal beskeder med leveringsfejl"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "Odoo PVT LTD"
-msgstr ""
+msgstr "Odoo PVT LTD"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.actions.act_window,help:account_sepa_direct_debit.account_sepa_direct_debit_mandate_tree_act
@@ -1149,6 +1441,14 @@ msgid ""
 "file containing this operation\n"
 "                    and send it to your bank to effectively get paid."
 msgstr ""
+"Når der oprettes en faktura\n"
+"                    i Odoo for en kunde med et aktivt mandat på "
+"fakturadatoen,\n"
+"                    udløser valideringen af fakturaen automatisk betalingen. "
+"Du skal\n"
+"                    herefter blot oprette en XML-fil til SEPA Direct Debit-"
+"proceduren (SDD) med denne transaktion\n"
+"                    og sende den til din bank for at modtage betalingen."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_account_payment__sdd_mandate_id
@@ -1156,13 +1456,13 @@ msgid ""
 "Once this invoice has been paid with Direct Debit, contains the mandate that "
 "allowed the payment."
 msgstr ""
-"Når denne faktura er blevet betalt med Direkte Debit, indeholder dette "
-"mandatet der tillod betalingen."
+"Når denne faktura er betalt via direkte debitering, indeholder den det "
+"mandat, der muliggjorde betalingen."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__one_off
 msgid "One-off Mandate"
-msgstr "Engangs mandat"
+msgstr "Engangsmandat"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1172,39 +1472,41 @@ msgid ""
 "select a journal associated to one or add an IBAN bank account to the "
 "current journal"
 msgstr ""
+"SEPA-betalinger kan kun udføres til IBAN-kontonumre. Vælg en tilknyttet "
+"journal, eller tilføj en IBAN-bankkonto til den aktuelle journal"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "Only mandates in draft state can be deleted."
-msgstr ""
+msgstr "Kun mandater i kladdestatus kan slettes."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_payment_register_form_inherit_account_sepa_direct_debit
 msgid "Oops! No valid SEPA mandate for the following partner(s):"
-msgstr ""
+msgstr "Ups! Der findes intet gyldigt SEPA-mandat for følgende partner(e):"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_form
 msgid "Oops! No valid SEPA mandate for this customer."
-msgstr ""
+msgstr "Ups! Der findes intet gyldigt SEPA-mandat for denne kunde."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "Open customer"
-msgstr ""
+msgstr "Åben kunde"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "Open customers"
-msgstr ""
+msgstr "Åbne kunder"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sdd_res_partner_view
 msgid "Open this partner's mandates"
-msgstr "Åben denne partners mandater"
+msgstr "Åbn denne partners mandater"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate_send__lang
@@ -1219,7 +1521,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_form
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_with_mandates_tree
 msgid "Originating SEPA mandate"
-msgstr "SEPA Mandatet hvorfor det oprindede"
+msgstr "Oprindelige SEPA-mandat"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1230,29 +1532,29 @@ msgstr "Betalte fakturaer"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__paid_invoices_nber
 msgid "Paid Invoices Number"
-msgstr "Betalt faktura nummer"
+msgstr "Antal betalte fakturaer"
 
 #. module: account_sepa_direct_debit
 #: model:mail.message.subtype,name:account_sepa_direct_debit.sdd_mt_invoice_paid_with_mandate
 msgid "Paid via direct debit"
-msgstr "Betalt via direkte debit"
+msgstr "Betalt via direkte debitering"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__partner_parent_id
 msgid "Parent Partner"
-msgstr ""
+msgstr "Overordnet partner"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/wizard/sdd_mandate_send.py:0
 msgid "Partner should have an email address."
-msgstr ""
+msgstr "Partneren skal have en mailadresse."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "Partner's Parent"
-msgstr ""
+msgstr "Partnerens overordnede kontakt"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_account_payment_register
@@ -1267,7 +1569,7 @@ msgstr "Betalingsformer"
 #. module: account_sepa_direct_debit
 #: model:mail.template,subject:account_sepa_direct_debit.email_template_sdd_pre_notification
 msgid "Payment notification {{ object.memo }}"
-msgstr ""
+msgstr "Betalingsmeddelelse {{ object.memo }}"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_account_payment
@@ -1278,19 +1580,19 @@ msgstr "Betalinger"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_move_line_payment_filter
 msgid "Payments matching a valid SEPA Direct Debit Mandate"
-msgstr ""
+msgstr "Betalinger matcher et gyldigt SEPA Direct Debit-mandat"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "Payments to Collect"
-msgstr "Betalinger at indhente"
+msgstr "Opkrævning via direkte debiteringer"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Payments without mandate"
-msgstr ""
+msgstr "Betalinger uden mandat"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_report_invoice_document
@@ -1299,19 +1601,19 @@ msgid ""
 "processed\n"
 "                        automatically."
 msgstr ""
-"Betal venligst ikke manuelt, din bank anmodes om automatisk behandling af "
-"betalingen."
+"Betal venligst ikke manuelt, din bank anmodes om automatisk behandling af\n"
+"                        betalingen."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__pre_notification_period
 msgid "Pre-notification"
-msgstr ""
+msgstr "Forhåndsmeddelelse"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Problematic mandates"
-msgstr ""
+msgstr "Problematiske mandater"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__rating_ids
@@ -1331,7 +1633,7 @@ msgstr "Gengivelsesmodel"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_batch_payment__sdd_required_collection_date
 msgid "Required Collection Date"
-msgstr ""
+msgstr "Påkrævet opkrævningsdato"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__activity_user_id
@@ -1351,105 +1653,105 @@ msgstr "Tilbagekaldt"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_view_account_payment_search
 msgid "Revoked SDD Mandate"
-msgstr "Tilbagekaldt SDD mandat"
+msgstr "Tilbagekaldt SDD-mandat"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "Rue de la Loi, 16"
-msgstr ""
+msgstr "Rue de la Loi, 16"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_payment_search
 msgid "SDD B2B"
-msgstr ""
+msgstr "SDD B2B"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_batch_payment__sdd_batch_booking
 msgid "SDD Batch Booking"
-msgstr "SDD Parti Booking"
+msgstr "SDD-samlet bogføring"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_payment_search
 msgid "SDD CORE"
-msgstr ""
+msgstr "SDD CORE"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_sdd_mandate
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_move_line_payment_filter
 msgid "SDD Mandate"
-msgstr "SDD Mandat"
+msgstr "SDD-mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_sdd_mandate_send
 msgid "SDD Mandate Send"
-msgstr ""
+msgstr "Send SDD-mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_batch_payment__sdd_scheme
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_payment__sdd_mandate_scheme
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__sdd_scheme
 msgid "SDD Scheme"
-msgstr "SDD Skema"
+msgstr "SDD-skema"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_partner__sdd_count
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_users__sdd_count
 msgid "SDD count"
-msgstr "SDD antal"
+msgstr "Antal SDD'er"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_company__sdd_creditor_identifier
 msgid "SDD creditor identifier"
-msgstr "SDD kreditor ID"
+msgstr "SDD-kreditor-ID"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "SDD scheme is set on the customer mandate."
-msgstr "SDD skema er angivet på kundemandatet."
+msgstr "SDD-skema er angivet på kundemandatet."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "SEPA Business-to-Business Direct Debit Mandate"
-msgstr ""
+msgstr "SEPA-betalingsmandat for virksomheder (B2B)"
 
 #. module: account_sepa_direct_debit
 #: model:account.payment.method,name:account_sepa_direct_debit.payment_method_sdd
 msgid "SEPA Direct Debit"
-msgstr "SEPA direkte debit"
+msgstr "SEPA Direct Debit"
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,name:account_sepa_direct_debit.email_template_sdd_pre_notification
 msgid "SEPA Direct Debit Customer Pre-Notification mail"
-msgstr ""
+msgstr "SEPA Direct Debit – forhåndsmeddelelse til kunde"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "SEPA Direct Debit Mandate"
-msgstr "SEPA Direkte Debit mandat"
+msgstr "SEPA Direct Debit-mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_journal__debit_sepa_pain_version
 msgid "SEPA Direct Debit Pain Version"
-msgstr ""
+msgstr "SEPA Direct Debit-Pain-version"
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,name:account_sepa_direct_debit.email_template_sdd_new_mandate
 msgid "SEPA Direct Debit Sending"
-msgstr ""
+msgstr "Sender SEPA Direct Debit"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_res_company__sdd_creditor_identifier
 msgid ""
 "SEPA Direct Debit creditor identifier of the company, given by the bank."
-msgstr "SEPA Direkte Debit kreditor ID for virksomheden, tildelt af banken."
+msgstr "SEPA Direct Debit-kreditor-ID for virksomheden, udstedt af banken."
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,name:account_sepa_direct_debit.email_template_sdd_mandate_expiring
 #: model:mail.template,subject:account_sepa_direct_debit.email_template_sdd_mandate_expiring
 msgid "SEPA Direct Debit mandate expiration warning"
-msgstr ""
+msgstr "Advarsel om udløb af SEPA Direct Debit-mandat"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1458,30 +1760,30 @@ msgid ""
 "SEPA Direct Debit scheme only accepts IBAN account numbers. Please select an "
 "IBAN-compliant debtor account for this mandate."
 msgstr ""
-"SEPA Direkte Debit skema accepterer kun IBAN kontonumre. Vælg venligt en "
-"debitor konto der er i overensstemmelse med IBAN for dette mandat."
+"SEPA Direct Debit-skemaet accepterer kun IBAN-kontonumre. Vælg venligst en "
+"debitor-konto med IBAN, der svarer til dette mandat."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_journal_form
 msgid "SEPA Pain Version"
-msgstr "SEPA Pain version"
+msgstr "SEPA-Pain-version"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_journal_form
 msgid "SEPA Pain version"
-msgstr ""
+msgstr "SEPA-Pain-version"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_payment_register_form_inherit_account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_form
 msgid "SEPA Scheme operates in Euro."
-msgstr ""
+msgstr "SEPA-betalinger foretages i euro."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "SEPA direct debit stateless customer"
-msgstr ""
+msgstr "SEPA Direct Debit: statsløs kunde"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1491,16 +1793,18 @@ msgid ""
 "days to allow enough time for the customer to check that their account is "
 "adequately funded."
 msgstr ""
+"SEPA-reglerne kræver en minimumsfrist på %s dage for forhåndsmeddelelse, så "
+"kunden har tilstrækkelig tid til at sikre dækning på kontoen."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "SEPA-CUST-001"
-msgstr ""
+msgstr "SEPA-CUST-001"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "SEPA1234"
-msgstr ""
+msgstr "SEPA1234"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__message_has_sms_error
@@ -1511,20 +1815,20 @@ msgstr "Fejl ved SMS-levering"
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_bank_statement_line__sdd_has_usable_mandate
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_move__sdd_has_usable_mandate
 msgid "Sdd Has Usable Mandate"
-msgstr "SDD Har Brugbart Mandat"
+msgstr "SDD har brugbart mandat"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_payment__sdd_mandate_id
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_partner__sdd_mandate_ids
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_users__sdd_mandate_ids
 msgid "Sdd Mandate"
-msgstr "Sdd mandat"
+msgstr "SDD-mandat"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_payment.py:0
 msgid "Select a SEPA Direct Debit version before generating the XML."
-msgstr ""
+msgstr "Vælg en SEPA Direct Debit-version, inden du genererer XML-filen."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1536,17 +1840,18 @@ msgstr "Send"
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_send_form
 msgid "Send & Print"
-msgstr "Send & print"
+msgstr "Send og udskriv"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__is_sent
 msgid "Sent to the customer"
-msgstr ""
+msgstr "Sendt til kunden"
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,description:account_sepa_direct_debit.email_template_sdd_pre_notification
 msgid "Sent to the customer to indicate their account will be charged"
 msgstr ""
+"Sendt til kunden for at informere om, at deres konto vil blive debiteret"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1555,25 +1860,24 @@ msgid ""
 "Some draft payments could not be posted because of the lack of any active "
 "mandate."
 msgstr ""
-"Visse kladde betalinger kunne ikke posteres grundet manglen af et aktivt "
-"mandat."
+"Visse kladdebetalinger kunne ikke bogføres pga. manglende aktivt mandat."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Some payments are linked to an inactive mandate."
-msgstr ""
+msgstr "Visse betalinger er knyttet til et inaktivt mandat."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "Some payments are not linked to any mandate."
-msgstr ""
+msgstr "Visse betalinger er ikke knyttet til et mandat."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__start_date
 msgid "Start Date"
-msgstr "Start dato"
+msgstr "Startdato"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__state
@@ -1608,9 +1912,9 @@ msgid ""
 "offered exclusively to business payers.\n"
 "Some banks/businesses might not accept B2B SDD."
 msgstr ""
-"B2B skemaet er et valgfrit skema,\n"
-"som eksklusivt tilbydes forretnings betalere.\n"
-"Det kan være at visse banker/forretninger ikke accepterer B2B SDD."
+"B2B-ordningen er en valgfri ordning,\n"
+"som kun tilbydes erhvervskunder.\n"
+"Nogle banker eller virksomheder accepterer muligvis ikke B2B SDD."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1619,8 +1923,8 @@ msgid ""
 "The SEPA Direct Debit mandate associated to the payment has been revoked and "
 "cannot be used anymore."
 msgstr ""
-"SEPA Direkte Debit mandatet associeret med betalingen er blevet tilbagekaldt "
-"og kan ikke længere anvendes."
+"SEPA Direct Debit-mandatet tilknyttet betalingen er tilbagekaldt og kan ikke "
+"længere anvendes."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1631,18 +1935,22 @@ msgid ""
 "the mandate is already known by them.\n"
 "The minimum collection date must be %(date)s."
 msgstr ""
+"Banken skal underrettes mindst %(min_days_new)s dage i forvejen for direkte "
+"debiteringer vedrørende et nyt mandat og %(min_days)s dage i forvejen, hvis "
+"banken allerede kender mandatet.\n"
+"Den tidligste dato for direkte debitering skal være %(date)s."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/res_company.py:0
 msgid "The creditor identifier exceeds the maximum length of 35 characters."
-msgstr "Kreditor ID'et overstiger maksimal længden på 35 anslag."
+msgstr "Kreditor-ID overstiger den maksimale længde på 35 tegn."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "The customer must have a country"
-msgstr ""
+msgstr "Kunden skal have et land"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1650,7 +1958,7 @@ msgstr ""
 msgid ""
 "The debtor and creditor city name is a compulsary information when "
 "generating the SDD XML."
-msgstr ""
+msgstr "Navn på debitor og kreditor er påkrævet, når SDD XML genereres."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1659,6 +1967,8 @@ msgid ""
 "The debtor and creditor country is a compulsary information when generating "
 "the SDD XML."
 msgstr ""
+"Det er nødvendigt at angive både debitors og kreditors land for at kunne "
+"generere SDD-XML-filen."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1667,8 +1977,8 @@ msgid ""
 "The debtor identifier you specified exceeds the limitation of 35 characters "
 "imposed by SEPA regulation"
 msgstr ""
-"Debitor ID'en du specificerede overstiger begrænsningen på 35 anslag fastsat "
-"af SEPA reguleringen"
+"Det Debitor-ID, du har angivet, overskrider SEPA-reguleringens grænse på 35 "
+"tegn"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1676,7 +1986,7 @@ msgstr ""
 msgid ""
 "The end date of the mandate must be posterior or equal to its start date."
 msgstr ""
-"Slut datoen for mandatet skal være efter eller lig med dens start dato."
+"Mandatets slutdato skal være den samme som eller senere end startdatoen."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1687,6 +1997,11 @@ msgid ""
 "notification period for creditors\n"
 "                    to inform debtors about an upcoming collection is"
 msgstr ""
+"Mandatet bruges kun til at betale fakturaer inden for den angivne "
+"tidsperiode. Hvis der ikke er angivet en slutdato,\n"
+"                    skal du kontakte os for at få stoppet brugen. Den "
+"korteste frist, en kreditor skal overholde\n"
+"                    for at informere en debitor om en kommende debitering, er"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__pre_notification_period
@@ -1694,6 +2009,7 @@ msgid ""
 "The minimum notice period in days, used to inform the customer prior to "
 "collection."
 msgstr ""
+"Det mindste antal dage, kunden skal varsles, før en debitering gennemføres."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1702,23 +2018,25 @@ msgid ""
 "The payment must be linked to a SEPA Direct Debit mandate in order to "
 "generate a Direct Debit XML."
 msgstr ""
-"Betalingen skal være forbundet til et SEPA Direkte Debit mandat, for at "
-"kunne generere en Direkte Debit XML fil."
+"Betalingen skal være knyttet til et SEPA Direct Debit-mandat for at kunne "
+"generere en direkte XML-debitering."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "The selected customer is a child of"
-msgstr ""
+msgstr "Den valgte kunde er en underordnet kontakt af"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__name
 msgid "The unique identifier of this mandate."
-msgstr "Den unikke identifikation for dette mandat."
+msgstr "Den unikke identifikator for dette mandat."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_batch_payment_form_inherit
 msgid "This batch includes payments from mandates with no prior collections:"
 msgstr ""
+"Denne batch indeholder betalinger fra mandater, der ikke tidligere er blevet "
+"opkrævet:"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_report_invoice_document
@@ -1726,8 +2044,8 @@ msgid ""
 "This invoice will be paid using direct debit and is only\n"
 "                        sent for informative purposes."
 msgstr ""
-"Denne faktura vil blive betalt via direkte debit, og afsendet kun\n"
-"                        i informativt øjemed."
+"Denne faktura betales via direkte debitering og sendes udelukkende\n"
+"                        til orientering."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1737,6 +2055,10 @@ msgid ""
 "but you are entitled to request your bank not to debit your account up until "
 "the day on which the payment is due."
 msgstr ""
+"Dette mandat er kun beregnet til transaktioner mellem virksomheder. Du har "
+"ikke ret til at få refusion fra din bank, efter at din konto er blevet "
+"debiteret. Du har dog ret til at anmode banken om at undlade at gennemføre "
+"debiteringen frem til selve forfaldsdagen."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1755,9 +2077,9 @@ msgid ""
 "will automatically go from 'active' to 'closed' after its first use in "
 "payment if this option is set.\n"
 msgstr ""
-"Sandt hvis, og kun hvis, mandatet kan bruges for kun én transaktion. Den vil "
-"automatisk overgå fra 'aktiv' til 'lukket', efter den først bruges til en "
-"betaling, hvis denne mulighed er valgt.\n"
+"Sandt, hvis og kun hvis mandatet kun kan anvendes til én enkelt transaktion. "
+"Hvis denne mulighed er valgt, skifter mandatet automatisk fra 'aktiv' til "
+"'lukket', efter det er blevet brugt til den første betaling.\n"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1766,8 +2088,8 @@ msgid ""
 "Trying to generate a Direct Debit XML file containing payments from another "
 "company than that file's creditor."
 msgstr ""
-"Prøver at generere en Direkte Debit XML fil, som indeholder betalinger fra "
-"en anden virksomhed, end filens kreditor."
+"Forsøger at generere en direkte debiterings-XML-fil, der indeholder "
+"betalinger fra en anden virksomhed end filens kreditor."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1776,8 +2098,8 @@ msgid ""
 "Trying to generate a Direct Debit XML for payments coming from another "
 "payment method than SEPA Direct Debit."
 msgstr ""
-"Prøver at generere en Direkte Debit XML fil til betalinger der kommer fra en "
-"anden betalingsmetode end SEPA Direkte Debit."
+"Forsøger at generere en direkte debiterings-XML-fil for betalinger, der ikke "
+"stammer fra SEPA Direct Debit."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1785,7 +2107,8 @@ msgstr ""
 msgid ""
 "Trying to register a payment on a mandate belonging to a different partner."
 msgstr ""
-"Prøver at registrere en betaling, på et mandat der tilhører en anden partner."
+"Forsøger at registrere en betaling på et mandat, som tilhører en anden "
+"partner."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__activity_exception_decoration
@@ -1796,12 +2119,12 @@ msgstr "Type registreret undtagelsesaktivitet."
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "Under B2B SDD Scheme, the customer must be a company."
-msgstr ""
+msgstr "Under B2B SDD-ordningen skal kunden være en virksomhed."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields.selection,name:account_sepa_direct_debit.selection__account_journal__debit_sepa_pain_version__pain_008_001_08
 msgid "Updated 2023 (Pain 008.001.08)"
-msgstr ""
+msgstr "Opdateret 2023 (Pain 008.001.08)"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
@@ -1841,6 +2164,8 @@ msgid ""
 "You can't pay any of the selected invoices using the SEPA Direct Debit "
 "method, as no valid mandate is available"
 msgstr ""
+"Du kan ikke betale nogen af de valgte fakturaer via SEPA Direct Debit, da "
+"der ikke findes noget gyldigt mandat"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1849,8 +2174,8 @@ msgid ""
 "You cannot delete a bank account linked to an active SEPA Direct Debit "
 "mandate."
 msgstr ""
-"Du kan ikke slette en bankkonto forbundet til et aktivt SEPA Direkte Debit "
-"mandat."
+"Du kan ikke slette en bankkonto, der er tilknyttet et aktivt SEPA Direct "
+"Debit-mandat."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1861,12 +2186,16 @@ msgid ""
 "(prenot_days)s days.\n"
 "The minimum required date should be %(minimum_date)s."
 msgstr ""
+"Du kan ikke generere en SEPA Direct Debit-fil med en påkrævet "
+"opkrævningsdato, der ligger før afsendelsesdagen plus den minimale "
+"varselsperiode på %(prenot_days)s dage.\n"
+"Den tidligste tilladte opkrævningsdato er %(minimum_date)s."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "You don't have the rights to validate SDD mandates."
-msgstr ""
+msgstr "Du har ikke tilladelse til at validere SDD-mandater."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1875,8 +2204,8 @@ msgid ""
 "Your company must have a creditor identifier in order to issue SEPA Direct "
 "Debit payments requests. It can be defined in accounting module's settings."
 msgstr ""
-"Din virksomhed skal have et kreditor ID, for at kunne udstede SEPA Direkte "
-"Debit betalingsanmodninger. Det kan defineres i regnskabsmodulets "
+"Din virksomhed skal have et kreditor-ID for at kunne udstede SEPA Direct "
+"Debit-betalingsanmodninger. Dette kan angives i regnskabsmodulets "
 "indstillinger."
 
 #. module: account_sepa_direct_debit
@@ -1885,6 +2214,8 @@ msgid ""
 "day(s).\n"
 "                    It will be sent to the debtor's email."
 msgstr ""
+"dag(e).\n"
+"                    Den vil blive sendt til debitorens e-mailadresse."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1892,13 +2223,14 @@ msgid ""
 "to send instructions to your bank to debit your account and (B) your bank to "
 "debit your account in accordance with the instructions from"
 msgstr ""
-"til at sende instruktioner til din bank om, at debitere din konto, og (B), "
-"til din bank om at debitere din konto i overensstemmelse med instruktionerne"
+"til at sende instruktioner til din bank om at debitere din konto og (B) til "
+"din bank om at gennemføre debiteringen i overensstemmelse med "
+"instruktionerne fra"
 
 #. module: account_sepa_direct_debit
 #: model:mail.template,subject:account_sepa_direct_debit.email_template_sdd_new_mandate
 msgid "{{ object.partner_id.display_name }} SEPA Direct Debit Mandate"
-msgstr ""
+msgstr "{{ object.partner_id.display_name }} SEPA Direct Debit-mandat"
 
 #~ msgid "123456789"
 #~ msgstr "123456789"

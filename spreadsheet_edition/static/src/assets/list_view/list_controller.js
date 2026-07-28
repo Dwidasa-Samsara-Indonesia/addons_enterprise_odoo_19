@@ -10,7 +10,7 @@ patch(ListController.prototype, {
         this.canInsertInSpreadsheet = session.can_insert_in_spreadsheet;
         this.insertInSpreadsheet = useInsertInSpreadsheet(this.env, () =>
             this.getExportableFields()
-                .filter((f) => f.type !== "properties")
+                .filter((f) => !f.relatedPropertyField)
                 .filter(
                     (f) =>
                         Object.values(this.archInfo.fieldNodes).find((fN) => fN.name === f.name)

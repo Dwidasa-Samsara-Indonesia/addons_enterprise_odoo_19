@@ -115,7 +115,7 @@ class HrEmployee(models.Model):
                 emp.super_account_warning = _(
                     "The proportions of super contributions for this employee do not amount to 100%% across their "
                     "active super accounts! Currently, it is at %d%%!",
-                    proportions[emp.id] * 100,
+                    proportions[emp] * 100,
                 )
 
     @api.model

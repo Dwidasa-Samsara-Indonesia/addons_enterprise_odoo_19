@@ -5,17 +5,14 @@ patch(ProductScreen.prototype, {
     async _barcodeProductAction(code) {
         const product = await this._getProductByBarcode(code);
 
-        if (!product && (await this.pos.allowProductCreation())) {
-            const response = await this.pos.data.call("product.template", "barcode_lookup", []);
-            if (response?.authenticated) {
-                this.pos.action.doAction("point_of_sale.product_template_action_add_pos", {
-                    additionalContext: {
-                        default_barcode: code.code,
-                    },
-                });
-                this.pos.scanning = false;
-                return;
-            }
+        if (!product && this.pos.hasProductCreationAccess) {
+            this.pos.action.doAction("point_of_sale.product_template_action_add_pos", {
+                additionalContext: {
+                    default_barcode: code.code,
+                },
+            });
+            this.pos.scanning = false;
+            return;
         }
 
         await super._barcodeProductAction(code);

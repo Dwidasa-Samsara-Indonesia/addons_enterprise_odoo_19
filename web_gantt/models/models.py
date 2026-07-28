@@ -228,8 +228,7 @@ class Base(models.AbstractModel):
             now_value = DATE_FIELD_ADAPTERS[start_date_field.type]['now']()
         if (
             not (
-                start_date_field_name in vals
-                and stop_date_field_name in vals
+                stop_date_field_name in vals
                 and dependency_field_name
                 and dependency_inverted_field_name
             )
@@ -383,10 +382,10 @@ class Base(models.AbstractModel):
             messages = get_messages(log_messages.get("warnings", []))
         return "\n".join(messages)
 
-    def _web_gantt_get_direction(self, start_date_field_name, vals):
-        start_date_field = self.env[self._name]._fields[start_date_field_name]
-        date_start = DATE_FIELD_ADAPTERS[start_date_field.type]['parse'](vals[start_date_field_name])
-        return self._WEB_GANTT_RESCHEDULE_FORWARD if date_start > self[start_date_field_name] else self._WEB_GANTT_RESCHEDULE_BACKWARD
+    def _web_gantt_get_direction(self, bound_date_field_name, vals):
+        bound_date_field = self.env[self._name]._fields[bound_date_field_name]
+        date_bound = DATE_FIELD_ADAPTERS[bound_date_field.type]['parse'](vals[bound_date_field_name])
+        return self._WEB_GANTT_RESCHEDULE_FORWARD if date_bound > self[bound_date_field_name] else self._WEB_GANTT_RESCHEDULE_BACKWARD
 
     def _web_gantt_action_reschedule_candidates(
         self,
@@ -407,10 +406,15 @@ class Base(models.AbstractModel):
                     text if valid = True or the error text if valid = False.
         """
 
-        search_forward = self._web_gantt_get_direction(start_date_field_name, vals) == self._WEB_GANTT_RESCHEDULE_FORWARD
+        is_only_deadline_changed = start_date_field_name not in vals and stop_date_field_name in vals
+        direction_date = stop_date_field_name if is_only_deadline_changed else start_date_field_name
+        search_forward = self._web_gantt_get_direction(direction_date, vals) == self._WEB_GANTT_RESCHEDULE_FORWARD
         candidates_ids = []
+        # If we only move the deadline of the main task, even backward, no dependent task will block the change. However,
+        # if we move the deadline of a dependent task, this should have no effect on the main one. Therefore, the relation
+        # between the pill and candidates will always be expressed with the field dependency_inverted_field_name.
         if self._web_gantt_check_cycle_existance_and_get_rescheduling_candidates(
-            candidates_ids, dependency_inverted_field_name if search_forward else dependency_field_name,
+            candidates_ids, dependency_inverted_field_name if search_forward or start_date_field_name not in vals else dependency_field_name,
             start_date_field_name, stop_date_field_name,
         ):
             return {'errors': self._WEB_GANTT_LOOP_ERROR}, {}

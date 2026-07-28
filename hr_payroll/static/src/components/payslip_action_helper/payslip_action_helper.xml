@@ -20,7 +20,7 @@
                     <p>
                         The Payslip is the computation of the pay based on a period of time for an employee.
                         It computes the Net salary according to the Salary Rules you've defined in the configuration.<br/><br/>
-                        <a t-on-click="props.onClickCreate" class="btn btn-secondary">Create a Payslip</a>
+                        <a t-if="props.onClickCreate" t-on-click="props.onClickCreate" class="btn btn-secondary">Create a Payslip</a>
                     </p>
                 </t>
             </div>

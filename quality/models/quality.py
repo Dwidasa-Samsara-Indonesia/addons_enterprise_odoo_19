@@ -5,7 +5,7 @@ import ast
 from datetime import datetime
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Domain
 
 
@@ -109,7 +109,8 @@ class QualityAlertTeam(models.Model):
 
     name = fields.Char('Name', required=True)
     company_id = fields.Many2one(
-        'res.company', string='Company', index=True)
+        "res.company", string="Company", index=True, default=lambda self: self.env.company
+    )
     sequence = fields.Integer('Sequence')
     check_count = fields.Integer('# Quality Checks', compute='_compute_check_count')
     alert_count = fields.Integer('# Quality Alerts', compute='_compute_alert_count')
@@ -126,6 +127,20 @@ class QualityAlertTeam(models.Model):
         alert_result = {team.id: count for team, count in alert_data}
         for team in self:
             team.alert_count = alert_result.get(team.id, 0)
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'company_id' in vals:
+            # Sync the alias so incoming emails properly create alerts
+            for team in self.filtered('alias_id'):
+                team.alias_id.sudo().write(team._alias_get_creation_values())
+        return res
+
+    @api.constrains('company_id')
+    def _check_alias_company_setup(self):
+        for team in self:
+            if not team.company_id:
+                raise ValidationError(_("A quality team must have a company assigned."))
 
     @api.model
     def _get_quality_team(self, domain):
@@ -309,7 +324,7 @@ class QualityAlert(models.Model):
             team_id = self.env['quality.alert.team'].browse(self.env.context.get('active_id')).exists().id
         domain = Domain('team_ids', '=', False)
         if team_id:
-            domain &= Domain('team_ids', 'in', team_id)
+            domain |= Domain('team_ids', 'in', team_id)
         return self.env['quality.alert.stage'].search(domain, limit=1).id
 
     def _get_default_team_id(self):

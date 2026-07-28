@@ -51,7 +51,7 @@ class TestCFDIDownload(TestMxEdiCommon, HttpCase):
         payment = self.env['account.payment.register']\
             .with_context(active_model='account.move', active_ids=invoice.ids)\
             .create([{
-                'payment_date': '2017-06-01',
+                'payment_date': '2017-01-01',
                 'amount': 1160.0,
             }])\
             ._create_payments()

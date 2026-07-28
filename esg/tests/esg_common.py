@@ -34,6 +34,11 @@ class TestEsgCommon(AccountTestInvoicingCommon):
             cls.asset_fixed_account: True,
             cls.current_assets_account: False,
         }
+        cls.env['res.currency.rate'].create({
+            'currency_id': cls.env.ref('base.EUR').id,
+            'name': '2024-12-01',
+            'rate': 2.0,
+        })
 
         cls.emission_source_direct = cls.env['esg.emission.source'].create({
             'name': 'Mobile Combustion',

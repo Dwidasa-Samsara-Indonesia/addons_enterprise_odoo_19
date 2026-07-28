@@ -5,13 +5,14 @@
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Ryoko Tsuda <ryoko@quartile.co>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 18:44+0000\n"
-"PO-Revision-Date: 2026-03-26 07:20+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2026-04-24 17:44+0000\n"
+"PO-Revision-Date: 2026-07-07 17:13+0000\n"
+"Last-Translator: Ryoko Tsuda <ryoko@quartile.co>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "industry_fsm_sale/ja/>\n"
 "Language: ja\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: industry_fsm_sale
 #. odoo-python
@@ -240,7 +241,7 @@ msgstr "タスク作成"
 #. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_view_form_inherit
 msgid "Create new quotations directly from tasks"
-msgstr "タスクから直接新規見積書を作成して下さい"
+msgstr "タスクから直接新規見積書を作成する"
 
 #. module: industry_fsm_sale
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__currency_id
@@ -265,6 +266,7 @@ msgstr "デフォルトサービス"
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_sale_line_employee_map__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__display_name
+#: model:ir.model.fields,field_description:industry_fsm_sale.field_project_template_create_wizard__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_report_project_task_user_fsm__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_advance_payment_inv__display_name
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_order__display_name
@@ -322,6 +324,7 @@ msgstr "顧客レポートおよびポータルの価格を非表示にする"
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_project__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_sale_line_employee_map__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_project_task__id
+#: model:ir.model.fields,field_description:industry_fsm_sale.field_project_template_create_wizard__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_report_project_task_user_fsm__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_advance_payment_inv__id
 #: model:ir.model.fields,field_description:industry_fsm_sale.field_sale_order__id
@@ -487,6 +490,11 @@ msgid "Project Sales line, employee mapping"
 msgstr "プロジェクト販売明細、従業員マッピング"
 
 #. module: industry_fsm_sale
+#: model:ir.model,name:industry_fsm_sale.model_project_template_create_wizard
+msgid "Project Template create Wizard"
+msgstr ""
+
+#. module: industry_fsm_sale
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.worksheet_time_and_material
 msgid "Quantity"
 msgstr "数量"
@@ -628,7 +636,7 @@ msgstr "タイム &amp; マテリアル"
 #: model:ir.ui.menu,name:industry_fsm_sale.fsm_menu_all_tasks_invoice
 #: model_terms:ir.ui.view,arch_db:industry_fsm_sale.project_task_view_search_fsm_inherit_sale
 msgid "To Invoice"
-msgstr "未請求"
+msgstr "請求対象"
 
 #. module: industry_fsm_sale
 #: model:ir.actions.server,name:industry_fsm_sale.project_task_to_invoice_fsm_server_action

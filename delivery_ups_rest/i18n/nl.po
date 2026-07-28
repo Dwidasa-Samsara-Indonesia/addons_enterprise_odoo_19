@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-03-14 09:37+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-07-06 13:38+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "delivery_ups_rest/nl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_bill_my_account
@@ -80,13 +80,30 @@ msgid "Create an app"
 msgstr "Maak een app"
 
 #. module: delivery_ups_rest
+#. odoo-python
+#: code:addons/delivery_ups_rest/models/ups_request.py:0
+msgid ""
+"Detected a problem when validating delivery %(delivery_name)s. Invoicing "
+"address of the commercial invoice has been defaulted to %(ship_to_partner)s "
+"instead of %(sold_to_partner)s to avoid the following error from UPS: \"The "
+"Sold To party's country code must be the same as the Ship To party's country "
+"code with the exception of Canada and satellite countries.\""
+msgstr ""
+"Er is een probleem gedetecteerd bij het valideren van de levering %"
+"(delivery_name)s. Het factuuradres van de verkoopfactuur is standaard "
+"ingesteld op %(ship_to_partner)s in plaats van %(sold_to_partner)s om de "
+"volgende foutmelding van UPS te voorkomen: \"De landcode van de 'Sold To'-"
+"partij moet dezelfde zijn als de landcode van de 'Ship To'-partij, met "
+"uitzondering van Canada en satellietstaten.\""
+
+#. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__display_name
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_payment_provider__display_name
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_res_partner__display_name
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_sale_order__display_name
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_stock_package_type__display_name
 msgid "Display Name"
-msgstr "Weergavenaam"
+msgstr "Schermnaam"
 
 #. module: delivery_ups_rest
 #: model_terms:ir.ui.view,arch_db:delivery_ups_rest.view_delivery_carrier_form
@@ -270,8 +287,8 @@ msgid ""
 "Return label generated<br/><b>Tracking Numbers:</b> %(tracking_numbers)s<br/"
 "><b>Packages:</b> %(packages)s"
 msgstr ""
-"Retourlabel aangemaakt<br/><b>Trackingnummers:</b> %(tracking_numbers)s<br/>"
-"<b>Pakketten:</b> %(packages)s"
+"Retourlabel aangemaakt<br/><b>Trackingnummers:</b> %(tracking_numbers)s<br/"
+"><b>Pakketten:</b> %(packages)s"
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields.selection,name:delivery_ups_rest.selection__delivery_carrier__ups_label_file_type__spl
@@ -311,8 +328,8 @@ msgid ""
 "Shipment created into UPS<br/><b>Tracking Numbers:</b> %"
 "(tracking_numbers)s<br/><b>Packages:</b> %(packages)s"
 msgstr ""
-"Verzending aangemaakt in UPS<br/><b>Trackingnummers:</b> %(tracking_numbers)"
-"s<br/><b>Pakketten:</b> %(packages)s"
+"Verzending aangemaakt in UPS<br/><b>Trackingnummers:</b> %"
+"(tracking_numbers)s<br/><b>Pakketten:</b> %(packages)s"
 
 #. module: delivery_ups_rest
 #. odoo-python

@@ -22,7 +22,7 @@ class SaleOrder(models.Model):
 
     def message_post(self, **kwargs):
         if self.env.context.get('fsm_no_message_post'):
-            return False
+            return self.env['mail.message']
         return super().message_post(**kwargs)
 
     def action_confirm(self):
@@ -63,9 +63,37 @@ class SaleOrder(models.Model):
         )
 
     def action_add_from_catalog(self):
-        if len(self.tasks_ids) == 1 and self.tasks_ids.allow_material:
+        if self.env.user.has_group('project.group_project_user') and len(self.tasks_ids) == 1 and self.tasks_ids.allow_material:
             return self.tasks_ids.action_fsm_view_material()
         return super().action_add_from_catalog()
+
+    def _compute_invoice_status(self):
+        super()._compute_invoice_status()
+        confirmed_orders_with_task_not_invoiced = self.filtered(
+            lambda so:
+                so.state == 'sale'
+                and any(sol.task_id.sudo().allow_material for sol in so.order_line)
+                and so.invoice_status not in ('invoiced', 'upselling')
+                and not so.company_id.anglo_saxon_accounting
+        )
+        if not confirmed_orders_with_task_not_invoiced:
+            return
+        all_material_sale_lines_per_task = confirmed_orders_with_task_not_invoiced.order_line.task_id.sudo()._get_material_sale_lines_by_task()
+        fully_invoiced_orders = confirmed_orders_with_task_not_invoiced.filtered(
+            lambda so:
+                all(
+                    (
+                        sol.invoice_status == 'invoiced'
+                        or (
+                            sol.invoice_status == 'no'
+                            and sol.task_id.sudo().allow_material
+                            and sol in all_material_sale_lines_per_task.get(sol.task_id, self.env['sale.order.line'])
+                            and float_is_zero(sol.price_unit, precision_rounding=sol.currency_id.rounding)
+                        )
+                    ) for sol in so.order_line
+                )
+        )
+        fully_invoiced_orders.invoice_status = 'invoiced'
 
 
 class SaleOrderLine(models.Model):
@@ -102,26 +130,39 @@ class SaleOrderLine(models.Model):
         """Generate project values"""
         values = super()._timesheet_create_project_prepare_values()
         if self.product_id.project_template_id.is_fsm:
+            values.update({'partner_id': self.order_id.partner_shipping_id.id})
             values.pop('sale_line_id', False)
         return values
 
     def _compute_invoice_status(self):
         sol_from_task_without_amount = self.filtered(
             lambda sol:
-                sol.task_id.is_fsm
+                sol.task_id.allow_material
                 and float_is_zero(sol.price_unit, precision_rounding=sol.currency_id.rounding)
                 and sol.invoice_status not in ('invoiced', 'upselling')
         )
-        sol_from_task_with_anglo = sol_from_task_without_amount.filtered(
-            lambda sol: sol.company_id.anglo_saxon_accounting
-        )
-        precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-        sol_from_task_with_anglo_invoiced = sol_from_task_with_anglo.filtered(
-            lambda sol: float_compare(sol.qty_invoiced, sol.product_uom_qty, precision_digits=precision) >= 0
-        )
-        sol_from_task_with_anglo_invoiced.invoice_status = 'invoiced'
-        (sol_from_task_with_anglo - sol_from_task_with_anglo_invoiced).invoice_status = 'to invoice'
-        (sol_from_task_without_amount - sol_from_task_with_anglo).invoice_status = 'no'
+        if sol_from_task_without_amount:
+            precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+            sol_from_task_invoiced = sol_from_task_without_amount.filtered(
+                lambda sol: float_compare(sol.qty_invoiced, sol.product_uom_qty, precision_digits=precision) >= 0
+            )
+            sol_from_task_to_invoice = (sol_from_task_without_amount - sol_from_task_invoiced)
+
+            sol_from_task_without_anglo = sol_from_task_to_invoice.filtered(
+                lambda sol: not sol.company_id.anglo_saxon_accounting
+            )
+            sol_from_task_included_materials = self.env['sale.order.line']
+
+            if sol_from_task_without_anglo:
+                material_sale_lines_per_task = sol_from_task_without_anglo.task_id.sudo()._get_material_sale_lines_by_task()
+                sol_from_task_included_materials = sol_from_task_without_anglo.filtered(
+                    lambda sol: sol in material_sale_lines_per_task.get(sol.task_id, self.env['sale.order.line'])
+                )
+            sol_from_task_to_invoice -= sol_from_task_included_materials
+
+            sol_from_task_invoiced.invoice_status = 'invoiced'
+            sol_from_task_to_invoice.invoice_status = 'to invoice'
+            sol_from_task_included_materials.invoice_status = 'no'
         super(SaleOrderLine, self - sol_from_task_without_amount)._compute_invoice_status()
 
     @api.depends('price_unit')
@@ -131,9 +172,15 @@ class SaleOrderLine(models.Model):
                 sol.task_id.is_fsm
                 and float_is_zero(sol.price_unit, precision_rounding=sol.currency_id.rounding)
         )
-        sol_from_task_with_anglo = sol_from_task_without_amount.filtered(
-            lambda sol: sol.company_id.anglo_saxon_accounting
+        sol_from_task_with_anglo_or_prepaid_service = sol_from_task_without_amount.filtered(
+            lambda sol:
+                sol.company_id.anglo_saxon_accounting
+                or (sol.product_id.type == 'service' and sol.product_id.service_policy == 'ordered_prepaid')
         )
-        sol_from_task_without_anglo = sol_from_task_without_amount - sol_from_task_with_anglo
-        sol_from_task_without_anglo.qty_to_invoice = 0.0
-        super(SaleOrderLine, self - sol_from_task_without_anglo)._compute_qty_to_invoice()
+        sol_without_anglo_or_prepaid_service = sol_from_task_without_amount - sol_from_task_with_anglo_or_prepaid_service
+        sol_without_anglo_or_prepaid_service.qty_to_invoice = 0.0
+        super(SaleOrderLine, self - sol_without_anglo_or_prepaid_service)._compute_qty_to_invoice()
+
+    def action_add_from_catalog(self):
+        # TODO: remove me in master
+        return super().action_add_from_catalog()

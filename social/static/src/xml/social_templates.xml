@@ -287,6 +287,12 @@
                                             t-att-src="comment.attachment.media.image.src" alt="Comment Image"
                                             target="_blank">
                                         </img>
+                                        <a t-elif="comment.attachment.type === 'animated_image_video'"
+                                            t-att-href="this.link" target="_blank">
+                                            <img class="o_social_comment_image img-fluid shadow mb-3"
+                                                t-att-src="comment.attachment.media.image.src" alt="Comment GIF">
+                                            </img>
+                                        </a>
                                     </div>
                                 </div>
                                 <div t-if="isManageable()" class="o_social_icon_dropdown o_social_manage_comment dropdown">
@@ -304,7 +310,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="o_social_comment_commands">
                             <t t-if="isLikable">
                                 <a t-attf-class="o_social_comment_like btn btn-sm btn-link px-0 {{ comment.user_likes ? 'o_social_comment_user_likes' : '' }}"

@@ -207,6 +207,7 @@ export class TimesheetGridModel extends GridModel {
             }
         }
         return super._fetchUnavailabilityDays(metaData, {
+            ...args,
             res_ids: employeeIds,
             groupby: groupByEmployee ? "employee_id" : "",
         });

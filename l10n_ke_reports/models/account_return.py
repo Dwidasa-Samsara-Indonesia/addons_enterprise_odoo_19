@@ -37,6 +37,10 @@ class AccountReturnType(models.Model):
 
         return res
 
+
+class AccountReturn(models.Model):
+    _inherit = 'account.return'
+
     def _get_vat_closing_entry_additional_domain(self):
         # EXTENDS account_reports
         domain = super()._get_vat_closing_entry_additional_domain()

@@ -37,7 +37,7 @@ class PrivateCardViewDialog extends Component {
             ephemeralKey: undefined,
             nonce: undefined,
             session: undefined,
-            phone_number_last3: _t("(Fetching...)"),
+            message: _t("Enter the code we sent to the cardholder's phone or email: Fetching ..."),
             card: {
                 name: _t("Cardholder Name"),
                 number: "**** **** **** 1234",
@@ -206,7 +206,17 @@ class PrivateCardViewDialog extends Component {
     async send2FARequest() {
         const phoneResult = await this.ormCardCall("action_send_iap_2fa_code");
         this.state.session = phoneResult.session_id;
-        this.state.phone_number_last3 = phoneResult.phone_number_last3;
+        if (phoneResult.phone_number_last3) {
+            this.state.message = _t(
+                "Enter the code we sent to the cardholder's phone number ending in %(phone)s.",
+                { phone: phoneResult.phone_number_last3 },
+            );
+        } else if (phoneResult.sanitized_email) {
+            this.state.message = _t(
+                "Enter the code we sent to the cardholder's email %(email)s.",
+                { email: phoneResult.sanitized_email },
+            );
+        }
     }
 
     async requestEphemeralKey(code) {

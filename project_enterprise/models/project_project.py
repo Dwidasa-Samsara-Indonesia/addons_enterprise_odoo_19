@@ -42,7 +42,10 @@ class ProjectProject(models.Model):
             project_start_datetime = datetime.combine(project.date_start, time.min)
             project_end_datetime = datetime.combine(project.date + timedelta(days=1), time.min)
 
-            for original_task, copied_task in zip(self.task_ids, project.task_ids):
+            sorted_original_tasks = self.task_ids.sorted(key=lambda t: (t.stage_id.id, t.sequence))
+            sorted_copied_tasks = project.task_ids.sorted(key=lambda t: (t.stage_id.id, t.sequence))
+
+            for original_task, copied_task in zip(sorted_original_tasks, sorted_copied_tasks):
                 if original_task.planned_date_begin:
                     first_possible_date_per_task[copied_task.id] = original_task.planned_date_begin + delta
                     tasks_to_schedule += copied_task

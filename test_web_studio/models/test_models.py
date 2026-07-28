@@ -16,6 +16,8 @@ class TestStudioModel_Action(models.Model):
     custom_binary = fields.Binary()
     custom_binary_filename = fields.Char()
 
+    admin_integer = fields.Integer(groups="base.group_system")
+
     def action_confirm(self):
         for rec in self:
             rec.confirmed = True

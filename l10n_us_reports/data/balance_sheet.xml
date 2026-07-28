@@ -165,105 +165,55 @@
                         </field>
                     </record>
                     <record id="equity" model="account.report.line">
-                        <field name="name">Equity</field>
+                        <field name="name">Equity (&amp; Earnings)</field>
+                        <field name="hierarchy_level">0</field>
                         <field name="code">EQ</field>
                         <field name="horizontal_split_side">right</field>
-                        <field name="aggregation_formula">UNAFFECTED_EARNINGS.balance + RETAINED_EARNINGS.balance</field>
+                        <field name="aggregation_formula">EQU.balance + EAR.balance</field>
                         <field name="children_ids">
-                            <record id="equity_unallocated" model="account.report.line">
-                                <field name="name">Unallocated Earnings</field>
-                                <field name="code">UNAFFECTED_EARNINGS</field>
-                                <field name="aggregation_formula">CURR_YEAR_EARNINGS.balance + PREV_YEAR_EARNINGS.balance</field>
-                                <field name="children_ids">
-                                    <record id="equity_unallocated_current_year" model="account.report.line">
-                                        <field name="name">Current Year Unallocated Earnings</field>
-                                        <field name="code">CURR_YEAR_EARNINGS</field>
-                                        <field name="aggregation_formula"/>
-                                        <field name="expression_ids">
-                                            <record id="equity_unallocated_current_year_pnl" model="account.report.expression">
-                                                <field name="label">pnl</field>
-                                                <field name="engine">aggregation</field>
-                                                <field name="formula">NEP.balance</field>
-                                                <field name="date_scope">from_fiscalyear</field>
-                                                <field name="subformula">cross_report(account_reports.profit_and_loss)</field>
-                                            </record>
-                                            <record id="equity_unallocated_current_year_earnings_alloc" model="account.report.expression">
-                                                <field name="label">alloc</field>
-                                                <field name="engine">domain</field>
-                                                <field name="formula" eval="[('account_id.account_type', '=', 'equity_unaffected')]"/>
-                                                <field name="date_scope">from_fiscalyear</field>
-                                                <field name="subformula">-sum</field>
-                                            </record>
-                                            <record id="equity_unallocated_current_year_earnings_balance" model="account.report.expression">
-                                                <field name="label">balance</field>
-                                                <field name="engine">aggregation</field>
-                                                <field name="formula">CURR_YEAR_EARNINGS.pnl + CURR_YEAR_EARNINGS.alloc</field>
-                                            </record>
-                                        </field>
-                                    </record>
-                                    <record id="account_financial_previous_year_earnings0" model="account.report.line">
-                                        <field name="name">Previous Years Unallocated Earnings</field>
-                                        <field name="code">PREV_YEAR_EARNINGS</field>
-                                        <field name="expression_ids">
-                                            <record id="account_financial_previous_year_earnings0_allocated_earnings" model="account.report.expression">
-                                                <field name="label">allocated_earnings</field>
-                                                <field name="engine">domain</field>
-                                                <field name="formula" eval="[('account_id.account_type', '=', 'equity_unaffected')]"/>
-                                                <field name="subformula">-sum</field>
-                                                <field name="date_scope">from_beginning</field>
-                                            </record>
-                                            <record id="account_financial_previous_year_earnings0_balance_domain" model="account.report.expression">
-                                                <field name="label">balance_domain</field>
-                                                <field name="engine">domain</field>
-                                                <field name="formula" eval="[('account_id.account_type', 'in', ('income', 'income_other', 'expense_direct_cost', 'expense', 'expense_depreciation', 'expense_other'))]"/>
-                                                <field name="subformula">-sum</field>
-                                                <field name="date_scope">from_beginning</field>
-                                            </record>
-                                            <record id="account_financial_previous_year_earnings0_balance" model="account.report.expression">
-                                                <field name="label">balance</field>
-                                                <field name="engine">aggregation</field>
-                                                <field name="formula">PREV_YEAR_EARNINGS.balance_domain + PREV_YEAR_EARNINGS.allocated_earnings - CURR_YEAR_EARNINGS.balance</field>
-                                            </record>
-                                        </field>
+                            <record id="equity1" model="account.report.line">
+                                <field name="name">Equity</field>
+                                <field name="code">EQU</field>
+                                <field name="groupby">account_id</field>
+                                <field name="foldable" eval="True"/>
+                                <field name="expression_ids">
+                                    <record id="equity1_balance" model="account.report.expression">
+                                        <field name="label">balance</field>
+                                        <field name="engine">domain</field>
+                                        <field name="formula" eval="[('account_id.account_type', '=', 'equity')]"/>
+                                        <field name="date_scope">from_beginning</field>
+                                        <field name="subformula">-sum</field>
                                     </record>
                                 </field>
                             </record>
-                            <record id="equity_unallocated_retained_earnings" model="account.report.line">
-                                <field name="name">Retained Earnings</field>
-                                <field name="code">RETAINED_EARNINGS</field>
-                                <field name="aggregation_formula">CURR_RETAINED_EARNINGS.balance + PREV_RETAINED_EARNINGS.balance</field>
-                                <field name="groupby" eval="False"/>
-                                <field name="foldable" eval="False"/>
+                            <record id="earnings" model="account.report.line">
+                                <field name="name">Earnings</field>
+                                <field name="code">EAR</field>
+                                <field name="aggregation_formula">PYE.balance + CYE.balance</field>
                                 <field name="children_ids">
-                                    <record id="equity_unallocated_retained_earnings_curr" model="account.report.line">
-                                        <field name="name">Current Year Retained Earnings</field>
-                                        <field name="code">CURR_RETAINED_EARNINGS</field>
-                                        <field name="groupby">account_id</field>
-                                        <field name="foldable" eval="True"/>
+                                    <record id="current_years_earnings" model="account.report.line">
+                                        <field name="name">Current Year Unallocated Earnings</field>
+                                        <field name="code">CYE</field>
                                         <field name="expression_ids">
-                                            <record id="equity_unallocated_retained_earnings_curr_balance" model="account.report.expression">
+                                            <record id="current_year_earnings_balance" model="account.report.expression">
                                                 <field name="label">balance</field>
                                                 <field name="engine">domain</field>
-                                                <field name="formula" eval="[('account_id.account_type', '=', 'equity')]"/>
-                                                <field name="subformula">-sum</field>
+                                                <field name="formula" eval="[('account_id.account_type', 'in', ['income', 'income_other', 'expense_direct_cost', 'expense', 'expense_depreciation', 'expense_other', 'equity_unaffected'])]"/>
                                                 <field name="date_scope">from_fiscalyear</field>
+                                                <field name="subformula">-sum</field>
                                             </record>
                                         </field>
                                     </record>
-                                    <record id="equity_unallocated_retained_earnings_prev" model="account.report.line">
-                                        <field name="name">Previous Years Retained Earnings</field>
-                                        <field name="code">PREV_RETAINED_EARNINGS</field>
+                                    <record id="previous_years_earnings" model="account.report.line">
+                                        <field name="name">Previous Year Earnings</field>
+                                        <field name="code">PYE</field>
                                         <field name="expression_ids">
-                                            <record id="equity_unallocated_retained_earnings_prev_total" model="account.report.expression">
-                                                <field name="label">total</field>
-                                                <field name="engine">domain</field>
-                                                <field name="formula" eval="[('account_id.account_type', '=', 'equity')]"/>
-                                                <field name="subformula">-sum</field>
-                                            </record>
-                                            <record id="equity_unallocated_retained_earnings_prev_balance" model="account.report.expression">
+                                            <record id="previous_year_earnings_balance" model="account.report.expression">
                                                 <field name="label">balance</field>
-                                                <field name="engine">aggregation</field>
-                                                <field name="formula">PREV_RETAINED_EARNINGS.total - CURR_RETAINED_EARNINGS.balance</field>
+                                                <field name="engine">domain</field>
+                                                <field name="formula" eval="[('account_id.account_type', 'in', ['income', 'income_other', 'expense_direct_cost', 'expense', 'expense_depreciation', 'expense_other', 'equity_unaffected'])]"/>
+                                                <field name="date_scope">to_beginning_of_fiscalyear</field>
+                                                <field name="subformula">-sum</field>
                                             </record>
                                         </field>
                                     </record>

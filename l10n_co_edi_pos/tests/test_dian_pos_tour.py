@@ -46,3 +46,18 @@ class TestGenericCO(TestGenericLocalization, TestL10nCoEdiPosCommon):
             ]
 
             super().test_generic_localization()
+        report_data = self.env['report.point_of_sale.report_saledetails'].get_sale_details(session_ids=[self.main_pos_config.current_session_id.id])
+        self.assertEqual(report_data['l10n_co_edi_pos_serial_number'], 'SN000001', "Serial number should be correctly passed to the report data")
+
+    def test_co_pos_refund(self):
+        self.main_pos_config.open_ui()
+        with (
+            patch(f'{self.utils_path}._build_and_send_request') as mock_request,
+            self._disable_get_acquirer_call(),
+            self._mock_get_status(),
+        ):
+            mock_request.side_effect = [
+                self._mocked_response('SendBillSync_warnings.xml', 200),
+                self._mocked_response('SendBillSync_warnings.xml', 200),
+            ]
+            self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_co_pos_refund', login="accountman")

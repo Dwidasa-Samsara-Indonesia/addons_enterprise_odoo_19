@@ -140,7 +140,7 @@ export const DocumentsSpreadsheetControllerMixin = () => ({
         const singleSelection = selectionCount === 1 && this.targetRecords[0];
         menuItems.download.isAvailable = () =>
             this.model.targetRecords.some(
-                (r) => !r.isRequest() && r.data.handler !== "spreadsheet"
+                (r) => !r.isRequest() && r.data.handler !== "spreadsheet" && r.data.type !== "url"
             );
         const prevShareAvailable = menuItems.share.isAvailable || (() => true);
         menuItems.share.isAvailable = () =>
@@ -165,6 +165,12 @@ export const DocumentsSpreadsheetControllerMixin = () => ({
     getStaticActionMenuItems() {
         const menuItems = super.getStaticActionMenuItems(...arguments);
         menuItems.insert.isAvailable = () => this.documentService.userIsInternal;
+        const superVersionIsAvailable = menuItems.version.isAvailable;
+        menuItems.version.isAvailable = () =>
+            superVersionIsAvailable() &&
+            !["spreadsheet", "frozen_spreadsheet"].includes(
+                this.model.targetRecords[0].data.handler
+            );
         return menuItems;
     },
 });

@@ -208,7 +208,7 @@ class PosOrder(models.Model):
 
     @api.model
     def search_paid_order_ids(self, config_id, domain, limit, offset):
-        domain = Domain('lines.product_id', 'not in', self.env['pos.config']._get_work_products()) & Domain(domain)
+        domain = Domain('lines.product_id', 'not in', self.env['pos.config']._get_work_products().ids) & Domain(domain)
         return super().search_paid_order_ids(config_id, domain, limit, offset)
 
     def _get_tax_amount_by_percent(self, tax_percent):
@@ -258,6 +258,15 @@ class PosOrder(models.Model):
             'blackbox_vsc_identification_number': data.get("vsc"),
         })
 
+    def _send_self_order_receipt(self):
+        self.ensure_one()
+        if not self.config_id._uses_blackbox_v1():
+            return super()._send_self_order_receipt()
+        # If we're using a blackbox, we will not send the receipt by mail (not call super())
+        if self.source == 'mobile' and self.state == 'paid' and not self.blackbox_signature:
+            # If the order is from mobile and paid but not yet signed, we try to send it to the blackbox to get it signed
+            self.config_id._send_order_to_blackbox(self)
+
 
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
@@ -266,7 +275,7 @@ class PosOrderLine(models.Model):
 
     def _compute_plu_line(self):
         for line in self:
-            if line.order_id.config_id.certified_blackbox_identifier:
+            if line.order_id.config_id._uses_blackbox_v1():
                 qty = line.qty
                 description = line.product_id.display_name
                 price = round(abs(line.price_subtotal_incl) * 100, 2)
@@ -328,3 +337,9 @@ class PosOrderLine(models.Model):
         description = self._filter_allowed_hash_and_sign_chars(description)
         description = description[-20:]
         return description.ljust(20)
+
+    @api.onchange("qty")
+    def _onchange_qty(self):
+        for line in self:
+            if line.order_id.config_id.certified_blackbox_identifier and line.qty < 0:
+                raise UserError(_("Setting a negative quantity is not allowed on a certified Point of Sale."))

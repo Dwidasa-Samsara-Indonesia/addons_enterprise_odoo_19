@@ -250,7 +250,7 @@ class PurchaseOrder(models.Model):
         for po in purchases:
             if po.user_id == self.env.user:
                 my_purchase_count += 1
-            if not po.effective_date or po.effective_date > po.date_planned:
+            if not po.effective_date or po.effective_date.date() > po.date_planned.date():
                 continue
             otd_purchase_count += 1
             if po.user_id == self.env.user:
@@ -264,7 +264,7 @@ class PurchaseOrder(models.Model):
     def _get_domain_is_late(self, operator, value):
         domain = super()._get_domain_is_late(operator, value)
         if operator == "=" and value or operator == "!=" and not value:
-            domain &= Domain.OR([Domain('picking_ids', '=', False), Domain('picking_ids.state', '!=', 'done')])
+            domain &= Domain.OR([Domain('picking_ids', '=', False), Domain('picking_ids.state', 'not in', ['done', 'cancel'])])
         return domain
 
     def _get_action_view_picking(self, pickings):
@@ -334,7 +334,11 @@ class PurchaseOrder(models.Model):
             if self.dest_address_id:
                 return self.dest_address_id.property_stock_customer
             return self.picking_type_id.default_location_dest_id
-        return self.picking_type_id.warehouse_id.lot_stock_id
+        wh_stock_loc = self.picking_type_id.warehouse_id.lot_stock_id
+        default_dest_loc = self.picking_type_id.default_location_dest_id
+        if default_dest_loc and (not wh_stock_loc or default_dest_loc._child_of(wh_stock_loc)):
+            return default_dest_loc
+        return wh_stock_loc
 
     @api.model
     def _get_picking_type(self, company_id):
@@ -458,3 +462,7 @@ class PurchaseOrder(models.Model):
         """ remove the given references from the list of references. """
         self.ensure_one()
         self.reference_ids = [Command.unlink(stock_reference.id) for stock_reference in reference]
+
+    def _merge_po_post_process(self, rfqs):
+        super()._merge_po_post_process(rfqs)
+        self.reference_ids += rfqs.reference_ids

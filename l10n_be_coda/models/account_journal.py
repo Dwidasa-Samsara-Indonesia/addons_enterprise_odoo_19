@@ -316,6 +316,121 @@ transaction_code = safedict(**{
     }),
 })
 
+transaction_category_code = safedict({
+    '000': _lt('Net amount'),
+    '001': _lt('Interest received'),
+    '002': _lt('Interest paid'),
+    '003': _lt('Credit commission'),
+    '004': _lt('Postage'),
+    '005': _lt('Renting of letterbox'),
+    '006': _lt('Various fees/commissions'),
+    '007': _lt('Access right to database'),
+    '008': _lt('Information charges'),
+    '009': _lt('Travelling expenses'),
+    '010': _lt('Writ service fee'),
+    '011': _lt('VAT'),
+    '012': _lt('Exchange commission'),
+    '013': _lt('Payment commission'),
+    '014': _lt('Collection commission'),
+    '015': _lt('Correspondent charges'),
+    '016': _lt('Negative interest'),
+    '017': _lt('Research costs'),
+    '018': _lt('Tental guarantee charges'),
+    '019': _lt('Tax on physical delivery'),
+    '020': _lt('Costs of physical delivery'),
+    '021': _lt('Costs for drawing up a bank cheque'),
+    '022': _lt('Priority costs'),
+    '023': _lt('Exercising fee'),
+    '024': _lt('Growth premium'),
+    '025': _lt('Individual entry for exchange charges'),
+    '026': _lt('Handling commission'),
+    '027': _lt('Charges for unpaid bills'),
+    '028': _lt('Fidelity premium'),
+    '029': _lt('Protest charges'),
+    '030': _lt('Account insurance'),
+    '031': _lt('Charges foreign cheque'),
+    '032': _lt('Drawing up a circular cheque'),
+    '033': _lt('Charges for a foreign bill'),
+    '034': _lt('Reinvestment fee'),
+    '035': _lt('Charges foreign documentary bill'),
+    '036': _lt('Costs relating to a refused cheque'),
+    '037': _lt('Commission for handling charges'),
+    '039': _lt('Telecommunications'),
+    '041': _lt('Credit card costs'),
+    '042': _lt('Payment card costs'),
+    '043': _lt('Insurance costs'),
+    '045': _lt('Handling costs'),
+    '047': _lt('Charges extension bill'),
+    '049': _lt('Fiscal stamps/stamp duty'),
+    '050': _lt('Capital term investment'),
+    '051': _lt('Withholding tax'),
+    '053': _lt('Printing of forms'),
+    '055': _lt('Repayment loan or credit capital'),
+    '057': _lt('Interest subsidy'),
+    '058': _lt('Capital premium'),
+    '059': _lt('Default interest'),
+    '061': _lt('Charging fees for transactions'),
+    '063': _lt('Rounding differences'),
+    '065': _lt('Interest payment advice'),
+    '066': _lt('Fixed loan advance - reimbursement'),
+    '067': _lt('Fixed loan advance - extension'),
+    '068': _lt('Countervalue of an entry'),
+    '069': _lt('Forward arbitrage contracts : sum to be supplied by customer'),
+    '070': _lt('Forward arbitrage contracts : sum to be supplied by bank'),
+    '071': _lt('Fixed loan advance - availability'),
+    '072': _lt('Countervalue of commission to third party'),
+    '073': _lt('Costs of ATM abroad'),
+    '074': _lt('Mailing costs'),
+    '100': _lt('Gross amount'),
+    '200': _lt('Overall documentary credit charges'),
+    '201': _lt('Advice notice commission'),
+    '202': _lt('Advising commission - Additional advising commission'),
+    '203': _lt('Confirmation fee - Additional confirmation fee - Commitment fee - Flat fee - Confirmation reservation commission - Additional reservation commission'),
+    '204': _lt('Amendment fee'),
+    '205': _lt('Documentary payment commission - Document commission - Drawdown fee - Negotiation fee'),
+    '206': _lt('Surety fee/payment under reserve'),
+    '207': _lt('Non-conformity fee'),
+    '208': _lt('Commitment fee deferred payment'),
+    '209': _lt('Transfer commission'),
+    '210': _lt('Commitment fee'),
+    '211': _lt('Credit arrangement fee - Additional credit arrangement fee'),
+    '212': _lt('Warehousing fee'),
+    '213': _lt('Financing fee'),
+    '214': _lt('Issue commission (delivery order)'),
+    '400': _lt('Acceptance fee'),
+    '401': _lt('Visa charges'),
+    '402': _lt('Certification costs'),
+    '403': _lt('Minimum discount rate'),
+    '404': _lt('Discount commission'),
+    '405': _lt('Bill guarantee commission'),
+    '406': _lt('Collection charges'),
+    '407': _lt('Costs Article 45'),
+    '408': _lt('Cover commission'),
+    '409': _lt('Safe deposit charges'),
+    '410': _lt('Reclamation charges'),
+    '411': _lt('Fixed collection charge'),
+    '412': _lt('Advice of expiry charges'),
+    '413': _lt('Acceptance charges'),
+    '414': _lt('Regularisation charges'),
+    '415': _lt('Surety fee'),
+    '416': _lt('Charges for the deposit of security'),
+    '418': _lt('Endorsement commission'),
+    '419': _lt('Bank service fee'),
+    '420': _lt('Retention charges'),
+    '425': _lt('Foreign broker\'s commission'),
+    '426': _lt('Belgian broker\'s commission'),
+    '427': _lt('Belgian Stock Exchange tax'),
+    '428': _lt('Interest accrued'),
+    '429': _lt('Foreign Stock Exchange tax'),
+    '430': _lt('Recovery of foreign tax'),
+    '431': _lt('Delivery of a copy'),
+    '435': _lt('Tax on physical securities'),
+    '436': _lt('Supplementary tax'),
+    '437': _lt('Speculation tax'),
+    '438': _lt('Securities account tax'),
+    '439': _lt('Capital gains tax'),
+})
+
 
 def rmspaces(s):
     return " ".join(s.split())
@@ -567,6 +682,8 @@ class AccountJournal(models.Model):
                         ))
                     elif line[1] == '2':    # Belgian bank account IBAN structure
                         statement['acc_number'] = rmspaces(line[5:21])
+                        if self._fields.get('extension_number'):  # Only on stable because hard to extend code in new module.
+                            statement['extension_number'] = rmspaces(line[36:39])
                         statement['currency'] = rmspaces(line[39:42])
                     elif line[1] == '3':    # foreign bank account IBAN structure
                         statement['acc_number'] = rmspaces(line[5:39])
@@ -621,6 +738,7 @@ class AccountJournal(models.Model):
                             globalisation_comm[statementLine['ref_move']] = statementLine['communication']
                     if not statementLine.get('communication'):
                         statementLine['communication'] = globalisation_comm.get(statementLine['ref_move'], '')
+                        statementLine['split_statement_line'] = True
                     statement['lines'].append(statementLine)
                 elif line[1] == '2':
                     if statement['lines'][-1]['ref'][0:4] != line[2:6]:
@@ -685,7 +803,7 @@ class AccountJournal(models.Model):
                         infoLine['communication'] = line[40:113]
                     statement['lines'].append(infoLine)
                 elif line[1] == '2':
-                    if infoLine['ref'] != rmspaces(line[2:10]):
+                    if infoLine['ref_move'] != rmspaces(line[2:6]):
                         raise UserError(_(
                             "Error %(error_code)s: CODA parsing error on information data record 3.2, seq nr %(seq_nr)s! Please report this issue via your Odoo support channel.",
                             error_code="R3004",
@@ -693,7 +811,7 @@ class AccountJournal(models.Model):
                         ))
                     statement['lines'][-1]['communication'] += rmspaces(line[10:115])
                 elif line[1] == '3':
-                    if infoLine['ref'] != rmspaces(line[2:10]):
+                    if infoLine['ref_move'] != rmspaces(line[2:6]):
                         raise UserError(_(
                             "Error %(error_code)s: CODA parsing error on information data record 3.3, seq nr %(seq_nr)s! Please report this issue via your Odoo support channel.",
                             error_code="R3005",
@@ -746,6 +864,13 @@ class AccountJournal(models.Model):
                 'balance_end_real': statement['balance_end_real'],
             }
             temp_data = {}
+            communication_struct_by_ref_move = {
+                ref_move: any(
+                    line.get('communication_struct') and line['type'] != 'information'
+                    for line in group
+                )
+                for ref_move, group in itertools.groupby(statement['lines'], key=lambda l: l.get('ref_move'))
+            }
             for line in statement['lines']:
                 to_add = statement_line and statement_line[-1]['ref'][:4] == line.get('ref_move') and statement_line[-1] or temp_data
                 transaction_details = {}
@@ -757,6 +882,8 @@ class AccountJournal(models.Model):
                     )
                     to_add.setdefault('transaction_details', {})
                     to_add['transaction_details']['communication'] = to_add['transaction_details'].get('communication', '') + communication
+                    if not communication_struct_by_ref_move.get(line.get('ref_move')):
+                        to_add['payment_ref'] = to_add.get('payment_ref', '') + ' ' + communication.strip(' ')
                 elif line['type'] == 'normal'\
                         or (line['type'] == 'globalisation' and line['globalisation'] in statement['globalisation_stack'][line['ref_move']] and line['transaction_type'] in [1, 2]):
                     if line.get('counterpartyName'):
@@ -793,10 +920,16 @@ class AccountJournal(models.Model):
                     if not self.coda_split_transactions and statement_line and line['ref_move'] == statement_line[-1]['ref'][:4]:
                         to_add['amount'] = to_add.get('amount', 0) + line['amount']
                     else:
+                        if self.coda_split_transactions and rmspaces(line.get('communication')) and line.get('split_statement_line'):
+                            transaction_operations = transaction_code[line['transaction_family']][1]  # only transaction operations are needed, so access second element
+                            operation_desc = transaction_operations.get(line['transaction_code'], default_transaction_code.get(line['transaction_code'], _lt('Undefined')))
+                            category_desc = transaction_category_code.get(line['transaction_category'], _lt('Undefined'))
+                            line['communication'] += f" - {operation_desc} - {category_desc}"
+                        transaction_type = parse_operation(line['transaction_type'], line['transaction_family'], line['transaction_code'], line['transaction_category'])
                         line_data = {
-                            'payment_ref': " ".join((structured_com or line.get('communication', '') or '/').split()),  # To avoid space in the middle or start/end
+                            'payment_ref': " ".join((structured_com or line.get('communication', '') or '/').split()) or transaction_type or self.env._('No description'),  # To avoid space in the middle or start/end
                             'transaction_details': transaction_details,
-                            'transaction_type': parse_operation(line['transaction_type'], line['transaction_family'], line['transaction_code'], line['transaction_category']),
+                            'transaction_type': transaction_type,
                             'date': line['entryDate'],
                             'amount': line['amount'],
                             'account_number': line.get('counterpartyNumber', None),
@@ -827,7 +960,18 @@ class AccountJournal(models.Model):
 
         file_statements = self._get_coda_file_statements(record_data)
         result = []
-        for acc_number, statements in itertools.groupby(sorted(file_statements, key=lambda k: k['acc_number']), key=lambda k: k['acc_number']):
+
+        if self._fields.get('extension_number'):  # Only on stable because hard to extend code in new module.
+            statement_per_account_number = itertools.groupby(sorted(file_statements, key=lambda k: k['acc_number']), key=lambda k: (k['acc_number'], k.get('extension_number') or ''))
+        else:
+            statement_per_account_number = itertools.groupby(sorted(file_statements, key=lambda k: k['acc_number']), key=lambda k: k['acc_number'])
+
+        for data, statements in statement_per_account_number:
+            if self._fields.get('extension_number'):  # Only on stable because hard to extend code in new module.
+                acc_number, extension_number = data
+            else:
+                extension_number = None
+                acc_number = data
             statements = list(statements)
             ret_statements = []
             if not self.env.context.get("ignore_statements"):
@@ -841,5 +985,5 @@ class AccountJournal(models.Model):
                     line_sequence += 1
 
             currency_code = statements and statements[-1]['currency']
-            result.append([currency_code, acc_number, ret_statements])
+            result.append([currency_code, acc_number, extension_number, ret_statements])
         return result

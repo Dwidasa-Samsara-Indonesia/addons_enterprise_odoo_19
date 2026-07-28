@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
 "PO-Revision-Date: 2026-02-28 10:04+0000\n"
 "Last-Translator: Armīns Jeltajevs <armins.jeltajevs@gmail.com>\n"
 "Language-Team: Latvian <https://translate.odoo.com/projects/odoo-19/helpdesk/"
@@ -119,7 +119,7 @@ msgid ""
 "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/Sir'\">Madam/"
 "Sir</t>,<br/><br/>\n"
 "        We would like to inform you that we have closed your ticket "
-"(reference <t t-out=\"object.id or ''\">15</t>). \n"
+"(reference <t t-out=\"object.ticket_ref or ''\">15</t>).\n"
 "        We trust that the services provided have met your expectations and "
 "that you have found a satisfactory resolution to your issue.<br/><br/>\n"
 "        However, if you have any further questions or comments, please do "
@@ -3387,8 +3387,10 @@ msgstr ""
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.solved_ticket_request_email_template
-msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
-msgstr "Biļete aizvērta - Reference {{ object.id if object.id else 15 }}"
+msgid ""
+"Ticket Closed - Reference {{ object.ticket_ref if object.ticket_ref else "
+"15 }}"
+msgstr ""
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla__ticket_count
@@ -3959,6 +3961,9 @@ msgstr "{{ object.name }}"
 #: code:addons/helpdesk/models/helpdesk_ticket.py:0
 msgid "👤 Unassigned"
 msgstr ""
+
+#~ msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
+#~ msgstr "Biļete aizvērta - Reference {{ object.id if object.id else 15 }}"
 
 #~ msgid "<strong>Assigned to</strong>"
 #~ msgstr "<strong>Piešķirts</strong>"

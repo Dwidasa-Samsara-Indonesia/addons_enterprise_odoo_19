@@ -89,4 +89,14 @@ patch(OrderSummary.prototype, {
         const discount = ((oldPrice - price) / oldPrice) * 100;
         line.setDiscount(discount);
     },
+    async _showDecreaseQuantityPopup(options = {}) {
+        if (!this.pos.useBlackBoxBe()) {
+            return super._showDecreaseQuantityPopup(options);
+        }
+        const quantityFormatter = (value = "") => value.replace(/^-0?/, "");
+        const chain = (fn) => (value) => quantityFormatter(fn ? fn(value) : value);
+        options.formatDisplayedValue = chain(options.formatDisplayedValue);
+        options.parseQuantityValue = chain(options.parseQuantityValue);
+        return super._showDecreaseQuantityPopup(options);
+    },
 });

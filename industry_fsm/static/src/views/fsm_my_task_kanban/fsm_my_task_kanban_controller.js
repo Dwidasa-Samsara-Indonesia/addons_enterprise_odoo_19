@@ -1,11 +1,11 @@
-import { KanbanController } from "@web/views/kanban/kanban_controller";
+import { RottingKanbanController } from "@mail/js/rotting_mixin/rotting_kanban_controller";
 
 import { ProjectTaskTemplateDropdown } from "@project/views/components/project_task_template_dropdown";
 
-export class FsmMyTaskKanbanController extends KanbanController {
+export class FsmMyTaskKanbanController extends RottingKanbanController {
     static template = "project.ProjectTaskKanbanView";
     static components = {
-        ...KanbanController.components,
+        ...RottingKanbanController.components,
         ProjectTaskTemplateDropdown,
     };
 

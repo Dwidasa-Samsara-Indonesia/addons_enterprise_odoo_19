@@ -11,6 +11,7 @@ class Provider(NamedTuple):
     embedding_model: str
     embedding_config: dict
     llms: list[tuple[str, str]]
+    deprecated_models: list[str]
 
 
 PROVIDERS = [
@@ -32,11 +33,12 @@ PROVIDERS = [
             ("gpt-5", "GPT-5"),
             ("gpt-5-mini", "GPT-5 Mini"),
         ],
+        [],
     ),
     Provider(
         "google",
         "Google",
-        "gemini-embedding-001",
+        "gemini-embedding-2",
         {
             # https://googleapis.dev/python/generativelanguage/latest/_modules/google/ai/generativelanguage_v1alpha/types/text_service.html#BatchEmbedTextRequest
             "max_batch_size": 100,
@@ -48,10 +50,11 @@ PROVIDERS = [
             ("gemini-1.5-pro", "Gemini 1.5 Pro"),
             ("gemini-1.5-flash", "Gemini 1.5 Flash"),
         ],
+        ["gemini-1.5-pro", "gemini-1.5-flash", "gemini-embedding-001"],
     ),
 ]
 
-DEPRECATED_MODELS = ["gemini-1.5-pro", "gemini-1.5-flash"]
+DEPRECATED_MODELS = [model for provider in PROVIDERS for model in provider.deprecated_models]
 
 EMBEDDING_MODELS_SELECTION = [
     (provider.embedding_model, provider.display_name) for provider in PROVIDERS
@@ -60,7 +63,7 @@ EMBEDDING_MODELS_SELECTION = [
 
 def get_provider_for_embedding_model(env, embedding_model):
     for p in PROVIDERS:
-        if p.embedding_model == embedding_model:
+        if p.embedding_model == embedding_model or embedding_model in p.deprecated_models:
             return p.name
     raise UserError(env._("No provider found for the embedding model"))
 
@@ -85,3 +88,9 @@ def check_model_depreciation(env: Environment, model: str) -> None:
             for name, label in provider.llms:
                 if name == model:
                     raise UserError(env._("%s is no longer available. Please select a newer model.", label))
+
+
+def get_embedding_model(provider_name: str):
+    for provider in PROVIDERS:
+        if provider.name == provider_name:
+            return provider.embedding_model

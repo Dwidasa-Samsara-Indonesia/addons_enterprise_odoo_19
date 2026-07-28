@@ -120,6 +120,41 @@ class TestPePurchase(TestAccountReportsCommon):
             ],
         )
 
+    def test_purchase_report_8_1_dam(self):
+        """DAM (document type 50) must output only the 3-digit customs dependency
+        code in field 8 and field 28, not the full numeric block that includes
+        the year and sequence."""
+        self.partner_a.write({"country_id": self.env.ref("base.pe").id})
+        tax = self.purchase_taxes[0]  # IGV 18%
+        self._create_invoice(
+            move_type="in_invoice",
+            invoice_date="2026-03-09",
+            invoice_date_due="2026-04-28",
+            partner_id=self.partner_a,
+            l10n_latam_document_type_id=self.env.ref("l10n_pe.document_type50"),
+            l10n_latam_document_number="C235202610-38047",
+            l10n_pe_usage_type_id=self.env.ref("l10n_pe_reports.ple_usage_type_00"),
+            invoice_line_ids=[self._prepare_invoice_line(price_unit=1234.0, tax_ids=tax)],
+            post=True,
+        )
+        report = self.env.ref("l10n_pe_reports.tax_report_ple_purchase_8_1")
+        options = self._generate_options(
+            report, fields.Date.from_string("2026-01-01"), fields.Date.from_string("2026-12-31")
+        )
+        self.maxDiff = None
+        self.assertEqual(
+            "\n".join(
+                [
+                    "|".join(line.split("|")[3:])
+                    for line in self.env[report.custom_handler_model_name]
+                    .export_to_txt(options)["file_content"]
+                    .decode()
+                    .split("\r\n")
+                ]
+            ),
+            "|09/03/2026|09/03/2026|50|235|2026|38047||0||partner_a|1234.0|222.12|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|1456.12|PEN|||||235|||||||||||||\n",
+        )
+
     def test_purchase_report_8_2(self):
         self.partner_a.write({"country_id": self.env.ref("base.mx").id})
         self._prepare_purchase_moves(

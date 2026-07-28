@@ -4,20 +4,21 @@
 #
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Tomáš Píšek <Tomas.Pisek@seznam.cz>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 13:54+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-17 17:45+0000\n"
+"PO-Revision-Date: 2026-05-02 09:39+0000\n"
+"Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/ai/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
@@ -29,6 +30,12 @@ msgid ""
 "must be in valid JSON format.\n"
 "        "
 msgstr ""
+"\n"
+"            **Názov nástroja: Read group**\n"
+"\n"
+"            Vyhľadáva konkrétny model pomocou domény. Zadaná doména musí byť "
+"v platnom formáte JSON.\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
@@ -40,6 +47,12 @@ msgid ""
 "must be in valid JSON format.\n"
 "        "
 msgstr ""
+"\n"
+"            **Názov nástroja: Search**\n"
+"\n"
+"            Vyhľadáva konkrétny model pomocou domény. Zadaná doména musí byť "
+"v platnom formáte JSON.\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -82,6 +95,42 @@ msgid ""
 "Make 3 parallel calls.\n"
 "        "
 msgstr ""
+"\n"
+"            Vytvorí zoznam IBA vyhľadávateľných polí pre jeden model, ktoré "
+"možno použiť vo filtroch domén a zoskupovaní.\n"
+"            Nezbytné pre vytváranie platných domén – ak pole nie je uvedené "
+"tu, NEMÔŽE sa použiť.\n"
+"\n"
+"            Formát výstupu:\n"
+"            ```\n"
+"            field_name|display_name|type|sortable|groupable|description\n"
+"            partner_id|Zákazník|many2one(res.partner)|true|true|Zákazník pre "
+"túto objednávku\n"
+"            date_order|Dátum objednávky|datetime|true|true|Dátum zadania "
+"objednávky\n"
+"            order_line|Riadky objednávky|one2many(sale.order.line)|false|"
+"false|Riadky v tejto objednávke\n"
+"            state|Stav|selection|true|true|Stav objednávky\n"
+"            ```\n"
+"\n"
+"            Kľúčové body:\n"
+"            - ⚠️ Vráti iba polia, ktoré je možné vyhľadávať – ostatné nie je "
+"možné použiť v doménach\n"
+"            - Pre vzťahy: Zobrazuje súvisiaci model v zátvorkách (many2one, "
+"one2many, many2many)\n"
+"            - Na prechod do iných modelov je možné použiť iba polia vzťahov\n"
+"            - Literálne polia, ako sú char/text/float, NEMOŽNO použiť na "
+"prechod\n"
+"            - 'sortable' označuje, či sa pole môže použiť v parametri "
+"order_by\n"
+"            - 'groupable' označuje, či sa pole môže použiť na zoskupovanie, "
+"ak nie je k dispozícii v zobrazení vyhľadávania\n"
+"\n"
+"            💡 Tip na zvýšenie výkonu: Pri prehliadaní viacerých modelov "
+"volajte tento nástroj viackrát v JEDNEJ správe\n"
+"            Príklad: Prehliadate sale.order, product.product a res.partner? "
+"Urobte 3 paralelné volania.\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_compute_report_measures
@@ -110,6 +159,29 @@ msgid ""
 "            - Call multiple times in parallel if comparing different menus\n"
 "        "
 msgstr ""
+"\n"
+"            Vráti zoznam numerických polí (mierok) dostupných na agregáciu v "
+"pohľadoch pivot/graph.\n"
+"            MUSÍ byť volaná pred použitím mierok v open_menu_pivot() alebo "
+"open_menu_graph().\n"
+"\n"
+"            Vráti CSV s oddeľovačom pipe (|):\n"
+"            ```\n"
+"            field_name|display_name|type|aggregator|sortable\n"
+"            __count|Count|integer||true\n"
+"            amount_total|Total|monetary|sum|true\n"
+"            margin|Margin|float|sum|true\n"
+"            quantity|Quantity|float|sum|true\n"
+"            ```\n"
+"\n"
+"            Kľúčové body:\n"
+"            - __count je vždy k dispozícii (počíta záznamy)\n"
+"            - Vracajú sa len numerické polia s agregátormi\n"
+"            - Použite field_name v parametri measures\n"
+"            - Pre rebríčky v pivot: Pridajte poradie (napr. „amount_total "
+"desc“)\n"
+"            - Ak porovnávate rôzne menu, volajte funkciu viackrát paralelne\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_graph
@@ -138,6 +210,32 @@ msgid ""
 "            ⚠️ Order must be exactly 'ASC' or 'DESC'\n"
 "        "
 msgstr ""
+"\n"
+"            Otvorí zobrazenie grafu/tabuľky pomocou prvkov vyhľadávacieho "
+"zobrazenia.\n"
+"            Najvhodnejšie pre: Trendy, porovnania, distribúcie, vizuálne "
+"KPI.\n"
+"\n"
+"            Podporované typy grafov:\n"
+"            - 'bar': Porovnanie hodnôt medzi kategóriami\n"
+"            - 'line': Zobrazenie trendov v čase\n"
+"            - 'pie': Zobrazenie podielov celku\n"
+"\n"
+"            Funkcie:\n"
+"            - Použite filtre z dostupných možností v ponuke\n"
+"            - Vizualizujte jednu mieru\n"
+"            - Zoskupujte podľa jedného poľa pre os grafu\n"
+"            - Vyhľadávajte v konkrétnych poliach\n"
+"            - Možnosti vrstvenia a kumulácie\n"
+"            - Ovládanie poradia (ASC/DESC)\n"
+"\n"
+"            💡 Najskôr volajte compute_report_measures(), aby ste našli "
+"platné mierky\n"
+"            ⚠️ Každý reťazec vyhľadávania musí mať formát „pole=text“. Pole "
+"môže obsahovať viacero reťazcov vyhľadávania alebo môže byť prázdne []\n"
+"            ⚠️ Režim musí byť presne „bar“, „line“ alebo „pie“\n"
+"            ⚠️ Poradie musí byť presne „ASC“ alebo „DESC“\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_kanban
@@ -159,6 +257,25 @@ msgid ""
 "contain multiple search strings or be empty []\n"
 "        "
 msgstr ""
+"\n"
+"            Otvorí zobrazenie kanban (založené na kartách) pomocou prvkov "
+"vyhľadávacieho zobrazenia.\n"
+"            Najvhodnejšie pre: Vizualizáciu fáz/stavov, zobrazenia potrubia, "
+"riadenie pracovných postupov.\n"
+"\n"
+"            Kľúčové funkcie:\n"
+"            - Zobrazenie záznamov ako kariet v stĺpcoch\n"
+"            - Použitie filtrov z dostupných možností v ponuke\n"
+"            - Zoskupovanie podľa fáz pracovného toku alebo iných polí\n"
+"            - Vyhľadávanie v konkrétnych poliach\n"
+"            - Ideálne pre CRM pipeline, prehľad úloh, pracovné postupy "
+"projektoch\n"
+"\n"
+"            ⚠️ Používajte iba názvy filtrov a polia na zoskupovanie z údajov "
+"v ponuke\n"
+"            ⚠️ Každý reťazec vyhľadávania musí mať formát „pole=text“. Pole "
+"môže obsahovať viacero reťazcov vyhľadávania alebo môže byť prázdne []\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_list
@@ -182,6 +299,28 @@ msgid ""
 "contain multiple search strings or be empty []\n"
 "        "
 msgstr ""
+"\n"
+"            Otvorí zobrazenie zoznamu (tabuľky) pomocou prvkov "
+"vyhľadávacieho zobrazenia.\n"
+"            Najvhodnejšie pre: „Zobraz mi“, „Zoznam všetkých“, podrobné "
+"prezeranie záznamov, triedenie údajov.\n"
+"\n"
+"            Kľúčové funkcie:\n"
+"            - Použite viacero filtrov podľa názvu (z vyhľadávacieho "
+"zobrazenia v ponuke)\n"
+"            - Zoskupujte záznamy podľa dostupných polí\n"
+"            - Vyhľadávajte text v konkrétnych poliach\n"
+"            - Zobrazuje záznamy v tabuľkovom formáte, ktorý je možné "
+"triediť\n"
+"            - Ideálne na prezeranie, filtrovanie a export údajov\n"
+"\n"
+"            💡 Použite vyhľadávací parameter na filtrovanie podľa "
+"akéhokoľvek vyhľadávateľného poľa PRED zvážením vlastných domén\n"
+"            ⚠️ Používajte iba názvy filtrov a polia na zoskupovanie z údajov "
+"v ponuke\n"
+"            ⚠️ Každý vyhľadávací reťazec musí mať formát „pole=text“. Pole "
+"môže obsahovať viacero vyhľadávacích reťazcov alebo byť prázdne []\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_open_menu_pivot
@@ -217,6 +356,38 @@ msgid ""
 "needs\n"
 "        "
 msgstr ""
+"\n"
+"            Otvorí kontingenčnú tabuľku s pokročilým vyhľadávaním a "
+"filtrovaním.\n"
+"            Najvhodnejšie pre: Dotazy typu „Top N“, rebríčky, krížové "
+"tabuľky, metriky výkonu.\n"
+"\n"
+"            Kľúčové funkcie:\n"
+"            - Podporuje filtre z vyhľadávacieho zobrazenia\n"
+"            - Zoskupuje údaje súčasne podľa riadkov aj stĺpcov\n"
+"            - Agreguje mierky (súčet, priemer, počet)\n"
+"            - Podporuje textové vyhľadávanie vo vyhľadávateľných poliach\n"
+"            - Funkcie kontingenčnej tabuľky podobné Excelu\n"
+"\n"
+"            💡 VŽDY najprv volajte compute_report_measures(), aby ste "
+"získali platné mierky\n"
+"            💡 Pre rebríčky: Zahrňte poradie do meraní (napr. "
+"[\"amount_total desc\"])\n"
+"            💡 Použite vyhľadávací parameter na filtrovanie podľa "
+"akéhokoľvek vyhľadávateľného poľa PRED zohľadnením vlastných domén\n"
+"            ⚠️ Pre najlepšiu skúsenosť s kontingenčnými tabuľkami "
+"uprednostňujte ponuky aplikácie „Reporting“\n"
+"            ⚠️ Každý vyhľadávací reťazec musí mať formát 'field=text'. Pole "
+"môže obsahovať viacero vyhľadávacích reťazcov alebo byť prázdne []\n"
+"            ⚠️ Poznámka: Používa row_groupbys/col_groupbys (pole) namiesto "
+"selected_groupbys\n"
+"\n"
+"            Príklad: Pre „najlepších predajcov kancelárskych produktov“:\n"
+"            - Použite search=[\"categ_id\", \"office\"], ak je categ_id "
+"vyhľadateľné\n"
+"            - Použite custom_domain len vtedy, ak žiadne vyhľadateľné pole "
+"nezodpovedá vašim potrebám\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_menu_details
@@ -247,6 +418,32 @@ msgid ""
 "            ⚠️ Always validate the returned model matches your expectations\n"
 "        "
 msgstr ""
+"\n"
+"            Načíta podrobné informácie (kontext, doména, search_view) pre "
+"konkrétne menu.\n"
+"            MUSÍ sa volať pred použitím akéhokoľvek nástroja open_menu_*, "
+"aby sa získali podrobnosti špecifické pre ponuku.\n"
+"\n"
+"            Vráti CSV s oddeľovačom pipe (|):\n"
+"            ```\n"
+"            menu_id|model_name|context|domain|search_view\n"
+"            389|sale.order|{\"search_default_my_quotation\": 1}|[]|"
+"<search><fields>...</fields></search>\n"
+"            172|account.move|{\"search_default_draft\": 1}|[[\"type\", "
+"\"=\", \"out_invoice\"]]|<search>...</search>\n"
+"            ```\n"
+"\n"
+"            Kľúčové informácie:\n"
+"            - Kontext: Predvolené filtre/zoskupenia použité pri otvorení "
+"menu\n"
+"            - Doména: Trvalé filtre, ktoré užívatelia nemôžu odstrániť\n"
+"            - Search_view: Úplná štruktúra XML s dostupnými filtrami, "
+"zoskupeniami a vyhľadávateľnými poľami\n"
+"\n"
+"            💡 Tip na zvýšenie výkonu: Pri porovnávaní možností požiadajte o "
+"viacero detailov menu v jednom volaní\n"
+"            ⚠️ Vždy overte, či vrátený model zodpovedá vašim očakávaniam\n"
+"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_adjust_search
@@ -292,6 +489,49 @@ msgid ""
 "the current view info.\n"
 "        "
 msgstr ""
+"\n"
+"            Užívateľ môže pokračovať v kladení otázok a ak si myslíte, že "
+"aktuálne vyhľadávanie možno jednoducho upraviť bez otvorenia iného menu, "
+"môžete použiť tento nástroj.\n"
+"\n"
+"            V <session_info_context> výzvy sú k dispozícii informácie o "
+"aktuálnom zobrazení, ktoré obsahujú aktívne vyhľadávacie aspekty.\n"
+"            Aspektom môže byť skupina filtrov spojených operátorom `OR`, "
+"skupina zoskupení alebo skupina vyhľadávacích termínov spojených operátorom "
+"`OR`.\n"
+"\n"
+"            **Vysvetlenie parametrov**:\n"
+"            - `remove_facets` – Odstránenie aspektu odstráni celú skupinu "
+"filtrov/skupín/vyhľadávacích termínov. Odstránenie filtra alebo "
+"vyhľadávacieho aspektu zníži obmedzenia.\n"
+"            - `toggle_filters` – Prepnutie filtra pridá/odstráni filter z "
+"aktívneho aspektu filtrovania.\n"
+"            - `toggle_groupbys` – Prepnutie zoskupenia pridá/odstráni "
+"zoskupenie z aktívneho aspektu zoskupení.\n"
+"            - `apply_searches` – Použitie vyhľadávania spojí vyhľadávací "
+"termín pomocou operátora `OR` s aktívnym vyhľadávacím aspektom obsahujúcim "
+"to isté pole. Napr. ak existuje aspekt poľa „name=John“ a zadáte "
+"vyhľadávanie „name=Jane“, výsledné vyhľadávanie bude „name=John OR "
+"name=Jane“.\n"
+"\n"
+"            - `measures` – Špecifikovanie mierok aktivuje vybrané mierky v "
+"aktuálnom zobrazení, ak ide o pivotné alebo grafické zobrazenie.\n"
+"- `mode` – Iba grafické zobrazenie: Ide o typ grafu. Vyberte si z možností "
+"„line“, „bar“ alebo „pie“, aby ste zmenili typ grafu v aktuálnom grafickom "
+"zobrazení.\n"
+"            - `order` – Iba grafické zobrazenie: Špecifikovanie poradia "
+"zmení zoradenie výsledkov v aktuálnom grafickom zobrazení.\n"
+"            - `stacked` – Iba grafické zobrazenie: Špecifikovanie stacked "
+"zmení vrstvenie výsledkov v aktuálnom grafickom zobrazení.\n"
+"            - `cumulated` – Iba grafické zobrazenie: Špecifikovanie "
+"cumulated zmení akumuláciu výsledkov v aktuálnom grafickom zobrazení.\n"
+"            - `custom_domain` - Prvky zobrazenia vyhľadávania nemusia stačiť "
+"na vyjadrenie požadovanej domény. V takom prípade môžete zadať vlastnú "
+"doménu ako reťazec JSON.\n"
+"            - `switch_view_type` - Zmena typu zobrazenia zmení aktuálne "
+"zobrazenie na zadaný typ. Vyberte si z dostupných typov zobrazenia v "
+"informáciách o aktuálnom zobrazení.\n"
+"        "
 
 #. module: ai
 #. odoo-python
@@ -303,7 +543,7 @@ msgstr "%s (kópia)"
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "%s is no longer available. Please select a newer model."
-msgstr ""
+msgstr "%s už nie je k dispozícii. Vyberte si prosím novší model."
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
@@ -311,6 +551,8 @@ msgid ""
 "<br/>\n"
 "            It used the following tools:"
 msgstr ""
+"<br/>\n"
+"            Použili sa nasledujúce nástroje:"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
@@ -319,11 +561,14 @@ msgid ""
 "ai_tool_show_warning\" aria-hidden=\"true\" title=\"The AI will not be "
 "limited by the groups defined on tools\"/>"
 msgstr ""
+"<i class=\"fa fa-warning text-warning me-2\" invisible=\"not "
+"ai_tool_show_warning\" aria-hidden=\"true\" title=\"Umelá inteligencia "
+"nebude obmedzovaná skupinami definovanými v nástrojoch\"/>"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "<span>with arguments</span>"
-msgstr ""
+msgstr "<span>s argumentmi</span>"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__topic_ids
@@ -331,6 +576,8 @@ msgid ""
 "A topic includes instructions and tools that guide Odoo AI in helping the "
 "user complete their tasks."
 msgstr ""
+"Téma obsahuje pokyny a nástroje, ktoré usmerňujú Odoo AI pri pomáhaní "
+"užívateľovi s plnením jeho úloh."
 
 #. module: ai
 #. odoo-javascript
@@ -345,153 +592,153 @@ msgstr "AI"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_action_prompt
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_action_prompt
 msgid "AI Action Prompt"
-msgstr ""
+msgstr "Výzva na akciu AI"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_agent
 msgid "AI Agent"
-msgstr ""
+msgstr "AI agent"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_agent_source
 msgid "AI Agent Source"
-msgstr ""
+msgstr "Zdroj AI agenta"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_cron_process_sources_ir_actions_server
 msgid "AI Agent Sources: Process Sources"
-msgstr ""
+msgstr "Zdroje AI agenta: Spracovať zdroje"
 
 #. module: ai
 #: model:ir.model.constraint,message:ai.constraint_discuss_channel_ai_channel_type_check
 msgid "AI Agent can only be set for ai_chat or livechat channels."
-msgstr ""
+msgstr "AI Agent je možné nastaviť iba pre kanály ai_chat alebo livechat."
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_cron_generate_embedding_ir_actions_server
 msgid "AI Embedding: Generate Embeddings"
-msgstr ""
+msgstr "AI vkladanie: Generovať vloženia"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__name
 msgid "AI Prompt"
-msgstr ""
+msgstr "AI prompt"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "AI Prompt Tools"
-msgstr ""
+msgstr "Nástroje AI promptu"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_schema
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_schema
 msgid "AI Schema"
-msgstr ""
+msgstr "Schéma AI"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_description
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_description
 msgid "AI Tool Description"
-msgstr ""
+msgstr "Popis nástroja AI"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 #: model:ir.model.fields,field_description:ai.field_ai_topic__tool_ids
 msgid "AI Tools"
-msgstr ""
+msgstr "AI nástroje"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__discuss_channel__channel_type__ai_chat
 msgid "AI chat"
-msgstr ""
+msgstr "AI chat"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "AI is listening..."
-msgstr ""
+msgstr "AI počúva..."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/typing_patch.js:0
 msgid "AI is thinking..."
-msgstr ""
+msgstr "AI premýšľa..."
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_composer
 msgid "AI model configurations (system prompts) for text drafting."
-msgstr ""
+msgstr "Konfigurácie modelov AI (systémové prompty) na tvorbu textu."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/discuss_channel.py:0
 msgid "AI not reachable, AI Agent not found."
-msgstr ""
+msgstr "AI nie je dostupná, agent AI nebol nájdený."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/discuss_channel.py:0
 msgid "AI: %(name)s"
-msgstr ""
+msgstr "AI: %(name)s"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_adjust_search
 msgid "AI: Adjust Search"
-msgstr ""
+msgstr "AI: Upraviť vyhľadávanie"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_compute_report_measures
 msgid "AI: Compute Report Measures"
-msgstr ""
+msgstr "AI: Vypočítať ukazovatele"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_get_fields
 msgid "AI: Get Fields"
-msgstr ""
+msgstr "AI: Získať polia"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_get_menu_details
 msgid "AI: Get Menu Details"
-msgstr ""
+msgstr "AI: Získať podrobnosti menu"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_graph
 msgid "AI: Open Menu Graph"
-msgstr ""
+msgstr "AI: Otvoriť menu Graf"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_kanban
 msgid "AI: Open Menu Kanban"
-msgstr ""
+msgstr "AI: Otvoriť menu Kanban"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_list
 msgid "AI: Open Menu List"
-msgstr ""
+msgstr "AI: Otvoriť menu Zoznam"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_open_menu_pivot
 msgid "AI: Open Menu Pivot"
-msgstr ""
+msgstr "AI: Otvoriť menu Pivot"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_read_group
 msgid "AI: Read group"
-msgstr ""
+msgstr "AI: Čítať skupinu"
 
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_actions_server_search
 msgid "AI: Search"
-msgstr ""
+msgstr "AI: Vyhľadávanie"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "Access error"
-msgstr ""
+msgstr "Chyba prístupu"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__interface_key
@@ -503,7 +750,7 @@ msgstr "Akcia"
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "Action \"%(action)s\" done."
-msgstr ""
+msgstr "Akcia „%(action)s “ bola vykonaná."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__active
@@ -515,7 +762,7 @@ msgstr "Aktívne"
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "Activity created for %(user)s."
-msgstr ""
+msgstr "Vytvorená aktivita pre %(user)s."
 
 #. module: ai
 #. odoo-javascript
@@ -527,13 +774,13 @@ msgstr "Pridať"
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Add Links"
-msgstr ""
+msgstr "Pridať odkazy"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Add Sources"
-msgstr ""
+msgstr "Pridať zdroje"
 
 #. module: ai
 #. odoo-javascript
@@ -545,19 +792,21 @@ msgstr "Pridať odkaz"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Add notes about your upcoming meeting"
-msgstr ""
+msgstr "Pridajte poznámky o vašej nadchádzajúcej schôdzke"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Add sources to your AI Agent to get answers based on specific content."
 msgstr ""
+"Pridajte zdroje do svojho AI agenta, aby ste získali odpovede na základe "
+"konkrétneho obsahu."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Adding sources..."
-msgstr ""
+msgstr "Pridávanie zdrojov..."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__agent_id
@@ -565,52 +814,52 @@ msgstr ""
 #: model:ir.model.fields,field_description:ai.field_res_partner__agent_ids
 #: model:ir.model.fields,field_description:ai.field_res_users__agent_ids
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__name
 msgid "Agent Name"
-msgstr ""
+msgstr "Názov agenta"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_discuss_channel__ai_agent_id
 msgid "Ai Agent"
-msgstr ""
+msgstr "AI Agent"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_has_schema
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_has_schema
 msgid "Ai Tool Has Schema"
-msgstr ""
+msgstr "Nástroj AI má schému"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_is_candidate
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_is_candidate
 msgid "Ai Tool Is Candidate"
-msgstr ""
+msgstr "Nástroj AI je kandidátom"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_show_warning
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_show_warning
 msgid "Ai Tool Show Warning"
-msgstr ""
+msgstr "Nástroj AI Zobraziť varovanie"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_allow_end_message
 #: model:ir.model.fields,field_description:ai.field_ir_cron__ai_tool_allow_end_message
 msgid "Allow End Message"
-msgstr ""
+msgstr "Povoliť záverečnú správu"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "An error occured"
-msgstr ""
+msgstr "Došlo k chybe"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent__response_style__analytical
 msgid "Analytical"
-msgstr ""
+msgstr "Analytický"
 
 #. module: ai
 #. odoo-javascript
@@ -619,12 +868,12 @@ msgstr ""
 #: code:addons/ai/static/src/mail_composer_chatgpt.xml:0
 #: code:addons/ai/static/src/web/systray_action.xml:0
 msgid "Ask AI"
-msgstr ""
+msgstr "Opýtajte sa AI"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__systray_ai_button
 msgid "Ask AI for help"
-msgstr ""
+msgstr "Požiadajte AI o pomoc"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_attachment
@@ -636,12 +885,12 @@ msgstr "Príloha"
 #. module: ai
 #: model:ir.model,name:ai.model_ai_embedding
 msgid "Attachment Chunks Embedding"
-msgstr ""
+msgstr "Vkladanie častí príloh"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__available_prompts
 msgid "Available User Prompts"
-msgstr ""
+msgstr "Dostupné prompty pre užívateľa"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__avatar_128
@@ -651,7 +900,7 @@ msgstr "Avatar"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent__response_style__balanced
 msgid "Balanced"
-msgstr ""
+msgstr "Vyvážený"
 
 #. module: ai
 #: model:ir.model,name:ai.model_base
@@ -674,6 +923,9 @@ msgid ""
 "Chat is private and unique between 2 persons. Group is private among invited "
 "persons. Channel can be freely joined (depending on its configuration)."
 msgstr ""
+"Chat je súkromný a jedinečný medzi dvoma osobami. Skupina je súkromná medzi "
+"pozvanými osobami. Do kanála sa možno voľne pripojiť (v závislosti od jeho "
+"konfigurácie)."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__checksum
@@ -683,7 +935,7 @@ msgstr "Checksum/SHA1"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__content
 msgid "Chunk Content"
-msgstr ""
+msgstr "Obsah úseku"
 
 #. module: ai
 #. odoo-javascript
@@ -695,7 +947,7 @@ msgstr "Zatvoriť"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__composer_id
 msgid "Composer"
-msgstr ""
+msgstr "Kompozér"
 
 #. module: ai
 #: model:ir.model,name:ai.model_res_config_settings
@@ -716,12 +968,12 @@ msgstr "Obsahy"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_discuss_channel__ai_env_context
 msgid "Context for AI agent"
-msgstr ""
+msgstr "Kontext pre AI agenta"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__html_prompt_shortcut
 msgid "Convert a prompt in an email"
-msgstr ""
+msgstr "Previesť prompt na e-mail"
 
 #. module: ai
 #. odoo-python
@@ -730,11 +982,13 @@ msgid ""
 "Could you please provide info about '%s' as it is required to process your "
 "request"
 msgstr ""
+"Mohli by ste prosím poskytnúť informácie o „%s “, keďže sú potrebné na "
+"spracovanie vašej požiadavky"
 
 #. module: ai
 #: model:ir.model,website_form_label:ai.model_res_partner
 msgid "Create a Customer"
-msgstr ""
+msgstr "Vytvoriť zákazníka"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_topic
@@ -742,6 +996,8 @@ msgid ""
 "Create a topic that leverages instructions and tools to direct Odoo AI in "
 "assisting the user with their tasks."
 msgstr ""
+"Vytvorte tému, ktorá využíva pokyny a nástroje na usmerňovanie Odoo AI pri "
+"pomoci užívateľom s ich úlohami."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__create_uid
@@ -766,12 +1022,12 @@ msgstr "Vytvorené"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent__response_style__creative
 msgid "Creative"
-msgstr ""
+msgstr "Kreatívny"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__system_prompt
 msgid "Customize to control relevance and formatting."
-msgstr ""
+msgstr "Prispôsobiť, aby ste mohli kontrolovať relevantnosť a formátovanie."
 
 #. module: ai
 #. odoo-javascript
@@ -785,7 +1041,7 @@ msgstr "Popis"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Dictate text or record a meeting"
-msgstr ""
+msgstr "Diktujte text alebo nahrávajte stretnutie"
 
 #. module: ai
 #. odoo-javascript
@@ -832,7 +1088,7 @@ msgstr "Upraviť"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_prompt.xml:0
 msgid "Edit Field Prompt"
-msgstr ""
+msgstr "Upraviť prompt poľa"
 
 #. module: ai
 #. odoo-javascript
@@ -853,33 +1109,35 @@ msgstr "Emailové vlákno"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__embedding_model
 msgid "Embedding Model"
-msgstr ""
+msgstr "Vloženie modelu"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__embedding_vector
 msgid "Embedding Vector"
-msgstr ""
+msgstr "Vloženie vektora"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Embedding generation failed using the current LLM model selected."
 msgstr ""
+"Spracovanie zdrojov (vloženie) sa s pomocou aktuálneho vybraného modelu LLM "
+"nepodarilo."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__google_key_enabled
 msgid "Enable custom Google API key"
-msgstr ""
+msgstr "Aktivovať vlastný kľúč Google API"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__openai_key_enabled
 msgid "Enable custom OpenAI API key"
-msgstr ""
+msgstr "Aktivovať vlastný kľúč API OpenAI"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__error_details
 msgid "Error Details"
-msgstr ""
+msgstr "Podrobnosti o chybe"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__failed
@@ -890,35 +1148,35 @@ msgstr "Nepodarilo sa"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "Failed to fetch URL: %s"
-msgstr ""
+msgstr "Nepodarilo sa načítať URL: %s"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Failed to fetch the content of the source."
-msgstr ""
+msgstr "Nepodarilo sa načítať obsah zdrojového textu."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Failed to get embeddings for the prompt."
-msgstr ""
+msgstr "Nepodarilo sa získať vloženia (zdroja) pre prompt."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "Field Selector"
-msgstr ""
+msgstr "Výber poľa"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
 msgid "Field Type"
-msgstr ""
+msgstr "Typ poľa"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_model_fields
 msgid "Fields"
-msgstr ""
+msgstr "Polia"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
@@ -934,22 +1192,22 @@ msgstr "Veľkosť súboru"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
-msgstr ""
+msgstr "Generujte alebo transformujte obsah pomocou AI"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__chatter_ai_button
 msgid "Get help on a record"
-msgstr ""
+msgstr "Získať pomoc k záznamu"
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 msgid "Google"
 msgstr "Google"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__google_key
 msgid "Google AI API key"
-msgstr ""
+msgstr "Kľúč Google AI API"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_http
@@ -959,13 +1217,13 @@ msgstr "HTTP smerovanie"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__has_embedding_generation_failed
 msgid "Has Embedding Generation Failed"
-msgstr ""
+msgstr "Generovanie vloženia zlyhalo"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/thread_patch.js:0
 msgid "Hello, what can I help you with?"
-msgstr ""
+msgstr "Dobrý deň, s čím vám môžem pomôcť?"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__id
@@ -992,11 +1250,13 @@ msgstr "ID"
 #: model:ir.model.fields,help:ai.field_ai_agent__restrict_to_sources
 msgid "If checked, the agent will only respond based on the provided sources."
 msgstr ""
+"Ak je táto možnosť zaškrtnutá, agent bude odpovedať iba na základe "
+"poskytnutých zdrojov."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent_source__is_active
 msgid "If the source is active, it will be used in the RAG context."
-msgstr ""
+msgstr "Ak je zdroj aktívny, bude sa používať v kontexte RAG."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__image_128
@@ -1019,25 +1279,25 @@ msgstr "Vložiť"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "Insert a field"
-msgstr ""
+msgstr "Vložiť pole"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/core/html_editor/prompt_plugin.js:0
 msgid "Insert an AI prompt"
-msgstr ""
+msgstr "Vložiť AI prompt"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_records_selector_plugin.js:0
 msgid "Insert records"
-msgstr ""
+msgstr "Vložiť záznamy"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_prompt_field.js:0
 msgid "Insert records the AI can use with the '/record' command"
-msgstr ""
+msgstr "Vložte záznamy, ktoré môže AI použiť s príkazom „/record“"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__default_prompt
@@ -1049,35 +1309,35 @@ msgstr "Inštrukcie"
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "Invalid JSON schema (malformed JSON)."
-msgstr ""
+msgstr "Neplatná schéma JSON (nesprávne formátovaný JSON)."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_records_selector_plugin.js:0
 msgid "Invalid Record"
-msgstr ""
+msgstr "Neplatný záznam"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_embedding.py:0
 msgid "Invalid attachment. Failed to extract content."
-msgstr ""
+msgstr "Neplatná príloha. Nepodarilo sa extrahovať obsah."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Invalid search operator."
-msgstr ""
+msgstr "Neplatný vyhľadávací operátor."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__is_ask_ai_agent
 msgid "Is Natural Language Query Agent"
-msgstr ""
+msgstr "Je agent pre vyhľadávanie v prirodzenom jazyku"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__is_system_default
 msgid "Is the rule a system default or user created"
-msgstr ""
+msgstr "Je pravidlo predvolené systémom alebo vytvorené užívateľom"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_tool_schema
@@ -1086,6 +1346,8 @@ msgid ""
 "JSON containing the values that can be returned by the LLM along with their "
 "properties (type, length, ...)"
 msgstr ""
+"JSON obsahujúci hodnoty, ktoré môže LLM vrátiť, spolu s ich vlastnosťami "
+"(typ, dĺžka...)"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
@@ -1093,6 +1355,8 @@ msgid ""
 "JSON schema for the parameters of the action (leave empty if no arguments "
 "are needed)"
 msgstr ""
+"JSON schéma pre parametre akcie (nechajte prázdne, ak nie sú potrebné žiadne "
+"argumenty)"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
@@ -1102,7 +1366,7 @@ msgstr "Kľúč"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__llm_model
 msgid "LLM Model"
-msgstr ""
+msgstr "Model LLM"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__write_uid
@@ -1128,40 +1392,40 @@ msgstr "Naposledy upravované"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Log Note"
-msgstr ""
+msgstr "Pridať poznámku"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/message_actions_patch.js:0
 msgid "Log as Note"
-msgstr ""
+msgstr "Zaznamenať ako poznámku"
 
 #. module: ai
 #: model:ir.model,name:ai.model_mail_composer_mixin
 msgid "Mail Composer Mixin"
-msgstr ""
+msgstr "Mixin pre tvorbu e-mailov"
 
 #. module: ai
 #: model:ir.model,name:ai.model_mail_render_mixin
 msgid "Mail Render Mixin"
-msgstr ""
+msgstr "Mixin na vykresľovanie e-mailov"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Max Length"
-msgstr ""
+msgstr "Maximálna dĺžka"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__mimetype
 msgid "Mime Type"
-msgstr "Napodobniť typ"
+msgstr "Typ MIME"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/tools_schema/validators.py:0
 msgid "Missing definition for %(name)s"
-msgstr ""
+msgstr "Chýbajúca definícia pre %(name)s"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__focused_models
@@ -1173,54 +1437,55 @@ msgstr "Modely"
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__name
 msgid "Name"
-msgstr "Meno"
+msgstr "Názov"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_api_service.py:0
 msgid "No API key set for provider '%s'"
-msgstr ""
+msgstr "Pre poskytovateľa „%s “ nie je nastavený žiadny kľúč API"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "No configured Ask AI agent. Please contact your administrator."
 msgstr ""
+"Agent Opýtajte sa AI nie je nakonfigurovaný. Kontaktujte svojho správcu."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No embedding configuration found for the provider"
-msgstr ""
+msgstr "Nenašla sa žiadna konfigurácia vloženia pre poskytovateľa"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "No embedding model found for the selected provider"
-msgstr ""
+msgstr "Pre vybraného poskytovateľa nebol nájdený žiadny model vloženia"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No provider found for the embedding model"
-msgstr ""
+msgstr "Nenašiel sa žiadny poskytovateľ pre model vloženia"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_providers.py:0
 msgid "No provider found for the selected model"
-msgstr ""
+msgstr "Pre vybraný model nebol nájdený žiadny poskytovateľ"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "No tool was executed."
-msgstr ""
+msgstr "Nebol spustený žiadny nástroj."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.js:0
 msgid "No valid URLs found to process."
-msgstr ""
+msgstr "Nenašli sa žiadne platné URL adresy na spracovanie."
 
 #. module: ai
 #. odoo-javascript
@@ -1229,6 +1494,8 @@ msgid ""
 "No valid files to upload. Only PDF, Word, PowerPoint, Excel, Text, CSV, and "
 "OpenDocument files are allowed."
 msgstr ""
+"Žiadne platné súbory na nahratie. Povolené sú iba súbory PDF, Word, "
+"PowerPoint, Excel, Text, CSV a OpenDocument."
 
 #. module: ai
 #. odoo-javascript
@@ -1247,23 +1514,23 @@ msgstr "Online"
 #. odoo-python
 #: code:addons/ai/models/ai_agent_source.py:0
 msgid "Only administrators can create sources from URLs."
-msgstr ""
+msgstr "Iba administrátori môžu vytvárať zdroje z URL adries."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "Oops, it looks like our AI is unreachable"
-msgstr ""
+msgstr "Ups, vyzerá to, že naša umelá inteligencia je nedostupná"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__text-embedding-3-small
 msgid "OpenAI"
-msgstr ""
+msgstr "OpenAI"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_res_config_settings__openai_key
 msgid "OpenAI API key"
-msgstr ""
+msgstr "Kľúč API OpenAI"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__partner_id
@@ -1274,13 +1541,13 @@ msgstr "Partner"
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.xml:0
 msgid "Paste your links, one per line"
-msgstr ""
+msgstr "Vložte svoje odkazy, jeden na riadok"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Pretty Edit"
-msgstr ""
+msgstr "Pretty Edit"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__processing
@@ -1299,24 +1566,26 @@ msgstr "Spracovanie ..."
 #: code:addons/ai/static/src/core/html_editor/prompt_plugin.js:0
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "Prompt"
-msgstr "Ihneď"
+msgstr "Prompt"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_prompt_button
 msgid ""
 "Prompt that can be attached to AI UI rules for quick access by the user."
 msgstr ""
+"Prompt, ktorú je možné pripojiť k pravidlám AI UI pre rýchly prístup "
+"užívateľa."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_action_prompt
 #: model:ir.model.fields,help:ai.field_ir_cron__ai_action_prompt
 msgid "Prompt used by \"AI\" action"
-msgstr ""
+msgstr "Prompt používaný akciou „AI“"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Provide your API key to connect with your account"
-msgstr ""
+msgstr "Zadajte svoj kľúč API na pripojenie k vášmu účtu"
 
 #. module: ai
 #. odoo-javascript
@@ -1328,7 +1597,7 @@ msgstr "Záznam"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_records_selector_plugin.js:0
 msgid "Records Selector"
-msgstr ""
+msgstr "Výber záznamov"
 
 #. module: ai
 #. odoo-javascript
@@ -1339,17 +1608,17 @@ msgstr "Povinný"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__response_style
 msgid "Response Style"
-msgstr ""
+msgstr "Štýl odpovede"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__restrict_to_sources
 msgid "Restrict to Sources"
-msgstr ""
+msgstr "Obmedziť na zdroje"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__html_field_text_select
 msgid "Rewrite content"
-msgstr ""
+msgstr "Prepísať obsah"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__name
@@ -1366,19 +1635,19 @@ msgstr "Uložiť"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_prompt.xml:0
 msgid "Save & Generate"
-msgstr ""
+msgstr "Uložiť a vygenerovať"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/records_selector_popover/records_selector_popover.xml:0
 msgid "Select a records"
-msgstr ""
+msgstr "Vyberte záznamy"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Send Message"
-msgstr ""
+msgstr "Poslať správu"
 
 #. module: ai
 #. odoo-javascript
@@ -1390,7 +1659,7 @@ msgstr "Odoslať ako správu"
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__sequence
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__sequence
 msgid "Sequence"
-msgstr "Postupnosť"
+msgstr "Poradie"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_actions_server
@@ -1401,18 +1670,18 @@ msgstr "Serverová akcia"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Share by email"
-msgstr ""
+msgstr "Zdieľať e-mailom"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "Share transcript summary"
-msgstr ""
+msgstr "Zdieľať zhrnutie prepisu"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "Short explanation of what this does"
-msgstr ""
+msgstr "Stručné vysvetlenie, čo to znamená"
 
 #. module: ai
 #. odoo-javascript
@@ -1421,6 +1690,8 @@ msgid ""
 "Some URLs are invalid and were skipped. URLs must start with http://, "
 "https://, or ftp://"
 msgstr ""
+"Niektoré URL adresy sú neplatné a boli preskočené. URL adresy musia začínať "
+"http://, https:// alebo ftp://"
 
 #. module: ai
 #. odoo-javascript
@@ -1429,6 +1700,8 @@ msgid ""
 "Some files have invalid formats and were skipped: %s. Only PDF, Word, "
 "PowerPoint, Excel, Text, CSV, and OpenDocument files are allowed."
 msgstr ""
+"Niektoré súbory majú neplatný formát a boli preskočené: %s. Povolené sú iba "
+"súbory PDF, Word, PowerPoint, Excel, Text, CSV a OpenDocument."
 
 #. module: ai
 #. odoo-javascript
@@ -1444,30 +1717,30 @@ msgstr "Zdroje"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__sources_fully_processed
 msgid "Sources Fully Processed"
-msgstr ""
+msgstr "Zdroje plne spracované"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Start Recording"
-msgstr ""
+msgstr "Začať nahrávanie"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Start recording to get a real-time transcript of the conversation"
-msgstr ""
+msgstr "Spustite nahrávanie, aby ste získali prepis konverzácie v reálnom čase"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__status
 msgid "Status"
-msgstr "Postavenie"
+msgstr "Stav"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Stop Recording"
-msgstr ""
+msgstr "Zastaviť nahrávanie"
 
 #. module: ai
 #. odoo-javascript
@@ -1479,69 +1752,69 @@ msgstr "Zhrnutie"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__voice_transcription_component
 msgid "Summary Buttons for Voice Transcription Component"
-msgstr ""
+msgstr "Tlačidlá súhrnu pre komponent hlasovej transkripcie"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__is_system_agent
 msgid "System Agent"
-msgstr ""
+msgstr "Systémový agent"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__system_prompt
 msgid "System Prompt"
-msgstr ""
+msgstr "Systémový prompt"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "System agents cannot be deleted."
-msgstr ""
+msgstr "Systémových agentov nie je možné odstrániť."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_composer.py:0
 msgid "System default prompts cannot be removed."
-msgstr ""
+msgstr "Predvolené systémové prompty nie je možné odstrániť."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Text Selection"
-msgstr ""
+msgstr "Výber textu"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "The action '%s' cannot be used as an AI tool."
-msgstr ""
+msgstr "Akcia „%s “ nemôže byť použitá ako nástroj umelej inteligencie."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_composer__name
 msgid "The identifier for the interface component to agent rule"
-msgstr ""
+msgstr "Identifikátor pravidla pre komponent rozhrania pre agenta"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.js:0
 msgid "The name should be unique"
-msgstr ""
+msgstr "Názov by mal byť jedinečný"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ai_agent.py:0
 msgid "The partner linked to an AI agent can't be changed"
-msgstr ""
+msgstr "Partnera prepojeného s agentom AI nie je možné zmeniť"
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_prompt_button__name
 msgid "The prompt sent to the AI when clicked on"
-msgstr ""
+msgstr "Prompt odoslaný umelej inteligencii po kliknutí na"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "The site's rules (robots.txt) prevent reading this page."
-msgstr ""
+msgstr "Pravidlá stránky (robots.txt) zabraňujú čítaniu tejto stránky."
 
 #. module: ai
 #. odoo-python
@@ -1550,6 +1823,8 @@ msgid ""
 "The type of the parameter '%(name)s' is incorrect. It should be '%"
 "(expected_param_type)s'."
 msgstr ""
+"Typ parametra „%(name)s “ je nesprávny. Mal by byť „%(expected_param_type)s "
+"“."
 
 #. module: ai
 #. odoo-python
@@ -1558,18 +1833,20 @@ msgid ""
 "The value '%(value)s' of the parameter '%(name)s' doesn't match the expected "
 "pattern '%(expected_pattern)s'."
 msgstr ""
+"Hodnota „%(value)s “ parametra „%(name)s “ nezodpovedá očakávanému vzoru „%"
+"(expected_pattern)s “."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "This action cannot be executed by an AI."
-msgstr ""
+msgstr "Túto akciu nemôže vykonať umelá inteligencia."
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/models/ir_actions_server.py:0
 msgid "This action is interactive and cannot be executed by the agent."
-msgstr ""
+msgstr "Táto akcia je interaktívna a nemôže byť spustená agentom."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ir_actions_server__ai_tool_allow_end_message
@@ -1578,12 +1855,14 @@ msgid ""
 "This tool is automatically provided with `__end_message` param which when "
 "provided, the LLM processing loop is terminated."
 msgstr ""
+"Tento nástroj je automaticky vybavený parametrom `__end_message`, ktorý v "
+"prípade zadania ukončí spracovateľskú slučku LLM."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Those parameters will be passed as global variables of the actions."
-msgstr ""
+msgstr "Tieto parametre budú odovzdané ako globálne premenné akcií."
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.mail_template_view_form
@@ -1591,6 +1870,8 @@ msgid ""
 "Tip: Write /field to insert values or /prompt to integrate AI-generated "
 "dynamic content!"
 msgstr ""
+"Tip: Napíšte /field na vloženie hodnôt alebo /prompt na integráciu "
+"dynamického obsahu generovaného umelou inteligenciou!"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_topic__name
@@ -1601,6 +1882,8 @@ msgstr "Titul"
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "To return a result to the AI agent, do <code>ai['result'] = ...</code>"
 msgstr ""
+"Ak chcete vrátiť výsledok agentovi AI, použite <code>ai['result'] = ...</"
+"code>"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_ids
@@ -1611,20 +1894,20 @@ msgstr "Nástroje"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__topic_ids
 msgid "Topics"
-msgstr ""
+msgstr "Témy"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Transcript"
-msgstr ""
+msgstr "Prepis"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_natural_language_service.js:0
 msgid "Tried to switch to %s but the app is no longer in an action window."
-msgstr ""
+msgstr "Snažil som sa prepnúť na „ %s “, ale aplikácia už nie je v okne akcií."
 
 #. module: ai
 #. odoo-javascript
@@ -1652,6 +1935,22 @@ msgid ""
 "- 'Multi Actions': define an action that triggers several other server "
 "actions\n"
 msgstr ""
+"Typ akcie servera. K dispozícii sú nasledujúce hodnoty:\n"
+"- 'Update a Record' (Aktualizovať záznam): aktualizovať hodnoty záznamu\n"
+"- 'Create Activity' (Vytvoriť aktivitu): vytvoriť aktivitu (Diskusie)\n"
+"- 'Send Email' (Odoslať e-mail): zverejniť správu, poznámku alebo odoslať e-"
+"mail (Diskusie)\n"
+"- 'Send SMS' (Odoslať SMS): odoslať SMS, zaznamenať ich do dokumentov (SMS)\n"
+"- 'Add/Remove Followers' (Pridať/odstrániť odberateľov): pridať alebo "
+"odstrániť odberateľov zo záznamu (Diskusie)\n"
+"- 'Create Record' (Vytvoriť záznam): vytvorenie nového záznamu s novými "
+"hodnotami\n"
+"- 'Execute Code' (Vykonanie kódu): blok kódu v jazyku Python, ktorý sa "
+"vykoná\n"
+"- 'Send Webhook Notification' (Odoslanie oznámenia Webhook): odoslanie "
+"požiadavky POST do externého systému, známeho aj ako Webhook\n"
+"- 'Multi Actions' (Viacnásobné akcie): definovanie akcie, ktorá spustí "
+"niekoľko ďalších akcií servera\n"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__url
@@ -1663,70 +1962,70 @@ msgstr "URL"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %(url)s returned non-HTML content: %(content_type)s"
-msgstr ""
+msgstr "URL %(url)s vrátila obsah, ktorý nie je v HTML: %(content_type)s"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %s returned empty content"
-msgstr ""
+msgstr "URL %s vrátila prázdny obsah"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "Unable to start the recording."
-msgstr ""
+msgstr "Nie je možné spustiť nahrávanie."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_natural_language_service.js:0
 msgid "Unable to switch view"
-msgstr ""
+msgstr "Nie je možné prepnúť zobrazenie"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/llm_api_service.py:0
 msgid "Unsupported provider '%s'"
-msgstr ""
+msgstr "Nepodporovaný poskytovateľ „%s “"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/components/agent_add_source_dialog/agent_add_source_dialog.js:0
 msgid "Upload a File"
-msgstr ""
+msgstr "Nahrať súbor"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__use_in_ai
 #: model:ir.model.fields,field_description:ai.field_ir_cron__use_in_ai
 msgid "Use in AI"
-msgstr ""
+msgstr "Použitie v AI"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/discuss/message_actions_patch.js:0
 msgid "Use this"
-msgstr ""
+msgstr "Použiť toto"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Use your own ChatGPT account"
-msgstr ""
+msgstr "Použite svoj vlastný účet ChatGPT"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
 msgid "Use your own Google Gemini account"
-msgstr ""
+msgstr "Použite svoj vlastný účet Google Gemini"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__user_has_access
 msgid "User Has Access"
-msgstr ""
+msgstr "Užívateľ má prístup"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.js:0
 msgid "User error"
-msgstr ""
+msgstr "Chyba užívateľa"
 
 #. module: ai
 #. odoo-javascript
@@ -1739,29 +2038,29 @@ msgstr "Používateľ je online"
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Voice Recording"
-msgstr ""
+msgstr "Nahrávanie hlasu"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/plugins/voice_transcription_plugin.js:0
 msgid "Voice Transcript"
-msgstr ""
+msgstr "Prepis hlasu"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__mail_composer
 msgid "Write an email"
-msgstr ""
+msgstr "Napísať e-mail"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_composer__interface_key__html_field_record
 msgid "Write in an HTML field"
-msgstr ""
+msgstr "Písať do poľa HTML"
 
 #. module: ai
 #. odoo-python
 #: code:addons/ai/utils/tools_schema/validators.py:0
 msgid "Wrong value %(value)s, should be in: %(enum)s"
-msgstr ""
+msgstr "Nesprávna hodnota %(value)s, mala by byť: %(enum)s"
 
 #. module: ai
 #. odoo-javascript
@@ -1770,35 +2069,37 @@ msgid ""
 "You must allow the access to your microphone to start the recording. Try "
 "refreshing the page and start again."
 msgstr ""
+"Na spustenie nahrávania musíte povoliť prístup k mikrofónu. Skúste obnoviť "
+"stránku a začnite znova."
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: New name to write"
-msgstr ""
+msgstr "napr.: Nové meno na zapísanie"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: ^(\\\\([0-9]{3}\\\\))?[0-9]{3}-[0-9]{4}$"
-msgstr ""
+msgstr "napr.: ^(\\\\([0-9]{3}\\\\))?[0-9]{3}-[0-9]{4}$"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: name"
-msgstr ""
+msgstr "napr.: meno"
 
 #. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "eg: red, blue, green"
-msgstr ""
+msgstr "napr.: červená, modrá, zelená"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
 msgid "executed."
-msgstr ""
+msgstr "vykonaná."
 
 #. module: ai
 #. odoo-javascript
@@ -1809,4 +2110,4 @@ msgstr ""
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
-msgstr ""
+msgstr "vektor"

@@ -27,6 +27,11 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
             },
             {
                 isActive: ["auto"],
+                content: "Wait for the html field",
+                trigger: "div[name='x_comments']",
+            },
+            {
+                isActive: ["auto"],
                 trigger: '.note-editable.odoo-editor-editable',
                 content: markup(_t('Fill in your <b>worksheet</b> with the details of your intervention.')),
                 async run(actions) {
@@ -47,7 +52,6 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
             tooltipPosition: 'bottom',
             },
             {
-                isActive: ["auto"],
                 trigger: ".o_form_button_save",
                 run: "click",
             },

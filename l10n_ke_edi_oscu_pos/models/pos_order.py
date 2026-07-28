@@ -116,7 +116,7 @@ class PosOrder(models.Model):
         """ Return the values that should be sent to eTIMS for the lines in self. """
         self.ensure_one()
         lines_values = []
-        for index, line in enumerate(self.lines):
+        for index, line in enumerate(self.lines.filtered(lambda l: l.product_id.type != 'combo')):
             product = line.product_id  # for ease of reference
             product_uom_qty = line.product_uom_id._compute_quantity(line.qty, product.uom_id)
 

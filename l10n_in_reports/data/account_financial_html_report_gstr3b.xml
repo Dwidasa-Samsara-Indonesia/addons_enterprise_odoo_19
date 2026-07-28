@@ -139,13 +139,13 @@
                             <record id="account_report_gstr3b_3_1_d_tax_base" model="account.report.expression">
                                 <field name="label">tax_base</field>
                                 <field name="engine">domain</field>
-                                <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_b2b_rcm', 'purchase_b2c_rcm', 'purchase_cdnr_rcm', 'purchase_cdnur_rcm']), ('display_type', '=', 'product')]"/>
+                                <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_b2b_rcm', 'purchase_b2c_rcm', 'purchase_cdnr_rcm', 'purchase_cdnur_rcm', 'purchase_imp_services']), ('display_type', '=', 'product')]"/>
                                 <field name="subformula">sum</field>
                             </record>
                             <record id="account_report_gstr3b_3_1_d_tax_igst" model="account.report.expression">
                                 <field name="label">tax_igst</field>
                                 <field name="engine">domain</field>
-                                <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_b2b_rcm', 'purchase_b2c_rcm', 'purchase_cdnr_rcm', 'purchase_cdnur_rcm']), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
+                                <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_b2b_rcm', 'purchase_b2c_rcm', 'purchase_cdnr_rcm', 'purchase_cdnur_rcm', 'purchase_imp_services']), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_igst'))]"/>
                                 <field name="subformula">-sum</field>
                             </record>
                             <record id="account_report_gstr3b_3_1_d_tax_cgst" model="account.report.expression">
@@ -163,7 +163,7 @@
                             <record id="account_report_gstr3b_3_1_d_tax_cess" model="account.report.expression">
                                 <field name="label">tax_cess</field>
                                 <field name="engine">domain</field>
-                                <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_b2b_rcm', 'purchase_b2c_rcm', 'purchase_cdnr_rcm', 'purchase_cdnur_rcm']), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
+                                <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_b2b_rcm', 'purchase_b2c_rcm', 'purchase_cdnr_rcm', 'purchase_cdnur_rcm', 'purchase_imp_services']), ('tax_tag_ids', '=', ref('l10n_in.tax_tag_cess'))]"/>
                                 <field name="subformula">-sum</field>
                             </record>
                         </field>
@@ -2734,7 +2734,7 @@
                                     <record id="account_report_gstr3b_5_a_1_tax_base" model="account.report.expression">
                                         <field name="label">tax_base</field>
                                         <field name="engine">domain</field>
-                                        <field name="formula" eval="['|', ('l10n_in_gstr_section', 'in', ['purchase_nil_rated', 'purchase_exempt']), ('move_id.l10n_in_gst_treatment', '=', 'composition'), ('move_id.l10n_in_transaction_type', '=', 'inter_state'), ('display_type', '=', 'product')]"/>
+                                        <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_nil_rated', 'purchase_exempt']), ('move_id.l10n_in_transaction_type', '=', 'inter_state'), ('display_type', '=', 'product')]"/>
                                         <field name="subformula">sum</field>
                                     </record>
                                 </field>
@@ -2745,7 +2745,7 @@
                                     <record id="account_report_gstr3b_5_a_2_tax_base" model="account.report.expression">
                                         <field name="label">tax_base</field>
                                         <field name="engine">domain</field>
-                                        <field name="formula" eval="['|', ('l10n_in_gstr_section', 'in', ['purchase_nil_rated', 'purchase_exempt']), ('move_id.l10n_in_gst_treatment', '=', 'composition'), ('move_id.l10n_in_transaction_type', '=', 'intra_state'), ('display_type', '=', 'product')]"/>
+                                        <field name="formula" eval="[('l10n_in_gstr_section', 'in', ['purchase_nil_rated', 'purchase_exempt', 'purchase_composition_supplies']), ('move_id.l10n_in_transaction_type', '=', 'intra_state'), ('display_type', '=', 'product')]"/>
                                         <field name="subformula">sum</field>
                                     </record>
                                 </field>

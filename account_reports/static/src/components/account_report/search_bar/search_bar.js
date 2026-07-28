@@ -11,10 +11,8 @@ export class AccountReportSearchBar extends Component {
         this.controller = useState(this.env.controller);
 
         onMounted(() => {
-            if (this.props.initialQuery) {
-                this.searchText.el.value = this.props.initialQuery;
-                this.search();
-            }
+            this.searchText.el.value = this.props.initialQuery || "";
+            this.search();
         });
     }
 

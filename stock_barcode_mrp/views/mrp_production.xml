@@ -147,7 +147,7 @@
                     <div class="col-3 ps-0 no-radius-left" groups="uom.group_uom">
                         <field name="product_uom_id" options="{'no_open': True}"
                             widget="many2one_uom"
-                            readonly="not product_id"
+                            readonly="not product_id or state != 'draft'"
                             placeholder="Unit"/>
                     </div>
                 </div>

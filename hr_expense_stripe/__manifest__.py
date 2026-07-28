@@ -3,7 +3,7 @@
 # Stripe compatible API version is '2025-01-27.acacia'
 {
     'name': 'Expense cards',
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Human Resources/Expenses',
     'sequence': 70,
     'summary': 'Create and manage company expense cards via Stripe',

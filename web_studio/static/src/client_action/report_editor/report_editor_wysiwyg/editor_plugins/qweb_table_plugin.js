@@ -306,7 +306,9 @@ export class QWebTablePlugin extends Plugin {
         const table = closestElement(payload.cell, "q-table");
         this._removeColumn(payload);
         const firstCell = table.querySelector(CELL_TAGS.join(","));
-        this.dependencies.selection.setCursorEnd(firstCell);
+        if (firstCell) {
+            this.dependencies.selection.setCursorEnd(firstCell);
+        }
         this.dependencies.history.addStep();
     }
 

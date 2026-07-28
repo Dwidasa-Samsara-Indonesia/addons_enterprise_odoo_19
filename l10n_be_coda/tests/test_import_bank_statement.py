@@ -19,6 +19,8 @@ class TestCodaFile(AccountTestInvoicingCommon):
 
         cls.coda_file = cls._get_coda_file('l10n_be_coda/test_coda_file/Ontvangen_CODA.2013-01-11-18.59.15.txt')
         cls.coda_globalisation_file = cls._get_coda_file('l10n_be_coda/test_coda_file/test_coda_globalisation.txt')
+        cls.coda_32_increment_file = cls._get_coda_file('l10n_be_coda/test_coda_file/test_coda_with_32_incrementation.txt')
+        cls.coda_without_label = cls._get_coda_file('l10n_be_coda/test_coda_file/coda_without_label.txt')
 
     @classmethod
     def _get_coda_file(cls, coda_file_path):
@@ -64,7 +66,7 @@ class TestCodaFile(AccountTestInvoicingCommon):
         encodings = ('utf_8', 'cp850', 'cp858', 'cp1140', 'cp1252', 'iso8859_15', 'utf_32', 'utf_16', 'windows-1252')
 
         for enc in encodings:
-            statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda_special_chars.encode(enc))[0][2]
+            statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda_special_chars.encode(enc))[0][-1]
             self.assertEqual(statements[0]['transactions'][0]['payment_ref'][:24], "Théâtre d'Hélène à Dümùß")
 
 
@@ -76,7 +78,7 @@ class TestCodaFile(AccountTestInvoicingCommon):
 2300010000BE55173363943144                     ODOO SA                                                                       0 0
 8027BE68539007547034                  EUR0000000000125500000000                                                                0
 9               000005000000000000000000000000025500                                                                           2"""
-        statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda_zero_date.encode('utf-8'))[0][2]
+        statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda_zero_date.encode('utf-8'))[0][-1]
         self.assertEqual(statements[0]['transactions'][0]['date'], '2024-12-01')
 
     def test_coda_import_currency_symbol(self):
@@ -87,7 +89,7 @@ class TestCodaFile(AccountTestInvoicingCommon):
 2300010000BE55173363943144                     ODOO SA                                                                       0 0
 8027BE68539007547034                  EUR0000000000125500000000                                                                0
 9               000005000000000000000000000000025500                                                                           2"""
-        statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda_currency_symbols.encode('utf-8'))[0][2]
+        statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda_currency_symbols.encode('utf-8'))[0][-1]
         # If this fails, the error will probably talk about the date, it's because one of the decoded currency symbols became multiple
         # characters and the index of the date moved (from [115:121] to [117:123] for example)
         self.assertEqual(statements[0]['transactions'][0]['payment_ref'][:23], "Payment Reference €$£¥¢")
@@ -121,7 +123,7 @@ class TestCodaFile(AccountTestInvoicingCommon):
 2300030000                                                                        00000                                      0 0
 8027BE68539007547034                  EUR0000000000125500000000                                                                0
 9               000005000000000000000000000000025500                                                                           2"""
-        statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda.encode('utf-8'))[0][2]
+        statements = self.company_data['default_journal_bank']._parse_bank_statement_file(coda.encode('utf-8'))[0][-1]
         self.assertEqual(statements[0]['transactions'][0]['partner_name'], "TOYOTA EVERE (EVERE)")
 
     def test_globalisation_split_transactions(self):
@@ -135,16 +137,16 @@ class TestCodaFile(AccountTestInvoicingCommon):
         imported_statement = self.env['account.bank.statement'].search([('company_id', '=', self.env.company.id)])
 
         self.assertRecordValues(imported_statement.line_ids, [
-            {'amount': -435.00, 'payment_ref': 'MEDEDELING'},
+            {'amount': -435.00, 'payment_ref': 'MEDEDELING PARTNER 1                                                             Facture Test - 2026'},
             {'amount': 3044.45, 'payment_ref': '+++240/2838/42818+++'},
-            {'amount': -419.92, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21'},
-            {'amount': -59.12, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21'},
-            {'amount': -419.92, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21'},
-            {'amount': -59.12, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21'},
+            {'amount': -419.92, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21 - Codes proper to each bank - Fixed loan advance - reimbursement'},
+            {'amount': -59.12, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21 - Codes proper to each bank - Interest paid'},
+            {'amount': -419.92, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21 - Codes proper to each bank - Fixed loan advance - reimbursement'},
+            {'amount': -59.12, 'payment_ref': 'KBC-INVESTERINGSKREDIET 737-6543210-21 - Codes proper to each bank - Interest paid'},
             {'amount': 63.74, 'payment_ref': 'TERUGGAVE 37232481 8400083296 .'},
             {'amount': -1718.48, 'payment_ref': 'Original amount of the transaction'},
             {'amount': -1077.21, 'payment_ref': 'Original amount of the transaction'},
-            {'amount': -8.00, 'payment_ref': '1983756643.95654 AC123456789123'},
+            {'amount': -8.00, 'payment_ref': '1983756643.95654 AC123456789123 - Costs relating to outgoing foreign transfers and non-SEPA transfers - Payment commission'},
             {'amount': -1.68, 'payment_ref': 'Method of calculation (VAT, withholding tax on income, commission, etc.)'},
         ])
 
@@ -160,6 +162,35 @@ class TestCodaFile(AccountTestInvoicingCommon):
             'mimetype': 'application/text',
             'name': 'test_coda_globalisation.coda',
             'raw': self.coda_globalisation_file,
+        }).ids)
+
+        imported_statement = self.env['account.bank.statement'].search([('company_id', '=', self.env.company.id)])
+
+        self.assertRecordValues(imported_statement.line_ids, [
+            {'amount': -435.00},
+            {'amount': 3044.45},
+            {'amount': -479.04},
+            {'amount': -479.04},
+            {'amount': 63.74},
+            {'amount': -2795.69},
+            {'amount': -9.68},
+        ])
+
+        self.assertRecordValues(imported_statement, [{
+            'balance_start': 11812.70,
+            'balance_end': 10722.44,
+            'balance_end_real': 10722.44,
+        }])
+
+    def test_coda_file_with_32_incrementation_import(self):
+        """
+        Ensure the file can be imported even if the bank give a document with incorrect 3.2 incrementation
+        """
+        self.company_data['default_journal_bank'].coda_split_transactions = False
+        self.company_data['default_journal_bank'].create_document_from_attachment(self.env['ir.attachment'].create({
+            'mimetype': 'application/text',
+            'name': 'test_coda_with_32_incrementation.coda',
+            'raw': self.coda_32_increment_file,
         }).ids)
 
         imported_statement = self.env['account.bank.statement'].search([('company_id', '=', self.env.company.id)])
@@ -201,5 +232,19 @@ class TestCodaFile(AccountTestInvoicingCommon):
         with self.assertRaisesRegex(ValueError, r"Expected singleton"):
             journals._parse_bank_statement_file(coda_attachment.raw)
 
-        currency, __, __ = journals.with_context(ignore_statements=True)._parse_bank_statement_file(coda_attachment.raw)[0]
+        currency, __, __, __ = journals.with_context(ignore_statements=True)._parse_bank_statement_file(coda_attachment.raw)[0]
         self.assertEqual(currency, "EUR")
+
+    def test_coda_without_label(self):
+        self.company_data['default_journal_bank'].create_document_from_attachment(self.env['ir.attachment'].create({
+            'mimetype': 'application/text',
+            'name': 'test_coda_globalisation.coda',
+            'raw': self.coda_without_label,
+        }).ids)
+        imported_statement = self.env['account.bank.statement'].search([('company_id', '=', self.env.company.id)])
+        # When no label we will fallback on the transaction type
+        self.assertRecordValues(imported_statement.line_ids, [
+            {'payment_ref': '6703420000000301201946342016831102518305DELHAIZE P - Payment by means of a payment card within the Eurozone - Gross amount', 'transaction_type': 'Detail of Simple amount with detailed data: Cards (Payment by means of a payment card within the Eurozone)'},
+            {'payment_ref': '6703420000000301201946303764002112514455DELHAIZE P - Payment by means of a payment card within the Eurozone - Gross amount', 'transaction_type': 'Detail of Simple amount with detailed data: Cards (Payment by means of a payment card within the Eurozone)'},
+            {'payment_ref': 'Amount as totalised by the customer: Domestic or local SEPA credit transfers (Payment of wages, etc.)', 'transaction_type': 'Amount as totalised by the customer: Domestic or local SEPA credit transfers (Payment of wages, etc.)'},
+        ])

@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
-"PO-Revision-Date: 2026-04-09 14:01+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-07-04 09:55+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/es/>\n"
@@ -30,13 +30,19 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "\" el saldo de la cuenta se ve afectado por"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr "%(date_from)s - %(date_to)s"
 
 #. module: account_reports
 #. odoo-python
@@ -108,10 +114,10 @@ msgstr ""
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
+"targetting accounts or Result Brought Forward."
 msgstr ""
-"La opción desplegable «Abrir libro mayor» solo está disponible en las líneas "
-"del informe que apunten a cuentas o a ganancias y pérdidas sin distribuir."
+"La opción «Abrir libro mayor» solo está disponible en las líneas de informe "
+"vinculadas a cuentas o al resultado acumulado."
 
 #. module: account_reports
 #. odoo-python
@@ -261,6 +267,45 @@ msgstr ""
 "\t                <t t-out=\"object._get_followup_responsible().name if "
 "is_html_empty(object._get_followup_responsible().signature) else "
 "object._get_followup_responsible().signature\"/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+
+#. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hola, <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>:<br/><br/>\n"
+"                    La fecha límite para presentar <strong t-"
+"out=\"object.name\"/> es el <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    Para evitar posibles sanciones, asegúrate de enviar lo "
+"antes posible todos los documentos pendientes.<br/>\n"
+"                    Si ya has enviado toda la documentación, pero aun así "
+"has recibido este correo, es probable que la declaración fiscal no se haya "
+"marcado como presentada en Odoo.<br/>\n"
+"                    Si tienes alguna pregunta o necesitas ayuda, ponte en "
+"contacto con nosotros.<br/><br/>\n"
+"                    Saludos,<br/>\n"
 "                </p>\n"
 "            </div>\n"
 "        "
@@ -619,7 +664,7 @@ msgstr "Cuenta:"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_res_company__account_representative_id
 msgid "Accounting Firm"
-msgstr "Empresa contable"
+msgstr "Asesoría contable"
 
 #. module: account_reports
 #. odoo-python
@@ -980,6 +1025,7 @@ msgstr "Importe"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -1041,15 +1087,33 @@ msgid "Analytic"
 msgstr "Analítico"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr "Cobertura analítica"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "Grupo analítico por"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Línea analítica"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "Simulaciones analíticas"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr "Cobertura analítica"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1503,6 +1567,18 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr "CSV"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr "La exportación a CSV solo funciona con un grupo de columnas"
+
+#. module: account_reports
+#. odoo-python
 #: code:addons/account_reports/tests/common.py:0
 msgid "Can't use this helper to create a line with both tags and formula"
 msgstr ""
@@ -1807,6 +1883,7 @@ msgstr "Asiento de cierre contabilizado y fecha de bloqueo aplicada."
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2151,6 +2228,8 @@ msgid "Credit"
 msgstr "Haber"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2194,12 +2273,7 @@ msgid "Current Liabilities"
 msgstr "Pasivos corrientes"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "Ganancias retenidas del año actual"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "Ganancias no asignadas del año actual"
 
@@ -2484,6 +2558,7 @@ msgstr "Mostrar redactor del correo"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2698,8 +2773,8 @@ msgstr "Impuestos de la CE en el mismo país"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "CAPITAL"
+msgid "EQUITY (& EARNINGS)"
+msgstr "PATRIMONIO NETO (Y RESULTADOS)"
 
 #. module: account_reports
 #. odoo-python
@@ -2709,6 +2784,11 @@ msgid ""
 msgstr ""
 "Cada factura debe tener su propio documento adjunto como prueba en caso de "
 "auditoría."
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr "Ganancias"
 
 #. module: account_reports
 #. odoo-python
@@ -2883,6 +2963,7 @@ msgid "Entries with partners with no VAT"
 msgstr "Asientos con contactos sin NIF"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -3217,16 +3298,6 @@ msgid "Formula"
 msgstr "Fórmula"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr ""
-"De %(date_from)s\n"
-"a  %(date_to)s"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
 msgid "Function Parameter"
 msgstr "Parámetro de la función"
@@ -3483,6 +3554,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3882,6 +3954,11 @@ msgstr "Es un seguidor"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "La compañía principal está activa"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr "Son datos maestros"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -4438,6 +4515,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4744,6 +4822,12 @@ msgstr "En curso"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr "Solo un contable puede eliminar una declaración."
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
 msgid "Only an Accounting Administrator can reset a return"
 msgstr "Solo un administrador contable puede restablecer una declaración"
 
@@ -4773,6 +4857,14 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "Solo clientes dentro de la UE"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr ""
+"Solo se pueden eliminar las declaraciones creadas manualmente en estado "
+"«Nuevo»."
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -4847,7 +4939,7 @@ msgstr "Cheques pendientes"
 #. odoo-python
 #: code:addons/account_reports/models/account_followup_report.py:0
 msgid "Overdue"
-msgstr "De retraso"
+msgstr "Vencido"
 
 #. module: account_reports
 #. odoo-python
@@ -5270,14 +5362,9 @@ msgid "Previous Years"
 msgstr "Años anteriores"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "Ganancias retenidas de años anteriores"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "Ganancias no asignados de años anteriores"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr "Resultados de años anteriores"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5459,6 +5546,13 @@ msgid "Reminder"
 msgstr "Recordatorio"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr ""
+"Recordatorio: se acerca la fecha límite de {{ object.name }} - Requiere tu "
+"atención"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5485,6 +5579,16 @@ msgstr "Informe abierto una vez"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "Opciones del informe"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
+"El informe se está cargando en segundo plano. Los datos mostrados se han "
+"almacenado en caché y pueden no estar actualizados."
 
 #. module: account_reports
 #. odoo-python
@@ -5525,9 +5629,10 @@ msgid "Result"
 msgstr "Resultado"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "Ganancias acumuladas"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr "Resultado de ejercicios anteriores"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5967,6 +6072,11 @@ msgid "Show Companies"
 msgstr "Mostrar compañías"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr ""
+
+#. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/aged_partner_balance/filters.js:0
 msgid "Show Currency"
@@ -6061,7 +6171,7 @@ msgid ""
 "Specify an Accounting Firm that will act as a representative when exporting "
 "reports."
 msgstr ""
-"Indique una asesoría contable que actuará como representante al exportar los "
+"Especifica una asesoría contable que actuará como representante al exportar "
 "informes."
 
 #. module: account_reports
@@ -6271,6 +6381,11 @@ msgstr "Informe de impuestos"
 #: model_terms:ir.ui.view,arch_db:account_reports.view_move_form_vat_return
 msgid "Tax Return"
 msgstr "Devolución de impuestos"
+
+#. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr "Fecha límite para la declaración de impuestos"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -6846,11 +6961,6 @@ msgid "Type of the exception activity on record."
 msgstr "Tipo de actividad de excepción en el registro."
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "Ganancias sin asignar"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6861,12 +6971,6 @@ msgstr "Desarchivar"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "Indefinido"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "Ganancias/pérdidas no distribuidas"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7320,6 +7424,13 @@ msgstr ""
 "no ha sido revisada."
 
 #. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
@@ -7552,6 +7663,45 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Restablecer a la tasa de Odoo"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr ""
+#~ "De %(date_from)s\n"
+#~ "a  %(date_to)s"
+
+#~ msgid "namecolumns"
+#~ msgstr "namecolumns"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr ""
+#~ "La opción desplegable «Abrir libro mayor» solo está disponible en las "
+#~ "líneas del informe que apunten a cuentas o a ganancias y pérdidas sin "
+#~ "distribuir."
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "Ganancias retenidas del año actual"
+
+#~ msgid "EQUITY"
+#~ msgstr "CAPITAL"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "Ganancias retenidas de años anteriores"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "Ganancias no asignados de años anteriores"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "Ganancias acumuladas"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "Ganancias sin asignar"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "Ganancias/pérdidas no distribuidas"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

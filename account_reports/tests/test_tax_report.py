@@ -1735,7 +1735,13 @@ class TestTaxReport(TestAccountReportsCommon):
                 (unit_companies - current_company).partner_id.with_company(current_company).property_account_position_id,
                 created_fp
             )
-            self.assertFalse(created_fp.map_tax(self.env['account.tax'].search([('company_id', '=', current_company.id)])))
+            # Tax unit FP drops taxes bound to a fiscal position; taxes
+            # without fiscal_position_ids are preserved by design.
+            company_taxes = self.env['account.tax'].search([('company_id', '=', current_company.id)])
+            bound_taxes = company_taxes.filtered('fiscal_position_ids')
+            all_taxes = company_taxes - bound_taxes
+            self.assertFalse(created_fp.map_tax(bound_taxes))
+            self.assertEqual(created_fp.map_tax(all_taxes), all_taxes)
             self.assertFalse(current_company.partner_id.with_company(current_company).property_account_position_id)
         tax_unit._compute_fiscal_position_completion()
         self.assertTrue(tax_unit.fpos_synced)

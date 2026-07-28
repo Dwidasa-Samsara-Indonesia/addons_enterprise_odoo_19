@@ -7,13 +7,13 @@ patch(TicketScreen.prototype, {
     // Override
     setPartnerToRefundOrder(partner, destinationOrder) {
         if (this.pos.company.l10n_co_edi_pos_dian_enabled) {
-            const destinationPartner = destinationOrder.get_partner();
+            const destinationPartner = destinationOrder.getPartner();
             if (
                 partner &&
                 (!destinationPartner ||
                     destinationPartner.id === this.pos.session._l10n_co_final_consumer_id)
             ) {
-                destinationOrder.set_partner(partner);
+                destinationOrder.setPartner(partner);
             }
         } else {
             super.setPartnerToRefundOrder(partner, destinationOrder);

@@ -409,3 +409,14 @@ export function assertLineIsFaulty(lineOrIndex, expected = true) {
     const errorMessage = `line ${expected ? "should" : "shouldn't"} be faulty`;
     assert(line.classList.contains("o_faulty"), expected, errorMessage);
 }
+
+/**
+ * @param {(HTMLElement|integer)} lineOrIndex @see _getLineOrFail
+ * @param {string} packagingQuantity packaging quantity on the line, formatted as "n UOM"
+ */
+export function assertLinePackaging(lineOrIndex, packagingQuantity) {
+    const line = _getLineOrFail(lineOrIndex, "Can't check the line's packaging");
+    const elPackaging = line.querySelector(".o_packaging");
+    const packagingText = elPackaging.innerText;
+    assert(packagingText, `Packaging: ${packagingQuantity}`, "Line packaging not matching");
+}

@@ -13,7 +13,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'whatsapp_event/static/src/template_reference_field/field_event_mail_template_reference.xml',
+            'whatsapp_event/static/src/template_reference_field/*',
         ],
     },
     'author': 'Odoo S.A.',

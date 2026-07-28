@@ -20,7 +20,6 @@ import {
     mountWithCleanup,
     patchWithCleanup,
     onRpc,
-    mockService,
 } from "@web/../tests/web_test_helpers";
 import { downloadFile } from "@web/core/network/download";
 import { WebClient } from "@web/webclient/webclient";
@@ -82,56 +81,6 @@ test("open spreadsheet with deprecated `active_id` params", async function () {
         message: "It should have opened the spreadsheet",
     });
     expect.verifySteps(["spreadsheet-loaded"]);
-});
-
-test("should redirect to home menu when spreadsheet is not found", async function () {
-    onRpc("/spreadsheet/data/documents.document/2", () => {
-        expect.step("try-open-spreadsheet");
-        return new Response("{}", { status: 404 });
-    });
-    mockService("action", {
-        doAction(actionRequest) {
-            if (actionRequest === "menu") {
-                expect.step("redirect-to-home-menu");
-            } else {
-                return super.doAction(...arguments);
-            }
-        },
-    });
-    await mountWithCleanup(WebClient);
-    await getService("action").doAction({
-        type: "ir.actions.client",
-        tag: "action_open_spreadsheet",
-        params: {
-            spreadsheet_id: 2,
-        },
-    });
-    expect.verifySteps(["try-open-spreadsheet", "redirect-to-home-menu"]);
-});
-
-test("should redirect to home menu when spreadsheet access is denied", async function () {
-    onRpc("/spreadsheet/data/documents.document/2", () => {
-        expect.step("try-open-spreadsheet");
-        return new Response("{}", { status: 403 });
-    });
-    mockService("action", {
-        doAction(actionRequest) {
-            if (actionRequest === "menu") {
-                expect.step("redirect-to-home-menu");
-            } else {
-                return super.doAction(...arguments);
-            }
-        },
-    });
-    await mountWithCleanup(WebClient);
-    await getService("action").doAction({
-        type: "ir.actions.client",
-        tag: "action_open_spreadsheet",
-        params: {
-            spreadsheet_id: 2,
-        },
-    });
-    expect.verifySteps(["try-open-spreadsheet", "redirect-to-home-menu"]);
 });
 
 test("breadcrumb is rendered the navbar", async function () {
@@ -256,6 +205,22 @@ test("ask confirmation when merging", async function () {
     await contains(".o-menu-item-button[title='Merge cells']").click();
     await contains(".o_dialog .btn-primary").click(); // confirm
     expect(model.getters.isSingleCellOrMerge(sheetId, toZone("A1:A2"))).toBe(true);
+});
+
+test("Cancel callback of askConfirmation is called when using the cancel button", async function () {
+    const { env } = await createSpreadsheet();
+    env.askConfirmation(
+        "Dialog title",
+        () => {},
+        () => {
+            expect.step("cancel callback");
+        }
+    );
+    await animationFrame();
+    expect(".o_dialog .btn-primary").toHaveText("Yes");
+    expect(".o_dialog .btn-secondary").toHaveText("No");
+    await contains(".o_dialog .btn-secondary").click();
+    expect.verifySteps(["cancel callback"]);
 });
 
 test("Grid has still the focus after a dialog", async function () {

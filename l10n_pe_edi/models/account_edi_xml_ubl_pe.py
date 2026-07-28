@@ -218,11 +218,11 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             'cbc:ID': {'_text': partner.l10n_pe_district.code},
             'cbc:AddressTypeCode': None,
             'cbc:StreetName': {'_text': partner.street},
-            'cbc:AdditionalStreetName': {'_text': partner.street2},
+            'cbc:CitySubdivisionName': {'_text': partner.street2},
             'cbc:CityName': {'_text': partner.city},
-            'cbc:PostalZone': {'_text': partner.zip},
             'cbc:CountrySubentity': {'_text': state.name},
             'cbc:CountrySubentityCode': {'_text': state.code},
+            'cbc:District': {'_text': partner.l10n_pe_district.name},
             'cac:Country': {
                 'cbc:IdentificationCode': {'_text': country.code},
                 'cbc:Name': {'_text': country.name},
@@ -265,7 +265,9 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         invoice = vals['invoice']
         spot = invoice._l10n_pe_edi_get_spot()
         if spot:
-            spot_amount = spot['amount'] if invoice.currency_id == invoice.company_id.currency_id else spot['spot_amount']
+            # spot['spot_amount'] is in invoice currency and is used to subtract from receivable lines.
+            # spot['amount'] is always in PEN and is only used for the Detraccion XML node.
+            spot_amount = spot['spot_amount']
         invoice_date_due_vals_list = []
         first_time = True
         for rec_line in invoice.line_ids.filtered(lambda l: l.account_type == 'asset_receivable').sorted('date_maturity'):
@@ -349,7 +351,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         total_isc_tax = sum(
             values['tax_amount_currency']
             for grouping_key, values in aggregated_tax_details.items()
-            if grouping_key['l10n_pe_edi_tax_group_code'] == 'ISC'
+            if grouping_key and grouping_key['l10n_pe_edi_tax_group_code'] == 'ISC'
         )
 
         if invoice.l10n_pe_edi_legend == '1002':
@@ -358,7 +360,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             total_tax_amount = sum(
                 values['tax_amount_currency']
                 for grouping_key, values in aggregated_tax_details.items()
-                if not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_withholding_tax']
             )
 
         document_node['cac:TaxTotal'] = {
@@ -384,7 +386,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                     'cac:TaxCategory': self._get_tax_category_node({**vals, 'grouping_key': grouping_key}),
                 }
                 for grouping_key, tax_details in aggregated_tax_details.items()
-                if not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
             ]
         }
 
@@ -559,7 +561,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             total_tax_amount = sum(
                 values['tax_amount_currency']
                 for grouping_key, values in aggregated_tax_details.items()
-                if not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_withholding_tax']
             )
 
         line_node['cac:TaxTotal'] = {
@@ -584,7 +586,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                     'cac:TaxCategory': self._get_tax_category_node({**vals, 'grouping_key': grouping_key})
                 }
                 for grouping_key, values in aggregated_tax_details.items()
-                if not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
             ]
         }
 
@@ -658,7 +660,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
 
         base_lines_aggregated_tax_details = self.env['account.tax']._aggregate_base_lines_tax_details(vals['base_lines'], grouping_function_wh)
         aggregated_tax_details = self.env['account.tax']._aggregate_base_lines_aggregated_values(base_lines_aggregated_tax_details)
-        base_amount = aggregated_tax_details.get(True, {}).get('base_amount_currency', 0.0)
+        base_amount = min(aggregated_tax_details.get(True, {}).get('base_amount_currency', 0.0), vals['tax_inclusive_amount_currency'])
         allowance_amount = aggregated_tax_details.get(True, {}).get('tax_amount_currency', 0.0)
 
         withholding_node = {}

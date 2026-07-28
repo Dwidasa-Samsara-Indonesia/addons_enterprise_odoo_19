@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2026-03-03 17:23+0000\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-06-17 23:50+0000\n"
 "Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/sk/>\n"
@@ -20,15 +20,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.16.1\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
+"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/ir_actions_server.py:0
 msgid "\"New Journal Entry\" can only be applied to Document."
-msgstr ""
+msgstr "„Nový účtovný záznam“ je možné použiť iba na dokument."
 
 #. module: documents_account
 #. odoo-javascript
@@ -42,51 +42,51 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "<b>Select</b> this page to continue."
-msgstr ""
+msgstr "Pre pokračovanie <b>vyberte</b> tuto stránku."
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.account_move_view_form
 msgid "<span class=\"o_stat_text\">Documents</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Dokumenty</span>"
 
 #. module: documents_account
 #: model:ir.model.constraint,message:documents_account.constraint_documents_account_folder_setting_journal_unique
 msgid "A setting already exists for this journal"
-msgstr ""
+msgstr "Pre tento denník už existuje príslušné nastavenie"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
 msgid "Accounting"
-msgstr ""
+msgstr "Účtovníctvo"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_documents_account_folder_setting__company_account_folder_id
 #: model:ir.model.fields,field_description:documents_account.field_res_company__account_folder_id
 msgid "Accounting Folder"
-msgstr ""
+msgstr "Zložka Účtovníctvo"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_account_report
 msgid "Accounting Report"
-msgstr ""
+msgstr "Účtovný výkaz"
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Action"
-msgstr ""
+msgstr "Akcia"
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "All"
-msgstr ""
+msgstr "Všetko"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Annual Closing"
-msgstr ""
+msgstr "Ročné závierky"
 
 #. module: documents_account
 #. odoo-javascript
@@ -108,9 +108,14 @@ msgid "Bank Statement"
 msgstr "Bankový výpis"
 
 #. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr "Mixin importu obchodných dokumentov"
+
+#. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
 msgid "Centralize accounting files and documents"
-msgstr ""
+msgstr "Centralizujte účtovné súbory a dokumenty"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account
@@ -120,24 +125,24 @@ msgstr "Skontrolujte ich"
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
 msgid "Choose a journal..."
-msgstr ""
+msgstr "Vyberte denník..."
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
 msgid "Choose an accounting document type..."
-msgstr ""
+msgstr "Vyberte typ účtovného dokladu..."
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Click on a card to <b>select the document</b>."
-msgstr ""
+msgstr "Pre <b>výber dokumentu</b> kliknite na kartu."
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Click on a thumbnail to <b>preview the document</b>."
-msgstr ""
+msgstr "Kliknutím na miniatúru <b>zobrazíte dokument</b>."
 
 #. module: documents_account
 #. odoo-javascript
@@ -146,18 +151,20 @@ msgid ""
 "Click on the <b>page separator</b>: we don't want to split these two pages "
 "as they belong to the same document."
 msgstr ""
+"Kliknite na <b>oddeľovač stránok</b>: nechceme tieto dve stránky rozdeľovať, "
+"pretože patria do toho istého dokumentu."
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Click the cross to <b>exit preview</b>."
-msgstr ""
+msgstr "Kliknutím na krížik <b>opustíte náhľad</b>."
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Close (Esc)"
-msgstr ""
+msgstr "Zatvoriť (Esc)"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_res_company
@@ -178,7 +185,7 @@ msgstr "Nastavenia konfigurácie"
 #. odoo-python
 #: code:addons/documents_account/models/account_report.py:0
 msgid "Copy to Documents"
-msgstr ""
+msgstr "Kopírovať do dokumentov"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
@@ -189,29 +196,29 @@ msgstr "Vytvoriť"
 #. odoo-python
 #: code:addons/documents_account/models/ir_actions_server.py:0
 msgid "Create %(model_name)s"
-msgstr ""
+msgstr "Vytvoriť %(model_name)s"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/ir_actions_server.py:0
 msgid "Create %(model_name)s (%(journal_name)s)"
-msgstr ""
+msgstr "Vytvoriť %(model_name)s (%(journal_name)s)"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note_code
 msgid "Create Credit Note"
-msgstr ""
+msgstr "Vytvoriť dobropis"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note
 msgid "Create Customer Credit Note"
-msgstr ""
+msgstr "Vytvoriť zákaznícky dobropis"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_customer_invoice
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_customer_invoice_code
 msgid "Create Customer Invoice"
-msgstr "Vytvorte zákaznícku faktúru"
+msgstr "Vytvoriť zákaznícku faktúru"
 
 #. module: documents_account
 #. odoo-javascript
@@ -219,7 +226,7 @@ msgstr "Vytvorte zákaznícku faktúru"
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_misc_entry
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_misc_entry_code
 msgid "Create Misc Entry"
-msgstr ""
+msgstr "Vytvoriť iný záznam"
 
 #. module: documents_account
 #. odoo-javascript
@@ -227,24 +234,26 @@ msgstr ""
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_bill
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_bill_code
 msgid "Create Vendor Bill"
-msgstr ""
+msgstr "Vytvoriť faktúru dodávateľa"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_refund
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_refund_code
 msgid "Create Vendor Credit Note"
-msgstr ""
+msgstr "Vytvoriť dobropis dodávateľa"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_receipt
 msgid "Create Vendor Receipt"
-msgstr ""
+msgstr "Vytvoriť nákupnú účtenku"
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Create a new document for the remaining page, it will be handled later."
 msgstr ""
+"Vytvorit nový dokument pre zostávajúcu stránku, tá sa bude spracovávať "
+"neskôr."
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_documents_account_folder_setting__create_uid
@@ -259,26 +268,27 @@ msgstr "Vytvorené"
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_refund
 msgid "Credit Note"
-msgstr ""
+msgstr "Dobropis"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Customer Credit Notes"
-msgstr ""
+msgstr "Zákaznícky dobropis"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_invoice
 msgid "Customer Invoice"
-msgstr ""
+msgstr "Faktúra zákazníka"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Customer Invoices"
-msgstr ""
+msgstr "Zákaznícke faktúry"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -296,7 +306,7 @@ msgstr "Zobrazovaný názov"
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_documents_document
 msgid "Document"
-msgstr ""
+msgstr "Dokument"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_create_model
@@ -308,25 +318,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_journal_id
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_journal_id
 msgid "Documents Account Journal"
-msgstr ""
+msgstr "Dokumenty Účtovný denník"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_move_type
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_move_type
 msgid "Documents Account Move Type"
-msgstr ""
+msgstr "Dokumenty Typ účtovného záznamu"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_suitable_journal_ids
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_suitable_journal_ids
 msgid "Documents Account Suitable Journal"
-msgstr ""
+msgstr "Dokumenty Vhodný účtovný denník"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/account_report.py:0
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_account_reports_export_wizard_format
@@ -340,11 +350,17 @@ msgstr "Sprievodca exportom pre účtovné výkazy"
 
 #. module: documents_account
 #. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr "Nepodarilo sa vložiť odkazy: "
+
+#. module: documents_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Finance"
-msgstr ""
+msgstr "Financie"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_reports_export_wizard__folder_id
@@ -356,13 +372,13 @@ msgstr "Priečinok"
 #. module: documents_account
 #: model:ir.model.fields,help:documents_account.field_account_reports_export_wizard__folder_id
 msgid "Folder where to save the generated file"
-msgstr ""
+msgstr "Zložka, do ktorej sa má uložiť vygenerovaný súbor"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/account_journal.py:0
 msgid "Generated Bank Statements"
-msgstr ""
+msgstr "Vytvorené výpisy z bankového účtu"
 
 #. module: documents_account
 #. odoo-python
@@ -374,14 +390,15 @@ msgstr "Generované dokumenty"
 #: model:ir.model.fields,field_description:documents_account.field_account_bank_statement_line__has_documents
 #: model:ir.model.fields,field_description:documents_account.field_account_move__has_documents
 msgid "Has Documents"
-msgstr ""
+msgstr "Obsahuje dokumenty"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_documents_document__has_embedded_pdf
 msgid "Has Embedded PDF"
-msgstr ""
+msgstr "Obsahuje vložený súbor PDF"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -417,7 +434,7 @@ msgstr "Účtovný záznam"
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_documents_account_folder_setting
 msgid "Journal and Folder settings"
-msgstr ""
+msgstr "Nastavenia denníka a priečinka"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -427,7 +444,7 @@ msgstr "Účtovné denníky"
 #. module: documents_account
 #: model:ir.actions.act_window,name:documents_account.action_folder_settings_installer
 msgid "Journals to synchronize"
-msgstr "Účtovné denníky synchronizovať"
+msgstr "Účtovné denníky na synchronizáciu"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_documents_account_folder_setting__write_uid
@@ -446,6 +463,8 @@ msgid ""
 "Let's process documents in this folder.<br/> <i>Tip: Use Tags to filter "
 "documents and structure your process.</i>"
 msgstr ""
+"Spracujme dokumenty v tejto zložke.<br/> <i>Tip: Používajte Štítky na "
+"filtrovanie dokumentov a štruktúrovanie vášho procesu.</i>"
 
 #. module: documents_account
 #. odoo-javascript
@@ -457,7 +476,7 @@ msgstr "Spracujme tieto faktúry: urobme z nich dodávateľské faktúry."
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Let's process this document now."
-msgstr ""
+msgstr "Teraz tento dokument spracujme."
 
 #. module: documents_account
 #. odoo-javascript
@@ -466,6 +485,14 @@ msgid ""
 "Let's tag this mail as Finance<br/> <i>Tips: actions can be tailored to your "
 "process, according to the folder.</i>"
 msgstr ""
+"Označme tento e-mail ako „Financie“<br/> <i>Tip: akcie je možné prispôsobiť "
+"vašim procesom podľa zložiek.</i>"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
+msgstr "Vložené odkazy"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry
@@ -475,63 +502,63 @@ msgstr "Interné účtovné doklady"
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_credit_note_move
 msgid "Move Document To Taxes"
-msgstr ""
+msgstr "Presunúť dokument do Dane"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_customer_invoice_move
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_bill_move
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_vendor_refund_move
 msgid "Move Document to Taxes"
-msgstr ""
+msgstr "Presunúť dokument do Dane"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_create_misc_entry_move
 msgid "Move Documents to Annual Closing"
-msgstr ""
+msgstr "Presunúť dokumenty do Ročné závierky"
 
 #. module: documents_account
 #: model:ir.actions.server,name:documents_account.ir_actions_server_bank_statement_move
 msgid "Move to Annual Closing"
-msgstr ""
+msgstr "Presunúť do Ročné uzávierky"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__state__documents_account_record_create
 msgid "New Journal Entry"
-msgstr ""
+msgstr "Nový účtovný záznam"
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Open the actions menu"
-msgstr ""
+msgstr "Otvoriť ponuku akcií"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_receipt
 msgid "Purchase Receipt"
-msgstr ""
+msgstr "Nákupná účtenka"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_bank_statement_line__suspense_statement_line_id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__suspense_statement_line_id
 msgid "Request document from a bank statement line"
-msgstr ""
+msgstr "Žiadosť o dokument z riadku výpisu z bankového účtu"
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Send To Finance"
-msgstr ""
+msgstr "Odoslať do Financie"
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_ir_actions_server
 msgid "Server Action"
-msgstr ""
+msgstr "Serverová akcia"
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "Split PDF"
-msgstr ""
+msgstr "Rozdeliť PDF"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_account_reports_export_wizard__tag_ids
@@ -543,24 +570,24 @@ msgstr "Štítky"
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Taxes"
-msgstr ""
+msgstr "Dane"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account
 msgid "This invoice has been initiated by a bank transaction."
-msgstr ""
+msgstr "Táto faktúra bola vytvorená na základe bankovej transakcie."
 
 #. module: documents_account
 #. odoo-javascript
 #: code:addons/documents_account/static/src/js/tour.js:0
 msgid "This should be processed as a misc entry."
-msgstr ""
+msgstr "Toto by sa malo spracovať ako záznam v kategórii „Ostatné“."
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__state
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__state
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #. module: documents_account
 #: model:ir.model.fields,help:documents_account.field_ir_actions_server__state
@@ -579,17 +606,31 @@ msgid ""
 "- 'Multi Actions': define an action that triggers several other server "
 "actions\n"
 msgstr ""
+"Typ akcie servera. K dispozícii sú nasledujúce hodnoty:\n"
+"- „Update a Record“: aktualizovať hodnoty záznamu\n"
+"- „Create Activity“: vytvoriť aktivitu (Diskutovať)\n"
+"- „Send Email“: zverejniť správu, poznámku alebo odoslať e-mail (Diskutovať)"
+"\n"
+"- „Send SMS“: odoslať SMS, zaznamenať ich do dokumentov (SMS)\n"
+"- „Add/Remove Followers“: pridať alebo odstrániť odberateľov k záznamu "
+"(Diskusia)\n"
+"- „Create Record“: vytvorenie nového záznamu s novými hodnotami\n"
+"- „Execute Code“: blok kódu v jazyku Python, ktorý sa vykoná\n"
+"- „Send Webhook Notification“: odoslanie požiadavky POST do externého "
+"systému, známeho aj ako webhook\n"
+"- „Multi Actions“: definovanie akcie, ktorá spustí niekoľko ďalších "
+"serverových akcií\n"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_invoice
 msgid "Vendor Bill"
-msgstr ""
+msgstr "Dodávateľská faktúra"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Vendor Bills"
-msgstr ""
+msgstr "Dodávateľské faktúry"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
@@ -600,13 +641,13 @@ msgstr "Dodávateľský dobropis"
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Vendor Receipts"
-msgstr ""
+msgstr "Účtenky od dodávateľov"
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "Vendor Refunds"
-msgstr ""
+msgstr "Dobropisy dodávateľov"
 
 #. module: documents_account
 #. odoo-javascript
@@ -614,6 +655,7 @@ msgstr ""
 msgid ""
 "Want to become a <b>paperless company</b>? Let's discover Odoo Documents."
 msgstr ""
+"Chcete sa stať <b>bezpapierovou spoločnosťou</b>? Objavte Odoo Dokumenty."
 
 #. module: documents_account
 #: model_terms:web_tour.tour,rainbow_man_message:documents_account.documents_account_tour
@@ -621,17 +663,19 @@ msgid ""
 "Wow... 6 documents processed in a few seconds, You're good.<br>The tour is "
 "complete. Try uploading your own documents now."
 msgstr ""
+"Páni... 6 dokumentov spracovaných za pár sekúnd, ide vám to skvele.<br>"
+"Prehliadka je ukončená. Skús teraz nahrať svoje vlastné dokumenty."
 
 #. module: documents_account
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "You can not create account move on folder."
-msgstr ""
+msgstr "Nemôžete vytvoriť účtovný záznam z priečinka."
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_res_config_settings__account_folder_id
 msgid "account default folder"
-msgstr ""
+msgstr "predvolená zložka účtovníctva"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_account_move_form_inherit_documents_account

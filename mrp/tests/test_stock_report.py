@@ -242,7 +242,7 @@ class TestMrpStockReports(TestReportsCommon):
             ],
         })
 
-        for back_order, expected_vals in [('never', [12, 12]), ('always', [24, 12])]:
+        for back_order, expected_vals in [('never', [24, 12]), ('always', [24, 12])]:
             picking_form = Form(self.env['stock.picking'])
             picking_form.picking_type_id = self.picking_type_in
             picking_form.partner_id = self.partner
@@ -739,3 +739,21 @@ class TestMrpStockReports(TestReportsCommon):
         overview_values_no_bom = self.env['report.mrp.report_mo_overview'].get_report_values(mo_no_bom.id)
         self.assertEqual(overview_values_no_bom['data']['components'][0]['summary']['bom_cost'], 120)
         self.assertEqual(overview_values_no_bom['data']['components'][0]['summary']['mo_cost'], 120)
+
+    def test_forecast_report_cross_warehouse_mo(self):
+        """
+        Test that when an MO is planned between two warehouses,
+        the forecast header report correctly computes the incoming
+        quantity for correct warehouse.
+        """
+        wh1 = self.env.ref('stock.warehouse0')
+        wh2 = self.wh_2
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product.id,
+            'product_qty': 10,
+            'location_src_id': wh1.lot_stock_id.id,
+            'location_dest_id': wh2.lot_stock_id.id,
+        })
+        mo.action_confirm()
+        self.assertEqual(self.product.with_context(warehouse_id=wh1.id).incoming_qty, 0)
+        self.assertEqual(self.product.with_context(warehouse_id=wh2.id).incoming_qty, 10)

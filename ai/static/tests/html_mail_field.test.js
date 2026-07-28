@@ -59,6 +59,44 @@ test("HtmlMail should have the AI prompt command when dynamic placeholder plugin
     expect(".o_editor_prompt").toHaveCount(1);
 });
 
+test("HtmlMail should be able to undo a prompt banner", async function () {
+    enableTransitions();
+    await mountView({
+        type: "form",
+        resId: 1,
+        resModel: "custom.message",
+        arch: `
+        <form>
+            <field name="body" widget="html_mail" options="{'dynamic_placeholder': true}"/>
+        </form>`,
+    });
+    setSelectionInHtmlField();
+    await insertText(htmlEditor, "/prompt");
+    await press("enter");
+    expect(".o_editor_prompt").toHaveCount(1);
+    await press(["CTRL", "Z"]);
+    expect(".o_editor_prompt").toHaveCount(0);
+});
+
+test("HtmlMail should add a prompt empty banner", async function () {
+    enableTransitions();
+    await mountView({
+        type: "form",
+        resId: 1,
+        resModel: "custom.message",
+        arch: `
+        <form>
+            <field name="body" widget="html_mail" options="{'dynamic_placeholder': true}"/>
+        </form>`,
+    });
+    setSelectionInHtmlField();
+    await insertText(htmlEditor, "abc");
+    await insertText(htmlEditor, "/prompt");
+    await press("enter");
+    expect(".o_editor_prompt_content").toHaveInnerHTML(`
+        <div class="o-paragraph o-we-hint" o-we-hint-text="Type &quot;/&quot; for commands"><br></div>`);
+});
+
 test("Only dynamic placeholder command should be available inside an AI prompt", async function () {
     await mountView({
         type: "form",

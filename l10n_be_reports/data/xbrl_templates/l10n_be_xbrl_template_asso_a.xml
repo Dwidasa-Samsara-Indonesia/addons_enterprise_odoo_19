@@ -91,6 +91,12 @@
                     </scenario>
                 </context>
 
+                <!-- === Explanatory Disclosures === -->
+                <t t-call="l10n_be_reports.exp_disclosure_financial_assets" />
+                <t t-call="l10n_be_reports.exp_disclosure_tangible_assets" />
+                <t t-call="l10n_be_reports.exp_disclosure_payable_more_than_one_year" />
+                <t t-call="l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets" />
+
                 <!-- === Social Balance Sheet === -->
                 <t t-if="with_social_balance_sheet">
                     <t t-call="l10n_be_reports.xbrl_social_balance_sheet" />
@@ -98,11 +104,11 @@
 
                 <!-- Units -->
                 <unit id="EUR">
-                    <measure>iso4217:EUR</measure>
+                    <measure t-translation="off">iso4217:EUR</measure>
                 </unit>
                 <t t-if="with_social_balance_sheet">
                     <unit id="pure">
-                        <measure>pure</measure>
+                        <measure t-translation="off">pure</measure>
                     </unit>
                 </t>
 
@@ -112,8 +118,8 @@
                 <met:dte1 contextRef="date" t-out="date" />
                 <met:dte1 contextRef="start_period" t-out="date_from" />
                 <met:dte1 contextRef="end_period" t-out="date_to" />
-                <met:bln1 contextRef="liquidation">false</met:bln1>
-                <met:bln1 contextRef="correction">false</met:bln1>
+                <met:bln1 contextRef="liquidation" t-translation="off">false</met:bln1>
+                <met:bln1 contextRef="correction" t-translation="off">false</met:bln1>
                 <met:str2 contextRef="company_name" t-out="company_name" />
                 <lgf-enum:list2 contextRef="company_type" t-out="company_type" />
                 <met:str2 contextRef="company_street" t-out="company_street" />
@@ -317,6 +323,22 @@
                     <met:am1 contextRef="social_balance_initial_male_cost" decimals="2" unitRef="EUR" t-out="BE_SBS_5843" />
                     <met:am1 contextRef="social_balance_initial_female_cost" decimals="2" unitRef="EUR" t-out="BE_SBS_5853" />
                 </t>
+
+                <met:am1 contextRef="exp_disclosure_financial_acquisition" decimals="2" unitRef="EUR" t-out="BE_EXP_8395" />
+                <met:am1 contextRef="exp_disclosure_financial_capital_gains" decimals="2" unitRef="EUR" t-out="BE_EXP_8455" />
+                <met:am1 contextRef="exp_disclosure_financial_amount_written_down" decimals="2" unitRef="EUR" t-out="BE_EXP_8525" />
+                <met:am1 contextRef="exp_disclosure_financial_uncalled_amount" decimals="2" unitRef="EUR" t-out="BE_EXP_8555" />
+
+                <met:am1 contextRef="exp_disclosure_tangible_acquisition" decimals="2" unitRef="EUR" t-out="BE_EXP_8199" />
+                <met:am1 contextRef="exp_disclosure_tangible_revaluation_surplus" decimals="2" unitRef="EUR" t-out="BE_EXP_8259" />
+                <met:am1 contextRef="exp_disclosure_tangible_amount_written_down" decimals="2" unitRef="EUR" t-out="BE_EXP_8329" />
+
+                <met:am1 contextRef="exp_disclosure_payable_more_than_one_less_than_five" decimals="2" unitRef="EUR" t-out="BE_EXP_8912" />
+                <met:am1 contextRef="exp_disclosure_payable_more_than_five" decimals="2" unitRef="EUR" t-out="BE_EXP_8913" />
+
+                <met:am1 contextRef="exp_disclosure_depreciation_on_formation_expense" decimals="2" unitRef="EUR" t-out="BE_EXP_8079" />
+                <met:am1 contextRef="exp_disclosure_depreciation_on_intangible_assets" decimals="2" unitRef="EUR" t-out="BE_EXP_8279" />
+
             </xbrl>
         </template>
     </data>

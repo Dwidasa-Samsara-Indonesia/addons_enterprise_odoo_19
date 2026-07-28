@@ -1,7 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details
 import logging
 
-from odoo import models, fields
+from odoo import fields, models
+
+from odoo.addons.website_sale.const import SNIPPET_DEFAULTS
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +26,15 @@ class Website_GeneratorRequest(models.Model):
         product_redirects = self._create_products(tar, odoo_blocks, created_categories_mapping)
         ecommerce_redirects.update(product_redirects)
         odoo_blocks['direct_html_replacements_mapping'].update(ecommerce_redirects)
+
+    def _apply_html_replacements(self, body_html, pattern_sorted_html, direct_replacement_mapping, image_replacement_mapping, template_key_to_filter_xmlid=None):
+        template_key_to_filter_xmlid = template_key_to_filter_xmlid or {}
+        template_key_to_filter_xmlid.update({
+            v['template_key']: v['filter_xmlid']
+            for v in SNIPPET_DEFAULTS.values()
+            if 'template_key' in v and 'filter_xmlid' in v
+        })
+        return super()._apply_html_replacements(body_html, pattern_sorted_html, direct_replacement_mapping, image_replacement_mapping, template_key_to_filter_xmlid)
 
     def _create_products(self, tar, odoo_blocks, created_categories_mapping):
         # First extract all the product.template vals

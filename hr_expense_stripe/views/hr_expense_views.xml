@@ -32,6 +32,9 @@
                 <xpath expr="//field[@name='company_id']" position="attributes">
                     <attribute name="readonly" add="is_card_expense" separator="or"/>
                 </xpath>
+                <xpath expr="//field[@name='manager_id']" position="attributes">
+                    <attribute name="readonly" add="is_card_expense" separator="or"/>
+                </xpath>
 
                 <xpath expr="//field[@name='employee_id' and @groups='hr.group_hr_user']" position="attributes">
                     <attribute name="readonly" add="is_card_expense" separator="or"/>

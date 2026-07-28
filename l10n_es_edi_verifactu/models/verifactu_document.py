@@ -44,14 +44,13 @@ def _get_zeep_operation(company, operation):
     def response_hook(resp, *args, **kwargs):
         info['raw_response'] = resp.text
 
-    session.hooks['response'] = response_hook
-
     settings = zeep.Settings(forbid_entities=False, strict=False)
     wsdl = company._l10n_es_edi_verifactu_get_endpoints()['wsdl']
-    client = zeep.Client(
+    client = company._get_zeep_client__(
         wsdl['url'], session=session, settings=settings,
         operation_timeout=20, timeout=20,
     )
+    session.hooks['response'] = response_hook  # To avoid storing XSD/WSDL in info
 
     if operation == 'registration':
         # Note: using the "certificate" before creating `client` causes an error during the `client` creation
@@ -472,7 +471,10 @@ class L10nEsEdiVerifactuDocument(models.Model):
             if not document_vals.get('errors'):
                 chain_sequence = record_values['company'].sudo()._l10n_es_edi_verifactu_get_chain_sequence()
                 try:
-                    document_vals['chain_index'] = chain_sequence.next_by_id()
+                    document_vals['chain_index'] = int(chain_sequence.next_by_id())
+                except ValueError:
+                    errors = [_("The Veri*Factu chain sequence must not have a prefix or suffix. Please remove it from the sequence configuration.")]
+                    document_vals['errors'] = self._format_errors(error_title, errors)
                 except OperationalError as e:
                     # We chain all the created documents per company in generation order.
                     # (indexed by `chain_index`).

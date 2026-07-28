@@ -24,6 +24,19 @@ With the above example, the description of each package will be updated.
 For more information, please refer to the DHL API documentation: https://developer.dhl.com/api-reference/dhl-express-mydhl-api.
 """
 
+LABEL_FORMAT_MAPPING = {
+    '8X4_A4_PDF': 'ECOM26_84_A4_001',
+    '8X4_thermal': 'ECOM26_84_001',
+    '8X4_A4_TC_PDF': 'ECOM_TC_A4',
+    '6X4_thermal': 'ECOM26_A6_002',
+    '6X4_A4_PDF': 'ECOM26_A6_002',
+    '8X4_CI_PDF': 'ECOM26_84CI_001',
+    '8X4_CI_thermal': 'ECOM26_84CI_001',
+    '8X4_RU_A4_PDF': 'ECOM_A4_RU_002',
+    '6X4_PDF': 'ECOM26_A6_002',
+    '8X4_PDF': 'ECOM26_84_001',
+}
+
 
 class ProviderDHL(models.Model):
     _inherit = 'delivery.carrier'
@@ -336,8 +349,11 @@ class ProviderDHL(models.Model):
             srm = DHLProvider(self)
             account_number = self.sudo().dhl_account_number
             planned_date = picking.scheduled_date
-            if planned_date <= fields.Datetime.now():
-                raise UserError(_("The planned date for the shipment must be in the future."))
+            scheduled_date_warning = False
+            if not planned_date or planned_date <= fields.Datetime.now():
+                # DHL requires a planned date in the future => +1 hr to now
+                planned_date = fields.Datetime.now() + timedelta(hours=1)
+                scheduled_date_warning = _(" Extra Info: The scheduled time for the shipment was either not set or was in the past, so DHL has been sent a planned shipping time of one hour from now")
             shipment_request['plannedShippingDateAndTime'] = self._convert_to_utc_string(planned_date)
             shipment_request['pickup'] = {'isRequested': True}
             shipment_request['accounts'] = srm._get_billing_vals(account_number, "shipper")
@@ -368,7 +384,8 @@ class ProviderDHL(models.Model):
             }
             shipment_request['outputImageProperties']['imageOptions'] = [{
                 'typeCode': 'label',
-                'templateName': self.dhl_label_template,
+                'templateName': LABEL_FORMAT_MAPPING.get(self.dhl_label_template, 'ECOM26_84_001'),
+                'fitLabelsToA4': self.dhl_label_image_format == 'PDF' and 'A4' in self.dhl_label_template,
             }]
             if self.supports_shipping_insurance and self.shipping_insurance:
                 shipment_request['valueAddedServices'] = [srm._get_insurance_vals(self.shipping_insurance, total_value, currency_name)]
@@ -376,6 +393,8 @@ class ProviderDHL(models.Model):
             dhl_response = srm._send_shipment(shipment_request)
             tracking_number = dhl_response['shipmentTrackingNumber']
             logmessage = Markup("%s<br/><b>%s:</b> %s") % (_("Shipment created into DHL"), _("Tracking Number"), tracking_number)
+            if scheduled_date_warning:
+                logmessage += scheduled_date_warning
             dhl_labels = [
                 (
                     'LabelShipping-DHL-{}.{}'.format(tracking_number, document['imageFormat']),
@@ -412,8 +431,11 @@ class ProviderDHL(models.Model):
         srm = DHLProvider(self)
         account_number = self.sudo().dhl_account_number
         planned_date = picking.scheduled_date
-        if planned_date <= fields.Datetime.now():
-            raise UserError(_("The planned date for the shipment must be in the future."))
+        scheduled_date_warning = False
+        if not planned_date or planned_date <= fields.Datetime.now():
+            # DHL requires a planned date in the future => +1 hr to now
+            planned_date = fields.Datetime.now() + timedelta(hours=1)
+            scheduled_date_warning = _(" Extra Info: The scheduled time for the shipment was either not set or was in the past, so DHL has been sent a planned shipping time of one hour from now")
         shipment_request['plannedShippingDateAndTime'] = self._convert_to_utc_string(planned_date)
         shipment_request['pickup'] = {'isRequested': False}
         shipment_request['accounts'] = srm._get_billing_vals(account_number, "shipper")
@@ -447,6 +469,8 @@ class ProviderDHL(models.Model):
         dhl_response = srm._send_shipment(shipment_request)
         tracking_number = dhl_response['shipmentTrackingNumber']
         logmessage = Markup("%s<br/><b>%s:</b> %s") % (_("Shipment created into DHL"), _("Tracking Number"), tracking_number)
+        if scheduled_date_warning:
+            logmessage += scheduled_date_warning
         dhl_labels = [
             (
                 'LabelReturn-DHL-{}.{}'.format(tracking_number, document['imageFormat']),

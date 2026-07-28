@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
+"POT-Creation-Date: 2026-04-17 18:48+0000\n"
 "PO-Revision-Date: 2025-10-08 18:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -69,6 +69,11 @@ msgid "Default Project Folder"
 msgstr "Standart loyiha papkasi"
 
 #. module: documents_project
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__display_name
+msgid "Destination Display Name"
+msgstr ""
+
+#. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__display_name
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__display_name
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__display_name
@@ -102,6 +107,11 @@ msgid "Documents Folder"
 msgstr "Hujjatlar papkasi"
 
 #. module: documents_project
+#: model:ir.model,name:documents_project.model_documents_operation
+msgid "Documents Operation"
+msgstr ""
+
+#. module: documents_project
 #: model:documents.document,name:documents_project.project_1_document_3
 #, fuzzy
 msgid "First Floor Plan"
@@ -128,6 +138,7 @@ msgstr "Yangi loyihalar yaratilishi uchun mo‘ljallangan papka"
 
 #. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__id
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__id
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__id
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__id
 #: model:ir.model.fields,field_description:documents_project.field_project_project__id
@@ -203,6 +214,12 @@ msgstr ""
 "Bu amalni bajarib bo‘lmaydi, chunki u quyidagi loyihalar foydalanayotgan "
 "papkalarni o‘chirib yuboradi: %(projects)s Davom etish uchun ushbu loyihalar "
 "uchun boshqa papkalarni tanlang."
+
+#. module: documents_project
+#. odoo-python
+#: code:addons/documents_project/wizard/documents_operation.py:0
+msgid "This document belongs to %(task)s."
+msgstr ""
 
 #. module: documents_project
 #. odoo-python

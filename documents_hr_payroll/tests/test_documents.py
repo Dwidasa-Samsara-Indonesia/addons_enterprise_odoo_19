@@ -147,7 +147,7 @@ class TestCaseDocumentsBridgeHR(TestPayslipBase, TransactionCaseDocumentsHr):
         self.check_document_no_access(document, self.payroll_manager)
 
     def test_payslip_document_creation_with_no_partner(self):
-        """Check that the payslip document is created when the employee has no partner."""
+        """Check that no document is created when the employee has no partner."""
         # Ensure the employee has no partner
         self.richard_emp.user_id = False
         self.richard_emp.user_id.partner_id = False
@@ -155,10 +155,8 @@ class TestCaseDocumentsBridgeHR(TestPayslipBase, TransactionCaseDocumentsHr):
 
         payslip = self.payslip
         payslip.compute_sheet()
+        # Single payslip with on_confirmed trigger: PDF is generated directly, not queued.
         payslip.with_context(payslip_generate_pdf=True).action_payslip_done()
-        self.assertTrue(payslip.queued_for_pdf, "Payslip should be queued for PDF generation when not generating directly.")
-
-        payslip.browse()._cron_generate_pdf()
 
         # Check if the document is created
         document = self.env['documents.document'].search([('res_model', '=', payslip._name), ('res_id', '=', payslip.id)])

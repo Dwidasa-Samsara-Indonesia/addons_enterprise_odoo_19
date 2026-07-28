@@ -13,12 +13,14 @@ class DocumentsDocument(models.Model):
                         doc.mimetype and 'image' not in doc.mimetype.lower() and 'pdf' not in doc.mimetype.lower())):
             raise UserError(_("This action can only be applied on image and pdf not yet linked to an expense."))
 
-        if not self.env.user.employee_ids:
-            raise UserError(_("You must be linked to an employee to create an expense."))
+        employee = self.env['hr.expense']._default_employee_id() or self.env['hr.employee'].search([('company_id', '=', self.env.company.id)], limit=1)
+        if not employee:
+            raise UserError(_("There are no employee in the company. Please create one."))
         category_id = self.env.ref("hr_expense.product_product_no_cost").id
         expenses = self.env["hr.expense"].create([{
             'name': document.attachment_id.name,
             'product_id': category_id,
+            'employee_id': employee.id,
         } for document in self])
         for document, expense in zip(self, expenses):
             if document.res_model or document.res_id:

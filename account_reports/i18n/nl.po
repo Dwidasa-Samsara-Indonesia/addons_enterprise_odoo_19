@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
-"PO-Revision-Date: 2026-04-14 10:53+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-07-06 13:37+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/nl/>\n"
@@ -27,13 +27,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "\" rekeningsaldo wordt beïnvloed door"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr "%(date_from)s - %(date_to)s"
 
 #. module: account_reports
 #. odoo-python
@@ -105,10 +111,10 @@ msgstr ""
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
+"targetting accounts or Result Brought Forward."
 msgstr ""
-"De optie 'Open grootboek' is alleen beschikbaar voor rapportregels die "
-"betrekking hebben op rekeningen of niet-verdeelde winsten/verliezen."
+"De caret-optie 'Grootboek openen' is alleen beschikbaar in rapportregels die "
+"betrekking hebben op rekeningen of overgedragen resultaat."
 
 #. module: account_reports
 #. odoo-python
@@ -256,6 +262,45 @@ msgstr ""
 "\t                <t t-out=\"object._get_followup_responsible().name if "
 "is_html_empty(object._get_followup_responsible().signature) else "
 "object._get_followup_responsible().signature\"/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+
+#. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hoi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    De deadline om <strong t-out=\"object.name\"/> in te "
+"dienen is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    Zorg er alstublieft voor dat alle resterende documenten "
+"zo snel mogelijk worden verzonden om boetes te vermijden.<br/>\n"
+"                    Als je alles al hebt ingediend, maar deze e-mail toch "
+"hebt ontvangen, is de btw-aangifte waarschijnlijk niet als ingediend "
+"gemarkeerd in Odoo.<br/>\n"
+"                    Mocht je vragen hebben of hulp nodig hebben, neem dan "
+"gerust contact met ons op.<br/><br/>\n"
+"                    Met vriendelijke groet,<br/>\n"
 "                </p>\n"
 "            </div>\n"
 "        "
@@ -975,6 +1020,7 @@ msgstr "Bedrag"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -1036,15 +1082,33 @@ msgid "Analytic"
 msgstr "Analytisch"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr "Analytische dekking"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "Groeperen op analytische rekeningen"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Analytische boeking"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "Analytische simulaties"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr "Analytische dekking"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1496,6 +1560,18 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr "CSV"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr "CSV-export werkt alleen met één kolomgroep"
+
+#. module: account_reports
+#. odoo-python
 #: code:addons/account_reports/tests/common.py:0
 msgid "Can't use this helper to create a line with both tags and formula"
 msgstr ""
@@ -1560,7 +1636,7 @@ msgstr "Cashflowrapport Custom Handler"
 #: model:ir.actions.client,name:account_reports.action_account_report_cs
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_cash_flow
 msgid "Cash Flow Statement"
-msgstr "Cashflow"
+msgstr "Kasstroomoverzicht"
 
 #. module: account_reports
 #. odoo-python
@@ -1800,6 +1876,7 @@ msgstr "Sluitboeking geboekt en vergrendeldatum toegepast."
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2017,7 +2094,7 @@ msgstr "Inhoud"
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
 msgid "Cost of Revenue"
-msgstr "Kosten van omzet"
+msgstr "Kostprijs van de omzet"
 
 #. module: account_reports
 #. odoo-python
@@ -2144,6 +2221,8 @@ msgid "Credit"
 msgstr "Credit"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2187,12 +2266,7 @@ msgid "Current Liabilities"
 msgstr "Kort vreemd vermogen"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "Ingehouden winst huidig jaar"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "Niet-toegewezen resultaat van het boekjaar"
 
@@ -2425,7 +2499,7 @@ msgstr "Definitie"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_res_company__account_return_periodicity
 msgid "Delay units"
-msgstr "Vertragingseenheden"
+msgstr "Wachttijdeenheden"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
@@ -2479,6 +2553,7 @@ msgstr "Toon mail composer"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2542,7 +2617,7 @@ msgstr "Toon mail composer"
 #: model:ir.model.fields,field_description:account_reports.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_reports.field_res_partner__display_name
 msgid "Display Name"
-msgstr "Weergavenaam"
+msgstr "Schermnaam"
 
 #. module: account_reports
 #. odoo-javascript
@@ -2609,7 +2684,7 @@ msgstr "Domein"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_search_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_search_view
 msgid "Done"
-msgstr "Gereed"
+msgstr "Voltooid"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__checkbox_download
@@ -2651,7 +2726,7 @@ msgstr "Conceptboekingen"
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_journal_report_taxes_summary
 msgid "Due"
-msgstr "Te betalen facturen"
+msgstr "Niet vervallen"
 
 #. module: account_reports
 #. odoo-javascript
@@ -2694,8 +2769,8 @@ msgstr "EG-belasting op hetzelfde land"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "EIGEN VERMOGEN"
+msgid "EQUITY (& EARNINGS)"
+msgstr "EIGEN VERMOGEN (& RESULTATEN)"
 
 #. module: account_reports
 #. odoo-python
@@ -2705,6 +2780,11 @@ msgid ""
 msgstr ""
 "Elke factuur moet een eigen document als bewijs hebben voor een eventuele "
 "controle."
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr "Inkomsten"
 
 #. module: account_reports
 #. odoo-python
@@ -2879,6 +2959,7 @@ msgid "Entries with partners with no VAT"
 msgstr "Boekingen met partners zonder btw"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -3212,16 +3293,6 @@ msgid "Formula"
 msgstr "Formule"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr ""
-"Van %(date_from)s\n"
-"t/m %(date_to)s"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
 msgid "Function Parameter"
 msgstr "Functieparameter"
@@ -3474,6 +3545,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3868,6 +3940,11 @@ msgstr "Is een volger"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "Is hoofdbedrijf actief"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr "Is Master Data"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -4420,6 +4497,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4725,6 +4803,12 @@ msgstr "Lopend"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr "Enkel accountants kunnen een aangifte verwijderen."
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
 msgid "Only an Accounting Administrator can reset a return"
 msgstr "Alleen een beheerder van Boekhouding kan een aangifte resetten"
 
@@ -4754,6 +4838,14 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "Alleen klanten binnen de EU"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr ""
+"Alleen handmatig aangemaakte aangiftes in de status 'nieuw' kunnen worden "
+"verwijderd."
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -4828,7 +4920,7 @@ msgstr "Openstaande controles"
 #. odoo-python
 #: code:addons/account_reports/models/account_followup_report.py:0
 msgid "Overdue"
-msgstr "Te laat"
+msgstr "Vervallen"
 
 #. module: account_reports
 #. odoo-python
@@ -4914,7 +5006,7 @@ msgstr "Partner is goed"
 #. odoo-python
 #: code:addons/account_reports/wizard/account_report_send.py:0
 msgid "Partner(s) should have an email address."
-msgstr "Partner(s) moet(en een e-mailadres hebben."
+msgstr "Partner(s) moet(en) een e-mailadres hebben."
 
 #. module: account_reports
 #. odoo-javascript
@@ -5248,14 +5340,9 @@ msgid "Previous Years"
 msgstr "Vorige jaren"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "In het voorgaande jaar ingehouden winsten"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "Niet-toegewezen resultaat van vorige boekjaren"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr "Inkomsten van vorige jaren"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5435,6 +5522,12 @@ msgid "Reminder"
 msgstr "Herinnering"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr ""
+"Herinnering: Aankomende deadline voor {{ object.name }} - Actie vereist"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5461,6 +5554,16 @@ msgstr "Rapport één keer geopend"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "Rapportopties"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
+"Het rapport wordt op de achtergrond geladen. De gepresenteerde gegevens zijn "
+"in de cache opgeslagen en zijn mogelijk niet nauwkeurig."
 
 #. module: account_reports
 #. odoo-python
@@ -5501,9 +5604,10 @@ msgid "Result"
 msgstr "Resultaat"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "Reserve ingehouden winsten"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr "Overgedragen resultaat"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5942,6 +6046,11 @@ msgid "Show Companies"
 msgstr "Toon bedrijven"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr "Waarschuwing 'Bedrijven komen niet overeen' weergeven"
+
+#. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/aged_partner_balance/filters.js:0
 msgid "Show Currency"
@@ -6157,12 +6266,12 @@ msgstr "Vat de belangrijkste gebeurtenissen in deze boekhoudperiode samen."
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check__result__supervised
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_check_search_view
 msgid "Supervised"
-msgstr "Onder toezicht"
+msgstr "Extra gecontroleerd"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check__supervisor_id
 msgid "Supervised By"
-msgstr "Onder toezicht van"
+msgstr "Extra gecontroleerd door"
 
 #. module: account_reports
 #. odoo-python
@@ -6244,6 +6353,11 @@ msgstr "Btw-aangifte"
 #: model_terms:ir.ui.view,arch_db:account_reports.view_move_form_vat_return
 msgid "Tax Return"
 msgstr "Btw-aangifte"
+
+#. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr "Deadline btw-aangifte"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -6818,11 +6932,6 @@ msgid "Type of the exception activity on record."
 msgstr "Type van de geregistreerde uitzonderingsactiviteit."
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "Niet-toegewezen resultaat"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6833,12 +6942,6 @@ msgstr "Dearchiveren"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "Niet gedefinieerd"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "Niet-uitgekeerde winsten/verliezen"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7291,6 +7394,15 @@ msgstr ""
 "gecontroleerd."
 
 #. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
+"Je actieve bedrijven komen niet overeen met de bedrijven in deze aangifte. "
+"De weergegeven resultaten van de controles zijn mogelijk onvolledig."
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
@@ -7521,6 +7633,41 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Reset naar Odoo’s koers"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr ""
+#~ "Van %(date_from)s\n"
+#~ "t/m %(date_to)s"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr ""
+#~ "De optie 'Open grootboek' is alleen beschikbaar voor rapportregels die "
+#~ "betrekking hebben op rekeningen of niet-verdeelde winsten/verliezen."
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "Ingehouden winst huidig jaar"
+
+#~ msgid "EQUITY"
+#~ msgstr "EIGEN VERMOGEN"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "In het voorgaande jaar ingehouden winsten"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "Niet-toegewezen resultaat van vorige boekjaren"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "Reserve ingehouden winsten"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "Niet-toegewezen resultaat"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "Niet-uitgekeerde winsten/verliezen"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

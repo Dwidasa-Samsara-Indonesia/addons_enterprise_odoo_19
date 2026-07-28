@@ -52,12 +52,15 @@ class AccountTestSIE4Import(AccountTestInvoicingCommon):
     def test_sie4_import_file(self):
         file_content = file_open('l10n_se_sie4_import/tests/test_files/sie4_import.se').read()
         self.wizard.write({
-            'attachment_file': base64.b64encode(file_content.encode()),
+            'attachment_file': base64.b64encode(file_content.encode(encoding='cp437')),
             'company_id': self.company_id.id,
             'update_account_data': False,
             'import_opening_balance': False,
         })
         self.wizard.action_import_sie4()
+
+        # Ensure character from cp437 (non ASCII) are correctly imported
+        self.assertEqual(self.company_id.display_name, "Övningsbolaget AB")
 
         # Ensure all 18 moves from `sie4_import.se` are imported correctly
         test_date_format = '%y%m%d'

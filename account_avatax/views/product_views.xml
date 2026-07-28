@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <div name="taxes_div" position="after">
                 <field name="fiscal_country_codes" invisible="True"/>
-                <field name="avatax_category_id" invisible="fiscal_country_codes not in ('US', 'CA')"/>
+                <field name="avatax_category_id" invisible="'US' not in fiscal_country_codes and 'CA' not in fiscal_country_codes"/>
             </div>
         </field>
     </record>

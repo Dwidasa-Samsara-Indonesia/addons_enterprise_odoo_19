@@ -139,7 +139,13 @@
                         <field name="company_id" invisible="1"/>
                         <field name="version_id" context="{'default_employee_id': employee_id}"
                             required="1" readonly="state in ['cancel', 'validated', 'paid']" string="Employee Record"
-                            domain="[('employee_id', '=', employee_id)]"
+                            domain="[
+                                ('employee_id', '=', employee_id),
+                                ('date_start', '&lt;=', date_to),
+                                '|',
+                                    ('date_end', '=', False),
+                                    ('date_end', '&gt;=', date_from)
+                            ]"
                             options="{
                                 'no_create': True,
                                 'no_create_edit': True,

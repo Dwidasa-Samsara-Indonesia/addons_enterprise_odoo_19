@@ -1843,3 +1843,36 @@ class TestFsmFlowStock(TestFsmFlowSaleCommon):
         })
         self.task.with_user(self.project_user).action_fsm_validate()
         self.assertEqual(so.picking_ids.state, 'done')
+
+    def test_dropship_delivered_qty(self):
+        """
+        Check that the delivered quantity of dropshipped products added to the sale order
+        is computed based on stock moves.
+        """
+        if self.env['ir.module.module']._get('stock_dropshipping').state != 'installed':
+            self.skipTest("If the 'stock_dropshipping' module isn't installed, we cannot rely on dropshipping.")
+
+        dropship_route = self.env.ref('stock_dropshipping.route_drop_shipping')
+        self.product.write({
+            'is_storable': True,
+            'route_ids': [Command.set(dropship_route.ids)],
+            'seller_ids': [Command.create({
+                    'partner_id': self.partner_a.id,
+                    'price': 10,
+                }),
+            ],
+        })
+        self.task.write({'partner_id': self.partner_1.id})
+        self.task.with_user(self.project_user)._fsm_ensure_sale_order()
+        self.product.with_context(fsm_task_id=self.task.id).fsm_quantity = 3.0
+        order_line = self.task.sale_order_id.order_line
+        self.assertRecordValues(order_line, [
+            {'product_id': self.product.id, 'qty_to_deliver': 3.0, 'qty_delivered': 0.0},
+        ])
+        po = self.task.sale_order_id._get_purchase_orders()
+        po.button_confirm()
+        po.picking_ids.move_ids.quantity = 2.0
+        Form.from_action(self.env, po.picking_ids.button_validate()).save().process_cancel_backorder()
+        self.assertRecordValues(order_line, [
+            {'product_id': self.product.id, 'qty_to_deliver': 1.0, 'qty_delivered': 2.0},
+        ])

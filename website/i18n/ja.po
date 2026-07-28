@@ -5,20 +5,20 @@
 # Translators:
 # Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2022
 # Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2022
-# Ryoko Tsuda <ryoko@quartile.co>, 2023
+# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2026.
 # Andy Yiu, 2023
 # Noma Yuki, 2023
 # Martin Trigaux, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-03-25 08:42+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2026-07-10 17:36+0000\n"
+"PO-Revision-Date: 2026-06-29 15:04+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/website/"
 "ja/>\n"
 "Language: ja\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -300,8 +300,8 @@ msgid ""
 "' did not match anything.\n"
 "                        Results are displayed for '"
 msgstr ""
-"' は何もと一致してませんでした。\n"
-"                        次の検索結果は表示されました '"
+"' に一致する結果はありませんでした。\n"
+"                                以下の検索結果を表示しています。 '"
 
 #. module: website
 #. odoo-javascript
@@ -2753,8 +2753,8 @@ msgstr "<u>火曜日</u><br/>8.00am-6.00pm"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_opening_hours
-msgid "<u>Wednesday</u><br/>8.00am-12.00am"
-msgstr "<u>水曜日</u><br/>8.00am-12.00am"
+msgid "<u>Wednesday</u><br/>8.00am-12.00pm"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_opening_hours
@@ -3269,7 +3269,7 @@ msgstr "メニュー項目を追加"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/timeline_list_option.xml:0
 msgid "Add Milestone"
-msgstr "マイルストーンを追加"
+msgstr "マイルストンを追加"
 
 #. module: website
 #. odoo-javascript
@@ -3373,6 +3373,12 @@ msgstr "この後で新規フィールドを追加"
 #: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
 msgid "Add a new field at the end"
 msgstr "最後に新規フィールドを追加"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/options/media_list_item_option.xml:0
+msgid "Add an image"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -4322,12 +4328,12 @@ msgstr "大きな数"
 #. module: website
 #: model:ir.model.fields,help:website.field_ir_model_fields__website_form_blacklisted
 msgid "Blacklist this field for web forms"
-msgstr "ウエブフォームにこのフィールドをブラックリストに登録"
+msgstr "このフィールドをWebフォームでブラックリストに登録する"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_ir_model_fields__website_form_blacklisted
 msgid "Blacklisted in web forms"
-msgstr "ウェブフォームでブラックリストに載せてます"
+msgstr "Webフォームでのブラックリスト登録"
 
 #. module: website
 #. odoo-javascript
@@ -4725,7 +4731,7 @@ msgstr "ケーキ"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
 msgid "Call to Action"
-msgstr "行動喚起"
+msgstr "CTA"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -5292,7 +5298,7 @@ msgstr "ここをクリックしてソーシャルネットワークをセット
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/website_preview/website_builder_action.xml:0
 msgid "Click on"
-msgstr "右上の"
+msgstr "クリック："
 
 #. module: website
 #. odoo-javascript
@@ -5782,7 +5788,7 @@ msgstr "コンテンツ幅"
 #: code:addons/website/static/src/builder/website_builder.js:0
 #: code:addons/website/static/src/components/dialog/edit_menu.xml:0
 msgid "Continue"
-msgstr "次へ進む"
+msgstr "続行"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_media_list
@@ -6225,10 +6231,8 @@ msgstr "ショーをカスタマイズ"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/countdown_option.xml:0
 #: code:addons/website/static/src/components/dialog/seo.xml:0
-#, fuzzy
-#| msgid "ID"
 msgid "D"
-msgstr "ID"
+msgstr ""
 
 #. module: website
 #. odoo-javascript
@@ -6663,7 +6667,7 @@ msgstr "未使用のスニペットアセットを無効にする"
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
 msgid "Disabled"
-msgstr "無効にします"
+msgstr "無効"
 
 #. module: website
 #. odoo-javascript
@@ -6831,7 +6835,7 @@ msgstr "発見"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/cookies_bar_option.xml:0
 msgid "Discrete"
-msgstr "離散的"
+msgstr "控えめ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.external_snippets
@@ -7422,7 +7426,7 @@ msgstr "action_server_id又はfilter_idを提供する必要があります。"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_odoo_menu
 msgid "Electronics"
-msgstr "エレクトロニクス"
+msgstr "電子機器"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_list
@@ -7540,7 +7544,7 @@ msgstr "“%s” に空のフィールド名があります"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/google_maps_option/google_maps_api_key_dialog.xml:0
 msgid "Enable billing on your Google Project"
-msgstr "Google Projectに請求を有効にします"
+msgstr "Googleプロジェクトの請求を有効化"
 
 #. module: website
 #: model:ir.model.fields,help:website.field_ir_model__website_form_access
@@ -7947,7 +7951,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/font/add_font_dialog.xml:0
 msgid "Explore on"
-msgstr "以下で見る："
+msgstr "以下で検索："
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.new_page_template_gallery_s_text_block_2nd
@@ -8781,7 +8785,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.template_footer_mega_columns
 #: model_terms:ir.ui.view,arch_db:website.template_footer_minimalist
 msgid "Get in touch"
-msgstr "連絡を取る"
+msgstr "お問い合わせ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_title_form
@@ -9774,6 +9778,7 @@ msgstr "サービスやプロダクトの主な特徴を説明します。"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/layout_option/add_element_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/cover_properties_option.xml:0
+#: code:addons/website/static/src/builder/plugins/options/media_list_item_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/navbar_logo_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/searchbar_option_plugin.js:0
 #: code:addons/website/static/src/builder/plugins/theme/theme_tab.xml:0
@@ -10705,7 +10710,7 @@ msgstr "採用情報"
 #: model_terms:ir.ui.view,arch_db:website.s_cta_card
 #: model_terms:ir.ui.view,arch_db:website.s_cta_mockups
 msgid "Join us and make your company a better place."
-msgstr "私たちに参加して、会社をより良い場所にしていきましょう。"
+msgstr "私たちと共に、一歩進んだ企業づくりを。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_box
@@ -13898,6 +13903,7 @@ msgstr "価格プラン"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/header/header_font_option.xml:0
+#: code:addons/website/static/src/builder/plugins/theme/theme_colors_option.xml:0
 msgid "Primary"
 msgstr "プライマリ"
 
@@ -14517,7 +14523,7 @@ msgstr "内部ユーザになる前に、関連取引先のウェブサイトを
 #: code:addons/website/static/src/builder/plugins/options/background_video_option.xml:0
 #: model:ir.model.fields.selection,name:website.selection__theme_ir_asset__directive__replace
 msgid "Replace"
-msgstr "置き換える"
+msgstr "置き換え"
 
 #. module: website
 #. odoo-javascript
@@ -14762,7 +14768,7 @@ msgstr ""
 #: code:addons/website/static/src/builder/plugins/carousel_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/image_gallery_option.xml:0
 msgid "Rounded"
-msgstr "丸い"
+msgstr "角丸"
 
 #. module: website
 #. odoo-javascript
@@ -15094,6 +15100,7 @@ msgstr "第2デフォルトラジオ"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/header/header_font_option.xml:0
+#: code:addons/website/static/src/builder/plugins/theme/theme_colors_option.xml:0
 msgid "Secondary"
 msgstr "セカンダリ"
 
@@ -16109,7 +16116,7 @@ msgstr "ストレッチメニュー"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/progress_bar_option.xml:0
 msgid "Striped"
-msgstr "縦縞"
+msgstr "ストライプ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -17554,14 +17561,14 @@ msgstr "テキストの見出しを翻訳します。メニューは自動的に
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/translation_tab/translate_webpage_option.xml:0
-msgid "Translate the whole content with AI"
-msgstr "AI でコンテンツ全体を翻訳"
+msgid "Translate to"
+msgstr "翻訳先："
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/translation_tab/translate_webpage_option.xml:0
-msgid "Translate to"
-msgstr "翻訳先："
+msgid "Translate your content (yellow part) with AI"
+msgstr ""
 
 #. module: website
 #. odoo-javascript
@@ -17860,12 +17867,12 @@ msgstr "静的フラグ画像のURL"
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/edit_menu.xml:0
 msgid "Url or Email"
-msgstr "URL又はメール"
+msgstr "URLまたはメールアドレス"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_page_view_search
 msgid "Urls & Pages"
-msgstr "URL及びページ"
+msgstr "URLとページ"
 
 #. module: website
 #. odoo-javascript
@@ -18099,7 +18106,6 @@ msgstr "縦方向の属性"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/background_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/background_video_option.xml:0
-#: model_terms:ir.ui.view,arch_db:website.s_video
 #: model_terms:ir.ui.view,arch_db:website.snippets
 msgid "Video"
 msgstr "動画"
@@ -21017,6 +21023,12 @@ msgstr "✽  ピザ"
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
 msgid "✽  What We Offer"
 msgstr "✽  当社が提供するもの"
+
+#~ msgid "Translate the whole content with AI"
+#~ msgstr "AI でコンテンツ全体を翻訳"
+
+#~ msgid "<u>Wednesday</u><br/>8.00am-12.00am"
+#~ msgstr "<u>水曜日</u><br/>8.00am-12.00am"
 
 #~ msgid "$1.50"
 #~ msgstr "$1.50"

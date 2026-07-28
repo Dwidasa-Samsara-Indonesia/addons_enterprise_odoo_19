@@ -43,8 +43,8 @@ class HrPayslip(models.Model):
         # EXTENDS hr_payroll
         errors_by_slip = super()._get_errors_by_slip()
         draft_slips = self.filtered(lambda ps: ps.state == 'draft')
-        for struct, slips in draft_slips.filtered('expense_ids').grouped('struct_id').items():
-            expense_rules = struct.rule_ids.filtered(lambda rule: rule.code == 'EXPENSES')
+        for (struct, company), slips in draft_slips.filtered('expense_ids').grouped(lambda slip: (slip.struct_id, slip.company_id)).items():
+            expense_rules = struct.rule_ids.filtered(lambda rule: rule.code == 'EXPENSES').with_company(company)
             if not expense_rules:
                 for slip in slips:
                     errors_by_slip[slip].append({

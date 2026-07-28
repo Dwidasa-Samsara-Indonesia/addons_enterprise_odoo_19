@@ -280,3 +280,7 @@ class SwedishBlackBoxDriver(SerialDriver):
         message += lrc + "\r"
 
         return message.encode("utf-8")
+
+
+class SkattedosanBlackBoxDriver(SwedishBlackBoxDriver):
+    _protocol = SwedishBlackboxProtocol._replace(baudrate=57600)

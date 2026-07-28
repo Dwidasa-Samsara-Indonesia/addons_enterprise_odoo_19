@@ -20,13 +20,19 @@ patch(PosStore.prototype, {
     async setup() {
         this.token = "";
         this.vatRateMapping = {};
-        this.validateOrderFree = false;
         await super.setup(...arguments);
     },
     // @Override
     async _onBeforeDeleteOrder(order) {
-        await this.handleFiskalyCancellation(order);
-        return super._onBeforeDeleteOrder(...arguments);
+        const canBeDeleted = super._onBeforeDeleteOrder(...arguments);
+        if (canBeDeleted) {
+            await this.handleFiskalyCancellation(order);
+        }
+        return canBeDeleted;
+    },
+    disallowLineQuantityChange() {
+        const result = super.disallowLineQuantityChange(...arguments);
+        return this.isCountryGermanyAndFiskaly() || result;
     },
     //@Override
     async afterProcessServerData() {
@@ -66,17 +72,32 @@ patch(PosStore.prototype, {
                 return Promise.reject(error);
             });
     },
-    async createTransaction(order) {
-        const transactionUuid = uuidv4();
-        const data = {
-            state: "ACTIVE",
+
+    // Fiskaly Receipt API calls payload helpers
+    getTransactionPayload(order, state, receiptType = "RECEIPT") {
+        return {
+            state: state,
             client_id: this.getClientId(),
+            schema: {
+                standard_v1: {
+                    receipt: {
+                        receipt_type: receiptType,
+                        amounts_per_vat_rate:
+                            order && state != "ACTIVE"
+                                ? this._createAmountPerVatRateArray(order)
+                                : [],
+                        amounts_per_payment_type:
+                            order && state != "ACTIVE"
+                                ? order._createAmountPerPaymentTypeArray()
+                                : [],
+                    },
+                },
+            },
+            metadata: {
+                pos_config_id: order.config_id.id,
+                pos_order_uuid: order.uuid,
+            },
         };
-        const payload = `${transactionUuid}${this.isUsingApiV2() ? "?tx_revision=1" : ""}`;
-        await this.transactionCall(payload, data, order);
-        // Success
-        order.l10n_de_fiskaly_transaction_uuid = transactionUuid;
-        order.transactionStarted();
     },
     _createAmountPerVatRateArray(order) {
         const expectedBase = order.prices.taxDetails.base_amount;
@@ -115,50 +136,41 @@ patch(PosStore.prototype, {
         }
         return result;
     },
+
+    // Fiskaly Receipt API Calls
+    async createTransaction(order) {
+        const transactionUuid = uuidv4();
+        const data = this.getTransactionPayload(order, "ACTIVE");
+        const payload = `${transactionUuid}?tx_revision=1`;
+        await this.transactionCall(payload, data, order, 0, true);
+        order.l10n_de_fiskaly_transaction_uuid = transactionUuid;
+        order.receiptStarted();
+    },
     async finishShortTransaction(order) {
-        const amountPerVatRateArray = this._createAmountPerVatRateArray(order);
-        const amountPerPaymentTypeArray = order._createAmountPerPaymentTypeArray();
-        const data = {
-            state: "FINISHED",
-            client_id: this.getClientId(),
-            schema: {
-                standard_v1: {
-                    receipt: {
-                        receipt_type: "RECEIPT",
-                        amounts_per_vat_rate: amountPerVatRateArray,
-                        amounts_per_payment_type: amountPerPaymentTypeArray,
-                    },
-                },
-            },
-        };
-        const payload = `${order.l10n_de_fiskaly_transaction_uuid}?${
-            this.isUsingApiV2() ? "tx_revision=2" : "last_revision=1"
-        }`;
-        const result = await this.transactionCall(payload, data, order);
-        // Success
-        if (!order.uiState.fiskalyServerError) {
-            order._updateTssInfo(result);
+        const result = await this.finalizeReceiptTransaction(order, "FINISHED");
+        if (!order.fiskalyServerError && result) {
+            order.receiptFinished();
+            // Update TSS here for retail; restaurants update it on order transaction finish.
+            if (this.isCountryGermanyAndFiskaly() && !order.config.module_pos_restaurant) {
+                order._updateTssInfo(result);
+            }
         }
+        return result;
     },
     async cancelTransaction(order) {
-        const data = {
-            state: "CANCELLED",
-            client_id: this.getClientId(),
-            schema: {
-                standard_v1: {
-                    receipt: {
-                        receipt_type: "CANCELLATION",
-                        amounts_per_vat_rate: [],
-                    },
-                },
-            },
-        };
-        const payload = `${order.l10n_de_fiskaly_transaction_uuid}?${
-            this.isUsingApiV2() ? "tx_revision=2" : "last_revision=1"
-        }`;
-        return await this.transactionCall(payload, data, order);
+        const result = await this.finalizeReceiptTransaction(order, "CANCELLED");
+        order.l10n_de_fiskaly_transaction_uuid = "";
+        order.uiState.receiptState = "inactive";
+        return result;
     },
-    async transactionCall(payload, data, order, retryCount = 0) {
+    async finalizeReceiptTransaction(order, state) {
+        const receiptType = state == "CANCELLED" ? "CANCELLATION" : "RECEIPT";
+        const data = this.getTransactionPayload(order, state, receiptType);
+        const payload = `${order.l10n_de_fiskaly_transaction_uuid}?tx_revision=2`;
+        return await this.transactionCall(payload, data, order, 0, true);
+    },
+
+    async transactionCall(payload, data, order, retryCount = 0, isReceiptTxn = false) {
         let token = this.getApiToken();
         try {
             if (!token) {
@@ -178,20 +190,22 @@ patch(PosStore.prototype, {
             );
             const result = await response.json();
             if (!response.ok) {
-                let errorCode;
-                try {
-                    errorCode = await this.handleRequestError(result, order, retryCount);
-                } catch {
-                    // Non-retryable error (e.g. revision conflict, terminal state mismatch).
-                    // For API v2, GET the current transaction state and recover if possible.
-                    if (this.isUsingApiV2()) {
-                        return await this._handleTransactionStateConflict(payload, data, order);
-                    }
-                    throw result;
+                const errorCode = await this.handleRequestError(result, order, retryCount);
+                // Most commonly useful for restaurants as there are update order txns but kept here for generic error handling
+                if (errorCode === "revision_mismatch" && order) {
+                    const newPayload = payload.replace(
+                        /tx_revision=\d+/,
+                        `tx_revision=${order.uiState.tx_revision}`
+                    );
+                    return await this.transactionCall(newPayload, data, order, retryCount + 1);
                 }
                 if (errorCode === "retry") {
                     return await this.transactionCall(payload, data, order, retryCount + 1);
                 }
+            }
+
+            if (order && !isReceiptTxn) {
+                order.uiState.tx_revision += 1;
             }
             return result;
         } catch (error) {
@@ -201,54 +215,16 @@ patch(PosStore.prototype, {
             return Promise.reject(error);
         }
     },
-    /**
-     * Called when a PUT to Fiskaly fails with a non-retryable error (revision conflict or
-     * "transaction already CANCELLED/FINISHED"). GETs the actual transaction state and resolves
-     * the conflict based on what we were trying to do (data.state) vs what Fiskaly has:
-     *
-     * - Cancelling a transaction that is already CANCELLED → ignore, nothing to do
-     * - Finishing a transaction that is already FINISHED → return the existing data so the
-     *   caller can update the order's TSS info
-     * - Finishing a transaction that is CANCELLED (cancelled externally, e.g. by another session
-     *   closing) → create a fresh transaction and finish it
-     */
-    async _handleTransactionStateConflict(payload, data, order) {
-        const txId = payload.split("?")[0];
-        try {
-            const token = this.getApiToken();
-            const response = await fetch(`${this.getApiUrl()}/tss/${this.getTssId()}/tx/${txId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-                method: "GET",
-            });
-            if (response.ok) {
-                const tx = await response.json();
-                if (data.state === "CANCELLED" && tx.state === "CANCELLED") {
-                    return tx;
-                }
-                if (data.state === "FINISHED") {
-                    if (tx.state === "FINISHED") {
-                        return tx;
-                    }
-                    if (tx.state === "CANCELLED") {
-                        await this.createTransaction(order);
-                        return await this.transactionCall(
-                            `${order.l10n_de_fiskaly_transaction_uuid}?tx_revision=2`,
-                            data,
-                            order
-                        );
-                    }
-                }
-            }
-        } catch {
-            // GET failed — fall through and reject
-        }
-        return Promise.reject(data);
-    },
     async handleRequestError(result, order, retryCount) {
-        if (result.status_code === 401) {
+        if (result.code === "E_TX_UPSERT" && order && !retryCount) {
+            // The local tx_revision is out of sync (e.g. order was started on another
+            // device). Fetch the real revision from Fiskaly; transactionCall will then
+            // rebuild the payload and retry.
+            if (order) {
+                await this.fetchTransaction(order);
+            }
+            return "revision_mismatch";
+        } else if (result.status_code === 401) {
             if (!retryCount) {
                 await this._authenticate();
                 return "retry";
@@ -270,14 +246,16 @@ patch(PosStore.prototype, {
         return Promise.reject(result);
     },
     async addLineToCurrentOrder(vals, opts = {}, configure = true) {
-        if (!this.isCountryGermanyAndFiskaly()) {
+        if (!this.isCountryGermanyAndFiskaly() || this.config.module_pos_restaurant) {
             return await super.addLineToCurrentOrder(vals, opts, configure);
         }
-        const order = this.getOrder();
         // If same product added multiple times it will be better to check before adding line if there was an empty order or not
-        const isNewOrder = order.isEmpty();
+        const order = this.getOrder();
+        const isEmptyOrder = order.isEmpty();
         const newLine = await super.addLineToCurrentOrder(vals, opts, configure);
-        if (isNewOrder && order.isTransactionInactive()) {
+        // This call initiates the receipt transaction when the first item is added to the cart.
+        // for restaurants we need to initialize them at the time of first payment line addition
+        if (isEmptyOrder && order.isReceiptInactive) {
             try {
                 await this.createTransaction(order);
             } catch (error) {
@@ -289,12 +267,20 @@ patch(PosStore.prototype, {
     },
     async handleFiskalyCancellation(order) {
         try {
-            if (this.isCountryGermanyAndFiskaly() && order.isTransactionStarted()) {
-                await this.cancelTransaction(order);
+            this.env.services.ui.block();
+            if (this.isCountryGermanyAndFiskaly()) {
+                if (order.isReceiptStarted) {
+                    await this.cancelTransaction(order);
+                    order.uiState.transactionState = "inactive";
+                    order.l10n_de_fiskaly_transaction_uuid = "";
+                    order.uiState.tx_revision = 1;
+                }
             }
         } catch (error) {
             this.fiskalyError(error);
             return false;
+        } finally {
+            this.env.services.ui.unblock();
         }
     },
     async cancelActiveTransactions(retryCount = 0) {
@@ -320,21 +306,16 @@ patch(PosStore.prototype, {
             }
 
             // cancel all active transactions
-            if (result.data.length) {
-                const data = {
-                    state: "CANCELLED",
-                    client_id: this.getClientId(),
-                    schema: {
-                        standard_v1: {
-                            receipt: {
-                                receipt_type: "CANCELLATION",
-                                amounts_per_vat_rate: [],
-                            },
-                        },
-                    },
-                };
-                for (const transaction of result.data) {
-                    const payload = `${transaction._id}?tx_revision=2`;
+            const ownTransactions = result.data.filter((tx) => tx.client_id === this.getClientId());
+            if (ownTransactions.length) {
+                for (const transaction of ownTransactions) {
+                    // raw structure common for order & transaction both
+                    const data = {
+                        state: "CANCELLED",
+                        client_id: this.getClientId(),
+                        schema: transaction.schema,
+                    };
+                    const payload = `${transaction._id}?tx_revision=${transaction.revision + 1}`;
                     await this.transactionCall(payload, data, false);
                 }
             }
@@ -389,7 +370,7 @@ patch(PosStore.prototype, {
         })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Auth request failed");
+                    throw new Error(_t("Auth request failed"));
                 }
                 return response.json();
             })
@@ -400,7 +381,7 @@ patch(PosStore.prototype, {
             )
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("VAT definitions request failed");
+                    throw new Error(_t("VAT definitions request failed"));
                 }
                 return response.json();
             })
@@ -426,6 +407,30 @@ patch(PosStore.prototype, {
                 };
             });
     },
+    async handleOrderTransaction(order, orderObject) {
+        // receipt transaction are common for retail & restaurants containing payment info
+        // we need to do the transaction calls if the order is paid and still they are not properly fulfilled
+        let updated = false;
+        if (this.isCountryGermanyAndFiskaly() && order.state == "paid") {
+            if (orderObject.isReceiptInactive) {
+                await this.createTransaction(order);
+                updated = true;
+            }
+            // when restaurant is installed we want to finalize at last only
+            if (orderObject.isReceiptStarted) {
+                await this.finishShortTransaction(order);
+                updated = true;
+            }
+        }
+        return updated;
+    },
+    shouldSyncOrder(orderObject) {
+        return (
+            !orderObject.isReceiptInactive ||
+            orderObject.fiskalyServerError ||
+            orderObject.networkError
+        );
+    },
     //@Override
     /**
      * This function first attempts to send the orders remaining in the queue to Fiskaly before trying to
@@ -441,17 +446,14 @@ patch(PosStore.prototype, {
         const { orderToCreate, orderToUpdate } = this.getPendingOrder();
         const orders = [...orderToCreate, ...orderToUpdate];
 
-        if (orders.length === 0 || this.data.network.offline) {
+        if (!orders.length || this.data.network.offline) {
             orders.forEach((order) => {
                 order.uiState.networkError = true;
             });
             return super.syncAllOrders({ ...options, orders });
         }
 
-        const orderObjectMap = {};
-        for (const order of orders) {
-            orderObjectMap[order.id] = order;
-        }
+        const orderObjectMap = Object.fromEntries(orders.map((order) => [order.id, order]));
 
         let fiskalyError;
         const sentToFiskaly = [];
@@ -460,26 +462,13 @@ patch(PosStore.prototype, {
         for (const order of orders) {
             try {
                 const orderObject = orderObjectMap[order.id];
-                if (
-                    !fiskalyError &&
-                    !orderObject.uiState.fiskalyServerError &&
-                    !orderObject.uiState.networkError
-                ) {
-                    if (orderObject.isTransactionInactive()) {
-                        await this.createTransaction(orderObject);
-                        ordersToUpdate[order.id] = true;
-                    }
-                    if (orderObject.isTransactionStarted() && !this.config.module_pos_restaurant) {
-                        // In restaurant only finish the transaction at validation not every time we order
-                        await this.finishShortTransaction(order);
+                if (!fiskalyError && !orderObject.fiskalyServerError && !orderObject.networkError) {
+                    const updated = await this.handleOrderTransaction(order, orderObject);
+                    if (updated) {
                         ordersToUpdate[order.id] = true;
                     }
                 }
-                if (
-                    !orderObject.isTransactionInactive() ||
-                    orderObject.uiState.fiskalyServerError ||
-                    orderObject.uiState.networkError
-                ) {
+                if (this.shouldSyncOrder(orderObject)) {
                     sentToFiskaly.push(order);
                 } else {
                     fiskalyFailure.push(order);

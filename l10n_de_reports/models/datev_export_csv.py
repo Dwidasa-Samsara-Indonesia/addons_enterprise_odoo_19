@@ -207,22 +207,30 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                             AND aml.partner_id IS NOT NULL"""
             self.env.cr.execute(select, (tuple(move_line_ids), move_types))
         partners = self.env['res.partner'].browse([p.get('partner_id') for p in self.env.cr.dictfetchall()])
+        eu_country_codes = self.env.ref('base.europe').country_ids.mapped('code')
         for partner in partners:
             if customer:
                 code = self._l10n_de_datev_find_partner_account(partner.property_account_receivable_id, partner)
             else:
                 code = self._l10n_de_datev_find_partner_account(partner.property_account_payable_id, partner)
             vat_is_valid = False
+
+            country_code = ''
             if partner.vat and len(partner.vat) > 2:
                 vat_country, vat_id_no = partner._split_vat(partner.vat)
                 vat_is_valid = vat_country and partner._check_vat_number(vat_country, vat_id_no)
+                if vat_country.isalpha():
+                    country_code = 'GR' if vat_country.upper() == 'EL' else vat_country.upper()
+            is_eu_vat_number = country_code in eu_country_codes
+
             line_value = {
                 'code': code,
                 'company_name': partner.name if partner.is_company else '',
                 'person_name': '' if partner.is_company else partner.name,
                 'natural': partner.is_company and '2' or '1',
-                'vat_country': vat_country if vat_is_valid else '',
-                'vat_id_no': vat_id_no if vat_is_valid else partner.vat or '',
+                'eu_vat_country': vat_country.upper() if vat_is_valid and is_eu_vat_number and vat_country.isalpha() else '',
+                'eu_vat_id_no': vat_id_no if vat_is_valid and is_eu_vat_number else '',
+                'country_code': partner.country_code or country_code or '',
             }
             # Idiotic program needs to have a line with 243 elements ordered in a given fashion as it
             # does not take into account the header and non mandatory fields
@@ -231,8 +239,9 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             array[1] = line_value.get('company_name')
             array[3] = line_value.get('person_name')
             array[6] = line_value.get('natural')
-            array[8] = line_value.get('vat_country')
-            array[9] = line_value.get('vat_id_no')
+            array[8] = line_value.get('eu_vat_country')
+            array[9] = line_value.get('eu_vat_id_no')
+            array[19] = line_value.get('country_code')
             lines.append(array)
         writer.writerows(lines)
         return output.getvalue()
@@ -324,7 +333,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 amls_by_group = defaultdict(list)
                 # Get the modified tax group amounts
                 actual_values_by_group = {
-                    self.env['account.tax.group'].browse(tax_group['id']): tax_group['tax_amount']
+                    self.env['account.tax.group'].browse(tax_group['id']): tax_group['tax_amount_currency']
                     for subtotal in m.tax_totals['subtotals']
                     for tax_group in subtotal['tax_groups']
                 }
@@ -332,7 +341,9 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 original_values_by_group = defaultdict(float)
                 for line in m.invoice_line_ids:
                     line_taxes = line.tax_ids.compute_all(line.amount_currency, line.currency_id, partner=line.partner_id, handle_price_include=False)
-                    tax_amounts = {tax_data['id']: tax_data['amount'] for tax_data in line_taxes['taxes']}
+                    tax_amounts = defaultdict(float)
+                    for tax_data in line_taxes['taxes']:
+                        tax_amounts[tax_data['id']] += tax_data['amount']
                     for tax_id in tax_amounts:
                         tax = self.env['account.tax'].browse(tax_id)
                         original_values_by_group[tax.tax_group_id] += tax_amounts[tax.id]
@@ -355,7 +366,6 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
             move_balance = 0
             counterpart_amount = 0
             last_tax_line_index = 0
-            code_correction = ''
 
             def _get_code_correction(taxes):
                 codes = set(taxes.mapped('l10n_de_datev_code'))
@@ -363,6 +373,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 return len(codes) == 1 and codes.pop() or ''
 
             for aml in m.line_ids:
+                code_correction = ''
                 if aml.debit == aml.credit:
                     # Ignore debit = credit = 0
                     continue

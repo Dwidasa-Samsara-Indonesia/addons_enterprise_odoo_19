@@ -56,7 +56,7 @@ class ProductTemplate(models.Model):
         return read_records
 
     def write(self, vals):
-        field_list = ['name', 'description', 'list_price', 'weight', 'urbanpiper_meal_type', 'pos_categ_ids', 'image_1920', 'public_description',
+        field_list = ['name', 'description', 'list_price', 'weight', 'urbanpiper_meal_type', 'pos_categ_ids', 'image_1920', 'public_description', 'product_tag_ids',
                     'product_template_attribute_value_ids', 'taxes_id', 'is_recommended_on_urbanpiper', 'is_alcoholic_on_urbanpiper', 'attribute_line_ids', 'urbanpiper_pos_platform_ids']
         if any(field in vals for field in field_list):
             urban_piper_statuses = self.urban_piper_status_ids.filtered(lambda s: s.is_product_linked)

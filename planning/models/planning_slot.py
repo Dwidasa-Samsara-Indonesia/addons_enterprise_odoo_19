@@ -665,8 +665,8 @@ class PlanningSlot(models.Model):
             m = round(modf(template_id.end_time)[0] * 60.0)
             end = (start + relativedelta(days=(template_id.duration_days - 1), hour=0, minute=0, second=0))
             if template_id.duration_days > 1 and resource_id.calendar_id:
-                end = resource.calendar_id.plan_days(template_id.duration_days, start, compute_leaves=True)
-            end = end.replace(hour=int(h), minute=int(m))
+                end = resource.calendar_id.plan_days(template_id.duration_days, start, compute_leaves=True) or end
+            end = end.replace(hour=int(h), minute=int(m), second=0, microsecond=0)
 
         # Need to remove the tzinfo in start and end as without these it leads to a traceback
         # when the start time is empty
@@ -1494,7 +1494,9 @@ class PlanningSlot(models.Model):
     @api.model
     def action_rollback_auto_plan_ids(self, shifts_data):
         open_shift_assigned = shifts_data["open_shift_assigned"]
-        self.browse(open_shift_assigned).resource_id = False
+        shifts = self.browse(open_shift_assigned)
+        with self.env.protecting([self._fields['allocated_hours']], shifts):
+            shifts.write({'resource_id': False})
 
     # ----------------------------------------------------
     # Gantt - Calendar view
@@ -1505,7 +1507,51 @@ class PlanningSlot(models.Model):
         result = super(PlanningSlot, self.with_context(scale=scale)).get_gantt_data(domain, groupby, read_specification, limit=limit, offset=offset, unavailability_fields=unavailability_fields, progress_bar_fields=progress_bar_fields, start_date=start_date, stop_date=stop_date, scale=scale)
         if "resource_id" in groupby:
             result["working_periods"] = self._gantt_resource_employees_working_periods(result["groups"], start_date, stop_date)
+        planning_data = self._get_gantt_planning_data(domain, start_date, stop_date)
+        result.update({"planning_data": planning_data})
         return result
+
+    def _get_gantt_planning_data(self, domain, start_date, stop_date):
+        resources = self.search_fetch(domain).mapped('resource_id')
+
+        work_interval_per_resource = defaultdict(list)
+        flexible_per_resource = {False: False}
+        avg_hours_per_resource = {False: 0}
+
+        if resources:
+            start_datetime, end_datetime = fields.Datetime.from_string(start_date).replace(tzinfo=pytz.utc), fields.Datetime.from_string(stop_date).replace(tzinfo=pytz.utc)
+
+            # Get slots' resources and current company work intervals.
+            work_intervals_per_resource, _dummy = resources._get_valid_work_intervals(start_datetime, end_datetime)
+            company_calendar = self.env.company.resource_calendar_id
+            company_calendar_work_intervals = company_calendar._work_intervals_batch(start_datetime, end_datetime)
+
+            # Export work intervals in UTC
+            work_intervals_per_resource[False] = company_calendar_work_intervals[False]
+            for resource_id, resource_work_intervals_per_resource in work_intervals_per_resource.items():
+                calendar_tz = pytz.timezone(resources.browse(resource_id).calendar_id.tz) if resources.browse(resource_id).calendar_id else pytz.UTC
+                for resource_work_interval in resource_work_intervals_per_resource:
+                    def fix_tz(dt, target_tz):
+                        # Strip existing tz, localize with target_tz, then convert to UTC
+                        return target_tz.localize(dt.replace(tzinfo=None)).astimezone(pytz.UTC)
+
+                    start_utc = fix_tz(resource_work_interval[0], calendar_tz)
+                    end_utc = fix_tz(resource_work_interval[1], calendar_tz)
+                    work_interval_per_resource[resource_id].append((start_utc, end_utc))
+
+            # Add the flexible status per resource and the average daily work hours per resource calendar to the output
+            for resource in set(resources):
+                flexible_per_resource[resource.id] = resource._is_flexible()
+                if resource._is_fully_flexible():
+                    avg_hours_per_resource[resource.id] = 24    # set to 24 hours if the resource is fully flexible
+                else:
+                    avg_hours_per_resource[resource.id] = (resource.calendar_id or company_calendar).hours_per_day
+
+        return {
+            "work_intervals": work_interval_per_resource,
+            "is_flexible": flexible_per_resource,
+            "avg_hours": avg_hours_per_resource,
+        }
 
     @api.model
     def _gantt_unavailability(self, field, res_ids, start, stop, scale):
@@ -2624,32 +2670,6 @@ class PlanningSlot(models.Model):
             resource = resources.browse(resource_id)
             work_hours[resource_id] = self._get_employee_work_hours_within_interval(resource, work_intervals, flexible_resources_hours_per_day, flexible_resources_hours_per_week)
 
-        company_calendar = self.env.company.resource_calendar_id
-        # Export work intervals in UTC
-        resource_work_intervals[False] = (
-            calendar_work_intervals.get(company_calendar.id)
-            or company_calendar._work_intervals_batch(start, stop)[False]
-        )
-        work_interval_per_resource = defaultdict(list)
-        for resource_id, resource_work_intervals_per_resource in resource_work_intervals.items():
-            calendar_tz = pytz.timezone(resources.browse(resource_id).calendar_id.tz) if resources.browse(resource_id).calendar_id else pytz.UTC
-            for resource_work_interval in resource_work_intervals_per_resource:
-                def fix_tz(dt, target_tz):
-                    # Strip existing tz, localize with target_tz, then convert to UTC
-                    return target_tz.localize(dt.replace(tzinfo=None)).astimezone(pytz.UTC)
-
-                start_utc = fix_tz(resource_work_interval[0], calendar_tz)
-                end_utc = fix_tz(resource_work_interval[1], calendar_tz)
-                work_interval_per_resource[resource_id].append((start_utc, end_utc))
-
-        # Add average daily work hours per resource calendar to the output
-        avg_hours_per_resource = {False: 0}
-        for resource in set(resources):
-            if resource._is_fully_flexible():
-                avg_hours_per_resource[resource.id] = 24    # set to 24 hours if the resource is fully flexible
-            else:
-                avg_hours_per_resource[resource.id] = (resource.calendar_id or company_calendar).hours_per_day
-
         return {
             resource.id: {
                 'is_material_resource': resource.resource_type == 'material',
@@ -2660,8 +2680,6 @@ class PlanningSlot(models.Model):
                 'employee_id': resource.employee_id.id,
                 'is_flexible_hours': resource._is_flexible(),
                 'is_fully_flexible_hours': resource._is_fully_flexible(),
-                'work_intervals': work_interval_per_resource.get(resource.id, 0.0),
-                'avg_hours': avg_hours_per_resource.get(resource.id, 0.0),
             }
             for resource in resources
         }

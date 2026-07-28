@@ -373,6 +373,11 @@ $o-social-font-family-reset: $o-font-family-sans-serif;
         @include font-size($input-font-size-lg);
         min-height: $input-height-lg;
         resize: none;
+
+        &[disabled] {
+            font-size: inherit;
+            min-height: 70px;
+        }
     }
 
     .o_social_comment_published_date, .o_social_post_published_date {

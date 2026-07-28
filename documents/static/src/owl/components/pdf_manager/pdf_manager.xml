@@ -16,7 +16,7 @@
                             <span>Archive original file(s) </span>
                             <input class="ms-2 form-check-input mt-0" id="pdf_archive" type="checkbox" name="archive" t-att-checked="state.archive" t-att-disabled="state.viewedPage"/>
                         </span>
-                        <button class="btn btn-danger me-2 o_pdf_manager_button text-uppercase"
+                        <button class="btn btn-danger me-2 o_pdf_manager_button"
                             t-att-class="{'o_pdf_manager_button': !env.isSmall}"
                             aria-label="Move to trash"
                             title="Move to trash"
@@ -115,7 +115,7 @@
             Split
             <span t-if="state.uploadingLock" class="fa fa-circle-o-notch fa-spin"/>
         </button>
-        <button class="btn btn-secondary o_pdf_manager_button text-uppercase"
+        <button class="btn btn-secondary o_pdf_manager_button"
             t-att-class="{'dropdown-item': isMobile, 'm-0': isMobile, 'h-auto': isMobile}"
             title="Close split tools"
             t-att-disabled="state.uploadingLock || state.viewedPage"
@@ -123,7 +123,7 @@
         >
             Close
         </button>
-        <button class="btn btn-secondary o_pdf_manager_button text-uppercase"
+        <button class="btn btn-secondary o_pdf_manager_button"
             t-att-class="{'dropdown-item': isMobile, 'm-0': isMobile, 'h-auto': isMobile}"
             title="Add new file"
             t-att-disabled="state.uploadingLock || state.viewedPage"
@@ -134,7 +134,7 @@
         </button>
         <t t-foreach="props.embeddedActions" t-as="embeddedAction" t-key="embeddedAction.id">
             <t t-set="hotkey" t-value="embeddedAction_index lt 9 ? `shift+${embeddedAction_index + 1}` : undefined"/>
-            <button class="btn btn-secondary o_pdf_manager_button text-uppercase"
+            <button class="btn btn-secondary o_pdf_manager_button"
                 t-att-class="{'dropdown-item': isMobile, 'm-0': isMobile, 'h-auto': isMobile}"
                 t-on-click.stop="(ev) => this.onClickEmbeddedAction(embeddedAction.id)"
                 t-esc="embeddedAction.name"

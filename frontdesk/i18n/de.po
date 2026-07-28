@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-04-04 10:49+0000\n"
+"POT-Creation-Date: 2026-05-01 17:40+0000\n"
+"PO-Revision-Date: 2026-05-30 09:36+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/frontdesk/"
 "de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: frontdesk
 #. odoo-python
@@ -544,8 +544,8 @@ msgid ""
 "know you'll be there shortly."
 msgstr ""
 "Guten Tag, Ihr Gast {{ object.name }} {{ '(%s)' % object.phone if "
-"object.phone else '' }} {{ '(%s)' % object.company if object.company else '' "
-"}} möchte Sie hier treffen: {{ object.station_id.name }}. Bitte "
+"object.phone else '' }} {{ '(%s)' % object.company if object.company else "
+"'' }} möchte Sie hier treffen: {{ object.station_id.name }}. Bitte "
 "benachrichtigen Sie die Person, dass Sie bald kommen."
 
 #. module: frontdesk
@@ -619,6 +619,16 @@ msgstr "Bild"
 #: model_terms:ir.ui.view,arch_db:frontdesk.frontdesk_frontdesk_view_kanban
 msgid "Install"
 msgstr "Installieren"
+
+#. module: frontdesk
+#. odoo-python
+#: code:addons/frontdesk/controllers/main.py:0
+msgid ""
+"Invalid domain. Allowed filters are: department_id with '=' and display_name "
+"with 'ilike'."
+msgstr ""
+"Ungültiger Bereich. Zulässige Filter sind: department_id mit '=' und "
+"display_name mit 'ilike'."
 
 #. module: frontdesk
 #: model:ir.model.fields,field_description:frontdesk.field_frontdesk_frontdesk__is_favorite

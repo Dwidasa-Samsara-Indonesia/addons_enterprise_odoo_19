@@ -9,8 +9,11 @@ patch(UserCommandPlugin.prototype, {
             ...command,
             isAvailable: (selection) => {
                 if (closestElement(selection.anchorNode, ".o_editor_prompt")) {
-                    // Only the "openDynamicPlaceholder" command is available inside a prompt.
-                    return commandId === "openDynamicPlaceholder";
+                    // Only the "openDynamicPlaceholder" and history commands are
+                    // available inside a prompt.
+                    return ["openDynamicPlaceholder", "historyUndo", "historyRedo"].includes(
+                        commandId
+                    );
                 }
                 return !command.isAvailable || command.isAvailable(selection);
             },

@@ -64,20 +64,13 @@ export class PaymentWorldline extends PaymentInterfaceIot {
                 });
                 this._resolvePayment?.(false);
             } else if (data.Response === "Approved") {
-                this._setCardAndReceipt(data, line);
+                if (data.Card) {
+                    line.card_type = data.Card;
+                }
                 this._resolvePayment?.(true);
             } else if (["WaitingForCard", "WaitingForPin"].includes(data.Stage)) {
                 line.setPaymentStatus("waitingCard");
             }
-        }
-    }
-
-    _setCardAndReceipt(data, line) {
-        if (data.Ticket) {
-            line.setReceiptInfo(data.Ticket);
-        }
-        if (data.Card) {
-            line.card_type = data.Card;
         }
     }
 }

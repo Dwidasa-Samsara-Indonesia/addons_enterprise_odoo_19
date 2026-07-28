@@ -44,7 +44,7 @@ class StockPackage(models.Model):
             ('location_id', '=', False),
         ]
         # Limit the number of records to load if param is set.
-        records_limit = int(self.env['ir.config_parameter'].sudo().get_param('stock_barcode.usable_packages_limit'))
+        records_limit = int(self.env['ir.config_parameter'].sudo().get_param('stock_barcode.usable_packages_limit', 3000))
         packages = self.env['stock.package'].search(usable_packages_domain, limit=records_limit, order='create_date desc')
         loc_ids = self.env.context.get('pack_locs')
         if loc_ids:

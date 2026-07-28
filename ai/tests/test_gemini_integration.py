@@ -44,7 +44,7 @@ class TestGeminiIntegration(TransactionCase):
             {
                 "attachment_id": test_attachment.id,
                 "content": test_attachment.index_content,
-                "embedding_model": "gemini-embedding-001",
+                "embedding_model": "gemini-embedding-2",
                 "embedding_vector": [0.1] * 1536,
                 "sequence": 1,
             }
@@ -71,9 +71,9 @@ class TestGeminiIntegration(TransactionCase):
                 }
             )
             if endpoint == "/embeddings":
-                self.assertEqual(body["model"], "gemini-embedding-001")
+                self.assertEqual(body["model"], "gemini-embedding-2")
                 self.assertEqual(headers["Authorization"], "Bearer test-gemini-key")
-                if body["input"] == "What is Odoo?":
+                if body["input"] == "task: question answering | query: What is Odoo?":
                     return {
                         "data": [
                             {
@@ -82,7 +82,7 @@ class TestGeminiIntegration(TransactionCase):
                                 "object": "embedding",
                             }
                         ],
-                        "model": "gemini-embedding-001",
+                        "model": "gemini-embedding-2",
                     }
             elif endpoint.startswith("/models/"):
                 self.assertIn("gemini-2.5-flash", endpoint)
@@ -117,8 +117,35 @@ class TestGeminiIntegration(TransactionCase):
 
         self.assertEqual(len(api_calls), 2)
         self.assertEqual(api_calls[0]["endpoint"], "/embeddings")
-        self.assertEqual(api_calls[0]["body"]["input"], "What is Odoo?")
+        self.assertEqual(api_calls[0]["body"]["input"], "task: question answering | query: What is Odoo?")
         self.assertEqual(api_calls[1]["endpoint"], "/models/gemini-2.5-flash:generateContent")
+
+    @patch("odoo.addons.base.models.ir_cron.IrCron._commit_progress")
+    @patch("odoo.addons.ai.utils.llm_api_service.LLMApiService._get_api_token")
+    @patch("odoo.addons.ai.utils.llm_api_service.LLMApiService._request")
+    def test_content_preparation_for_embedding(
+        self, mock_request, mock_get_api_token, mock_commit_progress
+    ):
+        mock_get_api_token.return_value = "test-gemini-key"
+        mock_request.return_value = {"data": [{"embedding": [0.1] * 1536, "index": 0, "object": "embedding"}]}
+
+        # avoid having other sources with status = processing. Otherwise, methods from other providers will have to be mocked
+        self.env["ai.agent.source"].search([
+            ("status", "=", "processing"),
+            ("id", "!=", self.agent_source.id),
+        ]).write({"status": "indexed"})
+
+        embedding = self.env["ai.embedding"].create({
+            "attachment_id": self.agent_source.attachment_id.id,
+            "content": "Odoo is an open-source ERP system with many modules.",
+            "embedding_model": "gemini-embedding-2",
+            "sequence": 2,
+        })
+        self.env["ai.embedding"]._cron_generate_embedding()
+        self.assertEqual(
+            mock_request.call_args.kwargs["body"]["input"],
+            [f"title: {embedding.attachment_id.name} | text: {embedding.content}"],
+        )
 
     def test_provider_detection_for_gemini(self):
         """Test that Gemini models correctly identify Google as provider and use correct embedding model"""
@@ -128,9 +155,10 @@ class TestGeminiIntegration(TransactionCase):
                 continue
             self.agent.llm_model = model
             self.assertEqual(self.agent._get_provider(), "google")
-            self.assertEqual(self.agent._get_embedding_model(), "gemini-embedding-001")
+            self.assertEqual(self.agent._get_embedding_model(), "gemini-embedding-2")
 
         self.assertEqual(get_provider_for_embedding_model(self.env, "gemini-embedding-001"), "google")
+        self.assertEqual(get_provider_for_embedding_model(self.env, "gemini-embedding-2"), "google")
 
         # Test that unknown embedding model raises an error
         with self.assertRaises(UserError):

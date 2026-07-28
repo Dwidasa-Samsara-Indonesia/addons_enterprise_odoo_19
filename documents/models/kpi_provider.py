@@ -1,6 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, models, _
+from odoo.tools import SQL
 
 
 class KpiProvider(models.AbstractModel):
@@ -8,22 +9,81 @@ class KpiProvider(models.AbstractModel):
 
     @api.model
     def get_documents_kpi_summary(self):
-        inbox_folder = self.env.ref('documents.document_inbox_folder', raise_if_not_found=False)
-        if not inbox_folder or not inbox_folder.active:
-            return []
-
-        return [{
-            'id': 'documents.inbox',
-            'name': _('Inbox'),
-            'type': 'integer',
-            'value': self.env['documents.document'].search_count([
-                    ('folder_id', 'child_of', inbox_folder.id),
-                    ('type', '!=', 'folder'),
-            ]),
-        }]
+        return get_kpi_summary(self.env.cr, self.env.uid)
 
     @api.model
     def get_kpi_summary(self):
         result = super().get_kpi_summary()
         result.extend(self.get_documents_kpi_summary())
         return result
+
+
+def get_kpi_summary(cr, uid):
+    """
+    Retrieve the number of active documents currently present in the Inbox folder.
+
+    Only active non-folder documents located in the configured Inbox hierarchy
+    are counted.
+
+    This function intentionally bypasses the ORM so KPI summaries can be retrieved
+    without loading a registry, allowing multi-database servers to serve them faster.
+    """
+    expected_columns = {
+        'documents_document.id',
+        'documents_document.folder_id',
+        'documents_document.type',
+        'documents_document.active',
+    }
+
+    cr.execute(SQL("""
+        SELECT table_name || '.' || column_name
+          FROM information_schema.columns
+         WHERE table_name || '.' || column_name IN %(columns)s
+    """, columns=tuple(expected_columns)))
+    existing_columns = {x[0] for x in cr.fetchall()}
+    if expected_columns - existing_columns:
+        # Needed columns are not present -> module is not installed
+        return []
+
+    cr.execute(SQL("""
+        SELECT document.parent_path
+          FROM documents_document document
+          JOIN ir_model_data imd ON imd.model = 'documents.document'
+                                AND imd.res_id = document.id
+         WHERE imd.module = 'documents'
+           AND imd.name = 'document_inbox_folder'
+           AND document.active
+    """))
+    row = cr.fetchone()
+    if not row:
+        return []
+    inbox_path, = row
+
+    cr.execute(SQL("""
+        SELECT COUNT(*)
+          FROM documents_document document
+         WHERE document.type != 'folder'
+           AND document.parent_path LIKE (%(inbox_path)s || '%%')
+           AND document.active
+    """,
+        inbox_path=inbox_path))
+    count, = cr.fetchone()
+
+    cr.execute(SQL("""
+        SELECT partner.lang
+          FROM res_users u
+          JOIN res_partner partner ON u.partner_id = partner.id
+         WHERE u.id = %(uid)s
+         LIMIT 1
+    """, uid=uid))
+    row = cr.fetchone()
+    context = {  # noqa: F841 "unused" `context` is actually used by `_` frame inspection
+        'lang': row[0] if row else 'en_US',
+    }
+
+    return [{
+        'id': 'documents.inbox',
+        'name': _('Inbox'),
+        'type': 'integer',
+        'value': count,
+    }]

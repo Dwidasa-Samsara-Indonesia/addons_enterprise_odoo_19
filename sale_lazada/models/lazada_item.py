@@ -66,20 +66,21 @@ class LazadaItem(models.Model):
 
     @api.constrains('sync_lazada_inventory', 'fulfillment_type', 'product_id')
     def _check_sync_to_lazada(self):
-        """Ensure only FBM items can be synced to Lazada and only products that tracks stock in Odoo
+        """Ensure only FBM items can be synced to Lazada and only products that track stock in Odoo
         can be synced to Lazada."""
         default_sale_product = self.env.ref('sale_lazada.default_sale_product')
         for item in self.filtered(lambda item: item.product_id != default_sale_product):
-            if not item.product_id.type == 'consu' or not item.product_id.is_storable:
+            if item.product_id.type != "consu":
+                raise ValidationError(self.env._("Only goods are supported with Lazada."))
+            if item.sync_lazada_inventory and item.fulfillment_type != "fbm":
+                raise ValidationError(self.env._("Only FBM items can be synced to Lazada."))
+            if item.sync_lazada_inventory and not item.product_id.is_storable:
                 raise ValidationError(
                     self.env._(
-                        "We do not support syncing services or combo products to Lazada. "
-                        "Only storable products are supported."
+                        "This product does not track inventory and can not be"
+                        " synchronized with Lazada."
                     )
                 )
-
-            if item.fulfillment_type != 'fbm' and item.sync_lazada_inventory:
-                raise ValidationError(self.env._("Only FBM items can be synced to Lazada."))
 
     @api.depends('fulfillment_type', 'product_id.is_storable')
     def _compute_sync_lazada_inventory(self):

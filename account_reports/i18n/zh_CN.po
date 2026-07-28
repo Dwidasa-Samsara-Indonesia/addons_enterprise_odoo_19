@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
 "PO-Revision-Date: 2026-04-09 11:20+0000\n"
 "Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -34,6 +34,12 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "“账户余额受影响的因素"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -103,8 +109,8 @@ msgstr ""
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
-msgstr "“打开总账”脱字符选项仅适用于针对科目或未分配利润/亏损的报表行。"
+"targetting accounts or Result Brought Forward."
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -253,6 +259,28 @@ msgstr ""
 "        "
 
 #. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: account_reports
 #: model:mail.template,body_html:account_reports.email_template_generic_tax_instructions
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
@@ -373,8 +401,8 @@ msgid ""
 "success\">Passed</span>"
 msgstr ""
 "<span invisible=\"context.get('in_checks_view') or unresolved_check_count != "
-"0 or resolved_check_count &lt;= 0\" class=\"oe_stat_text ps-0 text-success\">"
-"Passed</span>"
+"0 or resolved_check_count &lt;= 0\" class=\"oe_stat_text ps-0 text-"
+"success\">Passed</span>"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
@@ -951,6 +979,7 @@ msgstr "金额"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -1012,15 +1041,33 @@ msgid "Analytic"
 msgstr "分析"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "分析分组方式"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "模拟分析"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr ""
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1466,6 +1513,18 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
 #: code:addons/account_reports/tests/common.py:0
 msgid "Can't use this helper to create a line with both tags and formula"
 msgstr "无法使用该助手创建同时包含标记和公式的行"
@@ -1760,6 +1819,7 @@ msgstr "结账分录已过账，锁定日期已应用。"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2081,6 +2141,8 @@ msgid "Credit"
 msgstr "贷方"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2124,12 +2186,7 @@ msgid "Current Liabilities"
 msgstr "流动负债"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "本年度留存收益"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "本年度未分配利润"
 
@@ -2413,6 +2470,7 @@ msgstr "显示邮件编写人"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2621,8 +2679,8 @@ msgstr "相同国家的欧洲共同体（EC）税项"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "股权"
+msgid "EQUITY (& EARNINGS)"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -2630,6 +2688,11 @@ msgstr "股权"
 msgid ""
 "Each bill should have its own document attached as a proof in case of audit."
 msgstr "每张账单应单独附证明文件以备审计。"
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -2783,6 +2846,7 @@ msgid "Entries with partners with no VAT"
 msgstr "无增值税合作伙伴的分录"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -3104,14 +3168,6 @@ msgid "Formula"
 msgstr "公式"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr "由%(date_from)s至%(date_to)s"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
 msgid "Function Parameter"
 msgstr "函数参数"
@@ -3364,6 +3420,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3458,7 +3515,8 @@ msgstr "识别并验证对供应商的所有现金付款。确保所有付款均
 msgid ""
 "Identify applicable tax credit schemes, verify eligibility, compute "
 "benefits, validate supporting documentation, and monitor refund claims."
-msgstr "识别适用的税收抵免方案，验证资格，计算收益，验证支持性文件，并监控合规性。"
+msgstr ""
+"识别适用的税收抵免方案，验证资格，计算收益，验证支持性文件，并监控合规性。"
 
 #. module: account_reports
 #: model:account.return.check.template,description:account_reports.account_return_check_template_outstanding_checks
@@ -3627,7 +3685,8 @@ msgid ""
 "Intercompany reconciliation is vital for accurate group accounting. It "
 "ensures reciprocal balances between related entities match precisely, which "
 "is necessary for eliminating internal transactions during consolidation."
-msgstr "公司间核对对于准确的集团会计至关重要。它确保关联实体之间的对等余额一致。"
+msgstr ""
+"公司间核对对于准确的集团会计至关重要。它确保关联实体之间的对等余额一致。"
 
 #. module: account_reports
 #. odoo-javascript
@@ -3743,6 +3802,11 @@ msgstr "是关注者"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "是否为主公司（激活状态）"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -4285,6 +4349,7 @@ msgstr "执行摘要报告的 NDays 表达式，不支持 “分组依据” 功
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4585,6 +4650,12 @@ msgstr "正在进行"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
 msgid "Only an Accounting Administrator can reset a return"
 msgstr "只有会计管理员可以重置申报"
 
@@ -4611,6 +4682,12 @@ msgstr "只有会计管理员可以设置/取消设置主管。"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "仅欧盟内客户"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr ""
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -5061,7 +5138,8 @@ msgstr "编制详细的拨备明细表，确保所有风险已识别并适当拨
 msgid ""
 "Prepare a summary of subsidiaries and investments including ownership "
 "percentages, acquisition values, net equity, earnings, and dividends paid."
-msgstr "编制子公司和投资概况表，包括持股比例、取得成本、净权益、盈利和分红等信息。"
+msgstr ""
+"编制子公司和投资概况表，包括持股比例、取得成本、净权益、盈利和分红等信息。"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_prepayements0
@@ -5098,14 +5176,9 @@ msgid "Previous Years"
 msgstr "前几年"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "之前年度保留收益"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "之前年度未分配收益"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr ""
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5282,6 +5355,11 @@ msgid "Reminder"
 msgstr "提醒"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5308,6 +5386,14 @@ msgstr "报告已开启过一次"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "报表选项"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -5348,9 +5434,10 @@ msgid "Result"
 msgstr "结果"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "留存收益"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5769,6 +5856,11 @@ msgid "Show Companies"
 msgstr "显示公司"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr ""
+
+#. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/aged_partner_balance/filters.js:0
 msgid "Show Currency"
@@ -6067,6 +6159,11 @@ msgstr "税务报表"
 #: model_terms:ir.ui.view,arch_db:account_reports.view_move_form_vat_return
 msgid "Tax Return"
 msgstr "纳税申报表"
+
+#. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr ""
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -6598,11 +6695,6 @@ msgid "Type of the exception activity on record."
 msgstr "记录中异常活动的类型。"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "未分配利润"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6613,12 +6705,6 @@ msgstr "取消归档"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "未定义的"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "未分配利润/亏损"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7040,6 +7126,13 @@ msgid ""
 msgstr "只有在申报尚未审核时才能更改检查状态。"
 
 #. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
@@ -7250,8 +7343,9 @@ msgid ""
 "object._get_followup_responsible().company_id).name }} Follow Up - "
 "{{ object.commercial_company_name }}"
 msgstr ""
-"{{ (object.company_id or object._get_followup_responsible().company_id)"
-".name }} Follow Up - {{ object.commercial_company_name }}"
+"{{ (object.company_id or "
+"object._get_followup_responsible().company_id).name }} Follow Up - "
+"{{ object.commercial_company_name }}"
 
 #. module: account_reports
 #: model:mail.template,subject:account_reports.email_template_customer_statement
@@ -7269,6 +7363,37 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒重置为Odoo汇率"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr "由%(date_from)s至%(date_to)s"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr "“打开总账”脱字符选项仅适用于针对科目或未分配利润/亏损的报表行。"
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "本年度留存收益"
+
+#~ msgid "EQUITY"
+#~ msgstr "股权"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "之前年度保留收益"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "之前年度未分配收益"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "留存收益"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "未分配利润"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "未分配利润/亏损"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

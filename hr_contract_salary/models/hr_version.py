@@ -180,7 +180,7 @@ class HrVersion(models.Model):
         return html_sanitize(description)
 
     def _get_benefit_fields(self, triggers=True):
-        types = ('float', 'integer', 'monetary', 'boolean', 'properties')
+        types = ('float', 'integer', 'monetary', 'boolean')
         if not triggers:
             types += ('text',)
         nonstored_whitelist = self._benefit_white_list()

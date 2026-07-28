@@ -12,13 +12,14 @@
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Cécile Collart (cco)" <cco@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 18:44+0000\n"
-"PO-Revision-Date: 2026-03-04 20:53+0000\n"
-"Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
+"POT-Creation-Date: 2026-07-17 17:43+0000\n"
+"PO-Revision-Date: 2026-06-08 18:25+0000\n"
+"Last-Translator: \"Cécile Collart (cco)\" <cco@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/planning/"
 "fr/>\n"
 "Language: fr\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % "
 "1000000 == 0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.1\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: planning
 #. odoo-python
@@ -44,7 +45,7 @@ msgstr "%s (copie)"
 #. module: planning
 #: model:ir.actions.report,print_report_name:planning.report_planning_slot
 msgid "'Planning'"
-msgstr "'Planning'"
+msgstr "'Planification'"
 
 #. module: planning
 #. odoo-python
@@ -1987,7 +1988,7 @@ msgstr "Heures planifiées"
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_pivot
 #: model_terms:ir.ui.view,arch_db:planning.res_config_settings_view_form
 msgid "Planning"
-msgstr "Planning"
+msgstr "Planification"
 
 #. module: planning
 #: model:ir.actions.act_window,name:planning.planning_report_action_analysis
@@ -2042,39 +2043,39 @@ msgstr "Propriétés des créneaux horaires"
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.period_report_template
 msgid "Planning:"
-msgstr "Planning :"
+msgstr "Planification :"
 
 #. module: planning
 #: model:mail.template,name:planning.email_template_planning_planning
 msgid "Planning: New Schedule"
-msgstr "Planning : Nouveau planning"
+msgstr "Planification : Nouveau planning"
 
 #. module: planning
 #: model:mail.template,name:planning.email_template_slot_single
 msgid "Planning: New Shift"
-msgstr "Planning : Nouveau poste"
+msgstr "Planification : Nouveau poste"
 
 #. module: planning
 #: model:mail.template,name:planning.email_template_shift_switch_email
 msgid "Planning: Shift Re-assigned"
-msgstr "Planning : Poste réassigné"
+msgstr "Planification : Poste réassigné"
 
 #. module: planning
 #: model:ir.actions.server,name:planning.ir_cron_forecast_schedule_ir_actions_server
 msgid "Planning: generate next recurring shifts"
-msgstr "Planning : générer les prochains postes récurrents"
+msgstr "Planification : générer les prochains postes récurrents"
 
 #. module: planning
 #. odoo-python
 #: code:addons/planning/models/planning_slot.py:0
 msgid "Planning: new open shift available on"
-msgstr "Planning : nouveau poste ouvert disponible le"
+msgstr "Planification : nouveau poste ouvert disponible le"
 
 #. module: planning
 #. odoo-python
 #: code:addons/planning/models/planning_slot.py:0
 msgid "Planning: new shift on"
-msgstr "Planning : nouveau poste le"
+msgstr "Planification : nouveau poste le"
 
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.brand_promotion
@@ -2423,17 +2424,17 @@ msgstr "Scanner"
 #: model:ir.ui.menu,name:planning.planning_menu_schedule
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_gantt
 msgid "Schedule"
-msgstr "Planning"
+msgstr "Planification"
 
 #. module: planning
 #: model:ir.actions.act_window,name:planning.planning_action_schedule_by_resource
 msgid "Schedule by Resource"
-msgstr "Planning par ressource"
+msgstr "Planification par ressource"
 
 #. module: planning
 #: model:ir.actions.act_window,name:planning.planning_action_schedule_by_role
 msgid "Schedule by Role"
-msgstr "Planning par rôle"
+msgstr "Planification par rôle"
 
 #. module: planning
 #. odoo-python
@@ -2771,10 +2772,8 @@ msgstr "L'heure de début ne peut pas être négative."
 #. odoo-python
 #: code:addons/planning/models/planning_template.py:0
 msgid ""
-"The start hour cannot be before the end hour for a one-day shift template."
+"The start hour cannot be after the end hour for a one-day shift template."
 msgstr ""
-"L'heure de début ne peut pas être antérieure à l'heure de fin dans le cas "
-"d'un modèle d'horaire d'un jour."
 
 #. module: planning
 #. odoo-python
@@ -3177,6 +3176,11 @@ msgid "e.g. John Doe"
 msgstr "par ex. John Doe"
 
 #. module: planning
+#: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban
+msgid "h"
+msgstr ""
+
+#. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban_inherit
 msgid "other shift(s) in conflict."
 msgstr "autre(s) poste(s) en conflit."
@@ -3213,6 +3217,12 @@ msgstr "au"
 #: model:mail.template,subject:planning.email_template_slot_single
 msgid "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
 msgstr "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
+
+#~ msgid ""
+#~ "The start hour cannot be before the end hour for a one-day shift template."
+#~ msgstr ""
+#~ "L'heure de début ne peut pas être antérieure à l'heure de fin dans le cas "
+#~ "d'un modèle d'horaire d'un jour."
 
 #~ msgid "The work email is missing for the following employees:"
 #~ msgstr "L'e-mail professionnel est manquant pour les employés suivants :"

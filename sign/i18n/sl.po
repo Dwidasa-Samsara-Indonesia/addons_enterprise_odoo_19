@@ -16,13 +16,14 @@
 # Tomaž Jug <tomaz@editor.si>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Žiga Trček <ziga.trcek@implex.si>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2025-11-08 19:50+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-17 17:43+0000\n"
+"PO-Revision-Date: 2026-06-23 11:00+0000\n"
+"Last-Translator: Žiga Trček <ziga.trcek@implex.si>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-19/sign/"
 "sl/>\n"
 "Language: sl\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_res_partner__signature_count
@@ -1697,7 +1698,7 @@ msgstr "Končno preverjanje"
 #. odoo-javascript
 #: code:addons/sign/static/src/js/tours/sign.js:0
 msgid "Follow the guide to sign the document."
-msgstr ""
+msgstr "Sledite vodilu, da podpišete dokument."
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_request__message_follower_ids
@@ -1947,7 +1948,7 @@ msgstr ""
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_mail_request
 msgid "If you do not wish to receive future reminders about this document,"
-msgstr ""
+msgstr "Če ne želite prejeti bodočih opomnikov za ta dokument,"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_mail_not_enough_credits
@@ -2052,7 +2053,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/sign/static/src/dialogs/thank_you_dialog.xml:0
 msgid "It's signed!"
-msgstr ""
+msgstr "Podpisano!"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
@@ -3294,7 +3295,7 @@ msgstr ""
 #. module: sign
 #. odoo-python
 #: code:addons/sign/wizard/sign_send_request.py:0
-msgid "Sign Request - %s"
+msgid "Sign Request - %(template_name)s - %(res_name)s"
 msgstr ""
 
 #. module: sign
@@ -3906,7 +3907,6 @@ msgstr "Predloga"
 #. module: sign
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_request/sign_request_control_panel.js:0
-#: code:addons/sign/static/src/backend_components/sign_template/sign_template_body.js:0
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_control_panel.js:0
 msgid "Template %s"
 msgstr "Predloga%s"
@@ -4374,6 +4374,8 @@ msgid ""
 "Unable to sign the document due to missing required data. Please contact an "
 "administrator."
 msgstr ""
+"Podpis dokumenta ni mogoč zaradi manjkajočih obveznih podatkov. Prosimo "
+"stopite v stik z administratorjem."
 
 #. module: sign
 #: model:ir.model.fields.selection,name:sign.selection__sign_item_role__auth_method__sms
@@ -4672,7 +4674,7 @@ msgstr "Da"
 msgid ""
 "You can contact the person who invited you to sign the document by email for "
 "help."
-msgstr ""
+msgstr "Za pomoč lahko kontaktirate osebo, ki vas je povabila k podpisu."
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_expired
@@ -4711,7 +4713,7 @@ msgstr ""
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_mail_request
 msgid "You have until"
-msgstr ""
+msgstr "Imate do"
 
 #. module: sign
 #. odoo-python
@@ -4741,7 +4743,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/sign/static/src/dialogs/thank_you_dialog.js:0
 msgid "You will get the signed document by email."
-msgstr ""
+msgstr "Podpisani dokument boste prejeli po e-pošti."
 
 #. module: sign
 #. odoo-javascript
@@ -4750,6 +4752,8 @@ msgid ""
 "You will get the signed document by email. You may also request a paper copy "
 "from the sender."
 msgstr ""
+"Podpisani dokument boste prejeli po e-pošti. Zaprosite lahko tudi za "
+"papirnato kopijo od pošiljatelja."
 
 #. module: sign
 #: model_terms:ir.actions.act_window,help:sign.sign_all_request_action
@@ -4847,7 +4851,7 @@ msgstr ""
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_mail_request
 msgid "click here to cancel it."
-msgstr ""
+msgstr "kliknite tukaj za preklic."
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
@@ -5055,7 +5059,7 @@ msgstr ""
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_mail_request
 msgid "to sign the document."
-msgstr ""
+msgstr "za podpis dokumenta."
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user

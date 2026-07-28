@@ -129,7 +129,7 @@ class TestSwedishIsoCreditTransfer(TestISO20022CommonCreditTransfer):
         res = super().collect_company_accounting_data(company)
         cls.swedish_bank = cls.env['res.bank'].create({
             'name': 'SwedBank',
-            'bic': 'SWEDSESSXXX',
+            'bic': 'SWEDSESS',
         })
         # the Swedish pain version should be able to handle empty address fields
         company.update({
@@ -178,6 +178,9 @@ class TestSwedishIsoCreditTransfer(TestISO20022CommonCreditTransfer):
 
     @freeze_time('2024-03-04')
     def test_swedish_iso_xml(self):
+        if self.env['ir.module.module']._get('l10n_se_bban').state == 'installed':
+            self.skipTest("This test will fail if l10n_se_bban is installed.")
+
         batch = self.generate_iso20022_batch_payment(self.swedish_partner)
         sct_doc = self.get_sct_doc_from_batch(batch)
         xml_file_path = file_path('account_iso20022/tests/xml_files/pain.001.001.09.se.xml')

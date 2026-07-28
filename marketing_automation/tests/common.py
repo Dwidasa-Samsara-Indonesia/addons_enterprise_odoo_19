@@ -46,11 +46,11 @@ class MarketingAutomationCase(MassMailCase):
             'status': status,                             # marketing trace status (processed, ...) for all records
             # record info
             'records': records,                           # records going through this activity
-            'records_to_partner: {rec.id: <res.partner>}  # linked partner (recipient)
-            'records_to_status: {rec.id: status}          # record-specific override of 'status'
+            'records_missing': boolean,                   # records have been unlinked due to various reasons -> do not access
             # marketing trace
             'fields_values': dict                         # optional fields values to check on marketing.trace
             # mailing/sms trace
+            'mailing_trace_values': value to check        # propagated to type specific asserts (SMS only currently)
             'trace_author': author of mail/sms            # used notably to ease finding emails / sms
             'trace_content': content of mail/sms          # content of sent mail / sms / whatsapp
             'trace_email': email logged on trace          # may differ from 'email_normalized'
@@ -59,6 +59,9 @@ class MarketingAutomationCase(MassMailCase):
             'trace_failure_type': failure_type of trace   # to check status update in case of failure
             'trace_status': status of mailing trace,      # if not set: check there is no mailing trace
             'mail_values': mail.mail check                # for assertMailMail
+            # mailing/sms trace, record-specific information
+            'records_to_partner: {rec.id: <res.partner>}  # linked partner (recipient)
+            'records_to_trace_status': {rec.id: status}   # record-specific override of trace_status
         }, {}, ... ]
         :param activity: a marketing.activity on which marketing traces are about
             to be checked, as well as sub records like mailing.trace if requested
@@ -67,40 +70,47 @@ class MarketingAutomationCase(MassMailCase):
         :param canceled_res_ids: quick check for canceled marketing traces not given
             in participants_info (e.g. unlinked records, quick validation, ...);
         """
-        all_records = self.env[activity.campaign_id.model_name]
+        all_records, all_records_unlinked = self.env[activity.campaign_id.model_name], self.env[activity.campaign_id.model_name]
         for info in participants_info:
-            all_records += info['records']
+            if not info.get('records_missing'):
+                all_records += info['records']
+            else:
+                all_records_unlinked += info['records']
 
         # find traces linked to activity, ensure we have one trace / record
         traces = self.env['marketing.trace'].search([
             ('activity_id', 'in', activity.ids),
         ])
-        traces_info = []
+        traces_info = [f'Checking for activity {activity.name} ({activity.activity_type}, {activity.trigger_type})']
         for trace in traces:
             record = all_records.filtered(lambda r: r.id == trace.res_id)
-            record_info = ""
+            record_info = "-no record found in assert-"
             if record:
                 record_info = f"ID.{record.id}, {record.display_name}: email {record.email_normalized}"
                 if "mobile" in record:
                     record_info += f"- mobile {record.mobile}"
                 if "phone" in record:
                     record_info += f"- phone {record.phone}"
+            elif record_unlinked := all_records_unlinked.filtered(lambda r: r.id == trace.res_id):
+                record_info = f"-unlinked ID.{record_unlinked.id}"
             traces_info.append(
                 f'Trace: doc {trace.res_id} - activity {trace.activity_id.id} ({trace.activity_id.activity_type}) - status {trace.state}'
-                f' - rec: {record_info})'
+                f' - rec: {record_info}'
             )
         debug_info = '\n'.join(traces_info)
 
         # check traces / records coherency through campaign
         canceled_res_ids = canceled_res_ids or set()
-        all_record_ids = set(all_records.ids) | canceled_res_ids
+        all_record_ids = set(all_records.ids) | set(all_records_unlinked.ids) | canceled_res_ids
         if strict:
+            additional = set(traces.mapped('res_id')) - all_record_ids
+            missing = all_record_ids - set(traces.mapped('res_id'))
             self.assertEqual(
                 set(traces.mapped('res_id')), all_record_ids,
-                f'Should find one trace / record. Found\n{debug_info}'
+                f'Should find one trace / record. Missing traces {missing} - Unexpected traces {additional}. Found\n{debug_info}'
             )
             self.assertEqual(
-                len(traces), len(all_records) + len(canceled_res_ids),
+                len(traces), len(all_records) + len(all_records_unlinked) + len(canceled_res_ids),
                 f'Should find one trace / record. Found\n{debug_info}'
             )
         else:
@@ -120,20 +130,34 @@ class MarketingAutomationCase(MassMailCase):
             invalid = set(info.keys()) - {
                 'fields_values',
                 'participants',
-                'records', 'records_to_trace_email',
-                'records_to_email_to_mail', 'records_to_email_to_recipients',
-                'records_to_partner', 'records_to_trace_status',
+                'records',
+                'records_missing',
                 'status',  # marketing.trace status
-                'trace_content', 'trace_email',
-                'trace_email_to_mail', 'trace_email_to_recipients',
-                'trace_failure_reason', 'trace_failure_type',
                 'trace_status',  # mailing.trace status
+                # mail
+                'check_mail',
+                'email_values',
+                'mailing_trace_values',
                 'mail_values',
+                'trace_content',
+                'trace_email',
+                'trace_email_to_mail',
+                'trace_email_to_recipients',
+                'trace_failure_reason',
+                'trace_failure_type',
                 # sms (see sms modules)
                 'check_sms',
+                'sms_values',
                 'trace_sms_number',
                 # whatsapp (see wa modules)
                 'wa_from_mock',
+                'wa_msg_values',
+                # record-based info
+                'records_to_trace_email',
+                'records_to_email_to_mail',
+                'records_to_email_to_recipients',
+                'records_to_partner',
+                'records_to_trace_status',
             }
             if invalid:
                 raise AssertionError(f"assertMarketAutoTraces: invalid input {invalid}")
@@ -145,13 +169,16 @@ class MarketingAutomationCase(MassMailCase):
             if not records:
                 self.assertFalse(linked_traces)
                 continue
-            self.assertEqual(set(linked_traces.mapped('res_id')), set(info['records'].ids))
+            self.assertEqual(set(linked_traces.mapped('res_id')), set(records.ids))
 
             # check trace details
             fields_values = info.get('fields_values') or {}
             for trace in linked_traces:
                 record = records.filtered(lambda r: r.id == trace.res_id)
-                trace_info = f'Trace {trace.id}: doc {trace.res_id} ({record.email_normalized}-{record.name})'
+                if not info.get('records_missing'):
+                    trace_info = f'Trace {trace.id}: doc {trace.res_id} ({record.email_normalized}-{record.name})'
+                else:
+                    trace_info = f'Trace {trace.id}: doc {trace.res_id} (unlinked record)'
 
                 # asked marketing.trace values
                 self.assertEqual(
@@ -171,7 +198,7 @@ class MarketingAutomationCase(MassMailCase):
                             )
 
             # check sub-records (mailing related notably)
-            if info.get('trace_status') and activity.activity_type == 'mail':
+            if info.get('trace_status') and activity.activity_type == 'email':
                 self.assertMarketAutoTracesMail(info, activity, traces)
             elif not info.get('trace_status'):
                 self.assertEqual(linked_traces.mailing_trace_ids, self.env['mailing.trace'])
@@ -211,17 +238,22 @@ class MarketingAutomationCase(MassMailCase):
             [{
                 # record info
                 'record': record,
-                # mail.mail
-                'content': participant_info.get('trace_content'),
+                # trace / mail.mail
                 'failure_type': participant_info.get('trace_failure_type', False),
                 'failure_reason': participant_info.get('trace_failure_reason', False),
+                'trace_values': participant_info.get('mailing_trace_values') or {},
+                # mail.mail
+                'content': participant_info.get('trace_content'),
                 'mail_values': participant_info.get('mail_values'),
-                # mailing.trace + mail info
+                # outgoing email
+                'email_values': participant_info.get('email_values'),
+                # other precomputed info (email, partner, ...)
                 **add_info,
                 } for record, add_info in zip(participant_info['records'], records_add_info)
             ],
             activity.mass_mailing_id,
             participant_info['records'],
+            check_mail=participant_info.get('check_mail', True),
         )
 
     def assertActivityWoTrace(self, activities):

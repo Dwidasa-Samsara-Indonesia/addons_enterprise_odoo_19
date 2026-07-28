@@ -64,3 +64,12 @@ class TestBarcodelookup(HttpCase, MockAPIBarcodelookup):
             self.assertTrue(original_product.is_published, "Created product with category should be published by default")
             copied_product = original_product.copy()
             self.assertFalse(copied_product.is_published, "Copied product should not be published by default")
+
+    def test_product_lookup_for_user_with_product_editing_rights(self):
+        self.env.user.group_ids -= self.env.ref('base.group_system')
+        self.assertFalse(self.env.user.has_group('base.group_system'))
+        self.assertTrue(self.env.user.has_group('product.group_product_manager'))
+        with self.mockBarcodelookupAutofill():
+            product_tmpl_form = Form(self.env['product.template'])
+            product_tmpl_form.barcode = "676942010193"
+            self._verify_product_data(product_tmpl_form.save(), variant_rights=self.env.user.has_group('product.group_product_variant'))

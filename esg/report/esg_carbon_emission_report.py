@@ -165,3 +165,7 @@ class EsgCarbonEmissionReport(models.Model):
         other_emissions = self.env['esg.other.emission'].browse(other_emissions_from_report.ids)
         other_emissions.copy(default)
         return True
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        return self.browse(self.env['esg.other.emission'].create(vals_list).ids)

@@ -10,14 +10,14 @@
 # Martin Trigaux, 2023
 # Albena Mincheva <albena_vicheva@abv.bg>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# Toma Tomov <toma.tomov@gmail.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Toma Tomov <toma.tomov@gmail.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2025-12-27 09:35+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-07-18 00:45+0000\n"
 "Last-Translator: Toma Tomov <toma.tomov@gmail.com>\n"
 "Language-Team: Bulgarian <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/bg/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -397,6 +397,13 @@ msgid ""
 msgstr ""
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr ""
@@ -546,6 +553,7 @@ msgstr "Автоматично съгласувани записи"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "Салдо:"
@@ -1245,8 +1253,18 @@ msgid "Has Abnormal Deferred Dates"
 msgstr ""
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
+msgstr ""
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
 msgstr ""
 
 #. module: account_accountant
@@ -1358,6 +1376,11 @@ msgstr "Невалидни извлечения"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Invoice Date"
 msgstr "Дата на фактура"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -1985,8 +2008,9 @@ msgstr ""
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+#, fuzzy
 msgid "Predict vendor bill product"
-msgstr ""
+msgstr "Прогнозиране на стойността на фактурата от доставчика"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_reconcile_model
@@ -1999,8 +2023,9 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/journal_create_wizard/journal_create_wizard.js:0
+#, fuzzy
 msgid "Purchases Journal"
-msgstr ""
+msgstr "Дневник на покупките"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__rating_ids
@@ -2063,6 +2088,11 @@ msgstr ""
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
 msgid "Reconciled"
 msgstr "Равнено"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
@@ -2372,13 +2402,6 @@ msgid "The ending date must not be prior to the starting date."
 msgstr "Крайната дата не може да бъде преди началната дата."
 
 #. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
-
-#. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
 #: model:ir.model.fields,help:account_accountant.field_account_move__deferred_original_move_ids
 msgid "The original invoices that created the deferred entries"
@@ -2556,6 +2579,12 @@ msgid "Try to reconcile automatically your statement lines"
 msgstr ""
 
 #. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr ""
+
+#. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
 msgid "Unposted"
 msgstr "Неизпратен"
@@ -2653,7 +2682,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_accountant/wizard/account_reconcile_wizard.py:0
 msgid "You can only reconcile entries with up to two different accounts: %s"
-msgstr ""
+msgstr "Можете да обвържете записите само с до два различни акаунта: %s"
 
 #. module: account_accountant
 #. odoo-python
@@ -2736,6 +2765,11 @@ msgstr "Избиране продължителност за изключени�
 #: code:addons/account_accountant/wizard/account_change_lock_date.py:0
 msgid "You need to select who the exception applies to."
 msgstr "Избиране за кого се отнася изключението."
+
+#. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h

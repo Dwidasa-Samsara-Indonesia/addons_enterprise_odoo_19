@@ -5,11 +5,10 @@ from datetime import date
 from calendar import monthrange
 
 from odoo import api, fields, models, Command, _
+from odoo.exceptions import ValidationError, UserError
 from odoo.fields import Domain
 from odoo.tools.float_utils import float_round
 from dateutil.relativedelta import relativedelta
-from odoo.tools import date_utils
-from odoo.exceptions import ValidationError
 
 SWISS_LANGUAGES = ["it_IT", "de_DE", "de_CH", "fr_FR", "fr_CH", "en_EN", "en_US"]
 
@@ -615,6 +614,14 @@ class HrPayslip(models.Model):
             payslip.employer_cost = employer_cost_total
         super(HrPayslip, self - elm_slips)._compute_basic_net()
 
+    def refund_sheet(self):
+        if any(payslip.struct_id.country_id.code == "CH" for payslip in self):
+            raise UserError(_(
+                "Refunds are not supported for Swiss payroll as only one payslip per month is permitted. "
+                "Please cancel this payslip instead and generate a new one to apply corrections."
+            ))
+        return super().refund_sheet()
+
     def _get_base_local_dict(self):
         res = super()._get_base_local_dict()
         if self.struct_id.code == "CHMONTHLYELM":
@@ -921,7 +928,7 @@ class HrPayslip(models.Model):
                         self._log_is_line(is_canton=new_canton, is_code=new_code, municipality=new_municipality, code='ISDTSALARY', amount=is_dt_salary, corrected_payslip_id=payslip_to_reverse.id, is_correction=True, correction_type='new')
 
                         min_is, rate = self._find_rate(f"{new_canton}-{new_code}-{new_municipality}", is_dt_salary)
-                        is_amount = max(is_salary * rate / 100, 0)
+                        is_amount = max(is_salary * rate / 100, min_is)
                         total_compensation -= is_amount
                         self._log_is_line(is_canton=new_canton, is_code=new_code, municipality=new_municipality, code='IS', amount=is_amount, corrected_payslip_id=payslip_to_reverse.id, is_correction=True, correction_type='new')
 
@@ -1164,18 +1171,6 @@ class HrPayslip(models.Model):
             raise ValidationError(self.env._("This feature is not available for payslips in Switzerland. If you wish to correct amounts please cancel the payslip or report corrections to the next month."))
         else:
             return super().action_adjust_payslip()
-
-    def action_payslip_payment_report(self, export_format='iso20022_ch'):
-        action = super().action_payslip_payment_report()
-        if self.company_id.country_code != 'CH':
-            return action
-        action.update({
-            'context': {
-                **action['context'],
-                'default_export_format': export_format,
-            },
-        })
-        return action
 
     @api.model
     def _get_dashboard_warnings_domain(self):

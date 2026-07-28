@@ -1,4 +1,4 @@
-import { onMounted, onWillStart, useState, Component, onPatched } from "@odoo/owl";
+import { onMounted, onWillStart, useState, Component, onPatched, onWillUnmount } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 import { _t } from "@web/core/l10n/translation";
@@ -63,12 +63,16 @@ export class VersionHistoryAction extends Component {
         });
 
         onMounted(() => {
+            document.body.classList.add("o_spreadsheet_edition_o_spreadsheet_action");
             router.pushState({
                 spreadsheet_id: this.resId,
                 res_model: this.resModel,
                 from_snapshot: this.fromSnapshot,
             });
             this.env.config.setDisplayName(this.spreadsheetName);
+        });
+        onWillUnmount(() => {
+            document.body.classList.remove("o_spreadsheet_edition_o_spreadsheet_action");
         });
         onPatched(() => {
             if (this.state.shouldReloadPosition) {

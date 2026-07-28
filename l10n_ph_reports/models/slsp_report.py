@@ -112,6 +112,7 @@ class L10n_PhSlspReportHandler(models.AbstractModel):
                     %(currency_table_join)s
                    WHERE %(search_condition)s
                 GROUP BY p.id, %(account_tag_name)s
+                ORDER BY p.complete_name, p.id DESC
                 %(tail_query)s
                 """,
                 balance_select=report._currency_table_apply_rate(SQL("account_move_line.balance")),
@@ -213,6 +214,7 @@ class L10n_PhSlspReportHandler(models.AbstractModel):
                     %(currency_table_join)s
                    WHERE %(search_condition)s
                 GROUP BY account_move_line__move_id.id, %(account_tag_name)s
+                ORDER BY account_move_line__move_id.date desc, account_move_line__move_id.name desc, account_move_line__move_id.invoice_date desc, account_move_line__move_id.id desc
                 %(tail_query)s
                 """,
                 balance_select=report._currency_table_apply_rate(SQL("account_move_line.balance")),

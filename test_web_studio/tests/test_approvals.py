@@ -1,5 +1,5 @@
 from odoo import Command
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, AccessError
 
 from odoo.tests.common import TransactionCase, HttpCase, tagged
 from odoo.addons.web_studio.tests.test_ui import setup_view_editor_data
@@ -629,6 +629,39 @@ class TestStudioApprovals(TestStudioApprovalsCommon):
         spec = self.env["studio.approval.rule"].get_approval_spec([dict(model="test.studio.model_action", method="action_step", action_id=False, res_id=model_action.id)])
         spec = dict(spec["test.studio.model_action"])[model_action.id, "action_step", False]
         self.assertEqual(len(spec["entries"]), 0)
+
+    def test_approve_rule_field_no_access_in_domain(self):
+        """
+        Check that if a rule's domain needs to check a field having access rights, it doesn't crash
+        when the user checking the rule doesn't have access to the field
+        """
+        IrModel = self.env["ir.model"]
+        source_model = IrModel._get("test.studio.model_action")
+
+        rule = self.env["studio.approval.rule"].create([
+            {
+                "name": "Rule 1",
+                "model_id": source_model.id,
+                "method": "action_confirm",
+                "approver_ids": [Command.link(self.admin_user.id)],
+                "exclusive_user": True,
+                "domain": [('admin_integer', '<', 10)]
+            }
+        ])
+
+        action_model_record = self.env[source_model.model].create({})
+
+        # Sanity checks
+        self.assertFalse(self.demo_user._is_admin())
+        with self.assertRaises(AccessError):
+            action_model_record.with_user(self.demo_user).admin_integer
+
+        # actual test: the domain of the rule is checked, and is accessing a field
+        # unreadable by a simple user
+        action_model_record.with_user(self.demo_user).action_confirm()
+        requests = self.env["studio.approval.request"].search([("rule_id", "=", rule.id), ("res_id", "=", action_model_record.id)])
+        self.assertEqual(len(requests), 1)
+
 
 @tagged("-at_install", "post_install")
 class TestStudioApprovalsUIUnit(HttpCase):

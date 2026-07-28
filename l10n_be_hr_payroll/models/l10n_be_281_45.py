@@ -170,12 +170,6 @@ class L10n_Be281_45(models.Model):
     def _get_country_code(self, country):
         return COUNTRY_CODES[country.code]
 
-    @api.model
-    def _get_other_family_charges(self, employee):
-        if employee.dependent_children and employee.marital in ['single', 'widower']:
-            return 'X'
-        return ''
-
     def _get_rendering_data(self, employees):
         # Round to eurocent for XML file, not PDF
         round_281_45 = self.env.context.get('round_281_45')

@@ -580,8 +580,9 @@ export class SignTemplateIframe extends EditablePDFIframeMixin(PDFIframe) {
         const normalizedPosY =
             Math.round(normalizePosition(signItem.posY, signItem.height) * 1000) / 1000;
         const responsible = signItem.responsible ?? (signItem.responsible_id?.[0] || 0);
-        const type = this.signItemTypesById[signItem.type_id[0]].item_type;
-        const icon = this.signItemTypesById[signItem.type_id[0]].icon;
+        const signItemTypeId = signItem.type_id[0] || signItem.type_id;
+        const type = this.signItemTypesById[signItemTypeId].item_type;
+        const icon = this.signItemTypesById[signItemTypeId].icon;
         if (type === "selection") {
             const options = signItem.option_ids.map((id) => this.selectionOptionsById[id]);
             signItem.options = options;
@@ -697,6 +698,46 @@ export class SignTemplateIframe extends EditablePDFIframeMixin(PDFIframe) {
 
     async setTemplateChanged() {
         this.props.setTemplateChangedState(true);
+    }
+
+
+    /**
+     * Replaces current sign items with backend values without reloading the PDF iframe.
+     * Clears local transient state (selection, pending deletions, temporary ids).
+     */
+    discardUnsavedChanges(signItems, radioSets) {
+        this.closePopover();
+        this.resetSelection?.();
+        this.helperLines?.hide();
+
+        for (const page in this.signItems) {
+            for (const id in this.signItems[page]) {
+                const signItemEl = this.signItems[page][id].el;
+                if (signItemEl?.parentElement)
+                    signItemEl.parentElement.removeChild(signItemEl);
+            }
+        }
+
+        // Update props sign items and radiosets, rebuild element map and adjust items.
+        this.props.signItems = signItems;
+        this.props.radioSets = radioSets;
+        this.radioSets = radioSets;
+        this.signItems = this.getSignItems();
+        this.renderSignItems();
+        this.adjustSignImagesOnPageResize();
+
+        // Set the default binds on the new sign items through the proxy.
+        const validator = {
+            set: this.onSignItemsSet.bind(this),
+            deleteProperty: this.onSignItemsDelete.bind(this),
+        };
+        for (const page in this.signItems)
+            this.signItems[page] = new Proxy(this.signItems[page], validator);
+
+        this.deletedSignItemIds = [];
+        this.negativeIds = {};
+        this.refreshSignItems();
+        this.updateSideBarSignItemsCount();
     }
 
     async saveChangesOnBackend() {

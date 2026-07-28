@@ -25,7 +25,20 @@
         <field name="purchase_ok">False</field>
     </record>
 
+    <record id="default_discount_product" model="product.product">
+        <field name="name">Shopee Order Discount</field>
+        <field name="type">service</field>
+        <field name="list_price">0.0</field>
+        <field name="sale_ok">False</field>
+        <field name="purchase_ok">False</field>
+    </record>
+
     <function model="product.product" name="_configure_for_shopee">
-        <value eval="[ref('sale_shopee.default_sale_product'), ref('sale_shopee.default_shipping_product'), ref('sale_shopee.default_adjustment_product')]"/>
+        <value eval="[
+            ref('sale_shopee.default_sale_product'),
+            ref('sale_shopee.default_shipping_product'),
+            ref('sale_shopee.default_adjustment_product'),
+            ref('sale_shopee.default_discount_product')
+        ]"/>
     </function>
 </odoo>

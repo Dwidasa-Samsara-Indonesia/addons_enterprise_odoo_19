@@ -18,6 +18,7 @@ class HrPayslipRun(models.Model):
         ("error", "Error"),
     ], string="STP Status", compute="_compute_stp_status", help="Is the payslip ready for STP submission?")
     l10n_au_stp_count = fields.Integer(compute='_compute_stp_count')
+    l10n_au_superstream_submitted = fields.Boolean(string="SuperStream Submitted", compute="_compute_superstream_submitted")
 
     @api.depends('slip_ids', 'slip_ids.state')
     def _compute_stp_status(self):
@@ -38,6 +39,10 @@ class HrPayslipRun(models.Model):
         slip_stp = self.slip_ids._get_payslip_stp()
         for run in self:
             run.l10n_au_stp_count = len(self.env["l10n_au.stp"].union(*(slip_stp[slip.id] for slip in run.slip_ids)))
+
+    def _compute_superstream_submitted(self):
+        for run in self:
+            run.l10n_au_superstream_submitted = all(s.state == 'sent' for s in run.slip_ids._get_superstreams())
 
     def action_register_payment(self):
         self.ensure_one()
@@ -70,6 +75,9 @@ class HrPayslipRun(models.Model):
 
     def action_open_payment_batch(self):
         return self.l10n_au_payment_batch_id._get_records_action()
+
+    def action_open_superstream(self):
+        return self.slip_ids.action_open_superstream()
 
     def action_post(self):
         self.slip_ids.move_id.action_post()

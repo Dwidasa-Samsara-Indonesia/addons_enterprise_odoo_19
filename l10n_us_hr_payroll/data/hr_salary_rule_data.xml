@@ -53,7 +53,9 @@ year_payslips = version.env['hr.payslip'].search([
     ('company_id', '=', version.company_id.id),
 ])
 overtime_sum = year_payslips._get_line_values(['QAOT'], compute_sum=True)['QAOT']['sum']['total']
-result = 'OVERTIME' in worked_days and overtime_sum &lt; payslip._rule_parameter('l10n_us_qualified_overtime_deduction_cap')[employee.l10n_us_filing_status]</field>
+overtime_caps = payslip._rule_parameter('l10n_us_qualified_overtime_deduction_cap') if 'OVERTIME' in worked_days else {}
+result = employee.l10n_us_filing_status in overtime_caps and overtime_sum &lt; overtime_caps[employee.l10n_us_filing_status]
+        </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 overtime_cap = payslip._rule_parameter('l10n_us_qualified_overtime_deduction_cap')[employee.l10n_us_filing_status]
@@ -154,20 +156,21 @@ year_payslips = version.env['hr.payslip'].search([
     ('company_id', '=', version.company_id.id),
 ])
 previous_amounts = year_payslips._get_line_values(['401K'], vals_list=['amount'], compute_sum=True)['401K']['sum']['amount']
-cap = payslip._rule_parameter('l10n_us_benefits_matching_cap')
-if previous_amounts &gt; cap:
-    employee_contribution = 0
-else:
-    employee_contribution = min(cap - previous_amounts, employee_contribution)
+irs_cap = payslip._rule_parameter('l10n_us_benefits_matching_cap')
+
+# 1. IRS cap on employee contributions
+employee_contribution = max(0, min(irs_cap - previous_amounts, employee_contribution))
+
 
 if version.l10n_us_pre_retirement_matching_type == "percent":
-    matching_amount = employee_contribution * version.l10n_us_pre_retirement_matching_amount / 100.0
-    partial_cap = version.wage * version.l10n_us_pre_retirement_matching_yearly_cap / 100.0 * version.l10n_us_pre_retirement_matching_amount / 100.0
+    # 2. Salary-based eligibility cap
+    eligible_base = min(employee_contribution, GROSS * version.l10n_us_pre_retirement_matching_yearly_cap / 100.0)
+    # 3. apply match
+    matching_amount = eligible_base * version.l10n_us_pre_retirement_matching_amount / 100.0
 else:
     matching_amount = min(employee_contribution, version.l10n_us_pre_retirement_matching_amount)
-    partial_cap = matching_amount
 
-result = min(matching_amount, partial_cap)
+result = matching_amount
         </field>
         <field name="struct_id" ref="l10n_us_hr_payroll.hr_payroll_structure_us_employee_salary"/>
     </record>
@@ -718,7 +721,7 @@ else:
 
 # Step 3
 # Final taxable amount by applying the deduction
-taxable = gross_income - deduction
+taxable = max(gross_income - deduction, 0)
 
 # Step 4
 # Tax amount per year

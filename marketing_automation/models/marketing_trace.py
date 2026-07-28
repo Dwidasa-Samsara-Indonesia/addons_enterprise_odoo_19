@@ -146,7 +146,7 @@ class MarketingTrace(models.Model):
                 base_dt_str = trace.participant_id.create_date
             # reschedule (mail_not_open, ...) -> based on parent
             elif trace.trigger_type in reschedule_types:
-                base_dt_str = trace.parent_id.schedule_date or trace.parent_id.mailing_trace_ids[0].write_date or trace.participant_id.create_date
+                base_dt_str = trace.parent_id.schedule_date or trace.parent_id.mailing_trace_ids[:1].write_date or trace.participant_id.create_date
             # other (mail_open, ...): update only already scheduled traces, other unscheduled should stay as it
             elif trace.schedule_date and trace.parent_id.mailing_trace_ids:
                 base_dt_str = trace.parent_id.mailing_trace_ids[0].write_date

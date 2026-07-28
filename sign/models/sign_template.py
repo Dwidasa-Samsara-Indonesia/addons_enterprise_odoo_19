@@ -140,8 +140,11 @@ class SignTemplate(models.Model):
         return super().get_empty_list_help(help_message)
 
     def copy_data(self, default=None):
-        vals_list = super().copy_data(default=default)
-        for template, vals in zip(self, vals_list):
+        # Need to add the new sign map to the context for Copying sign.item.roles
+        # because they need thier own copys instead of using the same roles in sign.templates.
+        templates = self.with_context(__sign_role_copy_map={})
+        vals_list = super(SignTemplate, templates).copy_data(default=default)
+        for template, vals in zip(templates, vals_list):
             if 'name' in vals and vals.get('name') == template.name or 'name' not in vals:
                 vals['name'] = template._get_copy_name(template.name)
 

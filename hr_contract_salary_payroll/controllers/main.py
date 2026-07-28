@@ -69,12 +69,12 @@ class HrContractSalary(main.HrContractSalary):
                 # displaying "month Salary" instead of the expected "Monthly Salary"
                 # and "Gross (Incl. Comm)" instead of "Gross".
                 # FIX:
-                # As a temporary workaround, we hardcode "Monthly Salary" when
-                # version.schedule_pay == 'monthly' because the configurator is not adapted for other pay schedule than monthly.
+                # As a temporary workaround, we return the category_id.name (to fetch the correct translated name depending on the language, e.g. "Monthly Salary" in English)
+                # when version.schedule_pay == 'monthly' because the configurator is not adapted for other pay schedule than monthly.
                 # For all other schedule_pay values, we keep using the schedule_pay_label mapping,
                 # until the configurator is properly adapted to support non-monthly schedules.
                 if version.schedule_pay == 'monthly':
-                    return "Monthly Salary"
+                    return category_id.name
                 period_name = schedule_pay_label.get(version.schedule_pay, "Monthly")
                 return f"{period_name} Salary"
             return category_id.name

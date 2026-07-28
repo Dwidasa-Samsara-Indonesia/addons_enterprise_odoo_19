@@ -183,7 +183,7 @@ class AppointmentType(models.Model):
             end_time = datetime.combine(start_time + timedelta(days=max_schedule_days), time.max).astimezone(pytz.utc)
 
         slots = self._slots_generate(
-            start_time + timedelta(hours=self.min_schedule_hours),
+            start_time,
             end_time,
             'UTC',
             reference_date=start_time.replace(tzinfo=None),
@@ -202,7 +202,7 @@ class AppointmentType(models.Model):
             ]
         else:
             availability_values = self._slot_availability_prepare_resources_values(
-                self.resource_ids, start_time + timedelta(hours=self.min_schedule_hours), end_time)
+                self.resource_ids, start_time, end_time)
 
             for slot in slots:
                 availabilities += self._google_reserve_format_slot_availabilities_resources(slot, availability_values)
@@ -280,6 +280,7 @@ class AppointmentType(models.Model):
                     resource_to_bookings=availability_values.get('resource_to_bookings'),
                 ).items()
                 if isinstance(appointment_resource, models.BaseModel)  # see docstring for explanations
+                and self._slot_availability_is_resource_available(slot, resource, availability_values)
             }
             for resource in self.resource_ids
         }

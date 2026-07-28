@@ -75,6 +75,9 @@
                     </div>
                 </group>
             </group>
+            <xpath expr="//field[@name='birthday']" position="attributes">
+                <attribute name="required" add="company_country_code == 'KE'" separator=" or "/>
+            </xpath>
         </field>
     </record>
 </odoo>

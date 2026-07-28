@@ -1,7 +1,7 @@
 from unittest.mock import patch
 from odoo.tests.common import tagged, freeze_time
 from odoo.addons.account_asset.tests.common import TestAccountAssetCommon
-from odoo import fields
+from odoo import fields, Command
 
 
 @freeze_time('2022-06-30')
@@ -683,6 +683,114 @@ class TestAccountAssetReevaluation(TestAccountAssetCommon):
             # disposal move
             self._get_depreciation_move_values(date='2022-06-30', depreciation_value=7846.15, remaining_value=0, depreciated_value=8500, state='draft'),
         ])
+
+    def test_linear_reevaluation_increase_disposal_then_sale(self):
+        account_asset_model = self.env['account.asset'].create({
+            'account_depreciation_id': self.company_data['default_account_assets'].copy().id,
+            'account_depreciation_expense_id': self.company_data['default_account_expense'].id,
+            'journal_id': self.company_data['default_journal_misc'].id,
+            'name': 'Reevaluation asset - 3 Years',
+            'method_number': 3,
+            'method_period': '12',
+            'method': 'linear',
+            'prorata_computation_type': 'constant_periods',
+            'state': 'model',
+        })
+        self.company_data['default_account_assets'].create_asset = 'validate'
+        self.company_data['default_account_assets'].asset_model_ids = account_asset_model
+
+        bill = self.env['account.move'].create({
+            'move_type': 'in_invoice',
+            'partner_id': self.partner_a.id,
+            'invoice_date': '2022-01-01',
+            'invoice_line_ids': [Command.create({
+                'name': 'Reevaluation asset',
+                'account_id': self.company_data['default_account_assets'].id,
+                'price_unit': 36000,
+                'quantity': 1,
+            })],
+        })
+        bill.action_post()
+        asset = bill.asset_ids
+
+        self.env.company.loss_account_id = self.company_data['default_account_expense'].copy()
+        self.env.company.gain_account_id = self.company_data['default_account_revenue'].copy()
+        self.asset_counterpart_account_id = self.company_data['default_account_expense'].copy().id
+
+        date_modify = fields.Date.to_date('2022-04-15')
+        self.env['asset.modify'].create({
+            'asset_id': asset.id,
+            'name': 'Test reason',
+            'date': date_modify,
+            'value_residual': asset._get_residual_value_at_date(date_modify) + 8500,
+            'account_asset_counterpart_id': self.asset_counterpart_account_id,
+        }).modify()
+
+        self.assertEqual(asset.account_asset_id.current_balance, 36000 + 8500)
+        self.assertEqual(asset.account_depreciation_id.current_balance, -3500)  # 36000 * (3.5 months) / 36
+
+        gross_increase = asset.children_ids
+        disposal_action = self.env['asset.modify'].create({
+            'asset_id': gross_increase.id,
+            'date': fields.Date.to_date("2022-06-30"),
+            'modify_action': 'dispose',
+            'loss_account_id': self.env.company.loss_account_id.id,
+        }).sell_dispose()
+        self.env['account.move'].browse(disposal_action['res_id']).action_post()
+
+        self.assertEqual(asset.account_asset_id.current_balance, 36000)
+
+        closing_invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            # 31000 = 36000 * 6 / 36 + 1000
+            'invoice_line_ids': [Command.create({'price_unit': asset._get_own_book_value(fields.Date.to_date('2022-06-30')) + 1000})],
+        })
+        self.env['asset.modify'].create({
+            'asset_id': asset.id,
+            'modify_action': 'sell',
+            'invoice_line_ids': closing_invoice.invoice_line_ids,
+            'gain_account_id': self.env.company.gain_account_id.id,
+            'date': fields.Date.to_date('2022-06-30'),
+        }).sell_dispose()
+
+        self.assertFalse(gross_increase.depreciation_move_ids.filtered(lambda move: move.asset_move_type == 'sale'))
+        sale_move = asset.depreciation_move_ids.filtered(lambda move: move.asset_move_type == 'sale')
+        self.assertRecordValues(sale_move.line_ids, [
+            {
+                'account_id': asset.account_asset_id.id,
+                'debit': 0,
+                'credit': 36000,
+            },
+            {
+                'account_id': asset.account_depreciation_id.id,
+                'debit': 6000,
+                'credit': 0,
+            },
+            {
+                'account_id': closing_invoice.invoice_line_ids.account_id.id,
+                'debit': 31000,
+                'credit': 0,
+            },
+            {
+                'account_id': self.env.company.gain_account_id.id,
+                'debit': 0,
+                'credit': 1000,
+            },
+        ])
+
+        sale_move.action_post()
+        self.assertRecordValues(asset, [{
+            'book_value': 0,
+            'net_gain_on_sale': 1000,
+        }])
+        self.assertRecordValues(gross_increase, [{
+            'book_value': 0,
+        }])
+
+        self.assertEqual(asset.account_asset_id.current_balance, 0)
+        self.assertEqual(asset.account_depreciation_id.current_balance, 0)
+        self.assertEqual(closing_invoice.invoice_line_ids.account_id.current_balance, 31000)
+        self.assertEqual(self.env.company.gain_account_id.current_balance, -1000)
 
     def test_linear_reevaluation_increase_constant_periods(self):
         asset = self.create_asset(value=1200, periodicity="monthly", periods=12, method="linear", acquisition_date="2021-10-01", prorata_computation_type="constant_periods")

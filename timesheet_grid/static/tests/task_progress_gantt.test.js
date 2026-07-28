@@ -17,7 +17,7 @@ test("Check progress bar values", async () => {
             name: "Blop",
             planned_date_begin: "2020-06-14 08:00:00",
             date_deadline: "2020-06-24 08:00:00",
-            progress: 50.0,
+            progress: 0.5,
             project_id: 1,
         },
         {

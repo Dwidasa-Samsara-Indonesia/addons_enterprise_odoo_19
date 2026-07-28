@@ -68,7 +68,7 @@
         <t t-set="section" t-value="row"/>
         <t t-set="rowPosition" t-value="getRowPosition(section)"/>
         <t name="section" t-if="!section.isFake and (props.sections.length &gt; 1 or section.value)">
-            <div class="o_grid_section o_grid_section_title o_grid_highlightable d-flex align-items-center ps-3 border-top bg-200 fw-bold"
+            <div class="o_grid_section o_grid_section_title o_grid_highlightable d-flex align-items-center ps-3 border-top bg-200 fw-bold position-relative"
                  t-att-class="{
                     'position-md-sticky start-0': !props.model.useSampleModel,
                  }"

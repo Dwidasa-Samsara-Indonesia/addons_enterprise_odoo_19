@@ -99,6 +99,7 @@
                 <t t-foreach="subheaders" t-as="subheader" t-key="subheader_index">
                     <th
                         t-att-colspan="subheader.colspan || 1"
+                        t-att-class="subheader.class"
                         t-att-data-expression_label="subheader.expression_label"
                     >
                         <!-- Sortable -->

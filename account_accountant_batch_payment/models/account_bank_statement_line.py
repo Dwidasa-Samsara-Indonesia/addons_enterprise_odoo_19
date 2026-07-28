@@ -27,10 +27,12 @@ class AccountBankStatementLine(models.Model):
         if payments:
             # Put the payment back to in_process, we don't touch the batch payment itself since it's just an envelope of
             # payments, it could even be removed from the accounting it would be ok
-            payments.action_draft()
-            payments.action_post()
+            payments.with_context(bypass_batch_payment_online_status_protection=True).action_draft()
+            payments.sudo().action_post()
             # When an invoice is linked to the payment, the move must be put back to draft so that the amount residual
-            # is reset and that the payment state of the move is back to in_payment
+            # is reset and that the payment state of the move is back to in_payment.
+            # sudo() bypasses studio approval rules: this draft+repost is an internal mechanism of the unreconcile
+            # flow, not a business action — the user already approved the move when it was originally posted.
             if move_linked := payments.invoice_ids:
                 move_linked.button_draft()
-                move_linked.action_post()
+                move_linked.with_context(skip_recurring_copy=True).sudo().action_post()

@@ -9,10 +9,10 @@ class PosOrder(models.Model):
     settled_orders_count = fields.Integer(string="Number of settled orders", compute='_compute_settled_orders_count', store=True)
     commercial_partner_id = fields.Many2one(comodel_name="res.partner", related="partner_id.commercial_partner_id", readonly=True, store=True)
 
-    @api.depends('payment_ids', 'settled_order_line_ids', 'is_invoiced')
+    @api.depends('payment_ids', 'settled_order_line_ids', 'is_invoiced', 'amount_total')
     def _compute_customer_due_total(self):
         for order in self:
-            order_pay_later_pm = order.payment_ids.filtered(lambda payment: payment.amount > 0 and payment.payment_method_id.type == 'pay_later')
+            order_pay_later_pm = order.payment_ids.filtered(lambda payment: payment.payment_method_id.type == 'pay_later')
             # Only compute potential customer due if there is a partner and there is a pay_later payment method and if the order is not invoiced
             if order.partner_id and order_pay_later_pm and not order.is_invoiced:
                 if order.customer_due_total:
@@ -23,14 +23,14 @@ class PosOrder(models.Model):
                     )
                     order.customer_due_total = order_due - order_settled
                 else:
-                    order_due = sum(order.payment_ids.filtered(lambda payment: payment.amount > 0 and payment.payment_method_id.type == 'pay_later').mapped('amount'))
+                    order_due = sum(order.payment_ids.filtered(lambda payment: payment.payment_method_id.type == 'pay_later').mapped('amount'))
                     customer_due = order.partner_id.get_total_due(order.config_id.id)['res.partner'][0]['total_due']
                     total_before = customer_due - order_due
                     if customer_due > 0:
                         if total_before < 0:
                             # If the customer had a deposited amount
                             order_due = customer_due
-                        if order_due > 0:
+                        if order_due > 0 or (order_due < 0 and order.amount_total < 0):
                             order.customer_due_total = order_due
                             order.init_customer_due_total = order_due
             else:

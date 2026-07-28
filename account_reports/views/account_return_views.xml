@@ -26,6 +26,9 @@
                     <t t-name="card" class="p-0 w-100">
                         <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="not context.get('in_checks_view') or active"/>
                         <div class="w-100 p-2 px-3" >
+                            <div class="alert alert-warning text-center" role="alert" invisible="not context.get('in_checks_view') or not show_companies_mismatch_warning">
+                                Your active companies do not match this return's companies. The results shown for the checks might be incomplete.
+                            </div>
                             <div class="row h-full position-relative">
                                 <div class="col-12" t-att-class="{'col-lg-3': record.return_type_category.raw_value != 'audit', 'col-lg-5': record.return_type_category.raw_value == 'audit'}">
                                     <div class="row">
@@ -110,7 +113,7 @@
                                             <a invisible="not has_move_entries or state not in ('reviewed', 'submitted', 'paid')" class="dropdown-item" type="object" name="action_view_entry" string="View Entry"/>
                                             <a invisible="context.get('in_checks_view') or not active or state != 'new' or is_completed" class="dropdown-item" type="object" name="action_archive" string="Archive"/>
                                             <a invisible="active" class="dropdown-item" type="object" name="action_unarchive" string="Unarchive"/>
-                                            <a invisible="context.get('in_checks_view') or not (manually_created and state == 'new')" class="dropdown-item" type="object" name="action_delete" string="Delete"/>
+                                            <a invisible="context.get('in_checks_view') or not (manually_created and state == 'new')" class="dropdown-item" type="delete" groups="account.group_account_user">Delete</a>
 
                                             <!-- Reset should be last-->
                                             <a invisible="state == 'new' and not is_completed or not is_tax_return" class="dropdown-item" type="object" name="action_reset_tax_return_common" string="Reset"/>

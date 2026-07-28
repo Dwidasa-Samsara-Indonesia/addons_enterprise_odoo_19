@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 
 from odoo import api, Command, fields, models
 from odoo.fields import Domain
+from odoo.addons.databases.models.project_project import get_database_api_keys
 
 from ..api import ApiError, OdooComApi, OdooDatabaseApi, _humanize_version
 
@@ -153,6 +154,42 @@ class DatabasesSynchronizationWizard(models.TransientModel):
 
         self.database_ids |= self.created_database_ids
 
+        saas_databases = existing_databases | self.created_database_ids | dbs_to_update
+        if not saas_databases:
+            return
+
+        erroneous_dbs = []
+        unreachable_tag_id = self._get_unreachable_tag_id()
+        odoocom_apikey = self.env['ir.config_parameter'].sudo().get_param('databases.odoocom_apikey', '')
+        database_api_keys = get_database_api_keys(saas_databases, fallback=False)
+        dbs_awaiting_api_key = saas_databases.filtered(lambda db: (
+            db.active
+            and not database_api_keys.get(db.id)
+            # Avoid wasting 15s: unreachable dbs will most likely stay unreachable.
+            # If it becomes reachable, we will try to create a key during the next update.
+            and unreachable_tag_id not in db.tag_ids.ids
+        ))
+        for db in dbs_awaiting_api_key.try_lock_for_update():
+            database_api_key = database_api_keys.get(db.id, odoocom_apikey)
+            args = [db.database_url, db.database_name, db.database_api_login, database_api_key]
+            if not all(args):
+                continue
+            db_api = OdooDatabaseApi(*args)
+            key_name = ICP.get_param('databases.remote_api_key_description', f'Access for {self.env.company.name}')
+            try:
+                db.database_api_key = db_api.create_api_key(key_name)
+            except ApiError:
+                _logger.exception("Error while creating an API key on %r", db.database_name)
+                erroneous_dbs.append(db.database_name)
+        if erroneous_dbs:
+            dbnames = ''.join(f'- {dbname}\n' for dbname in erroneous_dbs[:10])
+            if len(erroneous_dbs) > 10:
+                dbnames += self.env._('- … and %(nb_dbs)d more!\n', nb_dbs=len(erroneous_dbs) - 10)
+            self.error_message += self.env._(
+                "Error while creating an API key on %(nb_dbs)d databases:\n",
+                nb_dbs=len(erroneous_dbs),
+            ) + dbnames
+
     def _do_synchronize(self):
         self.check_access("write")
 
@@ -175,14 +212,17 @@ class DatabasesSynchronizationWizard(models.TransientModel):
         unreachable_tag_id = self._get_unreachable_tag_id()
 
         def _mark_db_unreachable(db, errors):
+            db = db.sudo()
             db.write({'tag_ids': [Command.link(unreachable_tag_id)]})
             db.message_post(body=Markup('<br>').join(errors))
 
+        database_api_keys = get_database_api_keys(dbs_to_process)
         db_by_url = {db.database_url: db for db in dbs_to_process}
         db_apis = []
         nb_failed_dbs = 0
         for db in dbs_to_process:
-            args = (db.database_url, db.database_name, db.database_api_login, db.sudo().database_api_key_to_use)
+            database_api_key = database_api_keys.get(db.id, '')
+            args = [db.database_url, db.database_name, db.database_api_login, database_api_key]
             if not all(args):
                 nb_failed_dbs += 1
                 _mark_db_unreachable(db, [self.env._(
@@ -218,13 +258,13 @@ class DatabasesSynchronizationWizard(models.TransientModel):
                 for db_url, values in results.items():
                     db = db_by_url[db_url]
                     values.setdefault('tag_ids', []).append(Command.unlink(unreachable_tag_id))
-                    users = values.pop('users', None)
                     kpi_summary = values.pop('kpi_summary', None)
-                    if users is not None:
-                        self._write_users(db, users)
                     if kpi_summary is not None:
                         self._write_kpis(db, kpi_summary)
-                    db.write(values)
+                    users = values.pop('users', None)
+                    if users is not None:
+                        self._write_users(db, users)
+                    db.sudo().write(values)  # databases_user should be able to synchronize, values keys are hardcoded
 
                 nb_failed_dbs += len(errors_by_url)
                 for db_url, errors in errors_by_url.items():
@@ -256,13 +296,14 @@ class DatabasesSynchronizationWizard(models.TransientModel):
         return self._open()
 
     def _write_users(self, db, users):
+        # sudo in this method are there to allow databases_user to synchronize
         users = {u['login']: u for u in users}
         existing_users = db.database_user_ids
         common_users = existing_users.filtered(lambda u: u.login in users)
         missing_logins = set(users) - set(existing_users.mapped('login'))
         users_to_delete = existing_users - common_users
 
-        users_to_delete.unlink()
+        users_to_delete.sudo().unlink()
         existing_users.sudo().create([
             {
                 'project_id': db.id,
@@ -285,7 +326,7 @@ class DatabasesSynchronizationWizard(models.TransientModel):
         for kpi in kpi_summary:
             if kpi['id'] == 'documents.inbox':
                 if db.database_fetch_documents:
-                    db.database_nb_documents = kpi['value']
+                    db.sudo().database_nb_documents = kpi['value']  # databases_user should be able to synchronize, values keys are hardcoded
                 continue
 
             if kpi['id'].startswith('account_move_type.') and not db.database_fetch_draft_entries:
@@ -306,7 +347,17 @@ class DatabasesSynchronizationWizard(models.TransientModel):
                         'type': 'integer',
                         'default': 0,
                     })
-                if kpi['type'] == 'return_status':
+                elif kpi['type'] == 'kyc_status':
+                    property_definition[kpi_id].update({
+                        'type': 'selection',
+                        'default': False,
+                        'selection': [
+                            ['not_done', '🔴'],
+                            ['incomplete', '🟡'],
+                            ['done', '🟢'],
+                        ],
+                    })
+                elif kpi['type'] == 'return_status':
                     property_definition[kpi_id].update({
                         'type': 'selection',
                         'default': False,
@@ -361,10 +412,8 @@ class DatabasesSynchronizationWizard(models.TransientModel):
         })
 
         for db in self.database_ids:
-            if fetched_values := (self.fetched_values or {}).get(str(db.id)):  # JSON keys are strings
-                db.sudo().write({
-                    'database_kpi_properties': fetched_values,
-                })
+            fetched_values = (self.fetched_values or {}).get(str(db.id))  # JSON keys are strings
+            db.sudo().write({'database_kpi_properties': fetched_values})
 
         action = {
             "type": "ir.actions.client",

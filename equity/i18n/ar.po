@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-03-16 14:31+0000\n"
+"POT-Creation-Date: 2026-05-08 17:40+0000\n"
+"PO-Revision-Date: 2026-05-05 12:54+0000\n"
 "Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/equity/ar/"
 ">\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__securities
@@ -55,13 +55,13 @@ msgstr "معاملات %(partner_name)s"
 #. odoo-python
 #: code:addons/equity/models/res_partner.py:0
 msgid "%(partner_name)s's Valuations"
-msgstr ""
+msgstr "تقييمات %(partner_name)s"
 
 #. module: equity
 #. odoo-python
 #: code:addons/equity/models/equity_transaction.py:0
 msgid "%(transaction_type)s %(securities).2f %(class_name)s"
-msgstr ""
+msgstr "%(transaction_type)s %(securities).2f %(class_name)s"
 
 #. module: equity
 #. odoo-python
@@ -90,12 +90,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/equity/models/equity_transaction.py:0
 msgid "(expired)"
-msgstr ""
+msgstr "(منتهي الصلاحية)"
 
 #. module: equity
 #: model:ir.actions.report,print_report_name:equity.action_equity_ubo_report
 msgid "(object._get_ubo_report_filename())"
-msgstr ""
+msgstr "(object._get_ubo_report_filename())"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form
@@ -215,6 +215,8 @@ msgid ""
 "<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
 "invisible=\"transaction_type != 'exercise'\"/>"
 msgstr ""
+"<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
+"invisible=\"transaction_type != 'exercise'\"/>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_kanban
@@ -222,11 +224,13 @@ msgid ""
 "<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
 "invisible=\"transaction_type != 'transfer'\"/>"
 msgstr ""
+"<i title=\"To\" class=\"fa fa-fw fa-arrow-right mx-1\" "
+"invisible=\"transaction_type != 'transfer'\"/>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_view_partner_form
 msgid "<span class=\"o_stat_text\">Shareholders</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">المساهمون</span>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_dashboard_res_partner
@@ -239,6 +243,8 @@ msgid ""
 "<span> Shareholder<span invisible=\"equity_shareholders_count == 1\">s</"
 "span></span>"
 msgstr ""
+"<span><span invisible=\"equity_shareholders_count == 1\"> المساهمين</span></"
+"span>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_dashboard_res_partner
@@ -246,6 +252,8 @@ msgid ""
 "<span> Transaction<span invisible=\"equity_transaction_count == 1\">s</"
 "span></span>"
 msgstr ""
+"<span><span invisible=\"equity_transaction_count == 1\"> المعاملات</span></"
+"span>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form
@@ -270,7 +278,7 @@ msgstr ""
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
 msgid "<strong>OR</strong>"
-msgstr ""
+msgstr "<strong>أو</strong>"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
@@ -372,7 +380,7 @@ msgstr "تدقيق"
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__auditor
 msgid "Auditor"
-msgstr ""
+msgstr "المُدقّق"
 
 #. module: equity
 #. odoo-javascript
@@ -495,6 +503,7 @@ msgid "Clear"
 msgstr "مسح"
 
 #. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_cap_table__company_id
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__partner_id
 #: model:ir.model.fields,field_description:equity.field_equity_ubo__partner_id
 #: model:ir.model.fields,field_description:equity.field_equity_valuation__partner_id
@@ -517,6 +526,13 @@ msgstr ""
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__control_method__co_3
 msgid "Company - Cat 3. Executive officer"
+msgstr ""
+
+#. module: equity
+#: model:ir.model.fields,help:equity.field_equity_transaction__company_id
+#: model:ir.model.fields,help:equity.field_equity_ubo__company_id
+#: model:ir.model.fields,help:equity.field_equity_valuation__company_id
+msgid "Company to which this record is visible"
 msgstr ""
 
 #. module: equity
@@ -647,7 +663,7 @@ msgstr ""
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__dilution
 msgid "Dilution"
-msgstr ""
+msgstr "التخفيف"
 
 #. module: equity
 #. odoo-javascript
@@ -929,12 +945,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:equity.field_equity_ubo__holder_id
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_ubo_form
 msgid "Holder"
-msgstr ""
+msgstr "المالك"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_view_partner_form
 msgid "Holdings"
-msgstr ""
+msgstr "المقتنيات"
 
 #. module: equity
 #. odoo-javascript
@@ -1052,7 +1068,7 @@ msgstr "متابع"
 #: model:ir.model.fields.selection,name:equity.selection__equity_transaction__transaction_type__issuance
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_search
 msgid "Issuance"
-msgstr ""
+msgstr "الإصدار"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
@@ -1089,7 +1105,7 @@ msgstr ""
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__liquidator
 msgid "Liquidator"
-msgstr ""
+msgstr "المصفّي"
 
 #. module: equity
 #. odoo-javascript
@@ -1296,6 +1312,8 @@ msgid ""
 "Only %(seller_options)s %(security_class_name)s options available for "
 "transfer"
 msgstr ""
+"الخيارات %(seller_options)s %(security_class_name)s هي الخيارات الوحيدة "
+"المتاحة للنقل"
 
 #. module: equity
 #. odoo-python
@@ -1303,6 +1321,7 @@ msgstr ""
 msgid ""
 "Only %(seller_shares)s %(security_class_name)s shares available for transfer"
 msgstr ""
+"لا تتوفر سوى حصص %(seller_shares)s %(security_class_name)s ليتم تحويلها"
 
 #. module: equity
 #. odoo-python
@@ -1311,6 +1330,8 @@ msgid ""
 "Only %(subscriber_options)s %(security_class_name)s options available for "
 "cancellation"
 msgstr ""
+"خيارات \" %(subscriber_options)s %(security_class_name)s \" هي الخيارات "
+"الوحيدة المتاحة للإلغاء"
 
 #. module: equity
 #. odoo-python
@@ -1327,6 +1348,8 @@ msgid ""
 "Only %(subscriber_shares)s %(security_class_name)s shares available for "
 "cancellation"
 msgstr ""
+"وحدها الأسهم %(subscriber_shares)s%(security_class_name)s هي المتاحة ليتم "
+"إلغاؤها"
 
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_transaction__transaction_type__exercise
@@ -1365,7 +1388,7 @@ msgstr "ملكية"
 #: model:ir.model.fields,field_description:equity.field_res_partner__ubo_pep
 #: model:ir.model.fields,field_description:equity.field_res_users__ubo_pep
 msgid "PEP"
-msgstr ""
+msgstr "PEP"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.portal_ubo_form
@@ -1471,7 +1494,7 @@ msgstr "خطأ في تسليم الرسائل النصية القصيرة"
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__secretary
 msgid "Secretary"
-msgstr ""
+msgstr "الأمين العام"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__securities
@@ -1714,7 +1737,6 @@ msgstr "القيمة الكلية"
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_valuation__event__transaction
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form
-#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_form
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_search
 msgid "Transaction"
 msgstr "معاملة"
@@ -1735,7 +1757,6 @@ msgstr "نوع المعاملة"
 #: model:ir.actions.act_window,name:equity.action_equity_transaction
 #: model:ir.ui.menu,name:equity.menu_equity_ownership_transactions
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_list
-#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_list
 msgid "Transactions"
 msgstr "المعاملات"
 
@@ -1748,7 +1769,7 @@ msgstr "تحويل"
 #. module: equity
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__treasurer
 msgid "Treasurer"
-msgstr ""
+msgstr "أمين الصندوق"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__securities_type
@@ -1762,7 +1783,7 @@ msgstr "النوع"
 #: model:ir.ui.menu,name:equity.menu_equity_ownership_ubos
 #: model_terms:ir.ui.view,arch_db:equity.equity_view_partner_form
 msgid "UBO"
-msgstr ""
+msgstr "المالك المستفيد النهائي (UBO)"
 
 #. module: equity
 #: model:mail.activity.type,name:equity.equity_ubo_form_mail_activity
@@ -1849,14 +1870,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__valuation
 #: model:ir.model.fields,field_description:equity.field_equity_valuation__valuation
 #: model:ir.ui.menu,name:equity.menu_equity_reporting_valuation
+#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_form
 msgid "Valuation"
 msgstr "التقييم"
 
 #. module: equity
 #: model:ir.actions.act_window,name:equity.action_equity_valuation
 #: model:ir.ui.menu,name:equity.menu_equity_ownership_valuations
+#: model_terms:ir.ui.view,arch_db:equity.view_equity_valuation_list
 msgid "Valuations"
-msgstr ""
+msgstr "التقييمات"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form
@@ -1867,6 +1890,13 @@ msgstr ""
 #: model:res.groups,name:equity.group_equity_viewer
 msgid "Viewer"
 msgstr "العارض"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__company_id
+#: model:ir.model.fields,field_description:equity.field_equity_ubo__company_id
+#: model:ir.model.fields,field_description:equity.field_equity_valuation__company_id
+msgid "Visible to"
+msgstr ""
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_cap_table__votes
@@ -2093,13 +2123,13 @@ msgstr "متبقي"
 #. odoo-python
 #: code:addons/equity/models/equity_transaction.py:0
 msgid "seller"
-msgstr ""
+msgstr "البائع"
 
 #. module: equity
 #. odoo-python
 #: code:addons/equity/models/equity_transaction.py:0
 msgid "subscriber"
-msgstr ""
+msgstr "مُشترِك"
 
 #. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.view_equity_transaction_form

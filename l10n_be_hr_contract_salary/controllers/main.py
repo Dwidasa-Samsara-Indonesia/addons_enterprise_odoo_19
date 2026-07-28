@@ -439,24 +439,25 @@ class HrContractSalary(main.HrContractSalary):
             return result
         result['double_holiday_wage'] = round(new_version.double_holiday_wage, 2)
         wage_to_apply = self._get_wage_to_apply()
-        # Horrible hack: Add a sequence / display condition fields on salary resume model in master
-        yearly_benefits = result['resume_lines_mapped']['Yearly Benefits']
+        monthly_salary_name = request.env.ref('hr_contract_salary.hr_contract_salary_resume_category_monthly_salary').name
+        yearly_benefits_name = request.env.ref('hr_contract_salary.hr_contract_salary_resume_category_yearly_benefits').name
+        yearly_benefits = result['resume_lines_mapped'][yearly_benefits_name]
         if yearly_benefits:
             annual_time_off = yearly_benefits['annual_time_off']
             annual_time_off_list = list(annual_time_off)
             annual_time_off_list[3] = _('20 days are the maximum amount an employee could get if she/he worked on a full working rate during the previous year in Belgium')
-            result['resume_lines_mapped']['Yearly Benefits']['annual_time_off'] = tuple(annual_time_off_list)
+            result['resume_lines_mapped'][yearly_benefits_name]['annual_time_off'] = tuple(annual_time_off_list)
 
-        resume = result['resume_lines_mapped']['Monthly Salary']
+        resume = result['resume_lines_mapped'][monthly_salary_name]
         if 'SALARY' in resume and resume.get(wage_to_apply) and resume[wage_to_apply][1] != resume['SALARY'][1]:
             ordered_fields = [wage_to_apply, 'SALARY', 'NET']
             if new_version.env.context.get('simulation_working_schedule', '100') != '100':
-                salary_tuple = result['resume_lines_mapped']['Monthly Salary']['SALARY']
+                salary_tuple = result['resume_lines_mapped'][monthly_salary_name]['SALARY']
                 salary_tuple = (_('Gross (Part Time)'), *salary_tuple[1:])
-                result['resume_lines_mapped']['Monthly Salary']['SALARY'] = salary_tuple
+                result['resume_lines_mapped'][monthly_salary_name]['SALARY'] = salary_tuple
         else:
             ordered_fields = [wage_to_apply, 'NET']
-        result['resume_lines_mapped']['Monthly Salary'] = {field: resume.get(field, 0) for field in ordered_fields}
+        result['resume_lines_mapped'][monthly_salary_name] = {field: resume.get(field, 0) for field in ordered_fields}
         result['l10n_be_mobility_budget_amount_monthly'] = new_version.l10n_be_mobility_budget_amount_monthly
         result['l10n_be_wage_with_mobility_budget'] = new_version.l10n_be_wage_with_mobility_budget
 

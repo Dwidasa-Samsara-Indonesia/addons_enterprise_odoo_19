@@ -157,28 +157,9 @@ class ProjectTask(models.Model):
 
     @api.depends('sale_order_id.order_line.product_uom_qty', 'sale_order_id.order_line.price_total')
     def _compute_material_line_totals(self):
-
-        def if_fsm_material_line(sale_line_id, task, employee_mapping_product_ids=None):
-            is_not_timesheet_line = sale_line_id.product_id != task.sudo().timesheet_product_id
-            if employee_mapping_product_ids:  # Then we need to search the product in the employee mappings
-                is_not_timesheet_line = is_not_timesheet_line and sale_line_id.product_id.id not in employee_mapping_product_ids
-            is_not_empty = sale_line_id.product_uom_qty != 0
-            is_not_service_from_so = sale_line_id != task.sale_line_id
-            is_task_related = sale_line_id.task_id == (task or task._origin)
-            return all([is_not_timesheet_line, is_not_empty, is_not_service_from_so, is_task_related])
-
-        employee_mapping_read_group = self.env['project.sale.line.employee.map'].sudo()._read_group(
-            [('project_id', 'in', self.filtered('is_fsm').project_id.ids)],
-            ['project_id'],
-            ['timesheet_product_id:array_agg'],
-        )
-        employee_mapping_timesheet_product_ids = {project.id: timesheet_product_ids for project, timesheet_product_ids in employee_mapping_read_group}
-        sols = self.env['sale.order.line'].sudo().search([('order_id', 'in', self.sudo().sale_order_id.ids)])
-        sols_by_so = defaultdict(lambda: self.env['sale.order.line'])
-        for sol in sols:
-            sols_by_so[sol.order_id.id] |= sol
+        material_sale_lines_by_task = self._get_material_sale_lines_by_task()
         for task in self:
-            material_sale_lines = sols_by_so[task.sudo().sale_order_id.id].sudo().filtered(lambda sol: if_fsm_material_line(sol, task, employee_mapping_timesheet_product_ids.get(task.project_id.id)))
+            material_sale_lines = material_sale_lines_by_task.get(task, self.env['sale.order.line'])
             task.material_line_total_price = sum(material_sale_lines.mapped('price_total'))
             task.material_line_product_count = round(sum(material_sale_lines.mapped('product_uom_qty')))
 
@@ -306,6 +287,33 @@ class ProjectTask(models.Model):
         # check time and material section should visible or not in portal
         return self.allow_material and self.allow_billable and self.sale_order_id and self.is_fsm and \
             not self.under_warranty and not self._has_no_billable_products()
+
+    def _get_material_sale_lines_by_task(self):
+        def if_fsm_material_line(sale_line_id, task, employee_mapping_product_ids=None):
+            is_not_timesheet_line = sale_line_id.product_id != task.sudo().timesheet_product_id
+            if employee_mapping_product_ids:  # Then we need to search the product in the employee mappings
+                is_not_timesheet_line = is_not_timesheet_line and sale_line_id.product_id.id not in employee_mapping_product_ids
+            is_not_empty = sale_line_id.product_uom_qty != 0
+            is_not_service_from_so = sale_line_id != task.sale_line_id
+            is_task_related = sale_line_id.task_id == (task or task._origin)
+            return all([is_not_timesheet_line, is_not_empty, is_not_service_from_so, is_task_related])
+
+        employee_mapping_read_group = self.env['project.sale.line.employee.map'].sudo()._read_group(
+            [('project_id', 'in', self.filtered('is_fsm').project_id.ids)],
+            ['project_id'],
+            ['timesheet_product_id:array_agg'],
+        )
+        employee_mapping_timesheet_product_ids = {project.id: timesheet_product_ids for project, timesheet_product_ids in employee_mapping_read_group}
+        sols = self.env['sale.order.line'].sudo().search([('order_id', 'in', self.sudo().sale_order_id.ids)])
+        sols_by_so = sols.grouped('order_id')
+        material_sale_lines_by_task = {
+            task: (
+                sols_by_so.get(task.sudo().sale_order_id, self.env['sale.order.line']).sudo().filtered(
+                    lambda sol: if_fsm_material_line(sol, task, employee_mapping_timesheet_product_ids.get(task.project_id.id))
+                )
+            ) for task in self
+        }
+        return material_sale_lines_by_task
 
     def action_view_invoices(self):
         invoices = self.mapped('sale_order_id.invoice_ids')

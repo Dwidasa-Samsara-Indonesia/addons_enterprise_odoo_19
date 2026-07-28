@@ -1,7 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Domain
 from odoo.tools import groupby
 
@@ -50,6 +50,15 @@ class ProductTemplate(models.Model):
     )
 
     def write(self, vals):
+        if vals.get('type') and vals['type'] != 'consu' and self.allow_one_time_sale:
+            vals.update({'allow_one_time_sale': False})
+        # Ensure that we don't upate the recurring_invoice flag of product already sold
+        if self.env.context.get('import_file') and 'recurring_invoice' in vals:
+            confirmed_lines = self._get_confirmed_order_lines()
+            updated_product = self.filtered(lambda p: p.recurring_invoice != vals['recurring_invoice'])
+            if confirmed_lines and updated_product:
+                problematic_products = confirmed_lines.product_template_id & updated_product
+                raise UserError(_("You can not change the recurring property of this product because it has been sold already (%s)", ", ".join(problematic_products.mapped('display_name'))))
         res = super().write(vals)
         if 'allow_one_time_sale' in vals and not vals.get('allow_one_time_sale'):
             for product in self:
@@ -306,3 +315,8 @@ class ProductTemplate(models.Model):
         if self.recurring_invoice:
             return False
         return super()._has_multiple_uoms()
+
+    def _get_confirmed_order_lines(self):
+        return self.env['sale.order.line'].search([
+            ('product_template_id', 'in', self.ids),
+            ('state', '=', 'sale')])

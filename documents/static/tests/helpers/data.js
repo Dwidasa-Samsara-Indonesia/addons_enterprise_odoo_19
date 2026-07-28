@@ -116,6 +116,8 @@ export class DocumentsDocument extends models.Model {
         default: "3_day",
     });
     activity_user_id = fields.Many2one({ relation: "res.users" });
+    // added here for convenience, do not use in views if the field does not exist (as in "base" `documents`)
+    has_embedded_pdf = fields.Boolean({ string: "Has Embedded PDF" });
 
     get_deletion_delay() {
         return 30;

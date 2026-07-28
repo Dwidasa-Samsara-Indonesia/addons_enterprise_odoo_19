@@ -8,7 +8,7 @@
                 <xpath expr="//field[@name='uom_ids']" position="after">
                     <field name="stripe_mcc_ids" widget="many2many_tags" groups="base.group_user"
                            invisible="not can_be_expensed or standard_price or not stripe_issuing_activated"
-                           options="{'no_edit_color': True, 'color_field': 'color'}"/>
+                           options="{'no_edit_color': True, 'color_field': 'color', 'no_create': True}"/>
                 </xpath>
             </field>
         </record>
@@ -21,7 +21,7 @@
                 <xpath expr="//field[@name='supplier_taxes_id']" position="after">
                     <field name="stripe_mcc_ids" widget="many2many_tags" groups="base.group_user"
                            invisible="not can_be_expensed or standard_price or not stripe_issuing_activated"
-                           options="{'no_edit_color': True, 'color_field': 'color'}"/>
+                           options="{'no_edit_color': True, 'color_field': 'color', 'no_create': True}"/>
                 </xpath>
             </field>
         </record>

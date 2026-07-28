@@ -108,7 +108,7 @@
                                         <t t-foreach="taxGrids" t-as="country" t-key="country_index">
                                             <t t-foreach="taxGrids[country]" t-as="grid" t-key="grid_index">
                                                 <tr>
-                                                    <t t-if="hasSeveralGrids">
+                                                    <t t-if="hasTaxesGridsSeveralCountries">
                                                         <td t-out="(grid_index == 0) ? country : ''"/>
                                                     </t>
 

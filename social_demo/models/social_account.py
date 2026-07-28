@@ -34,7 +34,7 @@ class SocialAccount(models.Model):
 
     def twitter_get_user_by_username(self, query):
         """ Returns some fake suggestion """
-        partner = self.env.ref('social_demo.res_partner_2', raise_if_not_found=False)
+        partner = self.env.ref('base.res_partner_2', raise_if_not_found=False)
         return {
             'name': partner.name,
             'profile_image_url': f'/web/image/res.partner/{partner.id}/avatar_128',

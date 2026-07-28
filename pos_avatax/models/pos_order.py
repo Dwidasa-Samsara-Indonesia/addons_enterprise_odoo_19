@@ -1,54 +1,57 @@
-from odoo import _, api, models
-from odoo.exceptions import ValidationError
+from odoo import api, models
 
 
 class PosOrder(models.Model):
     _name = 'pos.order'
     _inherit = ['pos.order', 'account.external.tax.mixin', 'account.avatax.unique.code']
 
+    def _get_date_for_external_taxes(self):
+        return self.date_order
+
+    @api.depends('config_id.module_pos_avatax')
+    def _compute_is_avatax(self):
+        """ account.external.tax.mixin override. Only consider the config boolean, not the fiscal position. """
+        for order in self:
+            order.is_avatax = order.config_id.module_pos_avatax
+
     def _get_and_set_external_taxes_on_eligible_records(self):
         """ account.external.tax.mixin override. """
-        eligible_orders = self.filtered(lambda order: order.is_tax_computed_externally and order.state in ('draft'))
+        eligible_orders = self.filtered(lambda order: order.is_tax_computed_externally and order.state == 'draft')
         eligible_orders._set_external_taxes(eligible_orders._get_external_taxes())
         return super()._get_and_set_external_taxes_on_eligible_records()
 
     def _get_line_data_for_external_taxes(self):
         """ account.external.tax.mixin override. """
-        res = []
-        for line in self.lines:
-            # Clear all taxes (e.g. default customer tax). Not every line will be sent to the external tax
-            # calculation service, those lines would keep their default taxes otherwise.
-            line.tax_ids = False
-            pos_config = line.order_id.config_id
-            res.append({
-                "id": line.id,
-                "model_name": line._name,
-                "product_id": line.product_id,
-                "description": None,  # no line description on pos.order.line
-                "qty": line.qty,
-                "uom_id": line.product_uom_id,
-                "price_subtotal": line.price_subtotal,
-                "price_unit": line.price_unit,
-                "discount": line.discount,
-                "is_refund": False,
-                "warehouse_id": pos_config.warehouse_id if pos_config.ship_later else False
-            })
+        AccountTax = self.env['account.tax']
+        base_lines = self._prepare_tax_base_line_values()
+        AccountTax._add_tax_details_in_base_lines(base_lines, self.company_id)
+        AccountTax._round_base_lines_tax_details(base_lines, self.company_id)
+        return [{
+            'base_line': base_line,
+            'description': base_line['record'].product_id.name,
+            # account_avatax_stock reads these. POS sales are taxed from the company location, so there is no per-line
+            # warehouse origin and the order-level ship to/from addresses (both the company) are used.
+            'warehouse_id': False,
+            'shipping_partner': self.company_id.partner_id,
+        } for base_line in base_lines]
+
+    def _get_avatax_service_params(self, commit=False):
+        # EXTENDS 'account.external.tax.mixin'
+        res = super()._get_avatax_service_params(commit)
+        tax_date = self._get_date_for_external_taxes()
+        res.update({
+            'is_refund': False,  # refunds in the POS are negative, so no need to invert the sign like with sale.order and account.move
+            'document_type': 'SalesOrder',
+            'document_date': tax_date,
+            'tax_date': tax_date,
+            'perform_address_validation': False,
+        })
         return res
 
     def _get_avatax_ship_to_partner(self):
-        """ account.external.tax.mixin override. """
-        return self.partner_id
-
-    def _get_invoice_grouping_keys(self):
-        res = super()._get_invoice_grouping_keys()
-        if self.filtered('fiscal_position_id.is_avatax'):
-            res += ['partner_id']
-        return res
-
-    def _get_avatax_address_from_partner(self, partner):
-        if partner:
-            return super()._get_avatax_address_from_partner(partner)
-        raise ValidationError(_('Avatax requires your current location or a customer to be set on the order with a proper zip, state and country.'))
+        """ account.external.tax.mixin override. POS sales are always taxed based on the location of the POS, not the
+        customer. A branch can be created if this address is different from the main company. """
+        return self.company_id.partner_id
 
     @api.model
     def get_order_tax_details(self, orders):

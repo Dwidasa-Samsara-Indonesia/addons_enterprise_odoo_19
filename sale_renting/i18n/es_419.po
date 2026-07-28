@@ -3,15 +3,15 @@
 # * sale_renting
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
 # "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2025-12-15 14:12+0000\n"
-"Last-Translator: \"Patricia Gutiérrez (pagc)\" <pagc@odoo.com>\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-06-06 13:22+0000\n"
+"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/sale_renting/es_419/>\n"
 "Language: es_419\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_renting
 #. odoo-python
@@ -45,7 +45,6 @@ msgstr "%(amount)s / %(duration)s"
 
 #. module: sale_renting
 #. odoo-python
-#: code:addons/sale_renting/models/product_template.py:0
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "%(duration)s %(unit)s"
 msgstr "%(duration)s %(unit)s"
@@ -65,6 +64,12 @@ msgid ""
 msgstr ""
 "(object.rental_status not in ('draft', 'sent') and 'Recibo de entrega o "
 "devolución - %s' %(object.name)) or 'Orden - %s' % (object.name)"
+
+#. module: sale_renting
+#. odoo-python
+#: code:addons/sale_renting/models/product_template.py:0
+msgid "/ %(duration)s %(unit)s"
+msgstr ""
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
@@ -217,7 +222,7 @@ msgstr "Ocurrió un error. Inténtalo de nuevo."
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 msgid "Apply after"
-msgstr "Aplicar después"
+msgstr "Aplicar después de"
 
 #. module: sale_renting
 #. odoo-javascript
@@ -591,7 +596,7 @@ msgstr "Hora"
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_hourly
 msgid "Hourly"
-msgstr "Por horas"
+msgstr "Por hora"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__extra_hourly
@@ -947,7 +952,7 @@ msgstr "Precios"
 #. module: sale_renting
 #: model:ir.model,name:sale_renting.model_product_pricing
 msgid "Pricing rule of rental products"
-msgstr "Regla de fijación de precios para productos de alquiler"
+msgstr "Regla de precios de los productos de alquiler"
 
 #. module: sale_renting
 #: model:product.template,name:sale_renting.rental_product_3_template

@@ -301,3 +301,18 @@ class TestEquity(TestEquityCommon):
 
         with self.assertRaisesRegex(ValidationError, "has existing transactions"):
             transaction.equity_currency_id = usd_currency
+
+    def test_compute_security_price(self):
+        transactions = self.env['equity.transaction'].create([{
+            'partner_id': self.company.id,
+            'subscriber_id': self.contact_1.id,
+            'date': '2026-01-01',
+            'transaction_type': 'issuance',
+            'securities': 10,
+            'security_class_id': self.share_class_ord.id,
+        } for _ in range(2)])
+
+        self.assertRecordValues(transactions, [
+            {'security_price': 0},
+            {'security_price': 0},
+        ])

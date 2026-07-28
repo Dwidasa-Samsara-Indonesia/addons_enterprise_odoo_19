@@ -113,6 +113,35 @@ class testAttachmentAccess(TransactionCase):
             document.write({'attachment_id': attachment_forbidden.id})
             document.datas
 
+        with self.assertRaises(AccessError):
+            self.env["documents.document"].with_user(self.user).onchange(
+                {"attachment_id": attachment_forbidden.id},
+                ["attachment_id"],
+                {"datas": {}},
+            )
+
+        with self.assertRaises(AccessError):
+            self.env["documents.document"].with_user(self.user).with_context(
+                default_attachment_id=attachment_forbidden.id,
+            ).onchange(
+                {},
+                [],
+                {"attachment_id": {}, "datas": {}},
+            )
+
+        self.env["ir.default"].with_user(self.user).set(
+            "documents.document",
+            "attachment_id",
+            attachment_forbidden.id,
+            user_id=True,
+        )
+        with self.assertRaises(AccessError):
+            self.env["documents.document"].with_user(self.user).onchange(
+                {},
+                [],
+                {"attachment_id": {}, "datas": {}},
+            )
+
     def test_create_shortcut(self):
         doc = self.env['documents.document'].create({'name': 'secret', 'access_internal': 'none'})
 

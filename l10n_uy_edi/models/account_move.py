@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 
 def format_float(amount, digits=2, valid_zero=None):
-    if not amount and not valid_zero:
+    if amount is None or (not amount and not valid_zero):
         return None
     return float_repr(float_round(amount, digits), digits)
 
@@ -143,7 +143,7 @@ class AccountMove(models.Model):
         lacks a valid latam document number (only provided by DGI after processing). To avoid this, resetting the
         invoice to draft clears the invoice name, allowing users to fix any errors without triggering the validation
         """
-        super().button_draft()
+        res = super().button_draft()
         self.filtered(
             lambda x: x.country_code == "UY" and
             x.journal_id.l10n_uy_edi_type == "electronic" and
@@ -152,6 +152,7 @@ class AccountMove(models.Model):
                 x.l10n_uy_edi_document_id.state not in ["received", "accepted", "rejected"]
             )
         ).name = False
+        return res
 
     def _is_manual_document_number(self):
         # EXTEND l10n_latam_invoice_document
@@ -390,19 +391,18 @@ class AccountMove(models.Model):
         :return:  list of the prepare data of each line we are going to inform for the CFE """
         self.ensure_one()
         res = []
-        for k, line in enumerate(self.invoice_line_ids.filtered(lambda line: line.price_unit < 0), 1):
-
+        discount_base_lines = [bl for bl in tax_details['base_lines'] if bl['record'].price_unit < 0]
+        for k, base_line in enumerate(discount_base_lines, 1):
+            line = base_line['record']
             invoice_ind = self._get_invoice_indicator(line, tax_details)
-
             res.append({
                 "NroLinDR": k,  # D1
                 "TpoMovDR": "D",  # D2
                 "TpoDR": 1,  # D3
                 "GlosaDR": line.name[:100] if line.name else _('Discount'),  # D5
-                "ValorDR": abs(line.price_unit),  # D6
+                "ValorDR": abs(base_line['tax_details']['raw_total_excluded_currency']),  # D6
                 "IndFactDR": invoice_ind,  # D7
             })
-
         return res
 
     def _l10n_uy_edi_cfe_F_reference(self):
@@ -579,15 +579,40 @@ class AccountMove(models.Model):
         if deduct_dp_lines.filtered(lambda l: l.tax_ids):
             errors.append(_("Downpayment lines should not have any taxes, please remove then to continue"))
 
-        # Discount line have regular lines that match with the same tax
-        total_field = 'price_total' if tax_included else 'price_subtotal'
-        discount_lines = (self.invoice_line_ids - deduct_dp_lines).filtered(lambda l: l[total_field] < 0.0)
-        for dline in discount_lines:
-            discount_tax = dline.tax_ids
-            if not self.line_ids.filtered(lambda l: l.id != dline.id).\
-               tax_ids.filtered(lambda t: t.id == discount_tax.id):
-                errors.append(_('Discount with Tax %s can only exist if match with regular line with same tax',
-                                discount_tax.name))
+        # Discount lines must always be associated to another line sharing the same taxes.
+        if self.is_invoice():
+            AccountTax = self.env['account.tax']
+            base_lines, _tax_lines = self._get_rounded_base_and_tax_lines()
+            # Downpayment deduction lines are not discount lines — exclude them from this validation.
+            check_base_lines = [bl for bl in base_lines if bl['record'] not in deduct_dp_lines]
+            for base_line in check_base_lines:
+                has_taxes = base_line['tax_ids']
+                is_neg_qty = base_line['quantity'] < 0
+                if (
+                    base_line['tax_details']['raw_total_excluded_currency'] < 0
+                    and has_taxes
+                    and not is_neg_qty
+                ):
+                    base_line['special_type'] = 'global_discount'
+
+            # Return of merchandise: negative lines reduce quantity instead of being added as a discount.
+            check_base_lines = AccountTax._dispatch_return_of_merchandise_lines(check_base_lines, self.company_id)
+            AccountTax._squash_return_of_merchandise_lines(check_base_lines, self.company_id)
+
+            # Global discount: spread the discount equally across the matching lines.
+            check_base_lines = AccountTax._dispatch_global_discount_lines(check_base_lines, self.company_id)
+            AccountTax._squash_global_discount_lines(check_base_lines, self.company_id)
+
+            remaining_negative_lines = [
+                bl for bl in check_base_lines
+                if bl['tax_details']['raw_total_excluded_currency'] < 0
+            ]
+            for bl in remaining_negative_lines:
+                errors.append(_(
+                    "Discount line '%(line_name)s' must be associated to another line having the same taxes (%(tax_names)s).",
+                    line_name=bl['record'].name,
+                    tax_names=', '.join(bl['record'].tax_ids.mapped('name')),
+                ))
 
         # Do not let negative quantities, only can be done if line is a donwpayment deduct
         negative_lines = self.line_ids.filtered(lambda l: l.quantity < 0 and not l._get_downpayment_lines())
@@ -699,8 +724,8 @@ class AccountMove(models.Model):
         """ return string with the addenda """
         addenda = self.l10n_uy_edi_document_id._get_legends("addenda", self)
         if self.narration:
-            term_and_conditions = html2plaintext(self.narration)
-            addenda = addenda + "\n\n" + term_and_conditions if addenda else term_and_conditions
+            term_and_conditions = html2plaintext(self.narration).strip()
+            addenda = addenda + "\n" + term_and_conditions if addenda else term_and_conditions
         return self._l10n_uy_edi_clean_non_ascii_chars(addenda)
 
     def _l10n_uy_edi_clean_non_ascii_chars(self, text):

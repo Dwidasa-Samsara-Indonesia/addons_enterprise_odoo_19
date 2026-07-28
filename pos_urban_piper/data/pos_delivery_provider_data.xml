@@ -168,4 +168,90 @@
         <field name="available_country_ids" eval="[Command.set([ref('base.sa'), ref('base.kw'), ref('base.ae'),
             ref('base.qa'), ref('base.hk'), ref('base.cn'), ref('base.br')])]"/>
     </record>
+    <record id="pos_delivery_provider_toyou" model="pos.delivery.provider">
+        <field name="name">ToYou</field>
+        <field name="technical_name">toyou</field>
+        <field name="journal_code">TYU</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/ToYou.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.sa')])]"/>
+    </record>
+    <record id="pos_delivery_provider_thechefz" model="pos.delivery.provider">
+        <field name="name">The Chefz</field>
+        <field name="technical_name">thechefz</field>
+        <field name="journal_code">TCZ</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/TheChefz.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.sa')])]"/>
+    </record>
+    <record id="pos_delivery_provider_smiles" model="pos.delivery.provider">
+        <field name="name">Smiles</field>
+        <field name="technical_name">smiles</field>
+        <field name="journal_code">SML</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Smiles.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.ae')])]"/>
+    </record>
+    <record id="pos_delivery_provider_radyes" model="pos.delivery.provider">
+        <field name="name">Radyes</field>
+        <field name="technical_name">radyes</field>
+        <field name="journal_code">RDY</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Radyes.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.ae'), ref('base.sa'), ref('base.eg'), ref('base.jo'),
+                ref('base.kw'), ref('base.om'), ref('base.qa'), ref('base.bh'), ref('base.in')])]"/>
+    </record>
+    <record id="pos_delivery_provider_instashop" model="pos.delivery.provider">
+        <field name="name">InstaShop</field>
+        <field name="technical_name">instashop</field>
+        <field name="journal_code">IST</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Instashop.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.ae'), ref('base.eg')])]"/>
+    </record>
+    <record id="pos_delivery_provider_zyda" model="pos.delivery.provider">
+        <field name="name">Zyda</field>
+        <field name="technical_name">zyda</field>
+        <field name="journal_code">ZYD</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Zyda.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.ae'), ref('base.eg'), ref('base.kw'), ref('base.jo'), ref('base.sa'),
+            ref('base.qa'), ref('base.bh'), ref('base.om')])]"/>
+    </record>
+    <record id="pos_delivery_provider_talabna" model="pos.delivery.provider">
+        <field name="name">Talabna</field>
+        <field name="technical_name">talabna</field>
+        <field name="journal_code">TLB</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Talabna.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.ae')])]"/>
+    </record>
+    <record id="pos_delivery_provider_snoonu" model="pos.delivery.provider">
+        <field name="name">Snoonu</field>
+        <field name="technical_name">snoonu</field>
+        <field name="journal_code">SNU</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Snoonu.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.kw'), ref('base.om'), ref('base.qa')])]"/>
+    </record>
+    <record id="pos_delivery_provider_mrmandoob" model="pos.delivery.provider">
+        <field name="name">Mr Mandoob</field>
+        <field name="technical_name">mrmandoob</field>
+        <field name="journal_code">MMD</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/MrMandoob.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.sa')])]"/>
+    </record>
+    <record id="pos_delivery_provider_didifood" model="pos.delivery.provider">
+        <field name="name">DiDi Food</field>
+        <field name="technical_name">didi</field>
+        <field name="journal_code">DFD</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/DidiFood.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.co'), ref('base.cr'), ref('base.mx'), ref('base.pe'), ref('base.do')])]"/>
+    </record>
+    <record id="pos_delivery_provider_foodzapp" model="pos.delivery.provider">
+        <field name="name">FoodZapp</field>
+        <field name="technical_name">spryntz</field>
+        <field name="journal_code">FZP</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/FoodZapp.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.ae')])]"/>
+    </record>
+    <record id="pos_delivery_provider_enqueue" model="pos.delivery.provider">
+        <field name="name">Enqueue</field>
+        <field name="technical_name">enqueue</field>
+        <field name="journal_code">EQE</field>
+        <field name="image_128" type="base64" file="pos_urban_piper/static/img/Enqueue.svg"/>
+        <field name="available_country_ids" eval="[Command.set([ref('base.sa')])]"/>
+    </record>
 </odoo>

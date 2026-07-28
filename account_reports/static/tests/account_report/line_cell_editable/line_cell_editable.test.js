@@ -21,6 +21,7 @@ test("can unformat a value when focus and format when blur", async () => {
                 no_format: 5702.22,
                 edit_popup_data: {},
             },
+            cellIndex: 0,
             line: {},
         },
     });

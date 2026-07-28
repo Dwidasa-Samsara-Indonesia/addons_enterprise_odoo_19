@@ -381,6 +381,35 @@ class TestApprovalsPurchase(TestApprovalsCommon):
         self.env.user.company_id = current_company
         self.env.user.company_ids -= new_company
 
+    def test_create_rfq_with_inaccessible_vendor(self):
+        """
+        Ensure an RFQ approval can be created when one of the product vendors
+        belongs to a company inaccessible to the current user.
+        """
+        vendors = accessible_vendor, inaccessible_vendor = self.env['res.partner'].create([
+            {'name': 'accessible vendor'},
+            {'name': 'inaccessible vendor'},
+        ])
+        self.product_mouse.seller_ids = [Command.create({
+            'partner_id': v.id,
+            'min_qty': 1,
+            'price': 5,
+        }) for v in vendors]
+        alt_company = self.env['res.company'].create({'name': 'Alternative Company'})
+        inaccessible_vendor.company_id = alt_company
+
+        request_form = self.create_request_form(approver=self.user_approver)
+        with request_form.product_line_ids.new() as line:
+            line.product_id = self.product_mouse
+            line.quantity = 1
+            line.seller_id = self.product_mouse.seller_ids.filtered(lambda s: s.partner_id == accessible_vendor)
+        request = request_form.save()
+
+        self.assertEqual(
+            request.product_line_ids.seller_id.partner_id,
+            accessible_vendor,
+        )
+
     def test_purchase_06_prevent_multiple_create_purchase(self):
         """ Check that creating RFQs can't be performed more than once. """
         request_form = self.create_request_form(approver=self.user_approver)

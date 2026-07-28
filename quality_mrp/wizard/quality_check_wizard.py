@@ -17,5 +17,5 @@ class QualityCheckWizard(models.TransientModel):
             check.move_line_id = check.production_id.finished_move_line_ids.filtered(
                 lambda ml: ml.product_id == self.product_id
             )[:1]
-            check.lot_line_id = check.production_id.lot_producing_id
+            check.lot_line_id = check.production_id.lot_producing_ids[:1]
         return super().do_fail()

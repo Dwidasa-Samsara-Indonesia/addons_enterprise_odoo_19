@@ -2,7 +2,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import RedirectWarning
+from odoo.exceptions import RedirectWarning, UserError
 
 
 class L10n_HkEMpfContributionReportLine(models.Model):
@@ -210,6 +210,8 @@ class L10n_HkEMpfContributionReportLine(models.Model):
 
         if not self.errors:
             return  # The action shouldn't show in this case, but just in case
+        if not self.version_id:
+            raise UserError(self.env._("You must have an Employee or Payslip set on every line of the report."))
 
         error_messages = []
         error_checks = self.report_id._prepare_error_check_dict()

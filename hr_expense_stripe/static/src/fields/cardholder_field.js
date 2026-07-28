@@ -1,5 +1,5 @@
 import { registry } from "@web/core/registry";
-import { many2OneField, Many2OneField } from "@web/views/fields/many2one/many2one_field";
+import { buildM2OFieldDescription, Many2OneField } from "@web/views/fields/many2one/many2one_field";
 
 export class Many2OneCardholderField extends Many2OneField {
     static template = Many2OneField.template;
@@ -18,9 +18,6 @@ export class Many2OneCardholderField extends Many2OneField {
     }
 }
 
-export const many2OneCardholderField = {
-    ...many2OneField,
-    component: Many2OneCardholderField,
-};
+export const many2OneCardholderField = buildM2OFieldDescription(Many2OneCardholderField)
 
 registry.category("fields").add("many2one_cardholder", many2OneCardholderField);

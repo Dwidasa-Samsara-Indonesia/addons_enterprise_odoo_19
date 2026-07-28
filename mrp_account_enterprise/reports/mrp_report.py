@@ -266,8 +266,8 @@ class MrpReport(models.Model):
                 SELECT
                     mo.id AS mo_id,
                     mo.name,
-                    SUM(sm.quantity / uom.factor * uom_prod.factor) AS product_qty,
-                    SUM(sm.product_uom_qty / uom.factor * uom_prod.factor) AS qty_demanded
+                    SUM(sm.quantity * uom.factor / uom_prod.factor) AS product_qty,
+                    SUM(sm.product_uom_qty * uom.factor / uom_prod.factor) AS qty_demanded
                 FROM stock_move AS sm
                 JOIN mrp_production AS mo ON sm.production_id = mo.id
                 JOIN uom_uom AS uom ON uom.id = sm.product_uom

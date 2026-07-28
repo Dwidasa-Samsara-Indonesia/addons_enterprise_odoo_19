@@ -11,7 +11,10 @@ export class ChangeProductionQty extends Component {
         this.actionService = useService("action");
     }
 
-    openChangeQtyWizard() {
+    async openChangeQtyWizard() {
+        // Persist pending form edits (e.g. `qty_producing`) before opening the
+        // wizard, otherwise the `onClose` reload would discard them.
+        await this.props.record.save();
         this.actionService.doAction("mrp.action_change_production_qty", {
             additionalContext: {
                 default_product_qty: this.props.value,

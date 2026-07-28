@@ -320,6 +320,7 @@ class SocialAccount(models.Model):
         return {
             urn_to_id(image_urn): image_values['downloadUrl']
             for image_urn, image_values in response.json().get('results', {}).items()
+            if 'downloadUrl' in image_values
         } if response.ok else {}
 
     def _linkedin_upload_image(self, image_data):

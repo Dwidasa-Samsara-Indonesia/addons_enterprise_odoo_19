@@ -980,3 +980,16 @@ class TestDeferredManagement(AccountTestInvoicingCommon):
         })
         move.action_post()
         self.assertEqual(move.state, 'posted')
+
+    def test_deferred_move_lines_partner(self):
+        """ Test the partner is consistent in all lines of deferred moves """
+        invoice = self._create_invoice(
+            invoice_date='2026-04-15',
+            partner_id=self.partner_a,
+            partner_shipping_id=self.partner_b,
+            invoice_line_ids=[self._prepare_invoice_line(price_unit=1000, deferred_start_date='2026-03-01', deferred_end_date='2026-04-30')],
+        )
+        # The invoice view can be open with the `default_partner_id` context key, like in odoo.addons.sale.models.sale_order.SaleOrder.action_view_invoice
+        # Leading to inconsistencies between lines partner_id in the deferred moves
+        invoice.with_context(default_partner_id=self.partner_b).action_post()
+        self.assertEqual(invoice.deferred_move_ids.line_ids.mapped('partner_id'), self.partner_a)

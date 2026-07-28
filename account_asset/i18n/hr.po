@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
 "PO-Revision-Date: 2026-04-10 08:34+0000\n"
 "Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
@@ -503,8 +503,8 @@ msgstr "Imovina kreirana iz računa: %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
-msgstr "Imovina otpisana. %s"
+msgid "Asset disposed. %(message)s"
+msgstr ""
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
@@ -520,8 +520,14 @@ msgstr "Imovina pauzirana. %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
-msgstr "Imovina prodana. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr ""
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
+msgstr ""
 
 #. module: account_asset
 #. odoo-python
@@ -1586,8 +1592,8 @@ msgid ""
 "Only applicable for Declining Balance method (e.g., 2 for double declining). "
 "Ignored for Straight Line."
 msgstr ""
-"Primjenjivo samo za metodu degresivnog salda (npr. 2 za dvostruko degresivno)"
-". Zanemaruje se za linearnu metodu."
+"Primjenjivo samo za metodu degresivnog salda (npr. 2 za dvostruko "
+"degresivno). Zanemaruje se za linearnu metodu."
 
 #. module: account_asset
 #. odoo-python
@@ -1929,15 +1935,16 @@ msgid ""
 "(e.g., MISC - Miscellaneous Operations, INV - Customer Invoices, BILL - "
 "Vendor Bills)."
 msgstr ""
-"Kod ili naziv povezanog dnevnika u Odoo za knjiženja amortizacije (npr. "
-"MISC - razne operacije, INV - izlazni računi, BILL - računi dobavljača)."
+"Kod ili naziv povezanog dnevnika u Odoo za knjiženja amortizacije (npr. MISC "
+"- razne operacije, INV - izlazni računi, BILL - računi dobavljača)."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__invoice_ids
 msgid ""
 "The disposal invoice is needed in order to generate the closing journal "
 "entry."
-msgstr "Račun otuđenja potreban je za generiranje završnog knjiženja u dnevnik."
+msgstr ""
+"Račun otuđenja potreban je za generiranje završnog knjiženja u dnevnik."
 
 #. module: account_asset
 #. odoo-python
@@ -2414,6 +2421,12 @@ msgstr "salvage_value"
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "sell"
 msgstr "prodaj"
+
+#~ msgid "Asset disposed. %s"
+#~ msgstr "Imovina otpisana. %s"
+
+#~ msgid "Asset sold. %s"
+#~ msgstr "Imovina prodana. %s"
 
 #~ msgid " (%s of %s)"
 #~ msgstr " (%s od %s)"

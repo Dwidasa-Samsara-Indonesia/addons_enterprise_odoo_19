@@ -23,6 +23,9 @@ Install this if you are using the Point of Sale app with restaurant in Germany.
         'web.assets_tests': [
             'l10n_de_pos_res_cert/static/tests/tours/**/*',
         ],
+        'web.assets_unit_tests': [
+            'l10n_de_pos_res_cert/static/tests/unit/**/*',
+        ],
     },
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',

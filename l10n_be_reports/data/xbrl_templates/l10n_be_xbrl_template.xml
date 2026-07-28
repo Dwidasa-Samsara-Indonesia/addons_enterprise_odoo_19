@@ -4302,5 +4302,28 @@
                 </scenario>
             </context>
         </template>
+        <template id="xbrl_previous_period_balance_sheet_comp">
+            <context id="previous_period_reserves">
+                <entity><identifier scheme="http://www.fgov.be" t-out="company_registry" /></entity>
+                <period><instant t-out="date_to" /></period>
+                <scenario>
+                    <xbrldi:explicitMember dimension="dim:bas">bas:m43</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:ntr">ntr:m4</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:part">part:m3</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:prd">prd:m2</xbrldi:explicitMember>
+                </scenario>
+            </context>
+            <context id="previous_period_untaxed_reserves">
+                <entity><identifier scheme="http://www.fgov.be" t-out="company_registry" /></entity>
+                <period><instant t-out="date_to" /></period>
+                <scenario>
+                    <xbrldi:explicitMember dimension="dim:bas">bas:m43</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:ntr">ntr:m4</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:part">part:m3</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:prd">prd:m2</xbrldi:explicitMember>
+                    <xbrldi:explicitMember dimension="dim:sts">sts:m6</xbrldi:explicitMember>
+                </scenario>
+            </context>
+        </template>
     </data>
 </odoo>

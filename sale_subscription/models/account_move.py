@@ -111,8 +111,9 @@ class AccountMove(models.Model):
     def _reopen_paid_churned_subscription(self):
         # Re-open churned subscriptions after payment.
         sub_order = self.line_ids.subscription_id
+        close_reasons_ids = self.env['sale.order.close.reason']._get_reason_to_reopen()
         for order in sub_order:
             cutoff_date = fields.Date.today() - relativedelta(days=order.plan_id.auto_close_limit)
             # Prevent reopening churned subscriptions if cutoff_date is after next_invoice_date
-            if order.subscription_state == '6_churn' and order.next_invoice_date >= cutoff_date:
+            if order.subscription_state == '6_churn' and order.next_invoice_date >= cutoff_date and order.close_reason_id.id in close_reasons_ids:
                 order.set_open()

@@ -10,7 +10,7 @@ export class PrintActionMenu extends Component {
     static props = {};
 
     async print() {
-        window.print()
+        setTimeout(() => window.print(), 200);
     }
 }
 

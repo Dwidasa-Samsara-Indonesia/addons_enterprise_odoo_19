@@ -4,13 +4,14 @@
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# NEDŽAD BEUS <nedzad.beus@implex.si>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 18:44+0000\n"
-"PO-Revision-Date: 2025-11-17 03:42+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-03 17:42+0000\n"
+"PO-Revision-Date: 2026-06-24 09:32+0000\n"
+"Last-Translator: NEDŽAD BEUS <nedzad.beus@implex.si>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-19/"
 "pos_iot/sl/>\n"
 "Language: sl\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
@@ -29,39 +30,45 @@ msgstr "Sprejeti plačilo s plačilnim terminalom Six"
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "Accept payments with a Worldline payment terminal"
-msgstr ""
+msgstr "Sprejem plačil s plačilnim terminalom Worldline"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "Accept payments with an Ingenico payment terminal"
-msgstr ""
+msgstr "Sprejem plačil s plačilnim terminalom Ingenico"
 
 #. module: pos_iot
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/components/popups/iot_box_disconnected_dialog/iot_box_disconnected_dialog.xml:0
 msgid "Access your"
-msgstr ""
+msgstr "Dostopajte do svojega"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_auto_config_pos_iot__pos_config_ids
 #: model:ir.model.fields,field_description:pos_iot.field_iot_box__associated_pos_config_ids
 #: model:ir.model.fields,field_description:pos_iot.field_iot_device__associated_pos_config_ids
 msgid "Associated PoS"
-msgstr ""
+msgstr "Povezane prodajne točke"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.view_auto_config_pos_iot
 msgid "Automated Setup"
-msgstr ""
+msgstr "Avtomatska nastavitev"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "Barcode Scanners/Card Readers"
-msgstr ""
+msgstr "Čitalniki črtne kode/Bralniki kartic"
 
 #. module: pos_iot
 #: model:ir.model.fields,help:pos_iot.field_pos_config__iface_print_via_proxy
 msgid "Bypass browser printing and prints via the hardware proxy."
+msgstr "Zaobidite tiskanje v brskalniku in tiskajte prek strojnega posrednika."
+
+#. module: pos_iot
+#. odoo-javascript
+#: code:addons/pos_iot/static/src/app/screens/scale_screen/scale_service.js:0
+msgid "Cannot weigh product – %(msg)s"
 msgstr ""
 
 #. module: pos_iot
@@ -100,18 +107,18 @@ msgstr "Uredi nastavitve"
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
 msgid "Configuration of payment terminal failed"
-msgstr ""
+msgstr "Konfiguracija plačilnega terminala ni uspela"
 
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_auto_config_pos_iot
 msgid "Configure Automatically IoT Box In PoS"
-msgstr ""
+msgstr "Samodejno nastavi IoT Box v prodajni točki"
 
 #. module: pos_iot
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/backend/add_iot_box_form_controller.js:0
 msgid "Connect to a Point of Sale"
-msgstr ""
+msgstr "Poveži s prodajno točko"
 
 #. module: pos_iot
 #. odoo-javascript
@@ -123,7 +130,7 @@ msgstr "Povezava z IoT Boxom ni uspela"
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
 msgid "Connection to terminal failed"
-msgstr ""
+msgstr "Povezava z terminalom ni uspela"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.view_auto_config_pos_iot
@@ -178,11 +185,13 @@ msgid ""
 "Enable barcode scanning with a remotely connected barcode scanner and card "
 "swiping with a Vantiv card reader."
 msgstr ""
+"Omogoči optično branje črtne kode z oddaljeno povezanim bralnikom črtne kode "
+"in pisanje kartic z bralnikom kartic Vantiv."
 
 #. module: pos_iot
 #: model:ir.model.fields,help:pos_iot.field_pos_config__iface_electronic_scale
 msgid "Enables Electronic Scale integration."
-msgstr ""
+msgstr "Omogoča integracijo elektronske tehtnice."
 
 #. module: pos_iot
 #. odoo-javascript
@@ -224,35 +233,35 @@ msgstr ""
 #: model:ir.model.fields,field_description:pos_iot.field_pos_config__iface_display_id
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__pos_iface_display_id
 msgid "Iface Display"
-msgstr ""
+msgstr "Vmesnik za zaslon"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_config__iface_printer_id
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__pos_iface_printer_id
 msgid "Iface Printer"
-msgstr ""
+msgstr "Vmesnik za tiskalnik"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_config__iface_scale_id
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__pos_iface_scale_id
 msgid "Iface Scale"
-msgstr ""
+msgstr "Vmesnik za tehtnico"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_config__iface_scanner_ids
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__pos_iface_scanner_ids
 msgid "Iface Scanner"
-msgstr ""
+msgstr "Vmesnik za skener"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "Ingenico (BENELUX)"
-msgstr ""
+msgstr "Ingenico (BENELUX)"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__module_pos_iot_ingenico
 msgid "Ingenico Payment Terminal"
-msgstr ""
+msgstr "Plačilni terminal Ingenico"
 
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_iot_box
@@ -263,7 +272,7 @@ msgstr "IoT Box"
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/components/navbar/navbar.xml:0
 msgid "IoT Box Connected"
-msgstr ""
+msgstr "IoT Box povezan"
 
 #. module: pos_iot
 #. odoo-javascript
@@ -275,7 +284,7 @@ msgstr "Domača stran IoT Škatle"
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/overrides/network_utils/iot_http_service.js:0
 msgid "IoT Box Warning"
-msgstr ""
+msgstr "Opozorilo IoT Box"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_printer__device_id
@@ -291,17 +300,17 @@ msgstr "Naprave interneta stvari"
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_auto_config_pos_iot__iot_box_id
 msgid "Iot Box"
-msgstr ""
+msgstr "IoT Box"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_auto_config_pos_iot__iot_box_identifier
 msgid "Iot Box Identifier"
-msgstr ""
+msgstr "Identifikator IoT Box-a"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_pos_config__iot_device_ids
 msgid "Iot Device"
-msgstr ""
+msgstr "IoT naprava"
 
 #. module: pos_iot
 #. odoo-javascript
@@ -313,6 +322,12 @@ msgid ""
 "network as the IoT Box.\n"
 "If the problem persists, consult the documentation or contact our support."
 msgstr ""
+"Zdi se, da vaša prodajna točka ne more vzpostaviti stika z IOT prek "
+"lokalnega omrežja. Prodajna točka bo preklopila na povezavo prek web "
+"socketa.\n"
+"Preverite, ali so vse vaše povezane naprave povezane v isto omrežje kot IoT "
+"Box.\n"
+"Če težava vztraja, poglejte dokumentacijo ali kontaktirajte našo podporo."
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_auto_config_pos_iot__write_uid
@@ -328,7 +343,7 @@ msgstr "Zadnjič posodobljeno"
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/components/popups/iot_box_disconnected_dialog/iot_box_disconnected_dialog.xml:0
 msgid "Network Error"
-msgstr ""
+msgstr "Omrežna napaka"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.view_auto_config_pos_iot
@@ -339,7 +354,7 @@ msgstr "Brez"
 #: model:ir.model.fields,field_description:pos_iot.field_pos_config__payment_terminal_device_ids
 #: model:ir.model.fields,field_description:pos_iot.field_pos_payment_method__iot_device_id
 msgid "Payment Terminal Device"
-msgstr ""
+msgstr "Naprava plačilnega terminala"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
@@ -356,7 +371,7 @@ msgstr "Preverite, ali je IoT Box še vedno povezan."
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/services/pos_store.js:0
 msgid "Please process or cancel the current transaction."
-msgstr ""
+msgstr "Prosimo, obdelajte ali prekličite trenutno transakcijo."
 
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_pos_config
@@ -371,7 +386,7 @@ msgstr ""
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_pos_printer
 msgid "Point of Sale Printer"
-msgstr ""
+msgstr "Tiskalnik POS"
 
 #. module: pos_iot
 #: model:ir.model,name:pos_iot.model_pos_session
@@ -398,7 +413,7 @@ msgstr "IP naslov Proxy strežnika"
 #. odoo-python
 #: code:addons/pos_iot/models/pos_printer.py:0
 msgid "Proxy IP cannot be empty."
-msgstr ""
+msgstr "Proxy IP ne sme biti prazen."
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.pos_iot_config_view_form
@@ -419,12 +434,12 @@ msgstr "Optični čitalnik"
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "Six"
-msgstr ""
+msgstr "Six"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__module_pos_iot_six
 msgid "Six Payment Terminal"
-msgstr ""
+msgstr "Plačilni terminal Six"
 
 #. module: pos_iot
 #: model:ir.model.fields,help:pos_iot.field_pos_printer__proxy_ip
@@ -438,6 +453,8 @@ msgid ""
 "The IoT Box cannot detect the payment terminal. Please check if the terminal "
 "is still connected."
 msgstr ""
+"IoT Box ne more zaznati plačilnega terminala. Prosimo, preverite, ali je "
+"terminal še vedno povezan."
 
 #. module: pos_iot
 #. odoo-javascript
@@ -458,6 +475,8 @@ msgid ""
 "The transactions are processed by Ingenico via an IoT box. Setup your "
 "terminal on the related payment method."
 msgstr ""
+"Transakcije obdeluje Ingenico prek IoT Box-a. Namestite terminal na povezano "
+"metodo plačila."
 
 #. module: pos_iot
 #: model:ir.model.fields,help:pos_iot.field_res_config_settings__module_pos_iot_six
@@ -466,6 +485,8 @@ msgid ""
 "The transactions are processed by Six via an IoT box. Setup your terminal on "
 "the related payment method."
 msgstr ""
+"Transakcije obdeluje Six prek IoT Box-a. Namestite terminal na povezano "
+"metodo plačila."
 
 #. module: pos_iot
 #: model:ir.model.fields,help:pos_iot.field_res_config_settings__module_pos_iot_worldline
@@ -474,28 +495,30 @@ msgid ""
 "The transactions are processed by Worldline via an IoT box. Setup your "
 "terminal on the related payment method."
 msgstr ""
+"Transakcije obdeluje Worldline prek IoT Box-a. Namestite terminal na "
+"povezano metodo plačila."
 
 #. module: pos_iot
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/services/pos_store.js:0
 msgid "Transaction in progress"
-msgstr ""
+msgstr "Transakcija v teku"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
 msgid "Worldline (BENELUX)"
-msgstr ""
+msgstr "Worldline (BENELUX)"
 
 #. module: pos_iot
 #: model:ir.model.fields,field_description:pos_iot.field_res_config_settings__module_pos_iot_worldline
 msgid "Worldline Payment Terminal"
-msgstr ""
+msgstr "Plačilni terminal Worldline"
 
 #. module: pos_iot
 #. odoo-javascript
 #: code:addons/pos_iot/static/src/app/utils/payment/payment_interface_iot.js:0
 msgid "You must select a payment terminal in your POS config."
-msgstr ""
+msgstr "V konfiguraciji prodajne točke morate izbrati plačilni terminal."
 
 #. module: pos_iot
 #. odoo-javascript
@@ -507,6 +530,11 @@ msgid ""
 "If you have just paired the IoT box, you may be experiencing a DNS issue.\n"
 "If you wait for some time the problem may resolve itself."
 msgstr ""
+"Vaš IoT Box je registriran, vendar vaš brskalnik ni mogel priti do nje.\n"
+"Poskrbite, da bo vklopljena in povezana v omrežje.\n"
+"\n"
+"Če ste pravkar povezali IoT Box, morda imate težave z DNS.\n"
+"Če počakate nekaj časa, se bo morda težava odpravila sama."
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.pos_iot_config_view_form

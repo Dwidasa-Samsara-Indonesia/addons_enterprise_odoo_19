@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:48+0000\n"
-"PO-Revision-Date: 2026-03-03 17:21+0000\n"
+"POT-Creation-Date: 2026-05-22 17:49+0000\n"
+"PO-Revision-Date: 2026-06-06 12:13+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "hr_contract_salary/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -51,6 +51,11 @@ msgstr "%s手動でオファーを拒否に設定"
 #: model:hr.contract.salary.personal.info,helper:hr_contract_salary.hr_contract_salary_personal_info_name
 msgid "(Lastname Firstname)"
 msgstr "(氏名)"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ". Signing this offer will archive it."
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form
@@ -222,6 +227,13 @@ msgid "<span class=\"text-muted mr4 ml4\">|</span>"
 msgstr "<span class=\"text-muted mr4 ml4\">|</span>"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ""
+"<span class=\"text-muted\" invisible=\"contract_end_date or not "
+"is_contract_amendment\">No limit</span>"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span class=\"text-muted\">/ month</span>"
 msgstr "<span class=\"text-muted\">/ 月</span>"
@@ -268,9 +280,15 @@ msgid "<span>/ year</span>"
 msgstr "<span>/ 年</span>"
 
 #. module: hr_contract_salary
+#. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "A contract start date is required."
+msgstr ""
+
+#. module: hr_contract_salary
 #: model:ir.model.constraint,message:hr_contract_salary.constraint_hr_contract_salary_benefit_required_fold_res_field_id
 msgid "A folded field is required"
-msgstr "折畳済フィールドが必要です"
+msgstr "折りたたみフィールドが必要です"
 
 #. module: hr_contract_salary
 #. odoo-python
@@ -446,7 +464,7 @@ msgstr "応募者"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__applies_on
 msgid "Applies On"
-msgstr "以下に適用"
+msgstr "適用対象"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.salary_package_next_step_button
@@ -474,6 +492,11 @@ msgstr "本当にこのファイルを永久に削除しますか？"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__activity_responsible_id
 msgid "Assigned to"
 msgstr "担当者"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "At least one contract is scheduled to start on"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_attachment_count
@@ -1012,7 +1035,7 @@ msgstr "未署名ドキュメント"
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_benefit_view_form
 msgid "Doesn't impact net salary"
-msgstr "基本給には影響しません"
+msgstr "手取り額には影響しません"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form_readonly
@@ -1228,12 +1251,26 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesomeのアイコン 例. fa-tasks"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__contract_start_date
+msgid ""
+"For employees, The contract start date determines whether this offer creates "
+"a new contract or amends an existing one. If the selected start date falls "
+"within the period of an existing contract for the employee, it will be "
+"treated as an amendment rather than a new contract."
+msgstr ""
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_recruitment_report__fully_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_recruitment_report__offer_state__full_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_offer__state__full_signed
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.contract_recruitment_report_view_search
 msgid "Fully Signed"
 msgstr "署名完了"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__future_version_date
+msgid "Future Version Date"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_applicant_view_form
@@ -1442,6 +1479,11 @@ msgstr "情報"
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_personal_info__display_type__integer
 msgid "Integer"
 msgstr "整数"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__is_contract_amendment
+msgid "Is Contract Amendment"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_is_follower
@@ -2187,7 +2229,7 @@ msgstr "契約をレビュー &amp; 署名"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_payroll_structure_type__salary_benefits_ids
@@ -2626,6 +2668,12 @@ msgstr "本契約の複製元となった契約"
 
 #. module: hr_contract_salary
 #. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "The contract start date cannot be after the contract end date."
+msgstr ""
+
+#. module: hr_contract_salary
+#. odoo-python
 #: code:addons/hr_contract_salary/models/hr_job.py:0
 msgid "The contract template's company must match the job's company."
 msgstr ""
@@ -2770,7 +2818,7 @@ msgstr "合計"
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "記録上の例外活動の種類。"
+msgstr "レコード上の例外の活動タイプ。"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__uom
@@ -2964,11 +3012,6 @@ msgstr "例: 食事券"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
 msgid "e.g. Offer 70k Employer Cost"
 msgstr "例：雇用主負担額 70,000円"
-
-#. module: hr_contract_salary
-#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
-msgid "e.g. Permanent, Replacement, Short term"
-msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action

@@ -1,6 +1,7 @@
 import { beforeEach, expect, getFixture, test } from "@odoo/hoot";
 import { animationFrame, keyDown, keyUp } from "@odoo/hoot-dom";
 import { contains, patchWithCleanup, toggleActionMenu } from "@web/../tests/web_test_helpers";
+import { Product } from "@spreadsheet/../tests/helpers/data";
 import { getCellValue } from "@spreadsheet/../tests/helpers/getters";
 import { waitForDataLoaded } from "@spreadsheet/helpers/model";
 import { SpreadsheetAction } from "@documents_spreadsheet/bundle/actions/spreadsheet_action";
@@ -57,6 +58,50 @@ test("Insert in spreadsheet is available on a kanban view", async function () {
     expect(getCellValue(model, "A3")).toBe(1);
     expect(getCellValue(model, "A4")).toBe(17);
     expect(getCellValue(model, "A5")).toBe(2);
+});
+
+test("property fields are not exported from kanban view", async function () {
+    const data = getBasicData();
+    const charProperty = { type: "char", name: "property_char", string: "Property char" };
+
+    const product = Product._records[0];
+    product.properties_definitions = [charProperty];
+    data.partner.records = [
+        {
+            id: 1,
+            product_id: product.id,
+            partner_properties: {
+                [charProperty.name]: "CHAR",
+            },
+        },
+    ];
+
+    await spawnKanbanViewForSpreadsheet({
+        serverData: {
+            models: data,
+            views: {
+                "partner,false,kanban": `
+                    <kanban>
+                        <templates>
+                            <t t-name="card">
+                                <field name="product_id"/>
+                                <field name="partner_properties"/>
+                            </t>
+                        </templates>
+                    </kanban>`,
+            },
+        },
+    });
+    await selectAllKanbanRecords();
+    await toggleActionMenu();
+    await contains(".o-dropdown--menu .o_menu_item:has(.oi-view-list)").click();
+    await contains(".modal button.btn-primary").click();
+    await animationFrame();
+
+    const model = getSpreadsheetActionModel(spreadsheetAction);
+    await waitForDataLoaded(model);
+
+    expect(model.getters.getListDefinition("1").columns).toEqual(["product_id"]);
 });
 
 test("Insert in spreadsheet is available on a kanban grouped by m2m field", async function () {

@@ -115,8 +115,8 @@ class FiskalyClient:
                 resp.raise_for_status()
                 _logger.info('Successfully responded %s %s', method, url)
                 return resp.json()
-            except requests.exceptions.RequestException:
-                raise ValidationError(_("Fiskaly API request failed, %s", resp.text))
+            except requests.exceptions.RequestException as error:
+                raise ValidationError(_("Fiskaly API request failed, %s", error))
         with session:
             yield request
 
@@ -131,10 +131,10 @@ class FiskalyClient:
             access_token = resp.json().get('access_token')
             # Update the company record with the new token
             if self.company:
-                self.company.l10n_at_fiskaly_access_token = access_token
+                self.company.sudo().l10n_at_fiskaly_access_token = access_token
             return access_token
-        except requests.exceptions.RequestException:
-            raise ValidationError(_("Fiskaly authentication failed: %s", resp.text))
+        except requests.exceptions.RequestException as error:
+            raise ValidationError(_("Fiskaly authentication failed: %s", error))
 
     def fon_auth(self, bearer_token, data):
         _is_valid, error = fon_schema(data)
@@ -184,6 +184,7 @@ class FiskalyClient:
         params = {
             "receipt_types[]": receipt_type,
             "offset": offset,
+            "order": "DESC",
             "limit": 1
         }
 

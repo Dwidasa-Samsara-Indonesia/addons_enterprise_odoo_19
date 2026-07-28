@@ -287,7 +287,7 @@ class AccountMove(models.Model):
                 'itemSeq':   index + 1,                                             # Line number
                 'itemCd':    product.l10n_ke_item_code,                             # Item code as defined by us, of the form KE2BFTNE0000000000000039
                 'itemClsCd': product.unspsc_code_id.code,                           # Item classification code, in this case the UNSPSC code
-                'itemNm':    line.name,                                             # Item name
+                'itemNm':    (line.name or '')[:200],                               # Item name
                 'pkgUnitCd': product.l10n_ke_packaging_unit_id.code,                # Packaging code, describes the type of package used
                 'pkg':       product_uom_qty / product.l10n_ke_packaging_quantity,  # Number of packages used
                 'qtyUnitCd': line.product_uom_id.l10n_ke_quantity_unit_id.code,     # The UOMs as defined by the KRA, defined seperately from the UOMs on the line

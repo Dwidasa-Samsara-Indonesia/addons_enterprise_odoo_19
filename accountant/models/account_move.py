@@ -10,4 +10,4 @@ class AccountMove(models.Model):
 
     def _is_user_able_to_review(self):
         # OVERRIDE of account
-        return self.env.user.has_group('account.group_account_user')
+        return self.env.context.get('skip_account_review_check') or self.env.user.has_group('account.group_account_user')

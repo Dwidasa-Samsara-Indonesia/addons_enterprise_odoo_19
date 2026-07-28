@@ -1,16 +1,24 @@
 import json
 
-from datetime import date
+from datetime import date, datetime, timedelta
 from freezegun import freeze_time
+from zoneinfo import ZoneInfo
 
 from odoo import Command, fields
-from odoo.tests import HttpCase
+from odoo.addons.payment.tests.http_common import PaymentHttpCommon
+from odoo.tests import JsonRpcException, tagged
+from odoo.tools import mute_logger
+from odoo.tools.date_utils import float_to_time
 
 
-class TestWebsiteSaleRentingPlanning(HttpCase):
+@tagged('post_install', '-at_install')
+class TestWebsiteSaleRentingPlanning(PaymentHttpCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.start_date = datetime.today() + timedelta(days=1)
+        cls.end_date = datetime.today() + timedelta(days=2)
+        cls.date_format = "%Y-%m-%d %H:%M:%S"
         cls.startClassPatcher(freeze_time("2024-06-15 10:00:00"))
         recurrence_day = cls.env['sale.temporal.recurrence'].create([
             {
@@ -18,15 +26,14 @@ class TestWebsiteSaleRentingPlanning(HttpCase):
                 'unit': 'day',
             },
         ])
-        cls.material_resource = cls.env['resource.resource'].create([
-            {'name': 'Material Resource', 'resource_type': 'material'},
-        ])
         cls.employee = cls.env['hr.employee'].create({
             'name': 'Employee',
             'contract_date_start': date.today(),
         })
         cls.planning_role = cls.env["planning.role"].create({
             'name': 'Role',
+            'sync_shift_rental': True,
+            'resource_ids': [cls.employee.resource_id.id],
         })
         cls.product_renting_planning = cls.env["product.product"].create({
             "name": "Product Renting Planning",
@@ -37,20 +44,38 @@ class TestWebsiteSaleRentingPlanning(HttpCase):
             'planning_enabled': True,
             'planning_role_id': cls.planning_role.id,
         })
-        cls.env['product.pricing'].create([
+        cls.product_pricing = cls.env['product.pricing'].create([
             {
                 'recurrence_id': recurrence_day.id,
                 'price': 100,
                 'product_template_id': cls.product_renting_planning.product_tmpl_id.id,
             },
         ])
-        cls.planning_role.sync_shift_rental = True
         cls.planning_partner = cls.env['res.partner'].create({
             'name': 'Customer Credee'
         })
+        cls.express_checkout_billing_values = {
+            'name': 'Demo User',
+            'email': 'demo@test.com',
+            'street': 'ooo',
+            'street2': 'ppp',
+            'city': 'ooo',
+            'zip': '1200',
+            'country': "US",
+        }
+        cls.company.renting_forbidden_sat = False
+        cls.company.renting_forbidden_sun = False
+
+        def _get_sale_order(cls, confirmed=False):
+            return cls.env['sale.order'].search([
+                ('order_line.product_id', '=', cls.product_renting_planning.id),
+                ('order_line.product_uom_qty', '=', 1),
+                ('state', '=', 'sale' if confirmed else 'draft'),
+                ('website_id', '!=', False),
+            ], order="id desc", limit=1)
+        cls._get_sale_order = _get_sale_order
 
     def test_renting_product_availabilities_with_off_resource(self):
-        self.planning_role.resource_ids = self.employee.resource_id
         min_date_str = '2024-06-17 10:00:00'
         max_date_str = '2024-06-23 10:00:00'
         min_date = fields.Datetime.to_datetime(min_date_str)
@@ -127,3 +152,122 @@ class TestWebsiteSaleRentingPlanning(HttpCase):
             {'start': '2024-06-23 00:00:00', 'end': '2024-06-23 10:00:00', 'quantity_available': 0},
         ]
         self.assertEqual(result['renting_availabilities'], renting_availabilities)
+
+    def test_payment_renting_product_available(self):
+        """
+        Scenario: Customer from ecommerce can book a stay offer when resources are available
+        """
+        payment_demo = self.env['ir.module.module']._get('payment_demo')
+        if payment_demo.state != 'installed':
+            self.skipTest("payment_demo module is not installed")
+        provider = self._prepare_provider('demo')
+        payment_method = self.env['payment.method'].search([('code', '=', 'demo')], limit=1)
+        self.employee.resource_id.calendar_id = False
+        self.product_pricing.recurrence_id.overnight = True
+        pickup_time = self.product_pricing.recurrence_id.pickup_time = 18
+        return_time = self.product_pricing.recurrence_id.return_time = 9
+        self.authenticate(None, None)
+        prev_so = self._get_sale_order()
+        response = self.make_jsonrpc_request("/shop/cart/add", {
+            'product_template_id': self.product_renting_planning.product_tmpl_id.id,
+            'product_id': self.product_renting_planning.id,
+            'quantity': 1,
+            'start_date': self.start_date.strftime(self.date_format),
+            'end_date': self.end_date.strftime(self.date_format),
+        })
+        self.assertEqual(response['tracking_info'][0]['item_id'], self.product_renting_planning.id, "No item found in shopping cart.")
+        sale_order = self._get_sale_order()
+        self.assertTrue(sale_order and (not prev_so or sale_order.id != prev_so.id), "No sale order was created from ecommerce.")
+        self.assertEqual(sale_order.order_line.product_id.id, self.product_renting_planning.id, "product doesn't exist in sale order.")
+        self.assertEqual(sale_order.state, 'draft', "The order should be in 'draft' state.")
+        self.make_jsonrpc_request("/shop/express_checkout", {
+            'billing_address': self.express_checkout_billing_values,
+        })
+        response = self.make_jsonrpc_request(
+            f"/shop/payment/transaction/{sale_order.id}",
+            {
+                'access_token': sale_order._portal_ensure_token(),
+                'flow': 'direct',
+                'landing_route': '/shop/payment/validate',
+                'payment_method_id': payment_method.id,
+                'provider_id': provider.id,
+                'token_id': None,
+                'tokenization_requested': False,
+            }
+        )
+        self.assertEqual(response['reference'], sale_order.name, "Purchase reference should be order name.")
+        self.make_jsonrpc_request(
+            "/payment/demo/simulate_payment",
+            {
+                'reference': response['reference'],
+                'simulated_state': 'done',
+            }
+        )
+        tx = self.env['payment.transaction'].search([('display_name', '=', sale_order.display_name)], order="id desc", limit=1)
+        self.assertTrue(tx, "No transaction was created from ecommerce")
+        self.assertIn(sale_order.id, tx.sale_order_ids.ids, "Sale order not in transaction.")
+        tx._post_process()
+        self.assertEqual(sale_order.state, 'sale', "The order should be in 'sale' state.")
+        planning_slot = sale_order.order_line.planning_slot_ids
+        self.assertTrue(planning_slot, "There should be planning slots assigned for this product rental.")
+        self.assertEqual(len(planning_slot), 1, "There should be exactly 1 slot allocated to the rental Period.")
+        website_tz = ZoneInfo(self.company.website_id.tz)
+        timezone_diff = timedelta(seconds=website_tz.utcoffset(self.start_date).total_seconds())
+        picking_time = datetime.combine(self.start_date, float_to_time(pickup_time)) - timezone_diff
+        return_time = datetime.combine(self.end_date, float_to_time(return_time)) - timezone_diff
+        self.assertEqual(planning_slot.start_datetime, picking_time, "The planning slot should begin at the same time as the picking time.")
+        self.assertEqual(planning_slot.end_datetime, return_time, "The planning slot should end at the same time as the return time.")
+
+    @mute_logger('odoo.http')
+    def test_payment_renting_product_unavailable(self):
+        """
+        Scenario: Customer from ecommerce can't book a stay offer when resources are not available
+        """
+        payment_demo = self.env['ir.module.module']._get('payment_demo')
+        if payment_demo.state != 'installed':
+            self.skipTest("payment_demo module is not installed")
+        provider = self._prepare_provider('demo')
+        payment_method = self.env['payment.method'].search([('code', '=', 'demo')], limit=1)
+        self.employee.resource_id.calendar_id = False
+        self.env['planning.slot'].create({
+            'resource_id': self.employee.resource_id.id,
+            'role_id': self.planning_role.id,
+            'start_datetime': self.start_date,
+            'end_datetime': self.end_date,
+        })
+        self.authenticate(None, None)
+        prev_so = self._get_sale_order()
+        response = self.make_jsonrpc_request("/shop/cart/add", {
+            'product_template_id': self.product_renting_planning.product_tmpl_id.id,
+            'product_id': self.product_renting_planning.id,
+            'quantity': 1,
+            'start_date': self.start_date.strftime(self.date_format),
+            'end_date': self.end_date.strftime(self.date_format),
+        })
+        self.assertEqual(response['tracking_info'][0]['item_id'], self.product_renting_planning.id, "No item found in shopping cart.")
+        sale_order = self._get_sale_order()
+        self.assertTrue(sale_order and (not prev_so or sale_order.id != prev_so.id), "No sale order was created from ecommerce.")
+        self.assertTrue(sale_order, "No sale order was created from ecommerce.")
+        self.assertEqual(sale_order.order_line.product_id.id, self.product_renting_planning.id, "product doesn't exist in sale order.")
+        self.assertEqual(sale_order.state, 'draft', "The order should be in 'draft' state.")
+        self.make_jsonrpc_request("/shop/express_checkout", {
+            'billing_address': self.express_checkout_billing_values,
+        })
+        self.assertTrue(self.payment_method, "No payment method.")
+        self.assertTrue(self.provider, "No provider.")
+        # The availability gate must reject the cart *before* a payment
+        # transaction can be created: the customer cannot pay for a rental whose
+        # planning resources are all booked for the requested period.
+        with self.assertRaises(JsonRpcException, msg='odoo.exceptions.ValidationError'):
+            self.make_jsonrpc_request(
+                f"/shop/payment/transaction/{sale_order.id}",
+                {
+                    'access_token': sale_order._portal_ensure_token(),
+                    'flow': 'direct',
+                    'landing_route': '/shop/payment/validate',
+                    'payment_method_id': payment_method.id,
+                    'provider_id': provider.id,
+                    'token_id': None,
+                    'tokenization_requested': False,
+                }
+            )

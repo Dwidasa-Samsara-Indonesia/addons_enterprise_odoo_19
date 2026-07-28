@@ -455,6 +455,75 @@ class TestCurrencyTable(TestAccountReportsCommon):
             options,
         )
 
+    def test_currency_table_cta_account_types(self):
+        # Scenario 1: stable domestic (USD) rate (implicit factor = 1 throughout)
+        # EUR rate=2 from Jan 1 to Jun 30 → 182 days at factor 1/2
+        # EUR rate=4 from Jul 1 to Dec 31 → 184 days at factor 1/4
+        # Current rate at 2020-12-31: 1/4
+        # Average rate: (1/2 * 182 + 1/4 * 184) / 366 = 137/366 ≈ 0.37432
+        self.setup_other_currency('EUR', rates=[('2020-01-01', 2), ('2020-07-01', 4)])
+
+        # Invoices: debit receivable (asset) + credit revenue (income)
+        self.init_invoice('out_invoice', company=self.company_eur_data['company'], invoice_date='2020-03-01', amounts=[120], post=True)
+        self.init_invoice('out_invoice', company=self.company_eur_data['company'], invoice_date='2020-10-01', amounts=[80], post=True)
+
+        # Equity moves: translated at the historical rate (the rate in effect on the transaction date)
+        self._generate_equity_move(self.company_eur_data, '2020-03-01', 40)  # EUR rate=2 → 40/2 = 20.00
+        self._generate_equity_move(self.company_eur_data, '2020-10-01', 60)  # EUR rate=4 → 60/4 = 15.00
+
+        self.report.currency_translation = 'cta'
+        options = self._generate_options(self.report, '2020-01-01', '2020-12-31')
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            [   0,                         1],
+            [
+                # Asset: current rate = 1/4
+                ("Asset",              50.00),  # (120 + 80) / 4
+                ("EUR Company 1",      50.00),
+                # Income: average rate = 137/366 ≈ 0.37432
+                ("Income",            -74.86),  # -(120 + 80) * 137/366
+                ("EUR Company 1",     -74.86),
+                # Equity: historical rate at transaction date
+                ("Equity",             35.00),  # 40/2 + 60/4 = 20 + 15
+                ("EUR Company 1",      35.00),
+            ],
+            options,
+        )
+
+        # Scenario 2: fluctuating domestic (USD) rate
+        # USD rate=1 from Jan 1 to Jun 30, USD rate=3 from Jul 1 to Dec 31
+        # EUR rates unchanged: 2 from Jan 1, 4 from Jul 1
+        #
+        # Conversion factors (= USD_rate / EUR_rate):
+        #   Jan 1 - Jun 30 (182 days): 1/2 = 0.50
+        #   Jul 1 - Dec 31 (184 days): 3/4 = 0.75
+        #
+        # Current rate at 2020-12-31:      3/4 = 0.75
+        # Average rate:            (0.50 * 182 + 0.75 * 184) / 366 = 229/366 ≈ 0.62568
+        #
+        # historical equity rates:
+        #   mar 1 (usd=1, eur=2): historical = 1/2 = 0.50;
+        #   oct 1 (usd=3, eur=4): historical = 3/4 = 0.75;
+        self.setup_other_currency('USD', rates=[('2020-01-01', 1), ('2020-07-01', 3)])
+
+        options = self._generate_options(self.report, '2020-01-01', '2020-12-31')
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            [   0,                         1],
+            [
+                # Asset: current rate = 3/4 = 0.75
+                ("Asset",             150.00),  # (120 + 80) * 3/4
+                ("EUR Company 1",     150.00),
+                # Income: correct average rate = 229/366 ≈ 0.62568
+                ("Income",           -125.14),  # -(120 + 80) * 229/366
+                ("EUR Company 1",    -125.14),
+                # Equity: correct historical rates per transaction date
+                ("Equity",             65.00),  # 40 * (1/2) + 60 * (3/4) = 20 + 45
+                ("EUR Company 1",      65.00),
+            ],
+            options,
+        )
+
     def test_currency_manual_line_expansion(self):
         self.setup_other_currency('EUR', rates=[('2020-01-01', 2)])
         self.init_invoice('out_invoice', company=self.company_eur_data['company'], invoice_date='2020-12-22', amounts=[42], post=True)

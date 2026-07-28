@@ -48,3 +48,21 @@ class ProductTemplate(models.Model):
                 "description": "Product %s created" % value['name'],
             }])
         return products
+
+    @api.model
+    def _load_pos_self_data_read(self, data, config):
+        read_records = super()._load_pos_self_data_read(data, config)
+
+        if config and config._uses_blackbox_v1():
+            work_products = config._get_work_products().filtered(
+                        lambda product: not product.sudo().company_id
+                                        or product.sudo().company_id == self.env.company)
+
+            work_products = work_products.product_tmpl_id.read(
+                self._load_pos_self_data_fields(config),
+                load=False,
+            )
+            self._process_pos_self_ui_products(work_products)
+            read_records.extend(work_products)
+
+        return read_records

@@ -577,8 +577,8 @@ L10N_EC_EDI_XML_IN_WTH = """
                     <codigo>1</codigo>
                     <codigoRetencion>312</codigoRetencion>
                     <baseImponible>400.00</baseImponible>
-                    <porcentajeRetener>1.75</porcentajeRetener>
-                    <valorRetenido>7.00</valorRetenido>
+                    <porcentajeRetener>2.00</porcentajeRetener>
+                    <valorRetenido>8.00</valorRetenido>
                 </retencion>
             </retenciones>
             <pagos>
@@ -717,8 +717,8 @@ L10N_EC_EDI_XPATH_INVOICE_IN = """
                 <codigo>1</codigo>
                 <codigoRetencion>312</codigoRetencion>
                 <baseImponible>400.00</baseImponible>
-                <porcentajeRetener>1.75</porcentajeRetener>
-                <valorRetenido>7.00</valorRetenido>
+                <porcentajeRetener>2.00</porcentajeRetener>
+                <valorRetenido>8.00</valorRetenido>
                 </retencion>
             </retenciones>
             <pagos>
@@ -750,8 +750,8 @@ L10N_EC_EDI_XPATH_INVOICE_IN = """
                 <codigo>1</codigo>
                 <codigoRetencion>312</codigoRetencion>
                 <baseImponible>500.00</baseImponible>
-                <porcentajeRetener>1.75</porcentajeRetener>
-                <valorRetenido>8.75</valorRetenido>
+                <porcentajeRetener>2.00</porcentajeRetener>
+                <valorRetenido>10.00</valorRetenido>
                 </retencion>
             </retenciones>
             <pagos>

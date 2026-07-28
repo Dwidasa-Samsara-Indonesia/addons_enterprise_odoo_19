@@ -20,13 +20,15 @@
 # fardin mardani, 2023
 # Hosein Nematolahi <hosein.ne88@gmail.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Heshmatkhah <maheshmatkhah.soft@gmail.com>, 2026.
+# Aliraza Habibitanha <alireza.habibitanha@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 13:39+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-05-15 17:40+0000\n"
+"PO-Revision-Date: 2026-07-18 17:42+0000\n"
+"Last-Translator: Aliraza Habibitanha <alireza.habibitanha@gmail.com>\n"
 "Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/"
 "sale_subscription/fa/>\n"
 "Language: fa\n"
@@ -34,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_subscription
 #. odoo-python
@@ -73,13 +75,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order_line.py:0
 msgid "%(start)s to %(next)s"
-msgstr ""
+msgstr "%(start)s الی %(next)s"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "%s Months"
-msgstr ""
+msgstr "%s ماه"
 
 #. module: sale_subscription
 #. odoo-python
@@ -139,7 +141,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.report_saleorder_document
 msgid "- Until"
-msgstr ""
+msgstr "- تا"
 
 #. module: sale_subscription
 #. odoo-python
@@ -176,7 +178,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:sale.subscription.plan,name:sale_subscription.subscription_plan_6_month
 msgid "6 Months"
-msgstr ""
+msgstr "6 ماه"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
@@ -366,7 +368,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-repeat\"/> To Renew"
-msgstr ""
+msgstr "<i class=\"fa fa-fw fa-repeat\"/> جهت تمدید"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -432,6 +434,8 @@ msgid ""
 "<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
 "check\"/> In Progress</span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
+"check\"/> در جریان</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
@@ -469,17 +473,17 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "<span class=\"text-muted\">Next Billing</span>"
-msgstr ""
+msgstr "<span class=\"text-muted\">صورتحساب بعدی</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.recurring_details
 msgid "<span class=\"text-start\">Non Recurring</span>:"
-msgstr ""
+msgstr "<span class=\"text-start\">غیردوره‌ای</span>:"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.recurring_details
 msgid "<span class=\"text-start\">Recurring</span>:"
-msgstr ""
+msgstr "<span class=\"text-start\">دوره ای</span>:"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -715,16 +719,17 @@ msgid ""
 "                        </t>\n"
 "                    </t>\n"
 "                    <t t-else=\"\">\n"
-"                        Your subscription <t t-out=\"ctx.get('code') or "
-"''\">CODE</t> is due for renewal but we haven’t received your payment yet. "
-"To keep your subscription active, please make your payment as soon as "
+"                        Your subscription <t t-out=\"object.client_order_ref "
+"or ''\">CODE</t> is due for renewal but we haven’t received your payment "
+"yet. To keep your subscription active, please make your payment as soon as "
 "possible.\n"
 "                    </t>\n"
 "                    <br/><br/>\n"
-"                    Your subscription <t t-out=\"ctx.get('code') or "
+"                    Your subscription <t t-out=\"object.client_order_ref or "
 "''\">CODE</t> is still valid but will be <strong>suspended</strong>\n"
-"                    on <t t-out=\"format_date(ctx.get('date_close')) or "
-"''\">05/05/2021</t><br/>\n"
+"                    on <t t-"
+"out=\"format_date(object._get_subscription_close_date()) or ''\">05/05/2021</"
+"t><br/>\n"
 "                    <div style=\"margin: 16px 0px; text-align: center;\">\n"
 "                        <a t-attf-href=\"{{ ctx.get('payment_link', "
 "object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; padding: "
@@ -982,7 +987,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log_report__recurring_yearly
 msgid "Annual Recurring Revenue"
-msgstr ""
+msgstr "درآمد تکرارشونده سالانه"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_template_view_search
@@ -1061,13 +1066,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid "Automatic payment failed. Email sent to customer. Error: %s"
-msgstr ""
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
-"Automatic payment failed. No country specified on payment_token's partner"
 msgstr ""
 
 #. module: sale_subscription
@@ -1206,7 +1204,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.actions.server,name:sale_subscription.model_sale_order_subscription_change_customer
 msgid "Change customer"
-msgstr ""
+msgstr "تغییر مشتری"
 
 #. module: sale_subscription
 #. odoo-python
@@ -1435,7 +1433,7 @@ msgstr "ایجاد یک محصول جدید"
 #: model_terms:ir.actions.act_window,help:sale_subscription.sale_subscription_action
 #: model_terms:ir.actions.act_window,help:sale_subscription.sale_subscription_action_filtered
 msgid "Create a new subscription"
-msgstr ""
+msgstr "یک اشتراک جدید ایجاد کنید"
 
 #. module: sale_subscription
 #: model_terms:ir.actions.act_window,help:sale_subscription.sale_subscription_template_action
@@ -1453,6 +1451,7 @@ msgid ""
 "Create subscriptions to manage recurring invoicing and payments from your "
 "customers."
 msgstr ""
+"برای مدیریت صورتحساب‌های دوره‌ای و پرداخت‌های مشتریان خود، اشتراک ایجاد کنید."
 
 #. module: sale_subscription
 #. odoo-javascript
@@ -1767,7 +1766,7 @@ msgstr "تاریخ انقضا:"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "Extend Until"
-msgstr ""
+msgstr "تمدید تا تاریخ"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_log_report_search
@@ -1844,7 +1843,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/sale_subscription/static/src/js/tours/sale_subscription.js:0
 msgid "Go ahead and create a new subscription"
-msgstr ""
+msgstr "ادامه دهید و یک اشتراک جدید ایجاد کنید"
 
 #. module: sale_subscription
 #. odoo-javascript
@@ -1880,7 +1879,7 @@ msgstr "آیا دارای پیام است"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__has_recurring_line
 msgid "Has Recurring Line"
-msgstr ""
+msgstr "دارای سطر تکرارشونده"
 
 #. module: sale_subscription
 #: model_terms:ir.actions.act_window,help:sale_subscription.sale_subscription_action_pending
@@ -2017,7 +2016,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
 msgid "Internal notes"
-msgstr ""
+msgstr "یادداشت‌های داخلی"
 
 #. module: sale_subscription
 #. odoo-python
@@ -2399,22 +2398,22 @@ msgstr "جدید"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_change_customer_wizard__partner_id
 msgid "New Customer"
-msgstr ""
+msgstr "مشتری جدید"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_change_customer_view_form
 msgid "New Customer Information"
-msgstr ""
+msgstr "اطلاعات مشتری جدید"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_change_customer_wizard__partner_shipping_id
 msgid "New Delivery Address"
-msgstr ""
+msgstr "نشانی جدید تحویل"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_change_customer_wizard__partner_invoice_id
 msgid "New Invoice Address"
-msgstr ""
+msgstr "نشانی جدید فاکتور"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log__recurring_monthly
@@ -2431,14 +2430,14 @@ msgstr "جدیدترین"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
 msgid "Next Billing Date"
-msgstr ""
+msgstr "صورتحساب بعدی"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__next_invoice_date
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_line__next_invoice_date
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_tree
 msgid "Next Invoice"
-msgstr ""
+msgstr "فاکتور بعدی"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__next_invoice_date
@@ -2488,13 +2487,13 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_tree
 msgid "Non Recurring"
-msgstr ""
+msgstr "غیرتکرارشونده"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_search
 #: model_terms:ir.ui.view,arch_db:sale_subscription.view_order_product_search_inherit
 msgid "Non-recurring"
-msgstr ""
+msgstr "غیرتکرارشونده"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_template_view_form
@@ -2509,7 +2508,7 @@ msgstr "فاکتور نشده"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.view_sales_order_filter_subscription
 msgid "Not Recurring"
-msgstr ""
+msgstr "غیرتکرارشونده"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__note_order
@@ -2659,7 +2658,7 @@ msgstr "مکث"
 #. module: sale_subscription
 #: model:ir.actions.server,name:sale_subscription.model_sale_order_subscription_pause_record
 msgid "Pause Subscription"
-msgstr ""
+msgstr "توقف اشتراک"
 
 #. module: sale_subscription
 #. odoo-python
@@ -2670,7 +2669,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Pause subscription"
-msgstr ""
+msgstr "توقف اشتراک"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
@@ -2695,12 +2694,12 @@ msgstr "پرداخت"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Pay Now"
-msgstr "اکنون بپرداز"
+msgstr "اکنون پرداخت کنید"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "Pay now"
-msgstr "اکنون بپرداز"
+msgstr "اکنون پرداخت کنید"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -2774,7 +2773,7 @@ msgstr "طرح"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "Plan:"
-msgstr ""
+msgstr "طرح :"
 
 #. module: sale_subscription
 #. odoo-python
@@ -2783,6 +2782,7 @@ msgid ""
 "Please add a recurring plan on the subscription or remove the recurring "
 "product."
 msgstr ""
+"لطفاً برای اشتراک یک طرح دوره‌ای تعیین کنید یا محصول دوره‌ای را حذف کنید."
 
 #. module: sale_subscription
 #. odoo-python
@@ -2790,7 +2790,7 @@ msgstr ""
 msgid ""
 "Please add a recurring product in the subscription or remove the recurring "
 "plan."
-msgstr ""
+msgstr "لطفاً یک محصول دوره‌ای به اشتراک اضافه کنید یا طرح دوره‌ای را حذف کنید."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -3044,7 +3044,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__recurring_details
 msgid "Recurring Details"
-msgstr ""
+msgstr "جزئیات تکرارشونده"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_product_pricelist_item__plan_id
@@ -3062,7 +3062,7 @@ msgstr "طرح تکرارشونده"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
 msgid "Recurring Plan:"
-msgstr ""
+msgstr "طرح تکرار شونده :"
 
 #. module: sale_subscription
 #: model:ir.actions.act_window,name:sale_subscription.sale_subscription_plan_action
@@ -3073,13 +3073,13 @@ msgstr "طرح های تکرارشونده"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.product_pricelist_view
 msgid "Recurring Prices"
-msgstr ""
+msgstr "قیمت‌های تکرارشونده"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_product_pricelist__subscription_item_ids
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__subscription_rule_ids
 msgid "Recurring Pricing"
-msgstr ""
+msgstr "قیمت‌گذاری تکرارشونده"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__recurring_total
@@ -3094,11 +3094,13 @@ msgid ""
 "Recurring period must be a positive number. Please ensure the input is a "
 "valid positive numeric value."
 msgstr ""
+"دوره تکرارشونده باید عددی مثبت باشد. لطفاً مطمئن شوید مقدار واردشده یک عدد "
+"مثبت معتبر است."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.product_template_only_view_form_recurring
 msgid "Recurring prices"
-msgstr ""
+msgstr "قیمت‌های تکرارشونده"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -3125,7 +3127,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_plan_search
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Renew"
-msgstr ""
+msgstr "تمدید"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__renewal_count
@@ -3198,7 +3200,7 @@ msgstr "ازسرگیری"
 #. module: sale_subscription
 #: model:mail.message.subtype,name:sale_subscription.subtype_resume_and_pause_subscription
 msgid "Resume and Pause Subscription"
-msgstr ""
+msgstr "ادامه و توقف اشتراک"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
@@ -3433,7 +3435,7 @@ msgstr "تاریخ آغاز"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_digest
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "Start Date:"
-msgstr ""
+msgstr "تاریخ شروع :"
 
 #. module: sale_subscription
 #: model:mail.message.subtype,name:sale_subscription.subtype_state_change
@@ -3470,7 +3472,7 @@ msgstr "ارسال"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_view_cohort
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_sale_order_line_list
 msgid "Subscription"
-msgstr "عضویت"
+msgstr "اشتراک"
 
 #. module: sale_subscription
 #. odoo-python
@@ -3509,7 +3511,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_sale_subscription_change_customer_wizard
 msgid "Subscription Change Customer Wizard"
-msgstr ""
+msgstr "ویزارد تغییر مشتری اشتراک"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__subscription_child_ids
@@ -3557,7 +3559,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Subscription Manager:"
-msgstr ""
+msgstr "مدیر اشتراک:"
 
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_sale_subscription_plan
@@ -3938,7 +3940,7 @@ msgstr ""
 msgid ""
 "This bar allows to filter the opportunities based on scheduled activities."
 msgstr ""
-"این نوار اجازه می دهد تا فرصت ها را بر اساس فعالیت های برنامه ریزی شده فیلتر "
+"این نوار اجازه می‌دهد تا فرصت‌ها را بر اساس فعالیت‌های برنامه‌ریزی شده فیلتر "
 "کنید."
 
 #. module: sale_subscription
@@ -3969,6 +3971,8 @@ msgid ""
 "This subscription is overdue and exceeds the auto-close limit of the "
 "recurring plan. It will be closed soon by the system."
 msgstr ""
+"این اشتراک سررسید گذشته است و از مهلت بستن خودکارِ طرح تکرارشونده عبور کرده "
+"است. سیستم به‌زودی آن را می‌بندد."
 
 #. module: sale_subscription
 #. odoo-python
@@ -4115,7 +4119,7 @@ msgstr "تا"
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_subscription_report__subscription_state__7_upsell
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
 msgid "Upsell"
-msgstr ""
+msgstr "فروش افزایشی"
 
 #. module: sale_subscription
 #. odoo-python
@@ -4297,6 +4301,14 @@ msgstr ""
 #: code:addons/sale_subscription/models/product_template.py:0
 msgid ""
 "You can not change the recurring property of this product because it has "
+"been sold already (%s)"
+msgstr ""
+
+#. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/product_template.py:0
+msgid ""
+"You can not change the recurring property of this product because it has "
 "been sold already."
 msgstr ""
 
@@ -4446,7 +4458,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
 msgid "You don't have any subscriptions yet."
-msgstr ""
+msgstr "شما هنوز هیچ اشتراکی ندارید."
 
 #. module: sale_subscription
 #: model_terms:ir.actions.act_window,help:sale_subscription.product_action_subscription
@@ -4461,7 +4473,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "Your Subscription"
-msgstr ""
+msgstr "اشتراک شما"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.payment_method_form
@@ -4486,12 +4498,12 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
 msgid "Your subscription is paused until"
-msgstr ""
+msgstr "اشتراک شما تا تاریخ زیر متوقف شده است"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_portal_templates_warnings
 msgid "Your subscription will be closed on the"
-msgstr ""
+msgstr "اشتراک شما در تاریخ زیر متوقف میشود"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
@@ -4555,7 +4567,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per %d months"
-msgstr ""
+msgstr "در %d ماه"
 
 #. module: sale_subscription
 #. odoo-python
@@ -4573,7 +4585,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per month"
-msgstr ""
+msgstr "در ماه"
 
 #. module: sale_subscription
 #. odoo-python

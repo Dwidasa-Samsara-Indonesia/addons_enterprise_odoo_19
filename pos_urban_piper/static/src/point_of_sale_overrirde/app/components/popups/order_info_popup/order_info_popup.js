@@ -29,6 +29,7 @@ export class orderInfoPopup extends Component {
             simpl: _t("Simpl (Deferred Payment)"),
             aggregator: _t("Aggregator (Handled by Platform)"),
         };
+        const partner = this.props.order?.partner_id;
         this.cardsData = [
             {
                 title: _t("Delivery Person"),
@@ -103,30 +104,35 @@ export class orderInfoPopup extends Component {
                         : []),
                 ],
             },
-            {
-                title: _t("Customer Info"),
-                icon: "fa-user",
-                visible: true,
-                fields: [
-                    { label: _t("Customer Name"), value: this.props.order.partner_id.name },
-                    {
-                        label: _t("Delivery Address"),
-                        value: `${this.props.order.partner_id.street || ""} ${
-                            this.props.order.partner_id.city || ""
-                        }`.trim(),
-                    },
-                    {
-                        label: _t("Customer Phone"),
-                        value: this.props.order.partner_id.phone,
-                        link: `tel:${this.props.order.partner_id.phone}`,
-                    },
-                    {
-                        label: _t("Customer Email"),
-                        value: this.props.order.partner_id.email,
-                        link: `mailto:${this.props.order.partner_id.email}`,
-                    },
-                ],
-            },
+            ...(partner
+                ? [
+                      {
+                          title: _t("Customer Info"),
+                          icon: "fa-user",
+                          visible: true,
+                          fields: [
+                              {
+                                  label: _t("Customer Name"),
+                                  value: partner.name,
+                              },
+                              {
+                                  label: _t("Delivery Address"),
+                                  value: `${partner.street || ""} ${partner.city || ""}`.trim(),
+                              },
+                              {
+                                  label: _t("Customer Phone"),
+                                  value: partner.phone,
+                                  link: `tel:${partner.phone}`,
+                              },
+                              {
+                                  label: _t("Customer Email"),
+                                  value: partner.email,
+                                  link: `mailto:${partner.email}`,
+                              },
+                          ],
+                      },
+                  ]
+                : []),
         ];
     }
 

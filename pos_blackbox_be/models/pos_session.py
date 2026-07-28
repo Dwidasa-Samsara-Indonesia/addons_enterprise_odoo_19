@@ -41,7 +41,7 @@ class PosSession(models.Model):
 
     def _load_pos_data_read(self, records, config):
         read_records = super()._load_pos_data_read(records, config)
-        if read_records and config.certified_blackbox_identifier:
+        if read_records and config._uses_blackbox_v1():
             record = read_records[0]
             session = self if self.exists() else self.env["pos.session"].browse(record["id"]).exists()
             record["_users_clocked_ids"] = session.users_clocked_ids.ids if session else []

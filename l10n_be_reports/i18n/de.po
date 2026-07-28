@@ -7,14 +7,14 @@
 # Friederike Fasterling-Nesselbosch, 2023
 # Martin Trigaux, 2023
 # Larissa Manderfeld, 2023
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.5a1+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 19:14+0000\n"
-"PO-Revision-Date: 2026-04-01 07:29+0000\n"
+"POT-Creation-Date: 2026-06-05 19:51+0000\n"
+"PO-Revision-Date: 2026-06-20 09:50+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_be_reports/de/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_be_reports
 #. odoo-python
@@ -3257,6 +3257,14 @@ msgstr "Region des Unternehmens (für Export des Jahresberichts)"
 
 #. module: l10n_be_reports
 #. odoo-python
+#: code:addons/l10n_be_reports/models/annual_statement_custom_handler.py:0
+msgid "The report used for XBRL export should have a 'balance' column."
+msgstr ""
+"Der für den XBRL-Export verwendete Bericht muss eine Spalte „Saldo“ "
+"enthalten."
+
+#. module: l10n_be_reports
+#. odoo-python
 #: code:addons/l10n_be_reports/wizard/vat_return_lock_wizard.py:0
 msgid "The sum of the prorata uses must be 100%"
 msgstr "Die Summe der Propara muss 100 % ergeben"
@@ -3725,6 +3733,9 @@ msgid "bas:m18"
 msgstr "bas:m18"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_common
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_full
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_full
@@ -3848,6 +3859,7 @@ msgstr "bas:m42"
 #. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_cap
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_comp
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_previous_period_balance_sheet_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_common
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_comp_full
@@ -3894,6 +3906,7 @@ msgid "bas:m5"
 msgstr "bas:m5"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_payable_more_than_one_year
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_abbr
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_common
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_full
@@ -3979,6 +3992,11 @@ msgid "bas:m7"
 msgstr "bas:m7"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+msgid "bas:m70"
+msgstr "bas:m70"
+
+#. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_social_balance_sheet
 msgid "bas:m73"
 msgstr "bas:m73"
@@ -3995,15 +4013,35 @@ msgid "bas:m9"
 msgstr "bas:m9"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_common
 msgid "bkd:m1"
 msgstr "bkd:m1"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_common
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_full
 msgid "bkd:m2"
 msgstr "bkd:m2"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
+msgid "bkd:m4"
+msgstr "bkd:m4"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
+msgid "bkd:m5"
+msgstr "bkd:m5"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+msgid "bkd:m6"
+msgstr "bkd:m6"
 
 #. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_comp
@@ -4276,6 +4314,11 @@ msgid "mdp:m5"
 msgstr "mdp:m5"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
+msgid "mdp:m6"
+msgstr "mdp:m6"
+
+#. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_company_info
 msgid "mmt:m1"
 msgstr "mmt:m1"
@@ -4287,6 +4330,7 @@ msgid "mmt:m2"
 msgstr "mmt:m2"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_common
 msgid "ntr:m1"
 msgstr "ntr:m1"
@@ -4299,6 +4343,8 @@ msgid "ntr:m17"
 msgstr "ntr:m17"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_common
 msgid "ntr:m2"
 msgstr "ntr:m2"
@@ -4320,6 +4366,7 @@ msgstr "ntr:m3"
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_comp_full
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_con
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_previous_period_balance_sheet_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_common
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_comp_full
@@ -4370,6 +4417,7 @@ msgstr "part:m2"
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_con
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_full
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_previous_period_balance_sheet_comp
 msgid "part:m3"
 msgstr "part:m3"
 
@@ -4389,6 +4437,14 @@ msgstr "part:m4"
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_comp_full
 msgid "part:m5"
 msgstr "part:m5"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_payable_more_than_one_year
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
+msgid "part:m6"
+msgstr "part:m6"
 
 #. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_social_balance_sheet
@@ -4421,6 +4477,10 @@ msgid "pfc:m4"
 msgstr "pfc:m4"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_depreciation_on_formation_expense_intangible_tangible_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_payable_more_than_one_year
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_tangible_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_abbr
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_asso
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_cap
@@ -4444,6 +4504,12 @@ msgid "prd:m1"
 msgstr "prd:m1"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_previous_period_balance_sheet_comp
+msgid "prd:m2"
+msgstr "prd:m2"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_full
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_company_info
 msgid "psn:m1"
@@ -4469,6 +4535,7 @@ msgid "qlt:m3"
 msgstr "qlt:m3"
 
 #. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_financial_assets
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_full
 msgid "rls:m1"
 msgstr "rls:m1"
@@ -4515,6 +4582,16 @@ msgstr "rst:m2"
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_common
 msgid "rst:m3"
 msgstr "rst:m3"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_payable_more_than_one_year
+msgid "rst:m7"
+msgstr "rst:m7"
+
+#. module: l10n_be_reports
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.exp_disclosure_payable_more_than_one_year
+msgid "rst:m8"
+msgstr "rst:m8"
 
 #. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_comp
@@ -4702,6 +4779,7 @@ msgstr "sts:m5"
 
 #. module: l10n_be_reports
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_balance_sheet_comp
+#: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_previous_period_balance_sheet_comp
 #: model_terms:ir.ui.view,arch_db:l10n_be_reports.xbrl_profit_and_loss_common
 msgid "sts:m6"
 msgstr "sts:m6"

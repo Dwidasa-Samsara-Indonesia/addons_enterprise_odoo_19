@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:47+0000\n"
-"PO-Revision-Date: 2026-03-17 22:06+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-06-06 14:50+0000\n"
 "Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "account_sepa_direct_debit/sk/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
 ">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.report,print_report_name:account_sepa_direct_debit.sdd_mandate_form_report_main
@@ -1330,6 +1330,12 @@ msgid "Mandate Form PDF"
 msgstr "Formulár mandátu PDF"
 
 #. module: account_sepa_direct_debit
+#. odoo-python
+#: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
+msgid "Mandate customer and bank account need to match."
+msgstr ""
+
+#. module: account_sepa_direct_debit
 #: model:ir.actions.report,name:account_sepa_direct_debit.sdd_mandate_form_report_main
 msgid "Mandate form"
 msgstr "Formulár mandátu"
@@ -1635,7 +1641,7 @@ msgstr "Príjemcovia"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__render_model
 msgid "Rendering Model"
-msgstr ""
+msgstr "Renderovací model"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_batch_payment__sdd_required_collection_date

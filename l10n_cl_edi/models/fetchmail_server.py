@@ -213,19 +213,22 @@ class FetchmailServer(models.Model):
         attachment = self.env['ir.attachment'].create({'name': file_data['name'], 'raw': file_data['raw']})
 
         # This will separate each DTE into a new attachment, and create a move for each DTE and call the decoder.
-        Move = self.env['account.move'].with_context(
-            default_invoice_source_email=from_address,
-            default_move_type='in_invoice',
-            default_company_id=company_id,
-            default_journal_id=self.env['account.journal'].search(
-                [
-                    *self.env['account.journal']._check_company_domain(company_id),
-                    ('type', '=', 'purchase'),
-                    ('l10n_latam_use_documents', '=', True),
-                ],
-                limit=1,
-            ),
+        move_context = {
+            'default_invoice_source_email': from_address,
+            'default_move_type': 'in_invoice',
+            'default_company_id': company_id,
+        }
+        default_latam_journal = self.env['account.journal'].search(
+            [
+                *self.env['account.journal']._check_company_domain(company_id),
+                ('type', '=', 'purchase'),
+                ('l10n_latam_use_documents', '=', True),
+            ],
+            limit=1,
         )
+        if default_latam_journal:
+            move_context['default_journal_id'] = default_latam_journal.id
+        Move = self.env['account.move'].with_context(**move_context)
 
         files_data = Move._to_files_data(attachment)
         files_data.extend(Move._unwrap_attachments(files_data))

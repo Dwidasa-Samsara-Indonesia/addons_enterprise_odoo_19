@@ -328,7 +328,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="601.74" NumCta="601.74" Desc="Commissions on sales" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.83" NumCta="601.83" Desc="Non-deductible expenses (without fiscal requirements)" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.84" NumCta="601.84" Desc="Other overheads" Nivel="2" Natur="D"/>
-            <catalogocuentas:Ctas CodAgrup="602" NumCta="602" Desc="Cost of sales" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602" NumCta="602" Desc="Selling expenses" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="602.61" NumCta="602.61" Desc="Propaganda and advertising" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="602.72" NumCta="602.72" Desc="Freight and haulage" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="613" NumCta="613" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
@@ -339,7 +339,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="613.16" NumCta="613.16" Desc="Depreciation of machinery and equipment for the generation of energy from renewable sources or efficient cogeneration systems" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="613.17" NumCta="613.17" Desc="Depreciation of adaptations and improvements" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="613.18" NumCta="613.18" Desc="Depreciation of other machinery and equipment" Nivel="2" Natur="D"/>
-            <catalogocuentas:Ctas CodAgrup="614" NumCta="614" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614" NumCta="614" Desc="Accounting amortisation" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="614.01" NumCta="614.01" Desc="Amortisation of deferred expenses" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="614.07" NumCta="614.07" Desc="Amortisation of trademarks and patents" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="701" NumCta="701" Desc="Financial expenses" Nivel="1" Natur="D"/>
@@ -529,7 +529,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="601.74" NumCta="601.74" Desc="Commissions on sales" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.83" NumCta="601.83" Desc="Non-deductible expenses (without fiscal requirements)" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="601.84" NumCta="601.84" Desc="Other overheads" Nivel="2" Natur="D"/>
-            <catalogocuentas:Ctas CodAgrup="602" NumCta="602" Desc="Cost of sales" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="602" NumCta="602" Desc="Selling expenses" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="602.61" NumCta="602.61" Desc="Propaganda and advertising" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="602.72" NumCta="602.72" Desc="Freight and haulage" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="613" NumCta="613" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
@@ -540,7 +540,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
             <catalogocuentas:Ctas CodAgrup="613.16" NumCta="613.16" Desc="Depreciation of machinery and equipment for the generation of energy from renewable sources or efficient cogeneration systems" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="613.17" NumCta="613.17" Desc="Depreciation of adaptations and improvements" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="613.18" NumCta="613.18" Desc="Depreciation of other machinery and equipment" Nivel="2" Natur="D"/>
-            <catalogocuentas:Ctas CodAgrup="614" NumCta="614" Desc="Accounting depreciation" Nivel="1" Natur="D"/>
+            <catalogocuentas:Ctas CodAgrup="614" NumCta="614" Desc="Accounting amortisation" Nivel="1" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="614.01" NumCta="614.01" Desc="Amortisation of deferred expenses" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="614.07" NumCta="614.07" Desc="Amortisation of trademarks and patents" Nivel="2" Natur="D"/>
             <catalogocuentas:Ctas CodAgrup="701" NumCta="701" Desc="Financial expenses" Nivel="1" Natur="D"/>
@@ -579,22 +579,22 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
         every account present in the trial balance (except unaffected
         earnings account) is present in the xml.
 
+        NumCta corresponds to Account Group code
         SaldoIni corresponds to Initial Balance
-        SaldoFin corresponds to End Balance
         Debe corresponds to Debit in the current period
         Haber corresponds to Credit in the current period
-        NumCta corresponds to Account Group code
+        SaldoFin corresponds to End Balance
         """
         expected_sat_xml = b"""<?xml version='1.0' encoding='utf-8'?>
         <BCE:Balanza xmlns:BCE="http://www.sat.gob.mx/esquemas/ContabilidadE/1_3/BalanzaComprobacion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/esquemas/ContabilidadE/1_3/BalanzaComprobacion http://www.sat.gob.mx/esquemas/ContabilidadE/1_3/BalanzaComprobacion/BalanzaComprobacion_1_3.xsd" Version="1.3" RFC="EKU9003173C9" Mes="01" Anio="2021" TipoEnvio="N" Sello="___ignore___" Certificado="___ignore___" noCertificado="___ignore___">
-            <BCE:Ctas Debe="75.00" NumCta="201" Haber="0.00" SaldoFin="-1075.00" SaldoIni="-1000.00"/>
-            <BCE:Ctas Debe="75.00" NumCta="201.01" Haber="0.00" SaldoFin="-1075.00" SaldoIni="-1000.00"/>
-            <BCE:Ctas Debe="450.00" NumCta="205" Haber="450.00" SaldoFin="0.00" SaldoIni="0.00"/>
-            <BCE:Ctas Debe="450.00" NumCta="205.06" Haber="450.00" SaldoFin="0.00" SaldoIni="0.00"/>
-            <BCE:Ctas Debe="0.00" NumCta="401" Haber="325.00" SaldoFin="325.00" SaldoIni="0.00"/>
-            <BCE:Ctas Debe="0.00" NumCta="401.01" Haber="325.00" SaldoFin="325.00" SaldoIni="0.00"/>
-            <BCE:Ctas Debe="250.00" NumCta="601" Haber="0.00" SaldoFin="250.00" SaldoIni="0.00"/>
-            <BCE:Ctas Debe="250.00" NumCta="601.84" Haber="0.00" SaldoFin="250.00" SaldoIni="0.00"/>
+            <BCE:Ctas NumCta="201" SaldoIni="-1000.00" Debe="75.00" Haber="0.00" SaldoFin="-1075.00"/>
+            <BCE:Ctas NumCta="201.01" SaldoIni="-1000.00" Debe="75.00" Haber="0.00" SaldoFin="-1075.00"/>
+            <BCE:Ctas NumCta="205" SaldoIni="0.00" Debe="450.00" Haber="450.00" SaldoFin="0.00"/>
+            <BCE:Ctas NumCta="205.06" SaldoIni="0.00" Debe="450.00" Haber="450.00" SaldoFin="0.00"/>
+            <BCE:Ctas NumCta="401" SaldoIni="0.00" Debe="0.00" Haber="325.00" SaldoFin="325.00"/>
+            <BCE:Ctas NumCta="401.01" SaldoIni="0.00" Debe="0.00" Haber="325.00" SaldoFin="325.00"/>
+            <BCE:Ctas NumCta="601" SaldoIni="0.00" Debe="250.00" Haber="0.00" SaldoFin="250.00"/>
+            <BCE:Ctas NumCta="601.84" SaldoIni="0.00" Debe="250.00" Haber="0.00" SaldoFin="250.00"/>
         </BCE:Balanza>
         """
 
@@ -637,7 +637,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
                 ('205.06.03 Dotted name C.V.',                                   0.0,     400.0,    50.0,     350.0),
                 ('401.01.01 Sales and/or services taxed at the general rate',    0.0,       0.0,   325.0,    -325.0),
                 ('601.84.01 Other overheads',                                    0.0,     250.0,     0.0,     250.0),
-                ('Undistributed Profits/Losses - ESCUELA KEMPER URGATE',    -1000.00,      0.00,    0.00,  -1000.00),
+                ('Result Brought Forward - ESCUELA KEMPER URGATE',          -1000.00,      0.00,    0.00,  -1000.00),
                 ('Total',                                                        0.0,     775.0,   775.0,       0.0),
             ],
             options,
@@ -666,7 +666,7 @@ class TestL10nMXTrialBalanceReport(TestL10nMXTrialBalanceReportCommon):
                 ('601 Overheads',                                                0.0,     250.0,     0.0,     250.0),
                 ('601.84 Other overheads',                                       0.0,     250.0,     0.0,     250.0),
                 ('601.84.01 Other overheads',                                    0.0,     250.0,     0.0,     250.0),
-                ('Undistributed Profits/Losses - ESCUELA KEMPER URGATE',    -1000.00,      0.00,    0.00,  -1000.00),
+                ('Result Brought Forward - ESCUELA KEMPER URGATE',          -1000.00,      0.00,    0.00,  -1000.00),
                 ('Total',                                                        0.0,     775.0,   775.0,       0.0),
             ],
             options,

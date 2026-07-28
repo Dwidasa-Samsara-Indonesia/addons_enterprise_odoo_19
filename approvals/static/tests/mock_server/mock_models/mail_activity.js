@@ -15,7 +15,11 @@ export class MailActivity extends mailModels.MailActivity {
             ]);
             if (approver_id) {
                 store._add_record_fields(this.browse(activity.id), {
-                    approver_id: { id: approver_id.id, status: approver_id.status },
+                    approver_id: {
+                        id: approver_id.id,
+                        status: approver_id.status,
+                        user_id: approver_id.user_id,
+                    },
                 });
             }
         }

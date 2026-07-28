@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 18:44+0000\n"
-"PO-Revision-Date: 2026-04-06 19:28+0000\n"
+"POT-Creation-Date: 2026-07-03 17:42+0000\n"
+"PO-Revision-Date: 2026-07-13 13:09+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/pos_iot/"
 "ru/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.res_config_view_form_inherit_pos_iot
@@ -66,6 +66,12 @@ msgstr "Сканеры штрих-кода/считыватели карт"
 #: model:ir.model.fields,help:pos_iot.field_pos_config__iface_print_via_proxy
 msgid "Bypass browser printing and prints via the hardware proxy."
 msgstr "Обход печати через браузер и печать через аппаратный прокси-сервер."
+
+#. module: pos_iot
+#. odoo-javascript
+#: code:addons/pos_iot/static/src/app/screens/scale_screen/scale_service.js:0
+msgid "Cannot weigh product – %(msg)s"
+msgstr "Не удалось взвесить товар – %(msg)s"
 
 #. module: pos_iot
 #: model_terms:ir.ui.view,arch_db:pos_iot.pos_iot_config_view_form
@@ -326,7 +332,7 @@ msgstr ""
 "перейдет на резервное соединение через веб-сокеты.\n"
 "Вы можете проверить, подключены ли все ваши устройства к той же сети, что и "
 "IoT-коробка.\n"
-"Если проблема сохраняется, обратитесь к документации или в нашу службу "
+"Если проблема повторится, обратитесь к документации или в нашу службу "
 "поддержки."
 
 #. module: pos_iot

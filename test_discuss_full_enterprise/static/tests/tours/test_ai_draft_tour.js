@@ -339,3 +339,35 @@ registry.category("web_tour.tours").add("test_ai_draft_html_field", {
         ...stepUtils.discardForm(),
     ],
 });
+
+registry.category("web_tour.tours").add("test_ai_systray_discuss_fullscreen", {
+    steps: () => [
+        stepUtils.showAppsMenuItem(),
+        {
+            content: "Wait for Discuss to load in fullscreen",
+            trigger: ".o-mail-Discuss",
+        },
+        {
+            content: "Click on the AI systray button",
+            trigger: ".ai-systray-icon",
+            run: "click",
+        },
+        {
+            content: "Verify that AI chat thread is opened in Discuss fullscreen",
+            trigger: ".o-mail-DiscussContent .o-mail-Thread",
+        },
+        {
+            content: "Verify the name of the AI agent opened from the systray",
+            trigger: ".o-mail-DiscussContent-threadName[title='Ask AI']",
+        },
+        {
+            content: "Navigate away from Discuss to trigger the chat window",
+            trigger: ".o_main_navbar .o_menu_toggle",
+            run: "click",
+        },
+        {
+            content: "Verify that the AI chat window is opened after leaving Discuss",
+            trigger: ".o-mail-ChatWindow",
+        },
+    ],
+});

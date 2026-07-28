@@ -12,12 +12,13 @@
                 t-att-Anio="year"
                 t-att-TipoEnvio="type">
                 <t t-foreach="accounts" t-as="account">
+                    <!-- Attributes ordered according to government  -->
                     <BCE:Ctas
-                        t-att-Debe="account.get('debit')"
                         t-att-NumCta="account.get('number')"
+                        t-att-SaldoIni="account.get('initial')"
+                        t-att-Debe="account.get('debit')"
                         t-att-Haber="account.get('credit')"
-                        t-att-SaldoFin="account.get('end')"
-                        t-att-SaldoIni="account.get('initial')"/>
+                        t-att-SaldoFin="account.get('end')"/>
                 </t>
             </BCE:Balanza>
        </template>

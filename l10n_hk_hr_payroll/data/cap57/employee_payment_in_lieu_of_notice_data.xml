@@ -9,7 +9,7 @@
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # Calculate the number of days for past 12 months
-first_day = payslip.date_from + relativedelta(months=-12, day=1)
+first_day = max(payslip.date_from + relativedelta(months=-12, day=1), employee._get_first_contract_date())
 last_day = payslip.date_to + relativedelta(day=1)
 total_days = (last_day - first_day).days
 
@@ -18,7 +18,9 @@ last_year_payslips = payslip._get_previous_year_payslips(order='date_from desc')
 
 # Calculate the work rate
 number_of_days = last_year_payslips._get_number_of_worked_days(only_full_pay=True)
-number_of_months = number_of_days / total_days * 12
+delta = relativedelta(last_day, first_day)
+period_months = delta.years * 12 + delta.months + (delta.days / (365 / 12))
+number_of_months = (number_of_days / total_days) * period_months
 
 # Calculate the average monthly salary
 gross = last_year_payslips._get_line_values(['713_GROSS'], compute_sum=True)['713_GROSS']['sum']['total']

@@ -102,7 +102,7 @@ class StockPickingType(models.Model):
         config = {
             # Boolean fields.
             'barcode_allow_extra_product': self.barcode_allow_extra_product,
-            'barcode_validation_after_dest_location': self.barcode_validation_after_dest_location,
+            'barcode_validation_after_dest_location': locations_enable and self.barcode_validation_after_dest_location,
             'barcode_validation_all_product_packed': self.barcode_validation_all_product_packed,
             'barcode_validation_full': not self.restrict_scan_product and self.barcode_validation_full,  # Forced to be False when scanning a product is mandatory.
             'create_backorder': self.create_backorder,

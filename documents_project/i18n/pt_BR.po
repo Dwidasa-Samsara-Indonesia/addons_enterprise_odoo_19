@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
+"POT-Creation-Date: 2026-04-17 18:48+0000\n"
 "PO-Revision-Date: 2025-11-18 18:42+0000\n"
 "Last-Translator: \"Maitê Dietze (madi)\" <madi@odoo.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.odoo.com/projects/"
@@ -64,6 +64,11 @@ msgid "Default Project Folder"
 msgstr "Pasta padrão do projeto"
 
 #. module: documents_project
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__display_name
+msgid "Destination Display Name"
+msgstr ""
+
+#. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__display_name
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__display_name
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__display_name
@@ -93,6 +98,11 @@ msgid "Documents Folder"
 msgstr "Pasta de documentos"
 
 #. module: documents_project
+#: model:ir.model,name:documents_project.model_documents_operation
+msgid "Documents Operation"
+msgstr ""
+
+#. module: documents_project
 #: model:documents.document,name:documents_project.project_1_document_3
 msgid "First Floor Plan"
 msgstr "Planta do primeiro andar"
@@ -115,6 +125,7 @@ msgstr "Pasta onde são criados novos projetos"
 
 #. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__id
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__id
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__id
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__id
 #: model:ir.model.fields,field_description:documents_project.field_project_project__id
@@ -182,6 +193,12 @@ msgstr ""
 "seguintes projetos:\n"
 "%(projects)s\n"
 "Para continuar, escolha pastas diferentes para esses projetos."
+
+#. module: documents_project
+#. odoo-python
+#: code:addons/documents_project/wizard/documents_operation.py:0
+msgid "This document belongs to %(task)s."
+msgstr ""
 
 #. module: documents_project
 #. odoo-python

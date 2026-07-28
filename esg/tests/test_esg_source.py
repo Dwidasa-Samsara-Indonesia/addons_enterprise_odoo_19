@@ -55,3 +55,11 @@ class TestEsgSource(TestEsgCommon):
 
         self.assertFalse(child_source.parent_id)
         self.assertEqual(child_source.scope, 'direct', "Scope should remain 'direct' even after unsetting the parent.")
+
+    def test_remove_scope_on_emission_source(self):
+        """Test that removing the scope from the emission source."""
+        source = self.emission_source_direct
+        source.scope = False
+
+        self.assertFalse(source.activity_flow_direct_indirect)
+        self.assertFalse(source.activity_flow)

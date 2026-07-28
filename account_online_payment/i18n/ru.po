@@ -3,14 +3,14 @@
 # * account_online_payment
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-20 18:42+0000\n"
-"PO-Revision-Date: 2025-12-19 19:03+0000\n"
+"PO-Revision-Date: 2026-05-04 18:31+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "account_online_payment/ru/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: account_online_payment
 #. odoo-python
@@ -340,7 +340,7 @@ msgstr "Принято"
 #. module: account_online_payment
 #: model:ir.model.fields,field_description:account_online_payment.field_account_batch_payment__account_online_link_payments_enabled
 msgid "Account Online Link Payments Enabled"
-msgstr ""
+msgstr "Онлайн-оплата по счету активирована"
 
 #. module: account_online_payment
 #: model:ir.actions.server,name:account_online_payment.ir_cron_bank_sync_update_payment_status_ir_actions_server
@@ -351,7 +351,7 @@ msgstr "Счет: обновить статус платежа"
 #: model:mail.template,name:account_online_payment.mail_template_account_payment_activation
 #: model:mail.template,subject:account_online_payment.mail_template_account_payment_activation
 msgid "Activate Online Payments in Odoo"
-msgstr ""
+msgstr "Активировать онлайн-платежи в Odoo"
 
 #. module: account_online_payment
 #: model_terms:ir.ui.view,arch_db:account_online_payment.account_online_link_view_form_inherit
@@ -387,7 +387,7 @@ msgstr "Проверить статус"
 #. odoo-python
 #: code:addons/account_online_payment/models/account_online_link.py:0
 msgid "Complete your KYC"
-msgstr ""
+msgstr "Завершите KYC-проверку"
 
 #. module: account_online_payment
 #: model:ir.model.fields,field_description:account_online_payment.field_account_batch_payment__display_name
@@ -422,7 +422,7 @@ msgstr "Функция оплаты подключена"
 #. odoo-python
 #: code:addons/account_online_payment/models/account_online_link.py:0
 msgid "KYC Link"
-msgstr ""
+msgstr "Ссылка KYC"
 
 #. module: account_online_payment
 #: model:ir.model.fields,field_description:account_online_payment.field_account_batch_payment__payment_online_status
@@ -444,13 +444,13 @@ msgstr "Платежи"
 #. odoo-python
 #: code:addons/account_online_payment/models/account_online_link.py:0
 msgid "Payments are already activated."
-msgstr ""
+msgstr "Платежи уже активированы."
 
 #. module: account_online_payment
 #: model:mail.template,name:account_online_payment.mail_template_account_payment_activation_success
 #: model:mail.template,subject:account_online_payment.mail_template_account_payment_activation_success
 msgid "Payments successfully activated"
-msgstr ""
+msgstr "Платежи успешно активированы"
 
 #. module: account_online_payment
 #: model:ir.model.fields.selection,name:account_online_payment.selection__account_batch_payment__payment_online_status__pending
@@ -482,6 +482,7 @@ msgstr "Подписать платеж"
 #: code:addons/account_online_payment/models/account_batch_payment.py:0
 msgid "This journal needs to be connected to a bank to check its status."
 msgstr ""
+"Этот журнал необходимо связать с банковским счетом для проверки статуса."
 
 #. module: account_online_payment
 #. odoo-python
@@ -494,7 +495,7 @@ msgstr "Возможно, этот платеж уже был подписан. 
 #. odoo-python
 #: code:addons/account_online_payment/models/account_online_link.py:0
 msgid "Time to complete your KYC"
-msgstr ""
+msgstr "Необходимо завершить KYC-проверку"
 
 #. module: account_online_payment
 #. odoo-python
@@ -503,6 +504,8 @@ msgid ""
 "To activate payments, you must first enable them when connecting a bank "
 "account."
 msgstr ""
+"Чтобы активировать платежи, сначала включите их при подключении банковского "
+"счета."
 
 #. module: account_online_payment
 #. odoo-python
@@ -542,3 +545,5 @@ msgid ""
 "You haven't completed your KYC yet, so you can't process payment directly "
 "from Odoo."
 msgstr ""
+"Вы еще не прошли KYC-проверку, поэтому не можете обрабатывать платежи "
+"напрямую из Odoo."

@@ -80,7 +80,8 @@ export class SelectAddDocumentCreateDialog extends SelectCreateDialog {
             const shareLinks = response
                 .map(({ display_name, access_url }) => `${display_name}: ${access_url}`)
                 .join("\n");
-            this.props.chatterParams.composer.composerText += `\n${shareLinks}`;
+            const prefix = this.props.chatterParams.composer.composerText ? "\n" : "";
+            this.props.chatterParams.composer.composerText += `${prefix}${shareLinks}`;
         }
         this.notification.add(_t("Link(s) pasted!"), { type: "success" });
         this.props.close();
@@ -115,7 +116,7 @@ export class SelectAddDocumentCreateDialog extends SelectCreateDialog {
         const attachmentIds = [];
         for (const { name, ...attachmentRecord } of processedAttachments) {
             const extension = name.slice(Math.max(0, name.lastIndexOf(".") + 1));
-            composer.attachments.push({ name, extension, ...attachmentRecord });
+            composer.attachments.push({ name, extension, has_thumbnail: false, ...attachmentRecord });
             attachmentIds.push(attachmentRecord.id);
         }
         this.props.chatterParams.saveRecordHandler?.(attachmentIds);
@@ -140,4 +141,21 @@ export class SelectAddDocumentCreateDialog extends SelectCreateDialog {
             id: currentChatterRecordId,
         });
     }
+}
+
+export function getAddDocumentDialogProps() {
+    return {
+        resModel: "documents.document",
+        title: _t("Search: Documents"),
+        noCreate: true,
+        domain: [
+            ["type", "=", "binary"],
+            ["shortcut_document_id", "=", false],
+        ],
+        context: {
+            list_view_ref: "documents.documents_view_list_add_documents_attachment",
+            documents_search_panel_no_trash: true,
+            documents_view_secondary: true,
+        },
+    };
 }

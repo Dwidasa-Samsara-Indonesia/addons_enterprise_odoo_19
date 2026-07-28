@@ -44,7 +44,7 @@ class TestL10nROTrialBalanceReport(TestAccountReportsCommon):
                 ("401100 Providers - resumed in a period of up to one year",    2000.0,        0.0,     100.0,         0.0,      2100.0,        0.0,      2100.0,        0.0),
                 ("601000 Raw material expenses",                                2000.0,        0.0,     200.0,         0.0,      2200.0,        0.0,      2200.0,        0.0),
                 ("701500 Revenue from the sale of finished products",              0.0,     3000.0,       0.0,       300.0,         0.0,     3300.0,         0.0,     3300.0),
-                ('Undistributed Profits/Losses - company_1_data',               2000.0,     3000.0,       0.0,         0.0,      2000.0,     3000.0,         0.0,     1000.0),
+                ('Result Brought Forward - company_1_data',                     2000.0,     3000.0,       0.0,         0.0,      2000.0,     3000.0,         0.0,     1000.0),
                 ("Total",                                                       6000.0,     6000.0,     300.0,       300.0,      6300.0,     6300.0,      4300.0,     4300.0),
             ],
             options,
@@ -68,7 +68,7 @@ class TestL10nROTrialBalanceReport(TestAccountReportsCommon):
                 ("401100 Providers - resumed in a period of up to one year",  1000.0,         0.0,     1000.0,        0.0,     2000.0,        0.0,     2000.0,        0.0),
                 ("601000 Raw material expenses",                                 0.0,         0.0,     2000.0,        0.0,     2000.0,        0.0,     2000.0,        0.0),
                 ("701500 Revenue from the sale of finished products",            0.0,         0.0,        0.0,     3000.0,        0.0,     3000.0,        0.0,     3000.0),
-                ("Undistributed Profits/Losses - company_1_data",             2000.0,      3000.0,        0.0,        0.0,     2000.0,     3000.0,        0.0,     1000.0),
+                ("Result Brought Forward - company_1_data",                   2000.0,      3000.0,        0.0,        0.0,     2000.0,     3000.0,        0.0,     1000.0),
                 ("Total",                                                     3000.0,      3000.0,     3000.0,     3000.0,     6000.0,     6000.0,     4000.0,     4000.0),
             ],
             options,
@@ -89,8 +89,48 @@ class TestL10nROTrialBalanceReport(TestAccountReportsCommon):
                 ("401100 Providers - resumed in a period of up to one year",  1000.0,         0.0,     2100.0,        0.0,    1000.0,         0.0,     4100.0,        0.0,     4100.0,        0.0),
                 ("601000 Raw material expenses",                                 0.0,         0.0,     4200.0,        0.0,    2000.0,         0.0,     6200.0,        0.0,     6200.0,        0.0),
                 ("701500 Revenue from the sale of finished products",            0.0,         0.0,        0.0,     6300.0,       0.0,      3000.0,        0.0,     9300.0,        0.0,     9300.0),
-                ("Undistributed Profits/Losses - company_1_data",             2000.0,      3000.0,        0.0,        0.0,       0.0,         0.0,     2000.0,     3000.0,        0.0,     1000.0),
+                ("Result Brought Forward - company_1_data",                   2000.0,      3000.0,        0.0,        0.0,       0.0,         0.0,     2000.0,     3000.0,        0.0,     1000.0),
                 ("Total",                                                     3000.0,      3000.0,     6300.0,     6300.0,    3000.0,      3000.0,    12300.0,    12300.0,    10300.0,    10300.0),
+            ],
+            options,
+        )
+
+    def test_case_4_col_report_current_fiscal_year_hierarchy(self):
+        """ Test the 4 column report with Hierarchy and Subtotals activated. """
+        report = self.env.ref('l10n_ro_reports.l10n_ro_trial_balance_4_column')
+        options = self._generate_options(report, fields.Date.from_string('2024-02-01'), fields.Date.from_string('2024-02-29'), default_options={'hierarchy': True})
+
+        self.assertLinesValues(
+            report._get_lines(options),
+            #                                                                  [ Initial Balance ]     [    Feb 2024     ]     [  Total Amounts  ]     [   End Balance   ]
+            #                                                                    Debit      Credit      Debit       Credit       Debit     Credit        Debit      Credit
+            [    0,                                                                 1,          2,         3,           4,          5,          6,          7,          8],
+            [
+                ("4 THIRD PARTY ACCOUNTS",                                       2000.0,        0.0,     100.0,         0.0,      2100.0,        0.0,      2100.0,        0.0),
+                ("6 EXPENSE ACCOUNTS",                                           2000.0,        0.0,     200.0,         0.0,      2200.0,        0.0,      2200.0,        0.0),
+                ("7 REVENUE ACCOUNTS",                                              0.0,     3000.0,       0.0,       300.0,         0.0,     3300.0,         0.0,     3300.0),
+                ("Result Brought Forward - company_1_data",                      2000.0,     3000.0,       0.0,         0.0,      2000.0,     3000.0,         0.0,     1000.0),
+                ("Total",                                                        6000.0,     6000.0,     300.0,       300.0,      6300.0,     6300.0,      4300.0,      4300.0),
+            ],
+            options,
+        )
+
+    def test_case_5_col_report_current_fiscal_year_hierarchy(self):
+        """ Test the 5 column report with Hierarchy and Subtotals activated. """
+        report = self.env.ref('l10n_ro_reports.l10n_ro_trial_balance_5_column')
+        options = self._generate_options(report, '2024-04-01', '2024-04-30', default_options={'hierarchy': True})
+
+        self.assertLinesValues(
+            report._get_lines(options),
+            #                                                                  [ Initial Balance ]     [ Jan - Mar 2024 ]      [    Apr 2024     ]     [  Total Amounts  ]     [   End Balance   ]
+            #                                                                   Debit       Credit       Debit      Credit      Debit       Credit       Debit      Credit       Debit      Credit
+            [    0,                                                                1,           2,          3,          4,         5,           6,          7,          8,          9,         10],
+            [
+                ("4 THIRD PARTY ACCOUNTS",                                       1000.0,         0.0,     2100.0,        0.0,    1000.0,         0.0,     4100.0,        0.0,     4100.0,        0.0),
+                ("6 EXPENSE ACCOUNTS",                                              0.0,         0.0,     4200.0,        0.0,    2000.0,         0.0,     6200.0,        0.0,     6200.0,        0.0),
+                ("7 REVENUE ACCOUNTS",                                              0.0,         0.0,        0.0,     6300.0,       0.0,      3000.0,        0.0,     9300.0,        0.0,     9300.0),
+                ("Result Brought Forward - company_1_data",                      2000.0,      3000.0,        0.0,        0.0,       0.0,         0.0,     2000.0,     3000.0,        0.0,     1000.0),
+                ("Total",                                                        3000.0,      3000.0,     6300.0,     6300.0,    3000.0,      3000.0,    12300.0,    12300.0,    10300.0,     10300.0),
             ],
             options,
         )

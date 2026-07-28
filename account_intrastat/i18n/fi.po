@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-04-14 08:57+0000\n"
+"POT-Creation-Date: 2026-06-05 19:37+0000\n"
+"PO-Revision-Date: 2026-06-12 21:01+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "account_intrastat/fi/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_intrastat
 #. odoo-javascript
@@ -407,6 +407,12 @@ msgstr "Intrastat-tapahtumakoodi"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid "Invalid Intrastat Code"
+msgstr "Virheellinen Intrastat-koodi"
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Invalid commodity intrastat code products."
 msgstr "Tuotteet virheellisellä intrastat-tavarakoodilla."
@@ -463,6 +469,16 @@ msgstr "Tuote puuttuu"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"Note that the selected commodity code is invalid based on its start or "
+"expiry date. You can still select it."
+msgstr ""
+"Huomaa, että valittu tavarakoodi on virheellinen sen alkamis- tai "
+"päättymispäivän perusteella. Voit silti valita sen."
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_return.py:0
 msgid "Only business customers"
 msgstr "Vain yritysasiakkaat"
@@ -483,7 +499,7 @@ msgstr "Vain EU:n sisäiset tapahtumat"
 #. odoo-javascript
 #: code:addons/account_intrastat/static/src/components/intrastat_report/filters/filter_intrastat_report.xml:0
 msgid "Only with VAT numbers"
-msgstr "Vain ALV-numeron kanssa"
+msgstr "Vain ALV-numeroiden kanssa"
 
 #. module: account_intrastat
 #: model_terms:ir.ui.view,arch_db:account_intrastat.report_invoice_document_intrastat_2019
@@ -523,7 +539,7 @@ msgstr "Tuotteen maa"
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_product_product
 msgid "Product Variant"
-msgstr "Tuotevariaatio"
+msgstr "Tuotevariantti"
 
 #. module: account_intrastat
 #: model:account.report.column,name:account_intrastat.intrastat_report_column_region_code
@@ -630,6 +646,16 @@ msgstr "Ajanjakson on oltava kokonainen kuukausi tai kokonainen kvartaali."
 #: model:ir.model.fields,help:account_intrastat.field_product_template__intrastat_supplementary_unit_amount
 msgid "The number of supplementary units per product quantity."
 msgstr "Lisäyksiköiden määrä tuotemäärää kohti."
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"The product template has no products/variants. At least one variant is "
+"required to set the Intrastat values."
+msgstr ""
+"Tuotepohjassa ei ole tuotteita/variantteja. Intrastat-arvojen määrittäminen "
+"edellyttää vähintään yhtä varianttia."
 
 #. module: account_intrastat
 #. odoo-python

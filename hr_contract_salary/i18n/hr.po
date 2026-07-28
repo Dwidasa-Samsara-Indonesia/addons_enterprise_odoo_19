@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:48+0000\n"
+"POT-Creation-Date: 2026-05-22 17:49+0000\n"
 "PO-Revision-Date: 2026-04-11 09:34+0000\n"
 "Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
@@ -57,6 +57,11 @@ msgstr ""
 #. module: hr_contract_salary
 #: model:hr.contract.salary.personal.info,helper:hr_contract_salary.hr_contract_salary_personal_info_name
 msgid "(Lastname Firstname)"
+msgstr ""
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ". Signing this offer will archive it."
 msgstr ""
 
 #. module: hr_contract_salary
@@ -189,6 +194,13 @@ msgid "<span class=\"text-muted mr4 ml4\">|</span>"
 msgstr ""
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ""
+"<span class=\"text-muted\" invisible=\"contract_end_date or not "
+"is_contract_amendment\">No limit</span>"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span class=\"text-muted\">/ month</span>"
 msgstr ""
@@ -223,6 +235,12 @@ msgstr "<span>/ mjes</span>"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span>/ year</span>"
+msgstr ""
+
+#. module: hr_contract_salary
+#. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "A contract start date is required."
 msgstr ""
 
 #. module: hr_contract_salary
@@ -428,6 +446,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__activity_responsible_id
 msgid "Assigned to"
 msgstr "Dodjeljen"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "At least one contract is scheduled to start on"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_attachment_count
@@ -1159,12 +1182,26 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesome ikona npr. fa-tasks"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__contract_start_date
+msgid ""
+"For employees, The contract start date determines whether this offer creates "
+"a new contract or amends an existing one. If the selected start date falls "
+"within the period of an existing contract for the employee, it will be "
+"treated as an amendment rather than a new contract."
+msgstr ""
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_recruitment_report__fully_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_recruitment_report__offer_state__full_signed
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_offer__state__full_signed
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.contract_recruitment_report_view_search
 msgid "Fully Signed"
 msgstr "Potpuno  potpisano"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__future_version_date
+msgid "Future Version Date"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_applicant_view_form
@@ -1361,6 +1398,11 @@ msgstr "Informacija"
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_personal_info__display_type__integer
 msgid "Integer"
 msgstr "Cijeli broj"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__is_contract_amendment
+msgid "Is Contract Amendment"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_is_follower
@@ -2530,6 +2572,12 @@ msgstr ""
 
 #. module: hr_contract_salary
 #. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "The contract start date cannot be after the contract end date."
+msgstr ""
+
+#. module: hr_contract_salary
+#. odoo-python
 #: code:addons/hr_contract_salary/models/hr_job.py:0
 msgid "The contract template's company must match the job's company."
 msgstr ""
@@ -2858,11 +2906,6 @@ msgstr "npr. Bonovi za obrok"
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
 msgid "e.g. Offer 70k Employer Cost"
-msgstr ""
-
-#. module: hr_contract_salary
-#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
-msgid "e.g. Permanent, Replacement, Short term"
 msgstr ""
 
 #. module: hr_contract_salary

@@ -11,6 +11,7 @@
             <t t-set-slot="content">
                 <DropdownItem tag="'button'" class="'btn btn-link o_documents_kanban_upload'"
                     onSelected="() => this.uploadFileInputRef.el.click()"
+                    closingMode="this.ui.isSmall ? 'none': 'all'"
                     attrs="{'data-hotkey': 'a', disabled: !canUploadInFolder(folder)}">
                     <i class="fa fa-upload fa-fw me-1"/>
                     <span>Upload</span>

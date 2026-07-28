@@ -108,6 +108,15 @@ class IrAttachment(models.Model):
         return attachments
 
     def write(self, vals):
-        if not self.env.context.get('no_document'):
-            self.filtered(lambda a: not (vals.get('res_field') or a.res_field)).sudo()._create_document(vals)
-        return super(IrAttachment, self).write(vals)
+        old_values = {
+            att.id: (att.res_model, att.res_id)
+            for att in self
+        } if 'res_model' in vals or 'res_id' in vals else {}
+        res = super().write(vals)
+        for attachment in self:
+            if (
+                old_values and old_values.get(attachment.id) != (attachment.res_model, attachment.res_id)
+                and not self.env.context.get('no_document') and not attachment.res_field
+            ):
+                attachment.sudo()._create_document(dict(res_model=attachment.res_model, res_id=attachment.res_id))
+        return res

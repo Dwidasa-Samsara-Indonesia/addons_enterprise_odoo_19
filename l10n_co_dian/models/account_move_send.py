@@ -1,7 +1,4 @@
-from datetime import timedelta
-
-from odoo import _, api, fields, models
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, SQL
+from odoo import _, api, models
 
 
 class AccountMoveSend(models.AbstractModel):
@@ -100,23 +97,6 @@ class AccountMoveSend(models.AbstractModel):
 
         for invoice, invoice_data in invoices_data.items():
             if 'co_dian' in invoice_data['extra_edis']:
-                # Fetch partner data if there is no move sent in the last 30 days to the current partner
-                date = fields.Datetime.now() - timedelta(days=30)
-                query = SQL(
-                    # Check if we have sent an invoice to this partner in the last 30 days
-                    '''SELECT am.id
-                        FROM account_move am
-                       WHERE am.partner_id = %(partner_id)s
-                         AND am.invoice_date >= %(date)s
-                         AND am.l10n_co_dian_state = 'invoice_accepted'
-                       LIMIT 1''',
-                    partner_id=invoice.partner_id.id,
-                    date=date.strftime(DEFAULT_SERVER_DATE_FORMAT),
-                )
-                self.env.cr.execute(query)
-                if not self.env.cr.fetchone():
-                    invoice.partner_id._l10n_co_dian_update_data(invoice.company_id)
-
                 # Render
                 xml, errors = self.env['account.edi.xml.ubl_dian']._export_invoice(invoice)
                 if errors:

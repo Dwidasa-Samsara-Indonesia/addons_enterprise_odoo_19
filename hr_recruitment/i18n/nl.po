@@ -3,18 +3,18 @@
 # * hr_recruitment
 #
 # Translators:
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2023, 2025.
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2023, 2025, 2026.
 # Martin Trigaux, 2023
 # Jolien De Paepe, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # Bren Driesen <brdri@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 18:35+0000\n"
-"PO-Revision-Date: 2026-03-14 09:34+0000\n"
+"POT-Creation-Date: 2026-07-03 17:35+0000\n"
+"PO-Revision-Date: 2026-07-06 13:35+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "hr_recruitment/nl/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_talent_pool__no_of_talents
@@ -778,13 +778,13 @@ msgstr "Activiteitsfase"
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_applicant__activity_type_icon
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_job__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Activiteitensoort icoon"
+msgstr "Activiteitstype icoon"
 
 #. module: hr_recruitment
 #: model:ir.actions.act_window,name:hr_recruitment.mail_activity_type_action_config_hr_applicant
 #: model:ir.ui.menu,name:hr_recruitment.hr_recruitment_menu_config_activity_type
 msgid "Activity Types"
-msgstr "Activiteitensoorten"
+msgstr "Activiteitstypes"
 
 #. module: hr_recruitment
 #: model_terms:ir.actions.act_window,help:hr_recruitment.mail_activity_plan_action_config_hr_applicant
@@ -804,7 +804,7 @@ msgstr "Wizard activiteitenplan"
 #. module: hr_recruitment
 #: model_terms:ir.ui.view,arch_db:hr_recruitment.hr_applicant_view_search_bis
 msgid "Activity type"
-msgstr "Soort activiteit"
+msgstr "Activiteitstype"
 
 #. module: hr_recruitment
 #: model_terms:ir.ui.view,arch_db:hr_recruitment.crm_case_tree_view_job
@@ -1551,7 +1551,7 @@ msgstr "Diploma's"
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_applicant__delay_close
 msgid "Delay to Close"
-msgstr "Vertraging tot sluiten"
+msgstr "Wachttijd tot sluiten"
 
 #. module: hr_recruitment
 #: model_terms:ir.ui.view,arch_db:hr_recruitment.hr_kanban_view_applicant
@@ -1659,7 +1659,7 @@ msgstr "CV weergeven op sollicitatieformulier"
 #: model:ir.model.fields,field_description:hr_recruitment.field_utm_campaign__display_name
 #: model:ir.model.fields,field_description:hr_recruitment.field_utm_source__display_name
 msgid "Display Name"
-msgstr "Weergavenaam"
+msgstr "Schermnaam"
 
 #. module: hr_recruitment
 #. odoo-python
@@ -3147,7 +3147,7 @@ msgstr "Gerelateerde werknemers"
 #. module: hr_recruitment
 #: model_terms:ir.ui.view,arch_db:hr_recruitment.hr_job_survey
 msgid "Remote"
-msgstr "Op afstand"
+msgstr "Thuiswerk"
 
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_applicant_get_refuse_reason__render_model
@@ -4003,6 +4003,12 @@ msgstr ""
 "Je kunt deze UTM-bronnen niet verwijderen omdat ze zijn gekoppeld aan de "
 "volgende wervingsbronnen in Werving:\n"
 "%(recruitment_sources)s"
+
+#. module: hr_recruitment
+#. odoo-python
+#: code:addons/hr_recruitment/models/hr_applicant.py:0
+msgid "You cannot duplicate the talent(s)."
+msgstr "Je kunt talenten niet dupliceren."
 
 #. module: hr_recruitment
 #. odoo-python

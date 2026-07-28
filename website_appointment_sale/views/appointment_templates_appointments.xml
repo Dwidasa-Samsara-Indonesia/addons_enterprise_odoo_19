@@ -10,6 +10,22 @@
     </xpath>
 </template>
 
+<template id="appointments_template_picture" inherit_id="website_appointment_account_payment.appointments_template_picture">
+    <xpath expr="//strong[@t-out='appointment.product_lst_price']" position="replace">
+        <t t-set="combination_info" t-value="appointment.product_id.product_tmpl_id._get_combination_info(product_id=appointment.product_id.id)"/>
+        <strong t-out="combination_info['price']"
+            t-options="{'widget': 'monetary', 'display_currency': combination_info['currency']}"/>
+    </xpath>
+</template>
+
+<template id="appointments_template_list" inherit_id="website_appointment_account_payment.appointments_template_list">
+    <xpath expr="//strong[@t-out='appointment.product_lst_price']" position="replace">
+        <t t-set="combination_info" t-value="appointment.product_id.product_tmpl_id._get_combination_info(product_id=appointment.product_id.id)"/>
+        <strong t-out="combination_info['price']"
+            t-options="{'widget': 'monetary', 'display_currency': combination_info['currency']}"/>
+    </xpath>
+</template>
+
 <template id="appointment_info" inherit_id="appointment_account_payment.appointment_info">
     <xpath expr="//span[hasclass('o_appointment_details_price')]" position="replace">
         <t t-set="combination_info" t-value="appointment_type.product_id.product_tmpl_id._get_combination_info(

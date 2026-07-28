@@ -224,6 +224,15 @@ test("BankRecSelectCreateDialog list view multi currencies", async () => {
         date: "2025-01-15",
         partner_id: 3,
         amount_residual: -100,
+        amount_residual_currency: -150,
+        currency_id: 2,
+    });
+    AccountMoveLine._records.push({
+        id: 8,
+        name: "INV/2025/0008",
+        date: "2025-01-15",
+        partner_id: 3,
+        amount_residual: -100,
         amount_residual_currency: -100,
         currency_id: 1,
     });
@@ -245,21 +254,36 @@ test("BankRecSelectCreateDialog list view multi currencies", async () => {
     expect("div[name='remaining_amount']").toHaveText("Balance: 100.00 €");
 
     const checkboxes = queryAll(".form-check > .form-check-input[type='checkbox']");
-    expect(checkboxes.length).toBe(4);
+    expect(checkboxes.length).toBe(5);
 
     await click(checkboxes[2]);
     await animationFrame();
     await animationFrame();
     expect("div[name='remaining_amount']").toHaveText("Balance: -100.00 €");
 
+    await click(checkboxes[3]);
+    await animationFrame();
+    await animationFrame();
+    expect("div[name='remaining_amount']").toHaveText("Balance: -250.00 €");
+
     await click(checkboxes[2]);
+    await animationFrame();
+    await animationFrame();
+    expect("div[name='remaining_amount']").toHaveText("Balance: -50.00 €");
+
+    await click(checkboxes[3]);
     await animationFrame();
     await animationFrame();
     expect("div[name='remaining_amount']").toHaveText("Balance: 100.00 €");
 
     // Different currencies cannot be computed together
-    await click(checkboxes[3]);
+    await click(checkboxes[4]);
     await animationFrame();
     await animationFrame();
     expect("div[name='remaining_amount']").toHaveText("Balance: /");
+
+    await click(checkboxes[4]);
+    await animationFrame();
+    await animationFrame();
+    expect("div[name='remaining_amount']").toHaveText("Balance: 100.00 €");
 });

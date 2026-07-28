@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-01-08 11:39+0000\n"
+"PO-Revision-Date: 2026-07-04 10:05+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "website_helpdesk_livechat/pl/>\n"
@@ -27,9 +27,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
-"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || "
-"(n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -54,11 +54,13 @@ msgid ""
 "An \"Email\" step type must exist before the \"Create Ticket\" step for a "
 "ticket to be created."
 msgstr ""
+"Aby zgłoszenie mogło zostać utworzone, przed krokiem „Utwórz zgłoszenie” "
+"musi istnieć krok typu „E-mail”."
 
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_technical_serial_misc
 msgid "Anything else to add?"
-msgstr "Czy dodać coś jeszcze?"
+msgstr "Coś jeszcze?"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model,name:website_helpdesk_livechat.model_chatbot_script
@@ -78,12 +80,12 @@ msgstr "Czatboty"
 #. module: website_helpdesk_livechat
 #: model_terms:ir.ui.view,arch_db:website_helpdesk_livechat.helpdesk_team_view_form_inherit_website_helpdesk_livechat
 msgid "Configure Chatbots"
-msgstr ""
+msgstr "Skonfiguruj czatboty"
 
 #. module: website_helpdesk_livechat
 #: model_terms:ir.ui.view,arch_db:website_helpdesk_livechat.helpdesk_team_view_form_inherit_website_helpdesk_livechat
 msgid "Configure Live Chat Channel"
-msgstr ""
+msgstr "Skonfiguruj kanał czatu na żywo"
 
 #. module: website_helpdesk_livechat
 #. odoo-javascript
@@ -101,7 +103,7 @@ msgstr "Utwórz zgłoszenie"
 #. odoo-javascript
 #: code:addons/website_helpdesk_livechat/static/src/core/web/store_service_patch.js:0
 msgid "Create a new helpdesk ticket (/ticket ticket title)"
-msgstr ""
+msgstr "Utwórz nowe zgłoszenie helpdesku (/ticket w tytule zgłoszenia)"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -110,6 +112,8 @@ msgid ""
 "Create a new helpdesk ticket with: %(pre_start)s%(ticket_command)s %"
 "(i_start)sticket title%(i_end)s%(pre_end)s"
 msgstr ""
+"Utwórz nowe zgłoszenie Helpdesk, wpisując: %(pre_start)s%(ticket_command)s %"
+"(i_start)s tytuł zgłoszenia%(i_end)s%(pre_end)s"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -146,18 +150,18 @@ msgstr "Świetnie, to nam ułatwi życie."
 #. module: website_helpdesk_livechat
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_discuss_channel__has_helpdesk_ticket
 msgid "Has Helpdesk Ticket"
-msgstr "Ma zgłoszenie Helpdesku"
+msgstr "Ma zgłoszenie Helpdesk"
 
 #. module: website_helpdesk_livechat
 #: model:chatbot.script,title:website_helpdesk_livechat.chatbot_script_helpdesk_bot
 msgid "Helpdesk Bot"
-msgstr "Bot punktu pomocy"
+msgstr "Bot Helpdesk"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model,name:website_helpdesk_livechat.model_helpdesk_team
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_chatbot_script_step__helpdesk_team_id
 msgid "Helpdesk Team"
-msgstr "Zespół punktu pomocy"
+msgstr "Zespół Helpdesk"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model,name:website_helpdesk_livechat.model_helpdesk_ticket
@@ -167,7 +171,7 @@ msgstr "Zgłoszenie Helpdesku"
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_welcome
 msgid "Here we go, help is on the way!"
-msgstr "Gotowe, pomoc jest w drodze!"
+msgstr "Bez obaw, pomoc nadchodzi!"
 
 #. module: website_helpdesk_livechat
 #: model:chatbot.script.answer,name:website_helpdesk_livechat.chatbot_script_helpdesk_step_dispatch_answer_technical
@@ -198,7 +202,7 @@ msgstr "Nic się nie stało, możemy znaleźć Twój kontrakt innymi sposobami."
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_email
 msgid "Just a last thing, can we please have your email address?"
-msgstr "Jeszcze jedno, możemy poprosić o Twój adres email?"
+msgstr "Jeszcze jedno, czy możesz podać swój adres email?"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_helpdesk_team__use_website_helpdesk_livechat
@@ -208,12 +212,12 @@ msgstr "Czat na żywo"
 #. module: website_helpdesk_livechat
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_helpdesk_ticket__origin_channel_id
 msgid "Live chat from which the ticket was created"
-msgstr ""
+msgstr "Czat na żywo, z którego powstało zgłoszenie"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model,name:website_helpdesk_livechat.model_im_livechat_report_channel
 msgid "Livechat Support Channel Report"
-msgstr "Raport o kanale wsparcia dla czatu"
+msgstr "Raport o kanale wsparcia czatu na żywo"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -234,6 +238,9 @@ msgid ""
 "are using the right format: %(pre_start)s%(search_tickets_command)s %"
 "(i_start)skeywords%(i_end)s%(pre_end)s"
 msgstr ""
+"Nie znaleziono zgłoszeń dotyczących %(b_start)s%(keywords)s%(b_end)s .%(br)"
+"sUpewnij się, że używasz właściwego formatu: %(pre_start)s%"
+"(search_tickets_command)s %(i_start)s słowa kluczowe%(i_end)s%(pre_end)s"
 
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_ticket
@@ -248,23 +255,23 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website_helpdesk_livechat/static/src/core/web/livechat_channel_info_list_patch.xml:0
 msgid "Open tickets"
-msgstr ""
+msgstr "Otwarte zgłoszenia"
 
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_technical_serial
 msgid "Please write below the serial number of your equipment."
-msgstr "Proszę wpisać poniżej numer seryjny sprzętu"
+msgstr "Poniżej wpisz numer seryjny sprzętu."
 
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_administrative_customer_ref_input
 msgid "Please write below your customer reference."
-msgstr "Proszę wpisać poniżej numeru referencyjny klienta."
+msgstr "Poniżej wpisz numer referencyjny klienta."
 
 #. module: website_helpdesk_livechat
 #. odoo-javascript
 #: code:addons/website_helpdesk_livechat/static/src/core/web/store_service_patch.js:0
 msgid "Search helpdesk tickets (/search_tickets keyword)"
-msgstr ""
+msgstr "Wyszukiwanie zgłoszeń Helpdesk (słowo kluczowe /search_tickets)"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -273,18 +280,20 @@ msgid ""
 "Search helpdesk tickets by typing: %(pre_start)s%(search_tickets_command)s %"
 "(i_start)skeywords%(i_end)s%(pre_end)s"
 msgstr ""
+"Wyszukaj zgłoszenia Helpdesku, wpisując: %(pre_start)s%"
+"(search_tickets_command)ssłowa kluczowe%(i_start)s%(i_end)s%(pre_end)s"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
 #: code:addons/website_helpdesk_livechat/models/discuss_channel.py:0
 msgid "Something is missing or wrong in command"
-msgstr "Czegoś brakuje lub jest w błędzie"
+msgstr "W poleceniu czegoś brakuje lub wkradł się tam błąd"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
 #: code:addons/website_helpdesk_livechat/models/discuss_channel.py:0
 msgid "Something is missing or wrong in the command"
-msgstr ""
+msgstr "W poleceniu czegoś brakuje lub wkradł się tam błąd"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_chatbot_script_step__step_type
@@ -300,6 +309,7 @@ msgstr "Dziękujemy, to pomoże naszym inżynierom sprawdzić, co poszło nie ta
 #: model:ir.model.fields,help:website_helpdesk_livechat.field_discuss_channel__ticket_ids
 msgid "The channel becomes accessible to helpdesk users when tickets are set."
 msgstr ""
+"Kanał staje się dostępny dla użytkowników Helpdesku po utworzeniu zgłoszeń."
 
 #. module: website_helpdesk_livechat
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_discuss_channel__ticket_ids
@@ -310,7 +320,7 @@ msgstr "Zgłoszenia"
 #. module: website_helpdesk_livechat
 #: model:ir.model.fields,field_description:website_helpdesk_livechat.field_im_livechat_report_channel__tickets_created
 msgid "Tickets created"
-msgstr ""
+msgstr "Zgłoszenia utworzone"
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -319,6 +329,8 @@ msgid ""
 "Tickets search results for %(b_start)s%(keywords)s%(b_end)s: %(br)s%"
 "(tickets)s"
 msgstr ""
+"Wyniki wyszukiwania zgłoszeń dla %(b_start)s%(keywords)s%(b_end)s : %(br)s%"
+"(tickets)s"
 
 #. module: website_helpdesk_livechat
 #: model_terms:chatbot.script.step,message:website_helpdesk_livechat.chatbot_script_helpdesk_step_administrative_customer_ref
@@ -332,7 +344,7 @@ msgstr ""
 #. module: website_helpdesk_livechat
 #: model:res.groups,name:website_helpdesk_livechat.group_use_website_helpdesk_livechat
 msgid "Use Live Chat"
-msgstr ""
+msgstr "Skorzystaj z czatu na żywo"
 
 #. module: website_helpdesk_livechat
 #: model:ir.model,name:website_helpdesk_livechat.model_res_users
@@ -354,6 +366,8 @@ msgstr "Tak"
 #: code:addons/website_helpdesk_livechat/models/helpdesk_ticket.py:0
 msgid "You cannot create tickets linked to channels you don't have access to."
 msgstr ""
+"Nie możesz tworzyć zgłoszeń powiązanych z kanałami, do których nie masz "
+"dostępu."
 
 #. module: website_helpdesk_livechat
 #. odoo-python
@@ -361,6 +375,8 @@ msgstr ""
 msgid ""
 "You cannot update a ticket and link it to a channel you don't have access to."
 msgstr ""
+"Nie możesz zaktualizować zgłoszenia i powiązać go z kanałem, do którego nie "
+"masz dostępu."
 
 #. module: website_helpdesk_livechat
 #. odoo-javascript

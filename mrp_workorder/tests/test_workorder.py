@@ -648,6 +648,49 @@ class TestWorkOrder(TestMrpWorkorderCommon):
         self.assertEqual(workorder_1.time_ids[0].employee_id, assigned_employee)
         self.assertEqual(workorder_2.time_ids[0].employee_id, current_employee)
 
+    def test_update_bom_update_operation_workorder(self):
+        """
+        When an operation is edited from the BOM and action_update_bom is called on a
+        confirmed MO, the workorder related to that operation must be updated
+        """
+        final_product = self.env['product.product'].create({'name': 'Final Product', 'is_storable': True})
+        component_1 = self.env['product.product'].create({'name': 'Component 1', 'is_storable': True})
+        component_2 = self.env['product.product'].create({'name': 'Component 2', 'is_storable': True})
+        bom = self.env['mrp.bom'].create({
+            'product_tmpl_id': final_product.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'bom_line_ids': [
+                Command.create({'product_id': component_1.id, 'product_qty': 1}),
+                Command.create({'product_id': component_2.id, 'product_qty': 1}),
+            ],
+            'operation_ids': [
+                Command.create({'name': 'Operation 1', 'workcenter_id': self.workcenter_1.id}),
+                Command.create({'name': 'Operation 2', 'workcenter_id': self.workcenter_1.id}),
+            ],
+        })
+        operation_to_update = bom.operation_ids[0]
+        mo = self.env['mrp.production'].create({
+            'product_id': final_product.id,
+            'bom_id': bom.id,
+            'product_qty': 1.0,
+        })
+        mo.action_confirm()
+        self.assertEqual(mo.state, 'confirmed')
+
+        instruction = self.env['quality.point'].create({
+            'product_ids': [Command.link(final_product.id)],
+            'operation_id': operation_to_update.id,
+            'picking_type_ids': [Command.link(mo.picking_type_id.id)],
+            'test_type_id': self.ref('mrp_workorder.test_type_register_consumed_materials'),
+            'component_id': component_1.id
+        })
+        operation_to_update.quality_point_ids = instruction
+        mo.action_update_bom()
+        self.assertRecordValues(mo.workorder_ids, [
+            {'operation_id': operation_to_update.id, 'quality_point_ids': instruction.ids},
+            {'operation_id': bom.operation_ids.ids[1], 'quality_point_ids': []},
+        ])
+
 
 @tagged("post_install", "-at_install")
 class TestShopFloor(HttpCase, TestMrpWorkorderCommon):

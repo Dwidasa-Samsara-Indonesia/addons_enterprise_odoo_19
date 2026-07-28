@@ -69,7 +69,7 @@ registry.category("web_tour.tours").add("sign_tour", {
             run: "edit admin",
         },
         {
-            trigger: ".o-autocomplete--dropdown-item:contains('Administrator')",
+            trigger: ".o-autocomplete--dropdown-item:contains('Admin')",
             run: "click",
         },
         {

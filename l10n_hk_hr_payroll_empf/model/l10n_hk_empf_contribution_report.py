@@ -690,7 +690,7 @@ class L10n_HkEMpfContributionReport(models.Model):
         return {
             'missing_status': {
                 'check': lambda line: not line.status,
-                'message': self.env._("You must have a Status set on every lines oif the report."),
+                'message': self.env._("You must have a Status set on every line of the report."),
             },
             'department_name_limit': {
                 'check': lambda line: line.version_id.department_id and len(line.version_id.department_id.name) > 50,

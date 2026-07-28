@@ -112,7 +112,8 @@ class AccountJournal(models.Model):
                 ibans[iban] = last_date
             else:
                 ibans[iban] = min(ibans[iban], last_date)
-        date_from = min(ibans.values()) if ibans else date_one_year_ago
+        lock_date = max(company.user_fiscalyear_lock_date, company.user_hard_lock_date)
+        date_from = max(min(ibans.values()) if ibans else date_one_year_ago, fields.Date.to_string(lock_date))
         statement_ids_all = []
         skipped_bank_accounts = set()
         session = requests.Session()
@@ -145,22 +146,30 @@ class AccountJournal(models.Model):
                 # We parse first the CODA to get the IBAN and Currency so that we can select a matching journal
                 bank_statement_file_data = self.with_context(ignore_statements=True)._parse_bank_statement_file(coda_attachment.raw)
                 statement_ids = []
-                for currency, account_number, __ in bank_statement_file_data:
-                    journal = next((
-                        journal
-                        for journal in acc_journal_map.get(sanitize_account_number(account_number), [])
-                        if (
-                            (journal.currency_id and journal.currency_id.name == currency)
-                            or not journal.currency_id
-                        )
-                    ), False)
+                for currency, account_number, extension_number, __ in bank_statement_file_data:
+                    # Prefer a journal with an explicit currency matching
+                    candidates = acc_journal_map.get(
+                        sanitize_account_number(account_number),
+                        self.env['account.journal']
+                    )
+
+                    journals = (
+                        candidates.filtered(lambda j: j.currency_id.name == currency)
+                        or candidates.filtered(lambda j: not j.currency_id)
+                    )
+
+                    if len(journals) > 1 and extension_number:
+                        journal = next((j for j in journals if j.extension_number == extension_number), False)
+                    else:
+                        journal = journals[0] if journals else None
+
                     if journal:
                         journal.bank_statements_source = "l10n_be_codabox"
                     else:
                         skipped_bank_accounts.add(f"{account_number} ({currency})")
                         continue
                     # We reparse now to have all info including the statements
-                    currency, account_number, stmt_vals = journal._parse_bank_statement_file(coda_attachment.raw)[0]
+                    currency, account_number, extension_number, stmt_vals = journal._parse_bank_statement_file(coda_attachment.raw)[0]
                     stmt_vals = journal._complete_bank_statement_vals(stmt_vals, journal, account_number, coda_attachment)
                     statement_id = journal.with_context(skip_pdf_attachment_generation=True)._create_bank_statements(stmt_vals, raise_no_imported_file=False)[0]
                     if statement_id:
@@ -202,7 +211,7 @@ class AccountJournal(models.Model):
 
     def l10n_be_codabox_manually_fetch_coda_transactions(self):
         self.ensure_one()
-        statement_ids = self._l10n_be_codabox_fetch_coda_transactions(self.company_id)
+        statement_ids = self._l10n_be_codabox_fetch_coda_transactions(self.company_id.with_context(read_only=True))
         return self.env["account.bank.statement.line"]._action_open_bank_reconciliation_widget(
             extra_domain=[("statement_id", "in", statement_ids)],
         )
@@ -229,7 +238,10 @@ class AccountJournal(models.Model):
         ], order="date DESC", limit=1).date
         if not last_soda_date:
             last_soda_date = fields.Date.today() - relativedelta(years=2)  # API goes back 2 years max
-        sodas = self._l10n_be_codabox_fetch_transactions_from_iap(session, soda_journal.company_id, "sodas", fields.Date.to_string(last_soda_date))
+
+        lock_date = max(company.user_fiscalyear_lock_date, company.user_hard_lock_date)
+        date_from = max(last_soda_date, lock_date)
+        sodas = self._l10n_be_codabox_fetch_transactions_from_iap(session, soda_journal.company_id, "sodas", fields.Date.to_string(date_from))
         _logger.info("L10nBeCodabox: %s SODAs fetched", len(sodas))
         moves = self.env["account.move"]
         for soda in sodas:

@@ -58,6 +58,7 @@
         <field name="name">Preparation Time Report</field>
         <field name="res_model">preparation.time.report</field>
         <field name="view_mode">graph</field>
+        <field name="domain">[('order_id.company_id', 'in', allowed_company_ids)]</field>
         <field name="context">
             {
                 'group_by': ['order_hour', 'pos_config_id'],

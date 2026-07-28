@@ -259,9 +259,9 @@ test("hr.timesheet (list)(timer): render list view without messing with timer", 
     const { records } = await server.mockRpc({
         method: "web_search_read",
         model: HRTimesheet._name,
-        specification: { is_timer_running: {} },
+        specification: { timer_start: {} },
     });
-    expect(records.every((rec) => !rec.is_timer_running)).toBe(true);
+    expect(records.every((rec) => !rec.timer_start)).toBe(true);
 
     HRTimesheet._records = [];
     await mountView({

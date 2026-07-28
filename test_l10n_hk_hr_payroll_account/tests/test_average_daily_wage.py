@@ -107,7 +107,7 @@ class TestAverageDailyWage(TestL10NHkHrPayrollAccountCommon):
             date(2025, 12, 1), date(2025, 12, 31),
             struct_id=self.env.ref('l10n_hk_hr_payroll.hr_payroll_structure_cap57_employee_salary').id,
         )
-        self.assertEqual(payslip.l10n_hk_average_daily_wage, 665.58)
+        self.assertEqual(payslip.l10n_hk_average_daily_wage, 665.45)
 
     def test_manual_average_daily_wage(self):
         """ Validate that setting the input line to manually overwrite the amount works as expected. """

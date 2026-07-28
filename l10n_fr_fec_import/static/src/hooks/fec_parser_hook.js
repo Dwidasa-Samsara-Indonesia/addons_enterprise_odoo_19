@@ -37,6 +37,10 @@ export function useFECParser() {
         const incompleteLines = [];
         const processedLines = lines.map((line) => splitLine(line));
         processedLines.forEach((line, lineIndex) => {
+            const isEmptyRow = !line.some((cell) => cell.trim() !== "");
+            if (isEmptyRow) {
+                return;
+            }
             const lineNumber = lineIndex + 2; // 1 for the 0-based indexing, and 1 to compensate removed header
             if (!getMoveName(line)) {
                 throw new Error(_t("Line %s does not have a valid move name", lineNumber));

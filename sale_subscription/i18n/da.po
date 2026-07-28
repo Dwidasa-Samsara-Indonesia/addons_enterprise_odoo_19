@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-04-10 16:26+0000\n"
+"POT-Creation-Date: 2026-05-15 17:40+0000\n"
+"PO-Revision-Date: 2026-06-23 15:57+0000\n"
 "Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "sale_subscription/da/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_subscription
 #. odoo-python
@@ -105,8 +105,8 @@ msgid ""
 "(*) These recurring products are discounted according to the prorated period "
 "from %(start)s to %(end)s"
 msgstr ""
-"(*) Disse tilbagevendende produkter er nedsat i pris i forhold til den "
-"proportionale periode fra %(start)s til %(end)s"
+"(*) Prisen på disse tilbagevendende produkter er nedsat i forhold til den "
+"tilsvarende periode fra %(start)s til %(end)s"
 
 #. module: sale_subscription
 #. odoo-python
@@ -115,8 +115,8 @@ msgid ""
 "(*) These recurring products are entirely discounted as the next period has "
 "not been invoiced yet."
 msgstr ""
-"(*) Disse tilbagevendende produkter er nedsat i pris, da den næste periode "
-"endnu ikke blevet faktureret."
+"(*) Prisen på disse tilbagevendende produkter er nedsat, da den næste "
+"periode endnu ikke blevet faktureret."
 
 #. module: sale_subscription
 #. odoo-python
@@ -169,7 +169,7 @@ msgstr "1 måned"
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "1 Week"
-msgstr "1 Uge"
+msgstr "1 uge"
 
 #. module: sale_subscription
 #. odoo-python
@@ -180,7 +180,7 @@ msgstr "1 år"
 #. module: sale_subscription
 #: model:sale.subscription.plan,name:sale_subscription.subscription_plan_6_month
 msgid "6 Months"
-msgstr "6 Måneder"
+msgstr "6 måneder"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
@@ -237,9 +237,9 @@ msgstr ""
 "                    <tbody>\n"
 "                        <tr><td t-if=\"not "
 "object.company_id.uses_default_logo\">\n"
-"                            <a href=\"/\"><img t-attf-src=\"/logo.png?"
-"company={{ object.company_id.id }}\" style=\"vertical-align:baseline;max-"
-"width:100px;\"/></a>\n"
+"                            <a href=\"/\"><img t-attf-src=\"/"
+"logo.png?company={{ object.company_id.id }}\" style=\"vertical-"
+"align:baseline;max-width:100px;\"/></a>\n"
 "                        </td><td style=\"text-align:right;vertical-"
 "align:middle;\">\n"
 "                                Fornyelse af abonnement\n"
@@ -250,11 +250,10 @@ msgstr ""
 "auto;background:white;border:1px solid #e1e1e1;\">\n"
 "                    <tbody>\n"
 "                        <tr><td style=\"padding:15px 20px 10px 20px;\">\n"
-"                            <p>Hej <t t-out=\"object.partner_id.name or "
-"''\">Brandon Freeman</t></p>\n"
+"                            <p>Hej <t t-out=\"object.partner_id.name or ''\">"
+"Brandon Freeman</t></p>\n"
 "                            <p>Det er tid til at forny dit abonnement "
-"<strong t-out=\"object.name or ''\">Rengøringsservice til kontorer\"</"
-"strong>.</p>\n"
+"<strong t-out=\"object.name or ''\">Kontorrengøring\"</strong>.</p>\n"
 "                            <p>Klik på nedenstående link for at forny det.</"
 "p>\n"
 "                            <p>Med venlig hilsen.</p>\n"
@@ -380,9 +379,9 @@ msgstr ""
 "                    <tbody>\n"
 "                        <tr><td t-if=\"not "
 "object.company_id.uses_default_logo\">\n"
-"                            <a href=\"/\"><img t-attf-src=\"/logo.png?"
-"company={{ object.company_id.id }}\" style=\"vertical-align:baseline;max-"
-"width:100px;\"/></a>\n"
+"                            <a href=\"/\"><img t-attf-src=\"/"
+"logo.png?company={{ object.company_id.id }}\" style=\"vertical-"
+"align:baseline;max-width:100px;\"/></a>\n"
 "                        </td><td style=\"text-align:right;vertical-"
 "align:middle;\">\n"
 "                                Tilfredshedsundersøgelse\n"
@@ -395,11 +394,11 @@ msgstr ""
 "                        <tr><td style=\"padding:15px 20px 10px 20px;\">\n"
 "                            <p>Hej</p>\n"
 "                            <p>Giv os gerne din vurdering af vores tjenester "
-"i forbindelse med dit abonnement \"<strong t-out=\"object.name or "
-"''\">Kontorrengøring\"</strong>\"\n"
+"i forbindelse med dit abonnement \"<strong t-out=\"object.name or ''\">"
+"Kontorrengøring\"</strong>\"\n"
 "                               tildelt <strong t-"
-"out=\"object._rating_get_operator().name or ''\">Mitchell Admin</strong>.</"
-"p>\n"
+"out=\"object._rating_get_operator().name or ''\">Mitchell Admin</strong>.</p>"
+"\n"
 "                            <p>Vi sætter pris på din feedback. Den bidrager "
 "til, at vi hele tiden kan forbedre os.</p>\n"
 "                        </td></tr>\n"
@@ -413,8 +412,8 @@ msgstr ""
 "                                            Fortæl os, hvad du synes om "
 "vores tjenester:\n"
 "                                        </h2>\n"
-"                                        <div style=\"text-color: "
-"#888888\">(klik på en af disse smileys)</div>\n"
+"                                        <div style=\"text-color: #888888\">"
+"(klik på en af disse smileys)</div>\n"
 "                                    </td>\n"
 "                                </tr>\n"
 "                                <tr>\n"
@@ -423,22 +422,22 @@ msgstr ""
 "align:center;\">\n"
 "                                            <tr>\n"
 "                                                <td>\n"
-"                                                    <a t-attf-href=\"/rate/"
-"{{ access_token }}/5\">\n"
+"                                                    <a t-attf-href=\"/rate/{"
+"{ access_token }}/5\">\n"
 "                                                        <img alt=\"Happy\" "
 "src=\"/rating/static/src/img/rating_5.png\" title=\"Happy\"/>\n"
 "                                                    </a>\n"
 "                                                </td>\n"
 "                                                <td>\n"
-"                                                    <a t-attf-href=\"/rate/"
-"{{ access_token }}/3\">\n"
+"                                                    <a t-attf-href=\"/rate/{"
+"{ access_token }}/3\">\n"
 "                                                        <img alt=\"Neutral\" "
 "src=\"/rating/static/src/img/rating_3.png\" title=\"Neutral\"/>\n"
 "                                                    </a>\n"
 "                                                </td>\n"
 "                                                <td>\n"
-"                                                    <a t-attf-href=\"/rate/"
-"{{ access_token }}/1\">\n"
+"                                                    <a t-attf-href=\"/rate/{"
+"{ access_token }}/1\">\n"
 "                                                        <img alt=\"Unhappy\" "
 "src=\"/rating/static/src/img/rating_1.png\" title=\"Unhappy\"/>\n"
 "                                                    </a>\n"
@@ -463,8 +462,8 @@ msgstr ""
 "target=\"_blank\" href=\"https://www.odoo.com/app/subscriptions\" t-attf-"
 "style=\"color: {{object.company_id.email_secondary_color or '#875A7B'}}; "
 "text-decoration:none;\">Odoo Abonnement</a> for <a t-att-"
-"href=\"object.company_id.website\" t-attf-style=\"color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}}; text-"
+"href=\"object.company_id.website\" t-attf-style=\"color: {"
+"{object.company_id.email_secondary_color or '#875A7B'}}; text-"
 "decoration:none;\" t-out=\"object.company_id.name or ''\">DinVirksomhed</a></"
 "p>\n"
 "                        </td></tr>\n"
@@ -481,7 +480,7 @@ msgstr "<i class=\"fa fa-download me-1\"/> Download"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-check\"/> In Progress"
-msgstr "<i class=\"fa fa-fw fa-check\"/> I gang"
+msgstr "<i class=\"fa fa-fw fa-check\"/> Behandles"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -584,7 +583,7 @@ msgid ""
 "check\"/> In Progress</span>"
 msgstr ""
 "<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
-"check\"/> I gang</span>"
+"check\"/> Behandles</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
@@ -614,7 +613,7 @@ msgstr "<span class=\"o_stat_text\">MRR</span>"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_plan_view_form
 msgid "<span class=\"o_stat_text\">Subscription Items</span>"
-msgstr "<span class=\"o_stat_text\">Abonnementelementer</span>"
+msgstr "<span class=\"o_stat_text\">Abonnementselementer</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_plan_view_form
@@ -642,7 +641,7 @@ msgid ""
 "<span invisible=\"not plan_id or subscription_state == '7_upsell'\">until</"
 "span>"
 msgstr ""
-"<span invisible=\"not plan_id or subscription_state == '7_upsell'\">indtil</"
+"<span invisible=\"not plan_id or subscription_state == '7_upsell'\">til</"
 "span>"
 
 #. module: sale_subscription
@@ -654,8 +653,8 @@ msgid ""
 "                            </span>"
 msgstr ""
 "<span>\n"
-"                                En betaling er allerede under behandling for "
-"dette abonnement.\n"
+"                                Betaling for dette abonnement er allerede i "
+"gang.\n"
 "                            </span>"
 
 #. module: sale_subscription
@@ -671,7 +670,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.report_saleorder_document
 msgid "<strong>Recurring Plan</strong>"
-msgstr "<strong>Løbende abonnement</strong>"
+msgstr "<strong>Abonnementsordning</strong>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_close_reason_view_form
@@ -835,8 +834,8 @@ msgstr ""
 "                <tr><td valign=\"middle\">\n"
 "                    <t t-set=\"company\" t-value=\"object.company_id or "
 "object.user_id.company_id or user.company_id\"/>\n"
-"                    <span style=\"font-size: 10px;\">Dit abonnement</"
-"span><br/>\n"
+"                    <span style=\"font-size: 10px;\">Dit abonnement</span>"
+"<br/>\n"
 "                    <span style=\"font-size: 20px; font-weight: bold;\" t-"
 "out=\"object.name or ''\">Kontorrengøring</span>\n"
 "                </td></tr>\n"
@@ -847,9 +846,9 @@ msgstr ""
 "alt=\"company.name\"/>\n"
 "                </td></tr>\n"
 "                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
-"                    <hr width=\"100%\" style=\"background-"
-"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
-"size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+"                    <hr width=\"100%\" style=\"background-color:rgb"
+"(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-"
+"height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -863,14 +862,14 @@ msgstr ""
 "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
 "                    Hej <t t-out=\"object.partner_id.name or ''\">Brandon "
 "Freeman</t><br/><br/>\n"
-"                    <t t-if=\"ctx.get('payment_token') and "
-"ctx.get('next_invoice_amount')\">\n"
+"                    <t t-if=\"ctx.get('payment_token') and ctx.get"
+"('next_invoice_amount')\">\n"
 "                        Vores endelige forsøg på at behandle betalingen for "
 "dit abonnement med betalingsformen\n"
-"                        <t t-out=\"ctx.get('payment_token') or ''\">TOKEN</"
-"t>\n"
-"                        på <t t-out=\"ctx['next_invoice_amount'] or "
-"''\">100</t> <t t-out=\"ctx.get('currency') or ''\">kr.</t> mislykkedes.\n"
+"                        <t t-out=\"ctx.get('payment_token') or ''\">TOKEN</t>"
+"\n"
+"                        på <t t-out=\"ctx['next_invoice_amount'] or ''\">"
+"100</t> <t t-out=\"ctx.get('currency') or ''\">kr.</t> mislykkedes.\n"
 "                        <t t-if=\"ctx.get('error')\">\n"
 "                            Din bank gav os følgende oplysninger om "
 "problemet: <pre t-out=\"ctx['error'] or ''\"/>.\n"
@@ -887,20 +886,20 @@ msgstr ""
 "dit abonnement blevet opsagt.\n"
 "                    Hvis du ønsker at løse problemet, beder vi dig kontakte "
 "os.<br/><br/>\n"
-"                    Tak for at vælge <t t-out=\"company.name or "
-"''\">DinVirksomhed</t>!\n"
+"                    Tak for at vælge <t t-out=\"company.name or ''\">"
+"DinVirksomhed</t>!\n"
 "                    <div t-if=\"user.signature\" data-o-mail-quote-"
 "container=\"1\">\n"
 "                        <br/><br/>\n"
 "                        <div data-o-mail-quote=\"1\">--<br data-o-mail-"
-"quote=\"1\"/><t t-out=\"user.signature or ''\" data-o-mail-"
-"quote=\"1\">Mitchell Admin</t></div>\n"
+"quote=\"1\"/><t t-out=\"user.signature or ''\" data-o-mail-quote=\"1\">"
+"Mitchell Admin</t></div>\n"
 "                    </div>\n"
 "                </td></tr>\n"
 "                <tr><td style=\"text-align:center;\">\n"
-"                    <hr width=\"100%\" style=\"background-"
-"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
-"size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+"                    <hr width=\"100%\" style=\"background-color:rgb"
+"(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-"
+"height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -943,9 +942,9 @@ msgstr ""
 "style=\"min-width: 590px; background-color: #F1F1F1; color: #454748; "
 "padding: 8px; border-collapse:separate;\">\n"
 "      <tr><td style=\"text-align: center; font-size: 13px;\">\n"
-"        Drevet af <a target=\"_blank\" href=\"https://www.odoo.com?"
-"utm_source=db&amp;utm_medium=mail\" t-attf-style=\"color: "
-"{{company.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
+"        Drevet af <a target=\"_blank\" href=\"https://"
+"www.odoo.com?utm_source=db&amp;utm_medium=mail\" t-attf-style=\"color: {"
+"{company.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
 "      </td></tr>\n"
 "    </table>\n"
 "</td></tr>\n"
@@ -1013,16 +1012,17 @@ msgid ""
 "                        </t>\n"
 "                    </t>\n"
 "                    <t t-else=\"\">\n"
-"                        Your subscription <t t-out=\"ctx.get('code') or "
-"''\">CODE</t> is due for renewal but we haven’t received your payment yet. "
-"To keep your subscription active, please make your payment as soon as "
+"                        Your subscription <t t-out=\"object.client_order_ref "
+"or ''\">CODE</t> is due for renewal but we haven’t received your payment "
+"yet. To keep your subscription active, please make your payment as soon as "
 "possible.\n"
 "                    </t>\n"
 "                    <br/><br/>\n"
-"                    Your subscription <t t-out=\"ctx.get('code') or "
+"                    Your subscription <t t-out=\"object.client_order_ref or "
 "''\">CODE</t> is still valid but will be <strong>suspended</strong>\n"
-"                    on <t t-out=\"format_date(ctx.get('date_close')) or "
-"''\">05/05/2021</t><br/>\n"
+"                    on <t t-"
+"out=\"format_date(object._get_subscription_close_date()) or ''\">05/05/2021</"
+"t><br/>\n"
 "                    <div style=\"margin: 16px 0px; text-align: center;\">\n"
 "                        <a t-attf-href=\"{{ ctx.get('payment_link', "
 "object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; padding: "
@@ -1102,152 +1102,6 @@ msgid ""
 "</table>\n"
 "        "
 msgstr ""
-"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: "
-"16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; "
-"color: #454748; width: 100%; border-collapse:separate;\"><tr><td "
-"align=\"center\">\n"
-"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
-"style=\"padding: 16px; background-color: white; color: #454748; border-"
-"collapse:separate;\">\n"
-"<tbody>\n"
-"    <!-- HEADER -->\n"
-"    <tr>\n"
-"        <td align=\"center\" style=\"min-width: 590px;\">\n"
-"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
-"width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
-"0px 8px 0px 8px; border-collapse:separate;\">\n"
-"                <tr><td valign=\"middle\">\n"
-"                    <t t-set=\"company\" t-value=\"object.company_id or "
-"object.user_id.company_id or user.company_id\"/>\n"
-"                    <span style=\"font-size: 10px;\">Dit abonnement</"
-"span><br/>\n"
-"                    <span style=\"font-size: 20px; font-weight: bold;\" t-"
-"out=\"object.name or ''\">Kontorrengøring</span>\n"
-"                </td></tr>\n"
-"                <tr><td valign=\"middle\" align=\"right\" t-if=\"not "
-"company.uses_default_logo\">\n"
-"                    <img t-attf-src=\"/logo.png?company={{ company.id }}\" "
-"style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-"
-"alt=\"company.name\"/>\n"
-"                </td></tr>\n"
-"                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
-"                    <hr width=\"100%\" style=\"background-"
-"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
-"size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
-"                </td></tr>\n"
-"            </table>\n"
-"        </td>\n"
-"    </tr>\n"
-"    <!-- CONTENT -->\n"
-"    <tr>\n"
-"        <td align=\"center\" style=\"min-width: 590px;\">\n"
-"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
-"width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
-"0px 8px 0px 8px; border-collapse:separate;\">\n"
-"                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
-"                    Hej <t t-out=\"object.partner_id.name or ''\">Brandon "
-"Freeman</t><br/><br/>\n"
-"                    <t t-if=\"ctx.get('payment_token') and "
-"ctx.get('next_invoice_amount')\">\n"
-"                        Vi kunne ikke behandle betalingen for dit abonnement "
-"med din betalingsform\n"
-"                        <t t-out=\"ctx['payment_token'] or ''\">TOKEN</t>\n"
-"                        på <t t-out=\"ctx['next_invoice_amount'] or ''\">10</"
-"t> <t t-out=\"ctx.get('currency_name') or ''\">kr.</t>.\n"
-"                        <t t-if=\"ctx.get('error')\">\n"
-"                            Din bank gav os følgende oplysninger om "
-"problemet: <pre t-out=\"ctx['error'] or ''\"/>.\n"
-"                        </t>\n"
-"                    </t>\n"
-"                    <t t-else=\"\">\n"
-"                        Dit abonnement <t t-out=\"ctx.get('code') or "
-"''\">KODE</t> skal fornys, men vi har endnu ikke modtaget betalingen. For at "
-"sikre at dit abonnement forbliver aktivt, bedes du gennemføre betalingen "
-"hurtigst muligt.\n"
-"                    </t>\n"
-"                    <br/><br/>\n"
-"                    Dit abonnement <t t-out=\"ctx.get('code') or ''\">KODE</"
-"t> er stadig aktivt, men <strong>suspenderes</strong>\n"
-"                    den <t t-out=\"format_date(ctx.get('date_close')) or "
-"''\">05/05/2021</t><br/>\n"
-"                    <div style=\"margin: 16px 0px; text-align: center;\">\n"
-"                        <a t-attf-href=\"{{ ctx.get('payment_link', "
-"object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; padding: "
-"10px 30px; text-decoration: none; background-color: "
-"{{company.email_secondary_color or '#875A7B'}}; color: "
-"{{company.email_primary_color or '#FFFFFF'}}; border-radius: 5px;\">\n"
-"                            Betal nu\n"
-"                        </a>\n"
-"                    </div>\n"
-"                    <br/>\n"
-"                    Du er velkommen til at kontakte os, hvis du har "
-"spørgsmål.<br/><br/>\n"
-"                    Tak for at vælge <t t-out=\"company.name or "
-"''\">DinVirksomhed</t>!\n"
-"                    <div>\n"
-"                    <t t-if=\"user.signature\" data-o-mail-quote-"
-"container=\"1\">\n"
-"                        <br/><br/>\n"
-"                        <div data-o-mail-quote=\"1\">--<br data-o-mail-"
-"quote=\"1\"/><t t-out=\"user.signature or ''\" data-o-mail-"
-"quote=\"1\">Mitchell Admin</t></div>\n"
-"                    </t>\n"
-"                    </div>\n"
-"                </td></tr>\n"
-"                <tr><td style=\"text-align:center;\">\n"
-"                    <hr width=\"100%\" style=\"background-"
-"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
-"size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
-"                </td></tr>\n"
-"            </table>\n"
-"        </td>\n"
-"    </tr>\n"
-"    <!-- FOOTER -->\n"
-"    <tr>\n"
-"        <td align=\"center\" style=\"min-width: 590px;\">\n"
-"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
-"width=\"590\" style=\"min-width: 590px; background-color: white; font-size: "
-"11px; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
-"                <tr><td valign=\"middle\" align=\"left\">\n"
-"                    <t t-out=\"company.name or ''\">DinVirksomhed</t>\n"
-"                </td></tr>\n"
-"                <tr><td valign=\"middle\" align=\"left\" style=\"opacity: "
-"0.7;\">\n"
-"                    <t t-if=\"company.phone\">\n"
-"                        <t t-out=\"company.phone or ''\">+1 650-123-4567</t> "
-"|\n"
-"                    </t>\n"
-"                    <t t-if=\"company.email\">\n"
-"                        <a t-attf-href=\"'mailto:%s' % {{ company.email }}\" "
-"style=\"text-decoration:none; color: #454748;\" t-out=\"company.email or "
-"''\">info@yourcompany.com</a> |\n"
-"                    </t>\n"
-"                    <t t-if=\"company.website\">\n"
-"                        <a t-attf-href=\"'%s' % {{ company.website }}\" "
-"style=\"text-decoration:none; color: #454748;\" t-out=\"company.website or "
-"''\">http://www.example.com</a>\n"
-"                    </t>\n"
-"                </td></tr>\n"
-"            </table>\n"
-"        </td>\n"
-"    </tr>\n"
-"</tbody>\n"
-"</table>\n"
-"</td></tr>\n"
-"<!-- POWERED BY -->\n"
-"<tr><td align=\"center\" style=\"min-width: 590px;\">\n"
-"    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
-"style=\"min-width: 590px; background-color: #F1F1F1; color: #454748; "
-"padding: 8px; border-collapse:separate;\">\n"
-"      <tr><td style=\"text-align: center; font-size: 13px;\">\n"
-"        Drevet af <a target=\"_blank\" href=\"https://www.odoo.com?"
-"utm_source=db&amp;utm_medium=mail\" t-attf-style=\"color: "
-"{{company.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
-"      </td></tr>\n"
-"    </table>\n"
-"</td></tr>\n"
-"</table>\n"
-"        "
 
 #. module: sale_subscription
 #. odoo-python
@@ -1306,7 +1160,7 @@ msgstr "Acceptér til tiden"
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_account_move_send
 msgid "Account Move Send"
-msgstr "Send kontobevægelse"
+msgstr "Send postering"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__message_needaction
@@ -1371,7 +1225,7 @@ msgid ""
 "Add a recurring plan for this product, or create a new one with the desired "
 "recurrence (e.g., Monthly)"
 msgstr ""
-"Tilføj en tilbagevendende plan for dette produkt, eller opret en ny med den "
+"Tilføj en abonnementsordning for dette produkt, eller opret en ny med den "
 "ønskede frekvens (f.eks. månedlig)."
 
 #. module: sale_subscription
@@ -1482,7 +1336,7 @@ msgid ""
 "insights (MRR, churn, CLTV, ...)"
 msgstr ""
 "Automatisér fakturaer og betalinger, forenkl mersalgstilbud, reducér "
-"kundefrafald og få et overblik (f.eks. MRR, kundefrafald, CLTV osv.)"
+"kundefrafald, og få et overblik (f.eks. MRR, kundefrafald, CLTV osv.)"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__auto_close_limit
@@ -1534,15 +1388,6 @@ msgstr "Automatisk betaling mislykkedes. E-mail sendt til kunden. Fejl: %s"
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
-"Automatic payment failed. No country specified on payment_token's partner"
-msgstr ""
-"Automatisk betaling mislykkedes. Landet er ikke angivet på partneren til "
-"payment_token"
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 msgid "Automatic payment failed. No email sent this time. Error: %s"
 msgstr ""
 "Automatisk betaling mislykkedes. Ingen e-mail blev sendt denne gang. Fejl: %s"
@@ -1554,9 +1399,9 @@ msgid ""
 "Automatic payment succeeded. Payment reference: %(ref)s. Amount: %(amount)s. "
 "Contract set to: In Progress, Next Invoice: %(inv)s. Email sent to customer."
 msgstr ""
-"Automatisk betaling vellykket. Betalingsreference: %(ref)s. Beløb: %"
-"(amount)s. Abonnement sat til: I gang, Næste faktura: %(inv)s. E-mail sendt "
-"til kunde."
+"Automatisk betaling vellykket. Betalingsreference: %(ref)s. Beløb: %(amount)"
+"s. Abonnement sat til: Behandles, Næste faktura: %(inv)s. E-mail sendt til "
+"kunde."
 
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_order__payment_exception
@@ -1676,12 +1521,12 @@ msgstr "Redigér kunde"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "Change Plan"
-msgstr "Ændr abonnementsordning"
+msgstr "Redigér abonnementsordning"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "Change Plan for"
-msgstr "Ændr abonnementsordning for"
+msgstr "Redigér abonnementsordning for"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -1697,7 +1542,7 @@ msgstr "Redigér kunde"
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
 msgid "Check reopened subscription"
-msgstr "Tjek genaktiveret abonnement"
+msgstr "Kontrollér genaktiveret abonnement"
 
 #. module: sale_subscription
 #. odoo-javascript
@@ -1746,7 +1591,7 @@ msgstr "Klik her for at tilføje produkter og services"
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__user_closable
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_plan_search
 msgid "Closable"
-msgstr "Kan lukkes"
+msgstr "Kan opsiges"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -1781,7 +1626,7 @@ msgstr "Opsig abonnement"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__user_closable_options
 msgid "Closeable Plan Options"
-msgstr "Abonnementer, der kan lukkes"
+msgstr "Muligheder for abonnementer, der kan opsiges"
 
 #. module: sale_subscription
 #. odoo-python
@@ -1797,7 +1642,7 @@ msgstr "Opsagte abonnementer"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
 msgid "Closing"
-msgstr "Lukker"
+msgstr "Opsiges"
 
 #. module: sale_subscription
 #. odoo-python
@@ -1836,8 +1681,8 @@ msgid ""
 "Consolidate all of a customer's subscriptions that are due to be billed on "
 "the same day onto a single invoice."
 msgstr ""
-"Saml alle en kundes abonnementer, der skal faktureres samme dag, på én "
-"enkelt faktura."
+"Saml alle abonnementer for en kunde, der skal faktureres på samme dag, på én "
+"faktura."
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_res_config_settings__invoice_consolidation
@@ -2025,13 +1870,15 @@ msgstr "Kundens postnummer"
 #: model:ir.model.fields,help:sale_subscription.field_sale_order__user_closable
 #: model:ir.model.fields,help:sale_subscription.field_sale_subscription_plan__user_closable
 msgid "Customer can close their subscriptions."
-msgstr "Kunder kan lukke deres abonnementer"
+msgstr "Kunder kan opsige deres abonnementer."
 
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_order__user_extend
 #: model:ir.model.fields,help:sale_subscription.field_sale_subscription_plan__user_extend
 msgid "Customer can create a renewal quotation for their subscription."
-msgstr "Kunder kan oprette tilbud for fornyelse af deres abonnement."
+msgstr ""
+"Kunderne har mulighed for at oprette tilbud i forbindelse med fornyelse af "
+"deres abonnement."
 
 #. module: sale_subscription
 #: model:ir.ui.menu,name:sale_subscription.menu_orders_customers
@@ -2125,7 +1972,7 @@ msgstr "Vis forsinkelse"
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__display_name
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_product_product__display_subscription_pricing
@@ -2165,13 +2012,13 @@ msgstr "Varighedsenhed"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
 msgid "Edit"
-msgstr "Rediger"
+msgstr "Redigér"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log__effective_date
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log_report__effective_date
 msgid "Effective Date"
-msgstr "Effektiv dato"
+msgstr "Ikrafttrædelsesdato"
 
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_subscription_plan__invoice_mail_template_id
@@ -2179,8 +2026,8 @@ msgid ""
 "Email template used to send invoicing email automatically.\n"
 "Leave it empty if you don't want to send email automatically."
 msgstr ""
-"E-mailskabelon brugt til at automatisk at sende faktureringsmails.\n"
-"Lad feltet stå tomt, hvis du ikke ønsker at e-mailen sendes automatisk."
+"E-mailskabelon brugt til automatisk at sende faktureringsmails.\n"
+"Lad feltet stå tomt, hvis du ikke ønsker, at e-mailen sendes automatisk."
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_close_reason__empty_retention_message
@@ -2216,7 +2063,7 @@ msgstr "Kontraktens udløb"
 #. module: sale_subscription
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_subscription_plan__user_closable_options__end_of_period
 msgid "End of period"
-msgstr "Kontraktens udløb"
+msgstr "Periodens udløb"
 
 #. module: sale_subscription
 #. odoo-python
@@ -2326,7 +2173,7 @@ msgstr "Fremtidige aktiviteter"
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_payment_link_wizard
 msgid "Generate Sales Payment Link"
-msgstr "Generér betalingslink til ordren"
+msgstr "Generér betalingslink til salg"
 
 #. module: sale_subscription
 #. odoo-javascript
@@ -2470,7 +2317,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_order_line__pricelist_id
 msgid "If you change the pricelist, only newly added lines will be affected."
-msgstr "Hvis du redigerer prislisten, påvirker det kun nye linjer."
+msgstr "Ændringer i prislisten påvirker kun nye linjer."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -2494,7 +2341,7 @@ msgstr "Har fejl"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_report_search
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
 msgid "In Progress"
-msgstr "I gang"
+msgstr "Behandles"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__industry_id
@@ -2536,7 +2383,7 @@ msgstr "Fakturastatus"
 #. odoo-python
 #: code:addons/sale_subscription/controllers/portal.py:0
 msgid "Invoice not found."
-msgstr "Faktura ikke fundet"
+msgstr "Faktura ikke fundet."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_log_report_search
@@ -2696,7 +2543,7 @@ msgstr "Tilføj en tilbagevendende pris"
 #. odoo-javascript
 #: code:addons/sale_subscription/static/src/js/tours/sale_subscription.js:0
 msgid "Let's add price for selected recurrence"
-msgstr "Lad os tilføje en pris for valgt interval"
+msgstr "Tilføj en pris for valgt interval"
 
 #. module: sale_subscription
 #. odoo-javascript
@@ -2798,7 +2645,7 @@ msgid ""
 "Contract set to: In Progress, Next Invoice: %(inv)s. Email sent to customer."
 msgstr ""
 "Manuel betaling vellykket. Betalingsreference: %(ref)s. Beløb: %(amount)s. "
-"Kontrakt sat til: I gang, Næste faktura: %(inv)s. E-mail sendt til kunde."
+"Kontrakt sat til: Behandles, Næste faktura: %(inv)s. E-mail sendt til kunde."
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__margin
@@ -3099,7 +2946,7 @@ msgstr "Bestillingsdato"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__invoice_status
 msgid "Order Invoice Status"
-msgstr "Ordrefakturastatus"
+msgstr "Faktureringsstatus for ordre"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__name
@@ -3114,7 +2961,7 @@ msgstr "Ordrestatus"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Orders"
-msgstr "Ordrer"
+msgstr "Ordre"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_log__origin_order_id
@@ -3160,7 +3007,7 @@ msgstr "Kan sættes på pause"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "Pause"
-msgstr "Pause"
+msgstr "Sæt på pause"
 
 #. module: sale_subscription
 #: model:ir.actions.server,name:sale_subscription.model_sale_order_subscription_pause_record
@@ -3291,7 +3138,8 @@ msgid ""
 "Please add a recurring plan on the subscription or remove the recurring "
 "product."
 msgstr ""
-"Tilføj venligst en abonnementsordning for abonnementet eller fjern produktet."
+"Tilføj venligst en abonnementsordning til abonnementet, eller fjern "
+"produktet med automatisk betaling."
 
 #. module: sale_subscription
 #. odoo-python
@@ -3300,7 +3148,7 @@ msgid ""
 "Please add a recurring product in the subscription or remove the recurring "
 "plan."
 msgstr ""
-"Tilføj venligst et produkt med automatisk betaling i abonnementet, eller "
+"Tilføj venligst et produkt med automatisk betaling til abonnementet, eller "
 "fjern abonnementsordningen."
 
 #. module: sale_subscription
@@ -3322,8 +3170,7 @@ msgid ""
 "Please remove the recurring plan on the subscription before sending the "
 "email."
 msgstr ""
-"Fjern venligst abonnementsordningen fra abonnementet, inden du sender e-"
-"mailen."
+"Fjern venligst abonnementsordningen fra abonnementet, før du sender e-mailen."
 
 #. module: sale_subscription
 #. odoo-python
@@ -3577,13 +3424,13 @@ msgstr "Abonnementsordning"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
 msgid "Recurring Plan:"
-msgstr "Abonnementsplan:"
+msgstr "Abonnementsordning:"
 
 #. module: sale_subscription
 #: model:ir.actions.act_window,name:sale_subscription.sale_subscription_plan_action
 #: model:ir.ui.menu,name:sale_subscription.menu_sale_subscription_plans
 msgid "Recurring Plans"
-msgstr "Tilbagevendende planer"
+msgstr "Abonnementsordninger"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.product_pricelist_view
@@ -3801,7 +3648,7 @@ msgstr "Forudbetalingsfaktura"
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_sale_report
 msgid "Sales Analysis Report"
-msgstr "Analytisk salgsrapport"
+msgstr "Salgsanalyse"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -3918,7 +3765,7 @@ msgid ""
 "customers"
 msgstr ""
 "Angiv i hvilken abonnementsfase (f.eks. lukket eller mersalg), der skal "
-"anmodes om en kundevurdering"
+"anmodes om en kundebedømmelse"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.payment_form_inherit
@@ -3938,7 +3785,7 @@ msgstr "Vis abonnement på dashboard"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_view_search
 msgid "Show all records whose next activity date is past"
-msgstr "Vis alle poster med en næste aktivitetsdato, der er før i dag"
+msgstr "Vis alle poster, hvis næste aktivitetsdato er før i dag"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__source_id
@@ -3978,7 +3825,7 @@ msgstr "Status"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "Submit"
-msgstr "Indsend"
+msgstr "Send"
 
 #. module: sale_subscription
 #. odoo-python
@@ -4042,7 +3889,7 @@ msgstr "Abonnementsanalyse"
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_sale_subscription_change_customer_wizard
 msgid "Subscription Change Customer Wizard"
-msgstr "Guide til kundeskift ved abonnementer"
+msgstr "Assistent til kundeskift ved abonnementer"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order__subscription_child_ids
@@ -4058,7 +3905,7 @@ msgstr "Årsag til opsigelse af abonnement"
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_sale_subscription_close_reason_wizard
 msgid "Subscription Close Reason Wizard"
-msgstr "Guide til årsag for opsigelse af abonnement"
+msgstr "Assistent til årsag for opsigelse af abonnement"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_plan__subscription_line_count
@@ -4090,7 +3937,7 @@ msgstr "Abonnementslog"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "Subscription Manager:"
-msgstr "Abonnementsansvarlige:"
+msgstr "Abonnementsadministrator:"
 
 #. module: sale_subscription
 #: model:ir.model,name:sale_subscription.model_sale_subscription_plan
@@ -4172,8 +4019,7 @@ msgstr "Abonnementet blev genoptaget den %s."
 #. odoo-python
 #: code:addons/sale_subscription/controllers/portal.py:0
 msgid "Subscription will be paused from %(date_from)s to %(date_to)s."
-msgstr ""
-"Abonnementet sættes på pause fra den %(date_from)s til den %(date_to)s."
+msgstr "Abonnementet sættes på pause fra den %(date_from)s til den %(date_to)s."
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -4336,8 +4182,8 @@ msgid ""
 "The deferred settings are not properly set. Please complete them to generate "
 "subscription deferred revenues"
 msgstr ""
-"De udskudte indstillinger mangler eller er udfyldt forkert. Udfyld dem "
-"korrekt for at kunne oprette udskudte indtægter baseret på abonnementerne"
+"De periodiserede udgifter mangler eller er udfyldt forkert. Udfyld dem "
+"korrekt for at kunne oprette periodiserede udgifter baseret på abonnementerne"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -4389,7 +4235,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:ir.model.fields,help:sale_subscription.field_sale_order__pending_transaction
 msgid "The last transaction of the order is currently pending"
-msgstr "Ordrens sidste transaktion er pt. under behandling"
+msgstr "Ordrens sidste transaktion er p.t. under behandling"
 
 #. module: sale_subscription
 #: model:ir.model.constraint,message:sale_subscription.constraint_sale_order_check_start_date_lower_next_invoice_date
@@ -4456,6 +4302,10 @@ msgid ""
 "You should first invoice the original subscription, use an earlier start "
 "date for the upsell or create a renewal quotation."
 msgstr ""
+"Startdatoen for et mersalg må ikke være senere end eller lig med den næste "
+"faktureringsdato for abonnementet %s.\n"
+"Du bør først fakturere det oprindelige abonnement, vælge en tidligere "
+"startdato for opsalget eller oprette et forlængelsestilbud."
 
 #. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
@@ -4521,7 +4371,7 @@ msgid ""
 "the\n"
 "                following active subscriptions:"
 msgstr ""
-"Betalingsformen kan ikke annulleres, fordi det pt. er knyttet til de\n"
+"Betalingsformen kan ikke annulleres, fordi det p.t. er knyttet til de\n"
 "                følgende aktive abonnementer:"
 
 #. module: sale_subscription
@@ -4737,7 +4587,7 @@ msgstr "Start på brugerens pause"
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_line__product_template_variant_value_ids
 msgid "Variant Values"
-msgstr "Variant værdier"
+msgstr "Variantværdier"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_order_close_reason__visible_in_portal
@@ -4834,7 +4684,7 @@ msgstr "Hvorvidt dette abonnement bør vises på dashboardet eller ej"
 #. module: sale_subscription
 #: model:sale.subscription.plan,name:sale_subscription.subscription_plan_year
 msgid "Yearly"
-msgstr "Årligt"
+msgstr "Årlig"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__recurring_yearly
@@ -4867,8 +4717,18 @@ msgid ""
 "You are about to permanently close a subscription that is valid until\n"
 "                    &amp;nbsp;"
 msgstr ""
-"Du er ved at lukke et abonnement permanent, som er gyldigt til\n"
+"Du er ved at opsige et abonnement permanent, som er gyldigt til\n"
 "                    &amp;nbsp;"
+
+#. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/product_template.py:0
+msgid ""
+"You can not change the recurring property of this product because it has "
+"been sold already (%s)"
+msgstr ""
+"Det er ikke muligt at ændre den tilbagevendende egenskab for dette produkt, "
+"da det allerede er solgt (%s)"
 
 #. module: sale_subscription
 #. odoo-python
@@ -4932,7 +4792,7 @@ msgid ""
 " - Has not started yet.\n"
 " - Has no invoiced period in the future."
 msgstr ""
-"Du kan ikke oprette mersalg for dette abonnement, fordi det:\n"
+"Det er ikke muligt at oprette mersalg for dette abonnement, fordi det:\n"
 " - endnu ikke er påbegyndt.\n"
 " - ikke har en faktureringsperiode i fremtiden."
 
@@ -5164,13 +5024,13 @@ msgstr "order_id"
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per %d months"
-msgstr "pr. %d måned"
+msgstr "pr. %d måneder"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per %d weeks"
-msgstr "pr. %d uge"
+msgstr "pr. %d uger"
 
 #. module: sale_subscription
 #. odoo-python
@@ -5182,7 +5042,7 @@ msgstr "pr. %d år"
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per month"
-msgstr "Alle produkter"
+msgstr "pr. måned"
 
 #. module: sale_subscription
 #. odoo-python
@@ -5238,7 +5098,7 @@ msgstr "til"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
 msgid "until"
-msgstr "indtil"
+msgstr "til"
 
 #. module: sale_subscription
 #: model:sms.template,body:sale_subscription.sms_template_data_payment_failure
@@ -5288,6 +5148,311 @@ msgstr ""
 "{{ object.company_id.name }}: Dit abonnement {{ object.name }} kræver din "
 "opmærksomhed. Hvis du har spørgsmål eller bekymringer, bedes du kontakte "
 "{{ object.user_id.name }} din kontaktperson."
+
+#~ msgid ""
+#~ "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-"
+#~ "top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-"
+#~ "serif; color: #454748; width: 100%; border-collapse:separate;\"><tr><td "
+#~ "align=\"center\">\n"
+#~ "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
+#~ "style=\"padding: 16px; background-color: white; color: #454748; border-"
+#~ "collapse:separate;\">\n"
+#~ "<tbody>\n"
+#~ "    <!-- HEADER -->\n"
+#~ "    <tr>\n"
+#~ "        <td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+#~ "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+#~ "0px 8px 0px 8px; border-collapse:separate;\">\n"
+#~ "                <tr><td valign=\"middle\">\n"
+#~ "                    <t t-set=\"company\" t-value=\"object.company_id or "
+#~ "object.user_id.company_id or user.company_id\"/>\n"
+#~ "                    <span style=\"font-size: 10px;\">Your Subscription</"
+#~ "span><br/>\n"
+#~ "                    <span style=\"font-size: 20px; font-weight: bold;\" t-"
+#~ "out=\"object.name or ''\">Office Cleaning Service</span>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td valign=\"middle\" align=\"right\" t-if=\"not "
+#~ "company.uses_default_logo\">\n"
+#~ "                    <img t-attf-src=\"/logo.png?company={{ company.id }}"
+#~ "\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-"
+#~ "alt=\"company.name\"/>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
+#~ "                    <hr width=\"100%\" style=\"background-"
+#~ "color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+#~ "size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+#~ "                </td></tr>\n"
+#~ "            </table>\n"
+#~ "        </td>\n"
+#~ "    </tr>\n"
+#~ "    <!-- CONTENT -->\n"
+#~ "    <tr>\n"
+#~ "        <td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+#~ "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+#~ "0px 8px 0px 8px; border-collapse:separate;\">\n"
+#~ "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
+#~ "                    Hello <t t-out=\"object.partner_id.name or "
+#~ "''\">Brandon Freeman</t>,<br/><br/>\n"
+#~ "                    <t t-if=\"ctx.get('payment_token') and "
+#~ "ctx.get('next_invoice_amount')\">\n"
+#~ "                        We were unable to process a payment for your "
+#~ "subscription using your payment method\n"
+#~ "                        <t t-out=\"ctx['payment_token'] or ''\">TOKEN</"
+#~ "t>\n"
+#~ "                        for <t t-out=\"ctx['next_invoice_amount'] or "
+#~ "''\">10</t> <t t-out=\"ctx.get('currency_name') or ''\">$</t>.\n"
+#~ "                        <t t-if=\"ctx.get('error')\">\n"
+#~ "                            Your bank or credit institution gave the "
+#~ "following details about the issue: <pre t-out=\"ctx['error'] or ''\"/>.\n"
+#~ "                        </t>\n"
+#~ "                    </t>\n"
+#~ "                    <t t-else=\"\">\n"
+#~ "                        Your subscription <t t-out=\"ctx.get('code') or "
+#~ "''\">CODE</t> is due for renewal but we haven’t received your payment "
+#~ "yet. To keep your subscription active, please make your payment as soon "
+#~ "as possible.\n"
+#~ "                    </t>\n"
+#~ "                    <br/><br/>\n"
+#~ "                    Your subscription <t t-out=\"ctx.get('code') or "
+#~ "''\">CODE</t> is still valid but will be <strong>suspended</strong>\n"
+#~ "                    on <t t-out=\"format_date(ctx.get('date_close')) or "
+#~ "''\">05/05/2021</t><br/>\n"
+#~ "                    <div style=\"margin: 16px 0px; text-align: center;"
+#~ "\">\n"
+#~ "                        <a t-attf-href=\"{{ ctx.get('payment_link', "
+#~ "object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; "
+#~ "padding: 10px 30px; text-decoration: none; background-color: "
+#~ "{{company.email_secondary_color or '#875A7B'}}; color: "
+#~ "{{company.email_primary_color or '#FFFFFF'}}; border-radius: 5px;\">\n"
+#~ "                            Pay Now\n"
+#~ "                        </a>\n"
+#~ "                    </div>\n"
+#~ "                    <br/>\n"
+#~ "                    If you have any questions, do not hesitate to contact "
+#~ "us.<br/><br/>\n"
+#~ "                    Thank you for choosing <t t-out=\"company.name or "
+#~ "''\">YourCompany</t>!\n"
+#~ "                    <div>\n"
+#~ "                    <t t-if=\"user.signature\" data-o-mail-quote-"
+#~ "container=\"1\">\n"
+#~ "                        <br/><br/>\n"
+#~ "                        <div data-o-mail-quote=\"1\">--<br data-o-mail-"
+#~ "quote=\"1\"/><t t-out=\"user.signature or ''\" data-o-mail-"
+#~ "quote=\"1\">Mitchell Admin</t></div>\n"
+#~ "                    </t>\n"
+#~ "                    </div>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td style=\"text-align:center;\">\n"
+#~ "                    <hr width=\"100%\" style=\"background-"
+#~ "color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+#~ "size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+#~ "                </td></tr>\n"
+#~ "            </table>\n"
+#~ "        </td>\n"
+#~ "    </tr>\n"
+#~ "    <!-- FOOTER -->\n"
+#~ "    <tr>\n"
+#~ "        <td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+#~ "width=\"590\" style=\"min-width: 590px; background-color: white; font-"
+#~ "size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+#~ "                <tr><td valign=\"middle\" align=\"left\">\n"
+#~ "                    <t t-out=\"company.name or ''\">YourCompany</t>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td valign=\"middle\" align=\"left\" style=\"opacity: "
+#~ "0.7;\">\n"
+#~ "                    <t t-if=\"company.phone\">\n"
+#~ "                        <t t-out=\"company.phone or ''\">+1 650-123-4567</"
+#~ "t> |\n"
+#~ "                    </t>\n"
+#~ "                    <t t-if=\"company.email\">\n"
+#~ "                        <a t-attf-href=\"'mailto:%s' % {{ company.email }}"
+#~ "\" style=\"text-decoration:none; color: #454748;\" t-out=\"company.email "
+#~ "or ''\">info@yourcompany.com</a> |\n"
+#~ "                    </t>\n"
+#~ "                    <t t-if=\"company.website\">\n"
+#~ "                        <a t-attf-href=\"'%s' % {{ company.website }}\" "
+#~ "style=\"text-decoration:none; color: #454748;\" t-out=\"company.website "
+#~ "or ''\">http://www.example.com</a>\n"
+#~ "                    </t>\n"
+#~ "                </td></tr>\n"
+#~ "            </table>\n"
+#~ "        </td>\n"
+#~ "    </tr>\n"
+#~ "</tbody>\n"
+#~ "</table>\n"
+#~ "</td></tr>\n"
+#~ "<!-- POWERED BY -->\n"
+#~ "<tr><td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
+#~ "style=\"min-width: 590px; background-color: #F1F1F1; color: #454748; "
+#~ "padding: 8px; border-collapse:separate;\">\n"
+#~ "      <tr><td style=\"text-align: center; font-size: 13px;\">\n"
+#~ "        Powered by <a target=\"_blank\" href=\"https://www.odoo.com?"
+#~ "utm_source=db&amp;utm_medium=mail\" t-attf-style=\"color: "
+#~ "{{company.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
+#~ "      </td></tr>\n"
+#~ "    </table>\n"
+#~ "</td></tr>\n"
+#~ "</table>\n"
+#~ "        "
+#~ msgstr ""
+#~ "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-"
+#~ "top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-"
+#~ "serif; color: #454748; width: 100%; border-collapse:separate;\"><tr><td "
+#~ "align=\"center\">\n"
+#~ "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
+#~ "style=\"padding: 16px; background-color: white; color: #454748; border-"
+#~ "collapse:separate;\">\n"
+#~ "<tbody>\n"
+#~ "    <!-- HEADER -->\n"
+#~ "    <tr>\n"
+#~ "        <td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+#~ "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+#~ "0px 8px 0px 8px; border-collapse:separate;\">\n"
+#~ "                <tr><td valign=\"middle\">\n"
+#~ "                    <t t-set=\"company\" t-value=\"object.company_id or "
+#~ "object.user_id.company_id or user.company_id\"/>\n"
+#~ "                    <span style=\"font-size: 10px;\">Dit abonnement</"
+#~ "span><br/>\n"
+#~ "                    <span style=\"font-size: 20px; font-weight: bold;\" t-"
+#~ "out=\"object.name or ''\">Kontorrengøring</span>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td valign=\"middle\" align=\"right\" t-if=\"not "
+#~ "company.uses_default_logo\">\n"
+#~ "                    <img t-attf-src=\"/logo.png?company={{ company.id }}"
+#~ "\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-"
+#~ "alt=\"company.name\"/>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
+#~ "                    <hr width=\"100%\" style=\"background-"
+#~ "color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+#~ "size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+#~ "                </td></tr>\n"
+#~ "            </table>\n"
+#~ "        </td>\n"
+#~ "    </tr>\n"
+#~ "    <!-- CONTENT -->\n"
+#~ "    <tr>\n"
+#~ "        <td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+#~ "width=\"590\" style=\"min-width: 590px; background-color: white; padding: "
+#~ "0px 8px 0px 8px; border-collapse:separate;\">\n"
+#~ "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
+#~ "                    Hej <t t-out=\"object.partner_id.name or ''\">Brandon "
+#~ "Freeman</t><br/><br/>\n"
+#~ "                    <t t-if=\"ctx.get('payment_token') and "
+#~ "ctx.get('next_invoice_amount')\">\n"
+#~ "                        Vi kunne ikke behandle betalingen for dit "
+#~ "abonnement med din betalingsform\n"
+#~ "                        <t t-out=\"ctx['payment_token'] or ''\">TOKEN</"
+#~ "t>\n"
+#~ "                        på <t t-out=\"ctx['next_invoice_amount'] or "
+#~ "''\">10</t> <t t-out=\"ctx.get('currency_name') or ''\">kr.</t>.\n"
+#~ "                        <t t-if=\"ctx.get('error')\">\n"
+#~ "                            Din bank gav os følgende oplysninger om "
+#~ "problemet: <pre t-out=\"ctx['error'] or ''\"/>.\n"
+#~ "                        </t>\n"
+#~ "                    </t>\n"
+#~ "                    <t t-else=\"\">\n"
+#~ "                        Dit abonnement <t t-out=\"ctx.get('code') or "
+#~ "''\">KODE</t> skal fornys, men vi har endnu ikke modtaget betalingen. For "
+#~ "at sikre at dit abonnement forbliver aktivt, bedes du gennemføre "
+#~ "betalingen hurtigst muligt.\n"
+#~ "                    </t>\n"
+#~ "                    <br/><br/>\n"
+#~ "                    Dit abonnement <t t-out=\"ctx.get('code') or "
+#~ "''\">KODE</t> er stadig aktivt, men <strong>suspenderes</strong>\n"
+#~ "                    den <t t-out=\"format_date(ctx.get('date_close')) or "
+#~ "''\">05/05/2021</t><br/>\n"
+#~ "                    <div style=\"margin: 16px 0px; text-align: center;"
+#~ "\">\n"
+#~ "                        <a t-attf-href=\"{{ ctx.get('payment_link', "
+#~ "object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; "
+#~ "padding: 10px 30px; text-decoration: none; background-color: "
+#~ "{{company.email_secondary_color or '#875A7B'}}; color: "
+#~ "{{company.email_primary_color or '#FFFFFF'}}; border-radius: 5px;\">\n"
+#~ "                            Betal nu\n"
+#~ "                        </a>\n"
+#~ "                    </div>\n"
+#~ "                    <br/>\n"
+#~ "                    Du er velkommen til at kontakte os, hvis du har "
+#~ "spørgsmål.<br/><br/>\n"
+#~ "                    Tak for at vælge <t t-out=\"company.name or "
+#~ "''\">DinVirksomhed</t>!\n"
+#~ "                    <div>\n"
+#~ "                    <t t-if=\"user.signature\" data-o-mail-quote-"
+#~ "container=\"1\">\n"
+#~ "                        <br/><br/>\n"
+#~ "                        <div data-o-mail-quote=\"1\">--<br data-o-mail-"
+#~ "quote=\"1\"/><t t-out=\"user.signature or ''\" data-o-mail-"
+#~ "quote=\"1\">Mitchell Admin</t></div>\n"
+#~ "                    </t>\n"
+#~ "                    </div>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td style=\"text-align:center;\">\n"
+#~ "                    <hr width=\"100%\" style=\"background-"
+#~ "color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
+#~ "size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+#~ "                </td></tr>\n"
+#~ "            </table>\n"
+#~ "        </td>\n"
+#~ "    </tr>\n"
+#~ "    <!-- FOOTER -->\n"
+#~ "    <tr>\n"
+#~ "        <td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" "
+#~ "width=\"590\" style=\"min-width: 590px; background-color: white; font-"
+#~ "size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+#~ "                <tr><td valign=\"middle\" align=\"left\">\n"
+#~ "                    <t t-out=\"company.name or ''\">DinVirksomhed</t>\n"
+#~ "                </td></tr>\n"
+#~ "                <tr><td valign=\"middle\" align=\"left\" style=\"opacity: "
+#~ "0.7;\">\n"
+#~ "                    <t t-if=\"company.phone\">\n"
+#~ "                        <t t-out=\"company.phone or ''\">+1 650-123-4567</"
+#~ "t> |\n"
+#~ "                    </t>\n"
+#~ "                    <t t-if=\"company.email\">\n"
+#~ "                        <a t-attf-href=\"'mailto:%s' % {{ company.email }}"
+#~ "\" style=\"text-decoration:none; color: #454748;\" t-out=\"company.email "
+#~ "or ''\">info@yourcompany.com</a> |\n"
+#~ "                    </t>\n"
+#~ "                    <t t-if=\"company.website\">\n"
+#~ "                        <a t-attf-href=\"'%s' % {{ company.website }}\" "
+#~ "style=\"text-decoration:none; color: #454748;\" t-out=\"company.website "
+#~ "or ''\">http://www.example.com</a>\n"
+#~ "                    </t>\n"
+#~ "                </td></tr>\n"
+#~ "            </table>\n"
+#~ "        </td>\n"
+#~ "    </tr>\n"
+#~ "</tbody>\n"
+#~ "</table>\n"
+#~ "</td></tr>\n"
+#~ "<!-- POWERED BY -->\n"
+#~ "<tr><td align=\"center\" style=\"min-width: 590px;\">\n"
+#~ "    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
+#~ "style=\"min-width: 590px; background-color: #F1F1F1; color: #454748; "
+#~ "padding: 8px; border-collapse:separate;\">\n"
+#~ "      <tr><td style=\"text-align: center; font-size: 13px;\">\n"
+#~ "        Drevet af <a target=\"_blank\" href=\"https://www.odoo.com?"
+#~ "utm_source=db&amp;utm_medium=mail\" t-attf-style=\"color: "
+#~ "{{company.email_secondary_color or '#875A7B'}};\">Odoo</a>\n"
+#~ "      </td></tr>\n"
+#~ "    </table>\n"
+#~ "</td></tr>\n"
+#~ "</table>\n"
+#~ "        "
+
+#~ msgid ""
+#~ "Automatic payment failed. No country specified on payment_token's partner"
+#~ msgstr ""
+#~ "Automatisk betaling mislykkedes. Landet er ikke angivet på partneren til "
+#~ "payment_token"
 
 #~ msgid ""
 #~ "You cannot upsell a subscription whose next invoice date is in the past.\n"

@@ -86,6 +86,24 @@ class TestPayrollCommon(TransactionCase):
             'l10n_in_esic_employer_amount': 20.0,
         })
 
+        cls.percentage_emp = cls.Employee.create({
+            'name': 'Percentage Employee',
+            'country_id': cls.in_country.id,
+            'department_id': cls.rd_dept.id,
+            'company_id': cls.company_in.id,
+            'date_version': date(2023, 1, 1),
+            'contract_date_start': date(2023, 1, 1),
+            'contract_date_end':  date(2023, 1, 31),
+            'wage': 50000.0,
+            'hr_responsible_id': cls.employee_fp.id,
+            'l10n_in_basic_salary_amount': 20000,
+            'l10n_in_hra': 8000,
+            'l10n_in_standard_allowance': 1000,
+            'l10n_in_performance_bonus': 6000,
+            'l10n_in_leave_travel_allowance': 6000,
+            'l10n_in_gratuity': 962,
+        })
+
         cls.res_bank = cls.Bank.create({
             'acc_number': '3025632343043',
             'partner_id': cls.rahul_emp.work_contact_id.id,

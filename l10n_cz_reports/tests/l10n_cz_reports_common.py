@@ -22,6 +22,11 @@ class CzechReportsCommon(AccountSalesReportCommon):
             'country_id': cls.env.ref('base.be').id,
             'vat': 'BE0477472701',
         })
+        cls.partner_eu_4 = cls.env['res.partner'].create({
+            'name': 'Partner EU 4',
+            'country_id': cls.env.ref('base.be').id,
+            'vat': '0477472701',
+        })
 
         cls.partner_cz_1 = cls.env['res.partner'].create({
             'name': 'Partner CZ 1',

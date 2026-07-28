@@ -6284,11 +6284,11 @@ if not payslip.l10n_ch_after_departure_payment == "NK":
 if "ACTIVITYRATETOTAL" in inputs:
     result = inputs["ACTIVITYRATETOTAL"].amount
 else:
-    if payslip.employee_id.l10n_ch_other_employment:
-        if payslip.employee_id.l10n_ch_total_activity_type == 'gross':
-            result = (payslip.employee_id.l10n_ch_other_activity_gross / result_rules['ISSALARYDTP']['total'] * result_rules['ACTIVITYRATE']['total']) + result_rules['ACTIVITYRATE']['total']
-        elif payslip.employee_id.l10n_ch_total_activity_type == 'percentage':
-            result = result_rules['ACTIVITYRATE']['total'] + payslip.employee_id.l10n_ch_other_activity_percentage
+    if payslip.version_id.l10n_ch_other_employment:
+        if payslip.version_id.l10n_ch_total_activity_type == 'gross':
+            result = (payslip.version_id.l10n_ch_other_activity_gross / result_rules['ISSALARYDTP']['total'] * result_rules['ACTIVITYRATE']['total']) + result_rules['ACTIVITYRATE']['total']
+        elif payslip.version_id.l10n_ch_total_activity_type == 'percentage':
+            result = result_rules['ACTIVITYRATE']['total'] + payslip.version_id.l10n_ch_other_activity_percentage
         else:
             result = 100
     else:
@@ -6481,8 +6481,8 @@ if payslip.l10n_ch_is_code and not payslip.l10n_ch_after_departure_payment == 'N
         is_salary = result_rules['ISSALARY']['total']
         is_dt_salary = result_rules['ISDTSALARY']['total']
         min_is, rate = payslip._find_rate(payslip.l10n_ch_is_code, is_dt_salary)
-        is_amount = max(is_salary * rate / 100, 0) # todo: fix min amount
-        result = -is_amount
+        is_amount = max(is_salary * rate / 100, 0)
+        result = -max(is_amount, min_is)
         payslip._log_is_line(is_canton=canton, municipality=municipality, is_code=code, code='IS', amount=is_amount)
     else:
         total_is = 0

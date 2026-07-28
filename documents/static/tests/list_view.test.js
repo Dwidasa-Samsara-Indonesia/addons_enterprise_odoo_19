@@ -143,6 +143,26 @@ test("Document actions are hidden when focused record is not selected", async fu
     await waitFor(".o_control_panel_actions:contains('Download')");
 });
 
+test("Actions menu opens after selecting multiple records", async function () {
+    onRpc("/documents/touch/<access_token>", () => ({}));
+
+    const serverData = getDocumentsTestServerModelsData([
+        makeDocumentRecordData(2, "File 1", { attachment_id: 1, folder_id: 1 }),
+        makeDocumentRecordData(3, "File 2", { attachment_id: 2, folder_id: 1 }),
+    ]);
+    serverData["ir.attachment"] = [
+        { id: 1, name: "One" },
+        { id: 2, name: "Two" },
+    ];
+    await makeDocumentsMockEnv({ serverData });
+    await mountDocumentsListView();
+    await contains(".o_data_row:contains('File 1') .o_list_record_selector").click();
+    await contains(".o_data_row:contains('File 2') .o_list_record_selector").click();
+    await waitFor(".o_selection_box:contains('2')");
+    await contains(".o_cp_action_menus button:contains('Actions')").click();
+    await waitFor(".o-dropdown--menu .o_menu_item");
+});
+
 test("only show common available actions", async function () {
     await makeDocumentsMockEnv({ serverData: embeddedActionsServerData });
     await mountDocumentsListView();
@@ -180,10 +200,10 @@ test("Required document name", async function () {
         expect(".o_notification").toHaveCount(1);
         expect(".o_notification").toHaveText("Name cannot be empty.");
         await contains(".o_notification .o_notification_close").click();
-        await expect(lr(documentName, ".o_data_cell[name='name'] input")).toHaveValue(documentName);
+        await expect(lr(documentName, ".o_data_cell[name='name']")).toHaveText(documentName);
+        await expect(lr(documentName, ".o_data_cell[name='name'] input")).toHaveCount(0);
         // Remove selection and close record edition
         await contains(".o_list_renderer").click();
-        await contains(".o_list_button_discard").click();
         await animationFrame();
     }
 });
@@ -327,4 +347,18 @@ test("file sharing via link with multiple subfolders", async function () {
     await contains(`.o_data_row .o_field_cell .o_field_documents_type_icon`).click();
     expect(`.o_search_panel_label[data-tooltip="Folder 4"]`).toHaveCount(1);
     expect.verifySteps(["touch 2"]);
+});
+
+test("global click exits edit mode", async function () {
+    onRpc("/documents/touch/<access_token>", () => ({}));
+    const serverData = getDocumentsTestServerModelsData();
+    await makeDocumentsMockEnv({ serverData });
+    await mountDocumentsListView();
+
+    await contains("td.o_list_record_selector").click();
+    await contains('td.o_list_many2one[name="partner_id"]').click();
+    await contains("div.o_list_renderer.o_documents_view.o_renderer_with_searchpanel").click();
+    expect(".o_list_button_save").toHaveCount(0);
+    expect(".o_list_button_discard").toHaveCount(0);
+    expect(".o_data_row_selected").toHaveCount(0);
 });

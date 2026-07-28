@@ -128,3 +128,25 @@ class TestAccountBudget(TestAccountBudgetCommon):
         # The committed/achieved amounts should include both the expense and asset accounts: 100 + 200
         # Previously, these amounts would have been only 100 (the expense account)
         self.assertBudgetLine(budget_line_expense, achieved=300)
+
+    def test_budget_report_analytic_filter(self):
+        self.env['account.analytic.line'].create({
+            'name': 'test aal',
+            'date': '2019-06-01',
+            self.project_column_name: self.analytic_account_partner_a.id,
+            'amount': 100,
+        })
+        result = self.env['budget.report'].formatted_read_grouping_sets(
+            domain=[
+                ('budget_analytic_id', '=', self.budget_analytic_revenue.id),
+                ('budget_line_id', 'in', self.budget_analytic_revenue.budget_line_ids.ids),
+            ],
+            grouping_sets=[['budget_analytic_id', 'budget_line_id']],
+            aggregates=['budget:sum', 'achieved:sum'],
+        )
+        rows = result[0]
+        self.assertEqual(len(rows), 3)
+        for row in rows:
+            self.assertEqual(row['budget_analytic_id'][0], self.budget_analytic_revenue.id)
+        self.assertEqual(sum(row['budget:sum'] for row in rows), 55000.0)
+        self.assertEqual(sum(row['achieved:sum'] for row in rows), 100.0)

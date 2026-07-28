@@ -4,13 +4,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 13:48+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:07+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "account_winbooks_import/da/>\n"
 "Language: da\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_winbooks_import
 #: model_terms:ir.ui.view,arch_db:account_winbooks_import.winbooks_import_form
@@ -31,16 +32,23 @@ msgid ""
 "everything, Odoo will set the difference of balance in a Suspense Account.\n"
 "                    </span>"
 msgstr ""
+"<span invisible=\"only_open\"/>\n"
+"                    <span class=\"text-warning mb4 mt16\" "
+"invisible=\"only_open\">\n"
+"                        Eksport af data fra Winbooks for afsluttede år kan "
+"indeholde ubalancerede posteringer. Hvis du alligevel ønsker at importere "
+"alt, registrerer Odoo saldoafvigelsen på en mellemregningskonto.\n"
+"                    </span>"
 
 #. module: account_winbooks_import
 #: model:ir.model,name:account_winbooks_import.model_account_winbooks_import_wizard
 msgid "Account Winbooks import wizard"
-msgstr "Konto Winbooks import guide"
+msgstr "Assistent til import af Winbooks-konti"
 
 #. module: account_winbooks_import
 #: model:ir.model,name:account_winbooks_import.model_account_import_summary
 msgid "Account import summary view"
-msgstr ""
+msgstr "Oversigt over kontoimport"
 
 #. module: account_winbooks_import
 #. odoo-python
@@ -56,6 +64,9 @@ msgid ""
 "probably an error. Please check entry lines with reference: Counterpart "
 "(generated at import from Winbooks)"
 msgstr ""
+"Der blev oprettet mindst én automatisk modpostering under importen. Dette "
+"kan være en fejl. Kontrollér venligst bogføringslinjerne med referencen: "
+"'Modpostering (genereret ved import fra Winbooks)'"
 
 #. module: account_winbooks_import
 #: model_terms:ir.ui.view,arch_db:account_winbooks_import.winbooks_import_form
@@ -71,13 +82,13 @@ msgstr "Virksomheder"
 #. odoo-python
 #: code:addons/account_winbooks_import/wizard/import_wizard.py:0
 msgid "Company Settings"
-msgstr "Virksomhed Indstillinger"
+msgstr "Virksomhedsindstillinger"
 
 #. module: account_winbooks_import
 #. odoo-python
 #: code:addons/account_winbooks_import/wizard/import_wizard.py:0
 msgid "Counterpart (generated at import from Winbooks)"
-msgstr "Modpart (genereret ved import fra Winbooks)"
+msgstr "Modpostering (genereret ved import fra Winbooks)"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_winbooks_import_wizard__create_uid
@@ -95,7 +106,7 @@ msgstr "Oprettet den"
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_winbooks_import_wizard__display_name
 #: model:ir.model.fields,field_description:account_winbooks_import.field_res_company__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_winbooks_import_wizard__zip_file
@@ -113,33 +124,33 @@ msgstr "ID"
 #. module: account_winbooks_import
 #: model_terms:ir.ui.view,arch_db:account_winbooks_import.winbooks_import_form
 msgid "Import"
-msgstr "Importer"
+msgstr "Importér"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_import_summary__import_summary_analytic_ids
 msgid "Import Summary Analytic"
-msgstr ""
+msgstr "Analytisk importoversigt"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_import_summary__import_summary_analytic_line_ids
 msgid "Import Summary Analytic Line"
-msgstr ""
+msgstr "Analytisk importoversigtlinje"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_import_summary__import_summary_len_analytic
 msgid "Import Summary Len Analytic"
-msgstr ""
+msgstr "Opsummering af analytisk import"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_import_summary__import_summary_len_analytic_line
 msgid "Import Summary Len Analytic Line"
-msgstr ""
+msgstr "Opsummering af analytisk import pr. linje"
 
 #. module: account_winbooks_import
 #. odoo-javascript
 #: code:addons/account_winbooks_import/static/src/xml/account_winbooks_import.xml:0
 msgid "Import WBK"
-msgstr ""
+msgstr "Importér WBK"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_winbooks_import_wizard__only_open
@@ -164,7 +175,7 @@ msgstr "Sidst opdateret den"
 #. module: account_winbooks_import
 #: model:ir.model.fields,help:account_winbooks_import.field_account_move_line__winbooks_line_id
 msgid "Line ID that was used in Winbooks"
-msgstr ""
+msgstr "ID-linjer, der blev brugt i Winbooks"
 
 #. module: account_winbooks_import
 #. odoo-python
@@ -172,6 +183,8 @@ msgstr ""
 msgid ""
 "No data zip in the main archive. Please use the complete Winbooks export."
 msgstr ""
+"Ingen data-zip fundet i hovedarkivet. Brug venligst den komplette Winbooks-"
+"eksport."
 
 #. module: account_winbooks_import
 #. odoo-python
@@ -182,18 +195,19 @@ msgstr "Definér venligst landet for din virksomhed."
 #. module: account_winbooks_import
 #: model_terms:ir.ui.view,arch_db:account_winbooks_import.winbooks_import_form
 msgid "Stage Search"
-msgstr "Fase søgning"
+msgstr "Fasesøgning"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_winbooks_import_wizard__suspense_code
 msgid "Suspense Account Code"
-msgstr "Mellemregningskonto kode"
+msgstr "Mellemregningskonto"
 
 #. module: account_winbooks_import
 #. odoo-python
 #: code:addons/account_winbooks_import/wizard/import_wizard.py:0
 msgid "The code for the Suspense Account you entered doesn't match any account"
-msgstr "Koden du angiv for mellemregningskontoen matcher ikke nogen konto"
+msgstr ""
+"Den angivne kode for mellemregningskontoen matcher ingen eksisterende konto"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,help:account_winbooks_import.field_account_winbooks_import_wizard__suspense_code
@@ -202,19 +216,19 @@ msgid ""
 "unbalanced moves. This might be an account from your Winbooks data, or an "
 "account that you created in Odoo before the import."
 msgstr ""
-"Dette er koden til den konto hvori du vil registrere ikke balancerede "
-"bevægelser. Dette kan muligvis være en konto fra dine Winbooks data, eller "
-"en konto du oprettede i Odoo, før importeringen."
+"Dette er koden for den konto, hvor ikke-balancerede bevægelser registreres. "
+"Det kan være en konto fra dine Winbooks-data eller en konto, du har oprettet "
+"i Odoo før importen."
 
 #. module: account_winbooks_import
 #: model:ir.actions.act_window,name:account_winbooks_import.winbooks_import_action
 msgid "Winbooks Import"
-msgstr "Winbooks import"
+msgstr "Winbooks-import"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,field_description:account_winbooks_import.field_account_move_line__winbooks_line_id
 msgid "Winbooks Line"
-msgstr ""
+msgstr "Winbooks-linje"
 
 #. module: account_winbooks_import
 #: model:ir.model.fields,help:account_winbooks_import.field_account_winbooks_import_wizard__only_open
@@ -222,24 +236,24 @@ msgid ""
 "Years closed in Winbooks are likely to have incomplete data. The counter "
 "part of incomplete entries will be set in a suspense account"
 msgstr ""
-"År afsluttet i Winbooks har sandsynligvis ufuldstændig data. Modparten til "
-"ufuldstændig posteringer vil blive angivet i en mellemregningskonto"
+"År, der er afsluttet i Winbooks, kan have ufuldstændige posteringer. "
+"Differencen vil blive bogført på en mellemregningskonto."
 
 #. module: account_winbooks_import
 #. odoo-python
 #: code:addons/account_winbooks_import/wizard/import_wizard.py:0
 msgid "You should install a Fiscal Localization first."
-msgstr "Du bør først installere en Finans Lokalisering."
+msgstr "Du skal først installere en skattelokalisering."
 
 #. module: account_winbooks_import
 #: model_terms:ir.ui.view,arch_db:account_winbooks_import.account_import_summary_form
 msgid "account analytic lines imported"
-msgstr ""
+msgstr "omkostningsstedslinje importeret"
 
 #. module: account_winbooks_import
 #: model_terms:ir.ui.view,arch_db:account_winbooks_import.account_import_summary_form
 msgid "account analytics imported"
-msgstr ""
+msgstr "omkostningssted importeret"
 
 #~ msgid "Tax Group"
 #~ msgstr "Momsgruppe"

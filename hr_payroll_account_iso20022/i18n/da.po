@@ -8,14 +8,15 @@
 # Mads Søndergaard, 2022
 # JonathanStein <jstein@image.dk>, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:45+0000\n"
-"PO-Revision-Date: 2025-11-12 13:02+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:35+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll_account_iso20022/da/>\n"
 "Language: da\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields,field_description:hr_payroll_account_iso20022.field_hr_payroll_payment_report_wizard__journal_id
@@ -41,7 +42,7 @@ msgstr "Opret betalingsrapport"
 #: model:ir.model.fields,field_description:hr_payroll_account_iso20022.field_hr_payslip__display_name
 #: model:ir.model.fields,field_description:hr_payroll_account_iso20022.field_hr_payslip_run__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: hr_payroll_account_iso20022
 #: model:ir.model,name:hr_payroll_account_iso20022.model_hr_employee
@@ -51,12 +52,12 @@ msgstr "Medarbejder"
 #. module: hr_payroll_account_iso20022
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_account_iso20022.hr_payroll_dashboard_warning_employee_invalid_bank_account
 msgid "Employees With Invalid IBAN Bank Accounts"
-msgstr ""
+msgstr "Medarbejder med ugyldige IBAN-bankkonti"
 
 #. module: hr_payroll_account_iso20022
 #: model:hr.payroll.dashboard.warning,name:hr_payroll_account_iso20022.hr_payroll_dashboard_warning_employee_no_country
 msgid "Employees Without Any Country"
-msgstr ""
+msgstr "Medarbejder uden land"
 
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields,field_description:hr_payroll_account_iso20022.field_hr_payroll_payment_report_wizard__export_format
@@ -66,7 +67,7 @@ msgstr "Eksportformat"
 #. module: hr_payroll_account_iso20022
 #: model:ir.model,name:hr_payroll_account_iso20022.model_hr_payroll_payment_report_wizard
 msgid "HR Payroll Payment Report Wizard"
-msgstr "Guide til betalingsrapporter relateret til lønudbetalinger"
+msgstr "Assistent til betalingsrapporter relateret til lønudbetalinger"
 
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields,field_description:hr_payroll_account_iso20022.field_hr_employee__id
@@ -108,24 +109,25 @@ msgstr "Betalingsrapport"
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields.selection,name:hr_payroll_account_iso20022.selection__hr_payroll_payment_report_wizard__export_format__sepa
 msgid "SEPA"
-msgstr ""
+msgstr "SEPA"
 
 #. module: hr_payroll_account_iso20022
 #. odoo-python
 #: code:addons/hr_payroll_account_iso20022/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Some employees (%s) don't have a valid name on the work contact."
 msgstr ""
+"Nogle medarbejdere (%s) har ikke et gyldigt navn på ansættelseskontrakten."
 
 #. module: hr_payroll_account_iso20022
 #. odoo-python
 #: code:addons/hr_payroll_account_iso20022/wizard/hr_payroll_payment_report_wizard.py:0
 msgid "Some employees (%s) don't have a work contact."
-msgstr ""
+msgstr "Nogle medarbejdere (%s) har ikke en ansættelseskontrakt."
 
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields.selection,name:hr_payroll_account_iso20022.selection__hr_payroll_payment_report_wizard__export_format__iso20022_ch
 msgid "Swiss ISO20022"
-msgstr ""
+msgstr "Schweizisk ISO20022"
 
 #. module: hr_payroll_account_iso20022
 #. odoo-python
@@ -134,8 +136,8 @@ msgid ""
 "The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
 "configure it first."
 msgstr ""
-"Journalen '%s' kræver en gyldig IBAN konto for at betale via SEPA. Opsæt den "
-"venligst først."
+"Journalen '%s' kræver en gyldig IBAN-konto for at kunne betale via SEPA. "
+"Angiv venligst en gyldig IBAN-konto først."
 
 #. module: hr_payroll_account_iso20022
 #. odoo-python
@@ -146,12 +148,12 @@ msgstr ""
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields,field_description:hr_payroll_account_iso20022.field_hr_payslip__iso20022_uetr
 msgid "UETR"
-msgstr ""
+msgstr "UETR"
 
 #. module: hr_payroll_account_iso20022
 #: model:ir.model.fields,help:hr_payroll_account_iso20022.field_hr_payslip__iso20022_uetr
 msgid "Unique end-to-end transaction reference"
-msgstr ""
+msgstr "Unik ende-til-ende-transaktionsreference"
 
 #~ msgid "Cancel"
 #~ msgstr "Annullér"

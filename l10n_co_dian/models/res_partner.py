@@ -1,6 +1,8 @@
 from lxml import etree
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
+
 from odoo.addons.l10n_co_dian import xml_utils
 
 
@@ -14,33 +16,43 @@ class ResPartner(models.Model):
     def _compute_l10n_co_dian_enable_update_data(self):
         for partner in self:
             company = self.env.company
-            partner.l10n_co_dian_enable_update_data = (company.account_fiscal_country_id.code == 'CO'
-                                                       and partner.l10n_latam_identification_type_id
-                                                       and partner.vat)
-
-    # if country_code is not part of the onchange then the _l10n_co_dian_update_data method
-    # will not correctly trigger if the user fills in the l10n_latam_identification_type_id and
-    # vat fields before filling in the country field
-    @api.onchange('l10n_latam_identification_type_id', 'vat')
-    def _l10n_co_dian_onchange_identification_type(self):
-        for partner in self:
-            company = self.env.company
-            if partner.l10n_co_dian_enable_update_data and company.sudo().l10n_co_dian_certificate_ids:
-                partner._l10n_co_dian_update_data(company)
+            partner.l10n_co_dian_enable_update_data = (
+                company.account_fiscal_country_id.code == 'CO'
+                and partner.l10n_latam_identification_type_id
+                and partner.vat
+                and not partner.parent_id
+            )
 
     def button_l10n_co_dian_refresh_data(self):
         self._l10n_co_dian_update_data(self.env.company)
 
     def _l10n_co_dian_update_data(self, company):
         self.ensure_one()
-        data = self._l10n_co_dian_call_get_acquirer({
-            'identification_type': self._l10n_co_edi_get_carvajal_code_for_identification_type(),
-            'identification_number': self._get_vat_without_verification_code(),
+        partner = self.commercial_partner_id
+        data = partner._l10n_co_dian_call_get_acquirer({
+            'identification_type': partner._l10n_co_edi_get_carvajal_code_for_identification_type(),
+            'identification_number': partner._get_vat_without_verification_code(),
             'company': company,
         })
 
-        if data:
-            self.write(data)
+        if not data or data.get('email') == partner.email:
+            return
+        if not partner.email:
+            partner.write(data)
+            return
+
+        if partner.child_ids.filtered(lambda p: 'invoice' in p.type):
+            raise UserError(self.env._(
+                "This contact has already been updated with DIAN information, please review the related invoicing address contact and see if it matches the data returned from DIAN:\nEmail: %(partner_email)s\nName: %(partner_name)s",
+                partner_email=data.get('email'),
+                partner_name=data.get('name'),
+            ))
+
+        self.env['res.partner'].create({
+            **data,
+            'parent_id': partner.id,
+            'type': 'invoice',
+        })
 
     @api.model
     def _l10n_co_dian_call_get_acquirer(self, data: dict):

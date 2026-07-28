@@ -55,11 +55,14 @@ class AccountExternalTaxMixin(models.AbstractModel):
             ]
             raise ValidationError(error + "\n" + "\n".join(partner_errors))
 
+    def _get_avatax_ship_to_partner(self):
+        return self.partner_shipping_id or self.partner_id
+
     def _get_avatax_service_params(self, commit=False):
         params = self._get_external_tax_service_params()
         params.update({
             'commercial_partner': self.partner_id.commercial_partner_id.with_company(self.company_id),
-            'shipping_partner': self.partner_shipping_id or self.partner_id,
+            'shipping_partner': self._get_avatax_ship_to_partner(),
             'unique_code': self.avatax_unique_code,
             'reference': self.name,
             'currency': self.currency_id,

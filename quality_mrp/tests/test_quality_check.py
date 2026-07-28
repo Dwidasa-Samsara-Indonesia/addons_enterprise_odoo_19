@@ -338,3 +338,64 @@ class TestQualityCheck(TestQualityMrpCommon):
         self.assertEqual(production.check_ids.point_id, qp)
         production.check_ids.do_pass()
         self.assertEqual(production.check_ids.quality_state, 'pass')
+
+    def test_quality_check_failure_sets_lot_line_from_production_lot(self):
+        test_picking = self.env['stock.picking.type'].create({
+            'name': 'Recepit',
+            'code': 'incoming',
+            'sequence_code': 'TEST_RECEIPT',
+        })
+        quality_point = self.env['quality.point'].create({
+            'measure_on': 'operation',
+            'picking_type_ids': [Command.link(self.picking_type_id), (Command.link(test_picking.id))],
+            'test_type_id': self.env.ref('quality_control.test_type_measure').id,
+            'product_ids': [Command.link(self.product_id)],
+        })
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product_id,
+            'product_qty': 1,
+            'lot_producing_ids': self.lot_product_27_0,
+        })
+        mo.action_confirm()
+        quality_point.update({
+            'picking_type_ids': [Command.unlink(self.picking_type_id)],
+            'measure_on': 'move_line',
+        })
+        check_action = mo.check_quality()
+        quality_wizard = Form(self.env[check_action['res_model']].with_context(**check_action['context']))
+        quality_wizard.measure = 1
+        action = quality_wizard.save().do_measure()
+        failed_check_wizard = Form(self.env[action['res_model']].with_context(**action['context']))
+        failed_check_wizard = failed_check_wizard.save()
+        self.assertEqual(failed_check_wizard.lot_line_id, mo.lot_producing_ids[:1])
+
+    def test_merge_mo_unlinks_cancelled_mo_quality_checks(self):
+        """Test quality checks of the source MOs unlinks after a merge."""
+        quality_point = self.env['quality.point'].create({
+            'product_ids': [Command.link(self.product.id)],
+            'picking_type_ids': [Command.link(self.picking_type_id)],
+        })
+        productions = self.env['mrp.production'].create([{
+            'product_id': self.product.id,
+            'bom_id': self.bom.id,
+            'product_qty': 1,
+            'product_uom_id': self.product.uom_id.id,
+            'picking_type_id': self.picking_type_id,
+        }, {
+            'product_id': self.product.id,
+            'bom_id': self.bom.id,
+            'product_qty': 2,
+            'product_uom_id': self.product.uom_id.id,
+            'picking_type_id': self.picking_type_id,
+        }])
+        productions.action_confirm()
+        source_checks = productions.check_ids
+        self.assertEqual(len(source_checks), 2)
+
+        action = productions.action_merge()
+        merged_production = self.env['mrp.production'].browse(action['res_id'])
+
+        self.assertEqual(productions.mapped('state'), ['cancel', 'cancel'])
+        self.assertFalse(source_checks.exists())
+        self.assertEqual(merged_production.product_qty, 3)
+        self.assertEqual(merged_production.check_ids.point_id, quality_point)

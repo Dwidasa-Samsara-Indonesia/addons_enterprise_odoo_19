@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 19:15+0000\n"
-"PO-Revision-Date: 2026-04-10 19:15+0000\n"
+"POT-Creation-Date: 2026-07-03 18:06+0000\n"
+"PO-Revision-Date: 2026-07-03 18:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -596,6 +596,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_co_dian.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_co_dian.field_account_move_send__display_name
 #: model:ir.model.fields,field_description:l10n_co_dian.field_certificate_certificate__display_name
+#: model:ir.model.fields,field_description:l10n_co_dian.field_ir_module_module__display_name
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_claim_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_document__display_name
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_operation_mode__display_name
@@ -764,6 +765,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_co_dian.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_co_dian.field_account_move_send__id
 #: model:ir.model.fields,field_description:l10n_co_dian.field_certificate_certificate__id
+#: model:ir.model.fields,field_description:l10n_co_dian.field_ir_module_module__id
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_claim_wizard__id
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_document__id
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_operation_mode__id
@@ -948,6 +950,11 @@ msgstr ""
 #. module: l10n_co_dian
 #: model:ir.model.fields,field_description:l10n_co_dian.field_l10n_co_dian_document__message_json
 msgid "Message Json"
+msgstr ""
+
+#. module: l10n_co_dian
+#: model:ir.model,name:l10n_co_dian.model_ir_module_module
+msgid "Module"
 msgstr ""
 
 #. module: l10n_co_dian
@@ -1386,6 +1393,15 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_co_dian/models/res_config_settings.py:0
 msgid "This action must only be called while in certification mode."
+msgstr ""
+
+#. module: l10n_co_dian
+#. odoo-python
+#: code:addons/l10n_co_dian/models/res_partner.py:0
+msgid ""
+"This contact has already been updated with DIAN information, please review the related invoicing address contact and see if it matches the data returned from DIAN:\n"
+"Email: %(partner_email)s\n"
+"Name: %(partner_name)s"
 msgstr ""
 
 #. module: l10n_co_dian

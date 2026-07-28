@@ -849,13 +849,13 @@
               { "type": "chart", "chartId": "e70a3910-07b9", "title": "Chart" },
               { "type": "carouselDataView", "title": "Top 5" }
             ],
-            "fieldMatching": {},
             "title": {
               "text": "Top 5 failed reasons",
               "bold": true,
               "fontSize": 21,
               "color": "#2D7E84"
-            }
+            },
+            "fieldMatching": {}
           }
         }
       ],
@@ -990,7 +990,7 @@
         "B12": "=iferror((B7+B8)/B10,0)",
         "B13": "=iferror((B9)/SUM(B7:B8),0)",
         "B14": "=iferror((B9)/B10,0)",
-        "B16": "=iferror(B7/B10,0)",
+        "B16": "=IFERROR((B7+B9)/B10,0)",
         "B17": "=iferror(B4/B10,0)",
         "B21": "=PIVOT.VALUE(6,\"__count\")",
         "C1": "=_t(\"N-1\")",
@@ -1007,7 +1007,7 @@
         "C12": "=iferror((C7+C8)/C10,0)",
         "C13": "=iferror((C9)/SUM(C7:C8),0)",
         "C14": "=iferror((C9)/C10,0)",
-        "C16": "=iferror(C7/C10,0)",
+        "C16": "=iferror((C7+C9)/C10,0)",
         "C17": "=iferror(C4/C10,0)",
         "C21": "=PIVOT.VALUE(7,\"__count\")",
         "D13": "=_t(\"Requires # of click date defined -> worth ? change ?\")",

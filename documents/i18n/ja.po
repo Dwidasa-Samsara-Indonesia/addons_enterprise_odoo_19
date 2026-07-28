@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:44+0000\n"
-"PO-Revision-Date: 2026-02-14 09:58+0000\n"
+"POT-Creation-Date: 2026-06-05 19:35+0000\n"
+"PO-Revision-Date: 2026-06-10 09:31+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "documents/ja/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: documents
 #. odoo-python
@@ -1326,6 +1326,12 @@ msgstr ""
 "行うことができます。"
 
 #. module: documents
+#: model:res.groups,comment:documents.group_documents_user
+msgid ""
+"Can embed actions on folders, insert in Spreadsheet, and import in Sign."
+msgstr ""
+
+#. module: documents
 #. odoo-python
 #: code:addons/documents/wizard/documents_sharing.py:0
 msgid "Can modify, delete, and rename."
@@ -1349,13 +1355,6 @@ msgstr "内容の表示のみ可能です。項目の追加、変更、削除は
 #: code:addons/documents/wizard/documents_sharing.py:0
 msgid "Can only view. Cannot rename, move, or delete."
 msgstr "表示のみ可能です。名前の変更、移動、削除はできません。"
-
-#. module: documents
-#: model:res.groups,comment:documents.group_documents_user
-msgid "Can view or edit, upload, and share their own or shared documents."
-msgstr ""
-"自身のドキュメントまたは共有ドキュメントを閲覧・編集、アップロード、共有でき"
-"ます。"
 
 #. module: documents
 #. odoo-javascript
@@ -1878,6 +1877,8 @@ msgstr "ドキュメントが%(folder_name)s に移動されました!"
 
 #. module: documents
 #. odoo-javascript
+#. odoo-python
+#: code:addons/documents/models/documents_document.py:0
 #: code:addons/documents/static/src/views/documents_model_mixin.js:0
 msgid "Document not found or inaccessible."
 msgstr ""
@@ -2214,7 +2215,7 @@ msgstr "保存せずに出る"
 #. odoo-javascript
 #: code:addons/documents/static/src/views/fields/documents_datetime/documents_datetime_field.xml:0
 msgid "Exp:"
-msgstr "使用期限:"
+msgstr "有効期限:"
 
 #. module: documents
 #: model:ir.model.fields,field_description:documents.field_documents_access__expiration_date
@@ -2263,7 +2264,7 @@ msgstr "ファイルコンテンツ(base64)"
 #. module: documents
 #: model:ir.model.fields,field_description:documents.field_documents_document__raw
 msgid "File Content (raw)"
-msgstr "フィールドの内容(生)"
+msgstr "ファイル内容 (raw)"
 
 #. module: documents
 #: model:ir.model.fields,field_description:documents.field_documents_document__file_extension
@@ -3475,7 +3476,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/documents/static/src/views/helper/documents_action_helper.xml:0
 msgid "Or send emails to"
-msgstr "または、次のドレスにEメールを送ってください。"
+msgstr "または、次の宛先にメールを送信："
 
 #. module: documents
 #: model:ir.model.fields,field_description:documents.field_documents_sharing_access__original_expiration_date
@@ -3754,7 +3755,7 @@ msgstr "役割"
 #. module: documents
 #: model:ir.model.fields,field_description:documents.field_documents_document__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: documents
 #: model_terms:ir.ui.view,arch_db:documents.documents_sharing_view_form
@@ -3775,9 +3776,7 @@ msgstr "検索..."
 
 #. module: documents
 #. odoo-javascript
-#: code:addons/documents/static/src/core/common/composer_actions_patch.js:0
-#: code:addons/documents/static/src/editor/plugins/add_documents_attachment_plugin.js:0
-#: code:addons/documents/static/src/web/mail_composer_document_selector/mail_composer_document_selector.js:0
+#: code:addons/documents/static/src/views/view_dialogs/select_add_document_create_dialog.js:0
 msgid "Search: Documents"
 msgstr "検索: ドキュメント"
 
@@ -3949,7 +3948,7 @@ msgstr "共有"
 #. module: documents
 #: model_terms:ir.ui.view,arch_db:documents.document_view_search
 msgid "Shared with"
-msgstr "以下と共有:"
+msgstr "共有先"
 
 #. module: documents
 #: model_terms:ir.ui.view,arch_db:documents.document_view_search
@@ -4436,7 +4435,7 @@ msgstr "タイプ"
 #. module: documents
 #: model:ir.model.fields,help:documents.field_documents_document__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "記録上の例外活動の種類。"
+msgstr "レコード上の例外の活動タイプ。"
 
 #. module: documents
 #: model:ir.model.fields.selection,name:documents.selection__documents_document__type__url
@@ -4642,12 +4641,6 @@ msgstr "ドキュメントをアーカイブ(解除)する権利はありませ�
 #: code:addons/documents/models/documents_document.py:0
 msgid "You are not allowed to change ownerships of documents you do not own."
 msgstr "自分が所有者ではないドキュメントの所有権を変更する権利はありません。"
-
-#. module: documents
-#. odoo-python
-#: code:addons/documents/models/documents_document.py:0
-msgid "You are not allowed to delete all these items."
-msgstr "これら全ての項目を削除する権利はありません。"
 
 #. module: documents
 #. odoo-python
@@ -5080,6 +5073,14 @@ msgid ""
 msgstr ""
 "•\n"
 "                                        <b>URL</b>"
+
+#~ msgid "Can view or edit, upload, and share their own or shared documents."
+#~ msgstr ""
+#~ "自身のドキュメントまたは共有ドキュメントを閲覧・編集、アップロード、共有で"
+#~ "きます。"
+
+#~ msgid "You are not allowed to delete all these items."
+#~ msgstr "これら全ての項目を削除する権利はありません。"
 
 #~ msgid "2025"
 #~ msgstr "2025"

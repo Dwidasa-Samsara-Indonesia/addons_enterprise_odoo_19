@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:53+0000\n"
+"POT-Creation-Date: 2026-07-10 17:53+0000\n"
 "PO-Revision-Date: 2025-11-17 07:00+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -564,12 +564,6 @@ msgid "From"
 msgstr "来自"
 
 #. module: sale_commission
-#. odoo-python
-#: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "From must be before To"
-msgstr "从必须在到之前"
-
-#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
 msgid "Has Message"
 msgstr "有消息"
@@ -995,9 +989,22 @@ msgstr "目标"
 
 #. module: sale_commission
 #. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid "The assignment start date must be before the end date"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The plan should have at least one target with an achievement rate of 0%"
 msgstr "该计划应至少有一个实现率为 0% 的目标"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid ""
+"The sales person's assignment must be within the commission plan period."
+msgstr ""
 
 #. module: sale_commission
 #. odoo-python
@@ -1111,8 +1118,8 @@ msgstr "计划结束后，用户期间无法结束。"
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "User period cannot start before the plan."
-msgstr "计划结束后，用户期间无法结束。"
+msgid "User period cannot start after the plan."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__website_message_ids
@@ -1154,3 +1161,9 @@ msgstr "即 2025 年委员会计划"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "per"
 msgstr "每"
+
+#~ msgid "From must be before To"
+#~ msgstr "从必须在到之前"
+
+#~ msgid "User period cannot start before the plan."
+#~ msgstr "计划结束后，用户期间无法结束。"

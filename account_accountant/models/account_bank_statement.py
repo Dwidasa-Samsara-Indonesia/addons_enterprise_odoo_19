@@ -2,13 +2,14 @@ import logging
 import re
 import string
 
+from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup
 
 from odoo import Command, SUPERUSER_ID, _, api, fields, models, modules, tools
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Domain
-from odoo.tools import SQL, float_compare, float_is_zero, format_date
+from odoo.tools import SQL, float_compare, float_is_zero, format_date, frozendict
 from odoo.addons.account.tools.structured_reference import is_valid_structured_reference
 
 _logger = logging.getLogger(__name__)
@@ -83,6 +84,9 @@ class AccountBankStatementLine(models.Model):
 
     bank_statement_attachment_ids = fields.One2many('ir.attachment', compute='_compute_bank_statement_attachment_ids')
     attachment_ids = fields.One2many('ir.attachment', related="move_id.attachment_ids")
+    has_attachments = fields.Boolean(compute='_compute_has_attachments')
+    has_invalid_analytics = fields.Boolean(compute='_compute_has_invalid_analytics')
+    reconciled_lines_name = fields.Char(compute='_compute_reconciled_lines_name')
 
     def action_save_close(self):
         return {'type': 'ir.actions.act_window_close'}
@@ -109,6 +113,34 @@ class AccountBankStatementLine(models.Model):
 
         for st_line in self:
             st_line.bank_statement_attachment_ids = attachments.get(st_line.statement_id.id)
+
+    @api.depends('attachment_ids')
+    def _compute_has_attachments(self):
+        for st_line in self:
+            st_line.has_attachments = (
+                st_line.attachment_ids
+                or st_line.bank_statement_attachment_ids
+                or st_line.line_ids.reconciled_lines_ids.move_attachment_ids
+            )
+
+    @api.depends('line_ids.name')
+    def _compute_reconciled_lines_name(self):
+        def compute_line_name(aml):
+            return (
+                aml.first_reconciled_lines_excluding_exchange_diff_id.move_name
+                or aml.account_id.display_name
+            )
+
+        for st_line in self:
+            reconciled_line_ids = st_line.line_ids.filtered(
+                lambda aml: aml.account_id not in {st_line.journal_id.suspense_account_id, st_line.journal_id.default_account_id}
+            )[0:5]
+            st_line.reconciled_lines_name = ', '.join(reconciled_line_ids.mapped(compute_line_name))
+
+    @api.depends('line_ids.has_invalid_analytics')
+    def _compute_has_invalid_analytics(self):
+        for st_line in self:
+            st_line.has_invalid_analytics = any(line.has_invalid_analytics for line in st_line.line_ids)
 
     ####################################################
     # RECONCILIATION PROCESS
@@ -168,14 +200,19 @@ class AccountBankStatementLine(models.Model):
             _logger.warning("_cron_try_auto_reconcile_statement_lines called with "
                             "limit_time=%r but batch_size=%r won't limit anything", limit_time, batch_size)
 
+        FAILED_ONCE = '1970-01-01 00:00:00'  # special value flaging the line for a retry
+        already_processed_during_this_round = []  # ensure we retry in another trigger
+
         def compute_st_lines_to_reconcile(company_id=None):
             # Find the bank statement lines that are not reconciled and try to reconcile them automatically.
             # The ones that are never be processed by the CRON before are processed first.
             remaining_line_id = None
             limit = batch_size + 1 if batch_size else None
+            # Fetch the lines that haven't been tried before or have only failed once
             domain = Domain([
                 ('is_reconciled', '=', False),
-                ('cron_last_check', '=', False),
+                ('cron_last_check', 'in', [False, FAILED_ONCE]),
+                ('id', 'not in', already_processed_during_this_round)
             ])
             if company_id is not None:
                 domain &= Domain(self.env['account.reconcile.model']._check_company_domain(company_id))
@@ -203,7 +240,7 @@ class AccountBankStatementLine(models.Model):
                 st_lines, remaining_line_id = compute_st_lines_to_reconcile(company_id=company_id)
 
                 if not st_lines:
-                    return
+                    break
 
                 st_lines._try_auto_reconcile_statement_lines(company_id=company_id)
             except Exception as e:  # noqa: BLE001
@@ -212,13 +249,21 @@ class AccountBankStatementLine(models.Model):
                     _logger.warning("_cron_try_auto_reconcile_statement_lines will rollback the cursor")
                     self.env.cr.rollback()
                 if st_lines.exists():
-                    st_lines.cron_last_check = fields.Datetime.now()
+                    second_fail_lines = st_lines.filtered(lambda l: l.cron_last_check)
+                    second_fail_lines.cron_last_check = fields.Datetime.now()
+
+                    first_fail_lines = st_lines.filtered(lambda l: not l.cron_last_check)
+                    if first_fail_lines:
+                        # set the remaining line id so that the cron is re-triggered if there are failed lines to be retried
+                        remaining_line_id = remaining_line_id or first_fail_lines[0].id
+                        first_fail_lines.cron_last_check = FAILED_ONCE
+                        already_processed_during_this_round.extend(first_fail_lines.ids)
 
             # Commit if we can, in case an issue arises later.
             if can_commit:
                 self.env.cr.commit()
 
-        if remaining_line_id:
+        if remaining_line_id := remaining_line_id or (already_processed_during_this_round and already_processed_during_this_round[0]):
             _logger.info("_cron_try_auto_reconcile_statement_lines remaining line found (%s), the cron will be triggered again", remaining_line_id)
             # If some statement lines couldn't be processed because of the cron limits, manually re-trigger the cron
             self.env.ref('account_accountant.auto_reconcile_bank_statement_line')._trigger()
@@ -256,9 +301,10 @@ class AccountBankStatementLine(models.Model):
         if len(candidate_amls) == 1:
             return candidate_amls
 
-        # if we have multiple candidates we take the invoice with the closer prior or equal date
-        if prior_amls := candidate_amls.filtered(lambda aml: aml.invoice_date and aml.invoice_date <= st_line.date):
-            return max(prior_amls, key=lambda aml: aml.invoice_date)
+        # if we have multiple candidates and only one of them has a prior or equal date, we return that one, else we return None
+        prior_amls = candidate_amls.filtered(lambda aml: aml.invoice_date and aml.invoice_date <= st_line.date)
+        if len(prior_amls) == 1:
+            return prior_amls
         return None
 
     def _handle_reconciliation_matching_amount(self, st_move_ids, account_ids, remaining_st_line_ids, match_journal=False):
@@ -326,7 +372,154 @@ class AccountBankStatementLine(models.Model):
             domain = Domain(self.env['account.reconcile.model']._check_company_domain(company_id))
         reco_models = self.env['account.reconcile.model'].search(domain)
 
-        # partner mapping
+        ##############################################
+        # Partner Mapping
+        ##############################################
+        self._partner_mapping(reco_models)
+
+        ##############################################
+        # Global Flushing
+        ##############################################
+        # global flushing of tables that should not be updated between the different SQL queries
+        self.env['account.account'].flush_model(['account_type', 'active'])
+        self.env['account.move'].flush_model(['date', 'amount_total'])
+        self.env['account.move.line'].flush_model([
+            'ref', 'move_id', 'move_name', 'account_id', 'partner_id', 'company_id',
+            'reconciled', 'company_currency_id', 'amount_residual',
+            'currency_id', 'amount_residual_currency',
+            'discount_date', 'discount_balance', 'discount_amount_currency',
+        ])
+        self.flush_recordset([
+            'move_id', 'partner_id', 'company_id', 'currency_id',
+            'amount', 'foreign_currency_id', 'amount_currency', 'payment_ref'
+        ])
+        self.env['account.payment'].flush_model(['move_id', 'journal_id', 'memo'])
+
+        # get all reconciliable accounts that can be used in the bank reconciliation (invoice & payment matching)
+        # note that we:
+        #   * include reconciliable accounts that aren't of receivable/payable type
+        #   * exclude suspense accounts from bank journals because it wouldn't make sense as we use the suspense accounts to know
+        #     when an entry has to be processed. If we reconcile it from another way, it would still be considered as unprocessed
+        #     in the reconciliation widget.
+        #   * later: exclude the outstanding accounts from bank journals because we don't want an outstanding payment made in journal A
+        #     to be match with a transaction in journal B. The outstanding payments are treated separatelly prior to the matching
+        #   * exclude the liquidity account
+        account_ids = self.env['account.account'].search([('reconcile', '=', True), ('account_type', 'not in', ('asset_cash', 'liability_credit_card'))])
+        account_ids -= self.env['account.journal'].search([('type', 'in', ['bank', 'cash', 'credit'])]).suspense_account_id
+        account_ids -= self.journal_id.default_account_id
+        account_ids = account_ids.ids
+
+        ##############################################
+        # End To End ID
+        ##############################################
+        processed_st_line_ids = self._end_to_end_uuid(st_move_ids, account_ids)
+        remaining_st_line_ids = set(self.ids) - processed_st_line_ids
+
+        # early return if we already processed everything
+        if not remaining_st_line_ids:
+            self.write({'cron_last_check': self.env.cr.now()})
+            return
+
+        ##############################################
+        # Outstanding Accounts
+        ##############################################
+        processed_st_line_ids = set()
+        outstanding_accounts = self.env['account.payment.method.line'].search([]).payment_account_id
+        outstanding_accounts -= self.journal_id.default_account_id
+        if outstanding_accounts:
+            self._match_accounts_query(st_move_ids, outstanding_accounts.ids, remaining_st_line_ids, True)
+
+            for st_line_id, aml_id, _aml_amount_residual, _matching_word in self.env.cr.fetchall():
+                st_line = self.browse(st_line_id).with_prefetch(self._prefetch_ids)  # guarantees batch prefetching if needed
+                st_line.with_context(skip_account_review_check=True).set_line_bank_statement_line(aml_id)
+                _logger.info("try_auto_reconcile - outstanding - st_line: %s set line %s", st_line.id, aml_id)
+                if st_line.currency_id.is_zero(st_line.amount_residual):
+                    processed_st_line_ids.add(st_line.id)
+
+            remaining_st_line_ids -= processed_st_line_ids
+            if remaining_st_line_ids:
+                remaining_st_line_ids -= self._handle_reconciliation_matching_amount(st_move_ids, outstanding_accounts.ids, remaining_st_line_ids, match_journal=True)
+
+        # Then try to match invoices and payments where we can't be wrong, using the statement lines payment_ref
+        # At this point, we're not trying to search for outstanding payments anymore
+        account_ids = list(set(account_ids) - set(outstanding_accounts.ids))
+
+        # early return if we already processed everything
+        if not (remaining_st_line_ids and account_ids):
+            self.write({'cron_last_check': fields.Datetime.now()})
+            return
+
+        ##############################################
+        # Remaining Accounts
+        ##############################################
+        self._match_accounts_query(st_move_ids, account_ids, remaining_st_line_ids)
+
+        st_lines_refs = {}
+        to_process = {}
+
+        # make sure that a match on payment_ref can't be used to match several distinct aml, even if we are sure the same ref can't
+        # be found twice because of the HAVING COUNT(*) = 1, we still need to exclude cases where one ref is included in another.
+        for st_line_id, aml_id, aml_amount_residual, matching_word in self.env.cr.fetchall():
+            st_line = self.browse(st_line_id).with_prefetch(self._prefetch_ids)  # guarantees batch prefetching if needed
+            # ignore matching words that aren't complete words (not delimited per spaces or punctuation). Doing that in post
+            # process rather than in the query itself because the SQL regex operations can't use the index
+            if not self._is_properly_surrounded(st_line.payment_ref, matching_word):
+                continue
+            to_process[st_line_id, matching_word] = [(aml_id, aml_amount_residual)]
+            for word in st_lines_refs.get(st_line_id, []):
+                if word in matching_word or matching_word in word:
+                    del to_process[st_line_id, matching_word]
+                    del to_process[st_line_id, word]
+            if st_line_id not in st_lines_refs:
+                st_lines_refs[st_line_id] = []
+            st_lines_refs[st_line_id].append(matching_word)
+
+        ref_amls_sum = {}
+        for key, to_process_list in to_process.items():
+            st_line_id, matching_word = key
+            st_line = self.browse(st_line_id).with_prefetch(self._prefetch_ids)  # guarantees batch prefetching if needed
+            for aml_id, aml_amount_residual in to_process_list:
+                # Exclude move lines to prevent reconciliation when the total residual exceeds the statement line amount
+                if st_line_id in ref_amls_sum:
+                    if ref_amls_sum[st_line_id] <= 0:
+                        continue
+                    ref_amls_sum[st_line_id] -= aml_amount_residual
+                else:
+                    ref_amls_sum[st_line_id] = st_line.amount - aml_amount_residual
+                st_line.with_user(SUPERUSER_ID).set_line_bank_statement_line(aml_id)
+                _logger.info("try_auto_reconcile - payment ref - st_line: %s set line %s", st_line.id, aml_id)
+                if st_line.currency_id.is_zero(st_line.amount_residual):
+                    processed_st_line_ids.add(st_line.id)
+        remaining_st_line_ids -= processed_st_line_ids
+
+        # early return if we already processed everything
+        if not remaining_st_line_ids:
+            self.write({'cron_last_check': self.env.cr.now()})
+            return
+
+        remaining_st_line_ids -= self._handle_reconciliation_matching_amount(st_move_ids, account_ids, remaining_st_line_ids)
+
+        # early return if we already processed everything
+        if not remaining_st_line_ids:
+            self.write({'cron_last_check': self.env.cr.now()})
+            return
+
+        ##############################################
+        # Reconcile Models
+        ##############################################
+        remaining_st_lines = self.browse(list(remaining_st_line_ids)).with_prefetch(self._prefetch_ids)
+        reco_models._apply_reconcile_models(remaining_st_lines)
+        _logger.info("try_auto_reconcile - apply reco models - st_lines: %s - reco models %s", remaining_st_lines.ids, reco_models.ids)
+
+        self.write({'cron_last_check': self.env.cr.now()})
+
+    def _partner_mapping(self, reco_models):
+        """
+            Finds the reconcile model that matches each of the statement lines and assigns the partner of the reconcile model items (if found)
+            to the statement line if the account is not set in the item, and the statement line doesn't have a partner set.
+
+            :param reco_models: recordset of reconcile models to match partners with statement lines
+        """
         self.env['account.reconcile.model'].flush_model()
         self.flush_recordset(['journal_id', 'transaction_details', 'payment_ref', 'company_id'])
         self.env.cr.execute(SQL("""
@@ -382,36 +575,15 @@ class AccountBankStatementLine(models.Model):
             st_line.partner_id = mapped_partner_id
             _logger.info("try_auto_reconcile - partner mapping done for st_line: %s and partner %s", st_line.id, mapped_partner_id)
 
-        # global flushing of tables that should not be updated between the different SQL queries
-        self.env['account.account'].flush_model(['account_type', 'active'])
-        self.env['account.move'].flush_model(['date', 'amount_total'])
-        self.env['account.move.line'].flush_model([
-            'ref', 'move_id', 'move_name', 'account_id', 'partner_id', 'company_id',
-            'reconciled', 'company_currency_id', 'amount_residual',
-            'currency_id', 'amount_residual_currency',
-            'discount_date', 'discount_balance', 'discount_amount_currency',
-        ])
-        self.flush_recordset([
-            'move_id', 'partner_id', 'company_id', 'currency_id',
-            'amount', 'foreign_currency_id', 'amount_currency', 'payment_ref'
-        ])
-        self.env['account.payment'].flush_model(['move_id', 'journal_id', 'memo'])
+    def _end_to_end_uuid(self, st_move_ids, account_ids):
+        """
+            Matches the statement lines with paymens using end to end uuid which is generated when the payment is created
+            and forwarded through the banking process
 
-        # get all reconciliable accounts that can be used in the bank reconciliation (invoice & payment matching)
-        # note that we:
-        #   * include reconciliable accounts that aren't of receivable/payable type
-        #   * exclude suspense accounts from bank journals because it wouldn't make sense as we use the suspense accounts to know
-        #     when an entry has to be processed. If we reconcile it from another way, it would still be considered as unprocessed
-        #     in the reconciliation widget.
-        #   * later: exclude the outstanding accounts from bank journals because we don't want an outstanding payment made in journal A
-        #     to be match with a transaction in journal B. The outstanding payments are treated separatelly prior to the matching
-        #   * exclude the liquidity account
-        account_ids = self.env['account.account'].search([('reconcile', '=', True), ('account_type', 'not in', ('asset_cash', 'liability_credit_card'))])
-        account_ids -= self.env['account.journal'].search([('type', 'in', ['bank', 'cash', 'credit'])]).suspense_account_id
-        account_ids -= self.journal_id.default_account_id
-        account_ids = account_ids.ids
-
-        # First, try to match invoices and payments using the end to end ID.
+            :param st_move_ids: list of statement line move ids
+            :param account_ids: list of account ids that can be used for reconciliation
+            :return: set of statement line ids that were successfully matched during this pass
+        """
         processed_st_line_ids = set()
         st_lines_with_end_to_end_uuid_ids = 'end_to_end_uuid' in self._fields and self.filtered('end_to_end_uuid').ids
         if st_lines_with_end_to_end_uuid_ids:
@@ -432,10 +604,15 @@ class AccountBankStatementLine(models.Model):
                       )
                  LEFT JOIN res_company aml_company ON aml_company.id = aml.company_id
                  LEFT JOIN res_company payment_company ON payment_company.id = payment.company_id
+                 LEFT JOIN res_company st_line_company ON st_line_company.id = st_line.company_id
                      WHERE aml.move_id NOT IN %(st_move_ids)s
                        AND (
                               aml_company.parent_path LIKE CONCAT(payment_company.id, '/%%')
                            OR payment_company.parent_path LIKE CONCAT(aml_company.id, '/%%')
+                       )
+                       AND (
+                              st_line_company.parent_path LIKE CONCAT(payment_company.id, '/%%')
+                           OR payment_company.parent_path LIKE CONCAT(st_line_company.id, '/%%')
                        )
                        AND aml.reconciled = false
                        AND aml.account_id IN %(account_ids)s
@@ -477,68 +654,22 @@ class AccountBankStatementLine(models.Model):
                     amls_to_create = payment.with_company(st_line.company_id)._get_amls_for_payment_without_move()
                     st_line.with_company(st_line.company_id).with_user(SUPERUSER_ID)._reconcile_payments(payment, amls_to_create)
                     processed_st_line_ids.add(st_line_id)
+        return processed_st_line_ids
 
-        remaining_st_line_ids = set(self.ids) - processed_st_line_ids
+    def _match_accounts_query(self, st_move_ids, account_ids, remaining_st_line_ids, outstanding_account=False):
+        """
+            Reconciles statement lines with entries that have the same payment reference as the statement line's label.
+            Used as a generic query between outstanding and default accounts.
 
-        # early return if we already processed everything
-        if not remaining_st_line_ids:
-            self.write({'cron_last_check': self.env.cr.now()})
-            return
-
-        # Then match existing outstanding payments in odoo, on the same journal and with the exact same payment_ref
-        processed_st_line_ids = set()
-        outstanding_accounts = self.env['account.payment.method.line'].search([]).payment_account_id
-        outstanding_accounts -= self.journal_id.default_account_id
-        if outstanding_accounts:
-            query = SQL("""
-                SELECT st_line.id,
-                       ARRAY_AGG(DISTINCT word_aml.id) aml_id
-                  FROM account_bank_statement_line st_line
-          JOIN LATERAL (
-                        SELECT aml.id, word, aml.ref
-                          FROM account_move_line aml
-                     LEFT JOIN account_move move ON (move.id = aml.move_id AND move.payment_reference != move.name),
-                       LATERAL regexp_split_to_table(
-                                  COALESCE(aml.ref, '') || ' - ' ||
-                                  COALESCE(aml.move_name, '') || ' - ' ||
-                                  COALESCE(move.payment_reference, ''), ' - '
-                               ) AS word
-                         WHERE (st_line.partner_id IS NULL OR st_line.partner_id = aml.partner_id)
-                           AND aml.journal_id = st_line.journal_id
-                           AND aml.move_id NOT IN %s
-                           AND aml.reconciled = false
-                           AND aml.account_id IN %s
-                           AND aml.company_id = st_line.company_id
-                           AND ((st_line.amount > 0 AND aml.balance > 0) OR (st_line.amount < 0 AND aml.balance < 0))
-                           AND (aml.parent_state IN ('draft', 'posted'))
-                           AND st_line.id IN %s
-                           AND (
-                                length(word) > 5 AND st_line.payment_ref ILIKE '%%' || word || '%%'
-                               )
-                       ) word_aml ON TRUE
-              GROUP BY st_line.id
-                HAVING COUNT(DISTINCT word_aml.id) = 1
-            """, tuple(st_move_ids), tuple(outstanding_accounts.ids), tuple(remaining_st_line_ids))
-            self.env.cr.execute(query)
-            for st_line_id, aml_id in self.env.cr.fetchall():
-                st_line = self.browse(st_line_id).with_prefetch(self._prefetch_ids)  # guarantees batch prefetching if needed
-                st_line.set_line_bank_statement_line(aml_id)
-                _logger.info("try_auto_reconcile - outstanding - st_line: %s set line %s", st_line.id, aml_id)
-                if st_line.currency_id.is_zero(st_line.amount_residual):
-                    processed_st_line_ids.add(st_line.id)
-
-            remaining_st_line_ids -= processed_st_line_ids
-            if remaining_st_line_ids:
-                remaining_st_line_ids -= self._handle_reconciliation_matching_amount(st_move_ids, outstanding_accounts.ids, remaining_st_line_ids, match_journal=True)
-
-        # Then try to match invoices and payments where we can't be wrong, using the statement lines payment_ref
-        # At this point, we're not trying to search for outstanding payments anymore
-        account_ids = list(set(account_ids) - set(outstanding_accounts.ids))
-
-        # early return if we already processed everything
-        if not (remaining_st_line_ids and account_ids):
-            self.write({'cron_last_check': fields.Datetime.now()})
-            return
+            :param st_move_ids: list of statement line move ids
+            :param account_ids: list of account ids that can be used for reconciliation
+            :param remaining_st_line_ids: set of remaining statement line ids to process
+            :param outstanding_account: boolean to specify the query type
+        """
+        if outstanding_account:
+            extra_condition = SQL("aml.journal_id = st_line.journal_id")
+        else:
+            extra_condition = SQL("aml.currency_id = COALESCE(st_line.foreign_currency_id, st_line.currency_id)")
 
         query = SQL("""
                 SELECT st_line.id,
@@ -548,237 +679,184 @@ class AccountBankStatementLine(models.Model):
                   FROM account_bank_statement_line st_line
           JOIN LATERAL (
                         SELECT aml.id, word, aml.ref, aml.amount_residual
-                          FROM account_move_line aml
+                          FROM res_company st_line_company
+                     JOIN res_company aml_company ON (
+                         aml_company.parent_path LIKE CONCAT(st_line_company.id, '/%%')
+                         OR st_line_company.parent_path LIKE CONCAT(aml_company.id, '/%%')
+                     )
+                     JOIN account_move_line aml ON (
+                         aml.company_id = aml_company.id
+                         AND aml.account_id IN %s
+                         AND aml.reconciled IS NOT TRUE
+                         AND %s
+                     )
                      LEFT JOIN account_move move ON (move.id = aml.move_id AND move.payment_reference != move.name),
                        LATERAL regexp_split_to_table(
                                   COALESCE(aml.ref, '') || ' - ' ||
                                   COALESCE(aml.move_name, '') || ' - ' ||
                                   COALESCE(move.payment_reference, ''), ' - '
                                ) AS word
-                         WHERE (st_line.partner_id IS NULL OR st_line.partner_id = aml.partner_id)
+                         WHERE st_line_company.id = st_line.company_id
+                           AND (st_line.partner_id IS NULL OR st_line.partner_id = aml.partner_id)
                            AND aml.move_id NOT IN %s
-                           AND aml.reconciled = false
-                           AND aml.account_id IN %s
-                           AND aml.company_id = st_line.company_id
-                           AND aml.currency_id = COALESCE(st_line.foreign_currency_id, st_line.currency_id)
                            AND ((st_line.amount > 0 AND aml.balance > 0) OR (st_line.amount < 0 AND aml.balance < 0))
                            AND (aml.parent_state IN ('draft', 'posted'))
-                           AND st_line.id IN %s
                            AND (
                                 length(word) > 5 AND st_line.payment_ref ILIKE '%%' || word || '%%'
                                )
                        ) word_aml ON TRUE
+                 WHERE
+                     st_line.id IN %s
               GROUP BY st_line.id, matching_word
                 HAVING COUNT(DISTINCT word_aml.id) = 1
-        """, tuple(st_move_ids), tuple(account_ids), tuple(remaining_st_line_ids))
+        """, tuple(account_ids), extra_condition, tuple(st_move_ids), tuple(remaining_st_line_ids))
         self.env.cr.execute(query)
 
-        st_lines_refs = {}
-        to_process = {}
-
-        def is_properly_surrounded(text, substring):
-            """
-            Definition of what a valid matching word can be: any string, containing whitespaces or not, surrounded by
-            start/end of line, whitespace, or punctuation in ['.', ';', ',', '?', '!'].
-            """
-            # Escape substring for regex safety
-            sub_escaped = re.escape(substring)
-            # Allowed delimiters: start (^), end ($), whitespace (\s), or [. ; , ? !]
-            pattern = rf"(^|[\s\.;,?!]){sub_escaped}($|[\s\.;,?!])"
-            return re.search(pattern, text) is not None
-
-        # make sure that a match on payment_ref can't be used to match several distinct aml, even if we are sure the same ref can't
-        # be found twice because of the HAVING COUNT(*) = 1, we still need to exclude cases where one ref is included in another.
-        for st_line_id, aml_id, aml_amount_residual, matching_word in self.env.cr.fetchall():
-            st_line = self.browse(st_line_id).with_prefetch(self._prefetch_ids)  # guarantees batch prefetching if needed
-            # ignore matching words that aren't complete words (not delimited per spaces or punctuation). Doing that in post
-            # process rather than in the query itself because the SQL regex operations can't use the index
-            if not is_properly_surrounded(st_line.payment_ref, matching_word):
-                continue
-            to_process[st_line_id, matching_word] = [(aml_id, aml_amount_residual)]
-            for word in st_lines_refs.get(st_line_id, []):
-                if word in matching_word or matching_word in word:
-                    del to_process[st_line_id, matching_word]
-                    del to_process[st_line_id, word]
-            if st_line_id not in st_lines_refs:
-                st_lines_refs[st_line_id] = []
-            st_lines_refs[st_line_id].append(matching_word)
-
-        ref_amls_sum = {}
-        for key, to_process_list in to_process.items():
-            st_line_id, matching_word = key
-            st_line = self.browse(st_line_id).with_prefetch(self._prefetch_ids)  # guarantees batch prefetching if needed
-            for aml_id, aml_amount_residual in to_process_list:
-                # Exclude move lines to prevent reconciliation when the total residual exceeds the statement line amount
-                if st_line_id in ref_amls_sum:
-                    if ref_amls_sum[st_line_id] <= 0:
-                        continue
-                    ref_amls_sum[st_line_id] -= aml_amount_residual
-                else:
-                    ref_amls_sum[st_line_id] = st_line.amount - aml_amount_residual
-                st_line.with_user(SUPERUSER_ID).set_line_bank_statement_line(aml_id)
-                _logger.info("try_auto_reconcile - payment ref - st_line: %s set line %s", st_line.id, aml_id)
-                if st_line.currency_id.is_zero(st_line.amount_residual):
-                    processed_st_line_ids.add(st_line.id)
-        remaining_st_line_ids -= processed_st_line_ids
-
-        # early return if we already processed everything
-        if not remaining_st_line_ids:
-            self.write({'cron_last_check': self.env.cr.now()})
-            return
-
-        remaining_st_line_ids -= self._handle_reconciliation_matching_amount(st_move_ids, account_ids, remaining_st_line_ids)
-
-        # early return if we already processed everything
-        if not remaining_st_line_ids:
-            self.write({'cron_last_check': self.env.cr.now()})
-            return
-
-        # try to apply reco models on the remaining statement lines
-        remaining_st_lines = self.browse(list(remaining_st_line_ids)).with_prefetch(self._prefetch_ids)
-        reco_models._apply_reconcile_models(remaining_st_lines)
-        _logger.info("try_auto_reconcile - apply reco models - st_lines: %s - reco models %s", remaining_st_lines.ids, reco_models.ids)
-
-        self.write({'cron_last_check': self.env.cr.now()})
+    @api.model
+    def _is_properly_surrounded(self, text, substring):
+        """
+        Definition of what a valid matching word can be: any string, containing whitespaces or not, surrounded by
+        start/end of line, whitespace, or punctuation in ['.', ';', ',', '?', '!'].
+        """
+        # Escape substring for regex safety
+        sub_escaped = re.escape(substring)
+        # Allowed delimiters: start (^), end ($), whitespace (\s), or [. ; , ? !]
+        pattern = rf"(^|[\s\.;,?!]){sub_escaped}($|[\s\.;,?!])"
+        return re.search(pattern, text) is not None
 
     def _retrieve_partner(self):
         if not (lines_without_partner := self.filtered(lambda stl: not stl.partner_id)):
             return
 
         self.env.flush_all()
+        lines_with_bank_number = lines_without_partner.filtered('account_number')
         retrieve_partner_by_account_query = SQL("""
             SELECT ARRAY_AGG(DISTINCT partner_bank.partner_id) FILTER (WHERE partner_bank.company_id::TEXT = ANY(STRING_TO_ARRAY(company.parent_path, '/'))) AS account_matching_partner_with_company,
-                   ARRAY_AGG(DISTINCT partner_bank.partner_id) FILTER (WHERE partner_bank.company_id::TEXT = ANY(STRING_TO_ARRAY(company.parent_path, '/')) AND partner.active) AS account_matching_active_partner_with_company,
                    ARRAY_AGG(DISTINCT partner_bank.partner_id) FILTER (WHERE partner_bank.company_id IS NULL) AS account_matching_partner_without_company,
-                   ARRAY_AGG(DISTINCT partner_bank.partner_id) FILTER (WHERE partner_bank.company_id IS NULL AND partner.active) AS account_matching_active_partner_without_company,
                    st_line.id AS st_line_id
               FROM res_partner_bank partner_bank
-              JOIN account_bank_statement_line st_line ON partner_bank.sanitized_acc_number ILIKE '%%' || NULLIF(REGEXP_REPLACE(st_line.account_number, '\\W+', '', 'g'), '') || '%%'
+              JOIN account_bank_statement_line st_line ON partner_bank.sanitized_acc_number = NULLIF(REGEXP_REPLACE(st_line.account_number, '\\W+', '', 'g'), '')
               JOIN res_company company ON company.id = st_line.company_id
               JOIN res_partner partner ON partner.id = partner_bank.partner_id
-             WHERE st_line.id IN %(st_line_ids)s
+             WHERE st_line.id = ANY(%(st_line_ids)s)
                AND partner.active
           GROUP BY st_line.id
         """,
-             st_line_ids=tuple(lines_without_partner.ids),
+             st_line_ids=lines_with_bank_number.ids,
         )
+
+        bank_account_matching = {line['st_line_id']: {
+            'account_matching_partner_with_company': line['account_matching_partner_with_company'] or [],
+            'account_matching_partner_without_company': line['account_matching_partner_without_company'] or [],
+        } for line in self.env.execute_query_dict(retrieve_partner_by_account_query)}
+
+        for st_line in lines_with_bank_number:
+            if not (match_account := bank_account_matching.get(st_line.id)):
+                continue
+            # Retrieve the partner from the bank account.
+            if len(partner := match_account['account_matching_partner_with_company']) == 1:
+                # First match if company match
+                st_line.partner_id = partner[0]
+            elif len(partner := match_account['account_matching_partner_without_company']) == 1:
+                # Second match if company doesn't match
+                st_line.partner_id = partner[0]
+
+        if not (lines_without_partner := lines_without_partner.filtered(lambda stl: not stl.partner_id)):
+            return
+
         # Exclude some partners from the retrieve partner functionnality
         blacklisted_partners = self._get_blacklisted_partners()
+        lines_with_partner_name = lines_without_partner.filtered('partner_name')
         retrieve_partner_by_name_query = SQL("""
-            SELECT ARRAY_AGG(DISTINCT partner.id) FILTER (WHERE partner.complete_name ILIKE st_line.partner_name AND partner.company_id::TEXT = ANY(STRING_TO_ARRAY(company.parent_path, '/'))) AS full_name_matching_partner_with_company,
-                   ARRAY_AGG(DISTINCT partner.id) FILTER (WHERE partner.complete_name ILIKE st_line.partner_name AND partner.company_id IS NULL) AS full_name_matching_partner_without_company,
-                   ARRAY_AGG(DISTINCT partner.id) FILTER (WHERE partner.complete_name ILIKE '%%' || st_line.partner_name || '%%' AND partner.company_id::TEXT = ANY(STRING_TO_ARRAY(company.parent_path, '/'))) AS partial_name_matching_partner_with_company,
-                   ARRAY_AGG(DISTINCT partner.id) FILTER (WHERE partner.complete_name ILIKE '%%' || st_line.partner_name || '%%' AND partner.company_id IS NULL) AS partial_name_matching_partner_without_company,
+            SELECT ARRAY_AGG(partner.id) FILTER (WHERE partner.complete_name ILIKE st_line.partner_name AND partner.company_id::TEXT = ANY(STRING_TO_ARRAY(company.parent_path, '/'))) AS full_name_matching_partner_with_company,
+                   ARRAY_AGG(partner.id) FILTER (WHERE partner.complete_name ILIKE st_line.partner_name AND partner.company_id IS NULL) AS full_name_matching_partner_without_company,
+                   ARRAY_AGG(partner.id) FILTER (WHERE partner.complete_name ILIKE '%%' || st_line.partner_name || '%%' AND partner.company_id::TEXT = ANY(STRING_TO_ARRAY(company.parent_path, '/'))) AS partial_name_matching_partner_with_company,
+                   ARRAY_AGG(partner.id) FILTER (WHERE partner.complete_name ILIKE '%%' || st_line.partner_name || '%%' AND partner.company_id IS NULL) AS partial_name_matching_partner_without_company,
                    st_line.id AS st_line_id
               FROM res_partner partner
               JOIN account_bank_statement_line st_line ON partner.complete_name ILIKE '%%' || NULLIF(TRIM(st_line.partner_name), '') || '%%'
               JOIN res_company company ON company.id = st_line.company_id
              WHERE partner.parent_id IS NULL
-               AND st_line.id IN %(st_line_ids)s
-               AND partner.id NOT IN %(blacklisted_partner_ids)s
+               AND st_line.id = ANY(%(st_line_ids)s)
+               AND partner.id != ANY(%(blacklisted_partner_ids)s)
                AND partner.active
           GROUP BY st_line.id
         """,
-            st_line_ids=tuple(lines_without_partner.ids),
-            blacklisted_partner_ids=tuple(blacklisted_partners.ids),
+            st_line_ids=lines_with_partner_name.ids,
+            blacklisted_partner_ids=blacklisted_partners.ids,
         )
-        self.env.cr.execute(retrieve_partner_by_account_query)
-        account_query_result = self.env.cr.dictfetchall()
-        self.env.cr.execute(retrieve_partner_by_name_query)
-        name_query_result = self.env.cr.dictfetchall()
-
-        bank_account_matching = {line['st_line_id']: {
-            'account_matching_partner_with_company': line['account_matching_partner_with_company'] or [],
-            'account_matching_active_partner_with_company': line['account_matching_active_partner_with_company'] or [],
-            'account_matching_partner_without_company': line['account_matching_partner_without_company'] or [],
-            'account_matching_active_partner_without_company': line['account_matching_active_partner_without_company'] or [],
-        } for line in account_query_result}
 
         partner_name_matching = {line['st_line_id']: {
             'full_name_matching_partner_with_company': line['full_name_matching_partner_with_company'] or [],
             'full_name_matching_partner_without_company': line['full_name_matching_partner_without_company'] or [],
             'partial_name_matching_partner_with_company': line['partial_name_matching_partner_with_company'] or [],
             'partial_name_matching_partner_without_company': line['partial_name_matching_partner_without_company'] or [],
-        } for line in name_query_result}
+        } for line in self.env.execute_query_dict(retrieve_partner_by_name_query)}
 
-        partner_names = lines_without_partner.filtered(lambda line: line.partner_name).mapped('partner_name')
-        partners_from_previous_st_line = {}
-        if partner_names:
-            # In case we don't find the partner with the above conditions, we will retrieve it
-            # from existing statement lines
-            retrieve_partner_from_st_line_query = SQL("""
-                WITH st_lines AS (
-                    SELECT st_line.partner_id AS partner_id,
-                           st_line.partner_name AS partner_name,
-                           st_line.company_id as company_id,
-                           ROW_NUMBER() OVER (PARTITION BY st_line.partner_name ORDER BY st_line.id DESC) AS row_number
-                      FROM account_bank_statement_line st_line
-                      JOIN res_partner partner ON partner.id = st_line.partner_id
-                     WHERE st_line.is_reconciled = TRUE
-                       AND st_line.partner_name = ANY (%(partner_names)s)
-                       AND st_line.company_id IN %(company_ids)s
-                       AND partner.active
-                  GROUP BY st_line.id
-                  ORDER BY st_line.id DESC
-                )
-                SELECT MIN(partner_id) AS partner_id,
-                       ARRAY_AGG(DISTINCT company_id) as company_ids,
-                       partner_name
-                  FROM st_lines
-                 WHERE st_lines.row_number <= 3
-              GROUP BY partner_name
-                HAVING COUNT(DISTINCT partner_id) = 1
-            """,
-                partner_names=partner_names,
-                company_ids=(*self.company_id.ids, None),
-            )
-            self.env.cr.execute(retrieve_partner_from_st_line_query)
-            query_res_lines = self.env.cr.dictfetchall()
-            partners_from_previous_st_line = {
-                res_line['partner_name']: {
-                    'partner_id': res_line['partner_id'],
-                    'company_ids': res_line['company_ids'],
-                }
-                for res_line in query_res_lines
-            }
-
-        for st_line in lines_without_partner:
-            # Retrieve the partner from the bank account.
-            if st_line.account_number and st_line.id in bank_account_matching:
-                if len(partner := bank_account_matching[st_line.id]['account_matching_partner_with_company']) == 1:
-                    # First match if company match and partner is active
-                    st_line.partner_id = partner[0]
-                elif len(partner := bank_account_matching[st_line.id]['account_matching_active_partner_with_company']) == 1:
-                    # Second match if company match and partner is inactive
-                    st_line.partner_id = partner[0]
-                elif len(partner := bank_account_matching[st_line.id]['account_matching_partner_without_company']) == 1:
-                    # Third match if company doesn't match and partner is active
-                    st_line.partner_id = partner[0]
-                elif len(partner := bank_account_matching[st_line.id]['account_matching_active_partner_without_company']) == 1:
-                    # Fourth match if company doesn't match and partner is inactive
-                    st_line.partner_id = partner[0]
-
+        for st_line in lines_with_partner_name:
+            if not (match_partner_name := partner_name_matching.get(st_line.id)):
+                continue
             # Retrieve the partner from the partner name.
-            if not st_line.partner_id and st_line.partner_name:
-                if st_line.id in partner_name_matching:
-                    if len(partner := partner_name_matching[st_line.id]['full_name_matching_partner_with_company']) == 1:
-                        # First match if partner name full match and company match
-                        st_line.partner_id = partner[0]
-                    elif len(partner := partner_name_matching[st_line.id]['full_name_matching_partner_without_company']) == 1:
-                        # Second match if partner name full match and company doesn't
-                        st_line.partner_id = partner[0]
-                    elif len(partner := partner_name_matching[st_line.id]['partial_name_matching_partner_with_company']) == 1:
-                        # Third match if partner name partially match and company match
-                        st_line.partner_id = partner[0]
-                    elif len(partner := partner_name_matching[st_line.id]['partial_name_matching_partner_without_company']) == 1:
-                        # Fourth match if partner name partially match and company doesn't
-                        st_line.partner_id = partner[0]
+            if len(partner := match_partner_name['full_name_matching_partner_with_company']) == 1:
+                # First match if partner name full match and company match
+                st_line.partner_id = partner[0]
+            elif len(partner := match_partner_name['full_name_matching_partner_without_company']) == 1:
+                # Second match if partner name full match and company doesn't
+                st_line.partner_id = partner[0]
+            elif len(partner := match_partner_name['partial_name_matching_partner_with_company']) == 1:
+                # Third match if partner name partially match and company match
+                st_line.partner_id = partner[0]
+            elif len(partner := match_partner_name['partial_name_matching_partner_without_company']) == 1:
+                # Fourth match if partner name partially match and company doesn't
+                st_line.partner_id = partner[0]
 
-                if not st_line.partner_id and st_line.partner_name in partners_from_previous_st_line:
-                    # Last check, if there is no partner yet, try to match with previous statement lines.
-                    match_partner = partners_from_previous_st_line[st_line.partner_name]
-                    if st_line.company_id.id in match_partner['company_ids']:
-                        st_line.partner_id = match_partner['partner_id']
+        if not (lines_with_partner_name := lines_with_partner_name.filtered(lambda stl: not stl.partner_id)):
+            return
+
+        # In case we don't find the partner with the above conditions, we will retrieve it
+        # from existing statement lines
+        retrieve_partner_from_st_line_query = SQL("""
+            WITH st_lines AS (
+                SELECT st_line.partner_id AS partner_id,
+                       st_line.partner_name AS partner_name,
+                       st_line.company_id as company_id,
+                       ROW_NUMBER() OVER (PARTITION BY st_line.partner_name ORDER BY st_line.id DESC) AS row_number
+                  FROM account_bank_statement_line st_line
+                  JOIN res_partner partner ON partner.id = st_line.partner_id
+                 WHERE st_line.is_reconciled = TRUE
+                   AND st_line.partner_name = ANY (%(partner_names)s)
+                   AND st_line.company_id IN %(company_ids)s
+                   AND partner.active
+              GROUP BY st_line.id
+              ORDER BY st_line.id DESC
+            )
+            SELECT MIN(partner_id) AS partner_id,
+                   ARRAY_AGG(DISTINCT company_id) as company_ids,
+                   partner_name
+              FROM st_lines
+             WHERE st_lines.row_number <= 3
+          GROUP BY partner_name
+            HAVING COUNT(DISTINCT partner_id) = 1
+        """,
+            partner_names=lines_with_partner_name.mapped('partner_name'),
+            company_ids=(*self.company_id.ids, None),
+        )
+        self.env.cr.execute(retrieve_partner_from_st_line_query)
+        query_res_lines = self.env.cr.dictfetchall()
+        partners_from_previous_st_line = {
+            res_line['partner_name']: {
+                'partner_id': res_line['partner_id'],
+                'company_ids': res_line['company_ids'],
+            }
+            for res_line in query_res_lines
+        }
+
+        for st_line in lines_with_partner_name:
+            if not (match_partner := partners_from_previous_st_line.get(st_line.partner_name)):
+                continue
+            # Last check, if there is no partner yet, try to match with previous statement lines.
+            if st_line.company_id.id in match_partner['company_ids']:
+                st_line.partner_id = match_partner['partner_id']
 
     def _get_blacklisted_partners(self):
         partners = self.env.ref("base.partner_root")
@@ -872,10 +950,25 @@ class AccountBankStatementLine(models.Model):
 
         # Create missing partner bank if necessary.
         if self.account_number and self.partner_id:
+            partner_id = self._get_partner_id({line['partner_id'] for line in lines_to_add if line.get('partner_id')})
+            partner = self.env['res.partner'].browse(partner_id)
+            partner_bank = self.env['res.partner.bank'].search([
+                ('acc_number', '=', self.account_number),
+            ])
+            if len(partner_bank) > 1:
+                partner_bank = partner_bank.filtered(lambda pb: pb.partner_id == partner_id)
             self.with_context(
                 skip_account_move_synchronization=True,
                 skip_readonly_check=True,
-            ).partner_bank_id = self._find_or_create_bank_account()
+            ).partner_bank_id = len(partner_bank) == 1 and partner_bank or self._find_or_create_bank_account()
+            if partner and partner != self.partner_bank_id.partner_id:
+                self.env.user._bus_send('switch_partner_account_notification', {
+                    'current_partner_name': self.partner_bank_id.partner_id.name,
+                    'potential_partner_name': partner.name,
+                    'account_number': self.account_number,
+                    'partner_bank_id': self.partner_bank_id.id,
+                    'potential_partner_id': partner.id,
+                })
 
         self._post_matching_done_confirmation()
 
@@ -920,7 +1013,30 @@ class AccountBankStatementLine(models.Model):
         """
         self.ensure_one()
         liquidity_lines, _suspense_lines, other_lines = self._seek_for_lines()
-        self._set_move_line_to_statement_line_move(liquidity_lines + other_lines, lines_to_add)
+        merged_lines = []
+        tax_line_by_key = {}
+        for line in lines_to_add:
+            if not line.get('tax_repartition_line_id') or line.get('reconciled_lines_ids'):
+                merged_lines.append(line)
+                continue
+            key = frozendict({
+                'account_id': line.get('account_id'),
+                'partner_id': line.get('partner_id'),
+                'currency_id': line.get('currency_id'),
+                'analytic_distribution': line.get('analytic_distribution'),
+                'tax_repartition_line_id': line.get('tax_repartition_line_id'),
+                'group_tax_id': line.get('group_tax_id'),
+                'tax_ids': line.get('tax_ids') or [],
+                'tax_tag_ids': line.get('tax_tag_ids') or [],
+            })
+            existing = tax_line_by_key.get(key)
+            if existing is None:
+                tax_line_by_key[key] = dict(line)
+                merged_lines.append(tax_line_by_key[key])
+            else:
+                existing['balance'] += line['balance']
+                existing['amount_currency'] += line['amount_currency']
+        self._set_move_line_to_statement_line_move(liquidity_lines + other_lines, merged_lines)
 
     def set_partner_bank_statement_line(self, partner_id):
         """ Sets the partner for the bank statement line.
@@ -1077,7 +1193,6 @@ class AccountBankStatementLine(models.Model):
                     'account_id': rule_data['account'].id,
                     'amount_type': 'percentage',
                     'amount_string': '100',
-                    'label': rule_data['account'].name,
                 }),
             ],
         }
@@ -1107,38 +1222,44 @@ class AccountBankStatementLine(models.Model):
                 label = re.sub(r'\d+', r'\\d+', label)
             return label
 
-        def get_all_substrings(label):
-            """
-                Generate all possible substrings of a given string.
-                Example:
-                    get_all_substrings("abc")
-                    {'a', 'b', 'c', 'ab', 'bc', 'abc'}
-                :param label: string that has been normalised
-                :return: A set containing all unique substrings of the input string.
-            """
-            return {
-                label[i:j]
-                for i in range(len(label))
-                for j in range(i + 1, len(label) + 1)
-            }
+        def common_substrings(label, olabel):
+            olabel_substring_positions = defaultdict(list)
+            # Go through olabel and store 10 chars substring end positions.
+            for idx in range(len(olabel) - 9):
+                olabel_substring_positions[olabel[idx:idx + 10]].append(idx + 9)
+            # Go through label, generate substrings common with olabel.
+            # We need substrings >= 10 chars so we start the comparison at 10 chars and add 1 char at a time.
+            for label_starting_pos in range(len(label) - 9):
+                for olabel_end_pos in olabel_substring_positions[label[label_starting_pos:label_starting_pos + 10]]:
+                    label_end_pos = label_starting_pos + 9
+                    current_substring = label[label_starting_pos:label_end_pos]
+                    while label_end_pos < len(label) and olabel_end_pos < len(olabel) and label[label_end_pos] == olabel[olabel_end_pos]:
+                        current_substring += label[label_end_pos]
+                        label_end_pos += 1
+                        olabel_end_pos += 1
+                        # Discard substring ending with backslash. Equivalent of calling rstrip(r'\\').
+                        if current_substring[-1] != '\\':
+                            yield current_substring
 
         normalised = [normalise_label(label.upper()) for label in labels if label]
         # If they're all the same after normalising, then we don't care about the size being 10 chars or more.
         if all(label == normalised[0] for label in normalised[1:]):
             return normalised[0]
-        # Sorting by length, so we start with the shortest strings first. This will allow us to exit early
-        # if the size of the substring drops under 10.
+        # Sorting by length, so we start with the shortest strings first. This will allow us to have the
+        # substrings intersection between the two smallest labels. This reduces the
+        # intersection computation time with the largest labels.
         normalised.sort(key=len)
 
         # To achieve this:
-        # 1. Use `get_all_substrings` on each normalized label to get all possible substrings.
-        # 2. Perform a set intersection on the resulting sets to find substrings common to all labels.
-        # 3. From the common substrings, select the longest one using `max` with `key=len`.
-        # 4. If no common substring exists, return an empty string as the default.
-        substring = max(set.intersection(*map(get_all_substrings, normalised)), key=len, default="")
-        substring = substring.rstrip(r'\\')
-
-        return substring if len(substring) >= 10 else None
+        # 1. Use `common_substrings` on the smallest normalized labels to get the minimal intersection.
+        # 2. Iterate over the minimal intersection.
+        # 3. Check if a substring is also in the remaining labels only if it's longer than the current max.
+        # 4. If a common substring exists, return it. If not, return None as default.
+        longest_substring = ""
+        for substring in common_substrings(normalised[0], normalised[1]):
+            if len(substring) > len(longest_substring) and all(substring in label for label in normalised[2:]):
+                longest_substring = substring
+        return longest_substring or None
 
     def _create_account_model_fee(self, account_id):
         """
@@ -1250,7 +1371,7 @@ class AccountBankStatementLine(models.Model):
             :param transaction_currency: the currency in which the amount currency is expressed
             :param exchange_diff_balance: the exchange difference amount computed for the base move_line to add
 
-            :return: epd_lines_vals: the list of dictionnaries for all the EPD computed values,
+            :return: epd_lines_vals: the list of dictionaries for all the EPD computed values,
                                     the first one being the discounted move line values dict. Can be empty if no EPD could be applied.
                      total_amount: in company currency, the total amount the base line amount minus the EPD represents
                      total_amount_currency: in transaction currency, the total amount the base line amount minus the EPD represents
@@ -1555,6 +1676,10 @@ class AccountBankStatementLine(models.Model):
 
         move_line_to_edit = self.env['account.move.line'].browse(move_line_id)
 
+        if record_data.get('account_id'):
+            # We remove all the analytics entries for this journal entry
+            move_line_to_edit.analytic_line_ids.with_context(skip_analytic_sync=True).unlink()
+
         # Since we are doing the change in stable, some field are editable for tax line. Which shouldn't be possible.
         # This solution is not perfect since depending on the record in record_data the edit will do stuff or not.
         if move_line_to_edit.tax_line_id and any(record_data.get(key) for key in ['tax_ids', 'partner_id', 'account_id']):
@@ -1688,7 +1813,7 @@ class AccountBankStatementLine(models.Model):
             line = base_line['record']
             line_values = {
                 'amount_currency': to_update['amount_currency'],
-                'balance': self._prepare_counterpart_amounts_using_st_line_rate(line.currency_id, line.amount_residual, to_update['amount_currency'])['balance'],
+                'balance': self._prepare_counterpart_amounts_using_st_line_rate(line.currency_id, line.amount_residual or line.balance, to_update['amount_currency'])['balance'],
                 'tax_tag_ids': to_update['tax_tag_ids'],
             }
             if line.reconciled_lines_ids:
@@ -1737,6 +1862,7 @@ class AccountBankStatementLine(models.Model):
             'tax_ids': tax_line_vals['tax_ids'],
             'tax_tag_ids': tax_line_vals['tax_tag_ids'],
             'group_tax_id': tax_line_vals['group_tax_id'],
+            'tax_base_amount': tax_line_vals['tax_base_amount'],
         }
 
     def _prepare_base_line_for_taxes_computation(self, line_vals):
@@ -1818,8 +1944,10 @@ class AccountBankStatementLine(models.Model):
         statement_lines = super().create(vals_list)
         if not self.env.context.get('no_retrieve_partner'):
             statement_lines._retrieve_partner()
-        for statement_line in statement_lines:
-            statement_line.move_id.message_post(body=statement_line._format_statement_line_data())
+        statement_lines.move_id._message_log_batch(bodies={
+            statement_line.move_id.id: statement_line._format_statement_line_data()
+            for statement_line in statement_lines
+        })
 
         # process automatically the new lines in case we pass some context key (i.e coming from the bank reconciliation widget)
         if self.env.context.get('auto_statement_processing', False) and statement_lines:

@@ -578,7 +578,7 @@ class AccountAsset(models.Model):
                               days_left_to_depreciated, residual_declining, start_yearly_period=None, total_lifetime_left=None,
                               residual_at_compute=None, start_recompute_date=None):
 
-        def _get_max_between_linear_and_degressive(linear_amount, effective_start_date=start_yearly_period):
+        def _get_max_between_linear_and_degressive(linear_amount):
             """
             Compute the degressive amount that could be depreciated and returns the biggest between it and linear_amount
             The degressive amount corresponds to the difference between what should have been depreciated at the end of
@@ -587,7 +587,7 @@ class AccountAsset(models.Model):
             fiscalyear_dates = self.company_id.compute_fiscalyear_dates(period_end_date)
             days_in_fiscalyear = self._get_delta_days(fiscalyear_dates['date_from'], fiscalyear_dates['date_to'])
 
-            degressive_total_value = residual_declining * (1 - self.method_progress_factor * self._get_delta_days(effective_start_date, period_end_date) / days_in_fiscalyear)
+            degressive_total_value = residual_declining * (1 - self.method_progress_factor * self._get_delta_days(start_yearly_period, period_end_date) / days_in_fiscalyear)
             degressive_amount = residual_amount - degressive_total_value
             return self._degressive_linear_amount(residual_amount, degressive_amount, linear_amount)
 
@@ -612,12 +612,11 @@ class AccountAsset(models.Model):
             # Linear amount
             # We first calculate the total linear amount for the period left from the beginning of the year
             # to get the linear amount for the period in order to avoid big delta at the end of the period
-            effective_start_date = max(start_yearly_period, self.paused_prorata_date) if start_yearly_period else self.paused_prorata_date
-            days_left_from_beginning_of_year = self._get_delta_days(effective_start_date, period_start_date - relativedelta(days=1)) + days_left_to_depreciated
-            expected_remaining_value_with_linear = residual_declining - residual_declining * self._get_delta_days(effective_start_date, period_end_date) / days_left_from_beginning_of_year
+            days_left_from_beginning_of_year = self._get_delta_days(start_yearly_period, period_start_date - relativedelta(days=1)) + days_left_to_depreciated
+            expected_remaining_value_with_linear = residual_declining - residual_declining * self._get_delta_days(start_yearly_period, period_end_date) / days_left_from_beginning_of_year
             linear_amount = residual_amount - expected_remaining_value_with_linear
 
-            amount = _get_max_between_linear_and_degressive(linear_amount, effective_start_date)
+            amount = _get_max_between_linear_and_degressive(linear_amount)
         elif self.method == 'degressive_then_linear':
             if not self.parent_id:
                 linear_amount = self._get_linear_amount(days_before_period, days_until_period_end, self.total_depreciable_value)
@@ -711,7 +710,7 @@ class AccountAsset(models.Model):
                     }))
 
                 if period_end_depreciation_date == period_end_fiscalyear_date:
-                    start_yearly_period = self.company_id.compute_fiscalyear_dates(period_end_depreciation_date).get('date_from') + relativedelta(years=1)
+                    start_yearly_period = self.company_id.compute_fiscalyear_dates(period_end_depreciation_date + relativedelta(days=1)).get('date_from')
                     residual_declining = residual_amount
 
                 start_depreciation_date = period_end_depreciation_date + relativedelta(days=1)
@@ -902,15 +901,26 @@ class AccountAsset(models.Model):
             raise UserError(_("You cannot dispose of an asset before the lock date."))
         if invoice_line_ids and self.children_ids.filtered(lambda a: a.state in ('draft', 'open') or a.value_residual > 0):
             raise UserError(_("You cannot automate the journal entry for an asset that has a running gross increase. Please use 'Dispose' on the increase(s)."))
-        full_asset = self + self.children_ids
+        full_asset = (self + self.children_ids).filtered(lambda asset: asset.state not in ('close', 'cancelled'))
         full_asset.state = 'close'
         move_ids = full_asset._get_disposal_moves([invoice_line_ids] * len(full_asset), disposal_date)
-        for asset in full_asset:
-            asset.message_post(body=
-                _('Asset sold. %s', message if message else "")
-                if invoice_line_ids else
-                _('Asset disposed. %s', message if message else "")
+        if invoice_line_ids:
+            invoice_moves = invoice_line_ids.move_id
+            invoice_links = Markup(', ').join(move._get_html_link() for move in invoice_moves)
+            asset_body = self.env._(
+                "Asset sold. %(message)s See %(invoice_links)s",
+                message=message or "",
+                invoice_links=invoice_links,
             )
+            invoice_body = self.env._("Asset sold: %s", self._get_html_link())
+            invoice_moves._message_log_batch(bodies={invoice.id: invoice_body for invoice in invoice_moves})
+        else:
+            asset_body = self.env._(
+                "Asset disposed. %(message)s",
+                message=message or "",
+            )
+
+        full_asset._message_log_batch(bodies={asset.id: asset_body for asset in full_asset})
 
         selling_price = abs(sum(invoice_line.balance for invoice_line in invoice_line_ids))
         self.net_gain_on_sale = self.currency_id.round(selling_price - self.book_value)
@@ -1064,6 +1074,10 @@ class AccountAsset(models.Model):
         ).sorted('date')).mapped('date')
 
         beginning_fiscal_year = self.company_id.compute_fiscalyear_dates(date).get('date_from') if self.method != 'linear' else False
+        # For degressive methods, the fiscal year start must not precede the asset's
+        # prorata date, otherwise day-count computations produce incorrect results.
+        if beginning_fiscal_year:
+            beginning_fiscal_year = max(beginning_fiscal_year, self.paused_prorata_date)
         first_fiscalyear_move = self.env['account.move']
         if all_move_dates_before_date:
             last_move_date_not_reversed = max(all_move_dates_before_date)

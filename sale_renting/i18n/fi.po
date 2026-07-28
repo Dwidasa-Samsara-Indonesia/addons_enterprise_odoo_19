@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-03-04 13:02+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-06-12 21:00+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting/fi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.1\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_renting
 #. odoo-python
@@ -45,7 +45,6 @@ msgstr "%(amount)s / %(duration)s"
 
 #. module: sale_renting
 #. odoo-python
-#: code:addons/sale_renting/models/product_template.py:0
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "%(duration)s %(unit)s"
 msgstr "%(duration)s %(unit)s"
@@ -65,6 +64,12 @@ msgid ""
 msgstr ""
 "(object.rental_status not in ('draft', 'sent') and 'Delivery or Return "
 "Receipt - %s' %(object.name)) or 'Order - %s' % (object.name)"
+
+#. module: sale_renting
+#. odoo-python
+#: code:addons/sale_renting/models/product_template.py:0
+msgid "/ %(duration)s %(unit)s"
+msgstr ""
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
@@ -984,7 +989,7 @@ msgstr "Tuotepohja"
 #: model:ir.model,name:sale_renting.model_product_product
 #: model:ir.model.fields,field_description:sale_renting.field_product_pricing__product_variant_ids
 msgid "Product Variant"
-msgstr "Tuotevariaatio"
+msgstr "Tuotevariantti"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
@@ -1052,7 +1057,7 @@ msgstr "Jäljellä oleva kesto tunteina"
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:sale_renting.sale_order_line_gantt_schedule
 msgid "Rental"
-msgstr "Vuokra"
+msgstr "Vuokraus"
 
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.action_rental_report
@@ -1516,7 +1521,7 @@ msgstr "Vahvista toiminto sen jälkeen, kun olet tarkistanut poimitut määrät.
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.product_pricelist_view
 msgid "Variants"
-msgstr "Variaatiot"
+msgstr "Variantit"
 
 #. module: sale_renting
 #. odoo-javascript

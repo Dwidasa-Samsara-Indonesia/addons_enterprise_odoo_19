@@ -28,13 +28,13 @@
 
                 <t t-if="props.line.action_id">
                     <!-- Actions -->
-                    <a class="clickable" t-on-click="() => this.triggerAction()" tabindex="-1">
+                    <a class="clickable cursor-pointer" t-on-click="() => this.triggerAction()" tabindex="-1">
                         <t t-out="props.line.name"/>
                     </a>
                 </t>
                 <t t-elif="controller.isLoadMoreLine(props.lineIndex)">
                     <!-- Load more -->
-                    <a class="clickable" t-on-click="() => this.loadMore()" tabindex="-1">
+                    <a class="clickable cursor-pointer" t-on-click="() => this.loadMore()" tabindex="-1">
                         <t t-out="props.line.name"/>
                     </a>
                 </t>
@@ -78,7 +78,7 @@
                             tabindex="-1"
                             class="btn btn_annotation"
                             t-on-click="openChatter"
-                            t-if="this.props.line.chatter and !this.ui.isSmall"
+                            t-if="this.props.line.chatter"
                             t-att-class="{
                                 'o_account_report_chatter_selected': isChatterSelected,
                                 'o_account_report_chatter_annoted': isChatterAnnotated,

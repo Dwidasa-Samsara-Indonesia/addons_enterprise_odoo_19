@@ -71,7 +71,7 @@ class AccountMoveLine(models.Model):
                  - The second one contains the field values to insert into the SELECT clause of the same query, in the same order
                    as in the first element of the returned tuple.
         """
-        line_fields = self.env['account.move.line'].fields_get()
+        line_fields = self.env['account.move.line'].fields_get(attributes=["translate"])
         stored_fields = {fld for fld in table_columns(self.env.cr, 'account_move_line') if fld in line_fields}
 
         fields_to_insert = []
@@ -106,7 +106,7 @@ class AccountMoveLine(models.Model):
         )
 
     def _affect_tax_report(self):
-        return super()._affect_tax_report() or self.move_id.closing_return_id
+        return super()._affect_tax_report() or (self.move_id.closing_return_id and not self.env.context.get('account_bypass_tax_closing_lock_check'))
 
     def _field_to_sql(self, alias: str, fname: str, query: (Query | None) = None) -> SQL:
         if fname == 'analytic_coverage':

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 18:40+0000\n"
-"PO-Revision-Date: 2026-01-30 13:24+0000\n"
+"POT-Creation-Date: 2026-04-17 18:44+0000\n"
+"PO-Revision-Date: 2026-06-10 16:27+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Czech <https://translate.odoo.com/projects/odoo-19/accountant/"
 "cs/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: accountant
 #: model:ir.model,name:accountant.model_account_chart_template
@@ -39,9 +39,14 @@ msgid "Assets & Liabilities"
 msgstr "Aktiva a pasiva"
 
 #. module: accountant
+#: model:res.groups,name:accountant.group_account_user
+msgid "Bookkeeper"
+msgstr "Účetní"
+
+#. module: accountant
 #: model:ir.model,name:accountant.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Společnosti"
 
 #. module: accountant
 #: model:ir.model.fields,field_description:accountant.field_account_chart_template__display_name
@@ -60,7 +65,7 @@ msgstr "ID"
 #. module: accountant
 #: model:ir.model.fields,field_description:accountant.field_res_company__account_tax_return_journal_id
 msgid "Journal"
-msgstr ""
+msgstr "Účetní deník"
 
 #. module: accountant
 #: model:ir.model,name:accountant.model_account_move
@@ -73,3 +78,25 @@ msgstr "Účetní záznam"
 msgid "Let’s automate your bills, bank transactions and accounting processes."
 msgstr ""
 "Pojďme automatizovat vaše faktury, bankovní transakce a účetní procesy."
+
+#. module: accountant
+#: model:res.groups,name:accountant.group_account_readonly
+msgid "Read-only"
+msgstr "Pouze pro čtení"
+
+#. module: accountant
+#: model:res.groups,comment:accountant.group_account_user
+msgid ""
+"access to all Accounting features, including reporting, asset management, "
+"analytic accounting, without configuration rights."
+msgstr ""
+"přístup ke všem funkcím Účetnictví, včetně reportingu, správy aktiv a "
+"analytického účetnictví, bez konfiguračních práv."
+
+#. module: accountant
+#: model:res.groups,comment:accountant.group_account_readonly
+msgid ""
+"access to all the accounting data but in readonly mode, no actions allowed."
+msgstr ""
+"přístup ke všem údajům o účetnictví, ale pouze v režimu pro čtení, žádné "
+"akce nejsou povoleny."

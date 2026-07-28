@@ -6,8 +6,13 @@ class L10n_AuStpFfrWizard(models.TransientModel):
     _name = 'l10n_au.stp.ffr.wizard'
     _description = "STP Full File Replacement Wizard"
 
-    stp_id = fields.Many2one("l10n_au.stp", string="Report to Replace", required=True)
+    stp_id = fields.Many2one("l10n_au.stp", string="Report to Amend", required=True)
     ffr_payslip_ids = fields.One2many("l10n_au.stp.ffr.payslip", "ffr_wizard_id", string="Payslips")
+    amendment_type = fields.Selection(
+        [("ffr", "Full File Replacement"), ("update", "Update Event")],
+        string="Amendment Type",
+        compute="_compute_amendment_type",
+    )
 
     @api.model
     def default_get(self, fields):
@@ -18,11 +23,14 @@ class L10n_AuStpFfrWizard(models.TransientModel):
         ]
         return res
 
+    @api.depends("stp_id")
+    def _compute_amendment_type(self):
+        for wiz in self:
+            wiz.amendment_type = "ffr" if wiz.stp_id.is_latest else "update"
+
     @api.constrains("stp_id")
     def _check_stp_status(self):
         for rec in self:
-            if rec.stp_id.ffr:
-                raise UserError(_("A submission can only be replaced once. Please use an update event for further modifications."))
             if rec.stp_id.state != "sent":
                 raise UserError(_("STP must be submit state to create a full file replacement."))
 
@@ -34,7 +42,7 @@ class L10n_AuStpFfrWizard(models.TransientModel):
         payslips_to_reset.sudo().action_payslip_cancel()
         payslips_to_reset.with_context(allow_ffr=True).action_payslip_draft()
 
-        payslip_reset_message = _("Payslip(s) have been reset for Full File Replacement. "
+        payslip_reset_message = _("Payslip(s) have been reset for Amendment. "
                                   "Please verify the payslip batch before resubmitting.")
         for slip in payslips_to_reset:
             slip.message_post(subject="Single Touch Payroll", body=payslip_reset_message)
@@ -43,6 +51,13 @@ class L10n_AuStpFfrWizard(models.TransientModel):
             payslips_to_reset.payslip_run_id.state = "01_ready"
             payslips_to_reset.payslip_run_id.message_post(subject="Single Touch Payroll", body=payslip_reset_message)
         payslips_to_reset.compute_sheet()
+
+        if self.amendment_type == "update":
+            update_stp = self.ffr_payslip_ids.payslip_id._add_to_stp()
+            update_stp.message_post(
+                body=_("This report was created as an amendment (update event) of %s.", self.stp_id._get_html_link()))
+            return self.ffr_payslip_ids.payslip_id._get_records_action(name=_("Payslips to Amend"))
+
         self.stp_id.is_replaced = True
         new_stp = self.env["l10n_au.stp"].create({
             "company_id": self.stp_id.company_id.id,
@@ -52,6 +67,8 @@ class L10n_AuStpFfrWizard(models.TransientModel):
             "payslip_batch_id": self.stp_id.payslip_batch_id.id,
             "payslip_ids": [Command.set(self.ffr_payslip_ids.payslip_id.ids)],
         })
+        new_stp.message_post(
+            body=_("This report was created as a full file replacement of %s.", self.stp_id._get_html_link()))
         return new_stp._get_records_action()
 
 

@@ -8,15 +8,15 @@
 # Mads Søndergaard, 2022
 # Martin Trigaux, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2025-11-08 19:30+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-17 18:46+0000\n"
+"PO-Revision-Date: 2026-06-23 17:11+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "account_batch_payment/da/>\n"
 "Language: da\n"
@@ -24,24 +24,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/wizard/create_batch_error.py:0
 msgid "\"In Process\""
-msgstr ""
+msgstr "\"Under behandling\""
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/wizard/create_batch_error.py:0
 msgid "\"In Process, and Paid\""
-msgstr ""
+msgstr "\"Under behandling og betalt\""
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_account_payment_form_inherit_account_batch_payment
 msgid "<span>Batch Payment</span>"
-msgstr "<span>Parti Betaling</span>"
+msgstr "<span>Samlet betaling</span>"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
@@ -49,31 +49,29 @@ msgid ""
 "<strong invisible=\"not warning_line_ids\">The following warnings were also "
 "raised; they do not impeach validation</strong>"
 msgstr ""
+"<strong invisible=\"not warning_line_ids\">Følgende advarsler blev også "
+"udstedt, men de påvirker ikke valideringen</strong>"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
 msgid "<strong>Please first consider the following warnings</strong>"
-msgstr "<strong>Vær venlig først at overveje følgende advarsler</strong>"
+msgstr ""
+"<strong>Vær venlig at tage følgende advarsler i betragtning først</strong>"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
 msgid "<strong>The following errors occurred</strong>"
-msgstr ""
-
-#. module: account_batch_payment
-#: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
-msgid "ABC Holder Name"
-msgstr ""
+msgstr "<strong>Følgende fejl opstod</strong>"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "ABC Suppliers"
-msgstr ""
+msgstr "ABC-leverandører"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Account Holder Name"
-msgstr "Kontoindehaver"
+msgstr "Kontohavernavn"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__message_needaction
@@ -104,13 +102,13 @@ msgstr "Aktivitetstypeikon"
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "All payments in the batch must share the same payment method."
-msgstr "Alle betalinger i partiet skal dele den samme betalingsmetode."
+msgstr "Alle samlede betalinger skal ske med samme betalingsform."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "All payments must either have an entry or not at all."
-msgstr ""
+msgstr "Alle betalinger skal enten bogføres eller undlades."
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__amount
@@ -122,12 +120,12 @@ msgstr "Beløb"
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__amount_residual
 msgid "Amount Residual"
-msgstr ""
+msgstr "Restbeløb"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__amount_residual_currency
 msgid "Amount Residual Currency"
-msgstr ""
+msgstr "Restbeløbets valuta"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_payment__amount_signed
@@ -142,7 +140,7 @@ msgstr "Antal vedhæftninger"
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__available_payment_method_ids
 msgid "Available Payment Method"
-msgstr "Tilgængelig betalings metode"
+msgstr "Tilgængelig betalingsform"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__journal_id
@@ -157,23 +155,23 @@ msgstr "Bankjournal"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Bank Transfer"
-msgstr ""
+msgstr "Bankoverførsel"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "Batch Content"
-msgstr "Parti indhold"
+msgstr "Batchindhold"
 
 #. module: account_batch_payment
 #: model:account.payment.method,name:account_batch_payment.account_payment_method_batch_deposit
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.account_journal_dashboard_kanban_view_inherited
 msgid "Batch Deposit"
-msgstr "Parti depositum"
+msgstr "Batchindbetaling"
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_report_account_batch_payment_print_batch_payment
 msgid "Batch Deposit Report"
-msgstr "Parti depositum rapport"
+msgstr "Rapport over batchindbetaling"
 
 #. module: account_batch_payment
 #. odoo-python
@@ -184,19 +182,19 @@ msgstr "Parti depositum rapport"
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_search
 msgid "Batch Payment"
-msgstr "Parti betaling"
+msgstr "Samlet betaling"
 
 #. module: account_batch_payment
 #: model:ir.ui.menu,name:account_batch_payment.menu_batch_payment_purchases
 #: model:ir.ui.menu,name:account_batch_payment.menu_batch_payment_sales
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_account_payment_search_inherit_account_batch_payment
 msgid "Batch Payments"
-msgstr "Batch betalinger"
+msgstr "Samlede betalinger"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__batch_type
 msgid "Batch Type"
-msgstr "Parti type"
+msgstr "Batchtype"
 
 #. module: account_batch_payment
 #: model_terms:ir.actions.act_window,help:account_batch_payment.action_batch_payment_in
@@ -207,38 +205,37 @@ msgid ""
 "checks\n"
 "                    to the bank."
 msgstr ""
-"Parti betalinger gør det muligt for dig at gruppere betaling, for at gøre "
-"det lettere at afstemme. De er er også brugbare ved indbetaling af checks "
-"til banken."
+"Med samlede betalinger kan du gruppere betalinger\n"
+"                    for nemmere afstemning, og de er også nyttige ved "
+"indbetaling af checks\n"
+"                    i banken."
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_account_batch_error_wizard
 msgid "Batch payments error reporting wizard"
-msgstr "Partibetalinger fejl rapportering guide"
+msgstr "Assistent til fejlrapportering ved samlede betalinger"
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_account_batch_error_wizard_line
 msgid "Batch payments error reporting wizard line"
-msgstr "Partibetalinger fejl rapportering guide linje"
+msgstr "Assistentlinje til fejlrapportering ved samlede betalinger"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "Cannot validate an empty batch. Please add some payments to it first."
-msgstr ""
-"Kan ikke validere et tomt parti. Vær venlig at tilføje nogle betalinger til "
-"den først."
+msgstr "Et tomt batch kan ikke valideres. Tilføj venligst betalingerne først."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "Check Payments"
-msgstr ""
+msgstr "Kontrollér betalinger"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.create_batch_error_wizard
 msgid "Check them."
-msgstr ""
+msgstr "Kontrollér dem."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
@@ -271,34 +268,34 @@ msgstr "Virksomhed knyttet til denne konto"
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.create_batch_error_wizard
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_account_payment_tree_inherit_account_batch_payment
 msgid "Create Batch"
-msgstr ""
+msgstr "Opret batch"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_journal.py:0
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.create_batch_error_wizard
 msgid "Create Batch Payment"
-msgstr "Opret parti betaling"
+msgstr "Opret samlet betaling"
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_account_create_batch_error_wizard
 msgid "Create Batch Payment Error Wizard"
-msgstr ""
+msgstr "Assistent til fejl ved oprettelse af samlede betalinger"
 
 #. module: account_batch_payment
 #: model_terms:ir.actions.act_window,help:account_batch_payment.action_batch_payment_in
 msgid "Create a new customer batch payment"
-msgstr "Opret en ny kunde parti betaling"
+msgstr "Opret en ny samlet kundebetaling"
 
 #. module: account_batch_payment
 #: model_terms:ir.actions.act_window,help:account_batch_payment.action_batch_payment_out
 msgid "Create a new vendor batch payment"
-msgstr "Opret en ny forhandler parti betaling"
+msgstr "Opret en ny samlet leverandørbetaling"
 
 #. module: account_batch_payment
 #: model:ir.actions.server,name:account_batch_payment.action_account_create_batch_payment
 msgid "Create batch payment"
-msgstr "Opret parti betaling"
+msgstr "Opret samlet betaling"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard__create_uid
@@ -319,7 +316,7 @@ msgstr "Oprettet den"
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_payment__export_file_create_date
 msgid "Creation date of the related export file."
-msgstr "Oprettelsesdato for den relaterede eksport fil."
+msgstr "Oprettelsesdato for den tilhørende eksportfil."
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__currency_id
@@ -334,18 +331,13 @@ msgstr "Kunde"
 #. module: account_batch_payment
 #: model:ir.actions.act_window,name:account_batch_payment.action_batch_payment_in
 msgid "Customer Batch Payments"
-msgstr ""
+msgstr "Samlede kundebetalinger"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__date
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Date"
 msgstr "Dato"
-
-#. module: account_batch_payment
-#: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
-msgid "Demo Ref"
-msgstr ""
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard_line__description
@@ -367,7 +359,7 @@ msgstr "Kassér"
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_payment_method__display_name
 #: model:ir.model.fields,field_description:account_batch_payment.field_report_account_batch_payment_print_batch_payment__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard__error_line_ids
@@ -382,17 +374,17 @@ msgstr "Fejlbesked"
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard_line__error_wizard_id
 msgid "Error Wizard"
-msgstr "Fejl Guide"
+msgstr "Fejlassistent"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_line_tree
 msgid "Exclude Payments"
-msgstr "Ekskluder Betalinger"
+msgstr "Ekskludér betalinger"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_payment__export_file
 msgid "Export file related to this batch"
-msgstr "Eksporter fil relateret til dette parti"
+msgstr "Eksportér fil knyttet til denne batch"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__export_file
@@ -402,7 +394,7 @@ msgstr "Fil"
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__file_generation_enabled
 msgid "File Generation Enabled"
-msgstr "Fil generering slået til"
+msgstr "Filgenerering er aktiveret"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__export_filename
@@ -422,12 +414,12 @@ msgstr "Følgere (partnere)"
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_payment__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Font Awesome-ikon, f.eks. fa-opgaver"
+msgstr "FontAwesome-ikon, f.eks. fa-opgaver"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__export_file_create_date
 msgid "Generation Date"
-msgstr "Genererings dato"
+msgstr "Genereringsdato"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__has_message
@@ -437,7 +429,7 @@ msgstr "Har besked"
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_create_batch_error_wizard__has_valid_payments
 msgid "Has Valid Payments"
-msgstr ""
+msgstr "Har gyldige betalinger"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard_line__help_message
@@ -481,30 +473,30 @@ msgstr ""
 #. module: account_batch_payment
 #: model:ir.model.fields.selection,name:account_batch_payment.selection__account_batch_payment__batch_type__inbound
 msgid "Inbound"
-msgstr "Indkommende"
+msgstr "Indgående"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_journal.py:0
 msgid "Inbound Batch Payments Sequence"
-msgstr "Indgående parti betalingers sekvens"
+msgstr "Sekvens for indgående samlede betalinger"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "Invalid Partners"
-msgstr ""
+msgstr "Ugyldige partnere"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/wizard/create_batch_error.py:0
 msgid "Invalid Payments"
-msgstr ""
+msgstr "Ugyldige betalinger"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__invalid_sct_partners_ids
 msgid "Invalid Sct Partners"
-msgstr ""
+msgstr "Ugyldige Sct-partnere"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__message_is_follower
@@ -514,7 +506,7 @@ msgstr "Er følger"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Issuing bank account :"
-msgstr ""
+msgstr "Udstedende bankkonto:"
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_account_journal
@@ -540,7 +532,7 @@ msgstr "Sidst opdateret den"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "Leave empty to generate automatically..."
-msgstr ""
+msgstr "Lad feltet stå tomt for automatisk generering …"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
@@ -560,7 +552,7 @@ msgstr "Beskeder"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Monthly Payment"
-msgstr ""
+msgstr "Månedlig betaling"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__my_activity_date_deadline
@@ -575,12 +567,12 @@ msgstr "Navn"
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_payment__export_filename
 msgid "Name of the export file generated for this batch"
-msgstr "Navn på eksport filen genereret for dette parti"
+msgstr "Eksportfilens navn for denne batch"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_payment__amount_signed
 msgid "Negative value of amount field if payment_type is outbound"
-msgstr "Negativ værdi for mængde-feltet hvis payment_type er outbound"
+msgstr "Beløb skal være negativt, hvis payment_type er udgående"
 
 #. module: account_batch_payment
 #: model:ir.model.fields.selection,name:account_batch_payment.selection__account_batch_payment__state__draft
@@ -610,12 +602,12 @@ msgstr "Næste aktivitetstype"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_account_payment_search_inherit_account_batch_payment
 msgid "Not in batch"
-msgstr ""
+msgstr "Ikke i batch"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_account_payment_search_inherit_account_batch_payment
 msgid "Not reconciled"
-msgstr ""
+msgstr "Ikke afstemt"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__message_needaction_counter
@@ -640,13 +632,15 @@ msgstr "Antal beskeder med leveringsfejl"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Odoo Payments LLC"
-msgstr ""
+msgstr "Odoo Payments LLC"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/wizard/create_batch_error.py:0
 msgid "Only %s payments can be added to a batch. Invalid ones will be ignored."
 msgstr ""
+"Der kan kun tilføjes %s betalinger til en batch. Ugyldige betalinger "
+"ignoreres."
 
 #. module: account_batch_payment
 #: model:ir.model.fields.selection,name:account_batch_payment.selection__account_batch_payment__batch_type__outbound
@@ -657,22 +651,22 @@ msgstr "Udgående"
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_journal.py:0
 msgid "Outbound Batch Payments Sequence"
-msgstr "Udgående parti betalings sekvens"
+msgstr "Sekvens for udgående samlede betalinger"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_account_payment_tree_inherit_account_batch_payment
 msgid "Partner"
-msgstr "Kontakt"
+msgstr "Partner"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__payment_ids_domain
 msgid "Payment Ids Domain"
-msgstr ""
+msgstr "Domæne for betalings-ID"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__payment_method_id
 msgid "Payment Method"
-msgstr "Betalingsmetode"
+msgstr "Betalingsform"
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_account_payment_method
@@ -683,19 +677,19 @@ msgstr "Betalingsformer"
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_payment.py:0
 msgid "Payment added in batch %s"
-msgstr ""
+msgstr "Betaling tilføjet batchen %s"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "Payment method"
-msgstr "Betalingsmetode"
+msgstr "Betalingsform"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 #: code:addons/account_batch_payment/models/account_payment.py:0
 msgid "Payment removed from batch %s"
-msgstr ""
+msgstr "Betaling fjernet fra batch %s"
 
 #. module: account_batch_payment
 #: model:ir.model,name:account_batch_payment.model_account_payment
@@ -711,7 +705,7 @@ msgstr "Betalinger"
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 #: code:addons/account_batch_payment/wizard/batch_error.py:0
 msgid "Payments in Error"
-msgstr "Betalinger med Fejl"
+msgstr "Betalinger med fejl"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
@@ -721,7 +715,7 @@ msgstr "Udskriv"
 #. module: account_batch_payment
 #: model:ir.actions.report,name:account_batch_payment.action_print_batch_payment
 msgid "Print Batch Payment"
-msgstr "Print parti betaling"
+msgstr "Udskriv samlet betaling"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
@@ -736,17 +730,17 @@ msgstr "Bedømmelser"
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "Re-generate Export File"
-msgstr "Re-generer Eksportfil"
+msgstr "Regenerér eksportfil"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.print_batch_payment
 msgid "Recipient Bank Account"
-msgstr "Modtagers bankkonto"
+msgstr "Modtagerkonto"
 
 #. module: account_batch_payment
 #: model:ir.model.fields.selection,name:account_batch_payment.selection__account_batch_payment__state__reconciled
 msgid "Reconciled"
-msgstr "Udlignet"
+msgstr "Afstemt"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__name
@@ -757,7 +751,7 @@ msgstr "Reference"
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "Remove the payments from the batch or change their state."
-msgstr ""
+msgstr "Fjern betalingerne fra batchen, eller opdatér deres status."
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__activity_user_id
@@ -782,24 +776,24 @@ msgstr "Vis"
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard_line__show_remove_button
 msgid "Show Remove Button"
-msgstr "Vis Fjern Knap"
+msgstr "Vis \"Fjern\"-knap"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard__show_remove_options
 msgid "Show Remove Options"
-msgstr "Vis Fjern Indstillinger"
+msgstr "Vis \"Fjern indstillinger\""
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "Some payments have already been sent."
-msgstr "Visse betalinger er allerede blevet afsendt."
+msgstr "Nogle betalinger er allerede blevet afsendt."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "Some recipient accounts do not allow out payments."
-msgstr ""
+msgstr "Visse modtagerkonti understøtter ikke udbetalinger."
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__state
@@ -831,30 +825,30 @@ msgstr "TOTAL"
 msgid ""
 "Target another recipient account or allow sending money to the current one."
 msgstr ""
+"Vælg en anden modtagerkonto, eller godkend overførsel til den nuværende."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
 msgid "The batch cannot be validated."
-msgstr ""
+msgstr "Batchen kan ikke valideres."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.batch_error_wizard_form
 msgid "The batch could not be validated"
-msgstr "Partiet kunne ikke valideres"
+msgstr "Batchen kunne ikke valideres"
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid ""
 "The batch must have the same payment method as the payments it contains."
-msgstr ""
-"Partiet skal have samme betalingsmetode som betalingerne den indeholder"
+msgstr "Batchen skal anvende samme betalingsform som de inkluderede betalinger."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "The batch must have the same type as the payments it contains."
-msgstr "Partiet skal have samme type som betalingerne den indeholder."
+msgstr "Batchen skal have samme type som de betalinger, den indeholder."
 
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_error_wizard__batch_payment_id
@@ -862,12 +856,13 @@ msgid ""
 "The batch payment generating the errors and warnings displayed in this "
 "wizard."
 msgstr ""
-"Partibetalingen generere de fejl og advarsler som er vist i denne guide."
+"Den samlede betaling genererer de fejl og advarsler, der vises i denne "
+"assistent."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "The country or city of"
-msgstr ""
+msgstr "Landet eller byen for"
 
 #. module: account_batch_payment
 #. odoo-python
@@ -876,12 +871,13 @@ msgid ""
 "The journal of the batch payment and of the payments it contains must be the "
 "same."
 msgstr ""
-"Journalen på parti betalingen og på betalingerne den indeholde skal være ens."
+"Journalen for den samlede betaling skal matche journalen på de inkluderede "
+"betalinger."
 
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_payment__payment_method_id
 msgid "The payment method used by the payments in this batch."
-msgstr "Betalingsmetoden brugt af betalingerne i dette parti."
+msgstr "Betalingsformen brugt til betalingerne i denne batch."
 
 #. module: account_batch_payment
 #. odoo-python
@@ -890,6 +886,8 @@ msgid ""
 "To validate the batch, payments must be in process. But some are already "
 "matched with a bank statement."
 msgstr ""
+"Betalingerne skal være under behandling for at validere batchen. Nogle er "
+"allerede afstemt med kontoudtog."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
@@ -902,8 +900,8 @@ msgid ""
 "True if and only if the options to remove the payments causing the errors or "
 "warnings from the batch should be shown"
 msgstr ""
-"Sandt hvis, og kun hvis, indstillingerne, for at fjerne betalingen "
-"forårsager fejlene eller advarslerne fra partiet, bør vises"
+"Gælder kun, hvis indstillingerne for fjernelse af betalinger forårsager "
+"fejl, eller hvis der vises advarsler om den samlede betaling"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,help:account_batch_payment.field_account_batch_payment__activity_exception_decoration
@@ -913,7 +911,7 @@ msgstr "Type registreret undtagelsesaktivitet."
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_search
 msgid "Unreconciled"
-msgstr "Ikke udlignet"
+msgstr "Ikke afstemt"
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
@@ -928,17 +926,17 @@ msgstr "Leverandør"
 #. module: account_batch_payment
 #: model:ir.actions.act_window,name:account_batch_payment.action_batch_payment_out
 msgid "Vendor Batch Payments"
-msgstr ""
+msgstr "Samlede leverandørbetalinger"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard__warning_line_ids
 msgid "Warning Line"
-msgstr "Advarsel Linje"
+msgstr "Advarselslinje"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_error_wizard_line__warning_wizard_id
 msgid "Warning Wizard"
-msgstr "Advarsel Guide"
+msgstr "Advarselsassistent"
 
 #. module: account_batch_payment
 #: model:ir.model.fields,field_description:account_batch_payment.field_account_batch_payment__website_message_ids
@@ -956,20 +954,22 @@ msgid ""
 "Whether or not this batch payment should display the 'Generate File' button "
 "instead of 'Print' in form view."
 msgstr ""
-"Hvorvidt dette parti skal vise 'Generer fil' knappen i stedet for 'Print' i "
-"formular visningen eller ej."
+"Angiver, om batchen skal vise knappen ‘Generér fil’ i stedet for ‘Udskriv’ i "
+"formularvisningen."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "You cannot add payments with zero amount in a Batch Payment."
 msgstr ""
+"Det er ikke muligt at tilføje betalinger med beløb nul til en samlet "
+"betaling."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "You cannot add the same payment to multiple batches."
-msgstr ""
+msgstr "Den samme betaling kan ikke tilføjes flere batches."
 
 #. module: account_batch_payment
 #. odoo-python
@@ -977,22 +977,26 @@ msgstr ""
 msgid ""
 "You cannot create a batch with payments that are already in another batch."
 msgstr ""
+"Det er ikke muligt at oprette en batch med betalinger, som allerede findes i "
+"en anden batch."
 
 #. module: account_batch_payment
 #. odoo-python
 #: code:addons/account_batch_payment/models/account_batch_payment.py:0
 msgid "You cannot create batches with overlapping payments."
 msgstr ""
+"Det er ikke muligt at oprette batches med betalinger, der overlapper "
+"hinanden."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "is not set, which could cause the file to be refused by the bank."
-msgstr ""
+msgstr "er ikke angivet, hvilket kan medføre, at banken afviser filen."
 
 #. module: account_batch_payment
 #: model_terms:ir.ui.view,arch_db:account_batch_payment.view_batch_payment_form
 msgid "these partners"
-msgstr ""
+msgstr "disse partnere"
 
 #~ msgid "$1000.0"
 #~ msgstr "$1000.0"

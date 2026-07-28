@@ -4,13 +4,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Abe Manyo (abem)" <abem@odoo.com>, 2025.
+# "Nurul Aini Akrima Sabila (nuaas)" <nuaas@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 18:41+0000\n"
-"PO-Revision-Date: 2025-10-23 02:41+0000\n"
-"Last-Translator: \"Abe Manyo (abem)\" <abem@odoo.com>\n"
+"POT-Creation-Date: 2026-06-05 19:36+0000\n"
+"PO-Revision-Date: 2026-05-02 09:36+0000\n"
+"Last-Translator: \"Nurul Aini Akrima Sabila (nuaas)\" <nuaas@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/"
 "pos_pricer/id/>\n"
 "Language: id\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: pos_pricer
 #: model:ir.model.constraint,message:pos_pricer.constraint_pricer_tag_name_unique
@@ -46,9 +47,19 @@ msgid "Christmas"
 msgstr "Natal"
 
 #. module: pos_pricer
+#: model:ir.model,name:pos_pricer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: pos_pricer
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__create_or_update_products_url
 msgid "Create Or Update Products Url"
 msgstr "Buat atau Update URL Produ"
+
+#. module: pos_pricer
+#: model:ir.model,website_form_label:pos_pricer.model_res_partner
+msgid "Create a Customer"
+msgstr ""
 
 #. module: pos_pricer
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__create_uid
@@ -68,11 +79,14 @@ msgid "Date and time of the last synchronization with Pricer"
 msgstr "Tanggal dan waktu sinkronisasi terakhir dengan Pricer"
 
 #. module: pos_pricer
+#: model:ir.model.fields,field_description:pos_pricer.field_account_tax__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_pos_config__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_tag__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_product_product__display_name
+#: model:ir.model.fields,field_description:pos_pricer.field_product_supplierinfo__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_product_template__display_name
+#: model:ir.model.fields,field_description:pos_pricer.field_res_partner__display_name
 #: model:ir.model.fields,field_description:pos_pricer.field_stock_move__display_name
 msgid "Display Name"
 msgstr "Nama Tampilan"
@@ -109,11 +123,14 @@ msgstr ""
 "Gagal untuk membatalkan link tag Pricer %(pricer_tag)s di url API %(api_url)s"
 
 #. module: pos_pricer
+#: model:ir.model.fields,field_description:pos_pricer.field_account_tax__id
 #: model:ir.model.fields,field_description:pos_pricer.field_pos_config__id
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__id
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_tag__id
 #: model:ir.model.fields,field_description:pos_pricer.field_product_product__id
+#: model:ir.model.fields,field_description:pos_pricer.field_product_supplierinfo__id
 #: model:ir.model.fields,field_description:pos_pricer.field_product_template__id
+#: model:ir.model.fields,field_description:pos_pricer.field_res_partner__id
 #: model:ir.model.fields,field_description:pos_pricer.field_stock_move__id
 msgid "ID"
 msgstr "ID"
@@ -361,12 +378,17 @@ msgstr "Pesan status sinkronisasi terakhir dengan Pricer"
 #. module: pos_pricer
 #: model:ir.model,name:pos_pricer.model_stock_move
 msgid "Stock Move"
-msgstr "Pergerakkan Stok"
+msgstr "Pergerakan Stok"
 
 #. module: pos_pricer
 #: model:ir.model.fields,field_description:pos_pricer.field_pricer_store__name
 msgid "Store Name"
 msgstr "Nama Toko"
+
+#. module: pos_pricer
+#: model:ir.model,name:pos_pricer.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr ""
 
 #. module: pos_pricer
 #. odoo-javascript
@@ -394,6 +416,11 @@ msgid ""
 "digits"
 msgstr ""
 "ID Tag harus merupakan urutan 17 karakter terdiri dari huruf diikuti 16 angka"
+
+#. module: pos_pricer
+#: model:ir.model,name:pos_pricer.model_account_tax
+msgid "Tax"
+msgstr ""
 
 #. module: pos_pricer
 #: model:ir.model.fields,help:pos_pricer.field_product_product__pricer_sale_pricelist_id

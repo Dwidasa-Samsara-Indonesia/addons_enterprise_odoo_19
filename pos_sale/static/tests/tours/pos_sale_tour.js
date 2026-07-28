@@ -672,6 +672,16 @@ registry.category("web_tour.tours").add("test_settle_groupable_lot_total_amount"
         ].flat(),
 });
 
+registry.category("web_tour.tours").add("test_settle_so_custom_attribute_value", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1),
+            Order.hasLine({ productName: "Inscription: Custom: Value" }),
+        ].flat(),
+});
+
 registry.category("web_tour.tours").add("test_settle_changed_price_with_lots", {
     steps: () =>
         [
@@ -697,5 +707,30 @@ registry.category("web_tour.tours").add("PoSApplyDownpaymentWithExtraLine", {
             ProductScreen.clickPayButton(),
             PaymentScreen.clickPaymentMethod("Bank"),
             PaymentScreen.clickValidate(),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_cancelled_sale_order", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1),
+            Order.hasLine({ productName: "Product A", price: "10.00" }),
+            Order.hasLine({ productName: "Product B", price: "20.00" }),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.isShown(),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_so_archived_attribute", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1),
+            Order.hasLine({ productName: "Archived Attr Product" }),
         ].flat(),
 });

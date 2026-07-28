@@ -27,3 +27,4 @@ from . import test_payroll_properties
 from . import test_payslip_allocations
 from . import test_work_entry_reset
 from . import test_rule_section
+from . import test_payslip_email_settings

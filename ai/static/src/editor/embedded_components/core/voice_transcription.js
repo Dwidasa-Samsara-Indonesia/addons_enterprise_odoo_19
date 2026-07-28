@@ -233,7 +233,7 @@ export class VoiceTranscription extends Component {
                 view_id: false,
                 context: {
                     default_model: model?.config.resModel,
-                    default_res_ids: model?.config.resIds,
+                    default_res_ids: [model?.config.resId],
                     default_subject: _t("Share transcript summary"),
                     default_body:
                         this.props.getTabContent(this.embeddedState.id, "summary").innerHTML ?? "",

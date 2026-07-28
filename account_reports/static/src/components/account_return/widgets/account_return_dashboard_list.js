@@ -96,6 +96,7 @@ export class AccountReturnDashboardList extends Component {
                     'search_default_todo_returns': 1,
                     // Apply name filter using return type
                     'search_default_type_id': returnTypeId,
+                    'max_number_opened_groups': 100000,
                 },
                 domain: [['return_type_category', '=', 'account_return']],
             };

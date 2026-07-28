@@ -9,3 +9,4 @@ from . import res_config_settings
 from . import res_partner
 from . import account_move
 from . import mail_template
+from . import ir_module

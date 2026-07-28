@@ -54,6 +54,23 @@ class SignItem(models.Model):
             radio_set_map[radio_set_id] = new_radio_set.id
         for item in vals_list:
             item['radio_set_id'] = radio_set_map.get(item['radio_set_id'])
+        # Copy the role so editing it on one template doesn't leak to the other.
+        role_map = self.env.context.get('__sign_role_copy_map')
+        if role_map is None:
+            role_map = {}  # standalone item copy, not through a template duplication
+
+        for responsible_id in {item['responsible_id'] for item in vals_list if item.get('responsible_id')}:
+            if responsible_id in role_map:
+                continue
+
+            role = self.env['sign.item.role'].browse(responsible_id)
+            if role.default:
+                continue
+
+            role_map[responsible_id] = role.copy().id
+        for item in vals_list:
+            if item.get('responsible_id') in role_map:
+                item['responsible_id'] = role_map[item['responsible_id']]
         return vals_list
 
     @api.constrains('required', 'constant')

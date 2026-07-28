@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-15 18:41+0000\n"
+"POT-Creation-Date: 2026-05-15 17:40+0000\n"
 "PO-Revision-Date: 2026-01-15 18:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,18 +20,26 @@ msgstr ""
 #: model:mail.template,body_html:sale_lazada.order_sync_failure
 msgid ""
 "<div>\n"
-"                <p>The synchronization of the Lazada order with reference <t t-out=\"ctx.get('lazada_order_ref') or ''\">REF</t> encountered an error and was not completed.</p>\n"
-"                <p>Unless the order is cancelled in Lazada, no other synchronization will be attempted.</p>\n"
-"                <p>To schedule a new synchronization attempt, proceed as follows:\n"
+"                <p>The synchronization of the Lazada order with reference <t "
+"t-out=\"ctx.get('lazada_order_ref') or ''\">REF</t> encountered an error and "
+"was not completed.</p>\n"
+"                <p>Unless the order is cancelled in Lazada, no other "
+"synchronization will be attempted.</p>\n"
+"                <p>To schedule a new synchronization attempt, proceed as "
+"follows:\n"
 "                    </p><ol>\n"
 "                        <li>Enter the Developer Tools.</li>\n"
-"                        <li>Open the form of the Lazada Shop on which the order was placed.</li>\n"
+"                        <li>Open the form of the Lazada Shop on which the "
+"order was placed.</li>\n"
 "                        <li>Navigate to the Order Follow-up tab.</li>\n"
-"                        <li>Set a date for <em>Last Order Synchronization Date</em> that is anterior to the last status update of the order.</li>\n"
-"                        <li>Save the changes and click on the <em>SYNC ORDERS</em> button.</li>\n"
+"                        <li>Set a date for <em>Last Order Synchronization "
+"Date</em> that is anterior to the last status update of the order.</li>\n"
+"                        <li>Save the changes and click on the <em>SYNC "
+"ORDERS</em> button.</li>\n"
 "                    </ol>\n"
 "                \n"
-"                <p>If the problem persists, contact <a href=\"https://www.odoo.com/help/\">Odoo support</a>.</p>\n"
+"                <p>If the problem persists, contact <a href=\"https://"
+"www.odoo.com/help/\">Odoo support</a>.</p>\n"
 "            </div>\n"
 "        "
 msgstr ""
@@ -39,7 +48,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid ""
 "<strong>Authorization Failed: </strong>\n"
-"                    An unexpected error occurred during authorization. Please try again."
+"                    An unexpected error occurred during authorization. "
+"Please try again."
 msgstr ""
 
 #. module: sale_lazada
@@ -75,7 +85,8 @@ msgid ""
 "            </style>\n"
 "            <body><div>\n"
 "                <p>The synchronization of the inventory for Lazada Shop\n"
-"                    <b><t t-out=\"ctx.get('lazada_shop') or ''\">REF</t></b>\n"
+"                    <b><t t-out=\"ctx.get('lazada_shop') or ''\">REF</t></"
+"b>\n"
 "                    encountered some errors and was not completed.</p>\n"
 "                <p>Here are the errors sent by Lazada: </p>\n"
 "                <table class=\"lazada_table\">\n"
@@ -86,13 +97,19 @@ msgid ""
 "                        </tr>\n"
 "                    </thead>\n"
 "                    <tbody>\n"
-"                        <tr t-foreach=\"ctx.get('error_messages')\" t-as=\"error\">\n"
-"                            <th><t t-out=\"', '.join(error['default_codes'])\"/></th>\n"
+"                        <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th><t t-out=\"', '.join(error['default_codes'])"
+"\"/></th>\n"
 "                            <td>\n"
-"                                <t t-if=\"error['message']\" t-out=\"error['message']\"/>\n"
-"                                <t t-else=\"\">An unknown error occurred during the synchronisation with Lazada.\n"
-"                                    Unfortunately you need to manually check if the available quantity for the product is correct or not.\n"
-"                                    If the problem persists, contact <a href=\"https://www.odoo.com/help/\">Odoo support </a>.\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/>\n"
+"                                <t t-else=\"\">An unknown error occurred "
+"during the synchronisation with Lazada.\n"
+"                                    Unfortunately you need to manually check "
+"if the available quantity for the product is correct or not.\n"
+"                                    If the problem persists, contact <a "
+"href=\"https://www.odoo.com/help/\">Odoo support </a>.\n"
 "                                </t>\n"
 "                            </td>\n"
 "                        </tr>\n"
@@ -338,8 +355,8 @@ msgstr ""
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__manage_fbl_inventory
 msgid ""
 "Enable this to track inventory for FBL (Fulfilled by Lazada) items in Odoo. "
-"When enabled, stock in the FBL location will be deducted from your available"
-" FBM stock. The FBL location is automatically created when you set up the "
+"When enabled, stock in the FBL location will be deducted from your available "
+"FBM stock. The FBL location is automatically created when you set up the "
 "shop."
 msgstr ""
 
@@ -365,8 +382,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid ""
-"Failed to get shipment provider for order: %(order_id)s. Error: "
-"%(error_msg)s"
+"Failed to get shipment provider for order: %(order_id)s. Error: %(error_msg)s"
 msgstr ""
 
 #. module: sale_lazada
@@ -394,7 +410,8 @@ msgstr ""
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid ""
 "Failed to synchronize Lazada product catalog for shop: %(shop)d.\n"
-"The total number of products in Lazada changed during synchronization. Please re-run the synchronization."
+"The total number of products in Lazada changed during synchronization. "
+"Please re-run the synchronization."
 msgstr ""
 
 #. module: sale_lazada
@@ -445,7 +462,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_lazada/utils.py:0
 msgid ""
-"In Lazada Shop '%(shop_name)s', an error %(error_code)s occurred during the Lazada API operation '%(operation)s' with request ID '%(request_id)s':\n"
+"In Lazada Shop '%(shop_name)s', an error %(error_code)s occurred during the "
+"Lazada API operation '%(operation)s' with request ID '%(request_id)s':\n"
 "%(error_message)s"
 msgstr ""
 
@@ -714,9 +732,9 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__refresh_token
 msgid ""
-"Long-term refresh token used to automatically obtain new access tokens. This"
-" token expires after 30 days. If it expires, you'll need to re-authorize the"
-" connection by clicking the authorization button in the Lazada shop view."
+"Long-term refresh token used to automatically obtain new access tokens. This "
+"token expires after 30 days. If it expires, you'll need to re-authorize the "
+"connection by clicking the authorization button in the Lazada shop view."
 msgstr ""
 
 #. module: sale_lazada
@@ -763,6 +781,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_item.py:0
 msgid "Only FBM items can be synced to Lazada."
+msgstr ""
+
+#. module: sale_lazada
+#. odoo-python
+#: code:addons/sale_lazada/models/lazada_item.py:0
+msgid "Only goods are supported with Lazada."
 msgstr ""
 
 #. module: sale_lazada
@@ -950,8 +974,8 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__access_token
 msgid ""
-"Temporary access token provided by Lazada for API authentication. This token"
-" expires after 4 hours and is automatically refreshed using the refresh "
+"Temporary access token provided by Lazada for API authentication. This token "
+"expires after 4 hours and is automatically refreshed using the refresh "
 "token. You don't need to manage this manually."
 msgstr ""
 
@@ -1082,8 +1106,8 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__lazada_item_extern_id
 msgid ""
-"The unique identifier for an item in Lazada. An item in Lazada is equivalent"
-" to a product variant in Odoo."
+"The unique identifier for an item in Lazada. An item in Lazada is equivalent "
+"to a product variant in Odoo."
 msgstr ""
 
 #. module: sale_lazada
@@ -1117,6 +1141,14 @@ msgid ""
 msgstr ""
 
 #. module: sale_lazada
+#. odoo-python
+#: code:addons/sale_lazada/models/lazada_item.py:0
+msgid ""
+"This product does not track inventory and can not be synchronized with "
+"Lazada."
+msgstr ""
+
+#. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__manage_fbl_inventory
 msgid "Track FBL Inventory"
 msgstr ""
@@ -1124,14 +1156,6 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_stock_picking
 msgid "Transfer"
-msgstr ""
-
-#. module: sale_lazada
-#. odoo-python
-#: code:addons/sale_lazada/models/lazada_item.py:0
-msgid ""
-"We do not support syncing services or combo products to Lazada. Only "
-"storable products are supported."
 msgstr ""
 
 #. module: sale_lazada
@@ -1147,8 +1171,8 @@ msgstr ""
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__app_secret
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop_create_wizard__app_secret
 msgid ""
-"Your Lazada application secret (App Secret). This is provided alongside your"
-" App Key in the Lazada Service Provider Center. Keep this confidential and "
+"Your Lazada application secret (App Secret). This is provided alongside your "
+"App Key in the Lazada Service Provider Center. Keep this confidential and "
 "enter it before authorizing the connection."
 msgstr ""
 
@@ -1156,8 +1180,8 @@ msgstr ""
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__shop_extern_id
 msgid ""
 "Your unique seller ID assigned by Lazada. This is automatically set during "
-"authorization and ensures the same Lazada shop cannot be linked twice to the"
-" same company."
+"authorization and ensures the same Lazada shop cannot be linked twice to the "
+"same company."
 msgstr ""
 
 #. module: sale_lazada

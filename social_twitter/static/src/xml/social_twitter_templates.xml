@@ -64,11 +64,31 @@
         </div>
     </t>
 
+    <t t-inherit="social.StreamPostComment" t-inherit-mode="extension" owl="1">
+        <xpath expr="//*[hasclass('o_social_comment_reply')]" position="attributes">
+            <attribute name="t-att-class">
+                {'d-none': this.props.originalPost.media_type.raw_value === 'twitter' and !this.comment.canReply}
+            </attribute>
+        </xpath>
+        <xpath expr="//*[hasclass('o_social_comment_reply')]" position="after">
+            <!-- Shown when we cannot reply to a comment -->
+            <span title="You cannot reply from an external service because this post doesn't mention or quote your account."
+                class="text-muted"
+                t-att-class="{'d-none': this.props.originalPost.media_type.raw_value !== 'twitter' || this.comment.canReply}">
+                Reply
+            </span>
+        </xpath>
+    </t>
+
     <t t-inherit="social.StreamPostCommentsReply" t-inherit-mode="extension">
         <xpath expr="//form" position="inside">
             <input t-if="comment &amp;&amp; comment.from &amp;&amp; comment.from.screen_name"
                 type="hidden" name="answering_to"
                 t-att-value="isCommentReply ? comment.from.screen_name : ''"/>
+        </xpath>
+
+        <xpath expr="//t[@t-set='write_comment_text']" position="after">
+            <t t-set="write_comment_text" t-if="this.originalPost.media_type.raw_value === 'twitter' and !this.canReply">You cannot reply from an external service because this post doesn't mention or quote your account.</t>
         </xpath>
     </t>
 

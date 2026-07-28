@@ -14,3 +14,8 @@ class ResUsersSettings(models.Model):
         required=True,
         string="Color Scheme",
     )
+
+    def write(self, vals):
+        if not vals.get("color_scheme", "system"):
+            vals.pop("color_scheme")
+        return super().write(vals)

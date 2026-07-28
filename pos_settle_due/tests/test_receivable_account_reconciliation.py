@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import odoo
 
 from odoo.addons.point_of_sale.tests.common import TestPoSCommon
@@ -183,6 +185,62 @@ class TestPOSCustomerAccountReconciliation(TestPoSCommon):
         session1.close_session_from_ui()
         invoice_lines_matching = self.env['account.move.line'].search([('matching_number', '=', invoice_a.line_ids[-1].matching_number)])
         self.assertEqual(len(invoice_lines_matching.partner_id), 1, "Only aml from same partner should be reconciled together")
+
+    def test_pos_amount_unsettled_after_session_close(self):
+        """ Partially settling an invoice in the POS must leave a correct
+        pos_amount_unsettled once the session is closed.
+
+        While the session is being closed, the settle payment is reconciled
+        with the invoice (lowering amount_residual_signed and marking
+        pos_amount_unsettled for recomputation) before the session state is
+        set to 'closed'. If any flush executes the pending recomputation in
+        that window, the settle line is deducted a second time
+        (residual - settled instead of residual) and, as the session state
+        was not a dependency, closing the session did not correct the value.
+        The flush after the reconciliation simulates that recomputation.
+        """
+        invoice = self._create_invoice_one_line(partner_id=self.partner_a, price_unit=1000)
+        invoice.action_post()
+        self.assertEqual(invoice.pos_amount_unsettled, 1000)
+
+        session = self.open_new_session()
+        order_data = self.create_ui_order_data(
+            pos_order_lines_ui_args=[{
+                'product': self.config.settle_invoice_product_id,
+                'quantity': 1,
+                'settled_order_id': False,
+                'settled_invoice_id': invoice.id,
+                "qty": 0.0,
+                "price_unit": 700,
+                "price_subtotal": 0.0,
+                "price_subtotal_incl": 0.0,
+                "price_type": "manual",
+                "discount": 0.0,
+                "refunded_qty": 0.0,
+                "price_extra": 0.0,
+            }],
+            payments=[(self.bank_pm1, 700), (self.pay_later_pm, -700)],
+            customer=self.partner_a,
+        )
+        order_data['state'] = 'paid'
+        order_data['amount_paid'] = 0
+        self.env['pos.order'].sync_from_ui([order_data])
+        self.assertEqual(invoice.pos_amount_unsettled, 300)
+
+        PosSession = self.env.registry['pos.session']
+        original_reconcile = PosSession._reconcile_account_move_lines
+
+        def reconcile_and_flush(session_self, data):
+            result = original_reconcile(session_self, data)
+            session_self.env['account.move'].flush_model()
+            return result
+
+        with patch.object(PosSession, '_reconcile_account_move_lines', reconcile_and_flush):
+            session.close_session_from_ui()
+
+        self.assertEqual(invoice.amount_residual_signed, 300)
+        self.assertEqual(invoice.pos_amount_unsettled, 300)
+        self.assertEqual(self.partner_a.invoices_amount_due, 300)
 
     def test_settlement_invoiced_later(self):
         session = self.open_new_session()

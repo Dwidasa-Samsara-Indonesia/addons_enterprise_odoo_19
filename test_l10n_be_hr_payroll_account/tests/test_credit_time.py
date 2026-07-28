@@ -387,13 +387,13 @@ class TestCreditTime(AccountTestInvoicingCommon):
             'ATN.LAP': 0.0,
             'SALARY': 2067.69,
             'ONSS': -270.25,
-            'EmpBonus.1': 28.9,
+            'EmpBonus.1': 28.94,
             'ATN.CAR': 0,
-            'GROSSIP': 1826.35,
+            'GROSSIP': 1826.38,
             'IP.PART': -516.92,
-            'GROSS': 1309.42,
+            'GROSS': 1309.46,
             'P.P': -69.59,
-            'P.P.DED': 9.58,
+            'P.P.DED': 9.59,
             'ATN.CAR.2': 0.0,
             'ATN.INT.2': 0.0,
             'ATN.MOB.2': 0.0,
@@ -404,7 +404,7 @@ class TestCreditTime(AccountTestInvoicingCommon):
             'REP.FEES': 98.08,
             'IP': 516.92,
             'IP.DED': -38.77,
-            'NET': 1798.91,
+            'NET': 1798.96,
         }
         error = []
         line_values = payslip_new_contract._get_line_values(payslip_results.keys())

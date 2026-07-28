@@ -10,17 +10,17 @@
 # 江口和志 <sandwhale1010@gmail.com>, 2023
 # Ryoko Tsuda <ryoko@quartile.co>, 2023
 # Tatsuki Kanda, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# Yoshi Tashiro <tashiro@quartile.co>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Yoshi Tashiro <tashiro@quartile.co>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-02-11 17:40+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-06-30 04:01+0000\n"
+"Last-Translator: Yoshi Tashiro <tashiro@quartile.co>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/stock/"
 "ja/>\n"
 "Language: ja\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: stock
 #. odoo-python
@@ -2363,7 +2363,7 @@ msgstr "内容"
 #: model_terms:ir.ui.view,arch_db:stock.inventory_warning_reset_view
 #: model_terms:ir.ui.view,arch_db:stock.inventory_warning_set_view
 msgid "Continue"
-msgstr "次へ進む"
+msgstr "続行"
 
 #. module: stock
 #. odoo-javascript
@@ -3383,7 +3383,7 @@ msgstr "差異"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_package_type_form
 msgid "Dimensions"
-msgstr "次元"
+msgstr "寸法"
 
 #. module: stock
 #. odoo-javascript
@@ -3990,7 +3990,7 @@ msgstr "自由に使用できる数量 "
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
 msgid "Free to Use"
-msgstr "引当なし"
+msgstr "利用可能"
 
 #. module: stock
 #. odoo-javascript
@@ -4001,7 +4001,7 @@ msgstr "引当なし"
 #: model_terms:ir.ui.view,arch_db:stock.view_move_tree
 #: model_terms:ir.ui.view,arch_db:stock.vpicktree
 msgid "From"
-msgstr "from"
+msgstr "移動元"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move_line__owner_id
@@ -4019,6 +4019,7 @@ msgid "Full Package Name"
 msgstr "梱包の完全名称"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Future Activities"
 msgstr "今後の活動"
@@ -5130,7 +5131,7 @@ msgstr "最終棚卸日"
 #. module: stock
 #: model:product.removal,name:stock.removal_lifo
 msgid "Last In First Out (LIFO)"
-msgstr "先入先出(FIFO)"
+msgstr "後入先出(LIFO)"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_location__last_inventory_date
@@ -5251,6 +5252,7 @@ msgid "Late"
 msgstr "遅延"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Late Activities"
 msgstr "期限超過の活動"
@@ -5892,6 +5894,7 @@ msgid "Multiple destinations"
 msgstr "複数の移動先"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "My Activities"
 msgstr "自分の活動"
@@ -6202,7 +6205,7 @@ msgstr "利用不可"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_reorder_report_search
 msgid "Not Snoozed"
-msgstr "一時停止されていない"
+msgstr "一時保留なし"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
@@ -6588,7 +6591,7 @@ msgstr "出庫タイプ"
 #: model:ir.model.fields,field_description:stock.field_stock_package__outermost_package_id
 #: model:ir.model.fields,field_description:stock.field_stock_package_history__outermost_dest_id
 msgid "Outermost Destination Container"
-msgstr "最外層移動先コンテナ"
+msgstr "最外層宛先コンテナ"
 
 #. module: stock
 #. odoo-javascript
@@ -6694,6 +6697,7 @@ msgstr "梱包タイプ"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 #: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_aggregated_move_lines
+#: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_has_serial_move_line
 msgid "Pack of 6"
 msgstr "6個パック"
 
@@ -7117,7 +7121,7 @@ msgstr "少なくとも1つ、ゼロではない量を指定してください�
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/stock_rescheduling_popover.xml:0
 msgid "Preceding operations"
-msgstr "先行操作"
+msgstr "先行オペレーション"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_replenish__route_id
@@ -7574,7 +7578,7 @@ msgstr "製品の梱包 (小包、箱等) および追跡"
 #. module: stock
 #: model:ir.model,name:stock.model_stock_putaway_rule
 msgid "Putaway Rule"
-msgstr "入庫ルール"
+msgstr "入庫規則"
 
 #. module: stock
 #. odoo-python
@@ -7591,7 +7595,7 @@ msgstr "入庫ルール"
 #: model_terms:ir.ui.view,arch_db:stock.view_location_form
 #: model_terms:ir.ui.view,arch_db:stock.view_putaway_search
 msgid "Putaway Rules"
-msgstr "入庫ルール"
+msgstr "入庫規則"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_rule
@@ -8540,7 +8544,7 @@ msgstr "確認SMS"
 #: model:ir.model.fields,field_description:stock.field_stock_picking__message_has_sms_error
 #: model:ir.model.fields,field_description:stock.field_stock_scrap__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_small
@@ -8785,7 +8789,7 @@ msgstr "設定が有効な場合、オーダが配送された際に顧客に送
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_config_settings__barcode_separator
 msgid "Separator"
-msgstr "セパレータ"
+msgstr "区切り文字"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__res_company__annual_inventory_month__9
@@ -10257,7 +10261,7 @@ msgstr "ヒント:バーコードを使用して在庫操作を高速化する"
 #: model_terms:ir.ui.view,arch_db:stock.view_move_tree
 #: model_terms:ir.ui.view,arch_db:stock.vpicktree
 msgid "To"
-msgstr "終了日"
+msgstr "移動先"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.quant_search_view
@@ -10343,6 +10347,7 @@ msgid "Today"
 msgstr "今日"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Today Activities"
 msgstr "本日の活動"
@@ -10636,7 +10641,7 @@ msgstr "オペレーションタイプ"
 #: model:ir.model.fields,help:stock.field_stock_lot__activity_exception_decoration
 #: model:ir.model.fields,help:stock.field_stock_picking__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "記録上の例外活動の種類。"
+msgstr "レコード上の例外の活動タイプ。"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_config_settings__module_delivery_ups_rest
@@ -11377,7 +11382,7 @@ msgstr "以下を行うことができます:"
 #: code:addons/stock/models/stock_orderpoint.py:0
 msgid "You can not create a snoozed orderpoint that is not manually triggered."
 msgstr ""
-"手動トリガでない補充ルールに対しては、一時停止を設定することはできません。"
+"手動トリガでない補充ルールに対しては、一時保留を設定することはできません。"
 
 #. module: stock
 #. odoo-python
@@ -11430,7 +11435,7 @@ msgid ""
 "You can only snooze manual orderpoints. You should rather archive 'auto-"
 "trigger' orderpoints if you do not want them to be triggered."
 msgstr ""
-"一時停止できるのは手動の補充ルールのみです。「自動でトリガー」される補充ルー"
+"一時保留できるのは手動の補充ルールのみです。「自動でトリガー」される補充ルー"
 "ルを無効にしたい場合は、アーカイブすることをおすすめします。"
 
 #. module: stock

@@ -2,7 +2,7 @@ import base64
 import logging
 import traceback
 
-from odoo import SUPERUSER_ID, _, api
+from odoo import SUPERUSER_ID, api
 from odoo.exceptions import MissingError, ValidationError
 from odoo.http import Controller, request, route
 from odoo.tools.safe_eval import time
@@ -97,9 +97,9 @@ class StripeIssuingController(Controller):
             raise MissingError(env._("A card that doesn't exist on the database was used"))
         if event['type'] == 'issuing_authorization.request':
             amount = format_amount_from_stripe(auth_object['pending_request']['amount'], card.currency_id)
-            mcc = env['product.mcc.stripe.tag'].search([
-                ('code', '=', auth_object['merchant_data']['category_code']),
-            ])
+            mcc = env['product.mcc.stripe.tag'].new({
+                'code': auth_object['merchant_data']['category_code'],
+            })
             country = env['res.country'].search([('code', 'ilike', auth_object['merchant_data']['country'])], limit=1)
 
             can_pay, refusal_reason = card._can_pay_amount(amount, mcc, country)
@@ -112,23 +112,35 @@ class StripeIssuingController(Controller):
                 return {'message': refusal_reason, 'approved': False}
 
         if event['type'] in {'issuing_authorization.created', 'issuing_authorization.updated'}:
-            default_request_history = [{'approved': False, 'reason': _("Unknown")}]
+            default_reason = env._("Unknown reason.")
+            default_request_history = [{'approved': False, 'reason': default_reason}]
             request_history = auth_object.setdefault('request_history', default_request_history)[0]
-            if auth_object['status'] == 'closed' and not request_history['approved']:
-                # There will be no capture, we need to create a refused expense to log the refusal reason
-                technical_reason = request_history['reason']
-                if technical_reason == 'webhook_declined':
-                    refusal_reason = auth_object['metadata'].get('message', STRIPE_REQUEST_REFUSED_REASONS[request_history['reason']])
-                else:
-                    refusal_reason = STRIPE_REQUEST_REFUSED_REASONS[request_history['reason']]
-                env['hr.expense']._create_from_stripe_authorization(auth_object, refusal_reason)
-                return {'message': 'Refused expense created'}
+            response_message = ''
+            match auth_object['status'], request_history['approved']:
+                case 'pending', True:
+                    env['hr.expense']._create_from_stripe_authorization(auth_object)
+                    response_message = 'Draft expense created'
 
-            elif auth_object['status'] == 'pending':
-                env['hr.expense']._create_from_stripe_authorization(auth_object)
-                return {'message': 'Draft expense created'}
+                case ('closed', False) | ('reversed' | 'expired', False | True):
+                    # There will be no capture, we need to create a refused expense to log the refusal reason
+                    technical_reason = request_history['reason']
+                    if technical_reason == 'webhook_declined':
+                        refusal_reason = auth_object['metadata'].get(
+                            'message',
+                            STRIPE_REQUEST_REFUSED_REASONS.get(technical_reason, default_reason),
+                        )
+                    elif technical_reason == 'webhook_approved':
+                        refusal_reason = env._(
+                            "The authorization was approved by the webhook, but was later reversed or closed without any capture."
+                        )
+                    else:
+                        refusal_reason = STRIPE_REQUEST_REFUSED_REASONS.get(technical_reason, default_reason)
+                    env['hr.expense']._create_from_stripe_authorization(auth_object, refusal_reason)
+                    response_message = 'Refused expense created'
 
-            return {'message': 'Event ignored, not a refused or draft expense'}
+                case _:
+                    response_message = 'Event ignored, not a refused or draft expense'
+            return {'message': response_message}
         raise ValidationError(env._("Invalid event type '%(invalid_event)s'", invalid_event=event['type']))
 
     @api.model

@@ -2,10 +2,12 @@
 
 import * as Chrome from "@point_of_sale/../tests/pos/tours/utils/chrome_util";
 import * as Dialog from "@point_of_sale/../tests/generic_helpers/dialog_util";
+import * as Numpad from "@point_of_sale/../tests/generic_helpers/numpad_util";
 import * as PartnerList from "@point_of_sale/../tests/pos/tours/utils/partner_list_util";
 import * as PaymentScreen from "@point_of_sale/../tests/pos/tours/utils/payment_screen_util";
 import * as ProductScreen from "@point_of_sale/../tests/pos/tours/utils/product_screen_util";
 import * as ReceiptScreen from "@point_of_sale/../tests/pos/tours/utils/receipt_screen_util";
+import * as TicketScreen from "@point_of_sale/../tests/pos/tours/utils/ticket_screen_util";
 import * as Utils from "@point_of_sale/../tests/pos/tours/utils/common";
 import { negateStep } from "@point_of_sale/../tests/generic_helpers/utils";
 import { registry } from "@web/core/registry";
@@ -73,6 +75,25 @@ registry.category("web_tour.tours").add("pos_settle_account_due_update_instantly
         [
             Chrome.startPoS(),
             Dialog.confirm("Open Register"),
+            // zero price order
+            ProductScreen.addOrderline("Desk Pad", "1"),
+            Numpad.click("Price"),
+            Numpad.isActive("Price"),
+            Numpad.click("0"),
+            ProductScreen.totalAmountIs("0.0"),
+            ProductScreen.clickPayButton(),
+            {
+                content: "Check that: 'Customer Account' payment method is not available",
+                trigger:
+                    'body:not(:has(.button.paymentmethod .payment-name:contains("Customer Account")))',
+            },
+            PaymentScreen.clickBackToProductScreen(),
+            ProductScreen.isShown(),
+            ProductScreen.clickOrderline("Desk Pad"),
+            Numpad.click("⌫"),
+            Numpad.click("⌫"),
+
+            // normal order with due
             ProductScreen.clickPartnerButton(),
             ProductScreen.clickCustomer("A Partner"),
             ProductScreen.addOrderline("Desk Pad", "10"),
@@ -116,18 +137,19 @@ registry.category("web_tour.tours").add("pos_settle_account_due_update_instantly
             Dialog.confirm("Yes"),
             ReceiptScreen.clickNextOrder(),
             ProductScreen.clickPartnerButton(),
-            PartnerList.settleCustomerAccount(
-                "A Partner",
-                "9.80",
-                "Shop - 000001",
-                "",
-                false,
-                true
-            ),
-            ProductScreen.totalAmountIs("9.80"),
+            {
+                trigger: "tr:contains('A Partner') .partner-due:contains('9.80')",
+            },
+            // Settle the rest amount via the open order (9.80 still tied to original order)
+            PartnerList.clickPartnerOptions("A Partner"),
+            PartnerList.clickDropDownItemText("Settle orders"),
+            {
+                trigger: "th.o_list_record_selector .form-check-input",
+                run: "click",
+            },
+            Dialog.confirm(),
             ProductScreen.clickPayButton(),
             PaymentScreen.clickPaymentMethod("Bank"),
-            PaymentScreen.clickInvoiceButton(),
             PaymentScreen.clickValidate(),
             Dialog.confirm("Yes"),
             ReceiptScreen.clickNextOrder(),
@@ -351,5 +373,78 @@ registry.category("web_tour.tours").add("test_pos_deposit_with_rounding", {
             PaymentScreen.selectedPaymentlineHas("Bank", "10.02"),
             // Non-Cash methods should not round the change
             PaymentScreen.changeIs("10.02"),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_account_due_with_refund", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            ProductScreen.clickPartnerButton(),
+            ProductScreen.clickCustomer("A Partner"),
+            ProductScreen.addOrderline("Desk Pad", "11"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Customer Account"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.clickNextOrder(),
+            // Refund.
+            Chrome.clickOrders(),
+            TicketScreen.selectFilter("Paid"),
+            TicketScreen.selectOrder("0001"),
+            ProductScreen.clickNumpad("1"),
+            TicketScreen.confirmRefund(),
+            PaymentScreen.clickPaymentMethod("Customer Account"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.clickNextOrder(),
+
+            ProductScreen.clickPartnerButton(),
+            {
+                trigger: "tr:contains('A Partner') .partner-due:contains('19.80')",
+            },
+            PartnerList.clickPartnerOptions("A Partner"),
+            PartnerList.clickDropDownItemText("Settle orders"),
+            {
+                trigger: "th.o_list_record_selector .form-check-input",
+                run: "click",
+            },
+            Dialog.confirm(),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.totalIs("19.80"),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            Dialog.confirm("Yes"),
+            ReceiptScreen.clickNextOrder(),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("pos_settle_open_invoice_child_contact", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            ProductScreen.clickPartnerButton(),
+            PartnerList.clickPartnerOptions("D Contact"),
+            {
+                isActive: ["auto"],
+                trigger: "div.o_popover :contains('Settle invoices')",
+                content: "Check the popover opened",
+                run: "click",
+            },
+            {
+                trigger: `tr.o_data_row td[name='name']:contains('INV/${new Date().getFullYear()}/')`,
+                content: "Check the invoice is present",
+                run: "click",
+            },
+            ProductScreen.selectedOrderlineHas("INV", 1, "100"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            Utils.selectButton("Yes"),
+            ReceiptScreen.receiptIsThere(),
+            ReceiptScreen.receiptAmountTotalIs("0.00"),
+            ReceiptScreen.paymentLineContains("Bank", "100.00"),
+            ReceiptScreen.paymentLineContains("Customer Account", "-100.00"),
+            Chrome.endTour(),
         ].flat(),
 });

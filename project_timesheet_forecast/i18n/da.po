@@ -9,13 +9,14 @@
 # Martin Trigaux, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 17:54+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-13 09:13+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "project_timesheet_forecast/da/>\n"
 "Language: da\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_forecast_view_form_inherit_project_timesheet_forecast
@@ -44,22 +45,22 @@ msgstr ""
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__allocated_hours_cost
 msgid "Allocated Time Cost"
-msgstr ""
+msgstr "Omkostninger for tildelt tid"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,help:project_timesheet_forecast.field_planning_analysis_report__remaining_hours
 msgid "Allocated time minus the effective time."
-msgstr "Tildelt tid minus den effektive tid."
+msgstr "Tildelt tid minus den faktiske tid."
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_slot__allow_timesheets
 msgid "Allow timesheets"
-msgstr "Tillad timesedler"
+msgstr "Tillad tidsregistreringer"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__user_id
 msgid "Assigned to"
-msgstr "Tildelt til"
+msgstr "Tildelt"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__company_id
@@ -79,29 +80,29 @@ msgstr "Dato"
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_project__display_name
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__effective_costs
 msgid "Effective Costs"
-msgstr "Effektive omkostninger"
+msgstr "Faktiske omkostninger"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_forecast_view_tree_inherit_project_timesheet_forecast
 msgid "Effective Hours"
-msgstr "Effektive timer"
+msgstr "Faktiske timer"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__effective_hours
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_slot__effective_hours
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__effective_hours
 msgid "Effective Time"
-msgstr "Effektiv tid"
+msgstr "Faktiske tid"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__effective_hours_cost
 msgid "Effective Time Cost"
-msgstr ""
+msgstr "Omkostninger for faktiske tidsforbrug"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__employee_id
@@ -165,6 +166,9 @@ msgid ""
 "Number of time recorded on the employee's Timesheets for this task (and its "
 "sub-tasks) during the timeframe of the shift."
 msgstr ""
+"Det samlede antal timer, som medarbejderen har registreret på "
+"tidsregistreringsskemaerne for denne opgave og dens underopgaver i løbet af "
+"vagten."
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__planned_costs
@@ -174,7 +178,7 @@ msgstr "Planlagte omkostninger"
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__planned_hours
 msgid "Planned Time"
-msgstr ""
+msgstr "Planlagt tid"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields.selection,name:project_timesheet_forecast.selection__project_timesheet_forecast_report_analysis__line_type__forecast
@@ -190,7 +194,7 @@ msgstr "Planlægning"
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_pivot
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_search
 msgid "Planning / Timesheets Analysis"
-msgstr ""
+msgstr "Planlægning/analyse af tidsregistreringer"
 
 #. module: project_timesheet_forecast
 #: model:ir.model,name:project_timesheet_forecast.model_planning_analysis_report
@@ -200,17 +204,17 @@ msgstr "Planlægningsanalyserapport"
 #. module: project_timesheet_forecast
 #: model:ir.model,name:project_timesheet_forecast.model_planning_slot
 msgid "Planning Shift"
-msgstr "Planlægning vagt"
+msgstr "Planlægningsvagt"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_slot__percentage_hours
 msgid "Progress"
-msgstr "Fremdrift"
+msgstr "Fremskridt"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_planning_analysis_report__percentage_hours
 msgid "Progress (%)"
-msgstr "Fremdrift (%)"
+msgstr "Fremskridt (%)"
 
 #. module: project_timesheet_forecast
 #: model:ir.model,name:project_timesheet_forecast.model_project_project
@@ -222,7 +226,7 @@ msgstr "Projekt"
 #. module: project_timesheet_forecast
 #: model:ir.actions.act_window,name:project_timesheet_forecast.project_timesheet_action_schedule_by_role
 msgid "Schedule by Role"
-msgstr "Skema ud fra Rolle"
+msgstr "Skema ud fra rolle"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.actions.act_window,help:project_timesheet_forecast.project_timesheet_action_schedule_by_role
@@ -236,12 +240,12 @@ msgstr ""
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_analysis_view_tree
 msgid "Sum of Difference"
-msgstr "Summen af forskel"
+msgstr "Summen af differencen"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_analysis_view_tree
 msgid "Sum of Effective Hours"
-msgstr "Sum af effektive timer"
+msgstr "Sum af faktiske timer"
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_analysis_view_tree
@@ -262,18 +266,18 @@ msgstr "Resterende tid"
 #. module: project_timesheet_forecast
 #: model:ir.model.fields.selection,name:project_timesheet_forecast.selection__project_timesheet_forecast_report_analysis__line_type__timesheet
 msgid "Timesheet"
-msgstr "Timeseddel"
+msgstr "Tidsregistrering"
 
 #. module: project_timesheet_forecast
 #. odoo-python
 #: code:addons/project_timesheet_forecast/models/planning_slot.py:0
 msgid "Timesheets"
-msgstr "Timesedler"
+msgstr "Tidsregistreringer"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,help:project_timesheet_forecast.field_planning_slot__allow_timesheets
 msgid "Timesheets can be logged on this slot."
-msgstr "Timesedler kan logges på denne plads."
+msgstr "Tidsregistreringer kan logges på denne tidsblok."
 
 #. module: project_timesheet_forecast
 #: model_terms:ir.ui.view,arch_db:project_timesheet_forecast.project_timesheet_forecast_report_view_search
@@ -287,7 +291,7 @@ msgid ""
 "with the effective hours recorded"
 msgstr ""
 "Spor dine projekters fremskridt ved at sammenligne de oprindeligt planlagte "
-"timer med de effektive registrerede timer"
+"timer med de faktiske registrerede timer"
 
 #. module: project_timesheet_forecast
 #: model:ir.model.fields,field_description:project_timesheet_forecast.field_project_timesheet_forecast_report_analysis__line_type

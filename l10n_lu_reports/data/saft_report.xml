@@ -4,7 +4,7 @@
     <template id="tax_information_inherit_l10n_lu_saft" inherit_id="account_saft.tax_information">
         <xpath expr="//TaxCode" position="before">
             <t t-if="company.account_fiscal_country_id.code == 'LU'">
-                <TaxType>TVA-<t t-out="tax_vals['tax_id']"/></TaxType>
+                <TaxType>TVA</TaxType>
             </t>
         </xpath>
         <xpath expr="//TaxBaseDescription" position="before">
@@ -44,9 +44,9 @@
                 <InvoiceType t-out="invoice_vals['type'][:9]"/>
                 <SourceID t-if="invoice_vals['invoice_origin']" t-out="invoice_vals['invoice_origin'][:35]"/>
                 <GLPostingDate t-out="invoice_vals['date']"/>
-                <TransactionID t-out="invoice_vals['id']"/>
+                <TransactionID t-out="invoice_vals['name']"/>
                 <Line t-foreach="invoice_vals['invoice_line_vals_list']" t-as="line_vals">
-                    <AccountID t-out="line_vals['account_id']"/>
+                    <AccountID t-out="line_vals['account_code']"/>
                     <OrderReferences>
                         <OriginatingON t-out="invoice_vals['name'][:70]"/>
                         <OrderDate t-out="invoice_vals['invoice_date']"/>
@@ -127,7 +127,7 @@
         </xpath>
         <xpath expr="//TaxCodeDetails" position="before">
             <t t-if="company.account_fiscal_country_id.code == 'LU'">
-                <TaxType>TVA-<t t-out="tax_vals['id']"/></TaxType>
+                <TaxType>TVA</TaxType>
                 <Description>Taxe sur la valeur ajoutée</Description>
             </t>
         </xpath>

@@ -257,3 +257,27 @@ class TestDianPos(TestL10nCoEdiPosCommon):
                 'message': Markup("<p>Invoice is being processed by the DIAN.</p>"),
             }])
             self.assertEqual(move.l10n_co_dian_state, 'invoice_pending')
+
+    def test_session_report(self):
+        self.config.company_id.write({
+            'l10n_co_dian_test_environment': True,
+            'l10n_co_dian_certification_process': True,
+        })
+        self.config.l10n_co_edi_pos_serial_number = "Test CO SN"
+
+        with (
+            self._pos_session(),
+            self._mock_get_status(),
+            self._disable_get_acquirer_call(),
+            patch(f'{self.utils_path}._build_and_send_request', return_value=self._mocked_response('SendTestSetAsync.xml', 200)),
+        ):
+            order = self._create_order({
+                **self.default_pos_order_ui_data,
+                'is_invoiced': True,
+                'customer': self.partner_co,
+            })
+        report = self.env['report.point_of_sale.report_saledetails'].get_sale_details(
+            config_ids=order.session_id.config_id.ids,
+            session_ids=order.session_id.ids
+        )
+        self.assertIn("Test CO SN", report['l10n_co_edi_pos_serial_number'])

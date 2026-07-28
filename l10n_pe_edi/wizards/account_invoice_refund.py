@@ -17,6 +17,7 @@ class AccountMoveReversal(models.TransientModel):
         values = super()._prepare_default_reversal(move)
         if move.company_id.country_id.code == "PE" and move.l10n_latam_use_documents:
             values.update({
+                'l10n_pe_edi_cancel_reason': self.reason,
                 'l10n_pe_edi_refund_reason': self.l10n_pe_edi_refund_reason or '01',
                 'l10n_latam_document_type_id': self.l10n_latam_document_type_id.id or self.env.ref('l10n_pe.document_type07').id,
             })

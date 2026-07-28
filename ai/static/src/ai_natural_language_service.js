@@ -170,7 +170,11 @@ export const aiNaturalLanguageService = {
                 cumulated,
                 switchViewType,
                 customDomain,
+                aiSessionIdentifier,
             }) => {
+                if (aiSessionIdentifier !== session.ai_session_identifier) {
+                    return;
+                }
                 async function trySwitchView() {
                     try {
                         if (switchViewType) {

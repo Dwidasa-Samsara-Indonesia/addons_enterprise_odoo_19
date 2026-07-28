@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, modules, _
 from odoo.fields import Datetime, Domain
 from odoo.exceptions import ValidationError, AccessError
-from odoo.tools.misc import clean_context
+from odoo.tools.misc import clean_context, OrderedSet
 
 _logger = logging.getLogger(__name__)
 
@@ -259,6 +259,10 @@ class MarketingActivity(models.Model):
     def write(self, vals):
         if any(activity.campaign_id.state == 'running' for activity in self) and any(field in vals for field in ('interval_number', 'interval_type')):
             vals['require_sync'] = True
+        if 'parent_id' in vals and self.trace_ids and not all(t.is_test for t in self.trace_ids):
+            # Prevent modifying relationships when real traces exist, as it could create duplicates
+            # and would require a full trace resynchronization in some cases.
+            raise ValidationError(_("Error! You can't modify the hierarchy of an active Activity."))
         return super().write(vals)
 
     def _get_full_statistics(self):
@@ -456,10 +460,7 @@ class MarketingActivity(models.Model):
         if not self.env.is_superuser() and not self.env.user.has_group('marketing_automation.group_marketing_automation_user'):
             raise AccessError(_('To use this feature you should be an administrator or belong to the marketing automation group.'))
 
-        def _uniquify_list(seq):
-            seen = set()
-            return [x for x in seq if x not in seen and not seen.add(x)]
-        res_ids = _uniquify_list(traces.mapped('res_id'))
+        res_ids = list(OrderedSet(traces.mapped('res_id')))
         ctx = dict(clean_context(self.env.context), default_marketing_activity_id=self.ids[0], active_ids=res_ids)
         mailing = self.mass_mailing_id.sudo().with_context(ctx)
         now = self.env.cr.now()
@@ -542,15 +543,6 @@ class MarketingActivity(models.Model):
 
         return child_traces
 
-    def _get_reschedule_trigger_types(self):
-        """ Retrieve a set of trigger types that have a schedule_date that depends
-        on parent or activity / campaign, not on external user actions.
-
-        :returns: set of ``trigger_type`` elements
-        :rtype: set[str]
-        """
-        return {'activity', 'begin', 'mail_not_open', 'mail_not_click', 'mail_not_reply'}
-
     def action_view_sent(self):
         return self._action_view_documents_filtered('sent')
 
@@ -586,3 +578,37 @@ class MarketingActivity(models.Model):
             'context': dict(self.env.context, create=False)
         })
         return action
+
+    # TOOLS
+    # ------------------------------------------------------------
+
+    def _get_reschedule_trigger_types(self):
+        """ Retrieve a set of trigger types that have a schedule_date that depends
+        on parent or activity / campaign, not on external user actions.
+
+        :returns: set of ``trigger_type`` elements
+        :rtype: set[str]
+        """
+        return {'activity', 'begin', 'mail_not_open', 'mail_not_click', 'mail_not_reply'}
+
+    def _get_opposite_trigger_types(self):
+        """ Given an activity trigger_type, return triggers considered as opposite
+        which means flows should not execute them if the first one is processed. """
+        return {
+            'activity': [],
+            'begin': [],
+            'mail_bounce':
+                ['mail_click', 'mail_open', 'mail_reply', 'activity'],
+            'mail_click':
+                ['mail_not_click'],
+            'mail_not_click':
+                ['mail_click'],
+            'mail_not_open':
+                ['mail_open'],
+            'mail_not_reply':
+                ['mail_reply'],
+            'mail_open':
+                ['mail_not_open'],
+            'mail_reply':
+                ['mail_not_reply'],
+        }

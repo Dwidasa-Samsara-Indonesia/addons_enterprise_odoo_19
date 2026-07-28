@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:47+0000\n"
-"PO-Revision-Date: 2026-02-28 09:34+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-06-10 11:36+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Czech <https://translate.odoo.com/projects/odoo-19/"
 "account_sepa_direct_debit/cs/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_sepa_direct_debit
 #: model:ir.actions.report,print_report_name:account_sepa_direct_debit.sdd_mandate_form_report_main
@@ -1081,7 +1081,7 @@ msgstr "Emailová šablona"
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__end_date
 msgid "End Date"
-msgstr "Datum do"
+msgstr "Datum ukončení"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1254,7 +1254,7 @@ msgstr "Faktury placené pomocí tohoto pověření."
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sepa_direct_debit_mandate_form
 msgid "Invoices paid with this mandate."
-msgstr "Faktury placené tímto mandátem."
+msgstr "Faktury placené tímto pověřením."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate_send__is_mail_template_editor
@@ -1309,9 +1309,15 @@ msgid "Mandate Form PDF"
 msgstr "Formulář mandátu PDF"
 
 #. module: account_sepa_direct_debit
+#. odoo-python
+#: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
+msgid "Mandate customer and bank account need to match."
+msgstr ""
+
+#. module: account_sepa_direct_debit
 #: model:ir.actions.report,name:account_sepa_direct_debit.sdd_mandate_form_report_main
 msgid "Mandate form"
-msgstr "Mandátový formulář"
+msgstr "Formulář pověření"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.constraint,message:account_sepa_direct_debit.constraint_sdd_mandate_name_unique
@@ -1321,7 +1327,7 @@ msgstr "Identifikátor zmocnění musí být unikátní. Prosím zvolte jiný."
 #. module: account_sepa_direct_debit
 #: model:ir.actions.server,name:account_sepa_direct_debit.sdd_mandate_state_cron_ir_actions_server
 msgid "Mandate state updater"
-msgstr "Aktualizátor stavu mandátu"
+msgstr "Aktualizátor stavu pověření"
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1394,7 +1400,7 @@ msgstr ""
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__paid_invoices_nber
 msgid "Number of invoices paid with this mandate."
-msgstr "Počet faktur uhrazených tímto svolením."
+msgstr "Počet faktur uhrazených tímto pověřením."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__message_needaction_counter
@@ -1423,13 +1429,13 @@ msgid ""
 "file containing this operation\n"
 "                    and send it to your bank to effectively get paid."
 msgstr ""
-"Jakmile je v Odoo pro zákazníka vytvořena faktura,\n"
-"                    který má aktivní pověření k inkasu ke dni faktury,\n"
-"                    její zaúčtování spustí automatickou úhradu, a vy "
-"následně\n"
-"                    musíte vytvořit SEPA Příkaz k inkasu (SDD) XML soubor, "
-"obsahující příslušnou operaci,\n"
-"                    a poslat jej do banky, abyste skutečně dostali zaplaceno."
+"Jakmile je v Odoo vystavena faktura\n"
+"                    pro zákazníka, který má k datu faktury aktivní příkaz k "
+"inkasu,\n"
+"                    její potvrzení spustí automatickou platbu a vy\n"
+"                    pak budete muset pouze vygenerovat XML soubor SEPA "
+"Direct Debit (SDD) obsahující tuto operaci\n"
+"                    a odeslat jej své bance, abyste skutečně obdrželi platbu."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_account_payment__sdd_mandate_id
@@ -1443,7 +1449,7 @@ msgstr ""
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_sdd_mandate__one_off
 msgid "One-off Mandate"
-msgstr "Jednorázový mandát"
+msgstr "Jednorázové pověření"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1488,7 +1494,7 @@ msgstr "Otevřít zákazníky"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.account_sdd_res_partner_view
 msgid "Open this partner's mandates"
-msgstr "Otevřít mandáty tohoto partnera"
+msgstr "Otevřít pověření tohoto partnera"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate_send__lang
@@ -1507,7 +1513,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_form
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_account_payment_with_mandates_tree
 msgid "Originating SEPA mandate"
-msgstr "Původní mandát SEPA"
+msgstr "Původní pověření SEPA"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1666,7 +1672,7 @@ msgstr "SDD CORE"
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.view_account_move_line_payment_filter
 msgid "SDD Mandate"
-msgstr "SDD Mandát"
+msgstr "SDD Pověření"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model,name:account_sepa_direct_debit.model_sdd_mandate_send
@@ -1695,7 +1701,7 @@ msgstr "Identifikátor věřitele SDD"
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_batch_payment.py:0
 msgid "SDD scheme is set on the customer mandate."
-msgstr "Schéma SEPA inkasa je nasatveno na pověření zákazníka."
+msgstr "Schéma SEPA inkasa je nastveno na pověření zákazníka."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -1715,7 +1721,7 @@ msgstr "Předběžné oznámení zákazníkovi o inkazu SEPA"
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
 msgid "SEPA Direct Debit Mandate"
-msgstr "Příkaz k inkasu SEPA"
+msgstr "Pověření k inkasu SEPA"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_journal__debit_sepa_pain_version
@@ -1746,7 +1752,7 @@ msgid ""
 "SEPA Direct Debit scheme only accepts IBAN account numbers. Please select an "
 "IBAN-compliant debtor account for this mandate."
 msgstr ""
-"Schéma SEPA inkasa přijímá pouze čísla účtů IBAN. Pro tento mandát vyberte "
+"Schéma SEPA inkasa přijímá pouze čísla účtů IBAN. Pro toto pověření vyberte "
 "prosím účet dlužníka, který vyhovuje IBAN."
 
 #. module: account_sepa_direct_debit
@@ -1802,14 +1808,14 @@ msgstr "Chyba doručení SMS"
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_bank_statement_line__sdd_has_usable_mandate
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_move__sdd_has_usable_mandate
 msgid "Sdd Has Usable Mandate"
-msgstr "Sdd má použitelný mandát"
+msgstr "Sdd má použitelné pověření"
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_account_payment__sdd_mandate_id
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_partner__sdd_mandate_ids
 #: model:ir.model.fields,field_description:account_sepa_direct_debit.field_res_users__sdd_mandate_ids
 msgid "Sdd Mandate"
-msgstr "SDD zplnomocnění"
+msgstr "SDD pověření"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1910,7 +1916,7 @@ msgid ""
 "The SEPA Direct Debit mandate associated to the payment has been revoked and "
 "cannot be used anymore."
 msgstr ""
-"Mandát SEPA inkasa spojený s platbou byl zrušen a již jej nelze použít."
+"Pověření k debetu SEPA spojené s platbou bylo zrušeno a již jej nelze použít."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -1972,7 +1978,7 @@ msgstr ""
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid ""
 "The end date of the mandate must be posterior or equal to its start date."
-msgstr "Konec mandátu musí být po datu, nebo roven počátečnímu datu."
+msgstr "Konec pověření musí být po datu, nebo roven počátečnímu datu."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -2029,8 +2035,9 @@ msgid ""
 "This invoice will be paid using direct debit and is only\n"
 "                        sent for informative purposes."
 msgstr ""
-"Tato faktura bude zaplacena prostřednictvím inkasa a je pouze\n"
-"                       zasíláno pro informativní účely."
+"Tato faktura bude uhrazena prostřednictvím přímého inkasa a je zaslána "
+"pouze\n"
+"                        pro informační účely."
 
 #. module: account_sepa_direct_debit
 #: model_terms:ir.ui.view,arch_db:account_sepa_direct_debit.sdd_mandate_form
@@ -2051,8 +2058,8 @@ msgid ""
 "To solve that, you should create a mandate for each of the involved "
 "customers, valid at the moment of the payment date."
 msgstr ""
-"Chcete-li to vyřešit, měli byste vytvořit mandát pro každého ze zúčastněných "
-"zákazníků, platný v okamžiku data platby."
+"Chcete-li tento problém vyřešit, měli byste pro každého z dotčených "
+"zákazníků vytvořit příkaz, který bude platný v okamžiku data platby."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__one_off
@@ -2061,9 +2068,9 @@ msgid ""
 "will automatically go from 'active' to 'closed' after its first use in "
 "payment if this option is set.\n"
 msgstr ""
-"Pravda pouze tehdy, pokud lze tento mandát použít pouze pro jednu transakci. "
-"Je-li tato možnost nastavena, automaticky přejde z prvního na placené z "
-"aktivního na uzavřené.\n"
+"Platí pouze v případě, že tento příkaz lze použít pouze pro jednu transakci. "
+"Pokud je tato možnost nastavena, po prvním použití při platbě se automaticky "
+"změní z „aktivní“ na „uzavřenou“.\n"
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -2072,8 +2079,8 @@ msgid ""
 "Trying to generate a Direct Debit XML file containing payments from another "
 "company than that file's creditor."
 msgstr ""
-"Snažím se generovat XML soubor přímého inkasa obsahující platby od jiné "
-"společnosti než od věřitele daného souboru."
+"Pokus o vygenerování souboru XML pro přímé debet obsahujícího platby od jiné "
+"společnosti, než je věřitel uvedený v souboru."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
@@ -2082,15 +2089,16 @@ msgid ""
 "Trying to generate a Direct Debit XML for payments coming from another "
 "payment method than SEPA Direct Debit."
 msgstr ""
-"Pokoušíme se vygenerovat XML přímého debetu pro platby pocházející z jiné "
-"platební metody než SEPA inkaso."
+"Pokus o vygenerování XML pro inkaso pro platby pocházející z jiné platební "
+"metody než SEPA Direct Debit."
 
 #. module: account_sepa_direct_debit
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/account_payment.py:0
 msgid ""
 "Trying to register a payment on a mandate belonging to a different partner."
-msgstr "Snažíte se zaregistrovat platbu na základě mandátu jiného partnera."
+msgstr ""
+"Pokus o zaúčtování platby na základě příkazu patřícího jinému partnerovi."
 
 #. module: account_sepa_direct_debit
 #: model:ir.model.fields,help:account_sepa_direct_debit.field_sdd_mandate__activity_exception_decoration
@@ -2176,7 +2184,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_sepa_direct_debit/models/sdd_mandate.py:0
 msgid "You don't have the rights to validate SDD mandates."
-msgstr ""
+msgstr "Nemáte oprávnění k ověřování příkazů SDD."
 
 #. module: account_sepa_direct_debit
 #. odoo-python

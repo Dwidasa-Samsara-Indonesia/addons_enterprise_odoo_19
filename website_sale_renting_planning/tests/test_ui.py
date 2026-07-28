@@ -40,3 +40,24 @@ class TestUi(TestWebsiteSaleRentingPlanning):
                 "website_sale_renting_planning_max_qty",
                 login="admin",
             )
+
+    def test_website_sale_renting_planning_buy_product(self):
+        """ Test the UI from the product page """
+        payment_demo = self.env['ir.module.module']._get('payment_demo')
+        if payment_demo.state != 'installed':
+            self.skipTest("payment_demo module is not installed")
+        self.employee.resource_id.calendar_id = False
+        self.env['planning.slot'].create({
+            'resource_id': self.employee.resource_id.id,
+            'role_id': self.planning_role.id,
+            'start_datetime': self.start_date,
+            'end_datetime': self.end_date,
+        })
+        with freeze_time(self.start_date.strftime(self.date_format)):
+            self.start_tour("/shop?search=Product+Renting+Planning", "website_sale_renting_planning_buy_product")
+        sale_order = self._get_sale_order(confirmed=True)
+        self.assertTrue(sale_order, "No sale order was created from ecommerce.")
+        self.assertEqual(sale_order.state, 'sale', "The order should be in 'sale' state.")
+        planning_slot = sale_order.order_line.planning_slot_ids
+        self.assertTrue(planning_slot, "There should be planning slots assigned for this product rental.")
+        self.assertEqual(len(planning_slot), 1, "There should be exactly 1 slot allocated to the rental Period.")

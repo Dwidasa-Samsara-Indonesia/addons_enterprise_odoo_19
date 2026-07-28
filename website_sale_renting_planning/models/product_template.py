@@ -44,7 +44,7 @@ class ProductTemplate(models.Model):
                             unavailable_intervals_per_calendar_id[calendar.id] |= Intervals([(
                                 date,
                                 date + relativedelta(hour=23, minute=59, second=59, microsecond=999999),
-                                calendar
+                                self.env['resource.calendar.leaves']
                             )])
                     date += relativedelta(days=1)
                 for calendar, workers in human_resources.grouped('calendar_id').items():

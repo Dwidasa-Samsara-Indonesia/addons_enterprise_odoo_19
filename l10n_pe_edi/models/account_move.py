@@ -60,9 +60,10 @@ class AccountMove(models.Model):
         selection=[
             ('01', 'Default interest'),
             ('02', 'Increase in value'),
-            ('03', 'Penalties / other concepts'),
+            ('03', 'Other concepts'),
             ('11', 'Adjustments of export operations'),
             ('12', 'Adjustments affecting the IVAP'),
+            ('13', 'Penalties'),
         ],
         string="Debit Reason",
         help='It contains all possible values for the charge reason according to Catalog No. 10')
@@ -240,14 +241,22 @@ class AccountMove(models.Model):
         national_bank_account_number = national_bank_account[0].acc_number if national_bank_account else False
         has_installments = len(self.line_ids.filtered(lambda l: l.display_type == 'payment_term')) > 1
 
+        # SUNAT requires the detraction amount to always be in PEN.
+        # amount_total_signed is in the company currency, which is normally PEN.
+        # When the company currency is not PEN, we must convert to PEN explicitly.
+        pen_currency = self.env.ref('base.PEN')
+        amount_in_pen = self.currency_id._convert(
+            self.amount_total, pen_currency, self.company_id, self.invoice_date or fields.Date.today()
+        )
+
         return {
             'id': 'Detraccion',
-            'currency': self.company_id.currency_id,
+            'currency': pen_currency,
             'payment_means_id': line.product_id.l10n_pe_withhold_code,
             'payee_financial_account': national_bank_account_number,
             'payment_means_code': '999',
-            'spot_amount': float_round(self.amount_total * (max_percent / 100.0), precision_rounding=0.01),
-            'amount': float_round(self.amount_total_signed * (max_percent / 100.0), precision_rounding=1),
+            'spot_amount': float_round(self.amount_total * (max_percent / 100.0), precision_rounding=1 if self.currency_id == pen_currency else self.currency_id.rounding),
+            'amount': float_round(amount_in_pen * (max_percent / 100.0), precision_rounding=1),
             'payment_percent': max_percent,
             'has_installments': has_installments,
         }

@@ -12,4 +12,10 @@ patch(MrpDisplayRecord.prototype, {
         }
         return super.validate();
     },
+
+    get displayDoneButton() {
+        return this.resModel === "mrp.production" && this.record.quality_check_todo
+            ? this.record.quality_check_todo
+            : super.displayDoneButton;
+    },
 });

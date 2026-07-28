@@ -63,6 +63,13 @@ class OdooDatabaseXmlrpcApi:
             ['name', 'login', 'login_date'],
         )
 
+    def create_api_key(self, name):
+        return self.execute_kw('res.users.apikeys', 'generate',
+                               key=self.apikey,
+                               scope=False,
+                               name=name,
+                               expiration_date=False)
+
     def get_kpi_summary(self):
         _logger.info('Call xmlrpc get_kpi_summary on %s', self.host)
         return self.execute_kw('kpi.provider', 'get_kpi_summary')
@@ -156,6 +163,14 @@ class OdooDatabaseApi(BaseApi):
             fallback_method = getattr(self.fallback, method.__name__)
             return fallback_method(*args, **kwargs)
         return wrapper
+
+    @fallback_to_xmlrpc
+    def create_api_key(self, name):
+        return self.post_json2('res.users.apikeys', 'generate',
+                               key=self.apikey,
+                               scope=None,
+                               name=name,
+                               expiration_date=False)
 
     @fallback_to_xmlrpc
     def list_internal_users(self):

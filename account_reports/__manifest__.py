@@ -66,6 +66,9 @@ Accounting Reports
     'installable': True,
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',
+    'kpi_providers': [
+        'models.kpi_provider:get_kpi_summary',
+    ],
     'assets': {
         'account_reports.assets_pdf_export': [
             ('include', 'web._assets_helpers'),

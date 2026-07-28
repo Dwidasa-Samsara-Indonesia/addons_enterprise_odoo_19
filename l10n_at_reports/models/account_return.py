@@ -1,5 +1,4 @@
 from itertools import chain
-from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -38,10 +37,9 @@ class AccountReturn(models.Model):
 
     def _evaluate_deadline(self, company, return_type, return_type_external_id, date_from, date_to):
         months_per_period = return_type._get_periodicity_months_delay(company)
-        if (
-            (return_type_external_id == "l10n_at_reports.at_ec_sales_list_return_type" and months_per_period in (1, 3))
-            or return_type_external_id == "l10n_at_reports.at_tax_return_type"
-        ):
-            return date_to + timedelta(days=15)
+        if return_type_external_id == "l10n_at_reports.at_tax_return_type":
+            return date_to + relativedelta(months=2, day=15)
+        if return_type_external_id == "l10n_at_reports.at_ec_sales_list_return_type" and months_per_period in (1, 3):
+            return date_to + relativedelta(months=1, day=31)
 
         return super()._evaluate_deadline(company, return_type, return_type_external_id, date_from, date_to)

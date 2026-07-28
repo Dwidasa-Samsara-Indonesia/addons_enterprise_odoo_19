@@ -3,13 +3,14 @@
 # * social_instagram
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:49+0000\n"
-"PO-Revision-Date: 2025-09-16 17:07+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"POT-Creation-Date: 2026-07-03 17:47+0000\n"
+"PO-Revision-Date: 2026-05-07 15:09+0000\n"
+"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "social_instagram/fi/>\n"
 "Language: fi\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
@@ -31,6 +32,8 @@ msgid ""
 "- Check permissions: Your site's robots.txt might be blocking Instagram from "
 "accessing the media folder (make sure /social_instagram is not blocked)."
 msgstr ""
+"- Tarkista käyttöoikeudet: Sivustosi robots.txt saattaa estää Instagramin "
+"pääsyn mediakansioon (varmista, että /social_instagram ei ole estetty)."
 
 #. module: social_instagram
 #. odoo-python
@@ -39,6 +42,8 @@ msgid ""
 "- Check your connection: Your server may be offline or temporarily "
 "unreachable."
 msgstr ""
+"- Tarkista yhteytesi: Palvelimesi saattaa olla offline-tilassa tai "
+"tilapäisesti saavuttamattomissa."
 
 #. module: social_instagram
 #. odoo-python
@@ -47,6 +52,8 @@ msgid ""
 "- Check your file: Ensure it isn't corrupted and is from 320 to 1440 pixels "
 "wide, 8MB maximum, aspect ratio between 4:5 and 1.91:1."
 msgstr ""
+"- Tarkista tiedostosi: Varmista, ettei se ole vioittunut, ja että sen leveys "
+"on 320-1440 pikseliä, koko enintään 8Mt ja kuvasuhde 4:5-1.91:1."
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview
@@ -107,6 +114,12 @@ msgstr "<span class=\"mt-1 fw-bold\">Oma Instagram-sivuni</span>"
 #: model:ir.model.fields,field_description:social_instagram.field_social_post_template__instagram_access_token
 msgid "Access Token"
 msgstr "Pääsytunniste"
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "An error occurred while contacting the Instagram API, please try again."
+msgstr ""
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.res_config_settings_view_form
@@ -326,6 +339,14 @@ msgid "Instagram did not provide a valid access token."
 msgstr "Instagram ei antanut voimassa olevaa käyttöoikeuskoodia."
 
 #. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"Instagram took too long to process the request. This can happen with large "
+"images, try posting a smaller one."
+msgstr ""
+
+#. module: social_instagram
 #. odoo-javascript
 #: code:addons/social_instagram/static/src/xml/social_instagram_templates.xml:0
 msgid "Likes"
@@ -462,13 +483,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/social_instagram/models/social_live_post.py:0
 msgid "The media container expired."
-msgstr ""
+msgstr "Mediasäilö on vanhentunut."
 
 #. module: social_instagram
 #. odoo-python
 #: code:addons/social_instagram/models/social_live_post.py:0
 msgid "The media container failed to process."
-msgstr ""
+msgstr "Mediasäilön käsittely epäonnistui."
 
 #. module: social_instagram
 #. odoo-python
@@ -538,7 +559,7 @@ msgstr "Kuva näyttää olevan vioittunut, yritä ladata se uudelleen."
 #: code:addons/social_instagram/models/social_live_post.py:0
 msgid ""
 "Your media didn't go through. This is usually caused by one of the following:"
-msgstr ""
+msgstr "Median lähetys epäonnistui. Syynä on yleensä jokin seuraavista:"
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.instagram_preview

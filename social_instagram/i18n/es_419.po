@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:49+0000\n"
+"POT-Creation-Date: 2026-07-03 17:47+0000\n"
 "PO-Revision-Date: 2026-04-06 14:54+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
@@ -116,6 +116,12 @@ msgstr "<span class=\"mt-1 fw-bold\">Mi página de Instagram</span>"
 #: model:ir.model.fields,field_description:social_instagram.field_social_post_template__instagram_access_token
 msgid "Access Token"
 msgstr "Token de acceso"
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "An error occurred while contacting the Instagram API, please try again."
+msgstr ""
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.res_config_settings_view_form
@@ -334,6 +340,14 @@ msgstr "Vista previa de Instagram"
 #: code:addons/social_instagram/controllers/main.py:0
 msgid "Instagram did not provide a valid access token."
 msgstr "Instagram no proporcionó un token de acceso válido."
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"Instagram took too long to process the request. This can happen with large "
+"images, try posting a smaller one."
+msgstr ""
 
 #. module: social_instagram
 #. odoo-javascript

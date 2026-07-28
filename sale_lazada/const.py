@@ -44,7 +44,7 @@ API_OPERATIONS_MAPPING = {
 }
 
 # Mapping of Lazada fulfillment type to Lazada status to synchronize
-ORDER_STATUSES_TO_SYNC = {'fbm': ['pending'], 'fbl': ['confirmed']}
+ORDER_STATUSES_TO_SYNC = {"fbm": {"pending"}, "fbl": {"confirmed"}}
 
 # Mapping of Lazada order item statuses to Odoo order item statuses
 ORDER_ITEM_STATUS_MAPPING = {
@@ -59,7 +59,7 @@ ORDER_ITEM_STATUS_MAPPING = {
 }
 
 # Supported shipping provider types
-SUPPORTED_SHIPPING_PROVIDER_TYPES = ['express', 'standard', 'economy']
+SUPPORTED_SHIPPING_PROVIDER_TYPES = {"express", "standard", "economy"}
 
 # Lazada API's limits
 ORDER_LIST_DAYS_LIMIT = 15

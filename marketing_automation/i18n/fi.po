@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-28 09:36+0000\n"
+"POT-Creation-Date: 2026-07-10 17:44+0000\n"
+"PO-Revision-Date: 2026-07-07 17:12+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "marketing_automation/fi/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: marketing_automation
 #: model_terms:ir.ui.view,arch_db:marketing_automation.marketing_activity_summary_template
@@ -748,6 +748,12 @@ msgstr "Virhe! Et voi luoda rekursiivista toimintohierarkiaa."
 #. module: marketing_automation
 #. odoo-python
 #: code:addons/marketing_automation/models/marketing_activity.py:0
+msgid "Error! You can't modify the hierarchy of an active Activity."
+msgstr "Virhe! Et voi muokata aktiivisen toimenpiteen hierarkiaa."
+
+#. module: marketing_automation
+#. odoo-python
+#: code:addons/marketing_automation/models/marketing_activity.py:0
 msgid "Exception in mass mailing: %s"
 msgstr "Poikkeus massapostituksessa: %s"
 
@@ -1075,7 +1081,7 @@ msgstr "Markkinointi Osallistuja"
 #. module: marketing_automation
 #: model:ir.model.fields,field_description:marketing_automation.field_marketing_activity__mass_mailing_id
 msgid "Marketing Template"
-msgstr "Markkinoinnin malli"
+msgstr "Markkinoinnin mallipohja"
 
 #. module: marketing_automation
 #: model:ir.model,name:marketing_automation.model_marketing_trace
@@ -1246,6 +1252,16 @@ msgid "Offer free catalog"
 msgstr "Tarjoa ilmainen katalogi"
 
 #. module: marketing_automation
+#. odoo-python
+#: code:addons/marketing_automation/models/mailing_mailing.py:0
+msgid ""
+"Oops! You can't retry sending emails from inside a Marketing Automation "
+"campaign."
+msgstr ""
+"Hups! Et voi yrittää sähköpostin lähettämistä uudelleen markkinoinnin "
+"automaatio -kampanjan sisällä."
+
+#. module: marketing_automation
 #: model_terms:ir.ui.view,arch_db:marketing_automation.marketing_campaign_view_form
 msgid "Opened"
 msgstr "Avattu"
@@ -1386,6 +1402,12 @@ msgstr "Tietue poistettiin"
 #: model:ir.model.fields,field_description:marketing_automation.field_marketing_participant__model_name
 msgid "Record model"
 msgstr "Tietuemalli"
+
+#. module: marketing_automation
+#. odoo-python
+#: code:addons/marketing_automation/models/marketing_campaign.py:0
+msgid "Record no longer matches campaign filter"
+msgstr ""
 
 #. module: marketing_automation
 #. odoo-python
@@ -1705,7 +1727,7 @@ msgstr "Kohdemalli"
 #. module: marketing_automation
 #: model_terms:ir.ui.view,arch_db:marketing_automation.marketing_campaign_view_form
 msgid "Templates"
-msgstr "Mallit"
+msgstr "Mallipohjat"
 
 #. module: marketing_automation
 #: model_terms:ir.ui.view,arch_db:marketing_automation.marketing_participant_view_form
@@ -1790,18 +1812,18 @@ msgstr "Jäljet"
 #. module: marketing_automation
 #: model_terms:ir.ui.view,arch_db:marketing_automation.marketing_activity_view_form
 msgid "Trigger"
-msgstr "Liipaisin"
+msgstr "Laukaisin"
 
 #. module: marketing_automation
 #: model:ir.model.fields,field_description:marketing_automation.field_marketing_activity__trigger_category
 msgid "Trigger Category"
-msgstr "Liipaisimen luokka"
+msgstr "Laukaisinkategoria"
 
 #. module: marketing_automation
 #: model:ir.model.fields,field_description:marketing_automation.field_marketing_activity__trigger_type
 #: model:ir.model.fields,field_description:marketing_automation.field_marketing_trace__trigger_type
 msgid "Trigger Type"
-msgstr "Liipaisin-tyyppi"
+msgstr "Laukaisintyyppi"
 
 #. module: marketing_automation
 #: model:ir.model,name:marketing_automation.model_utm_campaign

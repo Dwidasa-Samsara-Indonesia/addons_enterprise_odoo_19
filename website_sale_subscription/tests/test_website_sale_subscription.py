@@ -341,3 +341,42 @@ class TestWebsiteSaleSubscription(WebsiteSaleSubscriptionCommon):
                                                                  "10 -the base plan unit price- not 30 -the fixed price of the base plan")
         self.assertEqual(pricing_data[2]['discounted_price'], 16, "It should be the result of comparing this plan's unit price with\n"
                                                                  "10 -the base plan unit price- not 30 -the fixed price of the base plan")
+
+    def test_shop_price_recurring_with_pricelist_discount(self):
+        """On /shop, the pricelist discount must apply to the recurring price.
+
+        The shop tile is rendered while the cart has no plan yet, so the
+        recurring price used to be computed with `plan_id=False`. The
+        percentage rule then fell back on the product's one-time `list_price`
+        (5 -> 4.5) instead of the recurring price (10 -> 9).
+        """
+        product = self.env['product.template'].create({
+            'name': 'One-time + Monthly',
+            'recurring_invoice': True,
+            'allow_one_time_sale': True,
+            'type': 'consu',
+            'list_price': 5.0,  # one-time sales price
+            'taxes_id': False,
+        })
+        self.env['product.pricelist.item'].create({
+            'plan_id': self.plan_month.id,
+            'fixed_price': 10.0,  # recurring price: 10/month (global, no pricelist)
+            'product_tmpl_id': product.id,
+            'applied_on': '1_product',
+            'pricelist_id': False,
+        })
+        # Advanced pricelist rule: 10% off the monthly recurring price.
+        self.pricelist.item_ids = [Command.create({
+            'plan_id': self.plan_month.id,
+            'applied_on': '1_product',
+            'product_tmpl_id': product.id,
+            'compute_price': 'percentage',
+            'percent_price': 10.0,
+        })]
+
+        with MockRequest(self.env, website=self.website) as request:
+            self.assertEqual(request.pricelist, self.pricelist)
+            self.assertFalse(request.cart.plan_id)
+            prices = product._get_sales_prices(self.website)
+
+        self.assertEqual(prices[product.id]['price_reduce'], 9.0)

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
 "PO-Revision-Date: 2025-10-08 18:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -416,6 +416,13 @@ msgstr ""
 "bittasini qo‘shing."
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 #, fuzzy
 msgid "All reconciliation models"
@@ -584,6 +591,7 @@ msgstr "Avtomatik moslashtirilgan yozuvlar"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 #, fuzzy
 msgid "Balance:"
@@ -1407,10 +1415,20 @@ msgid "Has Abnormal Deferred Dates"
 msgstr "Noto‘g‘ri kechiktirilgan sanalarga ega"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 #, fuzzy
 msgid "Has Deferred Moves"
 msgstr "Kechiktirilgan harakatlarga ega"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1533,6 +1551,11 @@ msgstr "Noto‘g‘ri ko‘chirma"
 #, fuzzy
 msgid "Invoice Date"
 msgstr "Hisob-faktura sanasi"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -2370,6 +2393,11 @@ msgid "Reconciled"
 msgstr "Solishtirilgan"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 #, fuzzy
 msgid "Reconciliation model"
@@ -2734,16 +2762,6 @@ msgid "The ending date must not be prior to the starting date."
 msgstr "Tugash sanasi boshlanish sanasidan oldin bo‘lmasligi kerak."
 
 #. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-#, fuzzy
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
-"Ushbu sanadan oldingi hisob-fakturalar buxgalteriya yozuvlari sifatida "
-"hisobga olinmaydi"
-
-#. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
 #: model:ir.model.fields,help:account_accountant.field_account_move__deferred_original_move_ids
 #, fuzzy
@@ -2956,6 +2974,12 @@ msgstr "%s ga o‘tkazma"
 #, fuzzy
 msgid "Try to reconcile automatically your statement lines"
 msgstr "Bayonnoma qatorlarini avtomatik moslashtirish"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr ""
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -3182,6 +3206,11 @@ msgid "You need to select who the exception applies to."
 msgstr "Istisno kimga tegishli ekanligini tanlashingiz kerak."
 
 #. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h
 #, fuzzy
 msgid "for 1 hour"
@@ -3248,3 +3277,11 @@ msgstr "ikkinchi valyuta"
 #, fuzzy
 msgid "to reconcile"
 msgstr "solishtirish uchun"
+
+#, fuzzy
+#~ msgid ""
+#~ "The invoices before this date will not be taken into account as "
+#~ "accounting entries"
+#~ msgstr ""
+#~ "Ushbu sanadan oldingi hisob-fakturalar buxgalteriya yozuvlari sifatida "
+#~ "hisobga olinmaydi"

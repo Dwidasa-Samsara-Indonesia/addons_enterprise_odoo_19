@@ -35,3 +35,13 @@ class SaleOrderCloseReason(models.Model):
         for reason in self:
             if reason.is_protected:
                 raise AccessError(_('The reason: "%s" is here for good. It\'s essential for our subscription application like coffee is for a Monday morning!', reason.name))
+
+    @api.model
+    def _get_reason_to_reopen(self):
+        """Provide a list of reason ids that allows to reopen the subscription when the invoice is paid or the transaction
+        post processed.
+        """
+        expired_close_reason = self.env.ref('sale_subscription.close_reason_auto_close_limit_reached', raise_if_not_found=False)
+        unpaid_close_reason = self.env.ref('sale_subscription.close_reason_unpaid_subscription', raise_if_not_found=False)
+        close_reasons_ids = (expired_close_reason + unpaid_close_reason).ids
+        return close_reasons_ids

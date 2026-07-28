@@ -1,11 +1,12 @@
-import { _t } from "@web/core/l10n/translation";
 import { Component } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
 import { useService } from "@web/core/utils/hooks";
 import { useX2ManyCrud } from "@web/views/fields/relational_utils";
-
-import { SelectAddDocumentCreateDialog } from "@documents/views/view_dialogs/select_add_document_create_dialog";
+import {
+    SelectAddDocumentCreateDialog,
+    getAddDocumentDialogProps,
+} from "@documents/views/view_dialogs/select_add_document_create_dialog";
 
 export class MailComposerDocumentSelector extends Component {
     static template = "documents.MailComposerDocumentSelector";
@@ -24,19 +25,9 @@ export class MailComposerDocumentSelector extends Component {
         const { data } = this.props.record;
         const resId = this.props.record.resId || JSON.parse(data.res_ids)?.[0];
         const model = data.model;
+
         this.dialogService.add(SelectAddDocumentCreateDialog, {
-            resModel: "documents.document",
-            title: _t("Search: Documents"),
-            noCreate: true,
-            domain: [
-                ["type", "=", "binary"],
-                ["shortcut_document_id", "=", false],
-            ],
-            context: {
-                list_view_ref: "documents.documents_view_list_add_documents_attachment",
-                documents_search_panel_no_trash: true,
-                documents_view_secondary: true,
-            },
+            ...getAddDocumentDialogProps(),
             chatterParams: {
                 model,
                 resId,

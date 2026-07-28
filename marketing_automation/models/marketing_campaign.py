@@ -9,6 +9,7 @@ from odoo import api, fields, models, modules, tools, _
 from odoo.fields import Datetime
 from odoo.exceptions import ValidationError, AccessError
 from odoo.tools import convert
+from odoo.tools.misc import OrderedSet
 
 
 class MarketingCampaign(models.Model):
@@ -267,23 +268,28 @@ class MarketingCampaign(models.Model):
 
                     # avoid creating new traces that would have processed brother traces already processed
                     # example: do not create a mail_not_click trace if mail_click is already processed
-                    if activity.trigger_type in ['mail_not_open', 'mail_not_click', 'mail_not_reply']:
-                        opposite_trigger = activity.trigger_type.replace('_not_', '_')
-                        brother_traces = self.env['marketing.trace'].search([
-                            ('parent_id', 'in', valid_parent_traces.ids),
-                            ('trigger_type', '=', opposite_trigger),
-                            ('state', '=', 'processed'),
-                        ])
-                        valid_parent_traces = valid_parent_traces - brother_traces.mapped('parent_id')
+                    if activity.trigger_type in activity._get_reschedule_trigger_types():
+                        opposite_triggers = activity._get_opposite_trigger_types()[activity.trigger_type]
+                        if opposite_triggers:
+                            brother_traces = self.env['marketing.trace'].search([
+                                ('parent_id', 'in', valid_parent_traces.ids),
+                                ('trigger_type', 'in', opposite_triggers),
+                                ('state', '=', 'processed'),
+                            ])
+                            valid_parent_traces = valid_parent_traces - brother_traces.mapped('parent_id')
 
                     valid_parent_traces.mapped('participant_id').filtered(lambda participant: participant.state == 'completed').action_set_running()
 
                     for parent_trace in valid_parent_traces:
+                        if activity.trigger_type in activity._get_reschedule_trigger_types():
+                            schedule_date = Datetime.from_string(parent_trace.schedule_date) + activity_offset
+                        else:
+                            schedule_date = False
                         self.env['marketing.trace'].create({
                             'activity_id': activity.id,
                             'participant_id': parent_trace.participant_id.id,
                             'parent_id': parent_trace.id,
-                            'schedule_date': Datetime.from_string(parent_trace.schedule_date) + activity_offset,
+                            'schedule_date': schedule_date,
                         })
 
         self.action_set_synchronized()
@@ -345,10 +351,6 @@ class MarketingCampaign(models.Model):
 
         :return: new participants to the campaign
         """
-        def _uniquify_list(seq):
-            seen = set()
-            return [x for x in seq if x not in seen and not seen.add(x)]
-
         participants = self.env['marketing.participant']
         now = self.env.cr.now()
         # auto-commit except in testing mode
@@ -361,13 +363,13 @@ class MarketingCampaign(models.Model):
             RecordModel = self.env[campaign.model_name].with_context(lang=user_id.lang)
 
             # Fetch existing participants
-            participants_data = participants.search_read([('campaign_id', '=', campaign.id)], ['res_id'])
-            existing_rec_ids = _uniquify_list([live_participant['res_id'] for live_participant in participants_data])
+            campaign_participants = participants.search_fetch([('campaign_id', '=', campaign.id)], ['res_id'])
+            existing_rec_ids = OrderedSet(campaign_participants.mapped('res_id'))
 
             record_domain = literal_eval(campaign.domain or "[]")
-            db_rec_ids = _uniquify_list(RecordModel.search(record_domain).ids)
+            db_rec_ids = OrderedSet(RecordModel.search(record_domain).ids)
             to_create = [rid for rid in db_rec_ids if rid not in existing_rec_ids]  # keep ordered IDs
-            to_remove = set(existing_rec_ids) - set(db_rec_ids)
+            to_remove = existing_rec_ids - db_rec_ids
             unique_field = campaign.unique_field_id.sudo()
             if unique_field.name != 'id':
                 without_duplicates = []
@@ -402,8 +404,13 @@ class MarketingCampaign(models.Model):
                     ('campaign_id', '=', campaign.id),
                     ('state', '!=', 'unlinked'),
                 ])
+                existing_record_ids = set(RecordModel.browse(list(to_remove)).exists().ids)
                 for index in range(0, len(participants_to_unlink), 1000):
-                    participants_to_unlink[index:index+1000].action_set_unlink()
+                    batch = participants_to_unlink[index:index + 1000]
+                    if filter_excluded := batch.filtered(lambda p: p.res_id in existing_record_ids):
+                        filter_excluded._action_set_unlink(_('Record no longer matches campaign filter'))
+                    if deleted := batch - filter_excluded:
+                        deleted._action_set_unlink()
                     # Commit only every 100 operation to avoid committing to often
                     # this mean every 10k record. It should be ok, it takes 1sec second to process 10k
                     if auto_commit and not index % (BATCH_SIZE * 100):
@@ -537,6 +544,7 @@ for record in records:
                         'module': module,
                         'model': model_name,
                         'res_id': created_record.id,
+                        'noupdate': True,
                     })
 
     # --------------------------------------

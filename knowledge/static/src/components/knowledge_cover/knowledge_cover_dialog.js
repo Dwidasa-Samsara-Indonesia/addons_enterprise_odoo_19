@@ -153,4 +153,12 @@ export class KnowledgeCoverDialog extends Component {
         this.props.save(coverId);
         this.props.close();
     }
+
+    close() {
+        if (this.abortUploads) {
+            this.abortUploads();
+            delete this.abortUploads;
+        }
+        this.props.close();
+    }
 }

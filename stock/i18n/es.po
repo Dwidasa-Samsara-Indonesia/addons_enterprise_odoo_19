@@ -12,16 +12,16 @@
 # Francisco Santos, 2023
 # Carlos Gómez, 2023
 # Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Noemi Pla Garcia (nopl)" <nopl@odoo.com>, 2025, 2026.
 # "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-03-18 11:18+0000\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-07-22 14:09+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/stock/es/"
 ">\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
 "0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: stock
 #. odoo-python
@@ -631,10 +631,10 @@ msgstr ""
 "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
 "        Estimado/a <t t-out=\"object.partner_id.name or ''\">Brandon "
 "Freeman</t>:<br/><br/>\n"
-"         Nos complace informarle de que hemos enviado su pedido.\n"
+"         Te informamos de que hemos enviado tu pedido.\n"
 "        <t t-if=\"hasattr(object, 'carrier_tracking_ref') and "
 "object.carrier_tracking_ref\">\n"
-"            Su número de seguimiento es\n"
+"            Tu número de seguimiento es\n"
 "            <strong>\n"
 "            <t t-if=\"object.carrier_tracking_url\">\n"
 "                <t t-set=\"multiple_carrier_tracking\" t-"
@@ -657,7 +657,7 @@ msgstr ""
 "            </strong>\n"
 "        </t>\n"
 "        <br/><br/>\n"
-"        Adjunto encontrará el albarán de entrega.<br/><br/>\n"
+"        Adjuntamos el albarán de entrega para más información.<br/><br/>\n"
 "        Gracias,\n"
 "        <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
 "            <br/>\n"
@@ -1100,7 +1100,7 @@ msgstr ""
 #: model:ir.model.fields,help:stock.field_stock_move__is_storable
 msgid "A storable product is a product for which you manage stock."
 msgstr ""
-"Los productos almacenables son productos para los que gestiona el inventario."
+"Un producto almacenable es aquel para el que se controla el inventario."
 
 #. module: stock
 #: model:res.groups,name:stock.group_warning_stock
@@ -2111,7 +2111,7 @@ msgstr "Elija el diseño de la hoja para imprimir etiquetas de lotes"
 #. module: stock
 #: model:ir.model,name:stock.model_product_label_layout
 msgid "Choose the sheet layout to print the labels"
-msgstr "Elija el diseño de la hoja para imprimir etiquetas"
+msgstr "Elige el diseño de la hoja para imprimir etiquetas"
 
 #. module: stock
 #: model:ir.model,name:stock.model_picking_label_type
@@ -2998,7 +2998,8 @@ msgstr "Ruta de salida por defecto a seguir"
 #: model:ir.model.fields,help:stock.field_stock_warehouse_orderpoint__product_uom
 msgid "Default unit of measure used for all stock operations."
 msgstr ""
-"Unidad de medida por defecto utilizada para todas las operaciones de stock"
+"Unidad de medida predeterminada utilizada para todas las operaciones de "
+"stock."
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_move__procure_method__make_to_stock
@@ -4090,6 +4091,7 @@ msgid "Full Package Name"
 msgstr "Nombre completo del paquete"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Future Activities"
 msgstr "Actividades futuras"
@@ -5133,7 +5135,7 @@ msgstr "Junio"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking_type__kanban_dashboard_graph
 msgid "Kanban Dashboard Graph"
-msgstr "Gráfica de tablero de kanban"
+msgstr "Gráfico del tablero kanban"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_inventory_conflict_form_view
@@ -5346,6 +5348,7 @@ msgid "Late"
 msgstr "Retrasado"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Late Activities"
 msgstr "Actividades retrasadas"
@@ -5988,6 +5991,7 @@ msgid "Multiple destinations"
 msgstr "Múltiples destinos"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "My Activities"
 msgstr "Mis actividades"
@@ -6800,6 +6804,7 @@ msgstr "Tipo de empaquetado"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 #: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_aggregated_move_lines
+#: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_has_serial_move_line
 msgid "Pack of 6"
 msgstr "Paquete de 6"
 
@@ -7744,7 +7749,7 @@ msgstr "Hoja de trabajo de calidad"
 #: model:ir.model.fields,field_description:stock.field_stock_warn_insufficient_qty__quant_ids
 #: model:ir.model.fields,field_description:stock.field_stock_warn_insufficient_qty_scrap__quant_ids
 msgid "Quant"
-msgstr "Cuanto"
+msgstr "Cantidad"
 
 #. module: stock
 #. odoo-python
@@ -10534,6 +10539,7 @@ msgid "Today"
 msgstr "Hoy"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 msgid "Today Activities"
 msgstr "Actividades de hoy"
@@ -11888,7 +11894,7 @@ msgid ""
 "You need to supply a Lot/Serial Number for product:\n"
 "%(products)s"
 msgstr ""
-"Debe proporcionar un número de serie o lote para el producto:\n"
+"Debes proporcionar un número de serie o lote para el producto:\n"
 "%(products)s"
 
 #. module: stock
@@ -12325,7 +12331,7 @@ msgstr "unidades"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_replenishment_info
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #. module: stock
 #: model:mail.template,subject:stock.mail_template_data_delivery_confirmation

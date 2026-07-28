@@ -7,7 +7,7 @@ from unittest import skipIf
 
 from odoo import Command, fields
 from odoo.addons.account_reports.tests.common import TestAccountReportsCommon
-from odoo.exceptions import UserError
+from odoo.exceptions import RedirectWarning, UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -281,6 +281,57 @@ class TestNlTaxReportSBR(TestAccountReportsCommon):
             </xbrli:xbrl>
         ''')
         self.assertXmlTreeEqual(generated_xbrl, expected_xbrl)
+
+    def test_xbrl_identifier(self):
+        report = self.env.ref('l10n_nl.tax_report')
+        date_from = fields.Date.from_string('2026-02-01')
+        date_to = fields.Date.from_string('2026-02-28')
+
+        representative = self.env['res.partner'].create({
+            'company_type': 'company',
+            'name': 'Fidu NL',
+            'country_id': self.env.ref('base.nl').id,
+            'vat': 'NL123456782B90',
+        })
+        self.env.company.account_representative_id = representative
+
+        # Ensure the identifier comes from the selected VAT source, not from the override field.
+        self.env.company.l10n_nl_reports_sbr_ob_nummer = False
+
+        def _get_msg_identifier(options):
+            wizard = self.env['l10n_nl_reports.sbr.tax.report.wizard'] \
+                .with_context(default_date_from=date_from, default_date_to=date_to, options=options) \
+                .create({})
+            wizard.action_download_xbrl_file()
+            generated_xbrl = self.get_xml_tree_from_string(self.env['l10n_nl_reports.tax.report.handler'].export_tax_report_to_xbrl(options).get('file_content'))
+            identifier = generated_xbrl.xpath("//*[local-name()='context' and @id='Msg']/*[local-name()='entity']/*[local-name()='identifier']/text()")
+            return identifier[0] if identifier else ''
+
+        # Case 1: company VAT.
+        self.env.company.vat = 'NL123456782B90'
+        options = self._generate_options(report, date_from, date_to)
+        self.assertEqual(_get_msg_identifier(options), '123456782B90')
+
+        # Case 2: fiscal unit VAT.
+        company_2 = self.company_data_2['company']
+        company_2.currency_id = self.env.company.currency_id
+        tax_unit = self.env['account.tax.unit'].create({
+            'name': 'NL Tax Unit',
+            'country_id': self.env.ref('base.nl').id,
+            'vat': 'NL123456782B91',
+            'company_ids': [(6, 0, (self.env.company + company_2).ids)],
+            'main_company_id': self.env.company.id,
+        })
+        options = self._generate_options(report, date_from, date_to)
+        options['tax_unit'] = tax_unit.id
+        self.assertEqual(_get_msg_identifier(options), '123456782B91')
+
+        # Case 3: no VAT should block export.
+        self.env.company.vat = False
+        options = self._generate_options(report, date_from, date_to)
+        options['tax_unit'] = 'company_only'
+        with self.assertRaises(RedirectWarning):
+            _get_msg_identifier(options)
 
 
 @tagged('external_l10n', 'post_install', '-at_install', '-standard', 'external')

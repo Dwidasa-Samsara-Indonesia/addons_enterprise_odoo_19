@@ -10,15 +10,15 @@
 # Martin Trigaux, 2022
 # Lucas Holm, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:45+0000\n"
-"PO-Revision-Date: 2025-11-15 12:49+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 17:25+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "helpdesk_fsm/da/>\n"
 "Language: da\n"
@@ -26,17 +26,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: helpdesk_fsm
 #: model:ir.model,name:helpdesk_fsm.model_helpdesk_ticket_convert_wizard
 msgid "Convert Helpdesk Tickets to Tasks"
-msgstr "Omdan Helpdesk supportsager til opgaver"
+msgstr "Konvertér sager i kundeservice til opgaver"
 
 #. module: helpdesk_fsm
 #: model_terms:ir.ui.view,arch_db:helpdesk_fsm.create_fsm_task_view_form
 msgid "Create & View Task"
-msgstr "Opret & vis opgave"
+msgstr "Opret og vis opgave"
 
 #. module: helpdesk_fsm
 #: model_terms:ir.ui.view,arch_db:helpdesk_fsm.create_fsm_task_view_form
@@ -48,7 +48,7 @@ msgstr "Opret en opgave"
 #: code:addons/helpdesk_fsm/models/helpdesk_ticket.py:0
 #: model:ir.model,name:helpdesk_fsm.model_helpdesk_create_fsm_task
 msgid "Create a Field Service task"
-msgstr "Opret en Field Service opgave"
+msgstr "Opret en udkørende serviceopgave"
 
 #. module: helpdesk_fsm
 #: model:ir.model,website_form_label:helpdesk_fsm.model_project_task
@@ -58,7 +58,7 @@ msgstr "Opret en opgave"
 #. module: helpdesk_fsm
 #: model:ir.model,website_form_label:helpdesk_fsm.model_helpdesk_ticket
 msgid "Create a Ticket"
-msgstr "Opret en supportbillet"
+msgstr "Opret en supportsag"
 
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_create_fsm_task__create_uid
@@ -87,22 +87,22 @@ msgstr "Kassér"
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_ticket_convert_wizard__display_name
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_project_task__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_team__fsm_project_id
 msgid "FSM Project"
-msgstr ""
+msgstr "Udkørende serviceprojekt"
 
 #. module: helpdesk_fsm
 #: model:ir.model,name:helpdesk_fsm.model_helpdesk_team
 msgid "Helpdesk Team"
-msgstr "Helpdesk team"
+msgstr "Kundeserviceteam"
 
 #. module: helpdesk_fsm
 #: model:ir.model,name:helpdesk_fsm.model_helpdesk_ticket
 msgid "Helpdesk Ticket"
-msgstr "Helpdesk sag"
+msgstr "Kundeservicesag"
 
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_create_fsm_task__id
@@ -126,18 +126,18 @@ msgstr "Sidst opdateret den"
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_project_task__helpdesk_ticket_id
 msgid "Original Ticket"
-msgstr ""
+msgstr "Oprindelige sag"
 
 #. module: helpdesk_fsm
 #: model_terms:ir.ui.view,arch_db:helpdesk_fsm.helpdesk_ticket_view_form
 msgid "Plan Intervention"
-msgstr "Planlæg indgreb"
+msgstr "Planlæg indsats"
 
 #. module: helpdesk_fsm
 #. odoo-python
 #: code:addons/helpdesk_fsm/models/project_task.py:0
 msgid "Portal Ticket"
-msgstr ""
+msgstr "Sag i portal"
 
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_create_fsm_task__project_id
@@ -148,12 +148,12 @@ msgstr "Projekt"
 #. module: helpdesk_fsm
 #: model:ir.model.fields,help:helpdesk_fsm.field_helpdesk_create_fsm_task__project_id
 msgid "Project in which to create the task"
-msgstr "Projekt i hvilket opgaven skal oprettes"
+msgstr "Projekt, som opgaven skal oprettes i"
 
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_create_fsm_task__helpdesk_ticket_id
 msgid "Related ticket"
-msgstr "Relateret sag"
+msgstr "Tilknyttet sag"
 
 #. module: helpdesk_fsm
 #. odoo-python
@@ -166,7 +166,7 @@ msgstr "Opgave"
 #: model:mail.message.subtype,description:helpdesk_fsm.mt_ticket_task_canceled
 #: model:mail.message.subtype,name:helpdesk_fsm.mt_ticket_task_canceled
 msgid "Task Cancelled"
-msgstr ""
+msgstr "Opgave annulleret"
 
 #. module: helpdesk_fsm
 #: model:mail.message.subtype,description:helpdesk_fsm.mt_team_ticket_task_done
@@ -174,13 +174,13 @@ msgstr ""
 #: model:mail.message.subtype,name:helpdesk_fsm.mt_team_ticket_task_done
 #: model:mail.message.subtype,name:helpdesk_fsm.mt_ticket_task_done
 msgid "Task Done"
-msgstr "Sag færdiggjort"
+msgstr "Opgave udført"
 
 #. module: helpdesk_fsm
 #. odoo-python
 #: code:addons/helpdesk_fsm/wizard/create_task.py:0
 msgid "Task created"
-msgstr ""
+msgstr "Opgave oprettet"
 
 #. module: helpdesk_fsm
 #. odoo-python
@@ -200,7 +200,7 @@ msgstr "Opgaver fra sager"
 #. module: helpdesk_fsm
 #: model:ir.model.fields,help:helpdesk_fsm.field_helpdesk_ticket__fsm_task_ids
 msgid "Tasks generated from this ticket"
-msgstr "Opgaver genereret fra denne sag"
+msgstr "Opgaver genereret ud fra denne sag"
 
 #. module: helpdesk_fsm
 #. odoo-python
@@ -208,7 +208,7 @@ msgstr "Opgaver genereret fra denne sag"
 #: model_terms:ir.ui.view,arch_db:helpdesk_fsm.project_sharing_inherit_project_task_view_form
 #: model_terms:ir.ui.view,arch_db:helpdesk_fsm.view_task_form2_inherited_helpdesk_fsm
 msgid "Ticket"
-msgstr "Billet"
+msgstr "Sag"
 
 #. module: helpdesk_fsm
 #: model_terms:ir.ui.view,arch_db:helpdesk_fsm.project_sharing_inherit_project_task_view_form
@@ -219,7 +219,7 @@ msgstr "Sag fra denne opgave"
 #. module: helpdesk_fsm
 #: model:ir.model.fields,help:helpdesk_fsm.field_helpdesk_create_fsm_task__partner_id
 msgid "Ticket's customer, will be linked to the task"
-msgstr "Sags kunde, vil blive forbundet til opgaven"
+msgstr "Kundens sag bliver knyttet til opgaven"
 
 #. module: helpdesk_fsm
 #: model:ir.model.fields,field_description:helpdesk_fsm.field_helpdesk_create_fsm_task__name

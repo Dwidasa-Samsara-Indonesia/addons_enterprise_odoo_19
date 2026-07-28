@@ -100,8 +100,17 @@ class TestStudioIrModel(TransactionCase):
         self.assertTrue("activity_user_id" in self.env[model.model]._fields)
         got_views = self.env[model.model].get_views([(False, "search")])
         search_view = etree.fromstring(got_views["views"]["search"]["arch"])
-        filter_my_activities = search_view.xpath("//filter[@name='filter_activities_my']")[0]
-        self.assertEqual(filter_my_activities.get("domain"), "[['activity_user_id', '=', uid]]")
+
+        expected_filters = {
+            'activities_overdue': "[('my_activity_date_deadline', '<', 'today')]",
+            'activities_today': "[('my_activity_date_deadline', '=', 'today')]",
+            'activities_upcoming_all': "[('my_activity_date_deadline', '>', 'today')]",
+            'filter_activities_my': "[['activity_user_id', '=', uid]]"
+        }
+
+        for filter_name, expected_domain in expected_filters.items():
+            filter_element = search_view.xpath(f"//filter[@name='{filter_name}']")[0]
+            self.assertEqual(filter_element.get("domain"), expected_domain)
 
     def test_02_model_option_active(self):
         """Test that the `active` behaviour is set up correctly."""

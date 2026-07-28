@@ -16,6 +16,7 @@
 
     'data': [
         'security/sale_stock_renting_security.xml',
+        'security/ir.model.access.csv',
         'data/rental_stock_data.xml',
         'wizard/rental_processing_views.xml',
         'wizard/stock_picking_return_views.xml',

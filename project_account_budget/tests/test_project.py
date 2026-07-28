@@ -439,3 +439,54 @@ class TestProject(TestProjectCommon):
         self.assertIn('90.0%', description_string)
         self.assertIn('9,000', description_string)
         self.assertNotIn('11,000', description_string)
+
+    def test_compute_budget_excludes_revised(self):
+        """Verify total_budget_amount reflects only the confirmed budget when a revision exists."""
+        # _compute_budget groups by 'account_id' which maps to the project analytic plan column.
+        # Using a custom plan would map to a dynamic column (x_plan_N_id), causing 0 results.
+        project_plan, _other_plans = self.env['account.analytic.plan']._get_all_plans()
+        project_analytic_account = self.env['account.analytic.account'].create({
+            'name': 'Project Budget Revised - AA',
+            'code': 'AA-REVISED',
+            'plan_id': project_plan.id,
+        })
+        self.project_goats.write({'account_id': project_analytic_account.id})
+        plan_fname = project_analytic_account.plan_id._column_name()
+        today = date.today()
+        budget = self.env['budget.analytic'].create({
+            'name': 'Initial Budget',
+            'date_from': today.replace(day=1),
+            'date_to': today + relativedelta(months=1, days=-1),
+            'budget_type': 'expense',
+            'budget_line_ids': [Command.create({
+                plan_fname: project_analytic_account.id,
+                'budget_amount': 10000,
+            })],
+        })
+        budget.action_budget_confirm()
+        self.assertEqual(self.project_goats.total_budget_amount, 10000.0)
+
+        # Create a revision with a higher amount and confirm it.
+        # Confirming the revision transitions the original budget to 'revised'.
+        revised_budget = self.env['budget.analytic'].create({
+            'name': 'Revised Budget',
+            'parent_id': budget.id,
+            'date_from': today.replace(day=1),
+            'date_to': today + relativedelta(months=1, days=-1),
+            'budget_type': 'expense',
+            'budget_line_ids': [Command.create({
+                plan_fname: project_analytic_account.id,
+                'budget_amount': 15000,
+            })],
+        })
+        revised_budget.action_budget_confirm()
+
+        self.assertEqual(budget.state, 'revised')
+        self.assertEqual(revised_budget.state, 'confirmed')
+        # Invalidate cache: total_budget_amount has no @api.depends, so Odoo won't
+        # automatically recompute after budget lines change state.
+        self.project_goats.invalidate_recordset(['total_budget_amount'])
+        self.assertEqual(
+            self.project_goats.total_budget_amount, 15000.0,
+            'total_budget_amount must only count the confirmed revision, not both the revised and confirmed budgets combined',
+        )

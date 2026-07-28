@@ -65,6 +65,7 @@ class TestCFDIInvoiceDocuments(TestMxEdiCommon):
             .create({}) \
             .action_create_replacement_invoice()
         new_invoice = self.env['account.move'].browse(action_results['res_id'])
+        self.assertEqual(new_invoice.invoice_origin, invoice.invoice_origin)
 
         # Change the quantity and sign the new invoice.
         # The sale order is invoiced by 2 invoices but only the original one is used for computation

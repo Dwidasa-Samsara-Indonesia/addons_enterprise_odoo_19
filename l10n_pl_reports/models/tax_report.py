@@ -112,6 +112,9 @@ class L10n_PlTaxReportHandler(models.AbstractModel):
         i_63_expression = self.env.ref('l10n_pl.account_tax_report_line_intracom_procedure_i_63_tag', raise_if_not_found=False)
         i_63_tags_ids = tuple(i_63_expression._get_matching_tags().ids) if i_63_expression else ()
 
+        has_ksef_number_field = 'l10n_pl_edi_number' in self.env['account.move']._fields
+        ksef_number_sql = SQL('"account_move_line__move_id".l10n_pl_edi_number') if has_ksef_number_field else SQL('NULL')
+
         return SQL(
                 r"""
             WITH
@@ -172,6 +175,7 @@ class L10n_PlTaxReportHandler(models.AbstractModel):
                    partn.complete_name AS partner_complete_name,
                    "account_move_line__move_id".name AS move_name,
                    "account_move_line__move_id".id AS move_id,
+                    %(ksef_number_sql)s AS ksef_number,
                    min(partial_reconcile_date.invoice_date_due) AS reversed_move_date_due,
                    -- If the first payment/delivery arrives before the invoice date else null
                    NULLIF(
@@ -206,11 +210,21 @@ class L10n_PlTaxReportHandler(models.AbstractModel):
                 triangular_purchase_tags_ids=triangular_purchase_tags_ids,
                 i_42_tags_ids=i_42_tags_ids,
                 i_63_tags_ids=i_63_tags_ids,
+                ksef_number_sql=ksef_number_sql,
                 additional_select_list=additional_select_list or SQL(),
                 additional_joined_table=additional_joined_table or SQL(),
                 table_references=query.from_clause,
                 search_condition=query.where_clause,
             )
+
+    @api.model
+    def _l10n_pl_get_ksef_reference(self, move_data):
+        """Return JPK V3 KSeF reference value: number or legal fallback designation."""
+        if move_data.get('ksef_number'):
+            return move_data['ksef_number']
+        if move_data.get('move_type') == 'entry':
+            return 'DI'
+        return 'BFK'
 
     @api.model
     def _l10n_pl_get_record_values_grouped_by_move(self, options, report):
@@ -250,6 +264,7 @@ class L10n_PlTaxReportHandler(models.AbstractModel):
         input_tax_moves = []
         for move_data in list_values:
             move_data['tax_values'] = move_data.get('tax_values') or {}
+            move_data['ksef_reference'] = self._l10n_pl_get_ksef_reference(move_data)
             tax_keys = move_data['tax_values'].keys()
 
             if any(int(key) in range(10, 37) for key in tax_keys) or move_data.get('oss_tag') or move_data.get('pos_order_id'):
@@ -383,7 +398,7 @@ class L10n_PlTaxReportHandler(models.AbstractModel):
 
         if self.env.company.account_return_periodicity == 'trimester':
             values.update({
-                'xmlns':  "http://crd.gov.pl/wzor/2021/12/27/11149/"
+                'xmlns': "http://crd.gov.pl/wzor/2025/12/19/14089/",
             })
             audit_content = self.env['ir.qweb']._render('l10n_pl_reports.jpk_export_quarterly_template', values)
             return {
@@ -393,7 +408,7 @@ class L10n_PlTaxReportHandler(models.AbstractModel):
             }
         else:
             values.update({
-                'xmlns':  "http://crd.gov.pl/wzor/2021/12/27/11148/"
+                'xmlns': "http://crd.gov.pl/wzor/2025/12/19/14090/",
             })
             audit_content = self.env['ir.qweb']._render('l10n_pl_reports.jpk_export_monthly_template', values)
             return {

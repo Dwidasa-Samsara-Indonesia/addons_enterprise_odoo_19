@@ -319,6 +319,60 @@ class TestSyncing(SyncingCase):
         self.assertActivityWoTrace(self.activity_2)
 
     @users('user_marketing_automation')
+    def test_campaign_sync_participants_reject_unlink(self):
+        """ Test state of traces when having participants being out of the
+        campaign due to domain or record being removed. """
+        campaign = self.campaign.with_env(self.env)
+        with self.mock_datetime_and_now(self.date_reference):
+            campaign.sync_participants()
+        self.assertEqual(len(campaign.participant_ids), 10, 'All records synced')
+
+        deleted_contact = self.test_contacts[0]
+        self.test_contacts[0].unlink()
+
+        excluded_contact = self.test_contacts[1]
+        excluded_contact.name = 'OutOfFilter'
+
+        with self.mock_datetime_and_now(self.date_reference + timedelta(hours=2)):
+            campaign.sync_participants()
+            # set participant as complete -> cancels traces also
+            test_participant = campaign.participant_ids.filtered(lambda p: p.res_id == self.test_contacts[2].id)
+            test_participant.action_set_completed()
+
+        self.assertMarketAutoTraces(
+            [{
+                'records': (self.test_contacts - deleted_contact - excluded_contact - self.test_contacts[2]),
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(hours=1),  # already synchronized before at date + 1 hour
+                },
+                'status': 'scheduled',
+            }, {
+                'records': self.test_contacts[2],
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(hours=2),  # set at cancel time
+                    'state_msg': 'Marked as completed',
+                },
+                'status': 'canceled',
+            }, {
+                'records': excluded_contact,
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(hours=2),  # set at cancel time
+                    'state_msg': 'Record no longer matches campaign filter',
+                },
+                'status': 'canceled',
+            }, {
+                'records': deleted_contact,
+                'records_missing': True,
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(hours=2),  # set at cancel time
+                    'state_msg': 'Record deleted',
+                },
+                'status': 'canceled',
+            }],
+            self.activity_1,
+        )
+
+    @users('user_marketing_automation')
     def test_participants_creation_dupes(self):
         """ This test may fail randomly based on time if not launched with
         fix in 'action_update_participants' : comparing activity.create_date
@@ -359,6 +413,7 @@ class TestSyncing(SyncingCase):
         a participant had traces on a new activity that is then updated
         automatically. """
         campaign = self.campaign.with_env(self.env)
+        old_activity_begin = self.activity_1.with_env(self.env)
 
         # init participants and traces
         with self.mock_datetime_and_now(self.date_reference):
@@ -374,7 +429,7 @@ class TestSyncing(SyncingCase):
                 'records': self.test_contacts,
                 'status': 'scheduled',
             }],
-            self.activity_1,
+            old_activity_begin,
         )
         # should not generate traces for other activities
         self.assertActivityWoTrace(self.activity_2)
@@ -389,61 +444,67 @@ class TestSyncing(SyncingCase):
                 'interval_number': 1, 'interval_type': 'hours',
             },
         )
-        new_activity_mail = self._create_activity_mail(
+        new_activity_mail_open = self._create_activity_mail(
             campaign,
             user=self.env.user,
             act_values={
                 'create_date': self.date_reference + timedelta(hours=1),
-                'parent_id': self.activity_1.id,
+                'parent_id': old_activity_begin.id,
                 'trigger_type': 'mail_open',
                 'interval_number': 0,
             },
         )
-        for activity in new_activity_begin + new_activity_mail:
+        for activity in new_activity_begin + new_activity_mail_open:
             self.assertEqual(activity.create_date, self.date_reference + timedelta(hours=1))
+            self.assertTrue(activity.require_sync)
         self.assertEqual(campaign.last_sync_date, self.date_reference)
         self.assertTrue(campaign.require_sync, 'Campaign should require a sync due to new activity')
 
-        # add a new participant
-        new_record = self.env['mailing.contact'].create({
-            'email': 'ma.test.new.1@example.com',
-            'name': 'MATest_new_1',
-        })
+        # add new participants
+        new_records = self.env['mailing.contact'].create([
+            {
+                'email': 'ma.test.new.1@example.com',
+                'name': 'MATest_new_1',
+            }, {
+                'email': 'ma.test.new.2@example.com',
+                'name': 'MATest_new_2',
+            }
+        ])
         with self.mock_datetime_and_now(self.date_reference + timedelta(hours=2)):
             campaign.sync_participants()
 
         # should have generated one trace / begin activity for the new participant
-        self.assertEqual(len(campaign.participant_ids), len(self.test_contacts) + 1)
+        self.assertEqual(len(campaign.participant_ids), len(self.test_contacts) + len(new_records))
         self.assertMarketAutoTraces(
             [{
-                'records': self.test_contacts + new_record,
+                'records': self.test_contacts + new_records,
                 'status': 'scheduled',
             }],
-            self.activity_1,
+            old_activity_begin,
         )
         self.assertMarketAutoTraces(
             [{
-                'records': new_record,
+                'records': new_records,
                 'status': 'scheduled',
             }],
             new_activity_begin,
         )
-        self.assertActivityWoTrace(new_activity_mail)
+        self.assertActivityWoTrace(new_activity_mail_open)
 
-        # run first activity
+        # run begin activities, should schedule children
         with self.mock_datetime_and_now(self.date_reference + timedelta(hours=3)), self.mock_mail_gateway():
             campaign.execute_activities()
         self.assertMarketAutoTraces(
             [{
-                'records': self.test_contacts + new_record,
+                'records': self.test_contacts + new_records,
                 'status': 'processed',
                 'trace_status': 'sent',
             }],
-            self.activity_1,
+            old_activity_begin,
         )
         self.assertMarketAutoTraces(
             [{
-                'records': new_record,
+                'records': new_records,
                 'status': 'processed',
                 'mail_values': {
                     'email_from': self.user_admin.email_formatted,
@@ -454,32 +515,98 @@ class TestSyncing(SyncingCase):
         )
         self.assertMarketAutoTraces(
             [{
-                'records': self.test_contacts + new_record,
+                'records': self.test_contacts,
                 'status': 'scheduled',
+                'fields_values': {
+                    'schedule_date': False,
+                },
+            }, {
+                'records': new_records,
+                'status': 'scheduled',
+                'fields_values': {
+                    'schedule_date': False,
+                },
             }],
-            new_activity_mail,
+            new_activity_mail_open,
+        )
+
+        # triggers mail_open activity, to check brother / opposite trace update
+        with self.mock_datetime_and_now(self.date_reference + timedelta(hours=4)), \
+             self.mock_mail_gateway():
+            self.gateway_mail_trace_open(old_activity_begin.mass_mailing_id, new_records[0])
+        self.assertMarketAutoTraces(
+            [{
+                'records': self.test_contacts,
+                'status': 'scheduled',
+                'fields_values': {
+                    'schedule_date': False,
+                },
+            }, {
+                'records': new_records[0],
+                'status': 'processed',
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(hours=4),  # updated at event time
+                },
+                'trace_status': 'sent',
+            }, {
+                'records': new_records[1],
+                'status': 'scheduled',
+                'fields_values': {
+                    'schedule_date': False,
+                },
+            }],
+            new_activity_mail_open,
+        )
+
+        # now add a brother activity for mail_not_open, to check brother "not creation" when not necessary
+        new_activity_mail_click = self._create_activity_mail(
+            campaign,
+            user=self.env.user,
+            act_values={
+                'create_date': self.date_reference + timedelta(hours=1),
+                'parent_id': old_activity_begin.id,
+                'trigger_type': 'mail_click',
+                'interval_number': 0,
+            },
+        )
+        new_activity_mail_not_open = self._create_activity_mail(
+            campaign,
+            user=self.env.user,
+            act_values={
+                'create_date': self.date_reference + timedelta(hours=1),
+                'parent_id': old_activity_begin.id,
+                'trigger_type': 'mail_not_open',
+                'interval_number': 2, 'interval_type': 'days',
+            },
         )
 
         # campaign should require an update, update it
         self.assertTrue(campaign.require_sync, 'Campaign should require an update')
-        with self.mock_datetime_and_now(self.date_reference + timedelta(hours=4)):
+        with self.mock_datetime_and_now(self.date_reference + timedelta(days=3)):
             campaign.action_update_participants()
         # should have synchronized traces for all participants / all begin activities
         # without dupes for the new_record (already had one, don't create again)
         self.assertMarketAutoTraces(
             [{
-                'records': self.test_contacts + new_record,
+                'check_mail': False,  # mails removed from mock
+                'records': self.test_contacts + new_records[1],
                 'status': 'processed',
                 'trace_status': 'sent',
+            }, {
+                'check_mail': False,  # mails removed from mock
+                'records': new_records[0],
+                'status': 'processed',
+                'trace_status': 'open',
             }],
-            self.activity_1,
+            old_activity_begin,
         )
         self.assertMarketAutoTraces(
             [{
                 'records': self.test_contacts,
                 'status': 'scheduled',
             }, {
-                'records': new_record,
+                'check_mail': False,  # mails removed from mock
+                'records': new_records,
                 'status': 'processed',
                 'mail_values': {
                     'email_from': self.user_admin.email_formatted,
@@ -490,8 +617,34 @@ class TestSyncing(SyncingCase):
         )
         self.assertMarketAutoTraces(
             [{
-                'records': self.test_contacts + new_record,
+                'records': self.test_contacts + new_records,
                 'status': 'scheduled',
+                'fields_values': {
+                    # user-action based activities should not have a schedule date, which should be
+                    # computed based on delay once user has done the action e.g. 2 days after
+                    # having opened the mail
+                    'schedule_date': False,
+                },
             }],
-            new_activity_mail,
+            new_activity_mail_click,
+        )
+        # new_records[0] has no trace, because in 'action_update_participants' we don't generate
+        # traces if an "opposite positive brother" has been processed (aka: do not generate
+        # mail_not_open if mail_open for the same parent was already managed)
+        # TDE FIXME: for complete stats, should generate a canceled trace, like done in 'process_event'
+        self.assertMarketAutoTraces(
+            [{
+                'records': self.test_contacts,
+                'status': 'scheduled',
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(days=2, hours=3),  # begin delay + activity trigger delay
+                },
+            }, {
+                'records': new_records[1],
+                'status': 'scheduled',
+                'fields_values': {
+                    'schedule_date': self.date_reference + timedelta(days=2, hours=3),  # execute delay (new participant) + activity trigger delay
+                },
+            }],
+            new_activity_mail_not_open,
         )

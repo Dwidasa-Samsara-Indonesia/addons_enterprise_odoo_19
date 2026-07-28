@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-04-07 09:13+0000\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
+"PO-Revision-Date: 2026-06-22 17:44+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/esg/fi/>"
 "\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: esg
 #. odoo-python
@@ -104,7 +104,7 @@ msgstr "Kirjanpito"
 #. odoo-javascript
 #: code:addons/esg/static/src/components/esg_dashboard/esg_dashboard.xml:0
 msgid "Act"
-msgstr "Tee toimenpiteitä"
+msgstr "Toimi"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_needaction
@@ -121,7 +121,7 @@ msgstr "Aktiivinen"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_source__activity_flow
 #: model_terms:ir.ui.view,arch_db:esg.emission_source_form_view
 msgid "Activity Flow"
-msgstr "Toimenpiteiden työnkulku"
+msgstr "Toimenpiteen kulku"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__activity_type_id
@@ -196,7 +196,7 @@ msgstr "Arkistoitu"
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.emission_factor_form_view
 msgid "Assign"
-msgstr "Vastuuta"
+msgstr "Määritä"
 
 #. module: esg
 #: model:ir.actions.act_window,name:esg.factors_auto_assignment_wizard_action
@@ -219,7 +219,7 @@ msgstr "Kohdistukset"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_attachment_count
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_attachment_count
 msgid "Attachment Count"
-msgstr "Liitteiden määrä"
+msgstr "Liitteiden lukumäärä"
 
 #. module: esg
 #. odoo-python
@@ -351,7 +351,7 @@ msgstr "Hiilimonoksidi"
 #. module: esg
 #: model:ir.model,name:esg.model_esg_carbon_report_handler
 msgid "Carbon Report Custom Handler"
-msgstr "Mukautettu hiiliraportin käsittely"
+msgstr "Hiiliraportin erityiskäsittelijä"
 
 #. module: esg
 #: model:esg.gas,name:esg.esg_gas_pfc_cf4
@@ -388,10 +388,9 @@ msgid ""
 "account.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Tilityypin muuttaminen miksi tahansa muuksi kuin %"
-"(valid_account_type_names)s nollaa tähän tiliin linkitettyjen kirjausrivien "
-"päästötekijät.\n"
-"Se poistaa lisäksi kaikki kyseiseen tiliin linkitetyt ESG-rivit.\n"
+"Tilityypin muuttaminen miksi tahansa muuksi kuin %(valid_account_type_names)"
+"s nollaa tätä tiliä käyttäviin kirjausriveihin linkitetyt päästökertoimet.\n"
+"Se poistaa lisäksi kaikki kyseiseen tiliin linkitetyt ESG-määritysrivit.\n"
 "Haluatko varmasti jatkaa?"
 
 #. module: esg
@@ -463,7 +462,7 @@ msgstr "Yrityksen raportointi"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__scope_complete_name
 #: model:ir.model.fields,field_description:esg.field_esg_emission_source__complete_name
 msgid "Complete Name"
-msgstr "Täydellinen nimi"
+msgstr "Koko nimi"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__compute_method
@@ -636,8 +635,8 @@ msgid ""
 "Do you want to automatically assign the selected emission factor(s) to the "
 "move lines based on your predefined assignation rules?"
 msgstr ""
-"Haluatko automaattisesti kohdistaa valitut päästökertoimet siirtoriveille "
-"perustuen ennalta määriteltyihin sääntöihin?"
+"Haluatko kohdistaa automaattisesti valitut päästökertoimet siirtoriveille "
+"ennalta määriteltyjen sääntöjen perusteella?"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.database_form_view
@@ -649,30 +648,28 @@ msgstr "Lataa"
 #: model_terms:ir.actions.act_window,help:esg.action_view_database
 msgid ""
 "Download a certified database we provide or upload your own in Odoo format."
-msgstr ""
-"Lataa sertifioitu tietokanta, jonka tarjoamme tai lataa omasi Odoo-"
-"tiedostomuodossa."
+msgstr "Lataa tarjoamamme sertifioitu tietokanta tai lataa omasi Odoo-muodossa."
 
 #. module: esg
 #: model:ir.model.fields.selection,name:esg.selection__esg_emission_source__activity_flow_indirect_others__downstream
 msgid "Downstream"
-msgstr "Downstream-liiketoiminta"
+msgstr "Loppupää"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_downstream_5
 msgid "Downstream Leased Assets"
-msgstr "Downstream-liiketoiminnan liisatut omaisuuserät"
+msgstr "Loppupään liisatut omaisuuserät"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_downstream_1
 msgid "Downstream Transportation and Distribution"
-msgstr "Downstream-liiketoiminnan kuljetus ja jakelu"
+msgstr "Loppupään kuljetus ja jakelu"
 
 #. module: esg
 #. odoo-javascript
 #: code:addons/esg/static/src/no_content_helper/no_content_helper.xml:0
 msgid "Downstream activities"
-msgstr "Downstream-liiketoiminnan toimenpiteet"
+msgstr "Loppupään toimenpiteet"
 
 #. module: esg
 #: model:ir.ui.menu,name:esg.esg_main_menu
@@ -835,7 +832,7 @@ msgstr "Myytyjen tuotteiden elinkaaren loppuvaiheen käsittely"
 #. module: esg
 #: model:esg.activity.type,name:esg.esg_activity_type_0
 msgid "Energy Consumption"
-msgstr "Energian kulutus"
+msgstr "Energiankulutus"
 
 #. module: esg
 #: model:ir.ui.menu,name:esg.menu_esg_environment
@@ -899,19 +896,19 @@ msgstr "Polttoaineeseen ja energiaan liittyvät toiminnot"
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_upstream_3
 msgid "Fuel and Energy-Related Activites"
-msgstr "Polttoaine- ja energiaan liittyvät toiminnot"
+msgstr "Polttoaineeseen ja energiaan liittyvät toiminnot"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_4
 msgid "Fugitive Emissions"
-msgstr "Haihtuvat päästöt"
+msgstr "Karkaavat päästöt"
 
 #. module: esg
 #: model:res.groups,comment:esg.esg_group_manager
 msgid "Full access to all ESG features including configuration rights."
 msgstr ""
-"Täysi pääsy kaikkiin ESG-ominaisuuksiin, mukaan lukien kokoonpanoasetuksien "
-"oikeudet."
+"Täysi pääsy kaikkiin ESG-ominaisuuksiin, mukaan lukien asetusten "
+"muutosoikeudet."
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.esg_gas_kanban_view
@@ -924,7 +921,7 @@ msgstr "GWP:"
 #: model:ir.model,name:esg.model_esg_gas
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__gas_id
 msgid "Gas"
-msgstr "Bensa"
+msgstr "Kaasu"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.emission_factor_form_view
@@ -934,7 +931,7 @@ msgstr "Kaasupäästöt"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__gas_line_ids
 msgid "Gas Line"
-msgstr "Kaasuputki"
+msgstr "Kaasurivi"
 
 #. module: esg
 #: model:ir.actions.act_window,name:esg.action_esg_gasses_list
@@ -1114,15 +1111,15 @@ msgid ""
 "(manually or automatically assigned) will be reassigned if a matching factor "
 "is found based on your configuration."
 msgstr ""
-"Jos valittu, kaikki päästörivit, joilla on jo päästökerroin (manuaalisesti "
-"tai automaattisesti määritetty), määritetään uudelleen, jos vastaava kerroin "
-"löytyy kokoonpanoasetuksiesi perusteella."
+"Jos ruksittu, kaikki päästörivit päästökertoimella (manuaalisesti tai "
+"automaattisesti määritetty) määritetään uudelleen, jos vastaava kerroin "
+"löytyy asetuksistasi."
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_needaction
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Jos valittu, uudet viestit vaativat huomiotasi."
+msgstr "Jos ruksittu, uudet viestit vaativat huomiotasi."
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_has_error
@@ -1130,7 +1127,7 @@ msgstr "Jos valittu, uudet viestit vaativat huomiotasi."
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_has_error
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Jos valittu, joitakin viestejä ei ole toimitettu."
+msgstr "Jos ruksittu, joitakin viestejä ei ole toimitettu."
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_database__image
@@ -1141,13 +1138,13 @@ msgstr "Kuva"
 #. odoo-javascript
 #: code:addons/esg/static/src/no_content_helper/no_content_helper.xml:0
 msgid "Included in Accounting"
-msgstr "Sisällytetty kirjanpitoon"
+msgstr "Sisältyy kirjanpitoon"
 
 #. module: esg
 #. odoo-javascript
 #: code:addons/esg/static/src/no_content_helper/no_content_helper.xml:0
 msgid "Included in Invoicing"
-msgstr "Sisällytetty laskutukseen"
+msgstr "Sisältyy laskutukseen"
 
 #. module: esg
 #. odoo-javascript
@@ -1170,7 +1167,7 @@ msgstr "Investointi"
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_downstream_7
 msgid "Investments"
-msgstr "Sijoitukset"
+msgstr "Investoinnit"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_is_follower
@@ -1246,7 +1243,7 @@ msgstr "Viimeksi päivitetty"
 #. odoo-javascript
 #: code:addons/esg/static/src/components/esg_dashboard/esg_carbon_footprint_box/esg_carbon_footprint_box.xml:0
 msgid "Last Year"
-msgstr "Edellinen vuosi"
+msgstr "Viime vuosi"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_database__latest_version
@@ -1279,7 +1276,7 @@ msgstr "Materiaalituotanto"
 #: code:addons/esg/static/src/components/esg_dashboard/esg_dashboard.xml:0
 #: model:ir.ui.menu,name:esg.menu_esg_measure
 msgid "Measure"
-msgstr "Määre"
+msgstr "Mitta"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.carbon_emission_report_search_view
@@ -1290,7 +1287,7 @@ msgstr "Keskitason epävarmuus (5-20%)"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_has_error
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_has_error
 msgid "Message Delivery error"
-msgstr "Ongelma viestin toimituksessa"
+msgstr "Viestin toimitusvirhe"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_ids
@@ -1316,7 +1313,7 @@ msgstr "Puuttuva päästökerroin"
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_2
 msgid "Mobile Combustion"
-msgstr "Liikkuva poltto"
+msgstr "Polttoaineen palaminen"
 
 #. module: esg
 #: model:ir.model.fields.selection,name:esg.selection__esg_emission_factor__compute_method__monetary
@@ -1344,7 +1341,7 @@ msgstr "Nimi"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__nb_linked_emissions
 msgid "Nb Linked Emissions"
-msgstr "Kapeakaistaisuuteen liittyvät päästöt"
+msgstr "Linkitettyjen päästöjen lukumäärä"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_neutral
@@ -1412,13 +1409,13 @@ msgstr "Muistiinpano"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_needaction_counter
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Toimenpiteiden määrä"
+msgstr "Toimintojen lukumäärä"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__message_has_error_counter
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__message_has_error_counter
 msgid "Number of errors"
-msgstr "Virheiden määrä"
+msgstr "Virheiden lukumäärä"
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_needaction_counter
@@ -1430,7 +1427,7 @@ msgstr "Toimenpiteitä vaativien viestien määrä"
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__message_has_error_counter
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Toimitusvirheellisten viestien määrä"
+msgstr "Toimitusvirheellisten viestien lukumäärä"
 
 #. module: esg
 #. odoo-javascript
@@ -1587,7 +1584,7 @@ msgstr "Määrä"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__rating_ids
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__rating_ids
 msgid "Ratings"
-msgstr "Arviointi"
+msgstr "Arvioinnit"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__region
@@ -1692,7 +1689,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:esg.field_esg_emission_source__sequence
 #: model:ir.model.fields,field_description:esg.field_esg_gas__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: esg
 #. odoo-python
@@ -1740,7 +1737,7 @@ msgstr "Aloituspäivä"
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_1
 msgid "Stationary Combustion"
-msgstr "Muuttumaton poltto"
+msgstr "Kiinteä poltto"
 
 #. module: esg
 #: model:esg.gas,name:esg.esg_gas_so2
@@ -1832,7 +1829,7 @@ msgid ""
 "Turn insights into action, monitor your impact in real-time, and drive "
 "meaningful change across your organization."
 msgstr ""
-"Muunna oivallukset toiminnaksi, seuraa toimenpiteitesi vaikutusta "
+"Muunna oivallukset toiminnaksi, seuraa toimenpiteidesi vaikutusta "
 "reaaliajassa ja edistä merkityksellistä muutosta organisaatiossasi."
 
 #. module: esg
@@ -1880,7 +1877,7 @@ msgstr "Mittayksikkö"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__uom_id
 msgid "UoM"
-msgstr "Yksikkö"
+msgstr "Mittayksikkö"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.database_form_view
@@ -1904,29 +1901,29 @@ msgstr "Päivitetty: %(date)s"
 #. odoo-python
 #: code:addons/esg/models/esg_emission_factor_line.py:0
 msgid "Updated values for %(gas_name)s (%(activity_type_name)s)"
-msgstr "Arvot päivitetty kohteille %(gas_name)s (%(activity_type_name)s)"
+msgstr "Päivitetyt arvot: %(gas_name)s (%(activity_type_name)s)"
 
 #. module: esg
 #: model:ir.model.fields.selection,name:esg.selection__esg_emission_source__activity_flow_direct_indirect__upstream
 #: model:ir.model.fields.selection,name:esg.selection__esg_emission_source__activity_flow_indirect_others__upstream
 msgid "Upstream"
-msgstr "Upstream-liiketoiminta"
+msgstr "Alkupää"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_upstream_8
 msgid "Upstream Leased Assets"
-msgstr "Upstream-liiketoiminnan liisatut omaisuuserät"
+msgstr "Alkupään liisatut omaisuuserät"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_upstream_4
 msgid "Upstream Transportation and Distribution"
-msgstr "Upstream-liiketoiminnan kuljetus ja jakelu"
+msgstr "Alkupään kuljetus ja jakelu"
 
 #. module: esg
 #. odoo-javascript
 #: code:addons/esg/static/src/no_content_helper/no_content_helper.xml:0
 msgid "Upstream activities"
-msgstr "Upstream-liiketoiminnan toimenpiteet"
+msgstr "Alkupään toimenpiteet"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_database__url
@@ -1953,7 +1950,12 @@ msgstr "Voimassa alkaen"
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__valid_to
 msgid "Valid To"
-msgstr "Voimassa asti"
+msgstr "Voimassaolo päättyy"
+
+#. module: esg
+#: model_terms:ir.ui.view,arch_db:esg.emission_factor_form_view
+msgid "Validity Period"
+msgstr "Voimassaoloaika"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_2_1
@@ -1981,7 +1983,7 @@ msgstr "Varoitus"
 #: code:addons/esg/static/src/no_content_helper/no_content_helper.xml:0
 #: model:esg.emission.source,name:esg.esg_emission_source_upstream_5
 msgid "Waste Generated in Operations"
-msgstr "Toiminnassa syntynyt jäte"
+msgstr "Toiminnan synnyttämä jäte"
 
 #. module: esg
 #: model:esg.activity.type,name:esg.esg_activity_type_3
@@ -1992,13 +1994,13 @@ msgstr "Jätehuolto"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__website_message_ids
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__website_message_ids
 msgid "Website Messages"
-msgstr "Verkkosivun ilmoitukset"
+msgstr "Verkkosivun viestit"
 
 #. module: esg
 #: model:ir.model.fields,help:esg.field_esg_emission_factor__website_message_ids
 #: model:ir.model.fields,help:esg.field_esg_emission_factor_line__website_message_ids
 msgid "Website communication history"
-msgstr "Verkkosivun viestihistoria"
+msgstr "Verkkosivun viestintähistoria"
 
 #. module: esg
 #. odoo-python
@@ -2059,12 +2061,12 @@ msgstr "esim. Fossiilinen metaani (CH₄)"
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.emission_source_form_view
 msgid "e.g. Mobile Combustion"
-msgstr "esim. Yrityksen omistamien ajoneuvojen päästöt"
+msgstr "esim. Polttoaineen palaminen"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.emission_factor_form_view
 msgid "e.g. Office Computer"
-msgstr "esim. Työtietokoneet"
+msgstr "esim. Toimiston tietokone"
 
 #. module: esg
 #: model_terms:ir.ui.view,arch_db:esg.database_form_view
@@ -2075,7 +2077,7 @@ msgstr "esim. https://base-empreinte.ademe.fr/"
 #. odoo-python
 #: code:addons/esg/wizard/factors_auto_assignment_wizard.py:0
 msgid "id"
-msgstr "tunniste"
+msgstr "tunnus"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__quantity
@@ -2093,7 +2095,7 @@ msgstr "kgCO₂e /"
 #. odoo-python
 #: code:addons/esg/controllers/esg_dashboard.py:0
 msgid "n/a"
-msgstr "ei käytössä"
+msgstr "ei koske"
 
 #. module: esg
 #. odoo-python

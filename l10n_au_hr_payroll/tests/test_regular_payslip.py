@@ -471,3 +471,61 @@ class TestRegularPayslip(TestPayrollCommon):
             payslip_date_from=date(2025, 9, 29),
             payslip_date_to=date(2025, 10, 3)
         )
+
+    def test_regular_11_qualifying_earnings(self):
+        # There will be a new line QE on the paslip from 1st July 2026
+        employee, contract = self._create_employee(contract_info={
+            'employee': 'Test Employee',
+            'employment_basis_code': 'F',
+            'wage_type': 'monthly',
+            'schedule_pay': 'weekly',
+            'wage': 2608.36,
+            'l10n_au_training_loan': True,
+            'l10n_au_tax_free_threshold': True})
+
+        self._test_payslip(
+            employee,
+            contract,
+            expected_worked_days=[
+                # (work_entry_type_id.id, number_of_day, number_of_hours, amount)
+                (self.work_entry_types['WORK100'].id, 5, 38, 2608.36),
+            ],
+            expected_lines=[
+                # (code, total)
+                ('BASIC', 2608.36),
+                ('OTE', 2608.36),
+                ('GROSS', 2608.36),
+                ('WITHHOLD', -659),
+                ('WITHHOLD.STUDY', -202),
+                ('MEDICARE', 0),
+                ('WITHHOLD.TOTAL', -861),
+                ('NET', 1747.32),
+                ('SUPER', 313),
+            ],
+            payslip_date_from=date(2026, 6, 1),
+            payslip_date_to=date(2026, 6, 7)
+        )
+
+        self._test_payslip(
+            employee,
+            contract,
+            expected_worked_days=[
+                # (work_entry_type_id.id, number_of_day, number_of_hours, amount)
+                (self.work_entry_types['WORK100'].id, 5, 38, 2608.36),
+            ],
+            expected_lines=[
+                # (code, total)
+                ('BASIC', 2608.36),
+                ('OTE', 2608.36),
+                ('GROSS', 2608.36),
+                ('QE', 2608.36),
+                ('WITHHOLD', -654),
+                ('WITHHOLD.STUDY', -193),
+                ('MEDICARE', 0),
+                ('WITHHOLD.TOTAL', -847),
+                ('NET', 1761.36),
+                ('SUPER', 313),
+            ],
+            payslip_date_from=date(2026, 7, 1),
+            payslip_date_to=date(2026, 7, 7)
+        )

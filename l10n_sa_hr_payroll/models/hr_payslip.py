@@ -123,7 +123,9 @@ class HrPayslip(models.Model):
                 self._l10n_sa_format_float(net),
                 bank_account.acc_number or "",
                 bank_account.acc_holder_name or employee_id.name or "",
-                (bank_account.bank_id.l10n_sa_sarie_code or "") if bank_account.bank_id != payslip.company_id.l10n_sa_bank_account_id.bank_id else "",
+                bank_account.bank_id.l10n_sa_sarie_code or ""
+                if bank_account.bank_id.country_code == 'SA' or not bank_account.bank_id.country_code
+                else bank_account.bank_bic or "",
                 employee_id.version_id.l10n_sa_wps_description or "",
                 '',  # [RET-CODE]: Required blank cell
                 self._l10n_sa_format_float(basic),

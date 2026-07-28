@@ -3,13 +3,18 @@
 import contextlib
 import json
 import jwt
+import logging
 import re
 from datetime import datetime, date
 from markupsafe import Markup
 
 from odoo import  Command, _, api, fields, models, modules
 from odoo.tools import split_every
+from odoo.exceptions import RedirectWarning, UserError
 from .irn_exception import IrnException
+
+_logger = logging.getLogger(__name__)
+
 
 UOM_REF_MAP = {
     "CMS": "uom.product_uom_cm",
@@ -80,12 +85,14 @@ class AccountMove(models.Model):
         'unique(company_id, l10n_in_irn_number)',
         'Irn number must be unique for bills per company.',
     )
-    @api.depends("country_code", "l10n_in_state_id", "company_id")
+
+    @api.depends("country_code", "l10n_in_state_id", "company_id", "commercial_partner_id")
     def _compute_l10n_in_transaction_type(self):
-        self.fetch(['country_code', 'l10n_in_state_id', "company_id"])
+        self.fetch(['country_code', 'l10n_in_state_id', "company_id", "commercial_partner_id"])
         for move in self:
             if move.country_code == "IN":
-                if move.l10n_in_state_id and move.l10n_in_state_id == move.company_id.state_id:
+                state = move.company_id.state_id if move.journal_id.type == 'sale' else move.commercial_partner_id.state_id
+                if move.l10n_in_state_id and move.l10n_in_state_id == state:
                     move.l10n_in_transaction_type = 'intra_state'
                 else:
                     move.l10n_in_transaction_type = 'inter_state'
@@ -147,9 +154,10 @@ class AccountMove(models.Model):
 
         :returns: action to refresh the form view.
         """
-        self.env['account.return']._l10n_in_check_config(
-            company=self.env.company
-        )
+        for company in self.company_id:
+            self.env['account.return']._l10n_in_check_config(
+                company=company
+            )
 
         JSON_MIMETYPE = 'application/json'
         STATUS_CANCELLED = 'CNL'
@@ -208,8 +216,10 @@ class AccountMove(models.Model):
         ]
         moves = self.search(domain)
         for move_batch in split_every(job_count, moves):
-            for move in move_batch:
-                move.l10n_in_update_move_using_irn()
+            try:
+                move_batch.l10n_in_update_move_using_irn()
+            except (RedirectWarning, UserError):
+                _logger.exception('Error when update Bill with IRN')
             if not modules.module.current_test:
                 self.env.cr.commit()
 

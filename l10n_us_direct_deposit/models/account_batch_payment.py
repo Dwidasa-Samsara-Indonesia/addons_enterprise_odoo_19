@@ -151,27 +151,31 @@ class AccountBatchPayment(models.Model):
         return not modules.module.current_test
 
     def _generate_wise_key(self, payment=None, recipient=None):
-        """Build a dictionary key to see that the partner matches the recipient
-        by checking for the same account informations (routing/account number
-        or account type) as well as personal information (name/email)."""
+        """Build a dictionary key to match a payment's bank account to an
+        existing Wise recipient using only financial identifiers (routing
+        number, account number, account/transfer type)."""
         if not payment and not recipient:
             return None
 
         if payment:
-            partner = payment.partner_id
             bank_account = payment.partner_bank_id
-            key_elements = [partner.name, partner.email]
-            if bank_account.bank_id.country_code and bank_account.bank_id.country_code != 'US':  # Always use SWIFT outside of the US
-                key_elements.extend(['swift_code', bank_account.bank_bic])
+            if bank_account.bank_id.country_code == 'US' or not bank_account.bank_id.country_code:
+                key_elements = [bank_account.wise_account_type, bank_account.l10n_us_bank_account_type,
+                                bank_account.clearing_number, bank_account.sanitized_acc_number]
             else:
-                key_elements.extend([bank_account.wise_account_type, bank_account.l10n_us_bank_account_type, bank_account.clearing_number])
+                # IBAN is globally unique - use it as the sole identifier for non-US accounts
+                # regardless of whether Wise stores them as SWIFT or IBAN type.
+                key_elements = ['non_us', bank_account.sanitized_acc_number]
 
         if recipient:
-            key_elements = [recipient['name']['fullName'], recipient['email']]
-            if recipient['type'].lower() in ['swift_code', 'swiftcode']:
-                key_elements.extend(['swift_code', recipient['details']['swiftCode']])
+            recipient_type = recipient['type'].lower()
+            if recipient_type == 'iban':
+                key_elements = ['non_us', recipient['details']['iban']]
+            elif recipient_type in ('swift_code', 'swiftcode'):
+                key_elements = ['non_us', recipient['details']['accountNumber']]
             else:
-                key_elements.extend([recipient['type'].lower(), recipient['details']['accountType'].lower(), recipient['details']['abartn']])
+                key_elements = [recipient_type, recipient['details']['accountType'].lower(),
+                                recipient['details']['abartn'], recipient['details']['accountNumber']]
         return tuple(key_elements)
 
     def _prepare_wise_recipient_data(self, payment):

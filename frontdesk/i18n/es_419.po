@@ -3,14 +3,14 @@
 # * frontdesk
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
-# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
+# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2025-10-08 02:40+0000\n"
+"POT-Creation-Date: 2026-05-01 17:40+0000\n"
+"PO-Revision-Date: 2026-07-17 21:48+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/frontdesk/es_419/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: frontdesk
 #. odoo-python
@@ -540,10 +540,10 @@ msgid ""
 "'' }} wants to meet you at {{ object.station_id.name }}. Please let them "
 "know you'll be there shortly."
 msgstr ""
-"Hola, su invitado {{ object.name }} {{ '(%s)' % object.phone if object.phone "
-"else '' }} {{ '(%s)' % object.company if object.company else '' }} desea "
-"reunirse con usted en {{ object.station_id.name }}. Hágale saber que estará "
-"ahí en un momento."
+"Hola, {{ object.name }} {{ '(%s)' % object.phone if object.phone else '' }} {"
+"{ '(%s)' % object.company if object.company else '' }} quiere reunirse "
+"contigo en {{ object.station_id.name }}. Avísale que llegarás en unos "
+"minutos."
 
 #. module: frontdesk
 #: model_terms:ir.ui.view,arch_db:frontdesk.print_visitor_badge
@@ -616,6 +616,16 @@ msgstr "Imagen"
 #: model_terms:ir.ui.view,arch_db:frontdesk.frontdesk_frontdesk_view_kanban
 msgid "Install"
 msgstr "Instalar"
+
+#. module: frontdesk
+#. odoo-python
+#: code:addons/frontdesk/controllers/main.py:0
+msgid ""
+"Invalid domain. Allowed filters are: department_id with '=' and display_name "
+"with 'ilike'."
+msgstr ""
+"El dominio no es válido. Los filtros permitidos son: department_id con '=' y "
+"display_name con 'ilike'."
 
 #. module: frontdesk
 #: model:ir.model.fields,field_description:frontdesk.field_frontdesk_frontdesk__is_favorite
@@ -1117,7 +1127,7 @@ msgstr "Estado"
 #. odoo-javascript
 #: code:addons/frontdesk/static/src/end_page/end_page.xml:0
 msgid "Thank you for registering!"
-msgstr "¡Gracias por registrarse!"
+msgstr "¡Gracias por registrarte!"
 
 #. module: frontdesk
 #. odoo-python
@@ -1258,7 +1268,7 @@ msgstr "Tu nombre"
 #. odoo-javascript
 #: code:addons/frontdesk/static/src/visitor_form/visitor_form.xml:0
 msgid "Your Phone Number"
-msgstr "Su número de teléfono"
+msgstr "Tu número de teléfono"
 
 #. module: frontdesk
 #. odoo-python
@@ -1270,7 +1280,7 @@ msgstr "El visitante %(name)s solicitó reunirse con usted"
 #. odoo-javascript
 #: code:addons/frontdesk/static/src/end_page/end_page.xml:0
 msgid "Your drink is on the way."
-msgstr "Su bebida ya está en camino."
+msgstr "Tu bebida ya está en camino."
 
 #. module: frontdesk
 #. odoo-python
@@ -1319,7 +1329,7 @@ msgstr "llegó de"
 #. odoo-javascript
 #: code:addons/frontdesk/static/src/end_page/end_page.xml:0
 msgid "has been informed."
-msgstr "ya se le avisó."
+msgstr "recibió el aviso."
 
 #. module: frontdesk
 #. odoo-python

@@ -711,6 +711,28 @@ class TestAvalaraBrInvoice(TestAvalaraBrInvoiceCommon):
         self.assertEqual(credit_note.tax_totals['total_amount_currency'], expected_amounts['amount_total'])
         self.assertEqual(credit_note.tax_totals['base_amount_currency'], expected_amounts['amount_untaxed'])
 
+    def test_13_stale_manual_total_excluded_currency(self):
+        """Test that manual_total_excluded_currency is updated on recomputation even if it already has a value."""
+        invoice, response = self._create_invoice_01_and_expected_response()
+
+        # First call to populate extra_tax_data with correct values.
+        with self._capture_request_br(return_value=response):
+            invoice.button_external_tax_calculation()
+
+        # Corrupt the manual_total_excluded_currency in extra_tax_data.
+        for line in invoice.invoice_line_ids:
+            extra_tax_data = line.extra_tax_data
+            extra_tax_data['manual_total_excluded_currency'] = 123
+            line.write({'extra_tax_data': extra_tax_data})
+
+        # Second call, should correct the stale manual_total_excluded_currency.
+        with self._capture_request_br(return_value=response):
+            invoice.button_external_tax_calculation()
+
+        # Verify that manual_total_excluded_currency was updated from the fresh Avatax response.
+        pre_tax_base = invoice.invoice_line_ids[0].extra_tax_data.get('manual_total_excluded_currency')
+        self.assertNotEqual(pre_tax_base, 123)
+
 
 @tagged('post_install_l10n', '-at_install', 'post_install')
 class TestAvalaraBrSettings(TestAvalaraBrInvoiceCommon):

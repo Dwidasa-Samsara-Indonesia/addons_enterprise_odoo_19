@@ -43,7 +43,8 @@
                 <attribute name="column_invisible">True</attribute>
             </xpath>
             <xpath expr="//field[@name='workcenter_id']" position="after">
-                <field name="employee_assigned_ids" widget="many2many_avatar_employee" readonly="state == 'done'"/>
+                <field name="employee_assigned_ids" widget="many2many_avatar_employee" readonly="state == 'done'"
+                       domain="not all_employees_allowed and [('id','in',allowed_employees)] or []"/>
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="action_open_mes" type="object" icon="oi-view-kanban" string="Open Shop Floor" groups="mrp_workorder.group_mrp_wo_shop_floor" invisible="state in ['done', 'cancel']"/>

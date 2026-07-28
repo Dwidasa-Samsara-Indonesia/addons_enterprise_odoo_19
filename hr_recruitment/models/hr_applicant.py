@@ -524,7 +524,7 @@ class HrApplicant(models.Model):
         domains = []
         # Map statuses to domain filters
         if 'refused' in value:
-            domains.append([('active', '=', True), ('refuse_reason_id', '!=', None)])
+            domains.append([('active', '=', False), ('refuse_reason_id', '!=', None)])
         if 'hired' in value:
             domains.append([('active', '=', True), ('date_closed', '!=', False)])
         if 'archived' in value or False in value:
@@ -702,6 +702,11 @@ class HrApplicant(models.Model):
                         model_description="Applicant",
                     )
         return res
+
+    def copy(self, default=None):
+        if self.filtered("is_pool_applicant"):
+            raise UserError(self.env._("You cannot duplicate the talent(s)."))
+        return super().copy(default=default)
 
     @api.model
     def get_empty_list_help(self, help_message):

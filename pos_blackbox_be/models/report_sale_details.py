@@ -32,11 +32,11 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
 
         if len(sessions) == 1:
             session = sessions[0]
-            if session.config_id.certified_blackbox_identifier:
+            if session.config_id._uses_blackbox_v1():
                 data = self._set_default_belgian_taxes_if_empty(data, "taxes")
                 data = self._set_default_belgian_taxes_if_empty(data, "refund_taxes")
                 report_update = {
-                    "isBelgium": bool(session.config_id.certified_blackbox_identifier),
+                    "isBelgium": session.config_id._uses_blackbox_v1(),
                     "cashier_name": session.user_id.name,
                     "insz_or_bis_number": session.user_id.insz_or_bis_number,
                     "NS_number": len(
@@ -91,7 +91,7 @@ class ReportPoint_Of_SaleReport_Saledetails(models.AbstractModel):
 
     def _get_total_and_qty_per_category(self, categories):
         res_cat, res_total = super()._get_total_and_qty_per_category(categories)
-        if self.env.context.get('config_id') and self.env['pos.config'].browse(self.env.context.get('config_id')).certified_blackbox_identifier:
+        if self.env.context.get('config_id') and self.env['pos.config'].browse(self.env.context.get('config_id'))._uses_blackbox_v1():
             for cat in res_cat:
                 total_cat = 0
                 for product in cat['products']:

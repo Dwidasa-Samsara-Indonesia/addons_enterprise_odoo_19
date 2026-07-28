@@ -3,15 +3,15 @@
 # * delivery_fedex_rest
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-20 18:41+0000\n"
-"PO-Revision-Date: 2025-11-08 20:06+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:22+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "delivery_fedex_rest/da/>\n"
 "Language: da\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -28,6 +28,9 @@ msgid ""
 "secret key and account number:</b>\n"
 "                                <br/>"
 msgstr ""
+"<b>Når du har afsluttet projektet, vil du se din test-API-nøgle, "
+"hemmelighedsnøgle og dit kontonummer:</b>\n"
+"                                <br/>"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -36,6 +39,10 @@ msgid ""
 "API project. Make sure to select the options indicated below:</b>\n"
 "                                <br/>"
 msgstr ""
+"<b>Når din konto er oprettet, skal du gå til fanen \"Mine projekter\" og "
+"oprette et nyt API-projekt. Sørg for at vælge nedenstående indstillinger:</b>"
+"\n"
+"                                <br/>"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -46,6 +53,12 @@ msgid ""
 "                                <br/>These certifications usually require "
 "that you contact the FedEx support team by email."
 msgstr ""
+"<b>Det sidste trin i oprettelsen af FedEx-fragtetiketter er "
+"certificeringsprocessen. Klik på \"Gå til API-certificering\", og følg de "
+"nødvendige trin for at certificere din konto til oprettelse af etiketter.</b>"
+"\n"
+"                                <br/>For disse certificeringer skal du som "
+"regel kontakte FedEx’ supportteam via e-mail."
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -55,6 +68,10 @@ msgid ""
 "production API and secret keys:</b>\n"
 "                                <br/>"
 msgstr ""
+"<b>Generér en produktionsnøgle for at gå i produktion, og knyt den til dit "
+"FedEx-kontonummer (du kan om nødvendigt tilføje eller oprette et). Herefter "
+"modtager du en produktions-API-nøgle og en hemmelig nøgle:</b>\n"
+"                                <br/>"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -63,11 +80,14 @@ msgid ""
 "the following APIs:</b>\n"
 "                                <br/>"
 msgstr ""
+"<b>Når du bliver bedt om at vælge API’er til projektet, skal du sikre dig, "
+"at mindst følgende API’er er aktiveret:</b>\n"
+"                                <br/>"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "<span class=\"o_form_label\">Package Length Unit</span>"
-msgstr ""
+msgstr "<span class=\"o_form_label\">Pakkens længdeenhed</span>"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -76,11 +96,14 @@ msgid ""
 "                                <span invisible=\"fedex_rest_weight_unit != "
 "'LB'\">Inches</span>"
 msgstr ""
+"<span invisible=\"fedex_rest_weight_unit != 'KG'\">Centimeter</span>\n"
+"                                <span invisible=\"fedex_rest_weight_unit != "
+"'LB'\">Tommer</span>"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_developer_key
 msgid "API Key"
-msgstr "API nøgle"
+msgstr "API-nøgle"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -99,27 +122,29 @@ msgid ""
 "Automated return label generation is not supported by FedEx for multi-"
 "package shipments. Please generate the return labels manually."
 msgstr ""
+"Automatisk generering af retursedler understøttes ikke af FedEx ved "
+"forsendelser med flere pakker. Opret venligst retursedler manuelt."
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_stock_package_type__package_carrier_type
 msgid "Carrier"
-msgstr "Fragtfirma"
+msgstr "Transportfirma"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_residential_address__check
 msgid "Check using FedEx Address API"
-msgstr ""
+msgstr "Kontrollér med FedEx-adresse-API"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_droppoff_type__contact_fedex_to_schedule
 msgid "Contact FedEx for pickup"
-msgstr ""
+msgstr "Kontakt FedEx for afhentning"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/fedex_request.py:0
 msgid "Could not decode response"
-msgstr ""
+msgstr "Svar kunne ikke afkodes"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_residential_address
@@ -129,18 +154,22 @@ msgid ""
 "this information using the FedEx Address API, we assume that the address is "
 "residential unless it is marked explicitly as a BUSINESS address."
 msgstr ""
+"Angiver, om modtageradressen skal betragtes som privatadresse (for at "
+"eventuelle tillæg kan beregnes korrekt). Bemærk: Når oplysningerne hentes "
+"via FedEx’ adresse-API, antages det som standard, at adressen er privat, "
+"medmindre den udtrykkeligt er markeret som FORRETNINGSadresse."
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__display_name
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_stock_package_type__display_name
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_uom_uom__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_droppoff_type__dropoff_at_fedex_location
 msgid "Drop off at FedEx location"
-msgstr ""
+msgstr "Aflevér i et FedEx-center"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -155,7 +184,7 @@ msgstr "EPL2"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_documentation_type__etd
 msgid "Electronic Trade Documents"
-msgstr ""
+msgstr "Elektroniske handelsdokumenter"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_email_notifications
@@ -169,26 +198,28 @@ msgid ""
 "Error(s) from FedEx:\n"
 "%s"
 msgstr ""
+"Fejl fra FedEx:\n"
+"%s"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "Extra Data"
-msgstr ""
+msgstr "Supplerende oplysninger"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_extra_data_rate_request
 msgid "Extra data for rate"
-msgstr ""
+msgstr "Supplerende oplysninger om priser"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_extra_data_return_request
 msgid "Extra data for return"
-msgstr ""
+msgstr "Supplerende oplysninger om returneringer"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_extra_data_ship_request
 msgid "Extra data for ship"
-msgstr ""
+msgstr "Supplerende oplysninger om forsendelser"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__delivery_type__fedex_rest
@@ -199,254 +230,254 @@ msgstr "FedEx"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_1_day_freight
 msgid "FedEx 1Day® Freight"
-msgstr ""
+msgstr "FedEx 1Day® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_2_day
 msgid "FedEx 2Day®"
-msgstr ""
+msgstr "FedEx 2Day®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_2_day_am
 msgid "FedEx 2Day® AM"
-msgstr ""
+msgstr "FedEx 2Day® AM"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_2_day_freight
 msgid "FedEx 2Day® Freight"
-msgstr ""
+msgstr "FedEx 2Day® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_3_day_freight
 msgid "FedEx 3Day® Freight"
-msgstr ""
+msgstr "FedEx 3Day® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_access_token
 msgid "FedEx Access Token"
-msgstr ""
+msgstr "FedEx-adgangstoken"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_account_number
 msgid "FedEx Account Number"
-msgstr "FedEx Kontonummer"
+msgstr "FedEx-kontonummer"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_droppoff_type
 msgid "FedEx Drop-Off Type"
-msgstr ""
+msgstr "FedEx-leveringstype"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_economy
 msgid "FedEx Economy"
-msgstr ""
+msgstr "FedEx Economy"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_economy_select
 msgid "FedEx Economy (Only U.K.)"
-msgstr ""
+msgstr "FedEx Economy (Kun Storbritannien)"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_economy_freight
 msgid "FedEx Economy Freight"
-msgstr ""
+msgstr "FedEx Economy Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__europe_first_international_priority
 msgid "FedEx Europe First®"
-msgstr ""
+msgstr "FedEx Europe First®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_express_saver
 msgid "FedEx Express Saver®"
-msgstr ""
+msgstr "FedEx Express Saver®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_first
 msgid "FedEx First"
-msgstr ""
+msgstr "FedEx First"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__first_overnight
 msgid "FedEx First Overnight®"
-msgstr ""
+msgstr "FedEx First Overnight®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_first_freight
 msgid "FedEx First Overnight® Freight"
-msgstr ""
+msgstr "FedEx First Overnight® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__smart_post
 msgid "FedEx Ground® Economy (Formerly known as FedEx SmartPost®)"
-msgstr ""
+msgstr "FedEx Ground® Economy (Tidligere kendt som FedEx SmartPost®)"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__ground_home_delivery
 msgid "FedEx Home Delivery® "
-msgstr ""
+msgstr "FedEx Home Delivery® "
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_international_connect_plus
 msgid "FedEx International Connect Plus®"
-msgstr ""
+msgstr "FedEx International Connect Plus®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_economy_distribution
 msgid "FedEx International Economy DirectDistribution"
-msgstr ""
+msgstr "FedEx International Economy DirectDistribution"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_economy_freight
 msgid "FedEx International Economy® Freight"
-msgstr ""
+msgstr "FedEx International Economy® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_first
 msgid "FedEx International First®"
-msgstr ""
+msgstr "FedEx International First®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_ground
 msgid "FedEx International Ground® and FedEx Domestic Ground®"
-msgstr ""
+msgstr "FedEx International Ground® og FedEx Domestic Ground®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_priority_distribution
 msgid "FedEx International Priority DirectDistribution®"
-msgstr ""
+msgstr "FedEx International Priority DirectDistribution®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_distribution_freight
 msgid "FedEx International Priority DirectDistribution® Freight"
-msgstr ""
+msgstr "FedEx International Priority DirectDistribution® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_international_priority
 msgid "FedEx International Priority®"
-msgstr ""
+msgstr "FedEx International Priority®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_international_priority_express
 msgid "FedEx International Priority® Express"
-msgstr ""
+msgstr "FedEx International Priority® Express"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_priority_freight
 msgid "FedEx International Priority® Freight"
-msgstr ""
+msgstr "FedEx International Priority® Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_default_package_type_id
 msgid "FedEx Package Type"
-msgstr ""
+msgstr "FedEx-pakketype"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_priority
 msgid "FedEx Priority"
-msgstr ""
+msgstr "FedEx Priority"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_priority_express
 msgid "FedEx Priority Express"
-msgstr ""
+msgstr "FedEx Priority Express"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_priority_express_freight
 msgid "FedEx Priority Express Freight"
-msgstr ""
+msgstr "FedEx Priority Express Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_priority_freight
 msgid "FedEx Priority Freight"
-msgstr ""
+msgstr "FedEx Priority Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__priority_overnight
 msgid "FedEx Priority Overnight®"
-msgstr ""
+msgstr "FedEx Priority Overnight®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__same_day
 msgid "FedEx SameDay®"
-msgstr ""
+msgstr "FedEx SameDay®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__same_day_city
 msgid "FedEx SameDay® City"
-msgstr ""
+msgstr "FedEx SameDay® City"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_service_type
 msgid "FedEx Service Type"
-msgstr ""
+msgstr "FedEx-tjenestetype"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__standard_overnight
 msgid "FedEx Standard Overnight®"
-msgstr ""
+msgstr "FedEx Standard Overnight®"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_international_deferred_freight
 msgid "FedEx® International Deferred Freight"
-msgstr ""
+msgstr "FedEx® International Deferred Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__international_economy
 msgid "FedEx® International Economy"
-msgstr ""
+msgstr "FedEx® International Economy"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_regional_economy
 msgid "FedEx® Regional Economy"
-msgstr ""
+msgstr "FedEx® Regional Economy"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__fedex_regional_economy_freight
 msgid "FedEx® Regional Economy Freight"
-msgstr ""
+msgstr "FedEx® Regional Economy Freight"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_uom_uom__fedex_code
 msgid "Fedex Code"
-msgstr ""
+msgstr "FedEx-kode"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "Fedex Configuration"
-msgstr "Fedex Konfiguration"
+msgstr "FedEx-konfiguration"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "Fedex Developer Website"
-msgstr ""
+msgstr "FedEx-udviklerhjemmeside"
 
 #. module: delivery_fedex_rest
 #: model:delivery.carrier,name:delivery_fedex_rest.delivery_carrier_fedex_inter
 #: model:product.template,name:delivery_fedex_rest.product_product_delivery_fedex_inter_product_template
 msgid "Fedex International"
-msgstr "Fedex International"
+msgstr "FedEx International"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_duty_payment
 msgid "Fedex Rest Duty Payment"
-msgstr ""
+msgstr "Resterende FedEx-betaling af afgifter"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_weight_unit
 msgid "Fedex Rest Weight Unit"
-msgstr ""
+msgstr "FedEx-vægtenhed for rest"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "Fedex Tutorial"
-msgstr "Fedex Guide"
+msgstr "FedEx-vejledning"
 
 #. module: delivery_fedex_rest
 #: model:delivery.carrier,name:delivery_fedex_rest.delivery_carrier_fedex_us
 #: model:product.template,name:delivery_fedex_rest.product_product_delivery_fedex_us_product_template
 msgid "Fedex US"
-msgstr "Fedex US"
+msgstr "FedEx US"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_documentation_type
@@ -458,17 +489,23 @@ msgid ""
 "FedEx. It can also be submitted directly as ETD information to FedEx upon "
 "shipment validation."
 msgstr ""
+"For internationale forsendelser (eller visse nationale forsendelser) kan der "
+"være behov for en handelsfaktura til toldbehandlingen. Denne faktura kan "
+"udarbejdes af FedEx på baggrund af forsendelsesoplysningerne og returneres "
+"som en PDF, som kan udskrives og vedhæftes forsendelsen eller sendes manuelt "
+"elektronisk til FedEx. Den kan også sendes direkte til FedEx som ETD-"
+"oplysninger, så snart forsendelsen er bekræftet."
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Freight services for Fedex are not implemented."
-msgstr ""
+msgstr "Transportfirmaer for FedEx er endnu ikke implementeret."
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_documentation_type
 msgid "Generate invoice"
-msgstr ""
+msgstr "Generér faktura"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
@@ -485,13 +522,13 @@ msgstr "ID"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__intl_ground_distribution
 msgid "International Ground® Distribution (IGD)"
-msgstr ""
+msgstr "International Ground® Distribution (IGD)"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/fedex_request.py:0
 msgid "Invalid syntax for FedEx extra data."
-msgstr ""
+msgstr "Ugyldig syntaks for supplerende FedEx-data."
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_weight_unit__kg
@@ -501,17 +538,17 @@ msgstr "Kilogram"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_label_file_type
 msgid "Label File Type"
-msgstr ""
+msgstr "Filtype for etiket"
 
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "Label Format"
-msgstr "Mærkat Format"
+msgstr "Etiketformat"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_label_stock_type
 msgid "Label Size"
-msgstr ""
+msgstr "Etiketstørrelse"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_residential_address__never
@@ -536,7 +573,7 @@ msgstr "PAPER_4X6"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__paper_4x6_75
 msgid "PAPER_4X6.75"
-msgstr ""
+msgstr "PAPER_4X6.75"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__paper_4x8
@@ -581,18 +618,18 @@ msgstr "PNG"
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "Package Weight Unit"
-msgstr "Pakke vægtenhed"
+msgstr "Pakkens vægtenhed"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Packages:"
-msgstr ""
+msgstr "Pakker:"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_droppoff_type__use_scheduled_pickup
 msgid "Part of regular scheduled pickup"
-msgstr ""
+msgstr "Indgår i planlagt afhentning"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_weight_unit__lb
@@ -602,12 +639,12 @@ msgstr "Pund"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_documentation_type__invoice
 msgid "Print PDF"
-msgstr ""
+msgstr "Udskriv PDF"
 
 #. module: delivery_fedex_rest
 #: model:ir.model,name:delivery_fedex_rest.model_uom_uom
 msgid "Product Unit of Measure"
-msgstr "Vareenhed"
+msgstr "Produktets måleenhed"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__delivery_type
@@ -623,18 +660,18 @@ msgstr "Modtager"
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Required documents:"
-msgstr ""
+msgstr "Påkrævede dokumenter:"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_residential_address
 msgid "Residential delivery"
-msgstr ""
+msgstr "Levering til hjemmet"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Return Label"
-msgstr "Refunderings mærkat"
+msgstr "Returseddel"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__stock_4x6
@@ -644,7 +681,7 @@ msgstr "STOCK_4X6"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__stock_4x6_75
 msgid "STOCK_4X6.75"
-msgstr ""
+msgstr "STOCK_4X6.75"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__stock_4x6_75_leading_doc_tab
@@ -664,7 +701,7 @@ msgstr "STOCK_4X8"
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__stock_4x9
 msgid "STOCK_4X9"
-msgstr ""
+msgstr "STOCK_4X9"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_stock_type__stock_4x9_leading_doc_tab
@@ -695,29 +732,29 @@ msgstr "Afsender"
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Shipment %s has been cancelled"
-msgstr ""
+msgstr "Leveringen %s blev annulleret"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Shipment created into Fedex"
-msgstr ""
+msgstr "Forsendelse oprettet i FedEx"
 
 #. module: delivery_fedex_rest
 #: model:ir.model,name:delivery_fedex_rest.model_delivery_carrier
 msgid "Shipping Methods"
-msgstr "Leveringsmetoder"
+msgstr "Forsendelsesmetoder"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/fedex_request.py:0
 msgid "Something went wrong, please try again later!!"
-msgstr ""
+msgstr "Der opstod en fejl. Prøv venligst igen senere!!"
 
 #. module: delivery_fedex_rest
 #: model:ir.model,name:delivery_fedex_rest.model_stock_package_type
 msgid "Stock package type"
-msgstr ""
+msgstr "Lagerpakketype"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_extra_data_rate_request
@@ -729,27 +766,32 @@ msgid ""
 "what you are doing.\n"
 "More info on https://www.developer.fedex.com"
 msgstr ""
+"De supplerende oplysninger i FedEx er struktureret som indholdet i en JSON-"
+"fil.\n"
+"Denne funktionalitet er avanceret/teknisk og bør kun anvendes, hvis du har "
+"erfaring med det.\n"
+"Få mere at vide på https://www.developer.fedex.com"
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/delivery_fedex.py:0
 msgid "Tracking Numbers:"
-msgstr ""
+msgstr "Sporingsnumre:"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_service_type__transborder_distribution
 msgid "Transborder distribution"
-msgstr ""
+msgstr "Grænseoverskridende distribution"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,field_description:delivery_fedex_rest.field_delivery_carrier__fedex_rest_override_shipper_vat
 msgid "Union tax id (EORI/IOSS)"
-msgstr ""
+msgstr "Unionens skatteregistreringsnummer (EORI/IOSS)"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_uom_uom__fedex_code
 msgid "UoM Code sent to FedEx"
-msgstr ""
+msgstr "Måleenhedskode sendt til FedEx"
 
 #. module: delivery_fedex_rest
 #. odoo-python
@@ -758,6 +800,8 @@ msgid ""
 "Warning(s) from FedEx:\n"
 "%s"
 msgstr ""
+"Advarsel/advarsler fra FedEx:\n"
+"%s"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_email_notifications
@@ -765,6 +809,8 @@ msgid ""
 "When enabled, the customer will receive email notifications from FedEx about "
 "this shipment (when an email address is configured on the customer)"
 msgstr ""
+"Når denne indstilling er aktiveret, modtager kunden e-mailnotifikationer fra "
+"FedEx om forsendelsen (hvis der er angivet en e-mailadresse for kunden)"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields,help:delivery_fedex_rest.field_delivery_carrier__fedex_rest_override_shipper_vat
@@ -775,12 +821,19 @@ msgid ""
 "provided the regular tax id on the company will be used with type "
 "BUSINESS_NATIONAL."
 msgstr ""
+"FedEx angives som det primære virksomhedsidentifikationsnummer af typen "
+"BUSINESS_UNION, som skal oplyses på den oprettede faktura. Dette bruges, "
+"hvis du ud over det nationale skattenummer også har behov for et IOSS- eller "
+"EORI-nummer. Hvis det ikke oplyses, anvendes virksomhedens almindelige "
+"skattenummer af typen BUSINESS_NATIONAL."
 
 #. module: delivery_fedex_rest
 #. odoo-python
 #: code:addons/delivery_fedex_rest/models/fedex_request.py:0
 msgid "You must setup a client ID and secret on the carrier first"
 msgstr ""
+"Du skal først oprette et kunde-ID og en klienthemmelighed for "
+"transportfirmaet"
 
 #. module: delivery_fedex_rest
 #: model:ir.model.fields.selection,name:delivery_fedex_rest.selection__delivery_carrier__fedex_rest_label_file_type__zplii
@@ -790,4 +843,4 @@ msgstr "ZPLII"
 #. module: delivery_fedex_rest
 #: model_terms:ir.ui.view,arch_db:delivery_fedex_rest.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx developer account"
-msgstr ""
+msgstr "for at oprette en FedEx-udviklerkonto"

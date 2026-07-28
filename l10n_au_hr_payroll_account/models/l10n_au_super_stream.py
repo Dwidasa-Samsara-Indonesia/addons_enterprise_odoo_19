@@ -61,8 +61,7 @@ class L10n_auSuperStream(models.Model):
     @api.depends("source_entity_id_type")
     def _compute_sid(self):
         for rec in self:
-            if rec.source_entity_id_type == "abn":
-                rec.source_entity_id = rec.vat
+            rec.source_entity_id = rec.vat if rec.source_entity_id_type == "abn" else False
 
     @api.depends(
         "l10n_au_super_stream_lines",
@@ -375,16 +374,14 @@ class L10n_AuSuperStreamLine(models.Model):
 
     @api.depends("payslip_id", 'super_account_id', 'proportion')
     def _compute_payslip_fields(self):
-        super_lines_total = self.payslip_id._get_line_values(['SUPER', 'OTE'], vals_list=['total'])
+        super_to_pay = self.payslip_id._get_super_payable()
         for rec in self:
-            if rec.state != 'draft':
+            if rec.state != 'draft' or not rec.payslip_id:
                 continue
-            contract = rec.payslip_id.version_id
-            rec.superannuation_guarantee_amount = super_lines_total['SUPER'][rec.payslip_id.id]['total'] * rec.proportion
-            rec.salary_sacrificed_amount = contract.l10n_au_salary_sacrifice_superannuation * rec.proportion
-            ote_amount = super_lines_total['OTE'][rec.payslip_id.id]['total']
-            rec.award_or_productivity_amount = (ote_amount * rec.payslip_id.l10n_au_extra_compulsory_super) * rec.proportion
-            rec.voluntary_amount = (ote_amount * rec.payslip_id.l10n_au_extra_negotiated_super) * rec.proportion
+            rec.superannuation_guarantee_amount = super_to_pay[rec.payslip_id.id]['superannuation_guarantee_amount'] * rec.proportion
+            rec.salary_sacrificed_amount = super_to_pay[rec.payslip_id.id]['salary_sacrificed_amount'] * rec.proportion
+            rec.award_or_productivity_amount = super_to_pay[rec.payslip_id.id]['award_or_productivity_amount'] * rec.proportion
+            rec.voluntary_amount = super_to_pay[rec.payslip_id.id]['voluntary_amount'] * rec.proportion
 
     @api.depends('employee_id')
     def _compute_allowed_super_account_ids(self):

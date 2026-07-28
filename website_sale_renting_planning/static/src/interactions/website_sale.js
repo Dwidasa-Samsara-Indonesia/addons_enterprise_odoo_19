@@ -16,11 +16,11 @@ patch(WebsiteSale.prototype, {
     },
 
     setAddQtyInputMax() {
-        if (this.rentingAvailabilities) {
+        const addQtyInput = this.el.querySelector("input[name='add_qty']");
+        if (this.rentingAvailabilities && addQtyInput) {
             const productId = this._getProductId(this.el);
             const { start_date, end_date } = this._getRentingDates(this.el);
-            const addQtyInput = this.el.querySelector("input[name='add_qty']");
-            const qty = parseFloat(addQtyInput?.value) || 1;
+            const qty = parseFloat(addQtyInput.value) || 1;
             let availableQty = Infinity;
             for (const interval of this.rentingAvailabilities[productId]) {
                 if (interval.start < end_date) {

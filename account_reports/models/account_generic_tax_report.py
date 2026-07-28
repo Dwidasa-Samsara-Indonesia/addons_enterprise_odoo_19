@@ -629,7 +629,7 @@ class AccountGenericTaxReportHandler(models.AbstractModel):
             is_inconsistent = currency.compare_amounts(computed_tax_amount, tax_value)
 
             if is_inconsistent:
-                error = abs(abs(tax_value) - abs(computed_tax_amount)) / float(net_value or 1)
+                error = abs((abs(tax_value) - abs(computed_tax_amount)) / float(net_value or 1))
 
                 # Error is bigger than 0.1%. We can not ignore it.
                 if error > 0.001:

@@ -6,6 +6,7 @@ import base64
 import contextlib
 import hmac
 import hashlib
+import re
 import requests
 import uuid
 import time
@@ -227,4 +228,27 @@ class SocialMedia(models.Model):
                     }
                 }
 
+        # check if we can reply to the tweet
+        handle = tweet.get('social_account_handle')
+        users = tweet.get('users', {})
+        conversation_thread_tweets = tweet.get('conversation_thread_tweets', {})
+        can_reply = False
+        if handle and re.search(
+            f'\\B@{re.escape(handle)}\\b',
+            tweet.get('text', ''),
+        ):
+            # We are mentioned in the tweet
+            can_reply = True
+        elif handle and tweet.get('author', {}).get('username') == handle:
+            # we are the author of the tweet
+            can_reply = True
+        elif handle and any(
+            users.get(conversation_thread_tweets.get(referenced_tweet['id'], {}).get('author_id'), {}).get('username') == handle
+            for referenced_tweet in tweet.get('referenced_tweets', ())
+        ):
+            # the tweet is a quote to one of our tweet
+            # `referenced_tweets` contains the tweets that the user quoted
+            # (or replied to, but in that case the user is mentioned in the body)
+            can_reply = True
+        formatted_tweet['canReply'] = can_reply
         return formatted_tweet

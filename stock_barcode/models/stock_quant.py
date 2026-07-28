@@ -117,7 +117,7 @@ class StockQuant(models.Model):
         uoms = products.uom_id | products.uom_ids
         # If UoM setting is active, fetch all UoM's data.
         if self.env.user.has_group('uom.group_uom'):
-            uoms = self.env['uom.uom'].search([])
+            uoms = self.env['uom.uom'].with_context(active_test=False).search([])
 
         data = {
             "records": {
@@ -143,6 +143,7 @@ class StockQuant(models.Model):
             'inventory_quantity',
             'inventory_quantity_set',
             'quantity',
+            'available_quantity',
             'product_uom_id',
             'lot_id',
             'package_id',

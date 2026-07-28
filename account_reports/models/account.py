@@ -235,7 +235,7 @@ class AccountAccount(models.Model):
             else:
                 return SQL("""
                     CASE WHEN prev_account_move_line.balance IS NULL THEN NULL
-                         ELSE (COALESCE(current_account_move_lines.balance, 0) - COALESCE(prev_account_move_line.balance, 0)) / COALESCE(prev_account_move_line.balance, 1) * 100
+                         ELSE (COALESCE(current_account_move_lines.balance, 0) - COALESCE(prev_account_move_line.balance, 0)) / COALESCE(NULLIF(prev_account_move_line.balance, 0), 1) * 100
                     END
                 """)
 

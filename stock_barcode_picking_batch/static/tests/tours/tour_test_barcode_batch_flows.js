@@ -1179,8 +1179,8 @@ registry.category("web_tour.tours").add("test_setting_group_lines_by_product", {
         {
             trigger: ".o_barcode_client_action",
             run: function () {
-                const [line1, line2, line3, line4] = helper.getLines();
-                helper.assertLinesCount(4);
+                const [line1, line2, line3, line4, line5] = helper.getLines();
+                helper.assertLinesCount(5);
                 // First line: 6 product1 (1 receipt1 + 2 receipt2 + 3 receipt3)
                 helper.assertLineProduct(line1, "product1");
                 helper.assertLineQty(line1, "0/6");
@@ -1189,20 +1189,26 @@ registry.category("web_tour.tours").add("test_setting_group_lines_by_product", {
                 helper.assertLineProduct(line2, "product2");
                 helper.assertLineQty(line2, "0/5");
                 helper.assertButtonIsVisible(line2, "toggle_sublines", false);
-                // Third line: 6 productlot1 (4 receipt1 + 2 receipt2)
-                helper.assertLineProduct(line3, "productlot1");
-                helper.assertLineQty(line3, "0/6");
+                // Third line: 53.2 product3 (4.4 receipt1 + 48.8 receipt2)
+                // Verifies that floating-point addition is correctly rounded: 4.4 + 48.8 must display
+                // as 53.2 and not as a precision error like 53.199999999999996.
+                helper.assertLineProduct(line3, "product3");
+                helper.assertLineQty(line3, "0/53.2");
                 helper.assertButtonIsVisible(line3, "toggle_sublines");
-                // Fourth line: 2 product1 (receipt3, goes to Shelf2)
-                helper.assertLineProduct(line4, "product1");
-                helper.assertLineDestinationLocation(line4, ".../Section 2");
-                helper.assertLineQty(line4, "0/2");
-                helper.assertButtonIsVisible(line4, "toggle_sublines", false);
+                // Fourth line: 6 productlot1 (4 receipt1 + 2 receipt2)
+                helper.assertLineProduct(line4, "productlot1");
+                helper.assertLineQty(line4, "0/6");
+                helper.assertButtonIsVisible(line4, "toggle_sublines");
+                // Fifth line: 2 product1 (receipt3, goes to Shelf2)
+                helper.assertLineProduct(line5, "product1");
+                helper.assertLineDestinationLocation(line5, ".../Section 2");
+                helper.assertLineQty(line5, "0/2");
+                helper.assertButtonIsVisible(line5, "toggle_sublines", false);
             },
         },
         // Check quantity for each pickings' line is visible also for tracked product.
         {
-            trigger: ".o_barcode_line:nth-child(3) .o_toggle_sublines",
+            trigger: ".o_barcode_line:nth-child(4) .o_toggle_sublines",
             run: "click",
         },
         {

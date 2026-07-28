@@ -320,6 +320,42 @@ class TestMpsMps(common.TransactionCase):
         self.assertFalse(screw_forecast_1['to_replenish'])
         self.assertFalse(screw_forecast_1['forced_replenish'])
 
+    def test_batch_resplenish(self):
+        """ Ensure it will consider the batch size when resplenishing,
+        with or without a specified bom
+        """
+        self.bom_table_leg.write({
+            'enable_batch_size': True,
+            'batch_size': 20.0,
+
+        })
+        self.env['mrp.product.forecast'].create({
+            'production_schedule_id': self.mps_table_leg.id,
+            'date': date.today(),
+            'forecast_qty': 1
+        })
+        table_leg_mps_state = self.mps_table_leg.get_production_schedule_view_state()[0]
+        forecast_at_first_period = table_leg_mps_state['forecast_ids'][0]
+        self.assertEqual(forecast_at_first_period['forecast_qty'], 1)
+        self.assertEqual(forecast_at_first_period['replenish_qty'], 20)
+        self.assertEqual(forecast_at_first_period['safety_stock_qty'], 19)
+
+        self.mps_table_leg.unlink()
+        mps_table_leg_without_bom = self.env['mrp.production.schedule'].create({
+            'product_id': self.table_leg.id,
+            'warehouse_id': self.warehouse.id,
+        })
+        self.env['mrp.product.forecast'].create({
+            'production_schedule_id': mps_table_leg_without_bom.id,
+            'date': date.today(),
+            'forecast_qty': 1
+        })
+        table_leg_mps_state_without_bom = mps_table_leg_without_bom.get_production_schedule_view_state()[0]
+        forecast_at_first_period = table_leg_mps_state_without_bom['forecast_ids'][0]
+        self.assertEqual(forecast_at_first_period['forecast_qty'], 1)
+        self.assertEqual(forecast_at_first_period['replenish_qty'], 20)
+        self.assertEqual(forecast_at_first_period['safety_stock_qty'], 19)
+
     def test_lead_times(self):
         """ Manufacture, supplier and rules uses delay. The forecasts to
         replenish are impacted by those delay. Ensure that the MPS state and

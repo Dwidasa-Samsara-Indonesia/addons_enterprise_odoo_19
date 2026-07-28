@@ -638,3 +638,28 @@ class TestAccountFollowupReports(TestAccountFollowupCommon, MailCommon):
             }
             self.partner_a.send_followup_email(options=options)
         self.assertMailMail(mail_cc, 'sent', author=self.env.user.partner_id)
+
+    def test_has_moves_without_invoice(self):
+        """
+        Test that has_moves is True for a partner referenced
+        only at account.move.line level (no partner at move level)
+        """
+        partner = self.env['res.partner'].create({'name': 'Test Partner'})
+        move = self.env['account.move'].create({
+            'move_type': 'entry',
+            'line_ids': [
+                Command.create({
+                    'partner_id': partner.id,
+                    'account_id': self.company_data['default_account_receivable'].id,
+                    'debit': 100.0,
+                    'credit': 0.0,
+                }),
+                Command.create({
+                    'account_id': self.company_data['default_account_revenue'].id,
+                    'debit': 0.0,
+                    'credit': 100.0,
+                }),
+            ],
+        })
+        move.action_post()
+        self.assertTrue(partner.has_moves)

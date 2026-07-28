@@ -653,23 +653,10 @@
                                 <field name="name@lb">V. Profitt oder Verloscht bruecht</field>
                                 <field name="code">LU_BS_319</field>
                                 <field name="expression_ids">
-                                    <record id="account_financial_report_l10n_lu_bs_line_2_1_5_past_pnl" model="account.report.expression">
-                                        <field name="label">past_pnl</field>
-                                        <field name="engine">aggregation</field>
-                                        <field name="subformula">cross_report(l10n_lu_reports.account_financial_report_l10n_lu_pl)</field>
-                                        <field name="formula">LU_PL_669.balance</field>
-                                        <field name="date_scope">to_beginning_of_fiscalyear</field>
-                                    </record>
-                                    <record id="account_financial_report_l10n_lu_bs_line_2_1_5_accounts" model="account.report.expression">
-                                        <field name="label">accounts</field>
-                                        <field name="engine">domain</field>
-                                        <field name="formula" eval="['|',('account_id.code','=like','14%'),('account_id.account_type','=','equity_unaffected')]"/>
-                                        <field name="subformula">-sum</field>
-                                    </record>
                                     <record id="account_financial_report_l10n_lu_bs_line_2_1_5_balance" model="account.report.expression">
                                         <field name="label">balance</field>
-                                        <field name="engine">aggregation</field>
-                                        <field name="formula">LU_BS_319.past_pnl + LU_BS_319.accounts</field>
+                                        <field name="engine">account_codes</field>
+                                        <field name="formula">-14\(142)</field>
                                     </record>
                                 </field>
                             </record>

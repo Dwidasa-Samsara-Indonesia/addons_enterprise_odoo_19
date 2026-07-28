@@ -132,8 +132,9 @@ class SignEmsigner(SignController):
         # Get the signature position on the pdf page
         signature_position = self._get_signature_fields_position(document_id, request_item_sudo)
         page_numbers = ",".join(str(item['page']) for item in signature_position)
+        # Offset (+8 left, -35 height) to prevent emSigner certificate from overlapping Odoo signature by placing it slightly below.
         page_coordinates_with_page = ";".join([
-            f"{item['page']},{item['left'] + 8},{item['top'] - (item['top'] - item['height'])},{item['width']},{item['height'] - 20}"
+            f"{item['page']},{item['left'] + 8},{item['top'] - (item['top'] - item['height'])},{item['width']},{item['height'] - 35}"
             for item in signature_position
         ])
 
@@ -178,6 +179,7 @@ class SignEmsigner(SignController):
             "AuthenticationMode": 1,
             "Reason": f"Digitally Signed by {request_item_sudo.partner_id.email}",
             "DynamicContent": dyamic_content_data.decode('utf-8'),
+            'eMudhraV2SignatureType': 1,
         }
 
     def _validate_auth_method(self, request_item_sudo, **kwargs):

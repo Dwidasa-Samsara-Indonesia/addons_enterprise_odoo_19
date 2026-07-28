@@ -1,7 +1,7 @@
 import { PartnerLine } from "@point_of_sale/app/screens/partner_list/partner_line/partner_line";
 import { patch } from "@web/core/utils/patch";
 import { usePos } from "@point_of_sale/app/hooks/pos_hook";
-import { CustomSelectCreateDialog } from "@pos_settle_due/app/views/view_dialogs/select_create_dialog";
+import { CustomSelectCreateDialog } from "@point_of_sale/app/components/custom_select_create_dialog/custom_select_create_dialog";
 import { useService } from "@web/core/utils/hooks";
 
 patch(PartnerLine.prototype, {
@@ -21,6 +21,11 @@ patch(PartnerLine.prototype, {
             .getOrder()
             .lines.filter((line) => line.isSettleDueLine())
             .map((line) => line.settled_order_id.id);
+        const matchingOrdersIds = await this.pos.data.call(
+            "res.partner",
+            "get_matching_paylater_orders",
+            [[commercialPartnerId]]
+        );
         this.dialog.add(CustomSelectCreateDialog, {
             resModel: "pos.order",
             noCreate: true,
@@ -30,8 +35,9 @@ patch(PartnerLine.prototype, {
             ).id,
             domain: [
                 ["commercial_partner_id", "=", commercialPartnerId],
-                ["customer_due_total", "!=", 0],
-                ["id", "not in", settleDueLinesIds],
+                ["customer_due_total", "!=", false],
+                ["id", "not in", [...settleDueLinesIds, ...matchingOrdersIds]],
+                ["amount_total", "!=", 0], // avoid showing settled order
             ],
             onSelected: async (orderIds) => {
                 this.pos.onClickSettleDue(orderIds, partnerId, commercialPartnerId);

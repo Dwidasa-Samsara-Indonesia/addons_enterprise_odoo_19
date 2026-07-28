@@ -1,4 +1,4 @@
-from odoo import modules
+from odoo import Command, modules
 from odoo.tests import tagged
 from .common import CODE_98_ERROR_MSG, MAX_WAIT_ITER, TestPeEdiCommon, _get_pe_current_datetime
 
@@ -194,3 +194,40 @@ class TestEdiIAP(TestPeEdiCommon):
         expected_error = "<p>We got an error response from the OSE. <br><br><b>Original message:</b><br>2375|Fecha de emision del comprobante no coincide con la fecha de emision consignada en la comunicación"
         self.assertTrue(doc.error.startswith(expected_error), 'Error response: %s' % doc.error)
         self.assertRecordValues(move, [{'edi_state': 'to_cancel'}])
+
+    def test_50_invoice_edi_flow_with_combo_product(self):
+        combos = self.env['product.combo'].create([{
+                'name': "Combo A",
+                'combo_item_ids': [Command.create({'product_id': self.product.id})],
+            }, {
+                'name': "Combo B",
+                'combo_item_ids': [Command.create({'product_id': self.product_a.id})],
+            },
+        ])
+        combo_product = self._create_product(type='combo', combo_ids=combos.ids)
+        yesterday = _get_pe_current_datetime().date() - timedelta(1)
+        move = self._create_invoice(
+            invoice_date=yesterday,
+            invoice_line_ids=[Command.create({
+                'product_id': combo_product.id,
+                'price_unit': 2000.0,
+                'quantity': 5,
+                'tax_ids': [],  # no tax
+            })]
+        )
+        move.action_post()
+
+        # Send
+        doc = move.edi_document_ids.filtered(lambda d: d.state in ('to_send', 'to_cancel'))
+        with self.disable_testing_mode():
+            move.action_process_edi_web_services(with_commit=False)
+
+        expected_error = (
+            "<span>One or more lines of this document do not have taxes assigned, to solve this you "
+            "must return the document to the Draft state and place taxes on the lines that do not "
+            "have them.<br><br><b>Original message:</b><br>"
+            "3105|El XML debe contener al menos un tributo por linea de afectacion por IGV - "
+            "Detalle:"
+        )
+        self.assertTrue(doc.error.startswith(expected_error), f'Error response: {doc.error}')
+        self.assertRecordValues(move, [{'edi_state': 'to_send'}])

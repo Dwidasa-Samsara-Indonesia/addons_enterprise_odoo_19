@@ -1,5 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from freezegun import freeze_time
+
+from odoo.fields import Date
+
 from odoo.addons.hr_payroll.tests.common import TestPayslipBase
 
 
@@ -30,3 +34,19 @@ class TestPayrun(TestPayslipBase):
         version_ids = payslip_run._get_valid_version_ids()
         self.assertIn(emp_active.version_id.id, version_ids)
         self.assertNotIn(emp_archived.version_id.id, version_ids)
+
+    def test_payslip_semi_monthly_dates(self):
+        with freeze_time('2023-01-12'):
+            payslip_run = self.env['hr.payslip.run'].create({
+                'name': 'Payrun',
+            })
+            payslip_run.schedule_pay = 'semi-monthly'
+            self.assertEqual(payslip_run.date_start, Date.to_date('2023-01-01'))
+            self.assertEqual(payslip_run.date_end, Date.to_date('2023-01-15'))
+        with freeze_time('2023-01-20'):
+            payslip_run = self.env['hr.payslip.run'].create({
+                'name': 'Payrun',
+            })
+            payslip_run.schedule_pay = 'semi-monthly'
+            self.assertEqual(payslip_run.date_start, Date.to_date('2023-01-16'))
+            self.assertEqual(payslip_run.date_end, Date.to_date('2023-01-31'))

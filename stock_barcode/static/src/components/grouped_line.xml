@@ -12,6 +12,13 @@
                     <t t-if="!displayToggleBtn" t-call="stock_barcode.LineLot"/>
                     <t t-call="stock_barcode.LineQuantity"/>
                     <t t-call="stock_barcode.LineDestinationLocation"/>
+                    <t t-set="mainLine" t-value="mainSubLine"/>
+                    <div t-if="mainLine" name="package">
+                        <i class="fa fa-fw fa-archive"/>
+                        <span t-if="mainLine.package_id" class="package" t-esc="mainLine.package_id.complete_name"/>
+                        <i t-if="displayResultPackage" class="fa fa-long-arrow-right mx-1"/>
+                        <span t-if="mainLine.result_package_id" class="result-package" t-esc="mainLine.result_package_id.dest_complete_name"/>
+                    </div>
                 </div>
             </div>
             <div class="o_sublines mb-2 flex-grow-1" t-if="opened &amp;&amp; displayToggleBtn">

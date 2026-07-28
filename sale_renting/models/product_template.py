@@ -212,7 +212,7 @@ class ProductTemplate(models.Model):
                     rental_duration
                 )
                 data['price_info'] = self.env._(
-                    "%(duration)s %(unit)s",
+                    "/ %(duration)s %(unit)s",
                     duration=ceil(duration),
                     unit=label,
                 )

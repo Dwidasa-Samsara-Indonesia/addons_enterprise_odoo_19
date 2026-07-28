@@ -51,7 +51,7 @@ class SocialStreamPost(models.Model):
             'likes': {'summary': {'total_count': 0}},
             'from': {
                 'name': 'Mitchell Admin',
-                'profile_image_url_https': '/web/image/res.users/2/avatar_128',
+                'profile_image_url_https': self.twitter_profile_image_url,
                 'authorUrn': 'urn:li:organization:2414183',
             },
             'message': message,
@@ -135,7 +135,7 @@ class SocialStreamPost(models.Model):
             'likes': {'summary': {'total_count': 0}},
             'from': {
                 'name': 'Mitchell Admin',
-                'profile_image_url_https': '/web/image/res.users/2/avatar_128'
+                'profile_image_url_https': self.twitter_profile_image_url,
             },
             'message': message,
             'comments': {'data': []},
@@ -148,10 +148,10 @@ class SocialStreamPost(models.Model):
     def _get_demo_comments(self):
         """ Return some fake comments. """
 
-        res_partner_2 = self.env.ref('social_demo.res_partner_2', raise_if_not_found=False)
-        res_partner_3 = self.env.ref('social_demo.res_partner_3', raise_if_not_found=False)
-        res_partner_4 = self.env.ref('social_demo.res_partner_4', raise_if_not_found=False)
-        res_partner_10 = self.env.ref('social_demo.res_partner_10', raise_if_not_found=False)
+        res_partner_2 = self.env.ref('base.res_partner_2', raise_if_not_found=False)
+        res_partner_3 = self.env.ref('base.res_partner_3', raise_if_not_found=False)
+        res_partner_4 = self.env.ref('base.res_partner_4', raise_if_not_found=False)
+        res_partner_10 = self.env.ref('base.res_partner_10', raise_if_not_found=False)
 
         if not all(res_partner for res_partner in [res_partner_2, res_partner_3, res_partner_4, res_partner_10]):
             return []
@@ -187,10 +187,10 @@ class SocialStreamPost(models.Model):
         }]
 
     def _get_demo_sub_comments(self):
-        res_partner_2 = self.env.ref('social_demo.res_partner_2', raise_if_not_found=False)
-        res_partner_3 = self.env.ref('social_demo.res_partner_3', raise_if_not_found=False)
-        res_partner_4 = self.env.ref('social_demo.res_partner_4', raise_if_not_found=False)
-        res_partner_10 = self.env.ref('social_demo.res_partner_10', raise_if_not_found=False)
+        res_partner_2 = self.env.ref('base.res_partner_2', raise_if_not_found=False)
+        res_partner_3 = self.env.ref('base.res_partner_3', raise_if_not_found=False)
+        res_partner_4 = self.env.ref('base.res_partner_4', raise_if_not_found=False)
+        res_partner_10 = self.env.ref('base.res_partner_10', raise_if_not_found=False)
 
         if not all(res_partner for res_partner in [res_partner_2, res_partner_3, res_partner_4, res_partner_10]):
             return []

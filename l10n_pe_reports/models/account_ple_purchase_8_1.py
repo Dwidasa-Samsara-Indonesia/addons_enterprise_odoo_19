@@ -1,5 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+import re
+
 from odoo import models
 
 
@@ -25,6 +27,7 @@ class L10n_PeTaxPle81ReportHandler(models.AbstractModel):
             columns = line[1]
             serie_folio = self._get_serie_folio(columns["move_name"])
             serie_folio_related = self._get_serie_folio(columns["related_document"])
+            customs_code = move_name_digits.group()[:3] if (move_name_digits := re.search(r'\d+', serie_folio["serie"] or "")) else ""
             data.append(
                 {
                     "ruc": columns["company_vat"],
@@ -34,7 +37,7 @@ class L10n_PeTaxPle81ReportHandler(models.AbstractModel):
                     "invoice_date": columns["invoice_date"].strftime("%d/%m/%Y") if columns["invoice_date"] else "",
                     "date_due": columns["date_due"].strftime("%d/%m/%Y") if columns["date_due"] else "",
                     "document_type": columns["document_type"],
-                    "document_serie": serie_folio["serie"].replace(" ", "")[1:],
+                    "document_serie": customs_code if columns["document_type"] in ("50", "52") else serie_folio["serie"].replace(" ", "")[1:],
                     "dua_dsi_year": columns["invoice_date"].year if columns["invoice_date"] and columns["document_type"] in ("50", "52") else "",
                     "document_number": serie_folio["folio"].replace(" ", "").lstrip("0"),
                     "last_payment_number": "",  # Related payment not implemented yet
@@ -59,7 +62,7 @@ class L10n_PeTaxPle81ReportHandler(models.AbstractModel):
                         "emission_date_related"] else "",
                     "document_type_related": columns["document_type_related"] or "",
                     "related_document_serie": serie_folio_related.get("serie", "").replace(" ", "")[1:],
-                    "aduana_code": serie_folio["serie"].replace(" ", "")[1:] if columns["document_type"] in ("50", "52") else "",
+                    "aduana_code": customs_code if columns["document_type"] in ("50", "52") else "",
                     "related_document_number": serie_folio_related.get("folio", "").replace(" ", "").lstrip("0"),
                     "services": "",  # Clasificación de los bienes y servicios adquiridos
                     "contract_identification_OSIC": "",  # Not implemented yet

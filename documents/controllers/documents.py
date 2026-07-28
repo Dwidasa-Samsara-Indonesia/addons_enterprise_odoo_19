@@ -658,20 +658,20 @@ class ShareRoute(http.Controller):
         is_internal_user = request.env.user._is_internal()
 
         document_ids = []
-        AttachmentSudo = request.env['ir.attachment'] \
-            .sudo(not is_internal_user) \
-            .with_context(image_no_postprocess=True)
+        AttachmentSudo = request.env["ir.attachment"].sudo().with_context(image_no_postprocess=True)
 
         if document_sudo.type == 'binary':
             attachment_sudo = AttachmentSudo._from_request_file(
                 files[0], mimetype='TRUST' if is_internal_user else 'GUESS'
             )
-            attachment_sudo.res_model = document_sudo.res_model or 'documents.document'
-            attachment_sudo.res_id = document_sudo.res_id if document_sudo.res_model else document_sudo.id
             values = {'attachment_id': attachment_sudo.id}
             if not document_sudo.attachment_id:  # is a request
                 if document_sudo.access_via_link == 'edit':
                     values['access_via_link'] = 'view'
+            attachment_sudo.write({
+                'res_model': document_sudo.res_model or 'documents.document',
+                'res_id': document_sudo.res_id if document_sudo.res_model else document_sudo.id,
+            })
             self._documents_upload_create_write(document_sudo, values)
             document_ids.append(document_sudo.id)
         else:

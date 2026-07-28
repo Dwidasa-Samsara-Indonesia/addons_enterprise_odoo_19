@@ -26,9 +26,10 @@ class PosSelfOrderPreparationDisplayController(PosSelfOrderController):
         super().remove_order(access_token, order_id, order_access_token)
 
     def _send_to_preparation_display(self, pos_order_id):
-        """ Send only paid orders to the prep display if a valid payment method is configured;
-            otherwise, send all orders.
-        """
+        """Send order to the preparation display when paid, no valid payment method, or Pay After Meal is selected."""
         pos_order = http.request.env['pos.order'].browse(pos_order_id).exists()
-        if not pos_order.config_id.has_valid_self_payment_method() or pos_order.state == "paid":
+        is_after_meal = pos_order.config_id.self_ordering_pay_after == 'meal'
+        valid_payment_method = pos_order.config_id.has_valid_self_payment_method()
+
+        if not valid_payment_method or pos_order.state == "paid" or is_after_meal:
             pos_order.env['pos.prep.order'].sudo().process_order(pos_order.id)

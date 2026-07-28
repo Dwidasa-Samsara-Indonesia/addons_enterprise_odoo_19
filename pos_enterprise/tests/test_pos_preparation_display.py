@@ -57,3 +57,37 @@ class TestPosPreparationDisplay(TestPoSCommon):
                          {display1.id, display3.id, display4.id})
         self.assertEqual({d['id'] for d in config4.current_session_id.load_data([])['pos.prep.display']},
                          {display1.id, display3.id})
+
+    def test_preparation_updated_on_stage_change(self):
+        prep_display = self.env['pos.prep.display'].create({
+            'name': 'Preparation Display 1',
+            'pos_config_ids': [Command.link(self.config.id)],
+        })
+        first_stage, second_stage, final_stage = prep_display.stage_ids
+
+        self.open_new_session()
+        order = next(iter(self._create_orders([{'pos_order_lines_ui_args': [(self.product, 1)]}]).values()))
+        order_line = order.lines[0]
+        # Simulate sending the order to preparation
+        self.env['pos.prep.order'].process_order(order.id)
+
+        prep_line = self.env['pos.prep.line'].search([('pos_order_line_id', '=', order_line.id)])
+        prep_state = self.env['pos.prep.state'].search([('prep_line_id', '=', prep_line.id)])
+        self.assertEqual(prep_state.stage_id, first_stage)
+        self.assertEqual(order_line.preparation_time, -1)
+        self.assertEqual(order_line.service_time, -1)
+        # Move order from first -> second stage
+        prep_state.change_state_stage(
+            {str(prep_state.id): second_stage.id},
+            prep_display.id,
+        )
+        self.assertEqual(prep_state.stage_id, second_stage)
+        self.assertNotEqual(order_line.preparation_time, -1)
+        self.assertEqual(order_line.service_time, -1)
+        # Move order from second -> final stage
+        prep_state.change_state_stage(
+            {str(prep_state.id): final_stage.id},
+            prep_display.id,
+        )
+        self.assertEqual(prep_state.stage_id, final_stage)
+        self.assertNotEqual(order_line.service_time, -1)

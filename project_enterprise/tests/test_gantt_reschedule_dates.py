@@ -269,6 +269,73 @@ class TestGanttRescheduleOnTasks(ProjectEnterpriseGanttRescheduleCommon):
         self.assert_task_not_replanned(self.task_3 | self.task_1, self.project_pigs_intial_dates())
         self.assertEqual(res['message'], "Tasks rescheduled")
 
+    def test_gantt_rechedule_forward_maintain_buffer_multiple_dependencies(self):
+        """
+            Tests buffers are respected when rescheduling a task forward in a multidependencies scenario:
+
+            ┌───────────┐
+            │  Task 1   │
+            │ 24/06     │──────────────────┐
+            │ 9H > 10H  │                  │
+            └───────────┘                  │   ┌───────────┐
+                                           ├──>│  Task 4   │
+                            ┌───────────┐  │   │ 30/06     │
+                            │  Task 3   │──┘   │ 13H > 15H │
+                            │ 24/06     │      └───────────┘
+                            │ 13H > 15H │
+                            └───────────┘
+        """
+        self.task_4.write({
+            'depend_on_ids': [Command.link(self.task_1.id), Command.link(self.task_3.id)],
+            'planned_date_begin': '2021-06-30 13:00:00',
+            'date_deadline': '2021-06-30 15:00:00',
+        })
+        self.task_3.write({'depend_on_ids': False})
+
+        task_1_new_vals = {
+            "planned_date_begin": '2021-06-24 10:00:00',
+            "date_deadline": '2021-06-24 11:00:00',
+        }
+        self.gantt_reschedule_maintain_buffer(self.task_1, task_1_new_vals)
+        self.assertEqual(self.task_1.planned_date_begin, datetime(2021, 6, 24, 10))
+        self.assertEqual(self.task_1.date_deadline, datetime(2021, 6, 24, 11))
+        self.assertEqual(self.task_4.planned_date_begin, datetime(2021, 6, 30, 14))
+        self.assertEqual(self.task_4.date_deadline, datetime(2021, 6, 30, 16))
+
+        self.assertEqual(self.task_3.planned_date_begin, datetime(2021, 6, 24, 13), "Task 3 should not move")
+        self.assertEqual(self.task_3.date_deadline, datetime(2021, 6, 24, 15), "Task 3 should not move")
+
+    def test_gantt_rechedule_backward_maintain_buffer_multiple_dependencies(self):
+        """
+            Tests that all buffers are respected rescheduling a task backward in a multidependencies scenario:
+
+            ┌───────────┐                           ┌───────────┐
+            │  Task 1   │                           │  Task 4   │
+            │ 24/06     │───────┬──────────────────>│ 30/06     │
+            │ 9H > 10H  │       │                   │ 15H > 17H │
+            └───────────┘       │                   └───────────┘
+                                │   ┌───────────┐
+                                │   │  Task 3   │
+                                └──>│ 24/06     │
+                                    │ 13H > 15H │
+                                    └───────────┘
+        """
+        self.task_1.write({'dependent_ids': [Command.link(self.task_3.id), Command.link(self.task_4.id)]})
+        self.task_3.write({'dependent_ids': False})
+
+        task_4_new_vals = {
+            "planned_date_begin": '2021-06-30 14:00:00',
+            "date_deadline": '2021-06-30 16:00:00',
+        }
+        self.gantt_reschedule_maintain_buffer(self.task_4, task_4_new_vals)
+        self.assertEqual(self.task_4.planned_date_begin, datetime(2021, 6, 30, 14))
+        self.assertEqual(self.task_4.date_deadline, datetime(2021, 6, 30, 16))
+        self.assertEqual(self.task_1.planned_date_begin, datetime(2021, 6, 24, 8))
+        self.assertEqual(self.task_1.date_deadline, datetime(2021, 6, 24, 9))
+
+        self.assertEqual(self.task_3.planned_date_begin, datetime(2021, 6, 24, 13), "Task 3 should not move")
+        self.assertEqual(self.task_3.date_deadline, datetime(2021, 6, 24, 15), "Task 3 should not move")
+
     @users('admin')
     def test_gantt_reschedule_with_allocated_hours(self):
         """ This test purpose is to ensure that the task planned_date_fields (begin/end) are calculated accordingly to
@@ -890,4 +957,68 @@ class TestGanttRescheduleOnTasks(ProjectEnterpriseGanttRescheduleCommon):
         self.assertFalse(
             self.project_pigs.user_id,
             "Scheduled project should have its assignee removed when `user_id` is set to False."
+        )
+
+    def test_gantt_reschedule_dependent_task_maintain_buffer_with_date_deadline_on_task(self):
+        """
+        Tests rescheduling with maintain buffer when we change the deadline of the task (task 1) on which other
+        tasks depend. In the front end, this comes down to resizing the pill of task 1.
+        If the deadline is set forward (postponed), then the dependent task should have its start date and deadline
+        postponed as well. If the deadline is set backward, as we keep the buffer, the dependent tasks should have their
+        deadline moved backwards as well.
+        """
+        # FORWARD
+        # original dates:
+        #   task 1: 24/6 9am -> 10am
+        #   task 3: 24/6 1pm -> 3pm
+        # gap between task 1 and 3: 2 working hours
+        self.gantt_reschedule_maintain_buffer(self.task_1, {'date_deadline': str(self.task_1.date_deadline + relativedelta(hours=12))})
+        self.assert_new_dates(
+            self.task_1, datetime(2021, 6, 24, 9), datetime(2021, 6, 24, 22))
+
+        self.assert_new_dates(
+            self.task_3, datetime(2021, 6, 25, 10), datetime(2021, 6, 25, 12),
+            "2 working hours gap maintained between 8 and 10")
+
+        self.assert_new_dates(
+            self.task_4, datetime(2021, 8, 2, 13), datetime(2021, 8, 2, 15),
+            "2 working hours gap maintained between 10 and 13")
+
+        # BACKWARD
+        self.gantt_reschedule_maintain_buffer(self.task_1, {'date_deadline': str(self.task_1.date_deadline - relativedelta(hours=12))})
+        self.assert_new_dates(
+            self.task_1, datetime(2021, 6, 24, 9), datetime(2021, 6, 24, 10))
+
+        # restoring initial dates for task 3 and 4
+        self.assert_new_dates(
+            self.task_3, datetime(2021, 6, 24, 13), datetime(2021, 6, 24, 15),
+            "Original date should be restored.")
+
+        self.assert_new_dates(
+            self.task_4, datetime(2021, 6, 30, 15), datetime(2021, 6, 30, 17),
+            "Original date should be restored.")
+
+    def test_gantt_shrinking_a_single_task_deadline(self):
+        """
+        Test shrinking only the deadline of a single task without predecessors should
+        not crash with ValueError: max() arg is an empty sequence.
+        """
+
+        og_begin = self.task_1.planned_date_begin
+        og_deadline = self.task_1.date_deadline
+        shrunk_deadline = og_deadline - timedelta(minutes=60)
+
+        self.gantt_reschedule_consume_buffer(
+            self.task_1,
+            {"date_deadline": shrunk_deadline.strftime("%Y-%m-%d %H:%M:%S")},
+        )
+
+        # Shrinking task_1's deadline should only affect its deadline, not its begin
+        self.assertEqual(self.task_1.planned_date_begin, og_begin)
+        self.assertEqual(self.task_1.date_deadline, shrunk_deadline)
+
+        # No predecessors to move, so nothing else should change
+        self.assert_task_not_replanned(
+            self.task_3 | self.task_4 | self.task_5 | self.task_6,
+            self.project_pigs_intial_dates(),
         )

@@ -41,6 +41,7 @@
                       invisible="not l10n_mx_edi_document_ids">
                     <field name="l10n_mx_edi_document_ids">
                         <list create="false" delete="false" edit="false" no_open="1">
+                            <field name="message" column_invisible="1"/> <!-- To see error message on stamp/cancel process -->
                             <field name="datetime"/>
                             <field name="payslip_id"/>
                             <field name="state" widget="account_document_state"/>

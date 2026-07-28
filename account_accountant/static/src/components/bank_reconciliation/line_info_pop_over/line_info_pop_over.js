@@ -47,7 +47,7 @@ export class BankRecLineInfoPopOver extends Component {
     }
 
     get reconciledLineData() {
-        return this.props.lineData.reconciled_lines_ids.records[0].data;
+        return this.props.lineData.first_reconciled_lines_id;
     }
 
     get formattedLineDataAmountCurrency() {
@@ -61,7 +61,7 @@ export class BankRecLineInfoPopOver extends Component {
     }
 
     get exchangeMoveBalance() {
-        return this.props.exchangeMove.line_ids[0].balance;
+        return this.props.exchangeMove.amount_total_signed;
     }
 
     get formattedExchangeMoveBalance() {

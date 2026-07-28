@@ -13,13 +13,14 @@
 # Martin Trigaux, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-16 05:23+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-03 17:42+0000\n"
+"PO-Revision-Date: 2026-06-23 17:10+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "account_budget/da/>\n"
 "Language: da\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_kanban
@@ -35,6 +36,8 @@ msgid ""
 "<i class=\"fa fa-clock-o me-1\" role=\"img\" aria-label=\"Period\" "
 "title=\"Period\"/>"
 msgstr ""
+"<i class=\"fa fa-clock-o me-1\" role=\"img\" aria-label=\"Tidsrum\" "
+"title=\"Tidsrum\"/>"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_split_wizard_form_view
@@ -42,11 +45,12 @@ msgstr ""
 msgid ""
 "<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"to\" title=\"to\"/>"
 msgstr ""
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"fra\" title=\"til\"/>"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_form
 msgid "<span class=\"o_stat_text\">Budget Report</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Budgetrapport</span>"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__achieved_amount
@@ -56,12 +60,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_form
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_line_pivot
 msgid "Achieved"
-msgstr "Resultat"
+msgstr "Opnået"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__achieved_percentage
 msgid "Achieved (%)"
-msgstr ""
+msgstr "Opnået (%)"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__message_needaction
@@ -91,7 +95,7 @@ msgstr "Aktivitetstypeikon"
 #. module: account_budget
 #: model:ir.model.fields,help:account_budget.field_budget_line__achieved_amount
 msgid "Amount Billed/Invoiced."
-msgstr ""
+msgstr "Afregnet/faktureret beløb."
 
 #. module: account_budget
 #: model:ir.model.fields,help:account_budget.field_budget_line__theoritical_amount
@@ -99,6 +103,8 @@ msgid ""
 "Amount supposed to be Billed/Invoiced, formula = (Budget Amount / Budget "
 "Days) x Budget Days Completed"
 msgstr ""
+"Beløb, der skal faktureres. Formel = (budgetbeløb/budgetdage) x afsluttede "
+"budgetdage"
 
 #. module: account_budget
 #: model:ir.model,name:account_budget.model_account_analytic_account
@@ -110,12 +116,12 @@ msgstr "Omkostningssted"
 #. module: account_budget
 #: model:ir.ui.menu,name:account_budget.menu_act_budget_analytic_view
 msgid "Analytic Budget"
-msgstr ""
+msgstr "Budget for omkostningssted"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_split_wizard__analytical_plan_ids
 msgid "Analytic Plans"
-msgstr "Omkostningsplaner"
+msgstr "Analytiske kontoplaner"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__message_attachment_count
@@ -149,18 +155,19 @@ msgstr "Budget"
 #. odoo-python
 #: code:addons/account_budget/wizards/budget_split_wizard.py:0
 msgid "Budget %s"
-msgstr ""
+msgstr "Budget %s"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__budget_analytic_id
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__budget_analytic_id
 msgid "Budget Analytic"
-msgstr ""
+msgstr "Budgetanalyse"
 
 #. module: account_budget
 #: model:ir.model,name:account_budget.model_budget_line
 #: model:ir.model.fields,field_description:account_budget.field_account_analytic_account__budget_line_ids
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__budget_line_id
+#: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_search
 msgid "Budget Line"
 msgstr "Budgetlinje"
 
@@ -195,34 +202,34 @@ msgstr "Budgetnavn"
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_search
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_tree
 msgid "Budget Report"
-msgstr ""
+msgstr "Budgetrapport"
 
 #. module: account_budget
 #: model:ir.model,name:account_budget.model_budget_split_wizard
 msgid "Budget Split Wizard"
-msgstr ""
+msgstr "Assistent til budgetopdeling"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__budget_analytic_state
 msgid "Budget State"
-msgstr "Budget tilstand"
+msgstr "Budgetstatus"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__budget_type
 msgid "Budget Type"
-msgstr ""
+msgstr "Budgettype"
 
 #. module: account_budget
 #. odoo-python
 #: code:addons/account_budget/models/budget_analytic.py:0
 msgid "Budget end date may not be before the starting date."
-msgstr ""
+msgstr "Budgetperiodens slutdato må ikke ligge før startdatoen."
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__budget_amount
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_search
 msgid "Budgeted"
-msgstr ""
+msgstr "Budgetteret"
 
 #. module: account_budget
 #. odoo-python
@@ -246,7 +253,7 @@ msgstr "Annullér"
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_form
 msgid "Cancel Budget"
-msgstr "Annuller budget"
+msgstr "Annullér budget"
 
 #. module: account_budget
 #: model:ir.model.fields.selection,name:account_budget.selection__budget_analytic__state__canceled
@@ -295,7 +302,7 @@ msgstr "Dato"
 #. odoo-python
 #: code:addons/account_budget/models/budget_analytic.py:0
 msgid "Deletion is only allowed in the Draft and Canceled stages."
-msgstr ""
+msgstr "Det er kun tilladt at slette i faserne \"Kladde\" og \"Annulleret\"."
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__description
@@ -309,7 +316,7 @@ msgstr "Beskrivelse"
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__display_name
 #: model:ir.model.fields,field_description:account_budget.field_budget_split_wizard__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__res_id
@@ -326,7 +333,7 @@ msgstr "Udført"
 #: model:ir.model.fields.selection,name:account_budget.selection__budget_analytic__state__draft
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_search
 msgid "Draft"
-msgstr "Udkast"
+msgstr "Kladde"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_search
@@ -338,12 +345,12 @@ msgstr "Kladdebudgetter"
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__date_to
 #: model:ir.model.fields,field_description:account_budget.field_budget_split_wizard__date_to
 msgid "End Date"
-msgstr "Slut dato"
+msgstr "Slutdato"
 
 #. module: account_budget
 #: model:ir.model.fields.selection,name:account_budget.selection__budget_analytic__budget_type__expense
 msgid "Expense"
-msgstr "Udgift"
+msgstr "Omkostning"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__message_follower_ids
@@ -358,7 +365,7 @@ msgstr "Følgere (partnere)"
 #. module: account_budget
 #: model:ir.model.fields,help:account_budget.field_budget_analytic__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Font Awesome-ikon, f.eks. fa-opgaver"
+msgstr "FontAwesome-ikon, f.eks. fa-opgaver"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_split_wizard_form_view
@@ -379,7 +386,7 @@ msgstr "Generér"
 #: model:ir.actions.act_window,name:account_budget.budget_split_wizard_action
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_split_wizard_form_view
 msgid "Generate Budget"
-msgstr ""
+msgstr "Generér budget"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__has_message
@@ -420,7 +427,7 @@ msgstr ""
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_search
 msgid "In a Budget"
-msgstr ""
+msgstr "I et budget"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__is_above_budget
@@ -485,7 +492,7 @@ msgstr "Deadline på mine aktiviteter"
 #. odoo-python
 #: code:addons/account_budget/models/budget_analytic.py:0
 msgid "New revision"
-msgstr ""
+msgstr "Ny revision"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__activity_calendar_event_id
@@ -541,7 +548,7 @@ msgstr "Åben"
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_search
 msgid "Open Budget"
-msgstr ""
+msgstr "Åbent budget"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_split_wizard__period
@@ -552,7 +559,7 @@ msgstr "Periode"
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_line_graph
 msgid "Practical amount"
-msgstr "Praktisk mængde"
+msgstr "Faktisk beløb"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__account_id
@@ -588,27 +595,27 @@ msgstr "Ansvarlig bruger"
 #. module: account_budget
 #: model:ir.model.fields.selection,name:account_budget.selection__budget_analytic__budget_type__revenue
 msgid "Revenue"
-msgstr "Indtægter"
+msgstr "Omsætning"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_form
 msgid "Revise"
-msgstr ""
+msgstr "Revidere"
 
 #. module: account_budget
 #: model:ir.model.fields.selection,name:account_budget.selection__budget_analytic__state__revised
 msgid "Revised"
-msgstr ""
+msgstr "Revideret"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__parent_id
 msgid "Revision Of"
-msgstr ""
+msgstr "Revideret af"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__children_ids
 msgid "Revisions"
-msgstr ""
+msgstr "Revideringer"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__message_has_sms_error
@@ -623,7 +630,7 @@ msgstr "Sekvens"
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_search
 msgid "Show all records whose next activity date is past"
-msgstr "Vis alle poster med en næste aktivitetsdato, der er før i dag"
+msgstr "Vis alle poster, hvis næste aktivitetsdato er før i dag"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_split_wizard_form_view
@@ -635,7 +642,7 @@ msgstr "Del"
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__date_from
 #: model:ir.model.fields,field_description:account_budget.field_budget_split_wizard__date_from
 msgid "Start Date"
-msgstr "Start dato"
+msgstr "Startdato"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_analytic__state
@@ -659,19 +666,19 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_budget/models/budget_line.py:0
 msgid "The 'End Date' must be greater than or equal to 'Start Date'."
-msgstr ""
+msgstr "'Slutdatoen' skal være større end eller lig med 'startdatoen'."
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__theoritical_amount
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__theoretical
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_form
 msgid "Theoretical"
-msgstr ""
+msgstr "Teoretisk"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_line__theoritical_percentage
 msgid "Theoretical (%)"
-msgstr ""
+msgstr "Teoretisk (%)"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_search
@@ -686,7 +693,7 @@ msgstr "Opnået i alt"
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.budget_report_view_tree
 msgid "Total Budget"
-msgstr ""
+msgstr "Budget i alt"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__line_type
@@ -703,8 +710,8 @@ msgstr "Type registreret undtagelsesaktivitet."
 #: model_terms:ir.actions.act_window,help:account_budget.act_budget_analytic_view
 msgid "Use budgets to compare actual with expected revenues and costs"
 msgstr ""
-"Brug budgetter til at sammenligne faktiske med forventede indtægter og "
-"omkostninger"
+"Brug budgetter til at sammenligne faktiske indtægter og omkostninger med de "
+"forventede"
 
 #. module: account_budget
 #: model:ir.model.fields,field_description:account_budget.field_budget_report__user_id
@@ -731,18 +738,18 @@ msgstr "År"
 #. odoo-python
 #: code:addons/account_budget/models/budget_analytic.py:0
 msgid "You cannot create recursive revision of budget."
-msgstr ""
+msgstr "Det er ikke muligt at oprette en rekursiv revision af budgettet."
 
 #. module: account_budget
 #. odoo-python
 #: code:addons/account_budget/models/budget_analytic.py:0
 msgid "budget_analytic_id"
-msgstr ""
+msgstr "budget_analytic_id"
 
 #. module: account_budget
 #: model_terms:ir.ui.view,arch_db:account_budget.view_budget_analytic_form
 msgid "e.g. Budget 2023"
-msgstr ""
+msgstr "f.eks. budget 2023"
 
 #. module: account_budget
 #. odoo-python

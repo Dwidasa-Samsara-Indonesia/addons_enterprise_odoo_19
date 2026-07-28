@@ -16,7 +16,10 @@ patch(OrderDisplay.prototype, {
             if (this.props.order.lines.length > 0 && this.pos.config.is_kenyan) {
                 for (const line of this.props.order.lines) {
                     if (line.tax_ids?.length === 0) {
-                        line.tax_ids.push(...line.product_id.product_tmpl_id.taxes_id);
+                        line.tax_ids = [
+                            ...line.tax_ids,
+                            ...line.product_id.product_tmpl_id.taxes_id,
+                        ];
                     }
                 }
             }
@@ -28,6 +31,7 @@ patch(OrderDisplay.prototype, {
             lines.filter(
                 (line) =>
                     line.order_id?.config_id.is_kenyan &&
+                    !line.product_id?.isCombo() &&
                     (!line.product_id?.checkEtimsFields() || line.tax_ids?.length === 0)
             ).length > 0
         );

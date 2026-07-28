@@ -41,7 +41,7 @@ class PosEdiXmlUBLDian(models.AbstractModel):
         pos_order = vals['pos_order']
 
         vals.update({
-            'name': pos_order.l10n_co_edi_pos_name,
+            'name': pos_order.l10n_co_edi_pos_name or vals['name'],
             'l10n_co_edi_type': pos_order._l10n_co_edi_type(),
             'l10n_co_edi_operation_type': pos_order._l10n_co_edi_operation_type(),
             'l10n_co_dian_identifier_type': pos_order._l10n_co_dian_identifier_type(),
@@ -57,6 +57,12 @@ class PosEdiXmlUBLDian(models.AbstractModel):
 
     def _add_pos_order_base_lines_vals(self, vals):
         super()._add_pos_order_base_lines_vals(vals)
+
+        # Removing combos from the XML sent to DIAN (Combos have 0 price which is not approved by DIAN)
+        vals['base_lines'] = [
+            base_line for base_line in vals['base_lines']
+            if base_line['product_id'].type != 'combo'
+        ]
 
         for base_line in vals['base_lines']:
             self._transform_iva_withholding_base_amount(base_line)
@@ -115,17 +121,20 @@ class PosEdiXmlUBLDian(models.AbstractModel):
             )
 
         if vals['document_type'] != 'credit_note':
-            document_node['cac:PrepaidPayment'] = [
-                {
-                    'cbc:ID': {'_text': p.name},
-                    'cbc:PaidAmount': {
-                        '_text': self.format_float(abs(p.amount), vals['currency_dp']),
-                        'currencyID': vals['currency_id'].name,
-                    },
-                    'cbc:ReceivedDate': {'_text': p.payment_date.date().isoformat()},
-                }
-                for p in pos_order.payment_ids
-            ]
+            prepaidPayment = []
+            if pos_order.payment_ids:
+                paid_amount = sum(pos_order.payment_ids.mapped('amount'))
+                prepaidPayment = [
+                    {
+                        'cbc:ID': {'_text': pos_order.payment_ids[0].name},
+                        'cbc:PaidAmount': {
+                            '_text': self.format_float(abs(paid_amount), vals['currency_dp']),
+                            'currencyID': vals['currency_id'].name,
+                        },
+                        'cbc:ReceivedDate': {'_text': pos_order.payment_ids[0].payment_date.date().isoformat()},
+                    }
+                ]
+            document_node['cac:PrepaidPayment'] = prepaidPayment
 
     def _add_pos_order_accounting_supplier_party_nodes(self, document_node, vals):
         super()._add_pos_order_accounting_supplier_party_nodes(document_node, vals)

@@ -11,19 +11,10 @@
             </record>
         </data>
 
-        <data noupdate="1">
-            <record id="fps_vat_current_account" model="res.partner.bank">
-                <field name="acc_number">BE22679200300047</field>
-                <field name="partner_id" ref="partner_fps_belgium"/>
-                <field name="allow_out_payment">True</field>
-            </record>
-        </data>
-
         <record id="be_vat_return_type" model="account.return.type">
             <field name="name">VAT</field>
             <field name="report_id" ref="l10n_be.tax_report_vat"/>
             <field name="country_id" ref="base.be" />
-            <field name="payment_partner_bank_id" ref="l10n_be_reports.fps_vat_current_account"/>
         </record>
 
         <!-- VAT listing -->
@@ -77,7 +68,7 @@
             <field name="name">Audit (BE)</field>
             <field name="category">audit</field>
             <field name="country_id" ref="base.be"/>
-            <field name="default_deadline_periodicity">year</field>
+            <field name="default_deadline_periodicity">fiscalyear</field>
         </record>
     </data>
 </odoo>

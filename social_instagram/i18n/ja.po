@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:49+0000\n"
+"POT-Creation-Date: 2026-07-03 17:47+0000\n"
 "PO-Revision-Date: 2026-02-02 13:40+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
@@ -107,6 +107,12 @@ msgstr "<span class=\"mt-1 fw-bold\">自分のInstagramページ</span>"
 #: model:ir.model.fields,field_description:social_instagram.field_social_post_template__instagram_access_token
 msgid "Access Token"
 msgstr "アクセストークン"
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid "An error occurred while contacting the Instagram API, please try again."
+msgstr ""
 
 #. module: social_instagram
 #: model_terms:ir.ui.view,arch_db:social_instagram.res_config_settings_view_form
@@ -325,6 +331,14 @@ msgstr "Instagramプレビュー"
 #: code:addons/social_instagram/controllers/main.py:0
 msgid "Instagram did not provide a valid access token."
 msgstr "Instagramは、有効なアクセストークンを提供しませんでした。"
+
+#. module: social_instagram
+#. odoo-python
+#: code:addons/social_instagram/models/social_live_post.py:0
+msgid ""
+"Instagram took too long to process the request. This can happen with large "
+"images, try posting a smaller one."
+msgstr ""
 
 #. module: social_instagram
 #. odoo-javascript

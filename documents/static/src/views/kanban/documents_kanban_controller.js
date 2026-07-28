@@ -34,6 +34,7 @@ export class DocumentsKanbanController extends DocumentsControllerMixin(KanbanCo
             () => []
         );
 
+        onWillRender(() => this.openTrashIfNecessary());
         onWillRender(() => this.openInitialPreview());
     }
 

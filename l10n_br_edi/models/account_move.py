@@ -674,6 +674,11 @@ class AccountMove(models.Model):
 
     def _l10n_br_get_additional_info(self):
         info = self.narration and html2plaintext(self.narration)  # html2plaintext turns False into "False"
+        tax_data, _ = self._l10n_br_edi_get_tax_data()  # TODO: Pass as a parameter in master
+        informative_taxes = tax_data.get('summary', {}).get('taxImpactHighlights', {}).get('informative', [])
+        approximate_taxes = {tax['taxType']: tax['tax'] for tax in informative_taxes if tax['taxType'] in ('aproxtribState', 'aproxtribFed', 'aproxtribCity')}
+        aprox_line = f"Trib. Aprox. R$ {approximate_taxes.get('aproxtribFed', 0.0)} Federal, R$ {approximate_taxes.get('aproxtribState', 0.0)} Estadual e R$ {approximate_taxes.get('aproxtribCity', 0.0)} Municipal. Fonte: IBPT"
+        info = "\n".join(line for line in (info, aprox_line) if line)  # skip the None line if there's no narration since we always want the approx line
         return {
             "additionalInfo": {"otherInfo" if self.l10n_br_is_service_transaction else "complementaryInfo": info}
         }

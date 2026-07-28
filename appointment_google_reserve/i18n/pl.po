@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:44+0000\n"
-"PO-Revision-Date: 2026-01-02 16:48+0000\n"
+"PO-Revision-Date: 2026-04-18 11:20+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "appointment_google_reserve/pl/>\n"
@@ -16,9 +16,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: appointment_google_reserve
 #. odoo-python
@@ -28,7 +28,7 @@ msgid ""
 "cannot be used with the Google Bookings integration."
 msgstr ""
 "%(appointment_type_name)s: Typ spotkania %(appointment_category)s nie może "
-"być wykorzystany w integracji Rezerwacji Google."
+"być użyty w integracji z Zarezerwuj z Google."
 
 #. module: appointment_google_reserve
 #. odoo-python
@@ -37,8 +37,8 @@ msgid ""
 "%(appointment_type_name)s: Please configure your Google Reserve Merchant for "
 "Google Reserve."
 msgstr ""
-"%(appointment_type_name)s: Skonfiguruj Google Reserve Merchant dla Google "
-"Reserve."
+"%(appointment_type_name)s: Skonfiguruj swoje konto Sprzedawcy w Rezerwacjach "
+"Google dla Rezerwacji Google."
 
 #. module: appointment_google_reserve
 #. odoo-python
@@ -47,7 +47,7 @@ msgid ""
 "%(appointment_type_name)s: The Google Bookings integration only works in the "
 "auto-assign mode."
 msgstr ""
-"%(appointment_type_name)s: Integracja Rezerwacji Google działa jedynie w "
+"%(appointment_type_name)s: Integracja Zarezerwuj z Google działa tylko w "
 "trybie automatycznego przypisywania."
 
 #. module: appointment_google_reserve
@@ -55,8 +55,8 @@ msgstr ""
 msgid ""
 "<i class=\"ms-2 fa fa-info-circle\" title=\"Required for Google Reserve\"/>"
 msgstr ""
-"<i class=\"ms-2 fa fa-info-circle\" title=\"Wymagane dla Rezerwacji Google\"/"
-">"
+"<i class=\"ms-2 fa fa-info-circle\" title=\"Wymagane na potrzeby Rezerwacji "
+"Google\"/>"
 
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.appointment_type_view_form
@@ -64,8 +64,8 @@ msgid ""
 "<span class=\"fa fa-check fa-fw me-1\"/>Your Google Reserve Synchronization "
 "is active."
 msgstr ""
-"<span class=\"fa fa-check fa-fw me-1\"/>Synchronizacja Rezerwacji Google "
-"jest aktywna."
+"<span class=\"fa fa-check fa-fw me-1\"/>Twoja synchronizacja Rezerwacji "
+"Google jest aktywna."
 
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.appointment_type_view_form
@@ -91,7 +91,7 @@ msgstr "Adres"
 #. module: appointment_google_reserve
 #: model:ir.model,name:appointment_google_reserve.model_appointment_resource
 msgid "Appointment Resource"
-msgstr "Zasoby spotkania"
+msgstr "Zasób spotkania"
 
 #. module: appointment_google_reserve
 #: model:ir.model,name:appointment_google_reserve.model_appointment_type
@@ -116,7 +116,7 @@ msgstr "Przypisz automatycznie"
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__message_attachment_count
 msgid "Attachment Count"
-msgstr "Liczba załączników"
+msgstr "Ilość załączników"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__phone_blacklisted
@@ -156,7 +156,7 @@ msgstr "Dezaktywuj Rezerwacje Google"
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.appointment_type_view_form
 msgid "Disable Synchronization"
-msgstr "Wyłącz synchronizację"
+msgstr "Zdezaktywuj synchronizację"
 
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.appointment_type_view_form
@@ -239,8 +239,8 @@ msgid ""
 "Google Reserve requires a complete address.Including a Country, a City, a "
 "Postal Code and a Street"
 msgstr ""
-"Rezerwacje Google wymagają podania pełnego adresu, w tym kraju, miasta, kodu "
-"pocztowego i ulicy."
+"Rezerwacje Google wymagają podania pełnego adresu. Włącznie z ulica, kodem "
+"pocztowym, miastem i krajem."
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__has_message
@@ -253,7 +253,7 @@ msgid ""
 "Hold a second — are you sure you want to stop showing on Google Reserve? "
 "Changes can take up to 24 hours to take effect."
 msgstr ""
-"Chwileczkę — czy na pewno chcesz przestać wyświetlać się w Rezerwacjach "
+"Chwila moment — czy na pewno chcesz przestać wyświetlać się w Rezerwacjach "
 "Google? Zmiany mogą zacząć obowiązywać dopiero po upływie 24 godzin."
 
 #. module: appointment_google_reserve
@@ -273,14 +273,15 @@ msgstr "ID"
 #. module: appointment_google_reserve
 #: model:ir.model.fields,help:appointment_google_reserve.field_google_reserve_merchant__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Jeśli zaznaczone, nowe wiadomości wymagają twojej uwagi."
+msgstr "Jeśli ta opcja jest zaznaczona, nowe wiadomości wymagają Twojej uwagi."
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,help:appointment_google_reserve.field_google_reserve_merchant__message_has_error
 #: model:ir.model.fields,help:appointment_google_reserve.field_google_reserve_merchant__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
-"Jeśli zaznaczone, niektóre wiadomości napotkały błędy podczas doręczenia."
+"Jeśli ta opcja jest zaznaczona, niektóre wiadomości napotkały błędy podczas "
+"doręczenia."
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,help:appointment_google_reserve.field_google_reserve_merchant__phone_sanitized_blacklisted
@@ -315,7 +316,7 @@ msgstr "Ostatnio zaktualizowane przez"
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__write_date
 msgid "Last Updated on"
-msgstr "Data ostatniej aktualizacji"
+msgstr "Ostatnia aktualizacja"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__name
@@ -340,7 +341,7 @@ msgstr "Jeszcze nie"
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Liczba działań"
+msgstr "Liczba akcji"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__message_has_error_counter
@@ -364,14 +365,14 @@ msgid ""
 "Only Appointment Managers can enable or disable the Google Reserve "
 "Integration"
 msgstr ""
-"Tylko menadżerowie spotkań mogą aktywować lub dezaktywować integrację "
+"Tylko menadżerowie Spotkań mogą aktywować lub dezaktywować integrację "
 "Rezerwacji Google"
 
 #. module: appointment_google_reserve
 #. odoo-python
 #: code:addons/appointment_google_reserve/models/appointment_type.py:0
 msgid "Only Appointment Managers can enable the Google Reserve Integration"
-msgstr "Tylko menadżerowie spotkań mogą aktywować integrację Rezerwacji Google"
+msgstr "Tylko menadżerowie Spotkań mogą aktywować integrację Rezerwacji Google"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__phone
@@ -381,7 +382,7 @@ msgstr "Telefon"
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__phone_sanitized_blacklisted
 msgid "Phone Blacklisted"
-msgstr "Numer na czarnej liście"
+msgstr "Telefon na czarnej liście"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__phone_mobile_search
@@ -399,14 +400,14 @@ msgid ""
 "Ready to synchronize your Appointment Type with Google Reserve? Make sure "
 "your setup is complete — changes may take up to 24 hours to appear once live."
 msgstr ""
-"Chcesz zsynchronizować typ spotkania z Google Rezerwacje? Upewnij się, że "
+"Chcesz zsynchronizować typ spotkania z Rezerwacji Google? Upewnij się, że "
 "konfiguracja jest kompletna — zmiany mogą pojawić się dopiero po upływie 24 "
 "godzin od wprowadzenia."
 
 #. module: appointment_google_reserve
 #: model:ir.model,name:appointment_google_reserve.model_resource_calendar_leaves
 msgid "Resource Time Off Detail"
-msgstr "Szczegóły czasu wolnego zasobów"
+msgstr "Szczegóły czasu wolnego zasobu"
 
 #. module: appointment_google_reserve
 #: model:appointment.type,name:appointment_google_reserve.appointment_type_restaurant
@@ -416,7 +417,7 @@ msgstr "Rest'Odoo"
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "Błąd dostarczania wiadomości SMS"
+msgstr "Błąd dostarczania SMS"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__phone_sanitized
@@ -426,7 +427,7 @@ msgstr "Oczyszczony numer"
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.appointment_type_view_form
 msgid "Stop syncing"
-msgstr "Zatrzymaj synchronizację"
+msgstr "Przestań synchronizować"
 
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.appointment_type_view_form
@@ -452,17 +453,17 @@ msgstr ""
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__website_message_ids
 msgid "Website Messages"
-msgstr "Wiadomości na stronie internetowej"
+msgstr "Wiadomości"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,field_description:appointment_google_reserve.field_google_reserve_merchant__website_url
 msgid "Website URL"
-msgstr "Adres strony internetowej"
+msgstr "URL strony internetowej"
 
 #. module: appointment_google_reserve
 #: model:ir.model.fields,help:appointment_google_reserve.field_google_reserve_merchant__website_message_ids
 msgid "Website communication history"
-msgstr "Historia komunikacji strony internetowej"
+msgstr "Historia komunikacji ze strony"
 
 #. module: appointment_google_reserve
 #: model_terms:ir.ui.view,arch_db:appointment_google_reserve.google_reserve_merchant_view_form

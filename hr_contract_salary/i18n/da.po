@@ -11,15 +11,15 @@
 # Ejner Sønniksen <ejner@vkdata.dk>, 2022
 # Martin Trigaux, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:48+0000\n"
-"PO-Revision-Date: 2025-11-08 19:33+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-05-22 17:49+0000\n"
+"PO-Revision-Date: 2026-06-23 16:43+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "hr_contract_salary/da/>\n"
 "Language: da\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_personal_info__impacts_net_salary
@@ -48,12 +48,17 @@ msgstr "# Underskrifter"
 #. odoo-python
 #: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
 msgid "%s manually set the Offer to Refused"
-msgstr "%s har afslået tilbuddet manuelt."
+msgstr "%s har afslået tilbuddet manuelt"
 
 #. module: hr_contract_salary
 #: model:hr.contract.salary.personal.info,helper:hr_contract_salary.hr_contract_salary_personal_info_name
 msgid "(Lastname Firstname)"
-msgstr "(Efternavn Fornavn)"
+msgstr "(Efternavn og fornavn)"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ". Signing this offer will archive it."
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form
@@ -185,9 +190,16 @@ msgid "<span class=\"text-muted mr4 ml4\">|</span>"
 msgstr "<span class=\"text-muted mr4 ml4\">|</span>"
 
 #. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid ""
+"<span class=\"text-muted\" invisible=\"contract_end_date or not "
+"is_contract_amendment\">No limit</span>"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span class=\"text-muted\">/ month</span>"
-msgstr ""
+msgstr "<span class=\"text-muted\">/ måned</span>"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_benefit_view_form
@@ -229,6 +241,12 @@ msgstr "<span>/ måned</span>"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "<span>/ year</span>"
 msgstr "<span>/ år</span>"
+
+#. module: hr_contract_salary
+#. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "A contract start date is required."
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.constraint,message:hr_contract_salary.constraint_hr_contract_salary_benefit_required_fold_res_field_id
@@ -336,7 +354,7 @@ msgstr "Adresse"
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_benefit__benefit_type_id
 msgid "Allow to define the periodicity and output type of the advantage"
-msgstr "Gør det muligt at definere fordelens hyppighed og udstedelsestype."
+msgstr "Gør det muligt at definere fordelens hyppighed og udstedelsestype"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_benefit__display_type__always
@@ -397,7 +415,7 @@ msgstr "Ansøger"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__applicant_name
 msgid "Applicant's Name"
-msgstr "Ansøgers navn"
+msgstr "Ansøgerens navn"
 
 #. module: hr_contract_salary
 #. odoo-python
@@ -409,7 +427,7 @@ msgstr "Ansøgere"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__applies_on
 msgid "Applies On"
-msgstr "Gælder For"
+msgstr "Gælder for"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.salary_package_next_step_button
@@ -437,6 +455,11 @@ msgstr "Er du sikker på, at du vil slette denne fil permanent?"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__activity_responsible_id
 msgid "Assigned to"
 msgstr "Tildelt"
+
+#. module: hr_contract_salary
+#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
+msgid "At least one contract is scheduled to start on"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_attachment_count
@@ -538,7 +561,7 @@ msgstr "Afkrydsningsfelt"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__child_ids
 msgid "Child"
-msgstr "Nedarving"
+msgstr "Barn"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_benefit__activity_creation
@@ -552,8 +575,8 @@ msgstr ""
 "Vælg, hvornår en aktivitet oprettes:\n"
 "- Medarbejderen underskriver sin kontrakt: Aktivitet oprettes i det øjeblik, "
 "kontrakten underskrives\n"
-"- Kontrakt medunderskrives: HR-ansvarlig har underskrevet kontrakten og "
-"afsluttet processen."
+"- Kontrakt medunderskrives: Personaleansvarlig har underskrevet kontrakten "
+"og afsluttet processen."
 
 #. module: hr_contract_salary
 #: model:hr.contract.salary.personal.info,name:hr_contract_salary.hr_contract_salary_personal_info_city
@@ -821,7 +844,7 @@ msgstr "Standardgyldighedsperiode for adgangstoken"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_res_config_settings__employee_salary_simulator_link_validity
 msgid "Default Salary Configurator Link Validity Duration For Employees"
-msgstr "Standardlønkonfiguratorlinkets gyldighedsperiode for medarbejdere"
+msgstr "Gyldighedsperiode for standardlønkonfiguratorlinket for medarbejdere"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_job__contract_template_id
@@ -941,7 +964,7 @@ msgstr "Kassér"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_sign_item__display_name
 #: model:ir.model.fields,field_description:hr_contract_salary.field_sign_request__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__display_type
@@ -967,14 +990,14 @@ msgid ""
 "signatures related to the benefit. eg: A company car policy to approve if "
 "you choose a company car."
 msgstr ""
-"Dokumenter valgt her, vil blive sendt til medarbejderen med anmodning om "
+"Dokumenter valgt her vil blive sendt til medarbejderen med anmodning om "
 "yderligere underskrifter i forbindelse med ydelsen. For eksempel en politik "
 "for firmabiler, som skal godkendes, hvis medarbejderen vælger en firmabil."
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_sign_document_wizard__sign_template_ids
 msgid "Documents to sign"
-msgstr "Dokumenter der skal underskrives"
+msgstr "Dokumenter, der skal underskrives"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_benefit_view_form
@@ -989,7 +1012,7 @@ msgstr "Udkast"
 #. module: hr_contract_salary
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_benefit__display_type__dropdown
 msgid "Dropdown"
-msgstr "Dropdown"
+msgstr "Dropdownmenu"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_benefit__display_type__dropdown-group
@@ -1092,7 +1115,7 @@ msgstr "Medarbejderomkostninger"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_view_employee_form
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
 msgid "Employer Costs"
-msgstr ""
+msgstr "Arbejdsgiverens personaleomkostninger"
 
 #. module: hr_contract_salary
 #. odoo-python
@@ -1125,7 +1148,7 @@ msgstr "Udløbet"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_employee__holidays
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_version__holidays
 msgid "Extra Time Off"
-msgstr "Ekstra ferie"
+msgstr "Ekstra fravær"
 
 #. module: hr_contract_salary
 #: model:hr.contract.salary.personal.info.value,name:hr_contract_salary.hr_contract_salary_personal_info_sex_female
@@ -1151,13 +1174,13 @@ msgstr "Studieområde"
 #. module: hr_contract_salary
 #: model:ir.model,name:hr_contract_salary.model_sign_item
 msgid "Fields to be sign on Document"
-msgstr "Felter der skal underskrives på Dokument"
+msgstr "Felter, der skal underskrives på dokument"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_resume__fixed_value
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_resume__value_type__fixed
 msgid "Fixed Value"
-msgstr "Fast Værdi"
+msgstr "Fast værdi"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__fold_res_field_id
@@ -1192,7 +1215,16 @@ msgstr "Følgere (partnere)"
 #. module: hr_contract_salary
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Font Awesome-ikon, f.eks. fa-opgaver"
+msgstr "FontAwesome-ikon, f.eks. fa-opgaver"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,help:hr_contract_salary.field_hr_contract_salary_offer__contract_start_date
+msgid ""
+"For employees, The contract start date determines whether this offer creates "
+"a new contract or amends an existing one. If the selected start date falls "
+"within the period of an existing contract for the employee, it will be "
+"treated as an amendment rather than a new contract."
+msgstr ""
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_recruitment_report__fully_signed
@@ -1201,6 +1233,11 @@ msgstr "Font Awesome-ikon, f.eks. fa-opgaver"
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.contract_recruitment_report_view_search
 msgid "Fully Signed"
 msgstr "Fuldt underskrevet"
+
+#. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__future_version_date
+msgid "Future Version Date"
+msgstr ""
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_applicant_view_form
@@ -1236,7 +1273,7 @@ msgid ""
 "Document Template is specified"
 msgstr ""
 "Den personaleansvarlige %s bør have en gyldig e-mailadresse, når "
-"Dokumentskabelon til ny kontrakt er valgt"
+"dokumentskabelonen til ny kontrakt er valgt"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__has_admin_access
@@ -1366,7 +1403,7 @@ msgstr "Påvirker nettoløn"
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_offer__state__open
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.contract_recruitment_report_view_search
 msgid "In Progress"
-msgstr "I gang"
+msgstr "Behandles"
 
 #. module: hr_contract_salary
 #: model_terms:hr.contract.salary.benefit,description:hr_contract_salary.benefit_extra_time_off
@@ -1414,6 +1451,11 @@ msgid "Integer"
 msgstr "Heltal"
 
 #. module: hr_contract_salary
+#: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__is_contract_amendment
+msgid "Is Contract Amendment"
+msgstr ""
+
+#. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__message_is_follower
 msgid "Is Follower"
 msgstr "Er følger"
@@ -1427,7 +1469,7 @@ msgstr "Er påkrævet"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_employee__is_origin_contract_template
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_version__is_origin_contract_template
 msgid "Is origin contract a contract template?"
-msgstr "Er den oprindelige kontrakt det samme som en kontraktskabelon?"
+msgstr "Er den oprindelige kontrakt en kontraktskabelon?"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_recruitment_report__job_id
@@ -1554,8 +1596,8 @@ msgid ""
 "Mismatch between res_field_id %(field)s and model %(model)s for info %"
 "(personal_info)s"
 msgstr ""
-"Uoverensstemmelse mellem res_field_id %(field)s og model %(model)s for info %"
-"(personal_info)s"
+"Uoverensstemmelse mellem res_field_id %(field)s og model %(model)s for "
+"information %(personal_info)s"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields.selection,name:hr_contract_salary.selection__hr_contract_salary_benefit_type__periodicity__monthly
@@ -1652,7 +1694,7 @@ msgstr "Nationalitet"
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.salary_package
 msgid "Net calculation"
-msgstr "Nettoudregning"
+msgstr "Nettoberegning"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_template_form_view
@@ -1865,7 +1907,7 @@ msgstr "Ups"
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_employee__origin_version_id
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_version__origin_version_id
 msgid "Origin Contract"
-msgstr "Oprindelseskontrakt"
+msgstr "Oprindelige kontrakt"
 
 #. module: hr_contract_salary
 #. odoo-python
@@ -2131,7 +2173,7 @@ msgstr "Anmodede underskrifter"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__res_model
 msgid "Res Model"
-msgstr "Res-model"
+msgstr "Ansvarlig model"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_offer__activity_user_id
@@ -2337,8 +2379,8 @@ msgstr ""
 msgid ""
 "Select other Benefits that need to be selected to make this Benefit available"
 msgstr ""
-"Vælg andre personalegoder, som skal være valgt, for at denne personalegode "
-"bliver tilgængelig"
+"Vælg de øvrige personalegoder, der skal være valgt, for at dette "
+"personalegode bliver tilgængeligt"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
@@ -2364,7 +2406,7 @@ msgstr "Udvælgelse"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_personal_info__dropdown_selection
 msgid "Selection Nature"
-msgstr "Valgtype"
+msgstr "Udvalgstype"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit_value__selector_highlight
@@ -2395,14 +2437,14 @@ msgstr "Send tilbud"
 #. module: hr_contract_salary
 #: model:mail.template,description:hr_contract_salary.mail_template_send_offer_applicant
 msgid "Sent automatically when you generate an offer for an application"
-msgstr "Tilbud sendes automatisk ved oprettelse til en ansøgning"
+msgstr "Tilbud sendes automatisk ved oprettelse af en ansøgning"
 
 #. module: hr_contract_salary
 #: model:mail.template,description:hr_contract_salary.mail_template_send_offer
 msgid ""
 "Sent manually when you generate a simulation link on the employee contract"
 msgstr ""
-"Manuel forsendelse, når du vil oprette et simuleringslink til "
+"Manuel forsendelse, når du vil oprette et simulationslink til "
 "ansættelseskontrakten"
 
 #. module: hr_contract_salary
@@ -2431,7 +2473,7 @@ msgstr "Vis <i class=\"oi oi-chevron-down\"/>"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__show_name
 msgid "Show Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_benefit_view_form
@@ -2494,7 +2536,7 @@ msgstr "Skyder"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__slider_max
 msgid "Slider Max"
-msgstr "Skydermaks."
+msgstr "Skydermaksimum"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__slider_min
@@ -2577,7 +2619,7 @@ msgstr "Skabelonadvarsel"
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__sign_template_id
 msgid "Template to Sign"
-msgstr "Skabelon at underskrive"
+msgstr "Skabelon, der skal underskrives"
 
 #. module: hr_contract_salary
 #: model:ir.ui.menu,name:hr_contract_salary.hr_recruitment_menu_contract_templates
@@ -2595,6 +2637,12 @@ msgstr "Tekst"
 #: model:ir.model.fields,help:hr_contract_salary.field_hr_version__origin_version_id
 msgid "The contract from which this contract has been duplicated."
 msgstr "Kontrakten, som denne kontrakt er en kopi af."
+
+#. module: hr_contract_salary
+#. odoo-python
+#: code:addons/hr_contract_salary/models/hr_contract_salary_offer.py:0
+msgid "The contract start date cannot be after the contract end date."
+msgstr ""
 
 #. module: hr_contract_salary
 #. odoo-python
@@ -2712,7 +2760,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_contract_salary/controllers/main.py:0
 msgid "This offer has been fully signed, you can not sign it again.."
-msgstr ""
+msgstr "Tilbuddet er underskrevet, og du kan derfor ikke underskrive det igen."
 
 #. module: hr_contract_salary
 #. odoo-python
@@ -2770,7 +2818,7 @@ msgstr "Tidsfrist for lønpakkeforespørgsler fra medarbejdere"
 #. module: hr_contract_salary
 #: model_terms:ir.ui.view,arch_db:hr_contract_salary.res_config_settings_view_form
 msgid "Validity duration for salary package requests for new applicants"
-msgstr "Gyldigheds længde for lønpakker anmodning til nye ansøgere"
+msgstr "Gyldighedsperiode for lønpakkeanmodning for nye ansøgere"
 
 #. module: hr_contract_salary
 #: model:ir.model.fields,field_description:hr_contract_salary.field_hr_contract_salary_benefit__value_ids
@@ -2941,11 +2989,6 @@ msgid "e.g. Offer 70k Employer Cost"
 msgstr ""
 
 #. module: hr_contract_salary
-#: model_terms:ir.ui.view,arch_db:hr_contract_salary.hr_contract_salary_offer_view_form
-msgid "e.g. Permanent, Replacement, Short term"
-msgstr ""
-
-#. module: hr_contract_salary
 #: model_terms:ir.actions.act_window,help:hr_contract_salary.hr_contract_salary_offer_recruitment_action
 msgid "here"
 msgstr "her"
@@ -2968,7 +3011,7 @@ msgstr ""
 #. module: hr_contract_salary
 #: model:mail.template,subject:hr_contract_salary.mail_template_send_offer
 msgid "{{ object.company_id.name }}: Job Offer - {{ object.employee_id.name }}"
-msgstr ""
+msgstr "{{ object.company_id.name }}: Jobtilbud - {{ object.employee_id.name }}"
 
 #~ msgid "00.00.00-000.00"
 #~ msgstr "00.00.00-000.00"

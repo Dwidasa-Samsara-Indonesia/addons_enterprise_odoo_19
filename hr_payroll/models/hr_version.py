@@ -304,7 +304,7 @@ class HrVersion(models.Model):
 
     @api.model
     def _get_whitelist_fields_from_template(self):
-        return super()._get_whitelist_fields_from_template() + ['payroll_properties']
+        return super()._get_whitelist_fields_from_template() + ['payroll_properties', 'hourly_wage']
 
     def write(self, vals):
         if self and not self.env.context.get('tracking_disable'):

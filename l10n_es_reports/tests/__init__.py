@@ -9,3 +9,4 @@ from . import test_boe_generation
 from . import test_libro_diario
 from . import test_libros_export
 from . import test_trial_balance
+from . import test_vat_books_report

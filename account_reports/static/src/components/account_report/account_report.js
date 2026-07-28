@@ -138,6 +138,15 @@ export class AccountReport extends Component {
             this.controller.closeChatter();
         }
     }
+
+    /**
+     * @param {MouseEvent} ev 
+     */
+    onClick(ev) {
+        if (this.ui.isSmall && this.controller.chatterState.id && !ev.target.closest(".o_account_report_mobile_chatter")) {
+            this.controller.closeChatter();
+        }
+    }
 }
 
 registry.category("actions").add("account_report", AccountReport);

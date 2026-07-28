@@ -372,6 +372,8 @@ class TestSignRequest(SignRequestCommon, MockEmail):
                 'mail_sent_order': 2,
             })],
         })
+        self.partner_4.user_ids.notification_type = 'inbox'
+        sign_request_3_roles.message_subscribe(partner_ids=[self.partner_4.id])
         role2sign_request_item = dict([(sign_request_item.role_id, sign_request_item) for sign_request_item in sign_request_3_roles.request_item_ids])
         sign_request_item_signer_1 = role2sign_request_item[self.role_signer_1]
         sign_request_item_signer_2 = role2sign_request_item[self.role_signer_2]
@@ -394,6 +396,8 @@ class TestSignRequest(SignRequestCommon, MockEmail):
         sign_request_item_signer_2.sign(self.signer_2_sign_values)
         sign_request_item_signer_3.sign(self.signer_3_sign_values)
         self.assertEqual(sign_request_3_roles.state, 'signed', 'The sign request should be signed')
+        notification = self.env['mail.message'].search([('partner_ids', '=', self.partner_4.id)])
+        self.assertEqual(notification.subject, 'template_3_roles has been signed')
 
     def test_sign_request_mail_reply_to_exists(self):
         sign_request = self.create_sign_request_1_role(self.partner_1, self.env['res.partner'])
@@ -521,7 +525,8 @@ class TestSignRequest(SignRequestCommon, MockEmail):
             self.assertEqual(sign_request.state, 'signed', 'The sign request should be signed')
 
             completion_mail_to_user = self.env['mail.mail'].search([
-                ('email_to', '=', formataddr((self.env.user.partner_id.name, self.env.user.partner_id.email)))
+                ('email_to', '=', formataddr((self.env.user.partner_id.name, self.env.user.partner_id.email))),
+                ('subject', 'ilike', sign_request.reference),
             ])
             self.assertEqual(1, len(completion_mail_to_user), 'Completion email should be sent to the admin user')
 
@@ -666,3 +671,14 @@ class TestSignRequest(SignRequestCommon, MockEmail):
         # Attempt to cancel, document should remain signed.
         sign_request.cancel()
         self.assertEqual(sign_request.state, 'signed', 'A fully signed document should not be canceled.')
+
+    @users('admin')
+    def test_search_need_my_signature(self):
+        self.env.user.email = "admin@test.com"
+        sign_request_1 = self.create_sign_request_no_item(signer=self.env.user.partner_id, cc_partners=self.partner_4)
+        sign_request_2 = self.create_sign_request_no_item(signer=self.partner_2, cc_partners=self.partner_4)
+
+        # Search for documents waiting for admin
+        waiting_for_me = self.env['sign.request'].search([('need_my_signature', '=', True)]).ids
+        self.assertIn(sign_request_1.id, waiting_for_me, "Document where admin is a signer should be in 'Waiting for me'")
+        self.assertNotIn(sign_request_2.id, waiting_for_me, "Document where admin is NOT a signer should NOT be in 'Waiting for me'")

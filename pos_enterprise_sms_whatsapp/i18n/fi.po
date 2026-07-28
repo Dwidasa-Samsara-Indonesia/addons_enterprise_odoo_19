@@ -1,42 +1,50 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* pos_enterprise_sms_whatsapp
+# * pos_enterprise_sms_whatsapp
 #
+# Saara Hakanen <sahak@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:45+0000\n"
-"PO-Revision-Date: 2026-02-06 18:45+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-05-07 15:09+0000\n"
+"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
+"Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
+"pos_enterprise_sms_whatsapp/fi/>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "<span>Enable this option to send order status updates via SMS.</span>"
 msgstr ""
+"<span>Ota tämä käyttöön lähettääksesi tulauksen tilapäivityksiä "
+"tekstiviestitse.</span>"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid ""
 "<span>Enable this option to send order status updates via Whatsapp.</span>"
 msgstr ""
+"<span>Ota tämä käyttöön lähettääksesi tilauksen tilapäivityksiä "
+"Whatsappilla.</span>"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "Communication"
-msgstr ""
+msgstr "Viestintä"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__display_name
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_order__display_name
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_state__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Näyttönimi"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:sms.template,body:pos_enterprise_sms_whatsapp.sms_template_order_received_confirmation_pos
@@ -50,6 +58,14 @@ msgid ""
 "\n"
 "            "
 msgstr ""
+"Hei {{ object.partner_id.name }},\n"
+"\n"
+"Kiitos tilauksestasi {{ object.pos_reference }} - {{ object.preset_time }}.\n"
+"Saat pian ilmoituksen, kun tilauksesi on valmis.\n"
+"\n"
+"{{ object.company_id.name }}\n"
+"\n"
+"            "
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:sms.template,body:pos_enterprise_sms_whatsapp.sms_template_order_ready_pos
@@ -62,75 +78,83 @@ msgid ""
 "\n"
 "            "
 msgstr ""
+"Hei {{ object.partner_id.name }},\n"
+"\n"
+"Tilauksesi numerolla {{ object.pos_reference }} on nyt valmiina "
+"noudettavaksi. Suuntaa paikalle heti kun olet valmis, ja nauti ateriastasi.\n"
+"\n"
+"{{ object.company_id.name }}\n"
+"\n"
+"            "
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__id
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_order__id
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_state__id
 msgid "ID"
-msgstr ""
+msgstr "Tunnus"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "Order is ready"
-msgstr ""
+msgstr "Tilaus on valmis"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__sms_order_ready_id
 msgid "Order is ready (SMS)"
-msgstr ""
+msgstr "Tilaus on valmis (tekstiviesti)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__whatsapp_order_ready_id
 msgid "Order is ready (wa)"
-msgstr ""
+msgstr "Tilaus on valmis (Wa)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "Order received"
-msgstr ""
+msgstr "Tilaus vastaanotettu"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__sms_order_received_id
 msgid "Order received (SMS)"
-msgstr ""
+msgstr "Tilaus vastaanotettu (tekstiviesti)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__whatsapp_order_received_id
 msgid "Order received (wa)"
-msgstr ""
+msgstr "Tilaus vastaanotettu (Wa)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:sms.template,name:pos_enterprise_sms_whatsapp.sms_template_order_ready_pos
 msgid "POS: Order is ready"
-msgstr ""
+msgstr "Kassajärjestelmä: Tilaus on valmis"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:sms.template,name:pos_enterprise_sms_whatsapp.sms_template_order_received_confirmation_pos
 msgid "POS: Order received confirmation"
-msgstr ""
+msgstr "Kassajärjestelmä: Tilauksen vastaanoton vahvistus"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model,name:pos_enterprise_sms_whatsapp.model_pos_prep_display
 msgid "Pos Preparation Display"
-msgstr ""
+msgstr "Kassajärjestelmän valmistusnäyttö"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model,name:pos_enterprise_sms_whatsapp.model_pos_prep_order
 msgid "Pos Preparation Order"
-msgstr ""
+msgstr "Kassajärjestelmän valmistustilaus"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model,name:pos_enterprise_sms_whatsapp.model_pos_prep_state
 msgid "Pos Preparation State"
-msgstr ""
+msgstr "Kassajärjestelmän valmistuksen tila"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__sms_enabled
 msgid "SMS Enabled"
-msgstr ""
+msgstr "Tekstiviestit käytössä"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__whatsapp_enabled
 msgid "WhatsApp Enabled"
-msgstr ""
+msgstr "WhatsApp käytössä"

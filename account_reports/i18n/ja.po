@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
-"PO-Revision-Date: 2026-04-09 11:20+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-06-06 13:18+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/ja/>\n"
@@ -24,13 +24,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "」勘定残高は次のものに影響されています:"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -100,10 +106,8 @@ msgstr ""
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
+"targetting accounts or Result Brought Forward."
 msgstr ""
-"「総勘定元帳を開く」のキャレットオプションは、勘定科目を対象とするレポート"
-"行、または未処分損益を対象とするレポート行でのみ利用できます。"
 
 #. module: account_reports
 #. odoo-python
@@ -252,6 +256,28 @@ msgstr ""
 "                </p>\n"
 "            </div>\n"
 "        "
+
+#. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
 
 #. module: account_reports
 #: model:mail.template,body_html:account_reports.email_template_generic_tax_instructions
@@ -666,7 +692,7 @@ msgstr "申告タイプ"
 #: code:addons/account_reports/static/src/components/account_report/filters/filter_analytic.xml:0
 #: code:addons/account_reports/static/src/components/account_report/filters/filter_analytic_groupby.xml:0
 msgid "Accounts"
-msgstr "勘定科目"
+msgstr "分析勘定"
 
 #. module: account_reports
 #. odoo-python
@@ -952,6 +978,7 @@ msgstr "金額"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -991,13 +1018,13 @@ msgstr "金額のラーク表記"
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Amounts in Millions"
-msgstr "金額の百万表記"
+msgstr "単位：百万"
 
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Amounts in Thousands"
-msgstr "金額の千万表記"
+msgstr "単位：千"
 
 #. module: account_reports
 #. odoo-python
@@ -1013,15 +1040,33 @@ msgid "Analytic"
 msgstr "分析"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "分析グループ"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "分析シミュレーション"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr ""
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1469,6 +1514,18 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
 #: code:addons/account_reports/tests/common.py:0
 msgid "Can't use this helper to create a line with both tags and formula"
 msgstr ""
@@ -1767,6 +1824,7 @@ msgstr "締め仕訳が記帳され、ロック日が適用されました。"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2102,6 +2160,8 @@ msgid "Credit"
 msgstr "貸方"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2145,12 +2205,7 @@ msgid "Current Liabilities"
 msgstr "流動負債"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "当期利益剰余金"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "当期未割当収益"
 
@@ -2435,6 +2490,7 @@ msgstr "メール作成を表示"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2646,8 +2702,8 @@ msgstr "同国のEC税"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "純資産"
+msgid "EQUITY (& EARNINGS)"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -2655,6 +2711,11 @@ msgstr "純資産"
 msgid ""
 "Each bill should have its own document attached as a proof in case of audit."
 msgstr "各請求書には、監査時の証拠として個別のドキュメントを添付してください。"
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -2818,6 +2879,7 @@ msgid "Entries with partners with no VAT"
 msgstr "付加価値税のない取引先との仕訳"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -3148,16 +3210,6 @@ msgid "Formula"
 msgstr "計算式"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr ""
-"%(date_from)sから\n"
-"%(date_to)sへ"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
 msgid "Function Parameter"
 msgstr "機能パラメータ"
@@ -3410,6 +3462,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3564,7 +3617,7 @@ msgstr "営業を受ける税グリット"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "In %s"
-msgstr "%s表示"
+msgstr "単位：%s"
 
 #. module: account_reports
 #. odoo-javascript
@@ -3794,6 +3847,11 @@ msgstr "フォロー中"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "メイン会社が有効"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -4238,7 +4296,7 @@ msgstr ""
 #. module: account_reports
 #: model:account.report.line,name:account_reports.misc_operations
 msgid "Misc. operations"
-msgstr "その他業務"
+msgstr "雑仕訳"
 
 #. module: account_reports
 #. odoo-python
@@ -4340,6 +4398,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4406,7 +4465,7 @@ msgstr "新規"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "自分のカレンダーイベント"
+msgstr "次の活動カレンダーイベント"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_date_deadline
@@ -4525,7 +4584,7 @@ msgstr "未収入金"
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_journal_report_taxes_summary
 msgid "Non-Deductible"
-msgstr "控除不可"
+msgstr "損金不算入"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_non_recoverable_vat_gross_accounting
@@ -4641,6 +4700,12 @@ msgstr "進行中"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
 msgid "Only an Accounting Administrator can reset a return"
 msgstr "申告をリセットできるのは会計管理者のみです"
 
@@ -4667,6 +4732,12 @@ msgstr "スーパーバイザーを設定または解除できるのは会計管
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "EU域内顧客のみ"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr ""
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -4827,7 +4898,7 @@ msgstr "取引先が優良"
 #. odoo-python
 #: code:addons/account_reports/wizard/account_report_send.py:0
 msgid "Partner(s) should have an email address."
-msgstr "仕入先にEメールアドレスが必要です。"
+msgstr "取引先にメールアドレスが必要です。"
 
 #. module: account_reports
 #. odoo-javascript
@@ -5020,7 +5091,7 @@ msgstr "期間"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filter_analytic_groupby.xml:0
 msgid "Plans"
-msgstr "計画"
+msgstr "分析計画"
 
 #. module: account_reports
 #. odoo-javascript
@@ -5156,14 +5227,9 @@ msgid "Previous Years"
 msgstr "昨年"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "前期利益剰余金"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "繰越未割当収益"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr ""
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5339,6 +5405,11 @@ msgid "Reminder"
 msgstr "リマインダ"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5365,6 +5436,14 @@ msgstr "報告書は一度開かれました"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "レポートオプション"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -5405,9 +5484,10 @@ msgid "Result"
 msgstr "結果"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "利益剰余金"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5685,7 +5765,7 @@ msgstr "ルール"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__message_has_sms_error
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__sales
@@ -5839,6 +5919,11 @@ msgstr "支払予定額を表示"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies
 msgid "Show Companies"
 msgstr "会社を表示"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr ""
 
 #. module: account_reports
 #. odoo-javascript
@@ -6141,6 +6226,11 @@ msgstr "税レポート"
 #: model_terms:ir.ui.view,arch_db:account_reports.view_move_form_vat_return
 msgid "Tax Return"
 msgstr "税務申告"
+
+#. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr ""
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -6532,7 +6622,7 @@ msgstr "未処理"
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check__result__todo
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_check_search_view
 msgid "To Review"
-msgstr "要確認"
+msgstr "要レビュー"
 
 #. module: account_reports
 #. odoo-javascript
@@ -6687,11 +6777,6 @@ msgid "Type of the exception activity on record."
 msgstr "記録されている例外活動のタイプ。"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "未割当収益"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6702,12 +6787,6 @@ msgstr "アーカイブ解除"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "未定義"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "未分配損益"
 
 #. module: account_reports
 #. odoo-javascript
@@ -6726,7 +6805,7 @@ msgstr "不明"
 #: code:addons/account_reports/models/account_partner_ledger.py:0
 #: code:addons/account_reports/models/account_sales_report.py:0
 msgid "Unknown Partner"
-msgstr "未知の取引先"
+msgstr "不明な取引先"
 
 #. module: account_reports
 #. odoo-python
@@ -7128,6 +7207,13 @@ msgid ""
 msgstr "申告が未確認の場合にのみ、チェックステータスを変更できます。"
 
 #. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
@@ -7203,7 +7289,7 @@ msgstr "仕訳明細"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "last bank statement"
-msgstr "最後の銀行取引明細書"
+msgstr "直近の銀行取引明細書"
 
 #. module: account_reports
 #. odoo-python
@@ -7317,7 +7403,7 @@ msgstr "EC域国で設立されていない"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/line_cell/popover/carryover_popover.xml:0
 msgid "will be carried over to"
-msgstr "は次期間の"
+msgstr "以下に繰り越されます:"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7357,7 +7443,42 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
-msgstr "Odooのレート⇒リセット"
+msgstr "⇒ Odooのレートにリセット"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr ""
+#~ "%(date_from)sから\n"
+#~ "%(date_to)sへ"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr ""
+#~ "「総勘定元帳を開く」のキャレットオプションは、勘定科目を対象とするレポート"
+#~ "行、または未処分損益を対象とするレポート行でのみ利用できます。"
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "当期利益剰余金"
+
+#~ msgid "EQUITY"
+#~ msgstr "純資産"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "前期利益剰余金"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "繰越未割当収益"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "利益剰余金"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "未割当収益"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "未分配損益"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

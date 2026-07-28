@@ -32,8 +32,10 @@ patch(PosOrder.prototype, {
         this.uiState = {
             ...this.uiState,
             transactionState: this.uiState.transactionState || "inactive", // Used to know when we need to create the fiskaly transaction,
+            receiptState: this.uiState.receiptState || "inactive",
             fiskalyServerError: this.uiState.fiskalyServerError || false,
             networkError: this.uiState.networkError || false,
+            tx_revision: this.uiState.tx_revision || 1,
         };
     },
     get tss() {
@@ -71,12 +73,6 @@ patch(PosOrder.prototype, {
                         name: "Client Serial No.",
                         value: this.l10n_de_fiskaly_client_serial_number,
                     },
-                    erstBestellung: {
-                        name: "TSE-Erstbestellung",
-                        value: this.getOrderlines().length
-                            ? this.getOrderlines()[0].getProduct().display_name
-                            : "Deposit",
-                    },
                 };
             } else {
                 // When there is TSS server is unreachable
@@ -103,6 +99,7 @@ patch(PosOrder.prototype, {
     isCountryGermany() {
         return this.config.is_company_country_germany;
     },
+    // this are useful for restaurants only and will be moved
     isTransactionInactive() {
         return this.uiState.transactionState === "inactive";
     },
@@ -118,60 +115,52 @@ patch(PosOrder.prototype, {
     isTransactionFinished() {
         return this.uiState.transactionState === "finished" || this.l10n_de_fiskaly_time_start;
     },
+    // Receipt Type
+    get isReceiptInactive() {
+        return this.uiState.receiptState === "inactive";
+    },
+    receiptStarted() {
+        this.uiState.receiptState = "started";
+    },
+    get isReceiptStarted() {
+        return this.uiState.receiptState === "started";
+    },
+    // When we validate the order, we need to move it to finished; otherwise, syncAllOrders will treat it as a blank order and start a new blank order.
+    receiptFinished() {
+        this.uiState.receiptState = "finished";
+    },
     /*
      *  Return an array of { 'payment_type': ..., 'amount': ...}
      */
     _createAmountPerPaymentTypeArray() {
-        const amountPerPaymentTypeArray = [];
-        this.payment_ids.forEach((line) => {
-            const type = line.payment_method_id.type === "cash" ? "CASH" : "NON_CASH";
-            const amount = roundCurrency(line.amount, this.currency);
-            const existing = amountPerPaymentTypeArray.find((entry) => entry.payment_type === type);
+        let cashDetailAmount = 0;
+        let nonCashDetailAmount = 0;
 
-            if (existing) {
-                existing.amount = roundCurrency(
-                    parseFloat(existing.amount) + amount,
-                    this.currency
-                ).toFixed(2);
+        this.payment_ids.forEach((line) => {
+            if (line.payment_method_id.type === "cash") {
+                cashDetailAmount += line.amount;
             } else {
-                amountPerPaymentTypeArray.push({
-                    payment_type: type,
-                    amount: this.currency.round(amount).toFixed(2),
-                });
+                nonCashDetailAmount += line.amount;
             }
         });
-        if (this.change) {
-            amountPerPaymentTypeArray.push({
-                payment_type: "CASH",
-                amount: roundCurrency(-this.change, this.currency).toFixed(2),
-            });
-        }
 
-        // Reduce receivable payment which will be shown as paid when paid using deposit/settlement
-        const nonCashPaymentType = amountPerPaymentTypeArray.find(
-            (l) => l.payment_type === "NON_CASH"
-        );
+        // Reduce receivable payment which will be shown as paid when paid using deposit
         const adjustment = this.requiredSettlementAmount();
-        if (nonCashPaymentType && adjustment) {
-            if (!nonCashPaymentType) {
-                amountPerPaymentTypeArray.push({
-                    payment_type: "NON_CASH",
-                    amount: "0.00",
-                });
-            }
-            nonCashPaymentType.amount = roundCurrency(
-                parseFloat(nonCashPaymentType.amount) + adjustment,
-                this.currency
-            ).toFixed(2);
-        }
+        cashDetailAmount -= this.change;
+        nonCashDetailAmount += adjustment;
+        cashDetailAmount = roundCurrency(cashDetailAmount, this.currency).toFixed(2);
+        nonCashDetailAmount = roundCurrency(nonCashDetailAmount, this.currency).toFixed(2);
+        const cashDetail = { payment_type: "CASH", amount: cashDetailAmount };
+        const nonCashDetail = { payment_type: "NON_CASH", amount: nonCashDetailAmount };
 
-        return amountPerPaymentTypeArray;
+        return [cashDetail, nonCashDetail];
     },
     requiredSettlementAmount() {
         // Overall payment through receivable pm needs to be adjusted
-        const totalReceivablePayment = this.payment_ids
-            .filter((line) => !line.payment_method_id.journal_id)
-            .reduce((sum, line) => sum + line.amount, 0);
+        const totalReceivablePayment = this.payment_ids.reduce(
+            (sum, line) => (!line.payment_method_id.journal_id ? sum + line.amount : sum),
+            0
+        );
         return -totalReceivablePayment;
     },
     _updateTimeStart(seconds) {

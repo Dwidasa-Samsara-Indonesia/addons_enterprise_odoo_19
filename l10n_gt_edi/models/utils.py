@@ -70,13 +70,14 @@ def _l10n_gt_edi_send_to_sat(company, xml_data, identification_key):
         response = requests.post(
             url="https://certificador.feel.com.gt/fel/procesounificado/transaccion/v2/xml",
             headers={
+                'Content-Type': 'application/xml',
                 'UsuarioFirma': company.l10n_gt_edi_ws_prefix,
                 'LlaveFirma': company.l10n_gt_edi_infile_token,
                 'UsuarioApi': company.l10n_gt_edi_ws_prefix,
                 'LlaveApi': company.l10n_gt_edi_infile_key,
                 'identificador': f"ODOO_{identification_key}_{datetime.now(timezone.utc):%Y_%m_%d_%H_%M_%S_%f}",
             },
-            data=xml_data,
+            data=xml_data.encode('utf-8') if isinstance(xml_data, str) else xml_data,
             timeout=60,
         )
         response.raise_for_status()

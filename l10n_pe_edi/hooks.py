@@ -1,6 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+
 def post_init_hook(env):
+    _activate_sunat_unspsc_codes(env)
+
     # The `l10n_pe_edi_affectation_reason` field on `account.move.line` is created manually
     # to prevent "out of memory" (OOM) errors during module installation.
     # The field is populated here to ensure the values are filled after the related field
@@ -27,3 +30,22 @@ def post_init_hook(env):
         tax_group_data = ChartTemplate._get_pe_edi_account_tax_group()
         existing_tax_groups = {xml_id: vals for xml_id, vals in tax_group_data.items() if ChartTemplate.ref(xml_id, raise_if_not_found=False)}
         ChartTemplate._load_data({'account.tax.group': existing_tax_groups})
+
+
+def _activate_sunat_unspsc_codes(env):
+    # Codes SUNAT requires from 2026-08-01. 11111111 is a SUNAT-only code, not
+    # part of the UNSPSC standard.
+    sunat_codes = [
+        '11101600', '11111600', '11111700', '11121600', '12131500', '20101600',
+        '24122000', '26111600', '50111500', '50151600', '50171500', '50202300',
+        '50403200', '73121500',
+    ]
+    UnspscCode = env['product.unspsc.code']
+    UnspscCode.search([('active', '=', False), ('code', 'in', sunat_codes)]).active = True
+    if not UnspscCode.with_context(active_test=False).search_count([('code', '=', '11111111')]):
+        UnspscCode.create({
+            'code': '11111111',
+            'name': 'Goods subject to IGV due to waiver of exemption',
+            'applies_to': 'product',
+            'active': True,
+        })

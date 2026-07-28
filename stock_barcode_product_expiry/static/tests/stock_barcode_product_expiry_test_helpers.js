@@ -1,6 +1,7 @@
 import { mailModels } from "@mail/../tests/mail_test_helpers";
 import { StockPicking } from "./mock_models/stock_picking";
 import { StockPickingType } from "./mock_models/stock_picking_type";
+import { StockMove } from "./mock_models/stock_move";
 import { StockMoveLine } from "./mock_models/stock_move_line";
 import { ProductProduct } from "./mock_models/product_product";
 import { UoMCategory } from "./mock_models/uom_category";
@@ -13,6 +14,7 @@ export const stockBarcodeProductExpiryModels = {
     ...mailModels,
     StockPicking,
     StockPickingType,
+    StockMove,
     StockMoveLine,
     ProductProduct,
     UoMCategory,

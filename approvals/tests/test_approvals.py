@@ -443,3 +443,36 @@ class TestRequest(common.TransactionCase):
 
         self.assertTrue(employee_user_correct_company.parent_id.user_id in approval.approver_ids.user_id)
         self.assertTrue(employee_user_wrong_company.parent_id.user_id not in approval.approver_ids.user_id)
+
+    def test_cancel_approver_status_as_non_privileged_user(self):
+        """
+        Ensure action_cancel does not raise an AccessError when called by a
+        non-privileged user. Previously, writing 'cancel' on approver_ids without
+        sudo caused an AccessError.
+        """
+        user_1 = new_test_user(self.env, login='user1', groups='base.group_user')
+        user_2 = new_test_user(self.env, login='admin1', groups='approvals.group_approval_manager')
+        category_test = self.env.ref('approvals.approval_category_data_business_trip')
+        record = self.env['approval.request'].create({
+            'name': 'test cancel request',
+            'request_owner_id': user_1.id,
+            'category_id': category_test.id,
+            'date_start': fields.Datetime.now(),
+            'date_end': fields.Datetime.now(),
+            'location': 'testland',
+        })
+        first_approver = self.env['approval.approver'].create({
+            'user_id': user_2.id,
+            'request_id': record.id,
+            'status': 'new',
+        })
+        record.approver_ids = first_approver
+        record.action_confirm()
+        self.assertEqual(record.request_status, 'pending')
+        # The approval owner (a plain internal user) cancels the request.
+        # Before the fix this raised AccessError because writing on approver_ids
+        # was done without sudo. The fix uses sudo() so this must not raise.
+        record.with_user(user_1).action_cancel()
+        # Approver status must be 'cancel' after the sudo write
+        self.assertEqual(first_approver.status, 'cancel')
+        self.assertEqual(record.request_status, 'cancel')

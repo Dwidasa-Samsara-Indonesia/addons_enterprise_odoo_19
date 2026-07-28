@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-04-09 11:21+0000\n"
+"POT-Creation-Date: 2026-07-17 17:44+0000\n"
+"PO-Revision-Date: 2026-06-23 10:56+0000\n"
 "Last-Translator: \"Nurul Aini Akrima Sabila (nuaas)\" <nuaas@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/id/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -196,6 +196,18 @@ msgid "1st semester of %s"
 msgstr "Semester 1 untuk %s"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "2 months"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "2 weeks"
+msgstr ""
+
+#. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
 msgid "2023 Payroll"
 msgstr "Payroll 2023"
@@ -320,7 +332,7 @@ msgid ""
 "app, from here, you'll have a quick overview on everything.</span>"
 msgstr ""
 "<span class=\"o_small-fs\">Dashboard ini adalah headquarter aplikasi "
-"Payroll, dari sini, Anda memiliki gamabran umum untuk semuanya.</span>"
+"Payroll, dari sini, Anda memiliki gambaran umum untuk semuanya.</span>"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_form
@@ -661,7 +673,7 @@ msgstr "Status Aktivitas"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__activity_type_icon
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Ikon Jenis Aktifitas"
+msgstr "Ikon Jenis Aktivitas"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
@@ -1656,12 +1668,12 @@ msgstr "Tanggal pembuatan"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__credit_note
 msgid "Credit Note"
-msgstr "Catatan Kredit"
+msgstr "Nota Kredit"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
 msgid "Credit Notes"
-msgstr "Catatan Kredit"
+msgstr "Nota Kredit"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__currency_id
@@ -1822,6 +1834,11 @@ msgid "Define the applicability rules for this rule."
 msgstr "Definisikan peraturan penerapan untuk peraturan ini."
 
 #. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
+msgid "Define when payslips are printed and sent to employees"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__schedule_pay
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure_type__default_schedule_pay
 msgid "Defines the frequency of the wage payment."
@@ -1903,7 +1920,7 @@ msgstr "Buang payslip dari pay run untuk mengirimkannya ke Off-Cycle"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__disabled
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__disabled
 msgid "Disabled"
-msgstr "Dinonaktifkan"
+msgstr "Disabilitas"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -3245,6 +3262,11 @@ msgid "Main Attachment"
 msgstr "Lampiran Utama"
 
 #. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__never
+msgid "Manually"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__3
 #: model:ir.model.fields.selection,name:hr_payroll.selection__res_company__ytd_reset_month__3
 msgid "March"
@@ -3339,7 +3361,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__my_activity_date_deadline
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Deadline Kegiatan Saya"
+msgstr "Tenggat Aktivitas Saya"
 
 #. module: hr_payroll
 #. odoo-python
@@ -3473,7 +3495,7 @@ msgstr "Kalender Acara Aktivitas Berikutnya"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__activity_date_deadline
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Batas Waktu Aktivitas Berikutnya"
+msgstr "Tenggat Aktivitas Berikutnya"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__activity_summary
@@ -4260,17 +4282,17 @@ msgstr "Payslip Run"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_work_days_view_search_report
 msgid "Payslip Work Days"
-msgstr "Payslip Hari-Hari Kerja"
+msgstr "Payslip Hari Kerja"
 
 #. module: hr_payroll
 #: model:ir.ui.menu,name:hr_payroll.menu_hr_payslip_work_days_action_report
 msgid "Payslip Work Days Lines"
-msgstr "Baris Payslip Hari-Hari Kerja"
+msgstr "Baris Payslip Hari Kerja"
 
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.hr_payslip_work_days_action_report
 msgid "Payslip Work Days Lines Report"
-msgstr "Laporan Baris Payslip Hari-Hari Kerja"
+msgstr "Laporan Baris Payslip Hari Kerja"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payslip_worked_days
@@ -4300,6 +4322,11 @@ msgstr "Slip Gaji"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "Payslips - Show final results of the computation."
 msgstr "Payslip - Tunjukkan hasil final perhitungan."
+
+#. module: hr_payroll
+#: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__payslip_generate_and_send_trigger
+msgid "Payslips Generate and Send Trigger"
+msgstr ""
 
 #. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslips_previous_contract
@@ -4962,7 +4989,7 @@ msgstr ""
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_work_days_view_search_report
 msgid "Search Payslip Work Days"
-msgstr "Cari Payslip Hari-Hari Kerja"
+msgstr "Cari Payslip Hari Kerja"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.view_hr_payslip_filter
@@ -5011,6 +5038,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__input_default_boolean
 msgid "Selected by Default"
 msgstr "Dipilih secara Default"
+
+#. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
+msgid "Send payslips to employees"
+msgstr ""
 
 #. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_hr_payroll_remove_from_payrun
@@ -5241,7 +5273,7 @@ msgstr "Jumlah kategori Tunjangan"
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_work_entry_report_view_tree
 msgid "Sum of Days"
-msgstr "Jumlah Hari-Hari"
+msgstr "Jumlah Hari"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_dashboard_warning__color
@@ -5956,7 +5988,7 @@ msgstr "Pesan situs"
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip_run__website_message_ids
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_attachment__website_message_ids
 msgid "Website communication history"
-msgstr "Sejarah komunikasi situs"
+msgstr "Riwayat komunikasi situs"
 
 #. module: hr_payroll
 #. odoo-python
@@ -5969,6 +6001,16 @@ msgstr "Minggu %(week_number)s dari %(year)s"
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "Weeks %(week)s and %(week1)s of %(year)s"
 msgstr "Minggu %(week)s dan %(week1)s dari %(year)s"
+
+#. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__on_confirmed
+msgid "When Confirmed"
+msgstr ""
+
+#. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__on_paid
+msgid "When Paid"
+msgstr ""
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__title
@@ -6381,9 +6423,33 @@ msgid "You'll be able to access all the steps of the payroll process"
 msgstr "Anda dapat mengakses semua langkah-langkah proses payroll"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "bi-monthly"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "bi-weekly"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__current_companies_country_codes
 msgid "country codes"
 msgstr "kode negara"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "daily"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "day"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_form
@@ -6450,6 +6516,18 @@ msgid "gross"
 msgstr "kotor"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "half-month"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "half-year"
+msgstr ""
+
+#. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "have been affected by this version's changes."
 msgstr ""
@@ -6479,6 +6557,18 @@ msgid "id"
 msgstr "id"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "month"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "monthly"
+msgstr ""
+
+#. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/components/payrun_card/payrun_card.xml:0
 msgid "net"
@@ -6504,9 +6594,33 @@ msgid "payslips"
 msgstr "payslip"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "quarter"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "quarterly"
+msgstr ""
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__amount_percentage_base
 msgid "result will be affected to a variable"
 msgstr "hasilnya akan terpengaruh ke variabel"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "semi-annually"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "semi-monthly"
+msgstr ""
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
@@ -6518,6 +6632,24 @@ msgstr "sampai"
 #: code:addons/hr_payroll/static/src/components/dashboard_empty_screen/dashboard_empty_screen.xml:0
 msgid "used to"
 msgstr "digunakan untuk"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "week"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "weekly"
+msgstr ""
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "year"
+msgstr ""
 
 #. module: hr_payroll
 #: model:mail.template,subject:hr_payroll.mail_template_new_payslip

@@ -45,20 +45,20 @@ class TestCaseDocumentsBridgeSign(SignRequestCommon):
         tests the create new business model (sign).
         """
         self.assertFalse(self.document_pdf_0.res_model)
-        self.documents.document_sign_create_sign_template(self.folder_a.id)
-        self.assertEqual(self.document_pdf_0.res_model, 'sign.document',
-                            "failed at workflow_bridge_dms_sign new res_model")
-        document = self.env['sign.document'].search([('id', '=', self.document_pdf_0.res_id)])
-        template = self.env['sign.template'].search([('document_ids', 'in', document.id)])
+        action = self.documents.document_sign_create_sign_template(self.folder_a.id)
+        self.assertFalse(self.document_pdf_0.res_model)
+        template_id = action.get('params', {}).get('id')
+        template = self.env['sign.template'].browse(template_id)
+        document = self.env['sign.document'].search([('template_id', '=', template.id)], limit=1)
         self.assertTrue(document.exists(), 'failed at workflow_bridge_dms_account template')
         self.assertTrue(template.exists(), 'failed at workflow_bridge_dms_account template')
 
     def test_sign_action(self):
         """ Test sign a document from Document app using the workflow rule. """
-        self.document_pdf_0.document_sign_create_sign_template(self.folder_a.id)
-        self.assertEqual(self.document_pdf_0.res_model, 'sign.document')
-        document = self.env['sign.document'].search([('id', '=', self.document_pdf_0.res_id)])
-        template = self.env['sign.template'].search([('document_ids', 'in', document.id)])
+        action = self.document_pdf_0.document_sign_create_sign_template(self.folder_a.id)
+        template_id = action.get('params', {}).get('id')
+        template = self.env['sign.template'].browse(template_id)
+        document = self.env['sign.document'].search([('template_id', '=', template.id)], limit=1)
 
         # Create a sign item directly for the new template
         self.env['sign.item'].create({

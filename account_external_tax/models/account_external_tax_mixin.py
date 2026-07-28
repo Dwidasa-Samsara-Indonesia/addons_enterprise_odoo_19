@@ -157,6 +157,7 @@ class AccountExternalTaxMixin(models.AbstractModel):
 
         for base_line, tax_values_list in base_line_with_tax_values:
             manual_tax_amounts = base_line['manual_tax_amounts'] = {}  # clear old taxes
+            base_line['manual_total_excluded_currency'] = None  # clear old pre-tax base
             for _tax_group_values, tax_values, manual_amounts in tax_values_list:
                 tax_id = str(tax_by_name[tax_values['name']].id)
                 if tax_id in manual_tax_amounts:

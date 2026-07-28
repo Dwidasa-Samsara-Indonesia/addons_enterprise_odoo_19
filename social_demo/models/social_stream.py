@@ -32,7 +32,7 @@ class SocialStream(models.Model):
     def _add_default_stream_posts(self):
         """ When adding a stream, we create some fake stream.posts for demo purposes. """
 
-        res_partner_10 = self.env.ref('social_demo.res_partner_10', raise_if_not_found=False)
+        res_partner_10 = self.env.ref('base.res_partner_10', raise_if_not_found=False)
         author_image = ('/web/image/res.partner/%s/avatar_128' % res_partner_10.id) if res_partner_10 else ''
 
         for stream in self:

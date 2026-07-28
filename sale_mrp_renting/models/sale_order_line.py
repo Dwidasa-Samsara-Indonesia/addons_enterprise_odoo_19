@@ -11,6 +11,8 @@ class SaleOrderLine(models.Model):
         qty = super()._get_qty_procurement(previous_product_uom_qty)
         if self.is_rental and self.env['res.groups']._is_feature_enabled('sale_stock_renting.group_rental_stock_picking') and 'phantom' in self.product_id.bom_ids.mapped('type'):
             bom = self.env['mrp.bom']._bom_find(self.product_id, bom_type='phantom')[self.product_id]
+            if not bom:
+                return qty
             outgoing_moves = self.move_ids.filtered(lambda m: m.location_dest_id == m.company_id.rental_loc_id and m.state != 'cancel' and m.location_dest_usage != 'inventory' and m.product_id in bom.bom_line_ids.product_id)
             filters = {
                 'incoming_moves': lambda m: m.location_dest_id == m.company_id.rental_loc_id and (not m.origin_returned_move_id or (m.origin_returned_move_id and m.to_refund)),

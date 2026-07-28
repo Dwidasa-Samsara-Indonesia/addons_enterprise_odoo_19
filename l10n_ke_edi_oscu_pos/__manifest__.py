@@ -26,6 +26,9 @@
             'l10n_ke_edi_oscu_pos/static/src/overrides/views/*.js',
             'l10n_ke_edi_oscu_pos/static/src/overrides/views/*.xml',
         ],
+        'web.assets_tests': [
+            'l10n_ke_edi_oscu_pos/static/tests/**/*',
+        ],
     },
     'post_init_hook': 'set_update_stock_real_time',
     'installable': True,

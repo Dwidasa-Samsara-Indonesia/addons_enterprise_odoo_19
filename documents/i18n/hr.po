@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:44+0000\n"
+"POT-Creation-Date: 2026-06-05 19:35+0000\n"
 "PO-Revision-Date: 2026-04-11 09:34+0000\n"
 "Last-Translator: Boris Peko <boris.peko@ecodica.eu>\n"
 "Language-Team: Croatian <https://translate.odoo.com/projects/odoo-19/"
@@ -1868,6 +1868,12 @@ msgstr ""
 "dokumente u svom području."
 
 #. module: documents
+#: model:res.groups,comment:documents.group_documents_user
+msgid ""
+"Can embed actions on folders, insert in Spreadsheet, and import in Sign."
+msgstr ""
+
+#. module: documents
 #. odoo-python
 #: code:addons/documents/wizard/documents_sharing.py:0
 msgid "Can modify, delete, and rename."
@@ -1893,13 +1899,6 @@ msgstr ""
 #: code:addons/documents/wizard/documents_sharing.py:0
 msgid "Can only view. Cannot rename, move, or delete."
 msgstr "Može samo pregledavati. Ne može preimenovati, premještati ili brisati."
-
-#. module: documents
-#: model:res.groups,comment:documents.group_documents_user
-msgid "Can view or edit, upload, and share their own or shared documents."
-msgstr ""
-"Može pregledavati ili uređivati, prenositi i dijeliti vlastite ili "
-"zajedničke dokumente."
 
 #. module: documents
 #. odoo-javascript
@@ -2422,6 +2421,8 @@ msgstr "Dokument premješten u %(folder_name)s!"
 
 #. module: documents
 #. odoo-javascript
+#. odoo-python
+#: code:addons/documents/models/documents_document.py:0
 #: code:addons/documents/static/src/views/documents_model_mixin.js:0
 msgid "Document not found or inaccessible."
 msgstr "Dokument nije pronađen ili je nedostupan."
@@ -4322,9 +4323,7 @@ msgstr "Pronađi..."
 
 #. module: documents
 #. odoo-javascript
-#: code:addons/documents/static/src/core/common/composer_actions_patch.js:0
-#: code:addons/documents/static/src/editor/plugins/add_documents_attachment_plugin.js:0
-#: code:addons/documents/static/src/web/mail_composer_document_selector/mail_composer_document_selector.js:0
+#: code:addons/documents/static/src/views/view_dialogs/select_add_document_create_dialog.js:0
 msgid "Search: Documents"
 msgstr "Pretraga: Dokumenti"
 
@@ -5189,12 +5188,6 @@ msgstr "Niste ovlašteni mijenjati vlasništvo nad dokumentima koji nisu Vaši."
 #. module: documents
 #. odoo-python
 #: code:addons/documents/models/documents_document.py:0
-msgid "You are not allowed to delete all these items."
-msgstr "Niste ovlašteni obrisati sve ove stavke."
-
-#. module: documents
-#. odoo-python
-#: code:addons/documents/models/documents_document.py:0
 msgid "You are not allowed to execute embedded actions."
 msgstr "Niste ovlašteni izvršavati ugrađene radnje."
 
@@ -5619,6 +5612,14 @@ msgid ""
 msgstr ""
 "•\n"
 "                                        <b>URL</b>"
+
+#~ msgid "Can view or edit, upload, and share their own or shared documents."
+#~ msgstr ""
+#~ "Može pregledavati ili uređivati, prenositi i dijeliti vlastite ili "
+#~ "zajedničke dokumente."
+
+#~ msgid "You are not allowed to delete all these items."
+#~ msgstr "Niste ovlašteni obrisati sve ove stavke."
 
 #~ msgid "2025"
 #~ msgstr "2025"

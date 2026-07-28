@@ -9,11 +9,13 @@
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
+# define to be used in all the calc after the basic
+total_number_of_days = sum(work_day.number_of_days for _code, work_day in worked_days.items() if not work_day.work_entry_type_id.is_extra_hours) or 1
+
 result = 0
 if version.work_entry_source == 'calendar':
     result = version.wage
 elif 'WORK100' in worked_days:
-    total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
     result = (version.wage * worked_days['WORK100'].number_of_days) / total_number_of_days
             </field>
             <field name="struct_id" ref="ksa_saudi_employee_payroll_structure"/>
@@ -58,7 +60,6 @@ result = 0
 if version.work_entry_source == 'calendar':
     result = version.l10n_sa_housing_allowance
 elif 'WORK100' in worked_days:
-    total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
     result = (version.l10n_sa_housing_allowance * worked_days['WORK100'].number_of_days) / total_number_of_days
             </field>
             <field name="struct_id" ref="l10n_sa_hr_payroll.ksa_saudi_employee_payroll_structure"/>
@@ -76,7 +77,6 @@ result = 0
 if version.work_entry_source == 'calendar':
     result = version.l10n_sa_transportation_allowance
 elif 'WORK100' in worked_days:
-    total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
     result = (version.l10n_sa_transportation_allowance * worked_days['WORK100'].number_of_days) / total_number_of_days
             </field>
             <field name="struct_id" ref="l10n_sa_hr_payroll.ksa_saudi_employee_payroll_structure"/>
@@ -94,7 +94,6 @@ result = 0
 if version.work_entry_source == 'calendar':
     result = version.l10n_sa_other_allowances
 elif 'WORK100' in worked_days:
-    total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
     result = (version.l10n_sa_other_allowances * worked_days['WORK100'].number_of_days) / total_number_of_days
             </field>
             <field name="struct_id" ref="l10n_sa_hr_payroll.ksa_saudi_employee_payroll_structure"/>
@@ -125,7 +124,12 @@ result = - worked_days['OUT'].number_of_days * ((version.wage + version.l10n_sa_
             <field name="category_id" ref="hr_payroll.COMP"/>
             <field name="code">GOSI_COMP</field>
             <field name="sequence">20</field>
-            <field name="condition_select">none</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+entry_month = employee._get_first_version_date().month
+departure_date = employee.departure_date
+result = not departure_date or departure_date &gt;= payslip.date_to or departure_date.month == entry_month
+            </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 company_contribution = payslip._rule_parameter('l10n_sa_saudi_gosi_company_contribution') \
@@ -144,7 +148,12 @@ result = (payslip._get_contract_wage() + version.l10n_sa_housing_allowance) * co
             <field name="sequence">25</field>
             <!-- Only applicable for KSA nationals -->
             <field name="condition_select">python</field>
-            <field name="condition_python">result = employee.country_id.code == 'SA'</field>
+            <field name="condition_python">
+entry_month = employee._get_first_version_date().month
+departure_date = employee.departure_date
+result = employee.country_id.code == 'SA' and \
+         (not departure_date or departure_date &gt;= payslip.date_to or departure_date.month == entry_month)
+            </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 result = (payslip._get_contract_wage() + version.l10n_sa_housing_allowance) * \
@@ -230,17 +239,18 @@ result = worked_days['SASICKLEAVE75'].number_of_days * ((version.wage + version.
             <field name="sequence">40</field>
             <field name="condition_select">python</field>
             <field name="condition_python">
-result = 'OVT' in inputs and inputs['OVT'].amount and version.resource_calendar_id.hours_per_day
+result = any(work_day.work_entry_type_id.is_extra_hours for _code, work_day in worked_days.items()) 
             </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
-overtime_rate = payslip._rule_parameter('l10n_sa_overtime_rate')
-number_of_days = ((payslip.date_to - payslip.date_from).days + 1)
 compensation = payslip._get_contract_wage() + version.l10n_sa_housing_allowance + \
                version.l10n_sa_transportation_allowance + version.l10n_sa_other_allowances
+daily_wage = compensation / total_number_of_days
 
-result = overtime_rate * inputs['OVT'].amount * compensation / number_of_days / \
-         version.resource_calendar_id.hours_per_day
+result = 0
+for code, work_day in worked_days.items():
+    if work_day.work_entry_type_id.is_extra_hours:
+        result += daily_wage * work_day.number_of_days * work_day.work_entry_type_id.amount_rate
             </field>
             <field name="struct_id" ref="l10n_sa_hr_payroll.ksa_saudi_employee_payroll_structure"/>
         </record>
@@ -269,7 +279,6 @@ if total_years &lt;= 5:
 if version.work_entry_source == 'calendar':
     result = provision_month
 elif 'WORK100' in worked_days:
-    total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
     result = ((provision_month / total_number_of_days) / version.resource_calendar_id.hours_per_day) * \
             worked_days['WORK100'].number_of_hours
 result = payslip.company_id.currency_id.round(result)
@@ -289,7 +298,6 @@ result = not employee.departure_date and not employee.departure_reason_id
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
 result = 0
-total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
 salary = version.wage + version.l10n_sa_housing_allowance + version.l10n_sa_transportation_allowance + \
          version.l10n_sa_other_allowances
 provision_month = (salary / 30) * version.l10n_sa_number_of_days / 12
@@ -535,7 +543,6 @@ result = version.work_entry_source != 'calendar' and 'LEAVE120' in worked_days
             </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
-total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
 result = ((version.wage / total_number_of_days) / version.resource_calendar_id.hours_per_day) * \
 worked_days['LEAVE120'].number_of_hours
             </field>
@@ -554,7 +561,6 @@ result = version.work_entry_source != 'calendar' and 'SASICKLEAVE100' in worked_
             </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
-total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
 result = ((version.wage / total_number_of_days) / version.resource_calendar_id.hours_per_day) * \
 worked_days['SASICKLEAVE100'].number_of_hours
             </field>
@@ -573,7 +579,6 @@ result = version.work_entry_source != 'calendar' and 'SAMATERNITY' in worked_day
             </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
-total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
 result = ((version.wage / total_number_of_days) / version.resource_calendar_id.hours_per_day) * \
 worked_days['SAMATERNITY'].number_of_hours
             </field>
@@ -592,7 +597,6 @@ result = version.work_entry_source != 'calendar' and 'SAEMERGENCY' in worked_day
             </field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">
-total_number_of_days = sum(payslip.worked_days_line_ids.mapped('number_of_days')) or 1
 result = ((version.wage / total_number_of_days) / version.resource_calendar_id.hours_per_day) * \
 worked_days['SAEMERGENCY'].number_of_hours
             </field>

@@ -1640,3 +1640,52 @@ class TestQualityCheck(TestQualityCommon):
             {'product_id': self.product.id, 'product_uom_qty': 0, 'quantity': 0},
             {'product_id': self.product.id, 'product_uom_qty': 5, 'quantity': 6},
         ])
+
+    def test_quality_point_quantity_fail_pass_flow(self):
+        """
+        Test failed quantities move to the failure location and passed quantities
+        move to the original destination.
+        Case 1: Fail 1 unit (goes to failure location), then pass 1 unit (goes to original destination)
+        Case 2: Pass 1 unit (goes to original destination), then fail 2 units (goes to failure location)
+        """
+        self.env['quality.point'].create({
+            'picking_type_ids': [Command.link(self.picking_type_id)],
+            'measure_on': 'move_line',
+            'test_type_id': self.env.ref('quality_control.test_type_passfail').id,
+            'failure_location_ids': [Command.link(self.failure_location.id)],
+        })
+        receipt = self.env['stock.picking'].create({
+            'picking_type_id': self.picking_type_id,
+            'location_id': self.location_id,
+            'location_dest_id': self.location_dest_id,
+            'move_ids': [Command.create({
+                'product_id': self.product.id,
+                'product_uom_qty': 2,
+                'location_id': self.location_id,
+                'location_dest_id': self.location_dest_id,
+            })],
+        })
+        receipt2 = receipt.copy()
+        (receipt | receipt2).action_confirm()
+        receipt2.move_ids.quantity = 1
+        receipt2.check_ids.do_pass()
+        receipt2.move_ids.quantity = 3
+        receipt.move_ids.quantity = 1
+
+        for incoming_picking in (receipt, receipt2):
+            action = incoming_picking.check_ids.filtered(lambda c: c.quality_state == 'none').action_open_quality_check_wizard()
+            fail_wizard = self.env[action['res_model']].with_context(action['context']).create({})
+            fail_action = fail_wizard.do_fail()
+            self.env[fail_action['res_model']].with_context(fail_action['context']).browse(fail_action['res_id']).confirm_fail()
+
+        receipt.move_ids.quantity = 2
+        receipt.check_ids.filtered(lambda c: c.quality_state == 'none').do_pass()
+
+        self.assertRecordValues(receipt.move_ids.move_line_ids, [
+            {'quantity': 1, 'location_dest_id': self.failure_location.id},
+            {'quantity': 1, 'location_dest_id': self.location_dest_id},
+        ])
+        self.assertRecordValues(receipt2.move_ids.move_line_ids, [
+            {'quantity': 1, 'location_dest_id': self.location_dest_id},
+            {'quantity': 2, 'location_dest_id': self.failure_location.id},
+        ])

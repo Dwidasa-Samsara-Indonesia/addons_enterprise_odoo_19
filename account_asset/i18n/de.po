@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-04-04 10:42+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-06-22 10:16+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/de/>\n"
@@ -24,12 +24,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
 msgid "# Depreciation Entries"
-msgstr "# Abschreibungsbuchungen"
+msgstr "Anzahl Abschreibungsbuchungen"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__gross_increase_count
@@ -129,8 +129,8 @@ msgid ""
 "A disposal entry will be posted on the %(account_type)s account <b>%"
 "(account)s</b>."
 msgstr ""
-"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen.<"
-"br/> Eine Abgangsbuchung wird auf dem Konto <b>%(account)s</b> vom Typ %"
+"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen."
+"<br/> Eine Abgangsbuchung wird auf dem Konto <b>%(account)s</b> vom Typ %"
 "(account_type)s gebucht."
 
 #. module: account_asset
@@ -141,8 +141,8 @@ msgid ""
 "A second entry will neutralize the original income and post the  outcome of "
 "this sale on account <b>%(account)s</b>."
 msgstr ""
-"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen.<"
-"br/> Eine zweite Buchung neutralisiert den ursprünglichen Ertrag und "
+"Eine Abschreibungsbuchung wird bis einschließlich zum %(date)s vorgenommen."
+"<br/> Eine zweite Buchung neutralisiert den ursprünglichen Ertrag und "
 "verbucht das Verkaufsergebnis auf dem Konto <b>%(account)s</b>."
 
 #. module: account_asset
@@ -500,8 +500,8 @@ msgstr "Vermögensgegenstand aus Rechnung erstellt: %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
-msgstr "Abgang durchgeführt. %s"
+msgid "Asset disposed. %(message)s"
+msgstr "Vermögensgegenstand ausgebucht. %(message)s"
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
@@ -517,7 +517,13 @@ msgstr "Vermögensgegenstand pausiert. %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr "Vermögensgegenstand verkauft. %(message)s – %(invoice_links)s"
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
 msgstr "Vermögensgegenstand verkauft. %s"
 
 #. module: account_asset
@@ -2208,8 +2214,8 @@ msgid ""
 "You should either confirm the asset, then, sell or dispose of it, or cancel "
 "the linked journal entries."
 msgstr ""
-"Sie können einen mit Buchungen verknüpften Vermögensgegenstand nicht löschen."
-"\n"
+"Sie können einen mit Buchungen verknüpften Vermögensgegenstand nicht "
+"löschen.\n"
 "Sie sollten entweder den Vermögensgegenstand bestätigen und anschließend "
 "verkaufen oder ausbuchen, oder die verknüpften Journalbuchungen stornieren."
 
@@ -2448,6 +2454,12 @@ msgstr "salvage_value"
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "sell"
 msgstr "Verkaufen"
+
+#~ msgid "Asset disposed. %s"
+#~ msgstr "Abgang durchgeführt. %s"
+
+#~ msgid "Asset sold. %s"
+#~ msgstr "Vermögensgegenstand verkauft. %s"
 
 #~ msgid " (%s of %s)"
 #~ msgstr " (%s von %s)"

@@ -34,6 +34,7 @@ class TestL10nBrEDIStock(TestL10nBREDICommon):
         ).sudo(False)
 
     def test_01_nfe_with_transport_info(self):
+        self.env.user.group_ids |= self.env.ref("sales_team.group_sale_salesman")
         self.sale_order.action_confirm()
         picking = self.sale_order.order_line.move_ids.picking_id[0]
         picking.move_ids[0].quantity = picking.move_ids[0].product_uom_qty

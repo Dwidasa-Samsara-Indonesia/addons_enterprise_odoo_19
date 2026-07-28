@@ -38,6 +38,9 @@ class TestUi(odoo.tests.HttpCase):
     def test_rename(self):
         self.start_tour("/odoo?debug=tests", 'web_studio_main_and_rename', login="admin", timeout=200)
 
+    def test_rename_2(self):
+        self.start_tour("/web?debug=tests", 'web_studio_rename', login="admin", timeout=200)
+
     def test_approval(self):
         self.start_tour("/odoo?debug=tests", 'web_studio_approval_tour', login="admin")
 

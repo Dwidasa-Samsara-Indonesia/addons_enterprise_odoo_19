@@ -42,7 +42,7 @@ class PosOrder(models.Model):
                         order['amount_total'])
 
         open_session = PosSession.search([
-            ('state', 'not in', ('closed', 'closing_control')),
+            ('state', '=', 'opened'),
             ('config_id', '=', closed_session.config_id.id)
         ], limit=1)
 
@@ -290,7 +290,13 @@ class PosOrder(models.Model):
         moves = self.mapped('picking_ids.move_ids')\
             .filtered(lambda m: m.is_valued and m.product_id.valuation == 'real_time' and m.product_id.id == product.id)\
             .sorted(lambda x: x.date)
-        return moves._get_price_unit()
+        if moves:
+            return moves._get_price_unit()
+        else:
+            if product.cost_method in ['standard', 'average']:
+                return product.standard_price
+            else:
+                return product._run_fifo(quantity) / quantity if quantity else 0
 
     name = fields.Char(string='Order Ref', required=True, readonly=True, copy=False, default='/')
     last_order_preparation_change = fields.Char(string='Last preparation change', help="Last printed state of the order")
@@ -560,12 +566,14 @@ class PosOrder(models.Model):
 
     def _update_sequence_number(self, session, values):
         # Some localization needs orders to have a sequence number
-        values['sequence_number'] = (
-            session.config_id.order_seq_id
-            ._next()
-            .removeprefix(session.config_id.order_seq_id.prefix or '')
-            .removesuffix(session.config_id.order_seq_id.suffix or '')
-        )
+        seq_id = session.config_id.order_seq_id
+        prefix, suffix = seq_id._get_prefix_suffix()
+        seq_next = seq_id._next()
+        if prefix:
+            seq_next = seq_next.removeprefix(prefix)
+        if suffix:
+            seq_next = seq_next.removesuffix(suffix)
+        values['sequence_number'] = seq_next
 
     @api.model
     def _complete_values_from_session(self, session, values):
@@ -682,15 +690,23 @@ class PosOrder(models.Model):
         body += Markup("</ul>")
         return body
 
+    def _get_order_name_from_pos_reference(self, session=None):
+        """Return the order name from the sequence prefix and the receipt reference (``pos_reference``)."""
+        self.ensure_one()
+        session = session or self.session_id
+        last_reference_part = self.get_reference_last_part()
+        seq_id = session.config_id.order_seq_id
+        prefix, suffix = seq_id._get_prefix_suffix()
+        if not prefix:
+            prefix = session.config_id.name
+        suffix = f" - {suffix}" if suffix else ''
+        return f"{prefix} - {last_reference_part}{suffix}"
+
     def _compute_order_name(self, session=None):
         session = session or self.session_id
         if self.refunded_order_id.exists():
             return _('%(refunded_order)s REFUND', refunded_order=self.refunded_order_id.name)
-        else:
-            last_reference_part = self.get_reference_last_part()
-            prefix = session.config_id.order_seq_id.prefix or session.config_id.name
-            suffix = f" - {session.config_id.order_seq_id.suffix}" if session.config_id.order_seq_id.suffix else ''
-            return f"{prefix} - {last_reference_part}{suffix}"
+        return self._get_order_name_from_pos_reference(session)
 
     def get_reference_last_part(self):
         return self.pos_reference.split('-')[-1]
@@ -765,11 +781,14 @@ class PosOrder(models.Model):
         return float_is_zero(self._get_rounded_amount(amount_total) - self.amount_paid, precision_rounding=self.currency_id.rounding)
 
     def _get_rounded_amount(self, amount, force_round=False):
-        # TODO: add support for mix of cash and non-cash payments when both cash_rounding and only_round_cash_method are True
-        if self.config_id.cash_rounding \
-           and (force_round or (not self.config_id.only_round_cash_method \
-           or any(p.payment_method_id.is_cash_count for p in self.payment_ids))):
-            amount = float_round(amount, precision_rounding=self.config_id.rounding_method.rounding, rounding_method=self.config_id.rounding_method.rounding_method)
+        if self.config_id.cash_rounding:
+            rounding_method = self.config_id.rounding_method
+            if force_round or not self.config_id.only_round_cash_method:
+                amount = float_round(amount, precision_rounding=rounding_method.rounding, rounding_method=rounding_method.rounding_method)
+            elif any(p.payment_method_id.is_cash_count for p in self.payment_ids):
+                # Only round the residual settled in cash: non-cash payments pay their exact share.
+                non_cash_amount = sum(p.amount for p in self.payment_ids if not p.payment_method_id.is_cash_count)
+                amount = non_cash_amount + float_round(amount - non_cash_amount, precision_rounding=rounding_method.rounding, rounding_method=rounding_method.rounding_method)
         currency = self.currency_id
         return currency.round(amount) if currency else amount
 
@@ -1090,6 +1109,8 @@ class PosOrder(models.Model):
             for aml_values in aml_values_list:
                 aml_values['balance'] = -aml_values['balance']
                 aml_values['amount_currency'] = -aml_values['amount_currency']
+                if 'tax_base_amount' in aml_values:
+                    aml_values['tax_base_amount'] = -aml_values['tax_base_amount']
                 move_lines.append(aml_values)
 
         # Make a move with all the lines.
@@ -1219,7 +1240,10 @@ class PosOrder(models.Model):
 
     @staticmethod
     def _get_order_log_representation(order):
-        return dict((k, order.get(k)) for k in ("name", "uuid"))
+        return {k: order.get(k) for k in ("name", "pos_reference", "uuid")}
+
+    def _should_log_order_data(self):
+        return self.env['ir.config_parameter'].sudo().get_param('point_of_sale.log_order_data', default='False') == 'True'
 
     @api.model
     def sync_from_ui(self, orders):
@@ -1240,7 +1264,8 @@ class PosOrder(models.Model):
 
         for order in orders:
             order_log_name = self._get_order_log_representation(order)
-            _logger.debug("PoS synchronisation #%d processing order %s order full data: %s", sync_token, order_log_name, pformat(order))
+            if self._should_log_order_data():
+                _logger.info("PoS synchronisation #%d processing order %s order full data:\n%s", sync_token, order_log_name, pformat(order))
 
             refunded_orders = self._get_refunded_orders(order)
             if len(refunded_orders) > 1:
@@ -1326,7 +1351,8 @@ class PosOrder(models.Model):
                     destination_id = picking_type.default_location_dest_id.id
 
                 pickings = self.env['stock.picking']._create_picking_from_pos_order_lines(destination_id, self.lines, picking_type, self.partner_id)
-                pickings.write({'pos_session_id': self.session_id.id, 'pos_order_id': self.id, 'origin': self.name})
+                all_pickings = pickings | pickings.backorder_ids
+                all_pickings.write({'pos_session_id': self.session_id.id, 'pos_order_id': self.id, 'origin': self.name})
 
     def add_payment(self, data):
         """Create a new payment for the order"""
@@ -1521,6 +1547,10 @@ class PosOrder(models.Model):
 
     def _prepare_pos_log(self, body):
         return body
+
+    def get_stock_reports_to_print(self):
+        self.ensure_one()
+        return self.picking_ids._get_autoprint_report_actions()
 
 
 class PosOrderLine(models.Model):
@@ -1735,7 +1765,7 @@ class PosOrderLine(models.Model):
             price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
             self.price_subtotal = self.price_subtotal_incl = price * self.qty
             if (self.tax_ids):
-                taxes = self.tax_ids.compute_all(price, self.order_id.currency_id, self.qty, product=self.product_id, partner=False)
+                taxes = self.tax_ids_after_fiscal_position.compute_all(price, self.order_id.currency_id, self.qty, product=self.product_id, partner=False)
                 self.price_subtotal = taxes['total_excluded']
                 self.price_subtotal_incl = taxes['total_included']
 
@@ -1774,7 +1804,6 @@ class PosOrderLine(models.Model):
             'route_ids': self.order_id.config_id.route_id,
             'warehouse_id': self.order_id.config_id.warehouse_id or False,
             'partner_id': self.order_id.partner_id.id,
-            'product_description_variants': self.full_product_name,
             'company_id': self.order_id.company_id,
             'reference_ids': self.order_id.stock_reference_ids,
         }
@@ -1889,10 +1918,16 @@ class PosOrderLine(models.Model):
             account = fiscal_position.map_account(account)
 
         is_refund_order = line.order_id.is_refund or line.order_id.amount_total < 0.0
-        is_refund_line = line.qty * line.price_unit < 0
+        is_refund_line = line.isRefund()
 
         lang = line.order_id.partner_id.lang or self.env.user.lang
-        product_name = line.with_context(lang=lang).full_product_name or line.product_id.with_context(lang=lang).display_name
+        product_name = line.product_id.with_context(lang=lang).display_name
+
+        product_full_name = line.with_context(lang=lang).full_product_name
+        if product_full_name:
+            product_code = f"[{line.with_context(lang=lang).product_id.code}] " if line.product_id.code else ""
+            product_name = product_code + product_full_name
+
         if line.product_id.description_sale:
             product_name += '\n' + line.product_id.with_context(lang=lang).description_sale
         return {
@@ -1933,7 +1968,18 @@ class PosOrderLine(models.Model):
     def _get_discount_amount(self):
         self.ensure_one()
         original_price = self.tax_ids_after_fiscal_position.compute_all(self.price_unit, self.currency_id, self.qty, product=self.product_id, partner=self.order_id.partner_id)['total_included']
-        return original_price - self.price_subtotal_incl
+        # Use magnitudes and reapply the line sign
+        sign = -1 if self.price_unit * self.qty < 0 else 1
+        return sign * (abs(original_price) - abs(self.price_subtotal_incl))
+
+    def _get_discount_amount_for_report(self):
+        return self._get_discount_amount()
+
+    def _has_discount(self):
+        return self.discount > 0
+
+    def isRefund(self):
+        return self.qty * self.price_unit < 0
 
 
 class PosPackOperationLot(models.Model):

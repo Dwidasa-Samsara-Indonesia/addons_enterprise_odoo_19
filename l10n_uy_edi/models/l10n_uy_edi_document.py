@@ -239,7 +239,8 @@ class L10n_Uy_EdiDocument(models.Model):
         res = []
         addendas = move_id.l10n_uy_edi_addenda_ids.filtered(lambda x: x.type == addenda_type)
         for addenda in addendas:
-            res.append("{ %s }" % addenda.content if addenda.is_legend else addenda.content)
+            content = addenda.content.strip()
+            res.append("{ %s }" % content if addenda.is_legend else content)
         return "\n".join(res)
 
     @api.model

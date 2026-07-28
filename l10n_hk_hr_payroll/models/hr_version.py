@@ -56,7 +56,7 @@ class HrVersion(models.Model):
         bypassing_rc_leave = False
         if bypassing_codes:
             bypassing_rc_leave = [leave for leave in including_holiday_rcleaves if leave.holiday_id.holiday_status_id.work_entry_type_id.code in bypassing_codes]
-        bypassing_weekend_codes = ['LEAVE90', 'LEAVE110', 'HKLEAVE111']
+        bypassing_weekend_codes = ['LEAVE90']
         bypassing_weekend_rc_leave = [leave for leave in including_holiday_rcleaves if leave.holiday_id.holiday_status_id.work_entry_type_id.code in bypassing_weekend_codes]
 
         # Maternity Leave, Paternity Leave > Statutory Holiday > Unpaid Leave, Sick Leave > Public Holiday

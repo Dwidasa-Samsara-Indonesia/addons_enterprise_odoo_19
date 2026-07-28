@@ -32,16 +32,16 @@
             <t data-id="line_column" t-foreach="props.line.columns" t-as="cell" t-key="cell_index">
                 <!-- Condition for budget column only, should be changed in the future when we'll remove popover for editable cell -->
                 <t t-if="cell.column_group_key?.includes('compute_budget')">
-                    <AccountReportLineCellEditable t-props="{ line: props.line, cell: cell }"/>
+                    <AccountReportLineCellEditable t-props="{ line: props.line, cell: cell, cellIndex: cell_index }"/>
                 </t>
                 <t t-else="">
-                    <t t-component="env.component('AccountReportLineCell')" t-props="{ line: props.line, cell: cell }"/>
+                    <t t-component="env.component('AccountReportLineCell')" t-props="{ line: props.line, cell: cell, cellIndex: cell_index }"/>
                 </t>
             </t>
 
             <!-- Growth comparison column -->
             <t t-if="controller.needsColumnPercentComparison || controller.needsAnalyticCoverageColumn">
-                <t t-if="controller.lineHasGrowthComparisonData(props.lineIndex)">
+                <t t-if="controller.lineHasGrowthComparisonData(props.lineIndex) and !(controller.filters.show_totals and props.line.unfolded)">
                     <td t-att-class="growthComparisonClasses">
                         <t t-out="props.line.column_percent_comparison_data.name"/>
                     </td>

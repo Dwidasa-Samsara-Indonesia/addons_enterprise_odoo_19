@@ -4,6 +4,7 @@
     <record id="action_synchronize_all_databases" model="ir.actions.server">
         <field name="name">Synchronize all the Databases</field>
         <field name="model_id" ref="model_project_project"/>
+        <field name="group_ids" eval="[Command.link(ref('databases.group_databases_user'))]"/>
         <field name="state">code</field>
         <field name="code">
             action = model.action_synchronize_all_databases()
@@ -141,7 +142,7 @@
                             <field name="database_url" invisible="not database_hosting" required="database_hosting"/>
                             <field name="database_name" invisible="(database_hosting or 'other') == 'other'"/>
                             <field name="database_api_login" invisible="(database_hosting or 'other') == 'other'"/>
-                            <field name="database_api_key" invisible="(database_hosting or 'other') == 'other'"/>
+                            <field name="database_api_key" password="1" invisible="(database_hosting or 'other') == 'other'"/>
                         </group>
                         <group invisible="(database_hosting or 'other') == 'other' and not is_template">
                             <span class="o_wrap_label"><span class="o_form_label">Fetch</span></span>

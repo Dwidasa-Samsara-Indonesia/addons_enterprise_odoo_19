@@ -56,7 +56,8 @@ export class DocumentService {
         const documentId =
             Number(urlSearch.documents_init_document_id) || documents_init?.document_id;
         this.documentIdToRestoreOnce = documentId;
-        const userFolderId = urlSearch.documents_init_user_folder_id;
+        const userFolderId = 
+            urlSearch.documents_init_user_folder_id || documents_init?.user_folder_id;
         this._initData = { documentId, userFolderId, openPreview };
         if (userFolderId) {
             browser.localStorage.setItem("searchpanel_documents_document", userFolderId);

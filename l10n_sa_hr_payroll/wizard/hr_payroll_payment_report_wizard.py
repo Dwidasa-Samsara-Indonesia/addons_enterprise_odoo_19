@@ -89,7 +89,9 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
                         " Payroll Configuration → Settings → Saudi Arabia Payroll."
                     )
                 )
-            if self.l10n_sa_wps_debit_date and self.l10n_sa_wps_value_date and self.l10n_sa_wps_debit_date <= self.l10n_sa_wps_value_date:
+            if self.effective_date and self.l10n_sa_wps_value_date and self.effective_date >= self.l10n_sa_wps_value_date:
+                raise UserError(self.env._("The Payment Date cannot be later than the Value Date, please make sure that the correct dates are set."))
+            if employees.filtered(lambda e: not e.l10n_sa_employee_code):
                 raise UserError(
                     self.env._(
                         "Kindly set the Saudi National/IQAMA ID for the employees by navigating to:"
@@ -132,7 +134,7 @@ class HrPayrollPaymentReportWizard(models.TransientModel):
             "SAR",
             (self.l10n_sa_wps_value_date or fields.Date.today()).strftime("%Y%m%d"),
             self.env['hr.payslip']._l10n_sa_format_float(sum(self.payslip_ids.mapped('net_wage'))),
-            self.l10n_sa_wps_debit_date.strftime("%Y%m%d") if self.l10n_sa_wps_debit_date else '',
+            self.effective_date.strftime("%Y%m%d") if self.effective_date else '',
             self._get_l10n_sa_wps_file_reference() or "",
             '',  # Rejection Code: Required blank cell
             company.l10n_sa_mol_establishment_code or "",

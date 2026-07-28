@@ -28,4 +28,6 @@ export class ManualCorrectionLineModel extends models.Model {
     char_field = fields.Char();
     float_field = fields.Float();
     date_field = fields.Date();
+    daterange_field_start = fields.Date();
+    daterange_field_end = fields.Date();
 }

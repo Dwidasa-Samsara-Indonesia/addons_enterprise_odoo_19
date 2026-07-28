@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-02-14 09:59+0000\n"
+"PO-Revision-Date: 2026-07-07 17:12+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "industry_fsm/ru/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__nbr
@@ -92,6 +92,35 @@ msgid ""
 "</div>\n"
 "        "
 msgstr ""
+"<div>\n"
+"    <t t-set=\"date_begin\" t-value=\"format_datetime"
+"(object.planned_date_begin, tz=object.partner_id.tz, "
+"lang_code=object.partner_id.lang)\"/>\n"
+"\n"
+"    <t t-set=\"date_end\" t-value=\"format_datetime(object.date_deadline, "
+"tz=object.partner_id.tz, lang_code=object.partner_id.lang)\"/>\n"
+"\n"
+"    Здравствуйте, <t t-out=\"object.partner_id.name or 'customer'\">"
+"уважаемый клиент</t>!<br/><br/>\n"
+"    <t t-if=\"date_begin and date_end\">\n"
+"        Ваша задача <t t-out=\"object.name or ''\">Техническое обслуживание "
+"котла</t> запланирована с <t t-out=\"date_begin or ''\">31/05/2021 12:30:00</"
+"t> до <t t-out=\"date_end or ''\">31/05/2021 14:30:00</t>.\n"
+"    </t>\n"
+"    <t t-else=\"\">\n"
+"        Ваша задача <t t-out=\"object.name or ''\">Техническое обслуживание "
+"котла</t> запланирована.\n"
+"    </t>\n"
+"    <br/><br/>\n"
+"    С уважением,\n"
+"    <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
+"        <br/>\n"
+"        <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-"
+"out=\"user.signature or ''\" data-o-mail-quote=\"1\">Митчелл Админ</t></div>"
+"\n"
+"    </t>\n"
+"</div>\n"
+"        "
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.portal_task_sign_button
@@ -137,6 +166,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:industry_fsm.view_task_form2_inherit
 msgid "<span class=\"o_stat_text text-wrap\">Customer Preview</span>"
 msgstr ""
+"<span class=\"o_stat_text text-wrap\">Предварительный просмотр для клиентов</"
+"span>"
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
@@ -185,7 +216,7 @@ msgstr "<strong>Клиент: </strong>"
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
 msgid "<strong>Technician: </strong>"
-msgstr ""
+msgstr "<strong>Техник: </strong>"
 
 #. module: industry_fsm
 #: model:ir.model.constraint,message:industry_fsm.constraint_project_project_company_id_required_for_fsm_project
@@ -225,6 +256,7 @@ msgstr "Действие сервера для всех задач"
 #: code:addons/industry_fsm/models/project_task.py:0
 msgid "All running timers should be linked to a timesheet and a task."
 msgstr ""
+"Все запущенные таймеры должны быть привязаны к табелю учета времени и задаче."
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__allocated_hours
@@ -241,6 +273,8 @@ msgstr "Аналитическая линия"
 msgid ""
 "Analyze the progress of your tasks and the performance of your technicians."
 msgstr ""
+"Анализируйте выполнение задач и эффективность работы ваших технических "
+"специалистов."
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_report_project_task_user_fsm__user_ids
@@ -343,7 +377,7 @@ msgstr ""
 #. module: industry_fsm
 #: model:ir.model,name:industry_fsm.model_hr_timesheet_stop_timer_confirmation_wizard
 msgid "Confirm timesheet creation when stop timer"
-msgstr ""
+msgstr "Подтверждать создание записи в табеле при остановке таймера"
 
 #. module: industry_fsm
 #: model:ir.model,name:industry_fsm.model_res_partner
@@ -594,13 +628,13 @@ msgstr "Планируемые действия"
 #. odoo-python
 #: code:addons/industry_fsm/models/project_task.py:0
 msgid "GPS Coordinates: %(localisation_start)s (%(latitude)s, %(longitude)s)"
-msgstr ""
+msgstr "Координаты GPS: %(localisation_start)s (%(latitude)s, %(longitude)s)"
 
 #. module: industry_fsm
 #. odoo-python
 #: code:addons/industry_fsm/wizard/hr_timesheet_stop_timer_confirmation_wizard.py:0
 msgid "GPS Coordinates: %(localisation_stop)s (%(latitude)s, %(longitude)s)"
-msgstr ""
+msgstr "Координаты GPS: %(localisation_stop)s (%(latitude)s, %(longitude)s)"
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_hr_timesheet_stop_timer_confirmation_wizard__allow_geolocation
@@ -677,7 +711,7 @@ msgstr "Шаблон"
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
 msgid "Jane Technician"
-msgstr ""
+msgstr "Джейн Техник"
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
@@ -748,7 +782,7 @@ msgstr "Давайте создадим ваше первое <b>задание<
 #. odoo-javascript
 #: code:addons/industry_fsm/static/src/js/tours/industry_fsm_tour.js:0
 msgid "Let's start from scratch."
-msgstr ""
+msgstr "Начнем сначала."
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_project_task_stop_timers_wizard__line_ids
@@ -760,13 +794,13 @@ msgstr "Линия"
 #: code:addons/industry_fsm/models/project_task.py:0
 #: code:addons/industry_fsm/wizard/hr_timesheet_stop_timer_confirmation_wizard.py:0
 msgid "Location error"
-msgstr ""
+msgstr "Ошибка определения местоположения"
 
 #. module: industry_fsm
 #. odoo-javascript
 #: code:addons/industry_fsm/static/src/services/timer_geolocation_service.js:0
 msgid "Location error: %s"
-msgstr ""
+msgstr "Ошибка определения местоположения: %s"
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.worksheet_custom_page
@@ -1045,7 +1079,7 @@ msgstr "Отчет"
 #: model_terms:ir.actions.act_window,help:industry_fsm.project_task_action_to_schedule_fsm
 #: model_terms:ir.actions.act_window,help:industry_fsm.project_task_action_to_schedule_fsm2
 msgid "Schedule your tasks and assign them to your technicians."
-msgstr ""
+msgstr "Планируйте задачи и назначайте их на ваших техников."
 
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.report_project_task_user_fsm_view_search
@@ -1382,14 +1416,14 @@ msgstr "Сегодняшние Дела"
 #. module: industry_fsm
 #: model_terms:ir.ui.view,arch_db:industry_fsm.project_view_form_inherit
 msgid "Track technician location when running the timer"
-msgstr ""
+msgstr "Отслеживать местоположение техника при запуске таймера"
 
 #. module: industry_fsm
 #: model:ir.model.fields,help:industry_fsm.field_hr_timesheet_stop_timer_confirmation_wizard__allow_geolocation
 #: model:ir.model.fields,help:industry_fsm.field_project_project__allow_geolocation
 #: model:ir.model.fields,help:industry_fsm.field_project_task__allow_geolocation
 msgid "Track technician location when running the timer."
-msgstr ""
+msgstr "Отслеживать местоположение техника при запуске таймера."
 
 #. module: industry_fsm
 #: model_terms:ir.actions.act_window,help:industry_fsm.project_task_type_action_fsm
@@ -1443,7 +1477,7 @@ msgstr "Посмотреть маршрут"
 #: code:addons/industry_fsm/models/project_task.py:0
 #: code:addons/industry_fsm/wizard/hr_timesheet_stop_timer_confirmation_wizard.py:0
 msgid "View on Map"
-msgstr ""
+msgstr "Показать на карте"
 
 #. module: industry_fsm
 #: model:ir.model.fields,field_description:industry_fsm.field_project_task_stop_timers_wizard_line__wizard_id

@@ -15,14 +15,15 @@
 # Martin Trigaux, 2023
 # Hamed Mohammadi <hamed@dehongi.com>, 2023
 # Hanna Kheradroosta, 2023
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Heshmatkhah <maheshmatkhah.soft@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2025-11-08 19:30+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-07-04 09:55+0000\n"
+"Last-Translator: Heshmatkhah <maheshmatkhah.soft@gmail.com>\n"
 "Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/fa/>\n"
 "Language: fa\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -83,7 +84,7 @@ msgstr ""
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
 msgid "<i>Lock transactions up to specific dates, inclusive</i>"
-msgstr "<i>قفل کردن تراکنش ها تا تاریخ های خاص، شامل</i>"
+msgstr "<i>قفل کردن تراکنش‌ها تا تاریخ‌های خاص، شامل</i>"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_form_inherit
@@ -347,6 +348,13 @@ msgstr ""
 "هیچ فروشنده‌ای یافت نشد، پیش از تأیید اعتبار یک فروشنده اضافه کنید."
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "تمام مدل‌های تطبیق"
@@ -405,7 +413,7 @@ msgid ""
 "does not allow any exception."
 msgstr ""
 "هر ورودی تا و از جمله آن تاریخ، مطابق با توالی ژورنال آن به زمان دیگری موکول "
-"خواهد شد. این تاریخ قفل برگشت ناپذیر است و هیچ استثنایی را اجازه نمی دهد."
+"خواهد شد. این تاریخ قفل برگشت ناپذیر است و هیچ استثنایی را اجازه نمی‌دهد."
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_change_lock_date__fiscalyear_lock_date
@@ -424,8 +432,8 @@ msgid ""
 "automatically set when the tax closing entry is posted."
 msgstr ""
 "هر ورودی با مالیات تا و از جمله آن تاریخ مطابق با توالی روزنامه به زمان بعدی "
-"موکول می شود. تاریخ قفل مالیاتی به طور خودکار با ارسال ورودی بسته شدن مالیات "
-"تنظیم می شود."
+"موکول می‌شود. تاریخ قفل مالیاتی به طور خودکار با ارسال ورودی بسته شدن مالیات "
+"تنظیم می‌شود."
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_change_lock_date__purchase_lock_date
@@ -492,6 +500,7 @@ msgstr "سندهاییی که به صورت خودکار تطبیق داده ش�
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "تراز:"
@@ -599,7 +608,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/attachment_preview_list_view/attachment_preview_list_view.xml:0
 msgid "Choose a line to preview its attachments."
-msgstr "یک سطر انتخاب کنید تا پیش نمایش پیوست های آن را ببینید."
+msgstr "یک سطر انتخاب کنید تا پیش نمایش پیوست‌های آن را ببینید."
 
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_auto_reconcile_wizard__search_mode__zero_balance
@@ -1197,9 +1206,19 @@ msgid "Has Abnormal Deferred Dates"
 msgstr ""
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
 msgstr "دارای سندهای معوقه است"
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement__has_message
@@ -1311,6 +1330,11 @@ msgstr "صورتحساب‌های نامعتبر"
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_move_line_reconcile_tree
 msgid "Invoice Date"
 msgstr "تاریخ فاکتور"
+
+#. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
@@ -2022,6 +2046,11 @@ msgid "Reconciled"
 msgstr "تسویه شد"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr "مدل تطبیق"
@@ -2272,8 +2301,9 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+#, fuzzy
 msgid "Suggestions"
-msgstr ""
+msgstr "پیشنهادات"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -2329,13 +2359,6 @@ msgstr "اسناد معوقه‌ی ایجاد شده با این فاکتور"
 #: code:addons/account_accountant/models/account_fiscal_year.py:0
 msgid "The ending date must not be prior to the starting date."
 msgstr "تاریخ پایان نباید قبل از تاریخ شروع باشد."
-
-#. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
@@ -2517,6 +2540,12 @@ msgstr "انتقال به %s"
 #: model:ir.actions.server,name:account_accountant.auto_reconcile_bank_statement_line_ir_actions_server
 msgid "Try to reconcile automatically your statement lines"
 msgstr "سعی کنید به صورت خودکار سطرهای صورت وضعیت خود را تطبیق دهید"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr ""
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -2707,6 +2736,11 @@ msgstr "شما باید یک مدت زمان استثنا را انتخاب کن
 #: code:addons/account_accountant/wizard/account_change_lock_date.py:0
 msgid "You need to select who the exception applies to."
 msgstr "شما باید انتخاب کنید که این استثنا برای چه کسانی اعمال می شود."
+
+#. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h

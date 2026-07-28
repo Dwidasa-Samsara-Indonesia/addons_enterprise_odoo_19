@@ -806,7 +806,9 @@ class TestSubscriptionPayments(PaymentCommon, TestSubscriptionCommon, MockEmail)
             subscription._create_recurring_invoice()
 
         with freeze_time("2025-09-14"):
-            subscription.set_close()
+            # only some reasons can allow reopening.
+            close_reason = self.env.ref('sale_subscription.close_reason_auto_close_limit_reached')
+            subscription.set_close(close_reason_id=close_reason.id)
 
             # Ensure that the subscription is churned, and that the next invoice
             # date happens after today. The transaction date must be less than
@@ -849,7 +851,9 @@ class TestSubscriptionPayments(PaymentCommon, TestSubscriptionCommon, MockEmail)
             invoice = subscription._create_recurring_invoice()
 
         with freeze_time("2025-09-14"):
-            subscription.set_close()
+            # only some reasons can allow reopening.
+            close_reason = self.env.ref('sale_subscription.close_reason_auto_close_limit_reached')
+            subscription.set_close(close_reason_id=close_reason.id)
 
             # Ensure that the subscription is churned, and that the next invoice
             # date happens after today. The transaction date must be less than

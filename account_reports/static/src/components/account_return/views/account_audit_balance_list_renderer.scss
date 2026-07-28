@@ -19,7 +19,7 @@
     }
 }
 
-.o_data_row.o_selected_row {
+.o_account_report_audit_balance_list .o_data_row.o_selected_row {
     position: relative;
 
     // We need to have this instead of using the default one with the :focus-within selector
@@ -29,15 +29,20 @@
     --#{$variable-prefix}table-accent-bg: #{$-focus-bg};
     --#{$variable-prefix}table-striped-bg: #{$-focus-bg};
 
-    & > td::before{
+    td:first-of-type::before {
         content: "";
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
-        width: 2px;
-        background-color: #0a8f88;
-        opacity: 0.4;
+        width: 3px;
+        background-color: rgba(var(--link-color-rgb), 0.7);
+    }
+    
+    td:focus-within {
+        // To prevent --table-accent-bg and --table-striped-bg to be set to none which removes the background color of the selected row.
+        --#{$variable-prefix}table-accent-bg: #{$-focus-bg} !important;
+        --#{$variable-prefix}table-striped-bg: #{$-focus-bg} !important;
     }
 
     td.text-muted {

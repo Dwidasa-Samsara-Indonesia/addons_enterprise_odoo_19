@@ -34,15 +34,16 @@
 # Konsta Aavaranta, 2023
 # Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2023
 # Mikko Salmela <salmemik@gmail.com>, 2023
-# "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# "Tiffany Chang (tic)" <tic@odoo.com>, 2025, 2026.
 # Saara Hakanen <sahak@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:39+0000\n"
-"PO-Revision-Date: 2026-03-30 13:42+0000\n"
+"POT-Creation-Date: 2026-07-10 17:37+0000\n"
+"PO-Revision-Date: 2026-07-09 16:06+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/sale/fi/"
 ">\n"
@@ -51,7 +52,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale
 #. odoo-javascript
@@ -1316,7 +1317,7 @@ msgstr "Myyntitilausrivin tuotteen on vastattava sen yhdistelmäerän tuotetta."
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "A section title"
-msgstr "Jakson otsikko"
+msgstr "Osion otsikko"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__advance_payment_method
@@ -1372,12 +1373,13 @@ msgid ""
 "this sale line\n"
 "  - Stock Moves: the quantity comes from confirmed pickings\n"
 msgstr ""
-"Tuotekonfiguraation mukaan toimitettu määrä voidaan laskea automaattisesti:\n"
-"  - Manuaalinen: määrä asetetaan manuaalisesti rivillä\n"
-"  - Analyyttinen kuluista: määrä on kirjattujen kulujen summa\n"
-"  - Työaikakirjaukset: määrä on tähän myyntiriviin linkitettyjen tehtäviin "
+"Tuotteen asetusten perusteella toimitettavan määrän voi laskea "
+"automaattisesti:\n"
+"  - Manuaalisesti: määrä määritetään manuaalisesti riville\n"
+"  - Analyyttisesti kuluista: määrä on kirjattujen kulujen summa\n"
+"  - Työaikakirjaukset: määrä on tähän riviin linkitettyihin tehtäviin "
 "kirjattujen tuntien summa\n"
-"  - Varastotuotteiden siirrot: määrä tulee vahvistetuista keräilyistä\n"
+"  - Varastoliikkeistä: määrä perustuu vahvistettuihin keräilyihin\n"
 
 #. module: sale
 #: model:ir.model,name:sale.model_account_chart_template
@@ -1526,7 +1528,7 @@ msgstr "Lisää/poista seuraajia"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__allowed_uom_ids
 msgid "Allowed Uom"
-msgstr "Sallitut mittayksiköt"
+msgstr "Sallittu mittayksikkö"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1916,7 +1918,7 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:sale.action_quotations
 #: model_terms:ir.actions.act_window,help:sale.action_quotations_with_onboarding
 msgid "Check a sample. It's clean!"
-msgstr "Tarkista näyte. Se on puhdas!"
+msgstr "Katso esimerkki. Se on hieno!"
 
 #. module: sale
 #. odoo-javascript
@@ -2122,11 +2124,6 @@ msgstr "Vahvistusviesti"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "Connect with your software!"
 msgstr "Yhdistä ohjelmiston kanssa!"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "Connect your software"
-msgstr "Yhdistä ohjelmisto"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -4276,7 +4273,7 @@ msgstr "Tuotteen tyyppi"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_uom_readonly
 msgid "Product Uom Readonly"
-msgstr "Tuotteen yksikkö, vain lukuoikeus"
+msgstr "Tuotteen mittayksikkö, vain luku"
 
 #. module: sale
 #: model:ir.model,name:sale.model_product_product
@@ -4284,12 +4281,12 @@ msgstr "Tuotteen yksikkö, vain lukuoikeus"
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
 msgid "Product Variant"
-msgstr "Tuotevariaatio"
+msgstr "Tuotevariantti"
 
 #. module: sale
 #: model:ir.ui.menu,name:sale.menu_products
 msgid "Product Variants"
-msgstr "Tuotevariaatiot"
+msgstr "Tuotevariantit"
 
 #. module: sale
 #. odoo-python
@@ -5017,7 +5014,7 @@ msgstr ""
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -5285,17 +5282,17 @@ msgstr "Veromaa"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Tax Excl."
-msgstr "Veroton."
+msgstr "Veroton"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Tax ID"
-msgstr "Verotunniste"
+msgstr "Verotunnus"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Tax Incl."
-msgstr "Vero sis."
+msgstr "sis. verot"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_tree
@@ -6307,11 +6304,6 @@ msgid "sale order"
 msgstr "myyntitilaus"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "to create quotes automatically."
-msgstr "luodaksesi tarjouksia automaattisesti."
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "to learn all the ways to connect your software with"
 msgstr "oppiaksesi kaikki tavat yhdistää ohjelmistosi ja"
@@ -6323,13 +6315,8 @@ msgstr "yksiköt"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "with"
-msgstr "kanssa"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_pay_modal
@@ -6365,6 +6352,15 @@ msgid ""
 msgstr ""
 "{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and "
 "'Tarjous' or 'Tilaus' }} (Ref {{ object.name or 'n/a' }})"
+
+#~ msgid "Connect your software"
+#~ msgstr "Yhdistä ohjelmisto"
+
+#~ msgid "to create quotes automatically."
+#~ msgstr "luodaksesi tarjouksia automaattisesti."
+
+#~ msgid "with"
+#~ msgstr "kanssa"
 
 #~ msgid "2023-12-31"
 #~ msgstr "2023-12-31"

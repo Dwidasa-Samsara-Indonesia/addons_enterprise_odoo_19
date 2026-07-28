@@ -34,28 +34,36 @@ class TestPickingBarcodeClientAction(TestBarcodeClientAction):
         picking_form.picking_type_id = self.picking_type_in
         with picking_form.move_ids.new() as move:
             move.product_id = self.product_tln_gtn8
-            move.product_uom_qty = 20
+            move.product_uom_qty = 32
 
         receipt = picking_form.save()
         receipt.action_confirm()
         receipt.action_assign()
 
+        self.env.user.group_ids += self.env.ref('uom.group_uom')
+        self.product_tln_gtn8.uom_ids = self.uom_dozen
+        self.env['product.uom'].create({
+            'barcode': '01234567890128',
+            'product_id': self.product_tln_gtn8.id,
+            'uom_id': self.uom_dozen.id,
+        })
+
         url = self._get_client_action_url(receipt.id)
         self.start_tour(url, 'test_gs1_receipt_expiration_date', login='admin')
 
         self.assertEqual(receipt.state, 'done')
-        self.assertEqual(len(receipt.move_line_ids), 3)
+        self.assertEqual(len(receipt.move_line_ids), 4)
         self.assertEqual(
             receipt.move_line_ids.mapped(lambda ml: ml.expiration_date.date().isoformat()),
-            ['2022-05-20', '2022-05-21', '2022-05-22']
+            ['2022-05-20', '2022-05-21', '2022-05-22', '2022-05-24']
         )
         self.assertEqual(
             receipt.move_line_ids.lot_id.mapped('name'),
-            ['b1-b001', 'b1-b002', 'b1-b003']
+            ['b1-b001', 'b1-b002', 'b1-b003', 'b1-b004']
         )
         self.assertEqual(
-            receipt.move_line_ids.mapped('qty_done'),
-            [8, 4, 8]
+            receipt.move_line_ids.mapped('quantity_product_uom'),
+            [8, 4, 8, 12]
         )
 
     def test_delivery_package_with_expiration_dates(self):

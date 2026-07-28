@@ -146,11 +146,11 @@
                         </t>
                     </t>
                     <t t-else="">
-                        Your subscription <t t-out="ctx.get('code') or ''">CODE</t> is due for renewal but we haven’t received your payment yet. To keep your subscription active, please make your payment as soon as possible.
+                        Your subscription <t t-out="object.client_order_ref or ''">CODE</t> is due for renewal but we haven’t received your payment yet. To keep your subscription active, please make your payment as soon as possible.
                     </t>
                     <br/><br/>
-                    Your subscription <t t-out="ctx.get('code') or ''">CODE</t> is still valid but will be <strong>suspended</strong>
-                    on <t t-out="format_date(ctx.get('date_close')) or ''">05/05/2021</t><br/>
+                    Your subscription <t t-out="object.client_order_ref or ''">CODE</t> is still valid but will be <strong>suspended</strong>
+                    on <t t-out="format_date(object._get_subscription_close_date()) or ''">05/05/2021</t><br/>
                     <div style="margin: 16px 0px; text-align: center;">
                         <a t-attf-href="{{ ctx.get('payment_link', object.get_portal_url()) }}" t-attf-style="display: inline-block; padding: 10px 30px; text-decoration: none; background-color: {{company.email_secondary_color or '#875A7B'}}; color: {{company.email_primary_color or '#FFFFFF'}}; border-radius: 5px;">
                             Pay Now

@@ -36,6 +36,12 @@ export class DocumentsControlPanel extends ControlPanel {
     }
 
     get showActions() {
+        if (
+            this.env.searchModel.context.documents_view_secondary ||
+            this.env.config.viewType === "activity"
+        ) {
+            return false;
+        }
         const previewing = !!this.rightPanelState.previewedDocument;
         const focusing = !!this.rightPanelState.focusedRecord;
         const focusedSelected =
@@ -43,14 +49,14 @@ export class DocumentsControlPanel extends ControlPanel {
             !!this.env.model.root.selection.find(
                 (r) => r.id === this.rightPanelState.focusedRecord.id
             );
-        return (
-            this.env.config.viewType != "activity" && !previewing && (!focusing || focusedSelected)
-        );
+        return !previewing && (!focusing || focusedSelected);
     }
 
     get pathBreadcrumbs() {
-        // users come from another app
-        if (this.env.model.config.context.active_model) {
+        if (
+            this.env.model.config.context.active_model || // Users come from another app
+            this.env.model.config.context.documents_show_default_breadcrumb // Users come from many2one
+        ) {
             return [
                 ...this.env.config.breadcrumbs.slice(0, -1),
                 {

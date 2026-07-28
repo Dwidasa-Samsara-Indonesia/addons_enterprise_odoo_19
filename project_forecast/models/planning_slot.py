@@ -100,13 +100,16 @@ class PlanningSlot(models.Model):
         # Get all resources of planned shifts having the same projects
         resources, resources_dicts = super()._get_open_shifts_resources()
         resource_ids_per_project = defaultdict(list)
+        domain = [
+            ('project_id', 'in', self.project_id.ids),
+            ('employee_id', '!=', False),
+            ('start_datetime', '!=', False),
+        ]
+        if self.role_id:
+            domain += [('role_id', '=', self.role_id.id)]
         now = fields.Datetime.now()
         for project, slots in self._read_group(
-            domain=[
-                ('project_id', 'in', self.project_id.ids),
-                ('employee_id', '!=', False),
-                ('start_datetime', '!=', False),
-            ],
+            domain=domain,
             groupby=['project_id'],
             aggregates=['id:recordset']
         ):

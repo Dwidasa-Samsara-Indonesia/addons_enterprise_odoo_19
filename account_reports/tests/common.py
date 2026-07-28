@@ -62,7 +62,7 @@ class TestAccountReportsCommon(AccountTestInvoicingCommon):
             **default_options,
         })
 
-    def _update_comparison_filter(self, options, report, comparison_type, number_period, date_from=None, date_to=None):
+    def _update_comparison_filter(self, options, report, comparison_type, number_period, date_from=None, date_to=None, period_order=None):
         ''' Modify the existing options to set a new filter_comparison.
         :param options:         The report options.
         :param report:          The report.
@@ -78,6 +78,7 @@ class TestAccountReportsCommon(AccountTestInvoicingCommon):
             'date_to': date_to and date_to.strftime(DEFAULT_SERVER_DATE_FORMAT),
             'filter': comparison_type,
             'number_period': number_period,
+            'period_order': period_order or options['comparison']['period_order'],
         }}
         return report.get_options(previous_options)
 

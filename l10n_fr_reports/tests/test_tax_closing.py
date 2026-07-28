@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from odoo import Command
 from odoo.tests import tagged
+from odoo.tools import mute_logger
 from odoo.addons.account_reports.tests.common import TestAccountReportsCommon
 
 
@@ -226,33 +227,17 @@ class TestFrenchTaxClosing(TestAccountReportsCommon):
                     edi_vals['declarations'][0]['form']['zones']
                 )
 
-        self.assertIn(
-            {
-                'id': 'GA',
-                'iban': 'FR3410096000508334859773Z27',
-                'bic': 'SOGEFRPP',
-            },
-            edi_vals['declarations'][0]['identif']['zones'],
-        )
-        self.assertIn(
-            {
-                'id': 'HA',
-                'value': '667,00',
-            },
-            edi_vals['declarations'][0]['identif']['zones'],
-        )
-        self.assertIn(
-            {
-                'id': 'KA',
-                'value': 'TVA1-20240501-20240531-3310CA3',
-            },
-            edi_vals['declarations'][0]['identif']['zones'],
+        identif_zone_ids = {zone['id'] for zone in edi_vals['declarations'][0]['identif']['zones']}
+        self.assertFalse(
+            identif_zone_ids & {'GA', 'HA', 'KA'},
+            "No telereglement zones must be emitted in the reimbursement case",
         )
 
         with self.allow_pdf_render():
             may_return.action_validate(bypass_failing_tests=True)
 
-        with patch.object(self.env.registry['l10n_fr_reports.send.vat.report'], '_send_xml_to_aspone', return_value=[]):
+        with patch.object(self.env.registry['l10n_fr_reports.send.vat.report'], '_send_xml_to_aspone', return_value=[]), \
+             mute_logger("odoo.addons.base.models.ir_module", "odoo.tools.translate"):
             with self.allow_pdf_render():
                 send_vat_wizard.send_vat_return()
             report_line_26 = self.env.ref('l10n_fr_account.tax_report_26_external')
@@ -524,7 +509,8 @@ class TestFrenchTaxClosing(TestAccountReportsCommon):
             'xml_content': '',
         }
 
-        with patch.object(self.env.registry['account.report.async.document'], '_get_fr_webservice_answer', return_value=mock_aspone_response):
+        with patch.object(self.env.registry['account.report.async.document'], '_get_fr_webservice_answer', return_value=mock_aspone_response), \
+             mute_logger("odoo.addons.base.models.ir_module", "odoo.tools.translate"):
             with self.allow_pdf_render():
                 send_vat_wizard.send_vat_return()
 
@@ -545,3 +531,93 @@ class TestFrenchTaxClosing(TestAccountReportsCommon):
             self.assertEqual(export.state, 'mixed')
             export.document_ids[1].state = 'accepted'
             self.assertEqual(export.state, 'accepted')
+
+    def test_fr_send_edi_vat_values_with_carryover_reimbursements(self):
+        """ The aim of this test is to verify carryover reimboursement move
+            in correctly created when we have an unclaimed tax amount carried to the
+            next month.
+        """
+
+        self.env['account.move'].create([
+            self._get_move_create_data(
+                move_data={'move_type': 'in_invoice', 'invoice_date': '2024-05-09', 'journal_id': self.company_data['default_journal_purchase'].id},
+                line_data={'price_unit': 10000, 'tax_ids': [Command.link(self.tax_20_g_purchase.id)]}
+            ),
+            self._get_move_create_data(
+                move_data={'move_type': 'in_invoice', 'invoice_date': '2024-06-09', 'journal_id': self.company_data['default_journal_purchase'].id},
+                line_data={'price_unit': 23000, 'tax_ids': [Command.link(self.tax_20_g_purchase.id)]}
+            ),
+        ])._post()
+
+        # Create a VAT return for May in order to have VAT amount to carry over to the next month
+        may_return = self.env['account.return'].create({
+            'name': "May return",
+            'date_from': '2024-05-01',
+            'date_to': '2024-05-31',
+            'type_id': self.env.ref('l10n_fr_reports.vat_return_type').id,
+            'company_id': self.env.company.id,
+        })
+        self.env['l10n_fr_reports.send.vat.report'].create({
+            'date_from': '2024-05-01',
+            'date_to': '2024-05-31',
+            'report_id': self.report.id,
+            'return_id': may_return.id,
+            'test_interchange': True,
+        })
+        with self.allow_pdf_render():
+            may_return.action_validate(bypass_failing_tests=True)
+
+        june_return = self.env['account.return'].create({
+            'name': "May return",
+            'date_from': '2024-06-01',
+            'date_to': '2024-06-30',
+            'type_id': self.env.ref('l10n_fr_reports.vat_return_type').id,
+            'company_id': self.env.company.id,
+        })
+        send_vat_wizard_june = self.env['l10n_fr_reports.send.vat.report'].create({
+            'date_from': '2024-06-01',
+            'date_to': '2024-06-30',
+            'report_id': self.report.id,
+            'return_id': june_return.id,
+            'test_interchange': True,
+            'bank_account_line_ids': [
+                Command.create({
+                    'bank_partner_id': self.bank_partner.id,
+                    'vat_amount': 6600,
+                }),
+            ],
+        })
+        with self.allow_pdf_render():
+            june_return.action_validate(bypass_failing_tests=True)
+
+        # Mock the response from the ASPOne web service
+        mock_aspone_response = {
+            'responseType': 'SUCCESS',
+            'response': {
+                'errorResponse': '',
+                'successfullResponse': {
+                    'depositId': 'CCA7A30B-A69B-4C9B-8BFB-30DF435DABE9',
+                },
+            },
+            'xml_content': '',
+        }
+
+        original_create_carryover_reimbursment_move = send_vat_wizard_june._create_carryover_reimbursment_move
+        captured_moves = []
+
+        def _create_carryover_reimbursment_move(obj, *args):
+            result = original_create_carryover_reimbursment_move(*args)
+            captured_moves.append(result.id)
+            return result
+
+        with patch.object(self.env.registry['account.report.async.document'], '_get_fr_webservice_answer', return_value=mock_aspone_response), \
+             patch.object(self.env.registry['l10n_fr_reports.send.vat.report'], '_create_carryover_reimbursment_move', autospec=True, side_effect=_create_carryover_reimbursment_move), \
+             self.allow_pdf_render(), \
+             mute_logger("odoo.addons.base.models.ir_module", "odoo.tools.translate"):
+            send_vat_wizard_june.send_vat_return()
+
+        carryover_reimboursement_move = self.env['account.move'].browse(captured_moves)
+        self.assertRecordValues(carryover_reimboursement_move.line_ids, [
+            {'account_id': self.tax_20_g_purchase.tax_group_id.tax_receivable_account_id.id, 'balance': -6600.00},
+            {'account_id': self.env['account.chart.template'].ref('pcg_44583').id, 'balance': 6600.00},
+        ])

@@ -36,12 +36,15 @@ class TestShopeeOnboarding(HttpCase, common_sale_shopee.TestShopeeCommon):
         `shop_identifiers` from the main account, and update/create all the specific shops.
         """
         captured_shop_context = {}
+        get_token_call_count = 0
 
         def get_shopee_api_response_mock(shop_, operation_, *_args, **_kwargs):
+            nonlocal get_token_call_count
             if operation_ == "get_token":
                 captured_shop_context["authorization_code"] = shop_.env.context.get(
                     "authorization_code"
                 )
+                get_token_call_count += 1
                 return {
                     **common_sale_shopee.OPERATIONS_RESPONSES_MAP[operation_],
                     "shop_id_list": [1, 2],  # Add one new shop to be created
@@ -55,6 +58,7 @@ class TestShopeeOnboarding(HttpCase, common_sale_shopee.TestShopeeCommon):
             query = {"code": "test_authorization_code", "shop_id": "1", "main_account_id": "main_1"}
             self.call_return_from_authorization(query)
 
+            self.assertEqual(get_token_call_count, 1)
             self.assertEqual(
                 captured_shop_context.get("authorization_code"),
                 "test_authorization_code",

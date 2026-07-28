@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 18:44+0000\n"
+"POT-Creation-Date: 2026-07-17 17:43+0000\n"
 "PO-Revision-Date: 2025-12-06 09:55+0000\n"
 "Last-Translator: Odoo Translation Bot <c3p@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
@@ -2737,9 +2737,8 @@ msgstr "Giờ bắt đầu không được âm."
 #. odoo-python
 #: code:addons/planning/models/planning_template.py:0
 msgid ""
-"The start hour cannot be before the end hour for a one-day shift template."
+"The start hour cannot be after the end hour for a one-day shift template."
 msgstr ""
-"Đối với mẫu ca làm một ngày, giờ bắt đầu không được trước giờ kết thúc."
 
 #. module: planning
 #. odoo-python
@@ -3135,6 +3134,11 @@ msgid "e.g. John Doe"
 msgstr "vd: John Doe"
 
 #. module: planning
+#: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban
+msgid "h"
+msgstr ""
+
+#. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban_inherit
 msgid "other shift(s) in conflict."
 msgstr "(các) ca khác xung đột."
@@ -3171,6 +3175,11 @@ msgstr "đến"
 #: model:mail.template,subject:planning.email_template_slot_single
 msgid "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
 msgstr "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
+
+#~ msgid ""
+#~ "The start hour cannot be before the end hour for a one-day shift template."
+#~ msgstr ""
+#~ "Đối với mẫu ca làm một ngày, giờ bắt đầu không được trước giờ kết thúc."
 
 #~ msgid "The work email is missing for the following employees:"
 #~ msgstr "Thiếu email công việc của những nhân viên sau:"

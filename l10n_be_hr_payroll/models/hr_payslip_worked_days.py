@@ -197,3 +197,10 @@ class HrPayslipWorkedDays(models.Model):
                     continue
 
         super(HrPayslipWorkedDays, computed_by_super)._compute_amount()
+
+    @api.depends('work_entry_type_id', 'number_of_days', 'number_of_hours', 'payslip_id')
+    def _compute_name(self):
+        to_compute = self.filtered(
+            lambda wd: wd.payslip_id.struct_id.country_id.code != 'BE'
+                       or self.env._(' (Half-Day)') not in (wd.name or ''))
+        return super(HrPayslipWorkedDays, to_compute)._compute_name()

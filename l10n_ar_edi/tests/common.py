@@ -179,6 +179,7 @@ class TestArEdiCommon(TestArCommon):
         return invoice
 
     def _test_ar_edi_flow(self, test_name: str, move_type: str, document_code: str, concept: str, **invoice_args):
+        _logger.info("Testing subtest: %s", test_name)
         if document_code == 'b':
             invoice_args.setdefault('partner_id', self.partner_cf)
         if concept == 'product':

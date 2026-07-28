@@ -9,15 +9,15 @@
 # Martin Trigaux, 2022
 # Mads Søndergaard, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-11-08 19:31+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:11+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "account_invoice_extract/da/>\n"
 "Language: da\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__message_needaction
@@ -46,13 +46,13 @@ msgstr "Antal vedhæftninger"
 #. odoo-python
 #: code:addons/account_invoice_extract/models/account_invoice.py:0
 msgid "Automatic OCR does not apply to this document."
-msgstr ""
+msgstr "Automatisk OCR gælder ikke for dette dokument."
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_bank_statement_line__extract_can_show_banners
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_can_show_banners
 msgid "Can show the ocr banners"
-msgstr "Kan vise ocr bannerne"
+msgstr "Kan vise ORC-bannerne"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_can_show_send_button
@@ -78,7 +78,7 @@ msgstr "Kontakt"
 #. odoo-python
 #: code:addons/account_invoice_extract/models/account_invoice.py:0
 msgid "Couldn't reload AI data."
-msgstr "Kunne ikke genindlæse AI data."
+msgstr "Kunne ikke genindlæse AI-data."
 
 #. module: account_invoice_extract
 #. odoo-javascript
@@ -99,18 +99,18 @@ msgstr "Kundefakturaer"
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_company__extract_out_invoice_digitalization_mode
 msgid "Digitization mode on customer invoices"
-msgstr "Digitaliseringstilstand på kunde fakturaer"
+msgstr "Digitaliseringstilstand på kundefakturaer"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_company__extract_in_invoice_digitalization_mode
 msgid "Digitization mode on vendor bills"
-msgstr "Digitaliseringstilstand på kreditor regninger"
+msgstr "Digitaliseringstilstand på leverandørfakturaer"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields.selection,name:account_invoice_extract.selection__res_company__extract_in_invoice_digitalization_mode__auto_send
 #: model:ir.model.fields.selection,name:account_invoice_extract.selection__res_company__extract_out_invoice_digitalization_mode__auto_send
 msgid "Digitize automatically"
-msgstr "Digitaliser automatisk"
+msgstr "Digitalisér automatisk"
 
 #. module: account_invoice_extract
 #: model_terms:ir.ui.view,arch_db:account_invoice_extract.view_move_form_inherit_ocr
@@ -121,7 +121,7 @@ msgstr "Digitalisér dokument"
 #: model:ir.model.fields.selection,name:account_invoice_extract.selection__res_company__extract_in_invoice_digitalization_mode__manual_send
 #: model:ir.model.fields.selection,name:account_invoice_extract.selection__res_company__extract_out_invoice_digitalization_mode__manual_send
 msgid "Digitize on demand only"
-msgstr "Digitaliser kun efter behov"
+msgstr "Digitalisér kun efter behov"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__display_name
@@ -130,7 +130,7 @@ msgstr "Digitaliser kun efter behov"
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_partner__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields.selection,name:account_invoice_extract.selection__res_company__extract_in_invoice_digitalization_mode__no_send
@@ -141,12 +141,12 @@ msgstr "Må ikke digitaliseres"
 #. module: account_invoice_extract
 #: model_terms:ir.ui.view,arch_db:account_invoice_extract.res_config_settings_view_form
 msgid "Enable to get only one invoice line per tax"
-msgstr "Slå til for at modtage kun én faktura linje per afgift"
+msgstr "Aktivér for kun at have én fakturalinje pr. afgift"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_error_message
 msgid "Error message"
-msgstr "Fejl besked"
+msgstr "Fejlbesked"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_attachment_id
@@ -157,7 +157,7 @@ msgstr "Udtræk vedhæftning"
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_bank_statement_line__extract_detected_layout
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_detected_layout
 msgid "Extract Detected Layout Id"
-msgstr "Udtræk detekteret layout-id"
+msgstr "Udtræk detekteret layout-ID"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_bank_statement_line__extract_partner_name
@@ -169,7 +169,7 @@ msgstr "Udtræk detekteret partnernavn"
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_bank_statement_line__extract_prefill_data
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_prefill_data
 msgid "Extract Prefill Data"
-msgstr "Udtræk forudfyldningsdata"
+msgstr "Udtræk forudfyldte data"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_state_processed
@@ -179,12 +179,12 @@ msgstr "Udtræksstatus behandlet"
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_state
 msgid "Extract state"
-msgstr "Udtræk tilstand"
+msgstr "Udtrækstilstand"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_status
 msgid "Extract status"
-msgstr "Udtræks status"
+msgstr "Udtræksstatus"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extracted_dates
@@ -199,12 +199,12 @@ msgstr ""
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extracted_words
 msgid "Extracted Words"
-msgstr ""
+msgstr "Udtrukne ord"
 
 #. module: account_invoice_extract
 #: model_terms:ir.ui.view,arch_db:account_invoice_extract.view_move_form_inherit_ocr
 msgid "Extraction Information"
-msgstr "Udtræknings information"
+msgstr "Udtræksoplysninger"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__message_follower_ids
@@ -233,7 +233,7 @@ msgstr "ID"
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__extract_document_uuid
 msgid "ID of the request to IAP-OCR"
-msgstr "ID på anmodning til IAP-OCR'en"
+msgstr "ID for IAP-OCR-anmodningen"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,help:account_invoice_extract.field_account_move__message_needaction
@@ -250,12 +250,12 @@ msgstr ""
 #. module: account_invoice_extract
 #: model:ir.actions.server,name:account_invoice_extract.ir_cron_update_ocr_status_ir_actions_server
 msgid "Invoice OCR: Update All Status"
-msgstr "Faktura OCR: Opdaer alle status"
+msgstr "Faktura-OCR: Opdatér alle status"
 
 #. module: account_invoice_extract
 #: model:ir.actions.server,name:account_invoice_extract.ir_cron_ocr_validate_ir_actions_server
 msgid "Invoice OCR: Validate Invoices"
-msgstr "Faktura OCR: Validere fakturaer"
+msgstr "Faktura-OCR: Validér fakturaer"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_partner__is_created_by_ocr
@@ -271,17 +271,17 @@ msgstr "Er følger"
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__is_in_extractable_state
 msgid "Is In Extractable State"
-msgstr "Er i udtræks status"
+msgstr "Er i udtræksstatus"
 
 #. module: account_invoice_extract
 #: model:ir.model,name:account_invoice_extract.model_account_move
 msgid "Journal Entry"
-msgstr "Journalbilag"
+msgstr "Journalpostering"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__message_main_attachment_id
 msgid "Main Attachment"
-msgstr "Vedhæftning"
+msgstr "Primære vedhæftning"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__message_has_error
@@ -321,7 +321,7 @@ msgstr "Bedømmelser"
 #. module: account_invoice_extract
 #: model_terms:ir.ui.view,arch_db:account_invoice_extract.view_move_form_inherit_ocr
 msgid "Reload AI Data"
-msgstr "Genindlæs AI data"
+msgstr "Genindlæs AI-data"
 
 #. module: account_invoice_extract
 #: model:ir.model.fields,field_description:account_invoice_extract.field_account_move__message_has_sms_error
@@ -337,7 +337,7 @@ msgstr "Send regninger til digitalisering"
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_company__extract_single_line_per_tax
 #: model:ir.model.fields,field_description:account_invoice_extract.field_res_config_settings__extract_single_line_per_tax
 msgid "Single Invoice Line Per Tax"
-msgstr "En faktura linje per afgift"
+msgstr "En fakturalinje pr. afgift"
 
 #. module: account_invoice_extract
 #: model:ir.model.constraint,message:account_invoice_extract.constraint_res_partner_ocr_name_uniq
@@ -363,7 +363,7 @@ msgstr "Hjemmesidens kommunikationshistorik"
 #. odoo-python
 #: code:addons/account_invoice_extract/models/account_invoice.py:0
 msgid "You cannot send a expense that is not in draft state!"
-msgstr "Du kan ikke sende en udgift, der ikke er i kladdetilstand!"
+msgstr "Du kan ikke sende en udgift, hvis den ikke er i kladdetilstand!"
 
 #~ msgid ""
 #~ "All fields will be automated by Artificial Intelligence, it might take 5 "

@@ -1,7 +1,9 @@
+import re
 from lxml import etree
 
 from odoo import api, fields, models
 from odoo.tools import float_repr
+from odoo.addons.account_batch_payment.models.sepa_mapping import sanitize_communication
 
 
 class AccountJournal(models.Model):
@@ -36,6 +38,13 @@ class AccountJournal(models.Model):
             and self.bank_account_id.acc_type in {'bban_se', 'plusgiro', 'bankgiro'}
         ) or self.env.context.get('bban')
 
+    def _get_organization_id_node_text(self, payment_method_code, postal_address):
+        # EXTENDS account_iso_20022
+        if payment_method_code == 'iso20022_se' and postal_address and self.company_id.company_registry and self.bank_id.bic == 'SWEDSESS':
+            return f"06{re.sub(r'[^0-9]', '', self.company_id.company_registry)}B001"
+
+        return super()._get_organization_id_node_text(payment_method_code, postal_address)
+
     def _get_CtgyPurp(self, payment_method_code):
         if not self._is_se_bban(payment_method_code):
             return super()._get_CtgyPurp(payment_method_code)
@@ -49,9 +58,10 @@ class AccountJournal(models.Model):
     def _get_DbtrAcctOthr(self, payment_method_code=None, partner_acc_type=None):
         # EXTEND of account_iso20022
         Othr = super()._get_DbtrAcctOthr(payment_method_code)
-        if self._is_se_bban(payment_method_code):
+        if payment_method_code == 'iso20022_se':
             SchmeNm = etree.SubElement(Othr, "SchmeNm")
-            if self.bank_account_id.acc_type == 'bankgiro':
+            # Nordea has a special rule for DbtrAcct as they only use IBAN or BBAN
+            if self.bank_account_id.acc_type == 'bankgiro' and 'nordea' not in self.bank_account_id.bank_name.lower():
                 Prtry = etree.SubElement(SchmeNm, "Prtry")
                 Prtry.text = 'BGNR'
             else:
@@ -60,7 +70,7 @@ class AccountJournal(models.Model):
         return Othr
 
     def _get_CdtrAcctIdOthr(self, bank_account, payment_method_code=None):
-        if not self._is_se_bban(payment_method_code):
+        if payment_method_code != 'iso20022_se':
             return super()._get_CdtrAcctIdOthr(bank_account, payment_method_code)
 
         Othr = etree.Element("Othr")
@@ -133,6 +143,20 @@ class AccountJournal(models.Model):
                         strd.insert(0, RfrdDocAmt)
         return RmtInf
 
+    def _get_PstlAdr(self, partner_id, payment_method_code):
+        # EXTEND account_iso20022
+        if payment_method_code == 'iso20022_se':
+            postal_address = self.get_postal_address(partner_id, payment_method_code)
+            if postal_address is not None:
+                PstlAdr = etree.Element("PstlAdr")
+                for node_name, attr, size in [('StrtNm', 'street', 70), ('PstCd', 'zip', 140), ('TwnNm', 'city', 140), ('Ctry', 'country', 2)]:
+                    if postal_address[attr]:
+                        address_element = etree.SubElement(PstlAdr, node_name)
+                        address_element.text = sanitize_communication(postal_address[attr], size)
+                return PstlAdr
+
+        return super()._get_PstlAdr(partner_id, payment_method_code)
+
     def _skip_CdtrAgt(self, partner_bank, payment_method_code):
         """
         Determine whether to skip the Creditor Agent (CdtrAgt) element in SEPA XML.
@@ -150,6 +174,6 @@ class AccountJournal(models.Model):
                  result of the standard implementation.
         :rtype: bool
         """
-        if payment_method_code == 'iso20022_se' and partner_bank.acc_type in ('bankgiro', 'plusgiro'):
+        if payment_method_code == 'iso20022_se':
             return False
         return super()._skip_CdtrAgt(partner_bank, payment_method_code)

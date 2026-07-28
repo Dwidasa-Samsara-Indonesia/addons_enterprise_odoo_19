@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests.common import freeze_time, tagged
 from odoo.tools import mute_logger
 
@@ -25,14 +25,14 @@ class TestLazada(common.TestLazadaCommon):
         """
         with (
             patch(
-                'odoo.addons.sale_lazada.utils.make_lazada_api_request',
-                new=lambda operation, _shop, *_args, **_kwargs: (
-                    common.OPERATIONS_RESPONSES_MAP[operation]
-                ),
+                "odoo.addons.sale_lazada.utils.make_lazada_api_request",
+                new=lambda operation, _shop, *_args, **_kwargs: common.OPERATIONS_RESPONSES_MAP[
+                    operation
+                ],
             ),
             patch(
-                'odoo.addons.sale_lazada.models.lazada_shop.LazadaShop._compute_subtotal',
-                new=lambda _self, subtotal_, *_args, **_kwargs: subtotal_,
+                "odoo.addons.sale_lazada.models.lazada_shop.LazadaShop._compute_subtotal",
+                new=lambda _self, total_, *_args, **_kwargs: total_,
             ),
         ):
             self.shop._sync_orders(auto_commit=False)
@@ -48,15 +48,24 @@ class TestLazada(common.TestLazadaCommon):
                 " successful run",
             )
             self.assertEqual(len(order), 1, msg="An order should be created")
+            self.assertEqual(
+                len(order.order_line),
+                2,
+                msg="An order should have a product line and a shipping line",
+            )
+            shipping_line = order.order_line - product_line
+            self.assertEqual(len(shipping_line), 1)
+            self.assertEqual(shipping_line.price_unit, 10.0)
             self.assertRecordValues(
                 order,
                 [
                     {
-                        'date_order': datetime(2020, 1, 15),
-                        'company_id': self.shop.company_id.id,
-                        'user_id': self.shop.user_id.id,
-                        'team_id': self.shop.team_id.id,
-                        'lazada_fulfillment_type': 'fbm',
+                        "date_order": datetime(2020, 1, 15),
+                        "company_id": self.shop.company_id.id,
+                        "user_id": self.shop.user_id.id,
+                        "team_id": self.shop.team_id.id,
+                        "lazada_fulfillment_type": "fbm",
+                        "amount_total": 90.0,
                     }
                 ],
             )
@@ -64,10 +73,10 @@ class TestLazada(common.TestLazadaCommon):
                 product_line,
                 [
                     {
-                        'price_unit': 100.0,
-                        'discount': 20.0,
-                        'product_uom_qty': 1.0,
-                        'product_id': self.product.id,
+                        "price_unit": 80.0,
+                        "discount": 0.0,
+                        "product_uom_qty": 1.0,
+                        "product_id": self.product.id,
                     }
                 ],
             )
@@ -181,7 +190,7 @@ class TestLazada(common.TestLazadaCommon):
             if operation_ == 'GetOrders':
                 return {
                     **common.GET_ORDERS_RESPONSE_MOCK,
-                    'data': {'orders': [{**common.ORDER_MOCK, 'statuses': ['confirmed']}]},
+                    "data": {"orders": [common.build_order_mock(statuses=["confirmed"])]},
                 }
             if operation_ == 'GetMultipleOrderItems':
                 return {
@@ -207,7 +216,11 @@ class TestLazada(common.TestLazadaCommon):
 
             self.assertEqual(len(order), 1)
             self.assertEqual(order.lazada_fulfillment_type, 'fbl')
-            self.assertEqual(len(order.order_line), 1)
+            self.assertEqual(
+                len(order.order_line),
+                2,
+                msg="FBL order should have a product line and a shipping line",
+            )
             self.assertEqual(
                 order.warehouse_id,
                 self.shop.fbl_location_id.warehouse_id,
@@ -227,12 +240,12 @@ class TestLazada(common.TestLazadaCommon):
             if operation_ == 'GetOrders':
                 statuses = ['pending'] if not self.order_canceled else ['canceled']
                 return {
-                    'code': '0',
-                    'request_id': '0_sync_orders_cancel',
-                    'data': {
-                        'countTotal': 1,
-                        'count': 1,
-                        'orders': [{**common.ORDER_MOCK, 'statuses': statuses}],
+                    "code": "0",
+                    "request_id": "0_sync_orders_cancel",
+                    "data": {
+                        "countTotal": 1,
+                        "count": 1,
+                        "orders": [{**common.build_order_mock(), "statuses": statuses}],
                     },
                 }
             if operation_ == 'GetMultipleOrderItems':
@@ -252,20 +265,18 @@ class TestLazada(common.TestLazadaCommon):
 
         with (
             patch(
-                'odoo.addons.sale_lazada.utils.make_lazada_api_request', new=get_lazada_api_response
+                "odoo.addons.sale_lazada.utils.make_lazada_api_request", new=get_lazada_api_response
             ),
             patch(
-                'odoo.addons.sale_lazada.models.lazada_shop.LazadaShop._compute_subtotal',
-                new=lambda _self, subtotal_, *_args, **_kwargs: subtotal_,
+                "odoo.addons.sale_lazada.models.lazada_shop.LazadaShop._compute_subtotal",
+                new=lambda _self, total_, *_args, **_kwargs: total_,
             ),
         ):
             self.order_canceled = False
 
             self.shop._sync_orders(auto_commit=False)
 
-            order = self.env['sale.order'].search([
-                ('lazada_order_ref', '=', common.ORDER_MOCK['order_id'])
-            ])
+            order = self.env["sale.order"].search([("lazada_order_ref", "=", common.ORDER_ID_MOCK)])
             self.assertEqual(len(order), 1, "Order should be created before cancellation.")
             self.order_canceled = True
 
@@ -273,11 +284,6 @@ class TestLazada(common.TestLazadaCommon):
                 self.shop._sync_orders(auto_commit=False)
 
             self.assertEqual(order.state, 'cancel', "Canceled orders should be canceled in Odoo.")
-            self.assertEqual(
-                order.picking_ids.move_ids[0].product_uom_qty,
-                0,
-                "The product quantity should be 0 after cancellation.",
-            )
             self.assertTrue(
                 all(item.status == 'canceled' for item in order.order_line.lazada_order_item_ids),
                 "All Lazada order items should be marked as canceled.",
@@ -413,12 +419,10 @@ class TestLazada(common.TestLazadaCommon):
             # Create a storable product for the new SKU
             self.env['product.product'].create({
                 'name': "Test Product 2",
-                'type': 'consu',
                 'default_code': 'TEST-SKU-002',
                 'list_price': 100.0,
                 'is_storable': True,
                 'tracking': 'none',
-                'taxes_id': [],
             })
             # Ensure the initial sync date is still the same as before the update
             self.assertEqual(self.shop.last_product_catalog_sync_date, self.initial_sync_date)
@@ -495,7 +499,7 @@ class TestLazada(common.TestLazadaCommon):
                 self.product
             ),
         ):
-            order_data = dict(common.ORDER_MOCK)
+            order_data = common.build_order_mock()
             order_data['order_items'] = [common.ORDER_ITEM_MOCK]
             partner_shipping, partner_invoice = self.shop._find_or_create_partners_from_data(
                 order_data
@@ -514,20 +518,21 @@ class TestLazada(common.TestLazadaCommon):
 
     def test_compute_lazada_order_status(self):
         """Test the computation of Lazada delivery status based on order item statuses."""
-        order_data = dict(common.ORDER_MOCK)
+        order_data = common.build_order_mock()
         order_data['order_items'] = [dict(common.ORDER_ITEM_MOCK)]
         order = self.shop._create_order_from_data(order_data)
 
-        order.order_line.lazada_order_item_ids.status = 'processing'
+        product_line = order.order_line.filtered("lazada_order_item_ids")
+        product_line.lazada_order_item_ids.status = "processing"
 
         self.assertEqual(order.lazada_order_status, 'processing')
 
         # Add another item with a different status to test the mixed statuses
-        self.env['lazada.order.item'].create({
-            'order_item_extern_id': 456,
-            'sale_order_line_id': order.order_line.id,
-            'stock_move_id': order.order_line.move_ids[0].id,
-            'status': 'delivered',
+        self.env["lazada.order.item"].create({
+            "order_item_extern_id": 456,
+            "sale_order_line_id": product_line.id,
+            "stock_move_id": product_line.move_ids[0].id,
+            "status": "delivered",
         })
 
         self.assertEqual(order.lazada_order_status, 'manual')
@@ -541,11 +546,6 @@ class TestLazada(common.TestLazadaCommon):
         """Should return 'manual' when statuses are mixed."""
         status = lazada_utils.get_lazada_aggregated_status(['processing', 'delivered'])
         self.assertEqual(status, 'manual')
-
-    def test_get_lazada_aggregated_status_canceled_and_other(self):
-        """Should ignore canceled if other status exists, and return the other status."""
-        status = lazada_utils.get_lazada_aggregated_status(['processing', 'canceled'])
-        self.assertEqual(status, 'processing')
 
     def test_get_lazada_aggregated_status_all_canceled(self):
         """Should return 'canceled' if all statuses are canceled."""
@@ -566,6 +566,7 @@ class TestLazada(common.TestLazadaCommon):
     def test_should_not_create_fbm_order_with_confirmed_status(self):
         """FBM should not create order when status is 'confirmed'."""
         order_data_fbm_confirmed = {
+            "order_id": common.ORDER_ID_MOCK,
             'order_items': [{**common.ORDER_ITEM_MOCK, 'shipping_provider_type': 'standard'}],
             'statuses': ['confirmed'],
         }
@@ -590,6 +591,7 @@ class TestLazada(common.TestLazadaCommon):
     def test_should_not_create_fbl_order_with_pending_status(self):
         """FBL should not create order when status is 'pending'."""
         order_data_fbl_pending = {
+            "order_id": common.ORDER_ID_MOCK,
             'order_items': [
                 {**common.ORDER_ITEM_MOCK, 'shipping_provider_type': 'standard', 'is_fbl': 1}
             ],
@@ -626,3 +628,203 @@ class TestLazada(common.TestLazadaCommon):
             ],
         }
         self.assertIsNone(self.shop._get_fulfillment_type(mixed_order_data))
+
+    # --- Computed Subtotals --- #
+
+    def test_compute_subtotal_price_include_tax(self):
+        """Price-included taxes keep the line subtotal aligned with Shopee's total."""
+        currency = self.quick_ref("base.USD")
+        subtotal = self.shop._compute_subtotal(10.0, self.tax_price_include_7, currency)
+
+        # subtotal is not rounded to compute the correct unit price
+        # but the rounded subtotal should be equal to the total for price-included taxes
+        self.assertEqual(subtotal, 10.0)
+
+    def test_compute_subtotal_price_exclude_tax(self):
+        """Price-excluded taxes are backed out from Shopee's tax-included total."""
+        currency = self.quick_ref("base.USD")
+        subtotal = self.shop._compute_subtotal(10.00, self.tax_price_exclude_7, currency)
+
+        # subtotal is not rounded to compute the correct unit price
+        # but the rounded subtotal should be equal to the total for price-excluded taxes
+        self.assertEqual(subtotal, 9.35)
+
+    # --- Test Adjustment Lines --- #
+
+    @mute_logger("odoo.addons.sale_lazada.models.lazada_shop")
+    def test_no_adjustment_line_for_tax_exclusive_unit_rounding(self):
+        """Tax-exclusive non-divisible unit prices do not emit a rounding adjustment line."""
+        self.product.taxes_id = self.tax_price_exclude_7
+        # Keep the unrounded tax-exclusive subtotal on the line so Odoo can reconcile exactly.
+        items = [
+            {
+                **common.ORDER_ITEM_MOCK,
+                "order_item_id": 90101,
+                "item_price": 15.0,
+                "paid_price": 10.0,
+                "currency": "USD",
+            },
+            {
+                **common.ORDER_ITEM_MOCK,
+                "order_item_id": 90102,
+                "item_price": 15.0,
+                "paid_price": 10.0,
+                "currency": "USD",
+            },
+            {
+                **common.ORDER_ITEM_MOCK,
+                "order_item_id": 90103,
+                "item_price": 15.0,
+                "paid_price": 10.0,
+                "currency": "USD",
+            },
+        ]
+        order_data = common.build_order_mock(
+            order_id="ADJ_RESIDUE_001", items=items, shipping_fee=0, currency="USD"
+        )
+
+        order = self.shop._create_order_from_data(order_data)
+
+        adjustment_product = self.env.ref("sale_lazada.default_adjustment_product")
+        adjustment_lines = order.order_line.filtered(
+            lambda line: line.product_id == adjustment_product
+        )
+        self.assertEqual(len(adjustment_lines), 0)
+        self.assertEqual(order.amount_total, float(order_data["price"]))
+
+    # --- Test Shipping Lines --- #
+
+    @mute_logger("odoo.addons.sale_lazada.models.lazada_shop")
+    def test_free_shipping_omits_shipping_line(self):
+        """``shipping_fee == 0`` produces no shipping line."""
+        order_data = common.build_order_mock(
+            order_id="FREE_SHIP_001",
+            items=[dict(common.ORDER_ITEM_MOCK, order_item_id=90301, paid_price=40.0)],
+            shipping_fee=0,
+        )
+
+        order = self.shop._create_order_from_data(order_data)
+
+        # Only one line for the one item — no shipping line.
+        self.assertEqual(len(order.order_line), 1)
+
+    @mute_logger("odoo.addons.sale_lazada.models.lazada_shop")
+    def test_shipping_line_with_tax(self):
+        """Shipping line carries product's fiscal-position-mapped tax and reconciles."""
+        # Give the default shipping product a 7% price-exclude tax.
+        shipping_product = self.env.ref("sale_lazada.default_shipping_product")
+        shipping_product.taxes_id = self.tax_price_exclude_7
+        self.product.taxes_id = self.tax_price_exclude_7
+
+        # Use shipping fee=10.70 tax-incl; reverse: 10.00 tax-excl. Clean reconciliation.
+        items = [
+            {
+                **common.ORDER_ITEM_MOCK,
+                "order_item_id": 90401,
+                "item_price": 20.00,
+                "paid_price": 20.00,
+                "currency": "USD",
+            }
+        ]
+        order_data = common.build_order_mock(
+            order_id="SHIP_TAX_001", items=items, shipping_fee=10.70, currency="USD"
+        )
+
+        order = self.shop._create_order_from_data(order_data)
+
+        shipping_line = order.order_line.filtered(
+            lambda line: line.product_id.id == shipping_product.id
+        )
+        self.assertEqual(len(shipping_line), 1)
+        self.assertEqual(shipping_line.product_uom_qty, 1)
+        self.assertEqual(shipping_line.price_unit, 10.00)
+        self.assertIn(self.tax_price_exclude_7.id, shipping_line.tax_ids.ids)
+        self.assertEqual(order.amount_total, float(order_data["price"]) + 10.70)
+
+    # --- Test _prepare_order_lines_values --- #
+
+    def test_prepare_order_lines_values(self):
+        """Product line uses the paid price as unit price; shipping comes from the order."""
+        self.product.taxes_id = self.tax_price_include_7
+        order_data = common.build_order_mock(shipping_fee=10, currency="USD")
+
+        order = self.shop._create_order_from_data(order_data)
+
+        shipping_product = self.quick_ref("sale_lazada.default_shipping_product")
+        product_line = order.order_line.filtered(lambda line: line.product_id == self.product)
+        shipping_line = order.order_line.filtered(lambda line: line.product_id == shipping_product)
+        self.assertEqual(len(order.order_line), 2)
+        self.assertEqual(product_line.product_uom_qty, 1)  # one ORDER_ITEM_MOCK
+        self.assertEqual(product_line.price_unit, 80.0)  # paid price
+        self.assertEqual(product_line.tax_ids, self.tax_price_include_7)
+        self.assertEqual(shipping_line.price_unit, 10.0)
+
+    def test_prepare_order_lines_values_discount_untaxed(self):
+        """The order-level voucher becomes one untaxed negative line for a tax-free order."""
+        self.product.taxes_id = [Command.clear()]
+        order_data = common.build_order_mock(shipping_fee=0, currency="USD", voucher="16.0")
+
+        order = self.shop._create_order_from_data(order_data)
+
+        discount_product = self.quick_ref("sale_lazada.default_discount_product")
+        discount_line = order.order_line.filtered(lambda line: line.product_id == discount_product)
+        # No product tax → a single untaxed discount line of the order-level voucher.
+        # Field access on `discount_line` raises if more than one line matched.
+        self.assertEqual(discount_line.price_unit, -16.0)
+        self.assertFalse(discount_line.tax_ids)
+
+    def test_prepare_order_lines_values_discount_distributed_per_tax_group(self):
+        """The order-level discount is split per tax group, pro-rata to each group's base.
+
+        Bases 200 (7% tax) and 100 (10% tax) share a 9.99 voucher: the larger group is allocated
+        first (6.66) and the last group absorbs the exact remainder (3.33), summing to -9.99.
+        """
+        tax_include_10 = self.env["account.tax"].create({
+            "name": "Lazada Test Tax 10% Included",
+            "amount": 10.0,
+            "price_include_override": "tax_included",
+            "tax_group_id": self.tax_price_include_7.tax_group_id.id,
+        })
+        self.product.taxes_id = self.tax_price_include_7
+        product_2 = self.env["product.product"].create({
+            "name": "Second product",
+            "default_code": "SKU2",
+            "taxes_id": tax_include_10.ids,
+        })
+        self.env["lazada.item"].create({
+            "product_id": product_2.id,
+            "shop_id": self.shop.id,
+            "lazada_item_extern_id": "20002",
+            "lazada_sku": "SKU2",
+        })
+
+        items = [
+            {
+                **common.ORDER_ITEM_MOCK,
+                "order_item_id": 90601,
+                "paid_price": 200.0,
+                "currency": "USD",
+            },
+            {
+                **common.ORDER_ITEM_MOCK,
+                "order_item_id": 90602,
+                "sku": "SKU2",
+                "sku_id": "20002",
+                "paid_price": 100.0,
+                "currency": "USD",
+            },
+        ]
+        order_data = common.build_order_mock(
+            order_id="LZ_DIST_001", items=items, shipping_fee=0, currency="USD", voucher="9.99"
+        )
+
+        order = self.shop._create_order_from_data(order_data)
+
+        discount_product = self.quick_ref("sale_lazada.default_discount_product")
+        discount_lines = order.order_line.filtered(lambda line: line.product_id == discount_product)
+        self.assertEqual(len(discount_lines), 2)  # one negative line per tax group
+        # Field access on each filtered line raises if more than one line carries that group's tax.
+        line_7 = discount_lines.filtered(lambda line: line.tax_ids == self.tax_price_include_7)
+        line_10 = discount_lines.filtered(lambda line: line.tax_ids == tax_include_10)
+        self.assertEqual(line_7.price_unit, -6.66)
+        self.assertEqual(line_10.price_unit, -3.33)

@@ -71,6 +71,7 @@ class HrEmployee(models.Model):
         required=True
     )
     versions_count = fields.Integer(compute='_compute_versions_count', groups="hr.group_hr_user")
+    version_revision = fields.Char(compute="_compute_version_revision", groups="hr.group_hr_user")
 
     @api.model
     def _lang_get(self):
@@ -138,6 +139,7 @@ class HrEmployee(models.Model):
         column2='bank_account_id',
         domain="[('partner_id', '=', work_contact_id), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
         groups="hr.group_hr_user",
+        copy=False,
         tracking=True,
         string='Bank Accounts',
         help='Employee bank accounts to pay salaries')
@@ -281,7 +283,7 @@ class HrEmployee(models.Model):
             else:
                 employee.has_multiple_bank_accounts = False
 
-    @api.depends('bank_account_ids')
+    @api.depends('bank_account_ids.active')
     def _sync_salary_distribution(self):
         for employee in self:
             current_salary_distribution = employee.salary_distribution or {}
@@ -558,9 +560,11 @@ class HrEmployee(models.Model):
         If no valid version is found, we return the very first version of the employee.
         """
         self.ensure_one()
-        active_versions = self.version_ids.filtered(lambda v: v.active)
-        versions = active_versions.filtered_domain([('date_version', '<=', date)])
-        return max(versions, key=lambda v: v.date_version) if versions else active_versions[0]
+        versions = self.version_ids.filtered(lambda v: v.active)
+        if not versions:
+            versions = self.with_context(active_test=False).version_ids
+        filtered_versions = versions.filtered_domain([('date_version', '<=', date)])
+        return max(filtered_versions, key=lambda v: v.date_version) if filtered_versions else versions[0]
 
     def create_version(self, values):
         self.ensure_one()
@@ -777,6 +781,11 @@ class HrEmployee(models.Model):
         )
         for employee in self:
             employee.versions_count = version_count_per_employee.get(employee, 0)
+
+    @api.depends('version_ids.write_date')
+    def _compute_version_revision(self):
+        for employee in self:
+            employee.version_revision = ",".join(f"{v.id},{v.write_date!s}" for v in employee.version_ids)
 
     def _search_newly_hired(self, operator, value):
         if operator not in ('in', 'not in'):
@@ -1410,6 +1419,9 @@ We can redirect you to the public employee list."""
             self._remove_work_contact_id(user, vals.get('company_id'))
         if 'work_permit_expiration_date' in vals:
             vals['work_permit_scheduled_activity'] = False
+        if 'current_version_id' in vals:
+            new_version = self.env['hr.version'].browse(vals.get('current_version_id'))
+            self.resource_id.calendar_id = new_version.resource_calendar_id
         if vals.get('tz'):
             users_to_update = self.env['res.users']
             for employee in self:
@@ -1417,12 +1429,6 @@ We can redirect you to the public employee list."""
                     users_to_update |= employee.user_id
             if users_to_update:
                 users_to_update.write({'tz': vals['tz']})
-        if vals.get('department_id') or vals.get('user_id'):
-            department_id = vals['department_id'] if vals.get('department_id') else self[:1].department_id.id
-            # When added to a department or changing user, subscribe to the channels auto-subscribed by department
-            self.env['discuss.channel'].sudo().search([
-                ('subscription_department_ids', 'in', department_id)
-            ])._subscribe_users_automatically()
         if vals.get('departure_description'):
             for employee in self:
                 employee.message_post(body=_(
@@ -1449,6 +1455,12 @@ We can redirect you to the public employee list."""
 
             for employee in self:
                 employee._track_set_log_message(Markup("<b>Modified on the Version '%s'</b>") % employee.version_id.display_name)
+        if vals.get('department_id') or vals.get('user_id'):
+            department_id = vals['department_id'] if vals.get('department_id') else self[:1].department_id.id
+            # When added to a department or changing user, subscribe to the channels auto-subscribed by department
+            self.env['discuss.channel'].sudo().search([
+                ('subscription_department_ids', 'in', department_id)
+            ])._subscribe_users_automatically()
         if res and 'resource_calendar_id' in vals:
             resources_per_calendar_id = defaultdict(lambda: self.env['resource.resource'])
             for employee in self:
@@ -1572,10 +1584,11 @@ We can redirect you to the public employee list."""
             return res
 
         date_from = fields.Date.to_date(date_from)
-        for employee in self:
-            employee_versions_sudo = employee.sudo().version_ids.filtered(lambda v: v._is_in_contract(date_from))
+        employees_sudo = self if self.env.su else self.sudo()
+        for employee in employees_sudo:
+            employee_versions_sudo = employee.version_ids.filtered(lambda v: v._is_in_contract(date_from))
             if employee_versions_sudo:
-                res[employee.id] = employee_versions_sudo[0].resource_calendar_id.sudo(False)
+                res[employee.id] = employee_versions_sudo[0].resource_calendar_id.sudo(self.env.su)
         return res
 
     def _get_version_periods(self, start, stop, field=None, check_contract=False):
@@ -1788,8 +1801,10 @@ We can redirect you to the public employee list."""
 
     def _get_store_avatar_card_fields(self, target):
         employee_fields = [
+            "active",
             "company_id",
             Store.One("department_id", ["name"]),
+            "user_id",
             "work_email",
             Store.One("work_location_id", ["location_type", "name"]),
             "work_phone",

@@ -9,6 +9,14 @@ from odoo.addons.stock_barcode.tests.test_barcode_client_action import TestBarco
 @tagged('post_install', '-at_install')
 class TestBarcodeClientActionPicking(TestBarcodeClientAction):
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env['quality.alert.team'].create({
+            'name': 'Barcode Quality Team',
+            'company_id': cls.company.id,
+        })
+
     def test_operation_quality_check_barcode(self):
         """
         Test quality check on incoming shipment from barcode.

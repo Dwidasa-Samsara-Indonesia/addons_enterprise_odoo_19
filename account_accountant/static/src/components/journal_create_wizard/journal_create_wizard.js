@@ -4,6 +4,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 import { user } from "@web/core/user";
+import { useHotkey } from "@web/core/hotkeys/hotkey_hook";
 
 class JournalCreateWizardCard extends Component {
     static template = "account.JournalCreateWizardCard";
@@ -19,6 +20,13 @@ export class JournalCreateWizard extends Component {
         super.setup();
         this.orm = useService("orm");
         this.action = useService("action");
+
+        // Setup keyboard navigation
+        useHotkey("arrowdown", () => this.navigateVertical("next"), { bypassEditableProtection: true, allowRepeat: true });
+        useHotkey("arrowup", () => this.navigateVertical("previous"), { bypassEditableProtection: true, allowRepeat: true });
+        useHotkey("arrowright", () => this.navigateHorizontal("next"), { bypassEditableProtection: true, allowRepeat: true });
+        useHotkey("arrowleft", () => this.navigateHorizontal("previous"), { bypassEditableProtection: true, allowRepeat: true });
+        useHotkey("enter", () => this.activateFocusedElement(), { bypassEditableProtection: true });
 
         onWillStart(async () => {
             this.hasGroupAccountUser = await user.hasGroup("account.group_account_user");
@@ -96,6 +104,91 @@ export class JournalCreateWizard extends Component {
         }
 
         return data;
+    }
+
+    /**
+     * Get all navigable elements within the wizard container
+     */
+    getNavigableElements() {
+        const container = document.querySelector(".journal-create-wizard-card")?.closest(".container");
+        if (!container) {
+            return [];
+        }
+        return Array.from(container.querySelectorAll(".o-navigable"));
+    }
+
+    /**
+     * Group navigable elements into rows based on their vertical position.
+     * Returns an array of rows, each row being an array of elements.
+     */
+    getElementRows(elements) {
+        const rows = [];
+        for (const el of elements) {
+            const top = el.getBoundingClientRect().top;
+            const existingRow = rows.find((row) => Math.abs(row[0].getBoundingClientRect().top - top) < 2);
+            if (existingRow) {
+                existingRow.push(el);
+            } else {
+                rows.push([el]);
+            }
+        }
+        return rows;
+    }
+
+    navigateVertical(direction) {
+        const elements = this.getNavigableElements();
+        if (elements.length === 0) {
+            return;
+        }
+
+        const activeElement = document.activeElement;
+        const rows = this.getElementRows(elements);
+        const rowIndex = rows.findIndex((row) => row.includes(activeElement));
+
+        if (rowIndex === -1) {
+            elements[0]?.focus();
+            return;
+        }
+
+        const colIndex = rows[rowIndex].indexOf(activeElement);
+        const targetRowIndex = direction === "next"
+            ? Math.min(rowIndex + 1, rows.length - 1)
+            : Math.max(rowIndex - 1, 0);
+        const targetRow = rows[targetRowIndex];
+        // Use the same column, clamped to the target row's length
+        targetRow[Math.min(colIndex, targetRow.length - 1)]?.focus();
+    }
+
+    navigateHorizontal(direction) {
+        const elements = this.getNavigableElements();
+        if (elements.length === 0) {
+            return;
+        }
+
+        const activeElement = document.activeElement;
+        const rows = this.getElementRows(elements);
+        const currentRow = rows.find((row) => row.includes(activeElement));
+
+        if (!currentRow) {
+            elements[0]?.focus();
+            return;
+        }
+
+        const colIndex = currentRow.indexOf(activeElement);
+        const targetIndex = direction === "next"
+            ? Math.min(colIndex + 1, currentRow.length - 1)
+            : Math.max(colIndex - 1, 0);
+        currentRow[targetIndex]?.focus();
+    }
+
+    /**
+     * Activate (click) the currently focused element
+     */
+    activateFocusedElement() {
+        const activeElement = document.activeElement;
+        if (activeElement.classList.contains("o-navigable")) {
+            activeElement.click();
+        }
     }
 }
 

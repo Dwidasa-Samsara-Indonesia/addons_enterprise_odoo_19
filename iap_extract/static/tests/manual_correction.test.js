@@ -1,6 +1,7 @@
 import {
     click,
     contains,
+    editInput,
     focus,
     mailModels,
     openFormView,
@@ -10,7 +11,7 @@ import {
     startServer,
 } from "@mail/../tests/mail_test_helpers";
 import { beforeEach, expect, test } from "@odoo/hoot";
-import { queryFirst, manuallyDispatchProgrammaticEvent, waitFor } from "@odoo/hoot-dom";
+import { animationFrame, queryFirst, manuallyDispatchProgrammaticEvent, waitFor } from "@odoo/hoot-dom";
 import { defineModels, onRpc } from "@web/../tests/web_test_helpers";
 import {
     getBoxesData,
@@ -118,6 +119,7 @@ test("basic", async () => {
                     <list editable="bottom">
                         <field name="char_field"/>
                         <field name="date_field"/>
+                        <field name="daterange_field_start" string="Date Range" widget="daterange" options="{'end_date_field': 'daterange_field_end', 'always_range': True}"/>
                         <field name="float_field"/>
                     </list>
                 </field>
@@ -304,12 +306,34 @@ test("basic", async () => {
     await contains(".o_field_one2many tr:nth-of-type(3) td[name=date_field]", { textContent: "Jan 13, 2020" });
     await unfocusField(".o_field_one2many .o_field_widget[name=date_field]");
 
+    // Manually fill the daterange start date column
+    await editInput(document.body, ".o_field_one2many tr:nth-of-type(1) .o_field_widget[name=daterange_field_start] input:first-child", "01/01/2020");
+    await click(".o_field_one2many tr:nth-of-type(2) .o_field_widget[name=daterange_field_start]");
+    await animationFrame();
+    await editInput(document.body, ".o_field_one2many tr:nth-of-type(2) .o_field_widget[name=daterange_field_start] input:first-child", "01/01/2020");
+    await click(".o_field_one2many tr:nth-of-type(3) .o_field_widget[name=daterange_field_start]");
+    await animationFrame();
+    await editInput(document.body, ".o_field_one2many tr:nth-of-type(3) .o_field_widget[name=daterange_field_start] input:first-child", "01/01/2020");
+
+    // Fill the daterange end date column
+    await focusField(".o_field_one2many .o_field_widget[name=daterange_field_start] input:nth-of-type(2)");
+    await contains(".o_extract_mixin_box", { count: boxes["date"][0].length });
+    rectangularSelection({ x: 0.45, y: 0.3 }, { x: 0.75, y: 0.55 });  // Select the column of dates
+    await animationFrame();
+    await contains(".o_field_one2many tr:nth-of-type(1) .o_field_widget[name=daterange_field_start] span:first-child", { textContent: "Jan 1, 2020" });
+    await contains(".o_field_one2many tr:nth-of-type(1) .o_field_widget[name=daterange_field_start] span:nth-of-type(2)", { textContent: "Jan 3, 2020" });
+    await contains(".o_field_one2many tr:nth-of-type(2) .o_field_widget[name=daterange_field_start] span:first-child", { textContent: "Jan 1, 2020" });
+    await contains(".o_field_one2many tr:nth-of-type(2) .o_field_widget[name=daterange_field_start] span:nth-of-type(2)", { textContent: "Jan 7, 2020" });
+    await contains(".o_field_one2many tr:nth-of-type(3) .o_field_widget[name=daterange_field_start] button:first-child", { value: "01/01/2020" });
+    await contains(".o_field_one2many tr:nth-of-type(3) .o_field_widget[name=daterange_field_start] button:nth-of-type(2)", { value: "01/13/2020" });
+    await unfocusField(".o_field_one2many .o_field_widget[name=daterange_field_start]");
+
     // Fill the char column
     await focusField(".o_field_one2many .o_field_widget[name=char_field] input");
     await contains(".o_extract_mixin_box", { count: boxes["word"][0].length });
     rectangularSelection({ x: 0, y: 0.3 }, { x: 0.4, y: 0.55 });  // Select the column of descriptions
-    await contains(".o_field_one2many .o_field_widget[name=char_field] input", { value: "First line" });
+    await contains(".o_field_one2many tr:nth-of-type(1) td[name=char_field]", { textContent: "First line" });
     await contains(".o_field_one2many tr:nth-of-type(2) td[name=char_field]", { textContent: "Second line with continuation line" });
-    await contains(".o_field_one2many tr:nth-of-type(3) td[name=char_field]", { textContent: "Third line" });
+    await contains(".o_field_one2many .o_field_widget[name=char_field] input", { value: "Third line" });
     await focusField(".o_field_one2many .o_field_widget[name=char_field] input");
 });

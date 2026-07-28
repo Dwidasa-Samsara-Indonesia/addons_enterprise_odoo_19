@@ -106,10 +106,7 @@ patch(Navbar.prototype, {
     _showDisplayAndGoToUrl({ displayId }) {
         cookie.set("pos_customer_display_id", displayId);
         mobile.methods
-            .showDisplayAndGoToUrl({
-                url: `${this.pos.config._base_url}/pos_customer_display/${this.pos.config.id}/${this.pos.config.access_token}`,
-                displayId: displayId,
-            })
+            .showDisplayAndGoToUrl({ url: this.customerDisplayURL, displayId: displayId })
             .catch((error) => {
                 logPosMessage(
                     "Navbar",

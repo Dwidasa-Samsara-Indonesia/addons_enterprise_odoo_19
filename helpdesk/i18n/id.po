@@ -11,13 +11,14 @@
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Abe Manyo (abem)" <abem@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Nurul Aini Akrima Sabila (nuaas)" <nuaas@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-01-06 06:53+0000\n"
-"Last-Translator: \"Abe Manyo (abem)\" <abem@odoo.com>\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
+"PO-Revision-Date: 2026-07-08 09:19+0000\n"
+"Last-Translator: \"Nurul Aini Akrima Sabila (nuaas)\" <nuaas@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/"
 "helpdesk/id/>\n"
 "Language: id\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__answered_customer_message_count
@@ -122,7 +123,7 @@ msgid ""
 "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/Sir'\">Madam/"
 "Sir</t>,<br/><br/>\n"
 "        We would like to inform you that we have closed your ticket "
-"(reference <t t-out=\"object.id or ''\">15</t>). \n"
+"(reference <t t-out=\"object.ticket_ref or ''\">15</t>).\n"
 "        We trust that the services provided have met your expectations and "
 "that you have found a satisfactory resolution to your issue.<br/><br/>\n"
 "        However, if you have any further questions or comments, please do "
@@ -137,26 +138,6 @@ msgid ""
 "    </div>\n"
 "        "
 msgstr ""
-"<div>\n"
-"        Kepada <t t-out=\"object.sudo().partner_id.name or 'Madam/"
-"Sir'\">Nyonya/Tuan</t>,<br/><br/>\n"
-"        Kami ingin menginformasikan Anda bahwa kami telah menutup tiket Anda "
-"(referensi <t t-out=\"object.id or ''\">15</t>). \n"
-"        Kami yakin layanan yang disediakan memenuhi ekspektasi Anda dan Anda "
-"mendapati resolusi yang memuaskan untuk masalah Anda.<br/><br/>\n"
-"        Namun, bila Anda memiliki pertanyaan atau komentar lebih lanjut, "
-"mohon jangan sungkan untuk membalas email ini untuk membuka ulang tiket "
-"Anda. \n"
-"        Tim kami di sini selalu siap untuk membantu Anda dan akan dengan "
-"bahagia membantu Anda dengan masalah tambahan apapun yang Anda mungkin "
-"miliki.<br/><br/>\n"
-"        Terima kasih telah memilih layanan kami dan untuk kooperasi Anda "
-"selama proses ini. Kami betul-betul menghargai bisnis Anda dan menghargai "
-"kesempatan ini untuk melayani Anda.<br/><br/>\n"
-"        Salam hormat,<br/><br/>\n"
-"        Tim <t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t>.\n"
-"    </div>\n"
-"        "
 
 #. module: helpdesk
 #: model:mail.template,body_html:helpdesk.rating_ticket_request_email_template
@@ -726,7 +707,7 @@ msgstr "Status Aktivitas"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Ikon Jenis Aktifitas"
+msgstr "Ikon Jenis Aktivitas"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.mail_activity_type_action_config_helpdesk
@@ -741,8 +722,8 @@ msgid ""
 "Adapt your <b>pipeline</b> to your workflow by adding <b>stages</b> <i>(e.g. "
 "Awaiting Customer Feedback, etc.).</i>"
 msgstr ""
-"Adaptasikan <b>pipeline</b> Anda ke workflow Anda dengan menambahkan "
-"<b>tahap</b> <i>(contoh Menunggu Feedback Pelanggan, dsb.).</i>"
+"Adaptasikan <b>pipeline</b> Anda ke workflow Anda dengan menambahkan <b>"
+"tahap</b> <i>(contoh Menunggu Masukan Pelanggan, dsb.).</i>"
 
 #. module: helpdesk
 #: model_terms:ir.actions.act_window,help:helpdesk.helpdesk_stage_action
@@ -1201,7 +1182,7 @@ msgstr "Entitas Komersial"
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.tickets_followup
 msgid "Communication history"
-msgstr "Sejarah komunikasi"
+msgstr "Riwayat komunikasi"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__use_website_helpdesk_forum
@@ -1443,7 +1424,7 @@ msgstr "Hari untuk mencapai tahap SLA, tanpa memperhitungkan kalender kerja"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__rotting_days
 msgid "Days Rotting"
-msgstr "Hari-Hari Membusuk"
+msgstr "Hari Membusuk"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage__rotting_threshold_days
@@ -2200,7 +2181,7 @@ msgstr "Terakhir Diperbarui pada"
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Late Activities"
-msgstr "Aktifitas terakhir"
+msgstr "Aktivitas terakhir"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.team_rating_data
@@ -2359,7 +2340,7 @@ msgstr "Aktivitas Saya"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Deadline Kegiatan Saya"
+msgstr "Tenggat Aktivitas Saya"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_tree
@@ -2436,7 +2417,7 @@ msgstr "Kalender Acara Aktivitas Berikutnya"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Batas Waktu Aktivitas Berikutnya"
+msgstr "Tenggat Aktivitas Berikutnya"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__activity_summary
@@ -2850,7 +2831,7 @@ msgstr "Menilai Rata-Rata Teks"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__rating_last_feedback
 msgid "Rating Last Feedback"
-msgstr "Nilai Feedback Terakhir"
+msgstr "Nilai Masukan Terakhir"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__rating_last_image
@@ -3613,8 +3594,10 @@ msgstr "Tiket Ditutup"
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.solved_ticket_request_email_template
-msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
-msgstr "Tiket Ditutup - Referensi {{ object.id if object.id else 15 }}"
+msgid ""
+"Ticket Closed - Reference {{ object.ticket_ref if object.ticket_ref else "
+"15 }}"
+msgstr ""
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla__ticket_count
@@ -3960,7 +3943,7 @@ msgid ""
 "\"Invited portal users and all internal users\" and watch the magic happen!"
 msgstr ""
 "Ingin menggunakan formulir website? Cukup sesuaikan visibilitas tim Anda ke "
-"\"User-user portal yang diundang dan semua user-user internal\"!"
+"\"User portal yang diundang dan semua user internal\"!"
 
 #. module: helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.tickets_followup
@@ -4006,7 +3989,7 @@ msgstr "Pesan situs"
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team__website_message_ids
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__website_message_ids
 msgid "Website communication history"
-msgstr "Sejarah komunikasi situs"
+msgstr "Riwayat komunikasi situs"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla__time
@@ -4214,6 +4197,52 @@ msgstr "{{ object.name }}"
 #: code:addons/helpdesk/models/helpdesk_ticket.py:0
 msgid "👤 Unassigned"
 msgstr "👤 Belum Ditugaskan"
+
+#~ msgid ""
+#~ "<div>\n"
+#~ "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/"
+#~ "Sir'\">Madam/Sir</t>,<br/><br/>\n"
+#~ "        We would like to inform you that we have closed your ticket "
+#~ "(reference <t t-out=\"object.id or ''\">15</t>). \n"
+#~ "        We trust that the services provided have met your expectations "
+#~ "and that you have found a satisfactory resolution to your issue.<br/><br/"
+#~ ">\n"
+#~ "        However, if you have any further questions or comments, please do "
+#~ "not hesitate to reply to this email to re-open your ticket. \n"
+#~ "        Our team is always here to help you and we will be happy to "
+#~ "assist you with any further concerns you may have.<br/><br/>\n"
+#~ "        Thank you for choosing our services and for your cooperation "
+#~ "throughout this process. We truly value your business and appreciate the "
+#~ "opportunity to serve you.<br/><br/>\n"
+#~ "        Kind regards,<br/><br/>\n"
+#~ "        <t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t> "
+#~ "Team.\n"
+#~ "    </div>\n"
+#~ "        "
+#~ msgstr ""
+#~ "<div>\n"
+#~ "        Kepada <t t-out=\"object.sudo().partner_id.name or 'Madam/"
+#~ "Sir'\">Nyonya/Tuan</t>,<br/><br/>\n"
+#~ "        Kami ingin menginformasikan Anda bahwa kami telah menutup tiket "
+#~ "Anda (referensi <t t-out=\"object.id or ''\">15</t>). \n"
+#~ "        Kami yakin layanan yang disediakan memenuhi ekspektasi Anda dan "
+#~ "Anda mendapati resolusi yang memuaskan untuk masalah Anda.<br/><br/>\n"
+#~ "        Namun, bila Anda memiliki pertanyaan atau komentar lebih lanjut, "
+#~ "mohon jangan sungkan untuk membalas email ini untuk membuka ulang tiket "
+#~ "Anda. \n"
+#~ "        Tim kami di sini selalu siap untuk membantu Anda dan akan dengan "
+#~ "bahagia membantu Anda dengan masalah tambahan apapun yang Anda mungkin "
+#~ "miliki.<br/><br/>\n"
+#~ "        Terima kasih telah memilih layanan kami dan untuk kooperasi Anda "
+#~ "selama proses ini. Kami betul-betul menghargai bisnis Anda dan menghargai "
+#~ "kesempatan ini untuk melayani Anda.<br/><br/>\n"
+#~ "        Salam hormat,<br/><br/>\n"
+#~ "        Tim <t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t>.\n"
+#~ "    </div>\n"
+#~ "        "
+
+#~ msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
+#~ msgstr "Tiket Ditutup - Referensi {{ object.id if object.id else 15 }}"
 
 #~ msgid ""
 #~ "<div>\n"

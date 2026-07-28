@@ -265,7 +265,9 @@ class ResPartner(models.Model):
             options = {}
         if not options.get('join_invoices', options.get('followup_line', self.followup_line_id).join_invoices):
             return self.env['account.move']
-        invoices_to_print = self.unreconciled_aml_ids.move_id.filtered(lambda l: l.is_invoice(include_receipts=True))
+        invoices_to_print = self.unreconciled_aml_ids.filtered(
+            lambda l: not l.no_followup and l.move_id.is_invoice(include_receipts=True)
+        ).move_id
         if options.get('manual_followup'):
             # For manual reminders, only print invoices with the selected attachments
             return invoices_to_print.filtered(lambda inv: inv.invoice_pdf_report_id.id in options.get('attachment_ids', []))
@@ -652,16 +654,19 @@ class ResPartner(models.Model):
 
     def _show_pay_now_button(self):
         invoice_online_payment = bool(self.env['ir.config_parameter'].sudo().get_param('account_payment.enable_portal_payment'))
-        payment_method_available = bool(self.env['payment.method'].sudo().search_count([('active', '=', 'True')]))
-        return invoice_online_payment and payment_method_available
+        payment_method_available = bool('payment.method' in self.env and self.env['payment.method'].sudo().search_count([('active', '=', 'True')]))
+        partner_has_user = bool(self.user_ids)
+        return invoice_online_payment and payment_method_available and partner_has_user
 
     def _compute_has_moves(self):
         field_names = ['partner_id', 'partner_shipping_id', 'commercial_partner_id']
         partner_ids = {row[0] for row in self.env.execute_query(SQL("\nUNION ").join(
-            self.env['account.move']._search(
+            [self.env['account.move']._search(
                 [('company_id', 'in', self.env.companies.ids), (name, 'in', self.ids)]
-            ).subselect('account_move.' + name)
-            for name in field_names
+            ).subselect('account_move.' + name) for name in field_names] +
+            [self.env['account.move.line']._search(
+                [('company_id', 'in', self.env.companies.ids), ('partner_id', 'in', self.ids)]
+            ).subselect('account_move_line.partner_id')]
         ))}
 
         for partner in self:

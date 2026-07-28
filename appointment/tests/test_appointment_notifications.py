@@ -62,12 +62,13 @@ class AppointmentTestTracking(AppointmentCommon, MailCase):
             meeting.active = True
             self.flush_tracking()
 
-        self.assertEqual(len(self._new_msgs), 4,
-            'Expected a tracking message and confirmation mails')  # 1 track message + 3 mails(1 apt_manager + 2 customers)
+        self.assertEqual(len(self._new_msgs), 5,
+            'Expected a tracking message, a booking template and confirmation mails')  # 1 track message + 1 booking template + 3 mails(1 apt_manager + 2 customers)
         self.assertTracking(
             self._new_msgs[3],
             [('active', 'boolean', False, True)]
         )
+        self.assertEqual(self.ref('appointment.mt_calendar_event_booked'), self._new_msgs[4].subtype_id.id, 'Expected a "booked" template message')
         #  Check all mails are sent after confirming the booking
         for attendee in meeting.partner_ids:
             self.assertSentEmail(

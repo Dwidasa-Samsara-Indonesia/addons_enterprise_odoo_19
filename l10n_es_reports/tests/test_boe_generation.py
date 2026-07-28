@@ -129,6 +129,21 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
             'journal_id': cash_journal.id,
         })._create_payments()
 
+        other_spanish_partner = self.env['res.partner'].create({
+            'name': "Other Partner",
+            'state_id': self.env.ref('base.state_es_m').id,
+            'country_id': self.env.ref('base.es').id,
+            'vat': "ESA12345674",
+        })
+        other_invoice = self.init_invoice('out_invoice', partner=other_spanish_partner, amounts=[4000], invoice_date=fields.Date.today())
+        other_invoice.l10n_es_reports_mod347_invoice_type = 'regular'
+        other_invoice._post()
+        self.env['account.payment.register'].with_context(active_ids=other_invoice.ids, active_model='account.move').create({
+            'amount': 4000,
+            'payment_date': other_invoice.date,
+            'journal_id': cash_journal.id,
+        })._create_payments()
+
         report = self.env.ref('l10n_es_reports.mod_347')
         options = self._generate_options(report, '2020-01-01', '2020-12-31')
         wizard_model = self.env[report.custom_handler_model_name]
@@ -138,6 +153,8 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
 
         boe_result = self.env[report.custom_handler_model_name].export_boe(options)
         self.assertTrue(self.spanish_partner.name.upper() not in boe_result['file_content'].decode())
+        # Only the other partner is above the 3 005,06 € threshold must be reported
+        self.assertIn(other_spanish_partner.name.upper(), boe_result['file_content'].decode())
 
     @freeze_time('2025-05-15')
     def test_boe_includes_null_lines_mod_349(self):

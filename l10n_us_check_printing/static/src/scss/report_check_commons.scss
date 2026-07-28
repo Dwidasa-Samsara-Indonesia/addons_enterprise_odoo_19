@@ -24,12 +24,12 @@
         visibility: hidden;
     }
 
-    .ckus_check, .ckus_stub_1, .ckus_stub_2, .ckus_stub_blank {
+    .ckus_check, .ckus_stub {
         position: absolute;
         height: 3.25in;
     }
 
-    .ckus_check > *, .ckus_stub_blank > * {
+    .ckus_check > * {
         position: absolute;
         white-space: nowrap;
     }
@@ -39,7 +39,7 @@
         font-size: 1.3em;
     }
 
-    .ckus_stub, .ckus_stub_blank {
+    .ckus_stub {
         width: 8in;
     }
 
@@ -78,14 +78,6 @@
 
     p, span, strong, em {
         line-height: inherit;
-    }
-
-    .ckus_stub_blank {
-        .ckus_name {
-            position: absolute;
-            top: 0;
-            left: 0.15in;
-        }
     }
 
     .ckus_hr_line {

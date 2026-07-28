@@ -156,15 +156,19 @@ class AccountMove(models.Model):
                 elif move.move_type in ('out_invoice', 'out_receipt', 'in_invoice', 'in_receipt'):
                     available_types.extend(('FACT', 'FCAM', 'FPEQ', 'FCAP'))
 
-                if not move.debit_origin_id and move.move_type in ('in_invoice', 'in_receipt'):
-                    available_types.extend(('NABN', 'FESP'))
+                if not move.debit_origin_id:
+                    if move.move_type in ('in_invoice', 'in_receipt'):
+                        available_types.append('FESP')
+                    elif move.move_type == 'in_refund':
+                        available_types.append('NABN')
 
-            final_available_types = [
-                doc_type
-                for doc_type in available_types
-                if doc_type in VALID_DOC_TYPES_BY_AFFILIATION.get(move.company_id.l10n_gt_edi_vat_affiliation, {})
-            ]
-            move.l10n_gt_edi_available_doc_types = ','.join(final_available_types)
+            if move.is_sale_document(include_receipts=True):
+                available_types = (
+                    doc_type
+                    for doc_type in available_types
+                    if doc_type in VALID_DOC_TYPES_BY_AFFILIATION.get(move.company_id.l10n_gt_edi_vat_affiliation, {})
+                )
+            move.l10n_gt_edi_available_doc_types = ','.join(available_types)
 
     @api.depends('l10n_gt_edi_available_doc_types')
     def _compute_l10n_gt_edi_doc_type(self):
@@ -309,11 +313,8 @@ class AccountMove(models.Model):
             'company_name': current_company.l10n_gt_edi_legal_name,
             'company_vat': sudo_root_company.vat,
             'phrases': self.l10n_gt_edi_phrase_ids.mapped('pdf_message'),
-            'have_exportacion': self.l10n_gt_edi_doc_type == 'FACT' and self.commercial_partner_id.country_code != 'GT',
-            'have_referencias': self.l10n_gt_edi_doc_type in ('NCRE', 'NDEB'),
-            'have_cambiaria': self.l10n_gt_edi_doc_type in ('FCAM', 'FCAP'),
-            'is_especial_fectura': self.l10n_gt_edi_doc_type == 'FESP',
         }
+        self._l10n_gt_edi_add_base_values(report_values)
         if report_values['have_exportacion']:
             self._l10n_gt_edi_add_export_values(report_values)
         if report_values['have_referencias']:
@@ -501,8 +502,8 @@ class AccountMove(models.Model):
 
         if all((
             self.commercial_partner_id.country_code != 'GT',  # Export invoices (uses Exportacion complemento)
-            'consu' in self.invoice_line_ids.product_id.mapped('type')  # Have product lines of type goods
-            or all(                                                     # Or have product combo lines where every item inside it is goods product
+            'service' not in self.invoice_line_ids.product_id.mapped('type')  # Have product lines of type goods or combo
+            and all(                                                     # And if any product combo lines, their product should be goods
                 combo_child_product.type == 'consu'
                 for combo_product in self.invoice_line_ids.product_id.filtered(lambda p: p.type == 'combo')
                 for combo_child_product in combo_product.combo_ids.combo_item_ids.product_id

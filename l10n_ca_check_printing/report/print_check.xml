@@ -18,7 +18,7 @@
 </template>
 <template id="ckca_stub">
     <div t-attf-class="ckca_stub ckca_stub_{{ stub_num }}">
-        <div class="sequence_number" t-if="page['sequence_number']" t-out="page['sequence_number']" />
+        <div class="sequence_number" t-if="page['sequence_number'] and page['manual_sequencing']" t-out="page['sequence_number']" />
         <div class="row summary_line">
             <div class="col-6 text-start">
                 <span t-out="page['partner_name']"/>

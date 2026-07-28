@@ -8,5 +8,12 @@
             <field name="default_deadline_days_delay">19</field>
             <field name="states_workflow">generic_state_review_submit</field>
         </record>
+
+        <record id="l10n_fr_audit_return_type" model="account.return.type">
+            <field name="name">Audit (FR)</field>
+            <field name="category">audit</field>
+            <field name="country_id" ref="base.fr"/>
+            <field name="default_deadline_periodicity">fiscalyear</field>
+        </record>
     </data>
 </odoo>

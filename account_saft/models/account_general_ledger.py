@@ -330,21 +330,22 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         )
         balance_result = self.env.execute_query(query.select(
             SQL.identifier(query.table, "partner_id"),
+            SQL("BOOL_OR(%s = 'asset_receivable') AS any_receivable", SQL.identifier(alias, "account_type")),
+            SQL("BOOL_OR(%s = 'liability_payable') AS any_liability", SQL.identifier(alias, "account_type")),
             SQL("COALESCE(SUM(balance) FILTER (WHERE date < %s AND %s = 'asset_receivable'), 0) AS opening_receivable", options['date']['date_from'], SQL.identifier(alias, "account_type")),
             SQL("COALESCE(SUM(balance) FILTER (WHERE %s = 'asset_receivable'), 0) AS closing_receivable", SQL.identifier(alias, "account_type")),
             SQL("COALESCE(SUM(balance) FILTER (WHERE date < %s AND %s = 'liability_payable'), 0) AS opening_payable", options['date']['date_from'], SQL.identifier(alias, "account_type")),
             SQL("COALESCE(SUM(balance) FILTER (WHERE %s = 'liability_payable'), 0) AS closing_payable", SQL.identifier(alias, "account_type")),
         ))
         all_partners = self._get_all_partners(values, balance_result)
-        for partner_id, opening_receivable, closing_receivable, opening_payable, closing_payable in balance_result:
+        for partner_id, any_receivable, any_liability, opening_receivable, closing_receivable, opening_payable, closing_payable in balance_result:
             partner = self.env['res.partner'].browse(partner_id).with_prefetch(all_partners._prefetch_ids)
 
             # TODO: remove in master: keeping a valid value in type in case the users does not have the updated xml
             partner_type = 'customer' if partner.customer_rank >= partner.supplier_rank else 'supplier'
             res['partner_detail_map'][partner_id]['type'] = partner_type
-            company_currency = values['company'].currency_id
 
-            if not company_currency.is_zero(opening_payable) or not company_currency.is_zero(closing_payable):
+            if any_liability or partner_type == 'supplier':
                 res['partner_detail_map'][partner_id]['types'].append('supplier')
                 res['supplier_vals_list'].append({
                     'partner': partner,
@@ -352,7 +353,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                     'closing_balance': closing_payable,
                 })
 
-            if not company_currency.is_zero(opening_receivable) or not company_currency.is_zero(closing_receivable) or not res['partner_detail_map'][partner_id]['types']:
+            if any_receivable or partner_type == 'customer':
                 res['partner_detail_map'][partner_id]['types'].append('customer')
                 res['customer_vals_list'].append({
                     'partner': partner,

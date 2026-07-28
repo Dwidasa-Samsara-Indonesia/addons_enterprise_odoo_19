@@ -181,3 +181,33 @@ class TestHelpdeskStockAccount(HelpdeskCommon):
         })
         credit_note.refund_moves()
         self.assertEqual(credit_note.new_move_ids.invoice_line_ids.product_id, self.product)
+
+    def test_refund_with_product_as_helpdesk_user(self):
+        """ Ensure a non-stock user can create a refund from a helpdesk ticket."""
+        product = self.env['product.product'].create({
+            'name': 'Test Product',
+            'type': 'service',
+        })
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.partner.id,
+            'order_line': [
+                Command.create({
+                    'product_id': product.id,
+                    'product_uom_qty': 5,
+                }),
+            ],
+        })
+        sale_order.action_confirm()
+        sale_order._create_invoices()
+        sale_order.invoice_ids.action_post()
+        self.ticket.write({
+            'sale_order_id': sale_order.id,
+        })
+        self.helpdesk_user.write({'group_ids': [Command.link(self.env.ref('account.group_account_invoice').id)]})
+        credit_note_form = Form(self.env['account.move.reversal'].with_user(self.helpdesk_user).with_context({'default_helpdesk_ticket_id': self.ticket.id}),
+            view=self.env.ref('helpdesk_account.view_account_move_reversal_inherit_helpdesk_account')
+        )
+        credit_note = credit_note_form.save()  # Should not raise AccessError
+        res = credit_note.reverse_moves()
+        refund = self.env['account.move'].browse(res['res_id'])
+        self.assertTrue(refund)

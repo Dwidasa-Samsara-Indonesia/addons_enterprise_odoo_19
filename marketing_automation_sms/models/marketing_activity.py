@@ -6,6 +6,7 @@ import logging
 from odoo import api, fields, models, _
 from odoo.fields import Datetime
 from odoo.exceptions import AccessError
+from odoo.tools.misc import OrderedSet
 
 _logger = logging.getLogger(__name__)
 
@@ -46,6 +47,19 @@ class MarketingActivity(models.Model):
 
         super(MarketingActivity, non_sms_trigger_category)._compute_trigger_category()
 
+    def _get_opposite_trigger_types(self):
+        types = super()._get_opposite_trigger_types()
+        sms_types = {
+            'sms_bounce':
+                ['sms_click', 'activity'],
+            'sms_click':
+                ['sms_not_click'],
+            'sms_not_click':
+                ['sms_click'],
+        }
+        types.update(**sms_types)
+        return types
+
     def _get_reschedule_trigger_types(self):
         trigger_types = super()._get_reschedule_trigger_types()
         trigger_types.add('sms_not_click')
@@ -56,10 +70,7 @@ class MarketingActivity(models.Model):
         if not self.env.is_superuser() and not self.env.user.has_group('marketing_automation.group_marketing_automation_user'):
             raise AccessError(_('To use this feature you should be an administrator or belong to the marketing automation group.'))
 
-        def _uniquify_list(seq):
-            seen = set()
-            return [x for x in seq if x not in seen and not seen.add(x)]
-        res_ids = _uniquify_list(traces.mapped('res_id'))
+        res_ids = list(OrderedSet(traces.mapped('res_id')))
         now = self.env.cr.now()
 
         mailing = self.mass_mailing_id.sudo().with_context(default_marketing_activity_id=self.ids[0])

@@ -383,6 +383,54 @@ class TestHrAppraisal(TransactionCase):
             appraisals = self.HrAppraisal.search([('employee_id', '=', self.hr_employee.id)])
             self.assertEqual(appraisals.appraisal_template_id, test_template)
 
+    def test_appraisal_template_department_priority(self):
+        # A template restricted to a department must take precedence over a
+        # global template that was already auto-selected because no employee
+        # (hence no department) was set on the form yet.
+        self.env['hr.appraisal.template'].search([]).unlink()
+        global_template = self.env['hr.appraisal.template'].create({
+            'description': 'Global Template',
+            'company_id': False,
+        })
+        department_template = self.env['hr.appraisal.template'].create({
+            'description': 'Department Template',
+            'company_id': self.env.company.id,
+            'department_ids': [Command.set(self.dep_rd.ids)],
+        })
+
+        appraisal_form = Form(self.HrAppraisal)
+        # No employee yet: the global template is the only candidate.
+        self.assertEqual(appraisal_form.appraisal_template_id, global_template)
+        # Setting an employee of the department must switch to its template.
+        appraisal_form.employee_id = self.colleague
+        self.assertEqual(appraisal_form.department_id, self.dep_rd)
+        self.assertEqual(appraisal_form.appraisal_template_id, department_template)
+
+    def test_appraisal_template_keeps_department_choice(self):
+        # When a department has several templates, a template the user chose
+        # for that department must be preserved when the template is recomputed
+        # (e.g. the employee or department is reselected), instead of being
+        # reset to the first template of the department.
+        self.env['hr.appraisal.template'].search([]).unlink()
+        Template = self.env['hr.appraisal.template']
+        first_template = Template.create({
+            'description': 'RD First',
+            'department_ids': [Command.set(self.dep_rd.ids)],
+        })
+        second_template = Template.create({
+            'description': 'RD Second',
+            'department_ids': [Command.set(self.dep_rd.ids)],
+        })
+
+        appraisal = self.HrAppraisal.create({'employee_id': self.colleague.id})
+        self.assertEqual(appraisal.appraisal_template_id, first_template)
+
+        # The user picks the other template of the same department.
+        appraisal.appraisal_template_id = second_template
+        # A recompute must not reset it to the department's first template.
+        appraisal._compute_appraisal_template()
+        self.assertEqual(appraisal.appraisal_template_id, second_template)
+
     def test_check_next_appraisal_date_is_unset_for_archived_employee(self):
         """
             Check that when an employee is archived,
@@ -447,3 +495,24 @@ class TestHrAppraisal(TransactionCase):
         self.assertFalse(future_appraisal_pending.exists(), "Appraisal in state 'pending' was not removed after employee's departure")
         self.assertTrue(completed_appraisal.exists(), "Appraisal in state 'done' was removed")
         self.assertFalse(goal_test.exists(), "Personal goal was not removed after employee's departure")
+
+    def test_request_late_appraisal(self):
+        """Tests that requesting an appraisal after next_appraisal_date properly creates the appraisal"""
+        old_appraisal_date = self.hr_employee.next_appraisal_date
+        with freeze_time(self.hr_employee.next_appraisal_date + relativedelta(days=7)):
+            with Form.from_action(self.env, self.hr_employee.action_send_appraisal_request()) as form:
+                form.employee_id = self.hr_employee
+                appraisal = form.save()
+            self.assertTrue(appraisal.exists())
+            self.assertEqual(self.hr_employee.next_appraisal_date, date.today())
+
+        with freeze_time(old_appraisal_date - relativedelta(days=7)):
+            self.hr_employee.next_appraisal_date = old_appraisal_date
+        with freeze_time(self.hr_employee.next_appraisal_date + relativedelta(days=7)):
+            with Form.from_action(self.env, self.manager.action_send_appraisal_request()) as form:
+                form.employee_id = self.manager
+                appraisal = form.save()
+            self.assertTrue(appraisal.exists())
+            with Form(appraisal) as form:
+                form.employee_id = self.hr_employee
+            self.assertEqual(self.hr_employee.next_appraisal_date, date.today())

@@ -3,6 +3,7 @@
 
 from . import account_tax
 from . import hr_employee
+from . import iot_box
 from . import module
 from . import pos_blackbox_log
 from . import pos_blackbox_log_ip

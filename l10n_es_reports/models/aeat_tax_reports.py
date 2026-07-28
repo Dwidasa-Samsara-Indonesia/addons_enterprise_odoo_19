@@ -1263,6 +1263,7 @@ class L10n_EsMod347TaxReportHandler(models.AbstractModel):
         return rslt
 
     def export_boe(self, options):
+        self.env.flush_all()
         dummy, year = self._get_mod_period_and_year(options)
         current_company = self.env.company
         report = self.env['account.report'].browse(options['report_id'])
@@ -1320,6 +1321,15 @@ class L10n_EsMod347TaxReportHandler(models.AbstractModel):
             'file_content': rslt,
             'file_type': 'txt',
         }
+
+    def action_audit_cell(self, options, params):
+        report_line = self.env['account.report.line'].browse(params['report_line_id'])
+        action = report_line.report_id.action_audit_cell(options, params)
+        action['context'] = {
+            **(action.get('context') or {}),
+            'group_by': ['move_type', 'invoice_date:quarter'],
+        }
+        return action
 
 
 class L10n_EsMod349TaxReportHandler(models.AbstractModel):
@@ -1482,7 +1492,7 @@ class L10n_EsMod349TaxReportHandler(models.AbstractModel):
                         else:
                             result_dict['value'] += 1
 
-            result_dict['has_sublines'] = float_compare(result_dict['value'], 0, precision_rounding=2)
+            result_dict['has_sublines'] = float_compare(result_dict['value'], 0, precision_digits=2)
 
             return result_dict
 
@@ -1533,7 +1543,7 @@ class L10n_EsMod349TaxReportHandler(models.AbstractModel):
 
         for grouping_key, query_res_lines in all_res_per_grouping_key.items():
             result_dict = build_result_dict(query_res_lines, reversed_moves_dict)
-            if float_compare(result_dict['value'], 0, precision_rounding=2):
+            if float_compare(result_dict['value'], 0, precision_digits=2):
                 rslt.append((grouping_key, result_dict))
 
         return rslt

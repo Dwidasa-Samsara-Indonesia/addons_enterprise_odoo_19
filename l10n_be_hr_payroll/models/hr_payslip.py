@@ -331,6 +331,7 @@ class HrPayslip(models.Model):
                 'work_entry_type_id': work_entry_type_id,
                 'number_of_days': number_of_days,
                 'number_of_hours': number_of_hours,
+                'name': self.env._('%(name)s%(duration_type)s', name=work_entry_type.name, duration_type=self.env._(' (Half-Day)') if duration_type == 'half' else ""),
             }
             res.append(attendance_line)
         # If there is a public holiday less than 30 days after the end of the contract
@@ -358,7 +359,7 @@ class HrPayslip(models.Model):
                             'input_type_id': self.env.ref('l10n_be_hr_payroll.cp200_other_input_after_contract_public_holidays').id,
                         })]})
         # Handle loss on commissions
-        if self._get_last_year_average_variable_revenues():
+        if self.version_id.commission_on_target and self._get_last_year_average_variable_revenues():
             we_types_ids = (
                 self.env.ref('hr_work_entry.l10n_be_work_entry_type_bank_holiday') + self.env.ref('hr_work_entry.l10n_be_work_entry_type_small_unemployment')
             ).ids
@@ -913,12 +914,12 @@ class HrPayslip(models.Model):
             withholding_tax_amount = convert_to_month(basic_bareme)
         else:
             # BAREME I: Isolated or spouse with income
-            if version.marital in ['divorced', 'single', 'widower'] or (version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status != 'without_income'):
+            if version._l10n_be_is_isolated() or (version._l10n_be_is_coupled() and version.spouse_fiscal_status != 'without_income'):
                 basic_bareme = max(compute_basic_bareme(yearly_net_taxable_revenue) - self._rule_parameter('deduct_single_with_income'), 0.0)
                 withholding_tax_amount = convert_to_month(basic_bareme)
 
             # BAREME II: spouse without income
-            if version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status == 'without_income':
+            if version._l10n_be_is_coupled() and version.spouse_fiscal_status == 'without_income':
                 yearly_net_taxable_revenue_for_spouse = min(yearly_net_taxable_revenue * 0.3, self._rule_parameter('max_spouse_income'))
                 basic_bareme_1 = compute_basic_bareme(yearly_net_taxable_revenue_for_spouse)
                 basic_bareme_2 = compute_basic_bareme(yearly_net_taxable_revenue - yearly_net_taxable_revenue_for_spouse)
@@ -926,11 +927,8 @@ class HrPayslip(models.Model):
 
         # Reduction for other family charges
         if (version.children and version.dependent_children) or (version.other_dependent_people and (version.dependent_seniors or version.dependent_juniors)):
-            if version.marital in ['divorced', 'single', 'widower'] or (version.spouse_fiscal_status != 'without_income'):
-
-                # if version.marital in ['divorced', 'single', 'widower']:
-                #     withholding_tax_amount -= self._rule_parameter('isolated_deduction')
-                if version.marital in ['divorced', 'single', 'widower'] and version.dependent_children:
+            if version._l10n_be_is_isolated() or (version._l10n_be_is_coupled() and version.spouse_fiscal_status != 'without_income'):
+                if version._l10n_be_is_isolated() and version.dependent_children:
                     withholding_tax_amount -= self._rule_parameter('disabled_dependent_deduction')
                 if version.disabled:
                     withholding_tax_amount -= self._rule_parameter('disabled_dependent_deduction')
@@ -938,11 +936,11 @@ class HrPayslip(models.Model):
                     withholding_tax_amount -= self._rule_parameter('dependent_senior_deduction') * version.dependent_seniors
                 if version.other_dependent_people and version.dependent_juniors:
                     withholding_tax_amount -= self._rule_parameter('disabled_dependent_deduction') * version.dependent_juniors
-                if version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status == 'low_income':
+                if version._l10n_be_is_coupled() and version.spouse_fiscal_status == 'low_income':
                     withholding_tax_amount -= self._rule_parameter('spouse_low_income_deduction')
-                if version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status == 'low_pension':
+                if version._l10n_be_is_coupled() and version.spouse_fiscal_status == 'low_pension':
                     withholding_tax_amount -= self._rule_parameter('spouse_other_income_deduction')
-            if version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status == 'without_income':
+            if version._l10n_be_is_coupled() and version.spouse_fiscal_status == 'without_income':
                 if version.disabled:
                     withholding_tax_amount -= self._rule_parameter('disabled_dependent_deduction')
                 if version.disabled_spouse_bool:
@@ -979,7 +977,7 @@ class HrPayslip(models.Model):
         if not wage or version.is_non_resident:
             return 0.0
 
-        if version.marital in ['divorced', 'single', 'widower'] or (version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status == 'without_income'):
+        if version._l10n_be_is_isolated() or (version._l10n_be_is_coupled() and version.spouse_fiscal_status == 'without_income'):
             rates = self._rule_parameter('cp200_monss_isolated')
             if not rates:
                 rates = [
@@ -991,7 +989,7 @@ class HrPayslip(models.Model):
             low, dummy, rate, basis, min_amount, max_amount = find_rate(wage, rates)
             return -min(max(basis + (wage - low + 0.01) * rate, min_amount), max_amount)
 
-        if version.marital in ['married', 'cohabitant'] and version.spouse_fiscal_status != 'without_income':
+        if version._l10n_be_is_coupled() and version.spouse_fiscal_status != 'without_income':
             rates = self._rule_parameter('cp200_monss_couple')
             if not rates:
                 rates = [
@@ -1053,7 +1051,7 @@ class HrPayslip(models.Model):
 
         # 1. - Détermination du salaire mensuel de référence (S)
         basic = categories['BRUT'] - result_rules['HolPayRecN']['total'] - result_rules['HolPayRecN1']['total']
-        salary = basic * total_hours / paid_hours  # S = (W/H) x U
+        salary = float_round(basic / paid_hours, precision_digits=2) * total_hours  # S = (W/H) x U
 
         # 2. - Détermination du montant de base de la réduction (R)
         bonus_basic_amount_volet_A = self._rule_parameter('work_bonus_basic_amount_volet_A')
@@ -1071,7 +1069,7 @@ class HrPayslip(models.Model):
             result = 0
 
         # 3. - Détermination du montant de la réduction (P)
-        result = result * paid_hours / total_hours  # P = (H/U) x R
+        result = float_round(paid_hours / total_hours, precision_digits=2) * result  # P = (H/U) x R
 
         return result
 
@@ -1095,7 +1093,7 @@ class HrPayslip(models.Model):
 
         # 1. - Détermination du salaire mensuel de référence (S)
         basic = categories['BRUT'] - result_rules['HolPayRecN']['total'] - result_rules['HolPayRecN1']['total']
-        salary = basic * total_hours / paid_hours  # S = (W/H) x U
+        salary = float_round(basic / paid_hours, precision_digits=2) * total_hours  # S = (W/H) x U
 
         # 2. - Détermination du montant de base de la réduction (R)
         bonus_basic_amount = self._rule_parameter('work_bonus_basic_amount')
@@ -1113,7 +1111,7 @@ class HrPayslip(models.Model):
             result = 0
 
         # 3. - Détermination du montant de la réduction (P)
-        result = result * paid_hours / total_hours  # P = (H/U) x R
+        result = float_round(paid_hours / total_hours, precision_digits=2) * result  # P = (H/U) x R
 
         return result
 
@@ -1147,7 +1145,7 @@ class HrPayslip(models.Model):
 
         # 1. - Détermination du salaire mensuel de référence (S)
         basic = categories['BRUT'] - result_rules['HolPayRecN']['total'] - result_rules['HolPayRecN1']['total']
-        salary = basic * total_hours / paid_hours  # S = (W/H) x U
+        salary = float_round(basic / paid_hours, precision_digits=2) * total_hours  # S = (W/H) x U
 
         # 2. - Détermination du montant de base de la réduction (R)
         if self.date_from < date(2023, 7, 1):
@@ -1171,7 +1169,7 @@ class HrPayslip(models.Model):
                 result = 0
 
         # 3. - Détermination du montant de la réduction (P)
-        result = result * paid_hours / total_hours  # P = (H/U) x R
+        result = float_round(paid_hours / total_hours, precision_digits=2) * result  # P = (H/U) x R
 
         return min(result, -categories['ONSS'])
 

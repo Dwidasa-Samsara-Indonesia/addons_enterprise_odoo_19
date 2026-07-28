@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-03-27 18:02+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-07-04 09:41+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/fi/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -273,7 +273,7 @@ msgstr "Kirjanpitoraportti"
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_return
 msgid "Accounting Return"
-msgstr "Kirjanpidon raportti"
+msgstr "Kirjanpitoilmoitus"
 
 #. module: account_asset
 #. odoo-python
@@ -506,8 +506,8 @@ msgstr "Omaisuuserä luotu laskusta: %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
-msgstr "Omaisuuserä hävitetty. %s"
+msgid "Asset disposed. %(message)s"
+msgstr "Omaisuuserä poistettu. %(message)s"
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
@@ -523,8 +523,14 @@ msgstr "Omaisuuserä tauolla. %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
-msgstr "Omaisuuserä myyty. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr "Omaisuuserä myyty. %(message)s Katso %(invoice_links)s"
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
+msgstr "Omaisuuserä myyty: %s"
 
 #. module: account_asset
 #. odoo-python
@@ -542,7 +548,7 @@ msgstr "Omaisuuserä(t)"
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset
 msgid "Asset/Revenue Recognition"
-msgstr "Omaisuuden/tulojen kirjaaminen"
+msgstr "Omaisuuserän/tulojen kirjaaminen"
 
 #. module: account_asset
 #. odoo-python
@@ -1028,8 +1034,8 @@ msgid ""
 msgstr ""
 "Varmista paikallisten verosäännösten noudattaminen poistojen osalta.\n"
 "Vahvista poistojen menetelmien, kausien sekä alkamispäivien olevan linjassa "
-"verovaatimusten kanssa (esim. lineaarinen poisto, prorata temporis -"
-"sovellus, ei kaksinkertaista menojäämäpoistoa verotuksessa)."
+"verovaatimusten kanssa (esim. lineaarinen poisto, prorata temporis "
+"-sovellus, ei kaksinkertaista menojäämäpoistoa verotuksessa)."
 
 #. module: account_asset
 #. odoo-python
@@ -2416,6 +2422,12 @@ msgstr "salvage_value"
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "sell"
 msgstr "myy"
+
+#~ msgid "Asset disposed. %s"
+#~ msgstr "Omaisuuserä hävitetty. %s"
+
+#~ msgid "Asset sold. %s"
+#~ msgstr "Omaisuuserä myyty. %s"
 
 #~ msgid " (%s of %s)"
 #~ msgstr " (%s josta %s)"

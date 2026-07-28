@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-02-17 10:03+0000\n"
+"PO-Revision-Date: 2026-07-15 07:42+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/mrp_plm/"
 "fi/>\n"
@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__document_count
@@ -88,11 +88,11 @@ msgid ""
 "                    </p>"
 msgstr ""
 "<p class=\"o_view_nocontent_smiling_face\">\n"
-"                        Lataa ECO:n (Engineering Change Order) tiedostoja, "
-"joita käytetään tuotteeseen myöhemmin\n"
+"                        Lataa tiedostoja tekniseen muutostilaukseesi, joita "
+"käytetään tuotteeseen myöhemmin\n"
 "                    </p><p>\n"
 "                        Käytä tätä toimintoa minkä tahansa tiedostojen, "
-"kuten piirustusten tai eritelmien, tallentamiseen.\n"
+"kuten piirustusten tai määritelmien tallentamiseksi.\n"
 "                    </p>"
 
 #. module: mrp_plm
@@ -355,12 +355,12 @@ msgstr "Odotetaan validointia"
 #. module: mrp_plm
 #: model:ir.model,name:mrp_plm.model_report_mrp_report_bom_structure
 msgid "BOM Overview Report"
-msgstr "Osaluettelon yleiskatsausraportti"
+msgstr "Materiaaliluettelon yleiskatsausraportti"
 
 #. module: mrp_plm
 #: model:mrp.eco.type,name:mrp_plm.ecotype_bom_update
 msgid "BOM Updates"
-msgstr "Osaluettelon päivitykset"
+msgstr "Materiaaliluettelon päivitykset"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_routing_change__upd_time_mode_batch
@@ -419,40 +419,40 @@ msgstr "Estovaihe"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__byproduct_id
 msgid "BoM By-Product"
-msgstr "Osaluettelon sivutuote"
+msgstr "Materiaaliluettelon sivutuote"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__bom_line_id
 msgid "BoM Line"
-msgstr "Osaluettelo rivi"
+msgstr "Materiaaliluettelon rivi"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__bom_rebase_ids
 msgid "BoM Rebase"
-msgstr "Osaluettelon uudelleenperustaminen"
+msgstr "Materiaaliluettelon uudelleenperustaminen"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__new_bom_revision
 msgid "BoM Revision"
-msgstr "Osaluettelon revisio"
+msgstr "Materiaaliluettelon korjaus"
 
 #. module: mrp_plm
 #. odoo-python
 #: code:addons/mrp_plm/models/mrp_production.py:0
 msgid "BoM Suggestions from %(mo_name)s"
-msgstr "Osaluettelon ehdotukset alkaen %(mo_name)s"
+msgstr "Materiaaliluettelon ehdotukset %(mo_name)s"
 
 #. module: mrp_plm
 #. odoo-javascript
 #: code:addons/mrp_plm/static/src/components/bom_overview_table/mrp_bom_overview_table.xml:0
 #: model_terms:ir.ui.view,arch_db:mrp_plm.report_mrp_bom_inherit_mrp_plm
 msgid "BoM Version"
-msgstr "Osaluettelon versio"
+msgstr "Materiaaliluettelon versio"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_kanban
 msgid "BoM:"
-msgstr "Osaluettelo:"
+msgstr "Materiaaliluettelo:"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
@@ -490,7 +490,7 @@ msgstr "Muutoshistoria"
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
 msgid "Changes made in previous eco"
-msgstr "Edelliseen ECO:on (Engineering Change Order) tehdyt muutokset"
+msgstr "Edelliseen tekniseen muutostilaukseen tehdyt muutokset"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
@@ -576,13 +576,13 @@ msgstr "Luo ECO"
 #. module: mrp_plm
 #: model_terms:ir.actions.act_window,help:mrp_plm.mrp_eco_stage_action
 msgid "Create a new ECO stage"
-msgstr "Luo uusi ECO (Engineering Change Order) -vaihe"
+msgstr "Luo uusi vaihe tekniselle muutostilaukselle"
 
 #. module: mrp_plm
 #: model_terms:ir.actions.act_window,help:mrp_plm.mrp_eco_type_action_dashboard
 #: model_terms:ir.actions.act_window,help:mrp_plm.mrp_eco_type_action_form
 msgid "Create a new ECO type"
-msgstr "Luo uusi ECO (Engineering Change Order) -tyyppi"
+msgstr "Luo uudentyyppinen tekninen muutostilaus"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__create_uid
@@ -653,7 +653,7 @@ msgstr "Kuvaus muutoksesta ja sen syystä."
 #. module: mrp_plm
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco__bom_change_ids
 msgid "Difference between old BoM and new BoM revision"
-msgstr "Vanhan osaluettelon ja uuden osaluettelon revision välinen ero"
+msgstr "Vanhan ja uuden materiaaliluettelon korjauksen välinen ero"
 
 #. module: mrp_plm
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco__routing_change_ids
@@ -700,7 +700,7 @@ msgstr "Valmis"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_approval__eco_id
 msgid "ECO"
-msgstr "ECO (Engineering Change Order)"
+msgstr "Tekninen muutostilaus (ECO)"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_graph
@@ -723,22 +723,22 @@ msgstr "ECO-hyväksyntämalli"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__bom_change_ids
 msgid "ECO BoM Changes"
-msgstr "ECO osaluettelon muutokset"
+msgstr "ECO-materiaaliluettelon muutokset"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__bom_change_ids_on_byproduct
 msgid "ECO BoM Changes - By-Product"
-msgstr "Tekninen muutospyyntö (ECO) Osaluettelon muutokset - sivutuote"
+msgstr "ECO-materiaaliluettelon muutokset - sivutuote"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__bom_change_ids_on_line
 msgid "ECO BoM Changes - Component"
-msgstr "Teknisen muutospyynön (ECO) Osaluettelon muutokset - Osa"
+msgstr "ECO-materiaaliluettelon muutokset - komponentti"
 
 #. module: mrp_plm
 #: model:ir.model,name:mrp_plm.model_mrp_eco_bom_change
 msgid "ECO BoM changes"
-msgstr "ECO osaluettelon muutokset"
+msgstr "ECO-materiaaliluettelon muutokset"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__eco_rebase_id
@@ -783,9 +783,7 @@ msgstr "ECO-tyypit"
 #. module: mrp_plm
 #: model_terms:ir.actions.act_window,help:mrp_plm.mrp_eco_stage_action
 msgid "ECO stages give the different stages for the Engineering Change Orders"
-msgstr ""
-"ECO (Engineering Change Order) -vaiheet antavat suunnittelun muutostilausten "
-"eri vaiheet"
+msgstr "ECO-vaiheet määrittävät teknisten muutostilausten eri vaiheet"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_bom__eco_ids
@@ -812,7 +810,7 @@ msgstr "ECO(t)"
 #: model_terms:ir.ui.view,arch_db:mrp_plm.product_template_view_form_inherit_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.report_mrp_bom_inherit_mrp_plm
 msgid "ECOs"
-msgstr "ECOt"
+msgstr "Tekniset muutostilaukset (ECO)"
 
 #. module: mrp_plm
 #: model:ir.actions.act_window,name:mrp_plm.mrp_eco_action_report
@@ -823,13 +821,13 @@ msgstr "ECO-analyysi"
 #. odoo-python
 #: code:addons/mrp_plm/models/mrp_eco.py:0
 msgid "Eco"
-msgstr "ECO (Engineering Change Order)"
+msgstr "Tekninen muutostilaus (ECO)"
 
 #. module: mrp_plm
 #. odoo-python
 #: code:addons/mrp_plm/models/mrp_eco.py:0
 msgid "Eco BoM"
-msgstr "ECO osaluettelo"
+msgstr "ECO-materiaaliluettelo"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_production__eco_count
@@ -1041,8 +1039,8 @@ msgid ""
 "If unchecked, the version of the product/BoM will remain unchanged once the "
 "ECO is applied"
 msgstr ""
-"Jos valintaruutu ei ole valittuna, tuotteen tai osaluettelon versio pysyy "
-"muuttumattomana, kun tekninen muutospyyntö (ECO) otetaan käyttöön"
+"Jos valintaruutu ei ole ruksittu, tuote/materiaaliluettelo pysyy "
+"muuttumattomana, kun ECO on otettu käyttöön"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_bom__image_128
@@ -1146,7 +1144,7 @@ msgstr "Myöhässä olevat toimenpiteet"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_production__latest_bom_id
 msgid "Latest Bom"
-msgstr "Viimeisin osaluettelo"
+msgstr "Viimeisin materiaaliluettelo"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_type__alias_incoming_local
@@ -1255,12 +1253,12 @@ msgstr "Uusi osaluettelo"
 #. odoo-python
 #: code:addons/mrp_plm/models/mrp_production.py:0
 msgid "New BoM from %(mo_name)s"
-msgstr "Uusi osaluettelo (BoM) alkaen %(mo_name)s"
+msgstr "Uusi materiaaliluettelo %(mo_name)s"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__current_bom_id
 msgid "New Bom"
-msgstr "Uusi osaluettelo"
+msgstr "Uusi materiaaliluettelo"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__new_operation_id
@@ -1494,7 +1492,7 @@ msgstr ""
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_bom__previous_bom_id
 msgid "Previous BoM"
-msgstr "Edellinen osaluettelo"
+msgstr "Edellinen materiaaliluettelo"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__old_operation_id
@@ -1514,7 +1512,7 @@ msgstr "Edellinen teknisen muutospyynnön (ECO) komponentin muutokset"
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__old_uom_id
 msgid "Previous Product UoM"
-msgstr "Edellinen tuoteen mittayksikkö"
+msgstr "Edellinen tuotteen mittayksikkö"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change__old_product_qty
@@ -1553,7 +1551,7 @@ msgstr "Vain tuote"
 #. module: mrp_plm
 #: model:ir.model,name:mrp_plm.model_product_product
 msgid "Product Variant"
-msgstr "Tuotevariaatio"
+msgstr "Tuotevariantti"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
@@ -1602,8 +1600,8 @@ msgstr "Uudelleenperusta"
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
 msgid "Rebase new revision of BoM with previous eco bom and old bom changes."
 msgstr ""
-"Perustetaan osaluettelon uusi versio uudelleen aiempien ECO-osaluettelon ja "
-"vanhan osaluettelon kanssa."
+"Perusta materiaaliluettelon uusi versio aiempaan ECO-materiaaliluetteloon ja "
+"vanhaan materiaaliluetteloon."
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_type__alias_force_thread_id
@@ -1628,7 +1626,7 @@ msgstr "Hylkää"
 #. module: mrp_plm
 #: model:ir.model.fields.selection,name:mrp_plm.selection__mrp_eco_approval__status__rejected
 msgid "Rejected"
-msgstr "Rechazado"
+msgstr "Hylätty"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco__displayed_image_attachment_id
@@ -1689,7 +1687,7 @@ msgstr "Hae"
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_stage__sequence
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_type__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_kanban
@@ -1813,7 +1811,7 @@ msgstr ""
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_approval__approval_template_id
 msgid "Template"
-msgstr "Malli"
+msgstr "Mallipohja"
 
 #. module: mrp_plm
 #: model:res.groups,comment:mrp_plm.group_plm_manager
@@ -1927,7 +1925,7 @@ msgstr "Käyttäjät"
 #. module: mrp_plm
 #: model_terms:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
 msgid "V"
-msgstr ""
+msgstr "V"
 
 #. module: mrp_plm
 #: model:mrp.eco.stage,name:mrp_plm.ecostage_bom_update_validated

@@ -1,5 +1,6 @@
 import base64
 import re
+import requests
 
 from collections import OrderedDict
 from odoo import api, models, Command
@@ -16,7 +17,7 @@ class ProductTemplate(models.Model):
     @api.onchange('barcode')
     def _onchange_barcode(self):
         for product in self:
-            if self.env.user.has_group('base.group_system') and product.barcode and len(product.barcode) > 7:
+            if product.barcode and len(product.barcode) > 7:
                 barcode_lookup_data = self.barcode_lookup(product.barcode)
                 product._update_product_by_barcodelookup(product, barcode_lookup_data)
 
@@ -46,11 +47,11 @@ class ProductTemplate(models.Model):
         if not product.image_1920 and (images := product_data.get('images')):
             for image in images:
                 img_response = barcode_lookup_service.barcode_lookup_request(image)
-                if isinstance(img_response, dict):
-                    # Response is not 200 when fetching the image so we just ignore it.
-                    continue
 
-                if img_response:
+                if (
+                    img_response.status_code == requests.codes.ok
+                    and 'image/' in img_response.headers.get('Content-Type', '')
+                ):
                     self._set_lookup_image(product, img_response)
 
         # Weight
@@ -206,7 +207,7 @@ class ProductTemplate(models.Model):
             return False
         params = {'barcode': barcode, 'key': api_key}
         response = barcode_lookup_service.barcode_lookup_request('https://api.barcodelookup.com/v3/products', params)
-        return response.json() if not isinstance(response, dict) else response
+        return response.json() if response else {}
 
     @api.model_create_multi
     def create(self, vals_list):

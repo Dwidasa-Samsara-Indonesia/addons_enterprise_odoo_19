@@ -260,10 +260,6 @@ test("Open a dialog to schedule a plan using Open Shift", async function () {
         `,
     };
 
-    onRpc("gantt_resource_work_interval", () => [
-        { false: [["2021-10-12 08:00:00", "2022-10-12 12:00:00"]] },
-    ]);
-
     await mountGanttView({
         resModel: "planning.slot",
         arch: '<gantt js_class="planning_gantt" date_start="start_datetime" date_stop="end_datetime" default_scale="week"/>',

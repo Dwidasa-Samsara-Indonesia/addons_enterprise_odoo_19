@@ -168,3 +168,14 @@ class TestPointOfSaleFlow(TestPointOfSaleHttpCommon):
             'test_pos_settling_account_resets_on_payment_screen_unmount',
             login="accountman"
         )
+
+    def test_settle_account_due_with_refund(self):
+        self.partner_test_a = self.env["res.partner"].create({"name": "A Partner"})
+        self.main_pos_config.settle_due_product_id.taxes_id = False
+        self.customer_account_payment_method = self.env['pos.payment.method'].create({
+            'name': 'Customer Account',
+            'split_transactions': True,
+        })
+        self.main_pos_config.write({'payment_method_ids': [(4, self.customer_account_payment_method.id)]})
+        self.main_pos_config.open_ui()
+        self.start_pos_tour("test_settle_account_due_with_refund", login="accountman")

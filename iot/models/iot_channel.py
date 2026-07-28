@@ -1,6 +1,10 @@
+import logging
 import secrets
 
 from odoo import api, models
+
+
+_logger = logging.getLogger(__name__)
 
 
 class IotChannel(models.AbstractModel):
@@ -26,4 +30,5 @@ class IotChannel(models.AbstractModel):
         :param dict message: The message to send to the IoT Box
         :param str message_type: The type of the message (Default: call an action on a device)
         """
+        _logger.info("Sending message to IoT channel: %s", message)
         self.env['bus.bus']._sendone(self.get_iot_channel(), message_type, message)

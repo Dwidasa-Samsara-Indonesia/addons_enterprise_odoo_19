@@ -125,7 +125,7 @@ class SocialStreamPost(models.Model):
             'since_id': self.twitter_tweet_id,
             'max_results': 100,
             'tweet.fields': 'conversation_id,created_at,public_metrics,referenced_tweets',
-            'expansions': 'author_id,attachments.media_keys',
+            'expansions': 'author_id,attachments.media_keys,referenced_tweets.id,referenced_tweets.id.author_id',
             'user.fields': 'id,name,username,profile_image_url',
             'media.fields': 'type,url,preview_image_url',
         }
@@ -159,6 +159,9 @@ class SocialStreamPost(models.Model):
             for media in result.json().get('includes', {}).get('media', [])
         }
 
+        conversation_thread_tweets = result.json().get('includes', {}).get('tweets', ())
+        conversation_thread_tweets = {tweet['id']: tweet for tweet in conversation_thread_tweets}
+
         return {
             'comments': [
                 self.env['social.media']._format_tweet({
@@ -168,6 +171,9 @@ class SocialStreamPost(models.Model):
                         medias.get(media)
                         for media in tweet.get('attachments', {}).get('media_keys', [])
                     ],
+                    'conversation_thread_tweets': conversation_thread_tweets,
+                    'users': users,
+                    'social_account_handle': self.account_id.social_account_handle,
                 })
                 for tweet in result.json().get('data', [])
             ],
@@ -350,4 +356,5 @@ class SocialStreamPost(models.Model):
             link = "data:%s;base64,%s" % (attachment.content_type, b64_image)
             tweet['medias'] = [{'url': link, 'type': 'photo'}]
 
+        tweet['social_account_handle'] = self.account_id.social_account_handle
         return request.env['social.media']._format_tweet(tweet)

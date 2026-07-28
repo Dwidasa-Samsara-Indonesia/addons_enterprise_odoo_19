@@ -6,7 +6,7 @@
             <field name="model">account.tax</field>
             <field name="inherit_id" ref="account.view_tax_form"/>
             <field name="arch" type="xml">
-                <field name="ubl_cii_tax_category_code" position="after">
+                <field name="invoice_legal_notes" position="before">
                     <field name="l10n_ae_tax_code" invisible="country_code != 'AE'"/>
                 </field>
             </field>

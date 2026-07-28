@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
+"POT-Creation-Date: 2026-06-05 19:37+0000\n"
 "PO-Revision-Date: 2025-11-16 05:24+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
@@ -391,6 +391,12 @@ msgstr "Intrastat 交易代碼"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid "Invalid Intrastat Code"
+msgstr ""
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Invalid commodity intrastat code products."
 msgstr "商品的 Intrastat 產品代碼無效。"
@@ -444,6 +450,14 @@ msgstr "缺漏原產國/原產地"
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Missing product"
 msgstr "缺漏產品"
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"Note that the selected commodity code is invalid based on its start or "
+"expiry date. You can still select it."
+msgstr ""
 
 #. module: account_intrastat
 #. odoo-python
@@ -614,6 +628,14 @@ msgstr "日期範圍必須是一整個月或一整個季度。"
 #: model:ir.model.fields,help:account_intrastat.field_product_template__intrastat_supplementary_unit_amount
 msgid "The number of supplementary units per product quantity."
 msgstr "每個產品數量的補充單位數目。"
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"The product template has no products/variants. At least one variant is "
+"required to set the Intrastat values."
+msgstr ""
 
 #. module: account_intrastat
 #. odoo-python

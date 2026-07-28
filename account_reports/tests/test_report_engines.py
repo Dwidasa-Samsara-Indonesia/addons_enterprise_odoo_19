@@ -701,7 +701,7 @@ class TestReportEngines(TestAccountReportsCommon):
         )
 
     def test_engine_external_editable_percentage(self):
-        self.env.companies = self.env.company
+        self.env = self.env(context=dict(self.env.context, allowed_company_ids=self.env.company.ids))
 
         # Create the report.
         test_rounding_4 = self._prepare_test_report_line(

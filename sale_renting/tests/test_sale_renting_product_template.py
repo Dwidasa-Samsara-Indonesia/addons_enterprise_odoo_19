@@ -47,4 +47,4 @@ class TestSaleRentingProductTemplate(SaleRentingCommon):
             end_date=datetime(2000, 1, 3),
         )
 
-        self.assertEqual(configurator_data['price_info'], "2 Days")
+        self.assertEqual(configurator_data['price_info'], "/ 2 Days")

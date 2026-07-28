@@ -248,9 +248,8 @@
               "orderBy": []
             },
             "type": "odoo_line",
-            "dataSets": [
-              {}
-            ],
+            "dataSets": [],
+            "humanize": true,
             "verticalAxisPosition": "left",
             "stacked": false,
             "cumulatedStart": false,
@@ -420,9 +419,8 @@
                 },
                 "type": "odoo_geo",
                 "actionXmlId": "crm.crm_opportunity_report_action_lead",
-                "dataSets": [
-                  {}
-                ],
+                "dataSets": [],
+                "humanize": true,
                 "colorScale": "blues"
               }
             },
@@ -726,9 +724,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "|",
         ["active", "=", true],
@@ -760,9 +756,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "|",
         ["active", "=", true],
@@ -794,9 +788,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "|",
         ["active", "=", true],
@@ -804,7 +796,11 @@
       ],
       "id": "3",
       "measures": [
-        { "id": "prorated_revenue", "fieldName": "prorated_revenue", "aggregator": "sum_currency" }
+        {
+          "id": "prorated_revenue",
+          "fieldName": "prorated_revenue",
+          "aggregator": "sum_currency"
+        }
       ],
       "model": "crm.lead",
       "name": "average deal size - current",
@@ -828,9 +824,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "|",
         ["active", "=", true],
@@ -838,7 +832,11 @@
       ],
       "id": "4",
       "measures": [
-        { "id": "prorated_revenue", "fieldName": "prorated_revenue", "aggregator": "sum_currency" }
+        {
+          "id": "prorated_revenue",
+          "fieldName": "prorated_revenue",
+          "aggregator": "sum_currency"
+        }
       ],
       "model": "crm.lead",
       "name": "average deal size - previous",
@@ -862,9 +860,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "|",
         ["active", "=", true],
@@ -897,9 +893,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "|",
         ["active", "=", true],
@@ -932,9 +926,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -978,9 +970,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1024,9 +1014,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1074,9 +1062,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1120,9 +1106,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1166,9 +1150,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1212,9 +1194,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1258,9 +1238,7 @@
         "e06a6095-d07b-4b2f-b737-a2f5b3b4ab7c": { "chain": "team_id", "type": "many2one" },
         "e6c83660-136f-4665-a809-ba4d1f735de4": { "chain": "user_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         "|",
@@ -1299,7 +1277,7 @@
       "id": "77bc36ef-1319-4784-891f-950545059abc",
       "type": "date",
       "label": "Period",
-      "defaultValue": "last_12_months"
+      "defaultValue": "last_30_days"
     },
     {
       "id": "dafc928e-1d51-4f33-9975-fc3bb76f5d9d",

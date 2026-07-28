@@ -27,36 +27,36 @@ class AccountMoveReversal(models.TransientModel):
 
     def _get_default_so_domain(self, ticket):
         domain = super()._get_default_so_domain(ticket)
-        if ticket.product_id:
+        if product := ticket.sudo().product_id:
             domain = Domain.AND([
                 domain,
-                [('order_line.product_id', '=', ticket.product_id.id)]
+                [('order_line.product_id', '=', product.id)]
             ])
         return domain
 
     def _get_default_moves_domain(self, ticket):
         domain = super()._get_default_moves_domain(ticket)
-        if ticket.product_id:
+        if product := ticket.sudo().product_id:
             domain = Domain.AND([
                 domain,
-                [('line_ids.product_id', '=', ticket.product_id.id)]
+                [('line_ids.product_id', '=', product.id)]
             ])
         return domain
 
     def _get_suitable_move_domain(self):
         domain = super()._get_suitable_move_domain()
-        if self.helpdesk_ticket_id.product_id:
+        if product := self.helpdesk_ticket_id.sudo().product_id:
             domain = Domain.AND([
                 domain,
-                [('invoice_line_ids.product_id', '=', self.helpdesk_ticket_id.product_id.id)]
+                [('invoice_line_ids.product_id', '=', product.id)]
             ])
         return domain
 
     def _get_suitable_so_domain(self):
         domain = super()._get_suitable_so_domain()
-        if self.helpdesk_ticket_id.product_id:
+        if product := self.helpdesk_ticket_id.sudo().product_id:
             domain = Domain.AND([
                 domain,
-                [('order_line.product_id', '=', self.helpdesk_ticket_id.product_id.id)]
+                [('order_line.product_id', '=', product.id)]
             ])
         return domain

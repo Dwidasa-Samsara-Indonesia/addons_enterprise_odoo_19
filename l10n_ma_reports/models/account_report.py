@@ -157,6 +157,7 @@ class L10n_MaTaxReportHandler(models.AbstractModel):
             WHERE %(search_condition)s
 
             GROUP BY account_move_line__partner_id.id, COALESCE(caba_origin_move.id, account_move_line__move_id.id), tax.id
+            HAVING SUM(account_move_line.balance) != 0
             """,
             table_references=report_query.from_clause,
             search_condition=report_query.where_clause,

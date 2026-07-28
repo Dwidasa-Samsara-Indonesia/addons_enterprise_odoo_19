@@ -1298,7 +1298,7 @@ class TestLuSaftReport(TestSaftReport):
                                     <AccountID>___ignore___</AccountID>
                                     <ValueDate>2025-12-01</ValueDate>
                                     <SourceDocumentID>___ignore___</SourceDocumentID>
-                                    <CustomerID>___ignore___</CustomerID>
+                                    <SupplierID>___ignore___</SupplierID>
                                     <Description>BILL/2025/12/0001</Description>
                                     <CreditAmount>
                                         <Amount>234.00</Amount>
@@ -1362,7 +1362,7 @@ class TestLuSaftReport(TestSaftReport):
                                     <AccountID>___ignore___</AccountID>
                                     <ValueDate>2025-12-06</ValueDate>
                                     <SourceDocumentID>___ignore___</SourceDocumentID>
-                                    <CustomerID>___ignore___</CustomerID>
+                                    <SupplierID>___ignore___</SupplierID>
                                     <Description>BILL/2025/12/0002</Description>
                                     <CreditAmount>
                                         <Amount>117.00</Amount>

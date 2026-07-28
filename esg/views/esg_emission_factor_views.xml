@@ -47,7 +47,8 @@
                             <field name="source_id"/>
                             <field name="company_id"/>
                             <field name="region"/>
-                            <field name="valid_from" widget="daterange" options="{'end_date_field': 'valid_to'}"/>
+                            <field name="valid_from" widget="daterange" string="Validity Period"
+                                options="{'always_range': 1, 'end_date_field': 'valid_to'}"/>
                         </group>
                         <group>
                             <field name="esg_uncertainty_value" widget="percentage"/>

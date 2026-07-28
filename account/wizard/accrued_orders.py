@@ -66,7 +66,7 @@ class AccountAccruedOrdersWizard(models.TransientModel):
     @api.depends('date')
     def _compute_reversal_date(self):
         for record in self:
-            if not record.reversal_date or record.reversal_date <= record.date:
+            if record.date and (not record.reversal_date or record.reversal_date <= record.date):
                 record.reversal_date = record.date + relativedelta(days=1)
             else:
                 record.reversal_date = record.reversal_date
@@ -163,7 +163,8 @@ class AccountAccruedOrdersWizard(models.TransientModel):
                 values = _get_aml_vals(order, self.amount, 0, account.id, label=_('Manual entry'), analytic_distribution=distribution)
                 move_lines.append(Command.create(values))
             else:
-                accrual_entry_date = self.env.context.get('accrual_entry_date', self.date)
+                accrual_entry_date = self.env.context.get('accrual_entry_date')
+                accrual_entry_date = fields.Date.from_string(accrual_entry_date) if accrual_entry_date else self.date
                 order_lines = lines.with_context(accrual_entry_date=accrual_entry_date).filtered(
                     # We only want non-comment lines (no sections, notes, ...) and include all lines
                     # for purchase orders but exclude downpayment lines for sales orders.
@@ -261,7 +262,8 @@ class AccountAccruedOrdersWizard(models.TransientModel):
                                 processed_qty += inv_line.quantity
                                 if processed_qty >= abs(qty_to_invoice):
                                     break
-                            price_unit = abs(amount / processed_qty)
+                            if processed_qty:
+                                price_unit = abs(amount / processed_qty)
                         label = _(
                             '%(order)s - %(order_line)s; %(quantity_invoiced)s Invoiced, %(quantity_delivered)s Delivered at %(unit_price)s each',
                             order=order.name,
@@ -303,7 +305,7 @@ class AccountAccruedOrdersWizard(models.TransientModel):
                                 # Invoiced not delivered.
                                 invoiced_quantity = sum(posted_invoice_lines.mapped('quantity'))
                                 sum_amount = sum(expense_invoice_lines.mapped('debit'))
-                                invoiced_unit_price = sum_amount / invoiced_quantity
+                                invoiced_unit_price = sum_amount / invoiced_quantity if invoiced_quantity else 0
                                 perpetual_amount = invoiced_unit_price * qty_to_invoice
                                 perpetual_data = (invoiced_unit_price, perpetual_amount)
                                 perpetual_data_by_accounts_and_order_line[expense_account, stock_variation_account][order_line] = perpetual_data
@@ -339,7 +341,7 @@ class AccountAccruedOrdersWizard(models.TransientModel):
                     label = _('Goods Invoiced not Delivered (perpetual valuation)')
                 values = _get_aml_vals(orders, amount, 0.0, stock_variation_account.id, label=_(
                     "%(order)s - %(order_line)s; %(qty_invoiced)s invoiced, %(qty_delivered)s delivered at %(unit_price)s",
-                    order=order.display_name,
+                    order=order_line.order_id.display_name,
                     order_line=_ellipsis(order_line.name, 20),
                     qty_invoiced=order_line.qty_invoiced_at_date,
                     qty_delivered=order_line.qty_delivered_at_date,

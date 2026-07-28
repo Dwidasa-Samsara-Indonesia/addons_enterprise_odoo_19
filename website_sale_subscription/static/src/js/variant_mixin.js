@@ -35,9 +35,9 @@ VariantMixin._onChangeCombinationSubscription = function (ev, parent, combinatio
                 combination_info: combination,
             })
         );
-    } else if (!combination.allow_one_time_sale) {
+    } else {
         // we don't find the element in the dom which means there was no pricings in the previous combination so there is no `Radio buttons` or `h5` elements to replace then we append one.
-        const nodeToAppend = parent.querySelector(".js_main_product div div");
+        const nodeToAppend = parent.querySelector(".one-time-sale")?.parentElement || parent.querySelector(".js_main_product div div");
         nodeToAppend.append(
             renderToElement("website_sale_subscription.SubscriptionPricingTableSelect", {
                 combination_info: combination,

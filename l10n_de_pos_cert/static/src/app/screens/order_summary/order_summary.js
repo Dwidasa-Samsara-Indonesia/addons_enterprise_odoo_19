@@ -3,12 +3,11 @@ import { patch } from "@web/core/utils/patch";
 
 patch(OrderSummary.prototype, {
     async updateSelectedOrderline({ buffer, key }) {
-        const updatedLine = super.updateSelectedOrderline({ buffer, key });
+        const updatedLine = await super.updateSelectedOrderline({ buffer, key });
         const order = this.pos.getOrder();
         // cancel the transaction if last line is removed
         if (this.pos.isCountryGermanyAndFiskaly() && !order.lines.length) {
             await this.pos.handleFiskalyCancellation(order);
-            order.transactionState = "inactive";
         }
         return updatedLine;
     },

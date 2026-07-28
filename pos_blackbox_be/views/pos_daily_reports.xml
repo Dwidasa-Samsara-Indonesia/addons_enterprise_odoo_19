@@ -33,14 +33,6 @@
                 <h5>Time of reporting: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%m/%d/%Y %H:%M:%S')"/></h5>
             </t>
         </xpath>
-        <xpath expr="//div[@id='header']" position="replace">
-            <h2 t-if="state == 'closed' or state == 'opened'" id="daily_report_title">Daily Report
-                <t t-if="state == 'closed'">Z</t>
-                <t t-else="">X</t>
-            </h2>
-            <h2 t-else="">Multiple Report</h2>
-        </xpath>
-        <xpath expr="//div[hasclass('text-center')]" position="replace"/>
 
         <xpath expr="//div[@id='taxe_sales']/h6" position="attributes">
             <attribute name="t-if">not isBelgium</attribute>
@@ -229,8 +221,12 @@
             <attribute name="t-if" add="len(invoiceList)" separator=" or "/>
         </xpath>
 
-        <xpath expr="//t[@id='closing_session']//div[hasclass('oe_structure')]/following-sibling::div[1]" position="replace">
-            <table class="table table-sm table-borderless">
+        <xpath expr="//t[@id='closing_session']//div[hasclass('oe_structure')]/following-sibling::div[1]" position="attributes">
+            <attribute name="t-if" add="not isBelgium" separator=" and "/>
+        </xpath>
+
+        <xpath expr="//t[@id='closing_session']//div[hasclass('oe_structure')]/following-sibling::div[1]" position="after">
+            <table t-if="isBelgium" class="table table-sm table-borderless">
                 <tbody>
                     <tr class="border-bottom border-secondary">
                         <td>Total without rounding</td>

@@ -28,8 +28,8 @@ class AccountEdiProxyClientUser(models.Model):
         urls = super()._get_proxy_urls()
         urls['l10n_au_payroll'] = {
             'demo': False,
-            'prod': self.env['ir.config_parameter'].get_param('l10n_au_payroll_iap.endpoint', DEFAULT_PROD_URL),
-            'test': self.env['ir.config_parameter'].get_param('l10n_au_payroll_iap.test_endpoint', DEFAULT_TEST_URL),
+            'prod': self.env['ir.config_parameter'].sudo().get_param('l10n_au_payroll_iap.endpoint', DEFAULT_PROD_URL),
+            'test': self.env['ir.config_parameter'].sudo().get_param('l10n_au_payroll_iap.test_endpoint', DEFAULT_TEST_URL),
         }
         return urls
 
@@ -112,12 +112,13 @@ class AccountEdiProxyClientUser(models.Model):
             params = {}
         params.update(
              {
-                "db_uuid": self.env['ir.config_parameter'].get_param('database.uuid'),
+                "db_uuid": self.env['ir.config_parameter'].sudo().get_param('database.uuid'),
                 "company_id": self.company_id.id,
                 "client_bms_id": self.company_id.l10n_au_bms_id,
                 "company_name": self.company_id.name,
                 "company_abn": self.company_id.vat,
                 "registration_mode": self.edi_mode,
+                "is_neutralised": self.env['ir.config_parameter'].sudo().get_param('database.is_neutralized', False),
             },
         )
         _logger.info({"endpoint": endpoint})

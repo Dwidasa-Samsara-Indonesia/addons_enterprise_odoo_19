@@ -22,18 +22,19 @@ class BelgiumSalesReportTest(AccountSalesReportCommon):
         })
         cls.report = cls.env.ref('l10n_be_reports.belgian_ec_sales_report')
 
+        cls.l_tax = cls.env['account.tax'].search([('name', '=', '0% EU M'), ('company_id', '=', cls.env.company.id)], limit=1)
+        cls.t_tax = cls.env['account.tax'].search([('name', '=', '0% EU T'), ('company_id', '=', cls.env.company.id)], limit=1)
+        cls.s_tax = cls.env['account.tax'].search([('name', '=', '0% EU S'), ('company_id', '=', cls.env.company.id)], limit=1)
+
     @freeze_time('2019-12-31')
     def test_ec_sales_report(self):
-        l_tax = self.env['account.tax'].search([('name', '=', '0% EU M'), ('company_id', '=', self.company_data['company'].id)])[0]
-        t_tax = self.env['account.tax'].search([('name', '=', '0% EU T'), ('company_id', '=', self.company_data['company'].id)])[0]
-        s_tax = self.env['account.tax'].search([('name', '=', '0% EU S'), ('company_id', '=', self.company_data['company'].id)])[0]
         self._create_invoices([
-            (self.partner_a, l_tax, 300),
-            (self.partner_a, l_tax, 300),
-            (self.partner_a, t_tax, 500),
-            (self.partner_b, t_tax, 500),
-            (self.partner_a, s_tax, 700),
-            (self.partner_b, s_tax, 700),
+            (self.partner_a, self.l_tax, 300),
+            (self.partner_a, self.l_tax, 300),
+            (self.partner_a, self.t_tax, 500),
+            (self.partner_b, self.t_tax, 500),
+            (self.partner_a, self.s_tax, 700),
+            (self.partner_b, self.s_tax, 700),
         ])
 
         options = self.report.get_options({'date': {'mode': 'range', 'filter': 'this_month'}})
@@ -178,3 +179,105 @@ class BelgiumSalesReportTest(AccountSalesReportCommon):
             self.get_xml_tree_from_string(self.env[self.report.custom_handler_model_name].export_to_xml_sales_report(options)['file_content']),
             self.get_xml_tree_from_string(expected_xml)
         )
+
+    @freeze_time('2019-12-31')
+    def test_be_ec_sales_report_northern_ireland_customer(self):
+        """ Ensure services sales are excluded from the EC Sales List report if the
+            sale is to a Northern Ireland Customer
+        """
+        xi_partner = self.env['res.partner'].create([{
+            'country_id': self.env.ref('base.uk').id,
+            'name': 'XI Partner',
+            'vat': 'XI123456782',
+        }])
+
+        self._create_invoices([(xi_partner, self.l_tax, 100), (xi_partner, self.s_tax, 80)])
+
+        options = self.report.get_options({'date': {'mode': 'range', 'filter': 'this_month'}})
+        lines = self.report._get_lines(options)
+        self.assertLinesValues(
+            lines,
+            #   Partner                country code,            VAT Number,              Tax         Amount
+            [   0,                     1,                       2,                       3,          4],
+            [
+                (xi_partner.name,      xi_partner.vat[:2],      xi_partner.vat[2:],     'L (46L)',   100.0),
+                ('Total',              '',                      '',                     '',          100.0),
+            ],
+            options,
+        )
+
+    @freeze_time('2019-12-31')
+    def test_ec_sales_report_same_vat_partners(self):
+        self.partner.country_id = self.partner_a.country_id
+        self.partner.vat = 'FR23334175221'
+        self.partner_a.vat = self.partner_b.vat
+
+        l_tax = self.env['account.tax'].search([('name', '=', '0% EU M'), ('company_id', '=', self.env.company.id)], limit=1)
+        self._create_invoices([(self.partner_a, l_tax, 100), (self.partner_b, l_tax, 10), (self.partner, l_tax, 1)])
+
+        options = self.report.get_options({'date': {'mode': 'range', 'filter': 'this_month'}})
+        expected_xml = '''
+             <ns2:IntraConsignment xmlns="http://www.minfin.fgov.be/InputCommon" xmlns:ns2="http://www.minfin.fgov.be/IntraConsignment" IntraListingsNbr="1">
+                <ns2:IntraListing SequenceNumber="1" ClientsNbr="2" DeclarantReference="___ignore___" AmountSum="111.00">
+                <ns2:Declarant>
+                    <VATNumber>0477472701</VATNumber>
+                    <Name>company_1_data</Name>
+                    <Street></Street>
+                    <PostCode></PostCode>
+                    <City></City>
+                    <CountryCode>BE</CountryCode>
+                    <EmailAddress>jsmith@mail.com</EmailAddress>
+                    <Phone>+32475123456</Phone>
+                </ns2:Declarant>
+                <ns2:Period>
+                    <ns2:Month>12</ns2:Month>
+                    <ns2:Year>2019</ns2:Year>
+                </ns2:Period>
+                <ns2:IntraClient SequenceNumber="1">
+                    <ns2:CompanyVATNumber issuedBy="DE">123456788</ns2:CompanyVATNumber>
+                    <ns2:Code>L</ns2:Code>
+                    <ns2:Amount>110.00</ns2:Amount>
+                </ns2:IntraClient>
+                <ns2:IntraClient SequenceNumber="2">
+                    <ns2:CompanyVATNumber issuedBy="FR">23334175221</ns2:CompanyVATNumber>
+                    <ns2:Code>L</ns2:Code>
+                    <ns2:Amount>1.00</ns2:Amount>
+                </ns2:IntraClient>
+                </ns2:IntraListing>
+            </ns2:IntraConsignment>
+
+        '''
+        self.assertXmlTreeEqual(
+            self.get_xml_tree_from_string(self.env[self.report.custom_handler_model_name].export_to_xml_sales_report(options)['file_content']),
+            self.get_xml_tree_from_string(expected_xml)
+        )
+
+    @freeze_time('2019-12-31')
+    def test_be_ec_sales_report_foreign_vat(self):
+        """Test the attachments uses the foreign VAT instead of the company VAT when a foreign company generates the Belgian report."""
+
+        lu_country = self.env.ref('base.lu')
+        be_country = self.env.ref('base.be')
+
+        self.company.write({
+            'country_id': lu_country.id,
+            'account_fiscal_country_id': lu_country.id,
+            'vat': 'LU12345613',
+        })
+        fpos = self.env['account.fiscal.position'].create({
+            'name': 'Belgian Operations',
+            'company_id': self.company.id,
+            'country_id': be_country.id,
+            'foreign_vat': 'BE0477472701',
+        })
+        self.partner_a.property_account_position_id = fpos
+        self._create_invoices([(self.partner_a, self.l_tax, 300)])
+
+        options = self.report.get_options({'date': {'mode': 'range', 'filter': 'this_month'}})
+        xml_string = self.env[self.report.custom_handler_model_name].export_to_xml_sales_report(options)['file_content']
+
+        xml_tree = self.get_xml_tree_from_string(xml_string)
+        namespaces = {'ns2': 'http://www.minfin.fgov.be/IntraConsignment'}
+        listing_node = xml_tree.find('.//ns2:IntraListing', namespaces)
+        declarant_ref = listing_node.get('DeclarantReference')
+        self.assertIn('0477472701', declarant_ref)

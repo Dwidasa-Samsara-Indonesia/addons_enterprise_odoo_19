@@ -25,12 +25,21 @@ class EsgOtherEmission(models.Model):
         for emission in self:
             if emission.compute_method == 'monetary':
                 if emission.currency_id and emission.esg_emission_factor_id.currency_id:
-                    emission.esg_emission_multiplicator = emission.esg_emission_factor_id.currency_id._convert(emission.quantity, emission.currency_id)
+                    emission.esg_emission_multiplicator = emission.currency_id._convert(
+                        from_amount=emission.quantity,
+                        to_currency=emission.esg_emission_factor_id.currency_id,
+                        date=emission.date,
+                        round=False,
+                    )
                 else:
                     emission.esg_emission_multiplicator = 0
             else:
                 if emission.uom_id and emission.esg_emission_factor_id.uom_id:
-                    emission.esg_emission_multiplicator = emission.esg_emission_factor_id.uom_id._compute_quantity(emission.quantity, emission.uom_id)
+                    emission.esg_emission_multiplicator = emission.uom_id._compute_quantity(
+                        qty=emission.quantity,
+                        to_unit=emission.esg_emission_factor_id.uom_id,
+                        round=False,
+                    )
                 else:
                     emission.esg_emission_multiplicator = 0
 

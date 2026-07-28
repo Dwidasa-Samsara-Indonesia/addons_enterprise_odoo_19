@@ -231,7 +231,7 @@ class HrVersion(models.Model):
     l10n_ch_lpp_entry_valid_as_of = fields.Date("Entry Valid As Of", compute="_compute_l10n_ch_lpp_entry_valid_as_of", store=True, readonly=False, help="Please Provide the validity date of the last LPP Entry", groups="hr.group_hr_user")
     l10n_ch_lpp_withdrawal_valid_as_of = fields.Date("Withdrawal Valid As Of", compute="_compute_l10n_ch_lpp_withdrawal_valid_as_of", store=True, readonly=False, help="Please Provide the validity date of the last LPP Withdrawal", groups="hr.group_hr_user")
     l10n_ch_lpp_solutions = fields.Many2many('l10n.ch.lpp.insurance.line', string="LPP Codes", groups="hr_payroll.group_hr_payroll_user", tracking=True)
-    l10n_ch_lpp_mutations = fields.One2many('l10n.ch.lpp.mutation', 'version_id', groups="hr_payroll.group_hr_payroll_user", tracking=True)
+    l10n_ch_lpp_mutations = fields.One2many('l10n.ch.lpp.mutation', 'version_id', copy=True, groups="hr_payroll.group_hr_payroll_user", tracking=True)
     lpp_employee_amount = fields.Float(string="LPP Employee Contributions", groups="hr.group_hr_user", tracking=True)
     lpp_company_amount = fields.Float(string="LPP Company Contributions", groups="hr.group_hr_user", tracking=True)
     l10n_ch_14th_month = fields.Boolean(string="14th Month", groups="hr.group_hr_user", tracking=True)
@@ -558,18 +558,30 @@ class HrVersion(models.Model):
         whitelist_fields = super()._get_whitelist_fields_from_template()
         if self.env.company.country_id.code == "CH":
             whitelist_fields += [
+                "irregular_working_time",
                 "l10n_ch_accident_insurance_line_id",
                 "l10n_ch_additional_accident_insurance_line_ids",
                 "l10n_ch_avs_status",
                 "l10n_ch_compensation_fund_id",
                 "l10n_ch_contractual_13th_month_rate",
+                "l10n_ch_current_occupation_rate",
                 "l10n_ch_is_model",
                 "l10n_ch_is_predefined_category",
                 "l10n_ch_job_type",
                 "l10n_ch_lesson_wage",
                 "l10n_ch_location_unit_id",
+                "l10n_ch_laa_group",
+                "laa_solution_number",
                 "l10n_ch_lpp_insurance_id",
                 "l10n_ch_lpp_not_insured",
+                "l10n_ch_lpp_entry_valid_as_of",
+                "l10n_ch_lpp_entry_reason",
+                "l10n_ch_lpp_withdrawal_reason",
+                "l10n_ch_lpp_withdrawal_valid_as_of",
+                "l10n_ch_lpp_solutions",
+                "lpp_employee_amount",
+                "lpp_company_amount",
+                "l10n_ch_lpp_mutations",
                 "l10n_ch_monthly_effective_days",
                 "l10n_ch_other_employers",
                 "l10n_ch_other_employers_occupation_rate",
@@ -579,6 +591,14 @@ class HrVersion(models.Model):
                 "l10n_ch_total_occupation_rate",
                 "l10n_ch_yearly_holidays",
                 "l10n_ch_yearly_paid_public_holidays",
+                "l10n_ch_contractual_holidays_rate",
+                "l10n_ch_contractual_public_holidays_rate",
+                "l10n_ch_contractual_vacation_pay",
+                "l10n_ch_has_hourly",
+                "l10n_ch_has_monthly",
+                "l10n_ch_has_lesson",
+                "l10n_ch_weekly_hours",
+                "l10n_ch_weekly_lessons",
             ]
         return whitelist_fields
 

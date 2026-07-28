@@ -125,6 +125,27 @@ class TestClFetchmailServer(TestL10nClEdiCommon):
         self.assertEqual(move.amount_total, 351390)
         self.assertEqual(move.amount_tax, 56104)
 
+    def test_create_invoice_work_without_default_latam_journal(self):
+        """ Ensure no error when processing DTE XML without a 'use document' purchase journal """
+        att_name = 'incoming_invoice_33.xml'
+        from_address = 'incoming_dte@test.com'
+
+        self.env['account.journal'].search([
+            ('type', '=', 'purchase'),
+            ('l10n_latam_use_documents', '=', True),
+        ]).write({'l10n_latam_use_documents': False})
+        with file_open(f'l10n_cl_edi/tests/fetchmail_dtes/{att_name}', 'rb', filter_ext=('.xml',)) as f:
+            content = f.read()
+            file_data = {'name': att_name, 'raw': content, 'xml_tree': etree.fromstring(content)}
+        moves = self.env['fetchmail.server']._process_incoming_supplier_document(
+            file_data, from_address, self.company_data['company'].id
+        )
+
+        self.assertEqual(len(moves), 1)
+        move = moves[0]
+        self.assertEqual(move.journal_id.type, 'purchase')
+        self.assertEqual(move.journal_id.l10n_latam_use_documents, False)
+
     @patch('odoo.fields.Date.context_today', return_value=fields.Date.from_string('2019-11-23'))
     def test_duplicate_invoice_33_from_attachment(self, context_today):
         """DTE with known partner twice to trigger the "already exist" message."""
@@ -373,6 +394,22 @@ class TestClFetchmailServer(TestL10nClEdiCommon):
         move = moves[0]
         # The tax should belong to the receiving company.
         self.assertEqual(move.company_id, move.line_ids[0].tax_ids[0].company_id)
+
+    def test_create_invoice_33_from_attachment_other_currency(self):
+        """DTE with other currency """
+        att_name = 'incoming_invoice_33_with_other_currency.xml'
+        from_address = 'incoming_dte@test.com'
+        with file_open(f'l10n_cl_edi/tests/fetchmail_dtes/{att_name}', 'rb', filter_ext=('.xml',)) as f:
+            content = f.read()
+            file_data = {'name': att_name, 'raw': content, 'xml_tree': etree.fromstring(content)}
+
+        moves = self.env['fetchmail.server'].sudo()._process_incoming_supplier_document(
+          file_data, from_address, self.company_data['company'].id)
+        move = moves[0]
+        self.assertEqual(move.amount_total, 119.0)
+        self.assertEqual(move.currency_id, self.env.ref('l10n_cl.UF'))
+        self.assertEqual(move.invoice_line_ids.price_unit, 100.0)
+        self.assertEqual(move.invoice_line_ids.price_total, 119.0)
 
     def test_create_invoice_34_from_attachment(self):
         """Include Invoice Reference"""
@@ -664,3 +701,11 @@ class TestClFetchmailServer(TestL10nClEdiCommon):
             file_data, from_address, self.company_data['company'].id
         )
         self.assertEqual(len(moves), 2)
+
+        self.assertRecordValues(moves, [
+            {'l10n_latam_document_number': '001050', 'amount_total': 45196.0},
+            {'l10n_latam_document_number': '001051', 'amount_total': 45196.0},
+        ])
+        for move in moves:
+            self.assertEqual(len(move.invoice_line_ids), 1)
+            self.assertEqual(len(move.l10n_cl_reference_ids), 1)

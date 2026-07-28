@@ -557,12 +557,20 @@ class L10n_AuStp(models.Model):
 
             # == Super Contribution ==
             contributions = []
-            # OTE Entitlement
-            ote = employee_ytd_ungrouped["slip_lines"]['OTE']['OTE']
-            contributions.append({
-                "EntitlementTypeC": "O",
-                "EmployerContributionsYearToDateA": float_round(ote, precision_rounding=rounding),
-            })
+            # OTE / Qualifying Earnings (mutually exclusive per ATO; Q only valid from 01/07/2026)
+            if submit_date >= date(2026, 7, 1):
+                qe = employee_ytd_ungrouped["slip_lines"]['QE']['QE']
+                contributions.append({
+                    "EntitlementTypeC": "Q",
+                    "EmployerContributionsYearToDateA": float_round(qe, precision_rounding=rounding),
+                })
+            else:
+                ote = employee_ytd_ungrouped["slip_lines"]['OTE']['OTE']
+                contributions.append({
+                    "EntitlementTypeC": "O",
+                    "EmployerContributionsYearToDateA": float_round(ote, precision_rounding=rounding),
+                })
+
             # Non-Resc
             super_liability = employee_ytd_ungrouped["slip_lines"]["SUPER"]["SUPER"] + employee_ytd_ungrouped["fields"]["l10n_au_extra_compulsory_super"]
             contributions.append({

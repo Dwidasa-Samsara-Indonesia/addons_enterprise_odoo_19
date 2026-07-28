@@ -150,3 +150,51 @@ class TestForecastCreationAndEditing(TestCommonForecast):
             "The shift to plan should be linked to the resource of the closest shift (whose deadline is the closest "
             "from the current date) of the same project."
         )
+
+    @freeze_time('2019-06-06')
+    def test_auto_plan_with_missmatching_roles(self):
+        """
+        Ensures that the auto plan feature does not assign a resource
+        which does not have the required role for the slot.
+        """
+        project = self.env['project.project'].create({'name': 'Planning Project'})
+        role_a, role_b = self.env['planning.role'].create([
+            {
+                'name': 'Role A',
+                'resource_ids': [self.employee_bert.resource_id.id]
+            },
+            {
+                'name': 'Role B',
+            },
+        ])
+        slot_role_a, slot_role_b, slot_no_role = self.env['planning.slot'].create([
+            {
+                'project_id': project.id,
+                'role_id': role_a.id,
+                'start_datetime': datetime(2019, 6, 3, 8, 0, 0),
+                'end_datetime': datetime(2019, 6, 3, 9, 0, 0),
+            },
+            {
+                'project_id': project.id,
+                'role_id': role_b.id,
+                'start_datetime': datetime(2019, 6, 4, 8, 0, 0),
+                'end_datetime': datetime(2019, 6, 4, 9, 0, 0),
+            },
+            {
+                'project_id': project.id,
+                'start_datetime': datetime(2019, 6, 5, 8, 0, 0),
+                'end_datetime': datetime(2019, 6, 5, 9, 0, 0),
+            },
+        ])
+        slot_role_a.auto_plan_id()
+        self.assertEqual(slot_role_a.resource_id, self.employee_bert.resource_id)
+
+        slot_role_b.auto_plan_id()
+        self.assertFalse(slot_role_b.resource_id, "Bert cannot be assigned as he does not belong to Role B.")
+
+        role_b.resource_ids = [self.employee_bert.resource_id.id]
+        slot_role_b.auto_plan_id()
+        self.assertEqual(slot_role_b.resource_id, self.employee_bert.resource_id)
+
+        slot_no_role.auto_plan_id()
+        self.assertEqual(slot_no_role.resource_id, self.employee_bert.resource_id, "Bert should be assigned, as he worked on that project before.")

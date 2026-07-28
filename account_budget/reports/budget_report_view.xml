@@ -41,6 +41,8 @@
                         <filter string="Type" name="line_type" context="{'group_by':'line_type'}"/>
                         <filter string="Budget" name="group_by_budget_analytic_id" context="{'group_by':'budget_analytic_id'}"/>
                         <separator/>
+                        <filter string="Budget Line" name="group_by_budget_line_id" context="{'group_by':'budget_line_id'}"/>
+                        <separator/>
                         <filter name="account_id" context="{'group_by':'account_id'}"/>
                         <separator/>
                         <filter string="User" name="user_id" context="{'group_by':'user_id'}"/>
@@ -79,7 +81,10 @@
             <field name="res_model">budget.report</field>
             <field name="path">budget-report</field>
             <field name="view_mode">pivot,list,graph</field>
-            <field name="context">{"search_default_open_budget":1}</field>
+            <field name="context">{
+                "search_default_open_budget":1,
+                "search_default_group_by_budget_line_id": 1,
+            }</field>
         </record>
 
         <menuitem id="budget_report_menu" name="Budget Report"

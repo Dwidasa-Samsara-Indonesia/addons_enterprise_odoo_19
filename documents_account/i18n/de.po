@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2026-03-17 11:42+0000\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-05-23 09:45+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/de/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: documents_account
 #. odoo-python
@@ -96,7 +96,7 @@ msgid ""
 "As this PDF contains multiple documents, let's split and process in bulk."
 msgstr ""
 "Da diese PDF-Datei mehrere Dokumente enthält, sollten wir sie zerteilen und "
-"im Ganzen verarbeiten."
+"dann verarbeiten."
 
 #. module: documents_account
 #: model:ir.model,name:documents_account.model_ir_attachment
@@ -107,6 +107,11 @@ msgstr "Dateianhang"
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_bank_statement
 msgid "Bank Statement"
 msgstr "Bankauszug"
+
+#. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr "Mixin für den Import von Geschäftsdokumenten"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -121,12 +126,12 @@ msgstr "Prüfen Sie diese"
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
 msgid "Choose a journal..."
-msgstr "Ein Journal auswählen …"
+msgstr "Journal auswählen …"
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
 msgid "Choose an accounting document type..."
-msgstr "Einen Dokumenttyp für Buchhaltung auswählen ..."
+msgstr "Dokumenttyp für Buchhaltung auswählen ..."
 
 #. module: documents_account
 #. odoo-javascript
@@ -188,7 +193,7 @@ msgstr "Zu Dokumenten kopieren"
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.view_server_action_form_template
 msgid "Create"
-msgstr "Anlegen"
+msgstr "Erstellen"
 
 #. module: documents_account
 #. odoo-python
@@ -286,6 +291,7 @@ msgid "Customer Invoices"
 msgstr "Kundenrechnungen"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -309,25 +315,25 @@ msgstr "Dokument"
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_create_model
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_create_model
 msgid "Documents Account Create Model"
-msgstr "Dokumente der Buchhaltung: Modell erstellen"
+msgstr "Buchhaltungsdokumente: Modell erstellen"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_journal_id
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_journal_id
 msgid "Documents Account Journal"
-msgstr "Dokumente der Buchhaltung: Journal"
+msgstr "Buchhaltungsdokumente: Journal"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_move_type
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_move_type
 msgid "Documents Account Move Type"
-msgstr "Dokumente der Buchhaltung: Buchungstyp"
+msgstr "Buchhaltungsdokumente: Buchungstyp"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_suitable_journal_ids
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_suitable_journal_ids
 msgid "Documents Account Suitable Journal"
-msgstr "Dokumente der Buchhaltung: passendes Journal"
+msgstr "Buchhaltungsdokumente: passendes Journal"
 
 #. module: documents_account
 #. odoo-python
@@ -344,6 +350,12 @@ msgstr "Exportformat für Buchhaltungsberichte"
 #: model:ir.model,name:documents_account.model_account_reports_export_wizard
 msgid "Export wizard for accounting's reports"
 msgstr "Export-Assistent für Buchhaltungsberichte"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr "Links konnten nicht eingefügt werden: "
 
 #. module: documents_account
 #. odoo-javascript
@@ -389,6 +401,7 @@ msgid "Has Embedded PDF"
 msgstr "Hat eingebettetes PDF"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -477,8 +490,14 @@ msgid ""
 "Let's tag this mail as Finance<br/> <i>Tips: actions can be tailored to your "
 "process, according to the folder.</i>"
 msgstr ""
-"Kennzeichnen Sie diese E-Mail als „Finanzen“<br/><i>Hinweis: Aktionen können "
-"je nach Ordner auf Ihren Prozess zugeschnitten werden.</i>"
+"Kennzeichnen Sie diese E-Mail als „Finanzen“<br/><i>Tipp: Aktionen können je "
+"nach Ordner auf Ihren Prozess zugeschnitten werden.</i>"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
+msgstr "Links eingefügt"
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry
@@ -593,7 +612,7 @@ msgid ""
 "actions\n"
 msgstr ""
 "Art der Serveraktion. Die folgenden Werte sind verfügbar:\n"
-"- „Einen Datensatz aktualieren“: Aktualisieren Sie die Werte eines "
+"- „Einen Datensatz aktualisieren“: Aktualisieren Sie die Werte eines "
 "Datensatzes.\n"
 "- „Aktivität erstellen“: Erstellen Sie eine Aktivität (Dialog)\n"
 "- „E-Mail versenden“: Hinterlassen Sie eine Nachricht, oder Notiz oder "
@@ -624,7 +643,7 @@ msgstr "Lieferantenrechnungen"
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
-msgstr "Lieferanten-Gutschrift"
+msgstr "Lieferantengutschrift"
 
 #. module: documents_account
 #. odoo-python
@@ -653,7 +672,7 @@ msgid ""
 "Wow... 6 documents processed in a few seconds, You're good.<br>The tour is "
 "complete. Try uploading your own documents now."
 msgstr ""
-"Wow ... Sie haben 6 Dokumente in wenigen Sekunden verarbeitet, super. "
+"Wow … Sie haben 6 Dokumente in wenigen Sekunden verarbeitet. Super gemacht! "
 "<br>Versuchen Sie jetzt, Ihre eigenen Dokumente hochzuladen."
 
 #. module: documents_account

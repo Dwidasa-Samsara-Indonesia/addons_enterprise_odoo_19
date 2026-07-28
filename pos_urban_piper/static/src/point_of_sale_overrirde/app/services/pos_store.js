@@ -2,6 +2,7 @@ import { patch } from "@web/core/utils/patch";
 import { PosStore } from "@point_of_sale/app/services/pos_store";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { _t } from "@web/core/l10n/translation";
+import { Domain } from "@web/core/domain";
 
 patch(PosStore.prototype, {
     /**
@@ -99,20 +100,24 @@ patch(PosStore.prototype, {
         }
     },
 
-    async getServerOrders() {
+    getServerOrdersDomain() {
+        const base = super.getServerOrdersDomain();
         if (this.config.module_pos_urban_piper && this.config.urbanpiper_store_identifier) {
-            await this.data.loadServerOrders([
-                ["company_id", "=", this.config.company_id.id],
-                ["state", "=", "draft"],
-                ["session_id", "=", this.session.id],
-                [
-                    "delivery_provider_id",
-                    "in",
-                    this.config.urbanpiper_delivery_provider_ids.map((provider) => provider.id),
-                ],
+            return Domain.or([
+                base,
+                new Domain([
+                    ["company_id", "=", this.config.company_id.id],
+                    ["state", "=", "draft"],
+                    ["session_id", "=", this.session.id],
+                    [
+                        "delivery_provider_id",
+                        "in",
+                        this.config.urbanpiper_delivery_provider_ids.map((provider) => provider.id),
+                    ],
+                ]),
             ]);
         }
-        return await super.getServerOrders(...arguments);
+        return base;
     },
     _fetchStoreAction(data) {
         const params = {

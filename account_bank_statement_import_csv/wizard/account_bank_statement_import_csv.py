@@ -89,8 +89,9 @@ class Base_ImportImport(models.TransientModel):
         if 'debit' in import_fields and 'credit' in import_fields:
             index_debit = import_fields.index('debit')
             index_credit = import_fields.index('credit')
-            self._parse_float_from_data(data, index_debit, 'debit', options)
-            self._parse_float_from_data(data, index_credit, 'credit', options)
+            if 'debit' not in self.env['account.bank.statement.line'].fields_get():
+                self._parse_float_from_data(data, index_debit, 'debit', options)
+                self._parse_float_from_data(data, index_credit, 'credit', options)
             import_fields.append('amount')
             convert_to_amount = True
 

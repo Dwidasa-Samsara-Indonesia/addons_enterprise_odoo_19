@@ -2,5 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from . import test_documents
+from . import test_documents_gc
 from . import test_operation
+from . import test_project
 from . import test_routes

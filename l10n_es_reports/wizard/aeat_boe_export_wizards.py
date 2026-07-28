@@ -125,6 +125,12 @@ class L10n_Es_ReportsAeatBoeMod303ExportWizard(models.TransientModel):
 
     MODELO_NUMBER = 303
 
+    def _default_exempted_from_mod_390_available(self):
+        report = self.env.ref('l10n_es.mod_303')
+        options = self.env.context.get('l10n_es_reports_report_options', {})
+        period = self.env[report.custom_handler_model_name]._get_mod_period_and_year(options)[0]
+        return period in ('12', '4T')
+
     monthly_return = fields.Boolean(string="In Monthly Return Register")
     declaration_type = fields.Selection(
         selection_add=[
@@ -144,19 +150,8 @@ class L10n_Es_ReportsAeatBoeMod303ExportWizard(models.TransientModel):
         },
     )
     using_sii = fields.Boolean(string="Using SII Voluntarily", default=False)
-    exempted_from_mod_390 = fields.Boolean(string="Exempted From Modelo 390", default=False)
-    exempted_from_mod_390_available = fields.Boolean(compute='_compute_show_exempted_from_mod_390', help="Technical field used to only make exempted_from_mod_390 avilable in the last period (12 or 4T)")
-
-    def _compute_show_exempted_from_mod_390(self):
-        report = self.env.ref('l10n_es.mod_303')
-        options = self.env.context.get('l10n_es_reports_report_options', {})
-        try:
-            period = self.env[report.custom_handler_model_name]._get_mod_period_and_year(options)[0]
-        except UserError:
-            period = None
-
-        for record in self:
-            record.exempted_from_mod_390_available = period in ('12', '4T')
+    exempted_from_mod_390 = fields.Boolean(string="Exonerated From Modelo 390", default=False)
+    exempted_from_mod_390_available = fields.Boolean(default=_default_exempted_from_mod_390_available, help="Technical field used to only make exempted_from_mod_390 available in the last period (12 or 4T)")
 
     @api.constrains('partner_bank_id')
     def validate_bic(self):

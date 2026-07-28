@@ -562,6 +562,9 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
 
         document_node['cac:OrderReference']['cbc:SalesOrderID'] = None
 
+        if vals['document_type'] == 'debit_note':
+            document_node['cbc:BuyerReference']['_text'] = None
+
     def _add_document_header_nodes(self, document_node, vals):
         line_count_numeric = len([base_line for base_line in vals['base_lines'] if not base_line['special_mode'] and not base_line.get('is_tip')])
 
@@ -661,9 +664,17 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
         }
 
     def _get_party_node(self, vals):
+        company = vals['company']
         partner = vals['partner']
         role = vals['role']
         commercial_partner = partner.commercial_partner_id
+        if partner == company.partner_id.commercial_partner_id:
+            partner_display_name = partner_name = commercial_partner_name = company.root_id.partner_id.commercial_partner_id.display_name
+        else:
+            commercial_partner_name = commercial_partner.display_name
+            partner_display_name = partner.display_name
+            partner_name = partner.name
+
         vat_without_verification_code = commercial_partner._get_vat_without_verification_code()
         vat_verification_code = commercial_partner._get_vat_verification_code()
 
@@ -681,7 +692,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             } if not commercial_partner.is_company else None,
             'cac:PartyName': {
                 'cbc:Name': {
-                    '_text': partner.display_name
+                    '_text': partner_display_name,
                 }
             },
             'cac:PhysicalLocation': {
@@ -689,7 +700,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             } if partner.vat != FINAL_CONSUMER_VAT else None,
             'cac:PartyTaxScheme': {
                 'cbc:RegistrationName': {
-                    '_text': commercial_partner.name
+                    '_text': commercial_partner_name,
                 },
                 'cbc:CompanyID': {
                     '_text': vat_without_verification_code,
@@ -715,7 +726,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             },
             'cac:PartyLegalEntity': {
                 'cbc:RegistrationName': {
-                    '_text': commercial_partner.name
+                    '_text': commercial_partner_name,
                 },
                 'cbc:CompanyID': {
                     '_text': vat_without_verification_code,
@@ -735,7 +746,7 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
             } if partner.vat != FINAL_CONSUMER_VAT else None,
             'cac:Contact': {
                 'cbc:Name': {
-                    '_text': partner.name
+                    '_text': partner_name,
                 },
                 'cbc:Telephone': {
                     '_text': partner.phone
@@ -1090,10 +1101,10 @@ class AccountEdiXmlUbl_Dian(models.AbstractModel):
     def _export_invoice_constraints(self, move, vals):
         # EXTENDS account.edi.xml.ubl_21
         constraints = super()._export_invoice_constraints(move, vals)
-        now = fields.Datetime.now()
+        now = fields.Datetime.context_timestamp(self.with_context(tz='America/Bogota'), fields.Datetime.now()).date()
         oldest_date = now - timedelta(days=6)
         newest_date = now + timedelta(days=6)
-        if not (oldest_date <= fields.Datetime.to_datetime(move.invoice_date) <= newest_date):
+        if move.invoice_date and not (oldest_date <= move.invoice_date <= newest_date):
             constraints['dian_date'] = self.env._("The issue date can not be older than 6 days or more than 6 days in the future.")
         # required fields on invoice
         if not move.l10n_co_dian_post_time:
@@ -1656,7 +1667,7 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
         )
 
     def _get_sts_namespace(self, vals):
-        if vals['document_type'] in ('credit_note', 'debit_note'):
+        if vals['document_type'] == 'debit_note':
             return "http://www.dian.gov.co/contratos/facturaelectronica/v1/Structures"
         else:
             return "dian:gov:co:facturaelectronica:Structures-2-1"
@@ -1905,8 +1916,11 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
         # OVERRIDE account.edi.xml.ubl_20
         logs = super()._import_fill_invoice(invoice, tree, qty_factor)
         cufe = self._find_value("./cbc:UUID[@schemeName='CUFE-SHA384']", tree)
+        l10n_co_edi_type = self._find_value("./cbc:InvoiceTypeCode", tree)
         if cufe:
             invoice.l10n_co_edi_cufe_cude_ref = cufe
+        if l10n_co_edi_type and l10n_co_edi_type in L10N_CO_EDI_TYPE.values():
+            invoice.l10n_co_edi_type = l10n_co_edi_type
         if invoice.is_purchase_document():
             self.env['l10n_co_dian.document']._create_document(
                 etree.tostring(tree, encoding='UTF-8'),
@@ -1917,3 +1931,9 @@ la aceptación o rechazo de la referida factura, ni reclamó en contra de su con
                 message_json={'status': ''},
             )
         return logs
+
+    def _get_basis_qty(self, tree, xpath_dict):
+        """ OVERRIDE account.edi.common
+        In Colombia, the DIAN treats PriceAmount as the exact unit price,
+        so it must not be divided by BaseQuantity."""
+        return 1.0

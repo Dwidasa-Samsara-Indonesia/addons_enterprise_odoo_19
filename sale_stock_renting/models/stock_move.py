@@ -39,7 +39,7 @@ class StockMove(models.Model):
     @api.model
     def _prepare_merge_moves_distinct_fields(self):
         distinct_fields = super()._prepare_merge_moves_distinct_fields()
-        if any(sale_order.is_rental_order for sale_order in self.reference_ids.sale_ids):
+        if any(sale_order.is_rental_order for sale_order in self.reference_ids.sale_ids.sudo()):
             distinct_fields.remove('origin_returned_move_id')
             distinct_fields.remove('procure_method')
         return distinct_fields
@@ -67,7 +67,7 @@ class StockMove(models.Model):
         """ Correctly set the qty_delivered and qty_returned of rental order lines when using pickings."""
         res = super()._action_done(cancel_backorder=cancel_backorder)
         if self.env['res.groups']._is_feature_enabled('sale_stock_renting.group_rental_stock_picking'):
-            for move in self:
+            for move in res:
                 if move.state != "done":
                     continue
                 if not move.sale_line_id.is_rental or move.product_id != move.sale_line_id.product_id:

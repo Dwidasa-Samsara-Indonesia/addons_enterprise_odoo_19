@@ -30,7 +30,7 @@ class AccountEdiProxyClientUser(models.Model):
 
         try:
             response = self._call_peppol_proxy(
-                "/api/peppol/1/send_response",
+                endpoint=self._get_peppol_proxy_endpoint('1/send_response'),
                 params={
                     'reference_uuids': reference_moves.mapped('peppol_message_uuid'),
                     'status': status,
@@ -114,9 +114,7 @@ class AccountEdiProxyClientUser(models.Model):
         ]).grouped('peppol_message_uuid')
         for uuid, content in messages.items():
             if content['document_type'] == 'ApplicationResponse':
-                enc_key = content["enc_key"]
-                document_content = content["document"]
-                decoded_document = self._decrypt_data(document_content, enc_key)
+                decoded_document = self._peppol_get_decoded_document(content)
                 blr_status, rejection_message = self._peppol_extract_response_info(decoded_document)
                 move = origin_moves.get(content['origin_message_uuid'])
                 if move and blr_status in self.env['account.peppol.response']._fields['response_code']._selection:
@@ -177,11 +175,13 @@ class AccountEdiProxyClientUser(models.Model):
         processed_message_uuids = []
         other_messages = {}
         for uuid, content in messages.items():
-            if content['document_type'] != 'ApplicationResponse':
+            record = uuid_to_record[uuid]
+            # In case of an error there is no 'document_type' in the content.
+            if record._name != 'account.peppol.response' or 'document_type' in content and content['document_type'] != 'ApplicationResponse':
                 other_messages[uuid] = content
                 continue
 
-            peppol_response = uuid_to_record[uuid]
+            peppol_response = record
             if content.get('error'):
                 if content['error'].get('code') == 702:
                     # "Peppol request not ready" error:
@@ -207,16 +207,33 @@ class AccountEdiProxyClientUser(models.Model):
         # IAP knows about the Peppol user: we just send every services we want to support.
         receivers = self.search([
             ('proxy_type', '=', 'peppol'),
-            ('company_id.account_peppol_proxy_state', '=', 'receiver')
+            ('company_id.account_peppol_proxy_state', '=', 'receiver'),
         ])
-        supported_identifiers = list(self.env['res.company']._peppol_supported_document_types())
+        supported_identifiers = set(self.env['res.company']._peppol_supported_document_types())
+        supported_identifiers_wo_responses = {
+            identifier
+            for identifier in self.env['res.company']._peppol_supported_document_types()
+            if identifier not in self.env['res.company']._peppol_modules_document_types()['account_peppol_response']
+        }
         failed = False
         for receiver in receivers:
+            document_identifiers = supported_identifiers if receiver.company_id.peppol_purchase_journal_id else supported_identifiers_wo_responses
             try:
-                receiver._call_peppol_proxy(
-                    '/api/peppol/2/add_services',
-                    params={'document_identifiers': supported_identifiers},
+                iap_stored_services = receiver._call_peppol_proxy(
+                    receiver._get_peppol_proxy_endpoint('2/get_services'),
                 )
+                if set(iap_stored_services['services']) == document_identifiers:
+                    continue
+                if doc_ids_to_remove := [doc_id for doc_id in iap_stored_services['services'] if doc_id not in document_identifiers]:
+                    receiver._call_peppol_proxy(
+                        receiver._get_peppol_proxy_endpoint('2/remove_services'),
+                        params={'document_identifiers': doc_ids_to_remove},
+                    )
+                if doc_ids_to_add := [doc_id for doc_id in document_identifiers if doc_id not in iap_stored_services['services']]:
+                    receiver._call_peppol_proxy(
+                        receiver._get_peppol_proxy_endpoint('2/add_services'),
+                        params={'document_identifiers': doc_ids_to_add},
+                    )
             # Broad exception case, so as not to block execution of the rest of the _post_init hook.
             except (AccountEdiProxyError, UserError) as exception:
                 _logger.error(

@@ -2,6 +2,7 @@ import BarcodePickingModel from "@stock_barcode/models/barcode_picking_model";
 import { user } from "@web/core/user";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
+import { x2ManyCommands } from "@web/core/orm_service";
 import { deepEqual } from "@web/core/utils/objects";
 
 export default class BarcodeMRPModel extends BarcodePickingModel {
@@ -135,6 +136,9 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
     }
 
     get canBeValidate() {
+        if (!this.config.barcode_validation_full && !this.record.qty_producing) {
+            return false;
+        }
         return ["confirmed", "progress", "to_close"].includes(this.record.state);
     }
 
@@ -228,6 +232,9 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
         super.setData(...arguments);
         this.headerViewId = data.data.header_view_id;
         this.useTrackingNumber = true;
+        if (this.config.restrict_scan_product) {
+            this.validateContext.skip_compute_move_raw_ids = true;
+        }
     }
 
     _getName() {
@@ -345,10 +352,9 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
                     "stock.location",
                     this.record.location_dest_id
                 ),
-                lot_id:
-                    this.record.lot_producing_ids?.length === 1
-                        ? this.record.lot_producing_ids[0]
-                        : false,
+                lot_id: this.record.lot_producing_ids?.length
+                    ? this.record.lot_producing_ids.at(-1)
+                    : false,
                 lot_name: this.record.lot_name,
                 finalProduct: true,
                 package_id: false,
@@ -380,6 +386,13 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
         return !barcodeData.match && filters["stock.lot"];
     }
 
+    _canOverrideTrackingNumber(line, newLotName) {
+        if (line.finalProduct) {
+            return true;
+        }
+        return super._canOverrideTrackingNumber(...arguments);
+    }
+
     _shouldCreateLineOnExceed(line) {
         if (line.finalProduct) {
             return false;
@@ -400,11 +413,45 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
     updateLine(line, args) {
         // handle header line updates here
         if (line.finalProduct) {
-            if (args.lot_name) {
-                this.record.lot_name = args.lot_name;
-            }
-            if (args.lot_id) {
-                this.record.lot_producing_ids = [args.lot_id];
+            if (this.record.product_id.tracking === "serial") {
+                let lot = null;
+                if (args.lot_id) {
+                    lot = args.lot_id;
+                } else if (args.lot_name) {
+                    lot = {
+                        name: args.lot_name,
+                        product_id: this.record.product_id.id,
+                        company_id: this.record.company_id,
+                    };
+                }
+                if (lot) {
+                    if (this.record.lot_producing_ids.some((l) => l.name === lot.name)) {
+                        this.notification(
+                            _t("The scanned serial number %s is already used.", lot.name),
+                            { type: "danger" }
+                        );
+                        return;
+                    }
+                    this.record.lot_producing_ids = [...this.record.lot_producing_ids, lot];
+                }
+            } else {
+                const lot = args.lot_id || (args.lot_name && {
+                    name: args.lot_name,
+                    product_id: this.record.product_id.id,
+                    company_id: this.record.company_id,
+                });
+                if (lot) {
+                    const currentLot = this.record.lot_producing_ids[0];
+                    const sameLot = currentLot && currentLot.name === lot.name;
+                    if (!sameLot) {
+                        this.record.lot_producing_ids = [lot];
+                        if (currentLot) {
+                            args.qty_done = 0;
+                        }
+                    } else if (lot.id && !currentLot.id) {
+                        this.record.lot_producing_ids = [lot];
+                    }
+                }
             }
             this.produceQty(args.qty_done);
             return;
@@ -452,24 +499,24 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
         const locId = this.displayByProduct
             ? this.record.production_location_id
             : this.record.location_src_id;
-        return this.cache.getRecord("stock.location", locId);
+        return this.cache.getRecord("stock.location", locId, false);
     }
 
     _defaultDestLocation() {
         const locId = this.displayByProduct
             ? this.record.location_dest_id
             : this.record.production_location_id;
-        return this.cache.getRecord("stock.location", locId);
+        return this.cache.getRecord("stock.location", locId, false);
     }
 
     _getNewLineDefaultContext() {
         return {
             default_company_id: this.record.company_id,
-            default_location_id: this._defaultLocation().id,
-            default_location_dest_id: this._defaultDestLocation().id,
+            default_location_id: this._defaultLocation()?.id,
+            default_location_dest_id: this._defaultDestLocation()?.id,
             default_production_id: this.resId,
             default_qty_done: 0,
-            final_product_id: this.record.product_id.id,
+            final_product_id: this.record.product_id?.id,
             newByProduct: this.displayByProduct,
             display_name: this.record.name,
         };
@@ -489,12 +536,25 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
     }
 
     produceQty(quantity = 1) {
-        const new_producing = this.record.qty_producing + quantity;
-        this.record.qty_producing = new_producing;
+        this.record.qty_producing += quantity;
         const ratio = quantity / this.record.product_qty;
 
         for (const moveId of [...this.record.move_raw_ids, ...this.record.move_byproduct_ids]) {
             const move = this.cache.getRecord("stock.move", moveId);
+            const product = this.cache.getRecord("product.product", move.product_id);
+            const isComponent = this.record.move_raw_ids.includes(moveId);
+            if (isComponent) {
+                if (this.config.restrict_scan_product) {
+                    // Don't automatically update move's qty if scanning the product is mandatory.
+                    continue;
+                } else if (
+                    ["lot", "serial"].includes(product.tracking) &&
+                    this.config.restrict_scan_tracking_number
+                ) {
+                    // Don't automatically update tracked component if scanning the lot/SN is mandatory.
+                    continue;
+                }
+            }
             let manualMove = false;
             const moveLines = this.currentState.lines.filter((line) => line.move_id?.id === moveId);
             let qtyRemaining = ratio * move.product_uom_qty;
@@ -533,9 +593,12 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
                 this.trigger("refresh");
             }
         };
+        const context = { barcode_view: true };
         const params = { onClose };
         await this.save();
-        const res = await this.orm.call("mrp.production", "set_lot_producing", [[this.resId]]);
+        const res = await this.orm.call("mrp.production", "set_lot_producing", [[this.resId]], {
+            context,
+        });
         const [lots, action] = res;
         if (lots) {
             this.record.lot_producing_ids = lots;
@@ -632,6 +695,15 @@ export default class BarcodeMRPModel extends BarcodePickingModel {
                     product_id: this.record.product_id.id,
                     company_id: this.record.company_id, // only the id is fetched from the backend
                 },
+            ];
+        }
+        const lots = this.record.lot_producing_ids;
+        if (Array.isArray(res.lot_producing_ids) && lots.some((l) => !l.id)) {
+            const existingIds = lots.filter((l) => l.id).map((l) => l.id);
+            const newLots = lots.filter((l) => !l.id);
+            res.lot_producing_ids = [
+                x2ManyCommands.set(existingIds),
+                ...newLots.map((l) => x2ManyCommands.create(false, l)),
             ];
         }
 

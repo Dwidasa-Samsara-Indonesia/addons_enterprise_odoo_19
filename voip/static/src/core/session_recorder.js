@@ -45,8 +45,12 @@ export class SessionRecorder {
     constructor(sipSession) {
         const { audioContext, stream } = SessionRecorder.mergeStreams(sipSession);
         this._audioContext = audioContext;
+        const ua = navigator.userAgent;
+        const isWebKit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|OPR/i.test(ua);
         const recorder = new MediaRecorder(stream, {
-            audioBitsPerSecond: 8000, // bitrate of G.729 (widely used codec for VoIP)
+            // Chrome/Firefox (Opus) handle 8kbps fine (G.729 VoIP standard).
+            // WebKit (Safari/iOS) uses AAC, which fails/records silence at 8kbps. 32kbps is its safe minimum.
+            audioBitsPerSecond: isWebKit ? 32000 : 8000,
             mimeType: this.outputMimeType,
         });
         recorder.addEventListener("stop", (event) => this._onStop(event));

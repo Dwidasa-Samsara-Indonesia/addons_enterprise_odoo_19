@@ -10,7 +10,7 @@ class BudgetReport(models.Model):
     committed = fields.Float('Committed', readonly=True)
 
     def _get_pol_query(self, plan_fnames):
-        budget_line_ids = self.env.context.get('budget_report_budget_line_ids')
+        budget_line_domain = self.env.context.get('budget_line_domain')
         precision_digits = self.env['decimal.precision'].precision_get('Product Unit')
         qty_invoiced_table = SQL(
             """
@@ -74,10 +74,10 @@ class BudgetReport(models.Model):
                                  AND po.date_order >= bl.date_from
                                  AND date_trunc('day', po.date_order) <= bl.date_to
                                  AND %(condition)s
+                                 %(budget_line_join_condition)s
          LEFT JOIN budget_analytic ba ON ba.id = bl.budget_analytic_id
              WHERE pol.product_qty > COALESCE(qty_invoiced_table.qty_invoiced, 0)
                AND ba.budget_type != 'revenue'
-               %(budget_line_ids_condition)s
                 """,
                 company_condition=company_condition,
                 analytic_fields=SQL(', ').join(self.env['account.analytic.line']._field_to_sql('a', fname) for fname in plan_fnames),
@@ -88,10 +88,7 @@ class BudgetReport(models.Model):
                     bl=self.env['budget.line']._field_to_sql('bl', fname),
                     a=self.env['budget.line']._field_to_sql('a', fname),
                 ) for fname in plan_fnames),
-                budget_line_ids_condition=SQL(
-                    'AND bl.id = ANY(%(budget_line_ids)s)',
-                    budget_line_ids=budget_line_ids
-                ) if budget_line_ids else SQL(''),
+                budget_line_join_condition=SQL('AND %s', budget_line_domain._to_sql(self, 'bl', None)) if budget_line_domain else SQL(''),
             ))
 
         return SQL(' UNION ALL ').join(queries)

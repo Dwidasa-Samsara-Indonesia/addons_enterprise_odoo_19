@@ -4,13 +4,14 @@ import secrets
 import string
 import uuid
 from urllib.parse import urlparse
+from datetime import datetime
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import file_open
 
 from odoo.addons.hr_expense_stripe.controllers.main import StripeIssuingController
-from odoo.addons.hr_expense_stripe.utils import COUNTRY_MAPPING, STRIPE_VALID_JOURNAL_CURRENCIES, make_request_stripe_proxy
+from odoo.addons.hr_expense_stripe.utils import COUNTRY_MAPPING, STRIPE_VALID_JOURNAL_CURRENCIES, STRIPE_SUPPORTED_COUNTRY_CODES, make_request_stripe_proxy
 
 _logger = logging.getLogger(__name__)
 
@@ -62,6 +63,9 @@ class ResCompany(models.Model):
         groups='base.group_system',
         copy=False,
     )
+    is_stripe_issuing_supported = fields.Boolean(
+        compute='_compute_is_stripe_issuing_supported',
+    )
 
     _constraint_journal_stripe_activated = models.Constraint(
         definition="CHECK(NOT stripe_issuing_activated OR (stripe_journal_id IS NOT NULL AND stripe_issuing_activated))",
@@ -80,6 +84,12 @@ class ResCompany(models.Model):
                 company_currency_code = STRIPE_VALID_JOURNAL_CURRENCIES.get(company_country.code) or 'EUR'
             currency = self.env['res.currency'].search([('name', '=ilike', company_currency_code)], limit=1)
             company.stripe_currency_id = currency and currency.id
+
+    @api.depends('account_fiscal_country_id')
+    def _compute_is_stripe_issuing_supported(self):
+        for company in self:
+            company_country = company.account_fiscal_country_id
+            company.is_stripe_issuing_supported = company_country.code in STRIPE_SUPPORTED_COUNTRY_CODES
 
     def _stripe_issuing_setup_mcc(self):
         """ Helper to preset the default data for the mccs on all company as the field is company_dependant """
@@ -120,7 +130,7 @@ class ResCompany(models.Model):
         available_to_all_companies = self.browse()  # Empty value means all companies
         for company in self:
             for mcc_ref, product_ref in mcc_ref_to_product_ref.items():
-                mcc = ref_to_mcc.get(mcc_ref).with_company(company)
+                mcc = ref_to_mcc.get(mcc_ref, self.env['product.mcc.stripe.tag']).with_company(company)
                 product = ref_to_product.get(product_ref)
                 if mcc and not mcc.product_id and product and product.company_id in {available_to_all_companies, company}:
                     mcc.product_id = product.id
@@ -286,6 +296,9 @@ class ResCompany(models.Model):
             if response['capabilities']['card_issuing'] == 'active':
                 company.stripe_account_issuing_status = 'verified'
             else:
+                if company.stripe_account_issuing_status == 'verified':
+                    # In order for an account to be restricted, it has to be first verified, so we only send the email if the status went from verified to restricted
+                    company._send_stripe_restriction_email(response)
                 company.stripe_account_issuing_status = 'restricted'
 
             current_pk = company.env['ir.config_parameter'].sudo().get_param(f'hr_expense_stripe.{company.id}_stripe_issuing_pk')
@@ -309,3 +322,48 @@ class ResCompany(models.Model):
             'url': response['url'],
             'target': 'self',
         }
+
+    def _send_stripe_restriction_email(self, response):
+        self.ensure_one()
+        template = self.env.ref('hr_expense_stripe.email_template_hr_expense_stripe_restriction', raise_if_not_found=False)
+        admin_user = self.env['res.users'].sudo().search([
+            ('group_ids', 'in', self.env.ref('base.group_system').ids),
+            ('company_ids', '=', self.id)],
+            limit=1,
+            order='id asc')
+        user_name = admin_user.name or self.name
+
+        requirements = response.get('requirements', {})
+        due_timestamp = requirements.get('current_deadline')
+
+        if due_timestamp:
+            due_date = datetime.fromtimestamp(due_timestamp).strftime('%Y-%m-%d')
+        else:
+            due_date = False
+
+        if template:
+            recipient_email = admin_user.partner_id.email or self.email
+
+            template.with_context(
+                user_name=user_name,
+                due_date=due_date,
+                lang=admin_user.lang or self.env.user.lang
+            ).send_mail(
+                self.id,
+                force_send=True,
+                email_values={
+                    'email_to': recipient_email,
+                    'author_id': self.env.user.partner_id.id,
+                }
+            )
+        else:
+            if due_date:
+                message_body = self.env._("Stripe has restricted your account. Please update your information by %s to avoid disruption.", due_date)
+            else:
+                message_body = self.env._("Stripe has restricted your account. Please update your information soon to avoid disruption.")
+            self.sudo().message_post(
+                body=message_body,
+                partner_ids=admin_user.partner_id.ids,
+                message_type='comment',
+                subtype_xmlid='mail.mt_note'
+            )

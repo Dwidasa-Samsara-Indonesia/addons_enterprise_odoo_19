@@ -623,7 +623,7 @@ class TestAccountReportsFilters(TestAccountReportsCommon, odoo.tests.HttpCase):
             self.date_range_report,
             {'date': {'filter': 'custom', 'mode': 'range', 'date_from': '2017-01-01', 'date_to': '2017-01-15'}},
             {
-                'string': 'From %s\nto  %s' % (format_date(self.env, '2017-01-01'), format_date(self.env, '2017-01-15')),
+                'string': '%s - %s' % (format_date(self.env, '2017-01-01'), format_date(self.env, '2017-01-15')),
                 'period_type': 'custom',
                 'mode': 'range',
                 'filter': 'custom',
@@ -667,7 +667,7 @@ class TestAccountReportsFilters(TestAccountReportsCommon, odoo.tests.HttpCase):
             },
             [
                 {
-                    'string': 'From %s\nto  %s' % (format_date(self.env, '2016-01-01'), format_date(self.env, '2016-01-15')),
+                    'string': '%s - %s' % (format_date(self.env, '2016-01-01'), format_date(self.env, '2016-01-15')),
                     'period_type': 'custom',
                     'mode': 'range',
                     'date_from': '2016-01-01',
@@ -675,7 +675,7 @@ class TestAccountReportsFilters(TestAccountReportsCommon, odoo.tests.HttpCase):
                     'currency_table_period_key': '2016-01-01_2016-01-15',
                 },
                 {
-                    'string': 'From %s\nto  %s' % (format_date(self.env, '2015-01-01'), format_date(self.env, '2015-01-15')),
+                    'string': '%s - %s' % (format_date(self.env, '2015-01-01'), format_date(self.env, '2015-01-15')),
                     'period_type': 'custom',
                     'mode': 'range',
                     'date_from': '2015-01-01',

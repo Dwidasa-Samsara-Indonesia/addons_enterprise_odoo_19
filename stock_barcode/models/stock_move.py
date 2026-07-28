@@ -9,6 +9,7 @@ class StockMove(models.Model):
         return [
             'product_id',
             'location_id',
+            'product_uom',
             'product_uom_qty',
             'move_line_ids',
             'packaging_uom_id',

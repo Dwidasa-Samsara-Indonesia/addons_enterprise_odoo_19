@@ -222,18 +222,17 @@ class ProviderUSPS(models.Model):
             quotes_list.append(rates_response.get('rateOptions', []))
 
         price = 0
-        mail_class = self.usps_domestic_service if self.usps_delivery_nature == 'domestic' else self.usps_international_service
+        mail_class, rate_indicator = (self.usps_domestic_service, self.usps_domestic_rating_indicator) if self.usps_delivery_nature == 'domestic' else (self.usps_international_service, self.usps_international_rating_indicator)
         mc_exists_for_all_packages = True
         for quotes in quotes_list:
-            mc_exists = False
-            for quote in quotes:
-                if quote.get('rates')[0].get('mailClass') == mail_class:
-                    price += quote.get('totalBasePrice')
-                    mc_exists = True
-                    break
-            if not mc_exists:
+            matching_quotes = [quote for quote in quotes if (
+                quote['rates'][0]['mailClass'] == mail_class and
+                quote['rates'][0]['rateIndicator'] == rate_indicator
+            )]
+            if not matching_quotes:
                 mc_exists_for_all_packages = False
                 break
+            price += matching_quotes[0].get('totalBasePrice')
         if mc_exists_for_all_packages:
             if order.currency_id.name == 'USD':
                 return {'success': True, 'price': price, 'error_message': False, 'warning_message': False}

@@ -4,7 +4,7 @@ import json
 
 from datetime import datetime
 
-from odoo import Command
+from odoo import _, Command
 from odoo.tools import html2plaintext, format_duration
 from odoo.tools.urls import urljoin as url_join
 
@@ -60,7 +60,7 @@ class UrbanPiperClient:
                 '_make_api_request',
                 'Urbanpiper API Connection Error'
             )
-            return {'errors': {'timeout': 'Cannot reach the server. Please try again later.'}}
+            return {'errors': {'timeout': _('Cannot reach the server. Please try again later.')}}
         except requests.exceptions.HTTPError as error:
             message = response_json.get("message")
             pos_config.log_xml(
@@ -72,7 +72,7 @@ class UrbanPiperClient:
             return {'errors': {'HTTPError': message or str(error)}}
         except requests.exceptions.JSONDecodeError as error:
             _logger.warning('JSONDecodeError: %r', error)
-            return {'errors': {'JSONDecodeError': 'Failed to parse server response.'}}
+            return {'errors': {'JSONDecodeError': _('Failed to parse server response.')}}
         except json.decoder.JSONDecodeError as error:
             _logger.warning('JSONDecodeError: %r', error)
             pos_config.log_xml(
@@ -80,7 +80,7 @@ class UrbanPiperClient:
                 '_make_api_request',
                 'Urbanpiper API JSON Decode Error'
             )
-            return {'errors': {'JSONDecodeError': 'Failed to parse server response.'}}
+            return {'errors': {'JSONDecodeError': _('Failed to parse server response.')}}
 
     def configure_webhook(self):
         """
@@ -224,8 +224,9 @@ class UrbanPiperClient:
                 'name': category.with_context(lang="en_US").name,
                 'sort_order': category.sequence,
                 'active': True,
-                'img_url': self._get_public_image_url(category),
             }
+            if img_url := self._get_public_image_url(category):
+                categ_dict['img_url'] = img_url
             if category.parent_id:
                 categ_dict['parent_ref_id'] = str(category.parent_id.id)
             name_translations = category.get_field_translations('name')
@@ -253,12 +254,13 @@ class UrbanPiperClient:
                 'food_type': product.urbanpiper_meal_type,
                 'category_ref_ids': [str(i) for i in product.pos_categ_ids.ids],
                 'recommended': product.is_recommended_on_urbanpiper,
-                'img_url': self._get_public_image_url(product),
                 'available': True,
                 'included_platforms': (
                     [provider.technical_name for provider in (product.urbanpiper_pos_platform_ids & self.config.urbanpiper_delivery_provider_ids)]
                 ),
             }
+            if img_url := self._get_public_image_url(product):
+                item['img_url'] = img_url
             name_translations = product.get_field_translations('name')
             description_translations = product.get_field_translations('public_description')
             translations = []
@@ -272,11 +274,17 @@ class UrbanPiperClient:
                         'description': desc_dict.get(lang, '')
                     })
             item['translations'] = translations
+            # dynamic tag syncing for provider tags and default tags
+            tags = item.setdefault('tags', {})
+            default_tags = []
+            for product_tag in product.product_tag_ids:
+                default_tags.append(product_tag.name)
+            alcohol_tag = 'alcohol-present' if product.is_alcoholic_on_urbanpiper else 'alcohol-absent'
+            if alcohol_tag not in default_tags:
+                default_tags.append(alcohol_tag)
+            tags['default'] = default_tags
             for provider in (product.urbanpiper_pos_platform_ids & self.config.urbanpiper_delivery_provider_ids):
-                tags = item.setdefault('tags', {})
-                alcohol_tags = tags.setdefault(provider.technical_name, [])
-                alcohol_tag = 'alcohol-present' if product.is_alcoholic_on_urbanpiper else 'alcohol-absent'
-                alcohol_tags.append(alcohol_tag)
+                tags[provider.technical_name] = default_tags
             updated_item = self.config.update_urbanpiper_item_data(item, product)
             item_lst.append(updated_item)
         return item_lst
@@ -479,9 +487,12 @@ class UrbanPiperClient:
         """
         Get public image URL for the given record (product or category).
         Converts webp to jpeg if necessary.
+        Returns False if no image is available for the record.
         """
         base_url = self.config.urbanpiper_webhook_url
         image_data = record.image_1920 if record._name == 'product.template' else record.image_128
+        if not image_data:
+            return False
         attachment = record.env['ir.attachment'].search([
             ('res_model', '=', record._name),
             ('res_id', '=', record.id),

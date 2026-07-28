@@ -169,9 +169,9 @@ export class TimesheetGridRenderer extends GridRenderer {
         const res = super._getTotalCellBgColor(section);
         if (weeklyOvertime == null) {
             return res;
-        } else if (weeklyOvertime < 0) {
+        } else if (weeklyOvertime < -0.00001) {
             return 'text-bg-danger';
-        } else if (weeklyOvertime === 0) {
+        } else if (weeklyOvertime > -0.00001 && weeklyOvertime < 0.00001) {
             return 'text-bg-success';
         } else {
             return 'text-bg-warning';

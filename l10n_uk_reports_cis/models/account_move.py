@@ -30,7 +30,7 @@ class AccountMove(models.Model):
             purchase_tax_tags = expr._get_matching_tags()
 
         for move in self:
-            if move.move_type in ('out_refund', 'out_invoice') or move.company_id.country_code != 'GB' or move.partner_id.commercial_partner_id.l10n_uk_cis_enabled:
+            if not move.is_purchase_document() or move.company_id.country_code != 'GB' or move.partner_id.commercial_partner_id.l10n_uk_cis_enabled:
                 move.l10n_uk_cis_inactive_partner = False
             else:
                 move.l10n_uk_cis_inactive_partner = set(purchase_tax_tags.ids) & set(move.invoice_line_ids.tax_ids.invoice_repartition_line_ids.tag_ids.ids)

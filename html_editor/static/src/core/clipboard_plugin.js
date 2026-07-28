@@ -205,10 +205,12 @@ export class ClipboardPlugin extends Plugin {
         // refresh selection after potential changes from `before_paste` handlers
         selection = this.dependencies.selection.getEditableSelection();
 
-        this.handlePasteUnsupportedHtml(selection, ev.clipboardData) ||
-            this.handlePasteOdooEditorHtml(ev.clipboardData) ||
-            this.handlePasteHtml(selection, ev.clipboardData) ||
-            this.handlePasteText(selection, ev.clipboardData);
+        if (!this.delegateTo("paste_overrides", selection, ev.clipboardData)) {
+            this.handlePasteUnsupportedHtml(selection, ev.clipboardData) ||
+                this.handlePasteOdooEditorHtml(ev.clipboardData) ||
+                this.handlePasteHtml(selection, ev.clipboardData) ||
+                this.handlePasteText(selection, ev.clipboardData);
+        }
 
         this.dispatchTo("after_paste_handlers", selection);
         this.dependencies.history.addStep();
@@ -491,19 +493,7 @@ export class ClipboardPlugin extends Plugin {
                 }
             }
         } else if (node.nodeType !== Node.TEXT_NODE) {
-            if (node.nodeName === "THEAD") {
-                const tbody = node.nextElementSibling;
-                if (tbody) {
-                    // If a <tbody> already exists, move all rows from
-                    // <thead> into the start of <tbody>.
-                    tbody.prepend(...node.children);
-                    node.remove();
-                    node = tbody;
-                } else {
-                    // Otherwise, replace the <thead> with <tbody>
-                    node = this.dependencies.dom.setTagName(node, "TBODY");
-                }
-            } else if (["TD", "TH"].includes(node.nodeName)) {
+            if (["TD", "TH"].includes(node.nodeName)) {
                 // Insert base container into empty TD.
                 if (isEmptyBlock(node)) {
                     const baseContainer = this.dependencies.baseContainer.createBaseContainer();

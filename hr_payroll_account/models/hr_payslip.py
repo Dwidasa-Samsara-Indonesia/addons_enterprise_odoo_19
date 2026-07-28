@@ -25,7 +25,7 @@ class HrPayslip(models.Model):
     def _get_warnings_by_slip(self):
         warnings_by_slip = super()._get_warnings_by_slip()
         for slip in self.filtered(
-            lambda slip: slip.state in ['draft', 'validated'] and slip.struct_id and not slip.journal_id
+            lambda slip: slip.state in ['draft', 'validated'] and slip.struct_id and not slip.with_company(slip.company_id).journal_id
         ):
             warnings_by_slip[slip].append({
                 'message': _("Account Journal not configured on Structure"),
@@ -252,24 +252,17 @@ class HrPayslip(models.Model):
         )
 
     def _get_existing_lines(self, line_ids, line, account_id, debit, credit):
-        existing_lines = (
+        distribution = line.salary_rule_id.analytic_distribution or line.slip_id.version_id.analytic_distribution
+        return (
             line_id for line_id in line_ids if
             line_id['name'] == (line.name if line.salary_rule_id.split_move_lines else line.salary_rule_id.name)
             and line_id['account_id'] == account_id
             and ((line_id['debit'] > 0 and credit <= 0) or (line_id['credit'] > 0 and debit <= 0))
-            and (
-                    (
-                        not line_id['analytic_distribution'] and
-                        not line.salary_rule_id.analytic_distribution and
-                        not line.slip_id.version_id.analytic_distribution
-                    )
-                    or line_id['analytic_distribution'] and self._check_partially_matching_accounts(line_id, line)
-
-                )
+            and line_id['analytic_distribution'] == distribution
             and self._check_debit_credit_tags(line_id, line, account_id)
         )
-        return existing_lines
 
+    # TODO master: remove this method no longer used
     def _check_partially_matching_accounts(self, line_id, line):
         keys = line_id['analytic_distribution']
         unravelled_keys = []

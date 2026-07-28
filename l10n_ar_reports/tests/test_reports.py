@@ -512,3 +512,33 @@ class TestArReports(TestArCommon, TestAccountReportsCommon):
             ],
             options,
         )
+
+    def test_foreign_provider_vat_book_export(self):
+        """ Test that Proveedor del Exterior (code 8) partners with ForeignID
+            use the country-level VAT, just like Cliente del Exterior (code 9).
+        """
+        foreign_partner = self.env['res.partner'].create({
+            'name': 'foreign partner',
+            'is_company': True,
+            'country_id': self.env.ref('base.ie').id,
+            'l10n_latam_identification_type_id': self.env.ref('l10n_latam_base.it_fid').id,
+            'vat': 'IE1234567T',
+            'l10n_ar_afip_responsibility_type_id': self.env.ref('l10n_ar.res_EXT_Prov').id,
+        })
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'partner_id': foreign_partner.id,
+            'invoice_date': '2021-03-15',
+            'invoice_line_ids': [
+                Command.create({
+                    'product_id': self.product_iva_exento.id,
+                    'price_unit': 100.0,
+                    'quantity': 1,
+                }),
+            ],
+        })
+        invoice.action_post()
+        self.options['ar_vat_book_tax_type_selected'] = 'sale'
+        self.options['txt_type'] = 'sale'
+        out = self.env['l10n_ar.tax.report.handler']._vat_book_get_txt_files(self.options, 'sale')
+        self.assertTrue(out)

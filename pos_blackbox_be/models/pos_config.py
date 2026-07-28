@@ -27,10 +27,16 @@ class PosConfig(models.Model):
     def _compute_odoo_version(self):
         self.pos_version = exp_version()['server_serie']
 
+    def _is_blackbox_v1_required(self):
+        return bool(self.certified_blackbox_identifier)
+
+    def _uses_blackbox_v1(self):
+        return self.certified_blackbox_identifier and self.iface_fiscal_data_module
+
     @api.model
     def _load_pos_data_read(self, records, config):
         read_records = super()._load_pos_data_read(records, config)
-        if read_records and config.certified_blackbox_identifier:
+        if read_records and config._uses_blackbox_v1():
             record = read_records[0]
             record["_product_product_work_in"] = self.env.ref("pos_blackbox_be.product_product_work_in").id
             record["_product_product_work_out"] = self.env.ref("pos_blackbox_be.product_product_work_out").id
@@ -64,7 +70,7 @@ class PosConfig(models.Model):
                     })
 
     def write(self, vals):
-        if (vals.get('iface_fiscal_data_module') or self.certified_blackbox_identifier):
+        if (vals.get('iface_fiscal_data_module') or self._is_blackbox_v1_required()):
             cash_rounding = self._create_default_cashrounding()
             if cash_rounding:
                 vals['cash_rounding'] = True
@@ -74,17 +80,20 @@ class PosConfig(models.Model):
             vals['iface_print_skip_screen'] = True
         return super().write(vals)
 
-    def _check_is_certified_pos(self):
-        action = self.env['pos.config'].action_pos_config_modal_edit()
-        action['res_id'] = self.id
-
-        fdm_required = self.certified_blackbox_identifier or self.env['pos.config'].search_count(
+    def _is_fdm_required(self):
+        return self.certified_blackbox_identifier or self.env['pos.config'].search_count(
             domain=[
                 *self.env['account.journal']._check_company_domain(self.company_id),
                 ('certified_blackbox_identifier', '!=', False),
             ],
             limit=1
         )
+
+    def _check_is_certified_pos(self):
+        action = self.env['pos.config'].action_pos_config_modal_edit()
+        action['res_id'] = self.id
+
+        fdm_required = self._is_fdm_required()
 
         fdm_ids = self.env['iot.device'].search([
             *self.env['iot.device']._check_company_domain(self.company_id),
@@ -285,7 +294,9 @@ class PosConfig(models.Model):
         iface_fiscal_data_module = order.config_id.iface_fiscal_data_module
         blackbox_data = order._create_order_for_blackbox(clock, clock_in)
         message = {
+            "iot_identifier": iface_fiscal_data_module.iot_id.identifier,
             "iot_identifiers": [iface_fiscal_data_module.iot_id.identifier],
+            "device_identifier": iface_fiscal_data_module.identifier,
             "device_identifiers": [iface_fiscal_data_module.identifier],
             "action": "registerReceiptWeb",
             "high_level_message": blackbox_data,
@@ -320,7 +331,7 @@ class PosConfig(models.Model):
         self._send_order_to_blackbox(clock_order, True, clock_in)
 
     def action_close_kiosk_session(self):
-        if self.certified_blackbox_identifier:
+        if self._uses_blackbox_v1():
             self._clock_kiosk_user(False)
         return super().action_close_kiosk_session()
 

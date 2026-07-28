@@ -319,10 +319,9 @@ class TestWebsiteSaleStockRenting(TestWebsiteSaleRentingCommon):
         self.assertTrue(filtered_products_after_rental)
 
     def test_out_of_stock_ribbon_is_not_applicable_for_rentals(self):
-        out_of_stock_ribbon = self.env["product.ribbon"].create({
-            "name": "Out of stock",
-            "assign": "out_of_stock"
-        })
+        out_of_stock_ribbon = self.env["product.ribbon"].search(
+            [("assign", "=", "out_of_stock")], limit=1
+        ) or self.env["product.ribbon"].create({"name": "Out of stock", "assign": "out_of_stock"})
         rental_product = self.env["product.product"].create({
             "name": "Rental Product",
             "rent_ok": True,

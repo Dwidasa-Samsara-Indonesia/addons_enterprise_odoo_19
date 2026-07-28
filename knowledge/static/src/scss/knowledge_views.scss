@@ -31,14 +31,14 @@
         padding-left: var(--editor-gutter-size) !important;
         padding-right: var(--editor-gutter-size) !important;
     }
-    .o_knowledge_body:has([data-embedded="view"]:first-child) {
+    .o_knowledge_body:has(.note-editable > [data-selection-placeholder] + [data-embedded="view"]:nth-child(2)) {
         > span:first-child {
             display: none;
         }
         .o_knowledge_editor {
             margin-top: 0 !important;
         }
-        .o_knowledge_icon:first-child {
+        span:first-child + .o_knowledge_icon {
             margin-top: 0 !important;
         }
     }

@@ -3,3 +3,4 @@ from . import test_commercial_events
 from . import test_dian_misc
 from . import test_dian_moves
 from . import test_dian_flows
+from . import test_dian_branch

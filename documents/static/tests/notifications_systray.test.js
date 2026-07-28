@@ -25,13 +25,14 @@ defineModels({
 });
 const ACTION_1_ID = "documents.document_action";
 
-const getServerData = () => {
+const getServerData = (extraVals = {}) => {
     const serverData = getDocumentsTestServerModelsData([
         {
             res_model: "documents.document",
             folder_id: 1,
             id: 2,
             name: "Test Doc With Notification",
+            ...extraVals,
         },
     ]);
 
@@ -79,10 +80,10 @@ const getServerData = () => {
     return serverData;
 };
 
-const openNotificationToDocument = async () => {
+const openNotificationToDocument = async (folderName = "All") => {
     await click(".o-mail-DiscussSystray-class .fa-comments");
     await click(".o-mail-NotificationItem");
-    await waitFor('.o_search_panel_category_value header.active:contains("All")');
+    await waitFor(`.o_search_panel_category_value header.active:contains(${folderName})`);
     expect(".o_kanban_record.o_record_selected:contains('Test Doc With Notification')").toHaveCount(
         1
     );
@@ -101,4 +102,10 @@ test("Systray Open opens documents on All and selects the document", async funct
     await makeDocumentsMockEnv({ serverData: getServerData() });
     await mountWithCleanup(WebClient);
     await openNotificationToDocument();
+});
+
+test("Systray Open opens documents on Trash and selects the archived document", async function () {
+    await makeDocumentsMockEnv({ serverData: getServerData({ active: false }) });
+    await mountWithCleanup(WebClient);
+    await openNotificationToDocument("TRASH");
 });

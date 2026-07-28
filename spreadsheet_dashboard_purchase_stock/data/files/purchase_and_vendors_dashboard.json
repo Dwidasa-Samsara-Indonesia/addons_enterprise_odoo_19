@@ -82,6 +82,7 @@
         "A115": "=ODOO.LIST(1,9,\"name\")",
         "A116": "=ODOO.LIST(1,10,\"name\")",
         "A118": "=_t(\"Top purchased products\")",
+        "A119": "=PIVOT(12, 10, FALSE, FALSE)",
         "B106": "=ODOO.LIST.HEADER(1,\"partner_id\")",
         "B107": "=ODOO.LIST(1,1,\"partner_id\")",
         "B108": "=ODOO.LIST(1,2,\"partner_id\")",
@@ -105,16 +106,7 @@
         "D115": "=ODOO.LIST(1,9,\"user_id\")",
         "D116": "=ODOO.LIST(1,10,\"user_id\")",
         "E106": "=ODOO.LIST.HEADER(1, \"date_order\", _t(\"Order date\"))",
-        "E107": "=if(A107<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E108": "=if(A108<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E109": "=if(A109<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E110": "=if(A110<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E111": "=if(A111<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E112": "=if(A112<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E113": "=if(A113<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E114": "=if(A114<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E115": "=if(A115<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
-        "E116": "=if(A116<>\"\",edate(ODOO.LIST(1,row()-94,\"date_order\"),0),\"\")",
+        "E107": "=if(A107<>\"\",ODOO.LIST(1, SEQUENCE(8), \"date_order\"), \"\")",
         "F106": "=ODOO.LIST.HEADER(1,\"amount_total\")",
         "F107": "=ODOO.LIST(1,1,\"amount_total\")",
         "F108": "=ODOO.LIST(1,2,\"amount_total\")",
@@ -127,9 +119,8 @@
         "F115": "=ODOO.LIST(1,9,\"amount_total\")",
         "F116": "=ODOO.LIST(1,10,\"amount_total\")",
         "H105": "=_t(\"Top 10 late receipts\")",
-        "H118": "=_t(\"Purchase Order by buyer\")",
-        "A119": "=PIVOT(12, 10, FALSE, FALSE)",
-        "H106": "=PIVOT(13, 10, FALSE, FALSE)"
+        "H106": "=PIVOT(13, 10, FALSE, FALSE)",
+        "H118": "=_t(\"Purchase Order by buyer\")"
       },
       "styles": {
         "A12": 1,
@@ -152,7 +143,7 @@
         "F106": 5,
         "B119:F119": 5
       },
-      "formats": { "H107:H116": 1 },
+      "formats": { "E107:E117": 1, "H107:H116": 2 },
       "borders": {
         "A105:F105": 1,
         "A118:F118": 1,
@@ -446,9 +437,8 @@
               "orderBy": []
             },
             "type": "odoo_line",
-            "dataSets": [
-              {}
-            ],
+            "dataSets": [],
+            "humanize": true,
             "verticalAxisPosition": "left",
             "stacked": true,
             "cumulative": false,
@@ -506,9 +496,8 @@
               "orderBy": []
             },
             "type": "odoo_bar",
-            "dataSets": [
-              {}
-            ],
+            "dataSets": [],
+            "humanize": true,
             "verticalAxisPosition": "left",
             "stacked": true,
             "axesDesign": {
@@ -624,9 +613,8 @@
               "orderBy": []
             },
             "type": "odoo_pie",
-            "dataSets": [
-              {}
-            ],
+            "dataSets": [],
+            "humanize": true,
             "chartId": "4d31c500-1186-498b-b589-d7b4ce1ccc4b",
             "fieldMatching": {
               "eaabbadf-abbf-46a1-ab7b-00f0c73e453e": { "chain": "message_partner_ids", "type": "many2many" },
@@ -672,20 +660,8 @@
               "orderBy": []
             },
             "type": "odoo_line",
-            "dataSets": [
-              {},
-              {},
-              {},
-              {},
-              {},
-              {},
-              {},
-              {},
-              {},
-              {},
-              {},
-              {}
-            ],
+            "dataSets": [],
+            "humanize": true,
             "verticalAxisPosition": "left",
             "stacked": false,
             "cumulative": false,
@@ -1033,19 +1009,19 @@
         "A68:C68": 9
       },
       "formats": {
-        "B36:B45": 2,
-        "B87:B96": 2,
-        "B4:C4": 2,
-        "B10:C11": 3,
-        "B18:C27": 3,
-        "C36:C45": 3,
-        "B56:C65": 3,
-        "B70:C79": 3,
-        "C87:E96": 3,
-        "D3:F4": 3,
-        "I4": 3,
-        "D10:D11": 4,
-        "J4": 4
+        "B36:B45": 3,
+        "B87:B96": 3,
+        "B4:C4": 3,
+        "B10:C11": 4,
+        "B18:C27": 4,
+        "C36:C45": 4,
+        "B56:C65": 4,
+        "B70:C79": 4,
+        "C87:E96": 4,
+        "D3:F4": 4,
+        "I4": 4,
+        "D10:D11": 5,
+        "J4": 5
       },
       "borders": {
         "A9": 8,
@@ -1200,7 +1176,7 @@
     "8": { "fillColor": "#E4D9E1", "bold": true },
     "9": { "align": "center", "bold": true }
   },
-  "formats": { "1": "@", "2": "0", "3": "#,##0.00", "4": "0.00%" },
+  "formats": { "1": "mm/dd/yyyy", "2": "@", "3": "0", "4": "#,##0.00", "5": "0.00%" },
   "borders": {
     "1": {
       "bottom": { "style": "thin", "color": "#CCCCCC" }

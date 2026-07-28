@@ -38,6 +38,12 @@
                     <tr>
                         <td t-if="o.l10n_ch_is_code"><strong>Source-Tax Code: </strong><span t-field="o.l10n_ch_is_code"/></td>
                     </tr>
+                    <tr>
+                        <t t-set="source_tax_line" t-value="o.line_ids.filtered(lambda line: line.salary_rule_id.l10n_ch_code == '9075')"/>
+                        <td t-if="source_tax_line">
+                            <strong>Source-Tax Rate: </strong><span t-out="str(round(source_tax_line.total, 4)) + ' %'"/>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 

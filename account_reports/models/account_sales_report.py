@@ -279,6 +279,7 @@ class AccountEcSalesReportHandler(models.AbstractModel):
         queries = []
         # Create the currency table.
         allowed_ids = self._get_tag_ids_filtered(options)
+        service_ids = self._get_tag_ids_filtered(options, operation_types=['services'])
 
         # In the case of the generic report, we don't have a country defined. So no reliable tax report whose
         # tag_ids can be used. So we have a fallback to tax_ids.
@@ -298,6 +299,9 @@ class AccountEcSalesReportHandler(models.AbstractModel):
             query = report._get_report_query(column_group_options, 'strict_range')
             if allowed_ids:
                 query.add_where(SQL('%s.id IN %s', tax_elem_table, tuple(allowed_ids)))
+                if service_ids:
+                    query.add_where(SQL("(%s.id NOT IN %s OR LEFT(res_partner.vat, 2) IS DISTINCT FROM 'XI')", tax_elem_table, tuple(service_ids)))
+
             queries.append(SQL(
                 """
                 SELECT
@@ -334,17 +338,19 @@ class AccountEcSalesReportHandler(models.AbstractModel):
         return SQL(' UNION ALL ').join(queries)
 
     @api.model
-    def _get_tag_ids_filtered(self, options):
+    def _get_tag_ids_filtered(self, options, operation_types=None):
         """
         Helper function to get all the tag_ids concerned by the report for the given options.
         :param dict options: Report options
-        :return tuple: tag_ids untyped after filtering
+        :param list operation_types: only retrieve the taxes or tags of the specified types (if selected)
+        :return set: tag_ids untyped after filtering
         """
-        allowed_taxes = set()
-        for operation_type in options.get('ec_tax_filter_selection', []):
-            if operation_type.get('selected'):
-                allowed_taxes.update(options['sales_report_taxes'][operation_type.get('id')])
-        return allowed_taxes
+        return {
+            tag_id
+            for op in options.get('ec_tax_filter_selection', [])
+            if op.get('selected') and (operation_types is None or op['id'] in operation_types)
+            for tag_id in options.get('sales_report_taxes', {}).get(op['id'], [])
+        }
 
     @api.model
     def _get_ec_country_codes(self, options):

@@ -10,15 +10,15 @@
 # Friederike Fasterling-Nesselbosch, 2022
 # Martin Trigaux, 2023
 # Larissa Manderfeld, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-04-02 11:41+0000\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-07-13 09:52+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/project/"
 "de/>\n"
@@ -27,12 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
-
-#. module: project
-#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
-msgid " All internal users and invited portal users"
-msgstr " Alle internen Benutzer und eingeladenen Portalbenutzer"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__rating_count
@@ -898,8 +893,12 @@ msgstr "Administrator"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_manager
-msgid "Administrator can manage the employees' schedule"
-msgstr "Der Administrator kann den Plan der Mitarbeiter verwalten"
+msgid ""
+"Administrator: Can manage projects and stages, with access to reporting and "
+"configuration."
+msgstr ""
+"Administrator: Kann Projekte und Phasen verwalten und hat Zugriff auf "
+"Berichte und Konfigurationen."
 
 #. module: project
 #. odoo-javascript
@@ -971,6 +970,11 @@ msgstr "Alle Aufgaben"
 #: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__employees
 msgid "All internal users"
 msgstr "Alle internen Benutzer"
+
+#. module: project
+#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
+msgid "All internal users and invited portal users"
+msgstr ""
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__allocated_hours
@@ -1616,7 +1620,7 @@ msgstr "Erstellt am"
 #. module: project
 #: model:ir.model,website_form_label:project.model_res_partner
 msgid "Create a Customer"
-msgstr "Kunden erstellen"
+msgstr "Kunde erstellen"
 
 #. module: project
 #: model:ir.actions.act_window,name:project.open_create_project
@@ -5824,8 +5828,8 @@ msgstr "Benutzereinstellungen"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_user
-msgid "User can user the your employees' schedule"
-msgstr "Der Benutzer kann den Plan Ihrer Mitarbeiter verwenden"
+msgid "User: Can manage tasks in projects shared with them."
+msgstr "Benutzer: Kann Aufgaben in geteilten Projekten verwalten."
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.view_project_kanban
@@ -5835,7 +5839,7 @@ msgstr "Ansicht"
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_sharing_project_task_view_form
 msgid "View Task"
-msgstr "Aufgaben ansehen"
+msgstr "Aufgabe anzeigen"
 
 #. module: project
 #. odoo-javascript
@@ -5843,7 +5847,7 @@ msgstr "Aufgaben ansehen"
 #: model_terms:ir.ui.view,arch_db:project.project_milestone_view_tree
 #: model_terms:ir.ui.view,arch_db:project.view_project
 msgid "View Tasks"
-msgstr "Aufgaben ansehen"
+msgstr "Aufgaben anzeigen"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__privacy_visibility
@@ -6130,7 +6134,7 @@ msgstr "Ihre Manager entscheiden, welches Feedback akzeptiert wird"
 #: code:addons/project/static/src/views/analytic_account_form/analytic_account_form_controller.js:0
 #: code:addons/project/static/src/views/analytic_account_list/analytic_account_list_controller.js:0
 msgid "\\t- ${"
-msgstr ""
+msgstr "\\t- ${"
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.edit_project
@@ -6379,6 +6383,15 @@ msgstr "👤 Nicht zugewiesen"
 #: code:addons/project/models/project_task.py:0
 msgid "🔒 Private"
 msgstr "🔒 Privat"
+
+#~ msgid " All internal users and invited portal users"
+#~ msgstr " Alle internen Benutzer und eingeladenen Portalbenutzer"
+
+#~ msgid "Administrator can manage the employees' schedule"
+#~ msgstr "Der Administrator kann den Plan der Mitarbeiter verwalten"
+
+#~ msgid "User can user the your employees' schedule"
+#~ msgstr "Der Benutzer kann den Plan Ihrer Mitarbeiter verwenden"
 
 #~ msgid "Invalid fields: "
 #~ msgstr "Ungültige Felder: "

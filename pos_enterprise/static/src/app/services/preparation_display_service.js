@@ -81,6 +81,7 @@ export class PrepDisplay extends WithLazyGetterTrap {
                 state.stage_id = this.data.models["pos.prep.stage"].get(stage.stage_id);
                 state.todo = true;
                 state.write_date = stage.last_stage_change;
+                state.last_stage_change = stage.last_stage_change;
             }
             for (const [orderId, completion_time] of Object.entries(
                 data["prep_order_completion_time"]
@@ -375,8 +376,8 @@ export class PrepDisplay extends WithLazyGetterTrap {
             }
             // within the stage, keep the default order unless the state is done then show most recent first.
             let difference;
-            const aWriteDate = Math.max(...a.states.map((sate) => sate.write_date.ts));
-            const bWriteDate = Math.max(...b.states.map((sate) => sate.write_date.ts));
+            const aWriteDate = Math.max(...a.states.map((state) => state.last_stage_change.ts));
+            const bWriteDate = Math.max(...b.states.map((state) => state.last_stage_change.ts));
             if (stageA.id === this.lastStage.id) {
                 difference = bWriteDate - aWriteDate;
             } else {

@@ -40,7 +40,7 @@
                 <sheet>
                     <field name="display_name" invisible="1"/> <!-- Needed for the display_name in the breadcrumbs to recompute interactively -->
                     <h1>
-                        <field name="partner_id" placeholder="Company"/>
+                        <field name="partner_id" placeholder="Company" context="{'default_is_company': True}"/>
                     </h1>
                     <h2>
                         <field name="holder_id" placeholder="Holder" context="{'partner_display_name_hide_company': True}"/>
@@ -57,6 +57,7 @@
                             <field name="start_date" class="flex-grow-0 w-auto"/>
                             <field name="end_date" class="flex-grow-0 w-auto"/>
                             <field name="attachment_expiration_date" class="flex-grow-0 w-auto"/>
+                            <field name="company_id" groups="base.group_multi_company" invisible="not company_id"/>
                         </group>
                     </group>
                 </sheet>

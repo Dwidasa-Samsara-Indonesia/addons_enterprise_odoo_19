@@ -80,6 +80,10 @@ class PaymentTransaction(models.Model):
         self._cancel_draft_invoices()
         self._invoice_sale_orders()
         self.invoice_ids.with_company(self.company_id)._post()
+        (self.payment_id.move_id.line_ids + self.invoice_ids.line_ids).filtered(
+            lambda line: line.account_id == self.payment_id.destination_account_id
+            and not line.reconciled
+        ).reconcile()
         self.invoice_ids.write({'matched_payment_ids': self.payment_id.ids})
         if not self.subscription_action and not self.env.context.get('skip_sale_auto_invoice_send'):
             self.invoice_ids.transaction_ids._send_invoice()
@@ -149,6 +153,7 @@ class PaymentTransaction(models.Model):
         process_tx = self.filtered(lambda tx: not any(tx.sale_order_ids.mapped('is_invoice_cron')))
         res = super(PaymentTransaction, process_tx)._post_process()
         any_paid_subscription = False
+        close_reasons_ids = self.env['sale.order.close.reason']._get_reason_to_reopen()
         for tx in process_tx:
             orders = tx.sale_order_ids or tx.invoice_ids.line_ids.subscription_id
             subscriptions = orders.filtered(lambda order: order.is_subscription)
@@ -160,6 +165,7 @@ class PaymentTransaction(models.Model):
                 subscriptions.filtered(
                     lambda sub:
                         sub.subscription_state == '6_churn' and
+                        sub.close_reason_id.id in close_reasons_ids and
                         (tx.last_state_change.date() - timedelta(days=sub.plan_id.auto_close_limit)) <= sub.next_invoice_date
                 ).set_open()
             elif tx.state in ('error', 'cancel'):
@@ -174,6 +180,7 @@ class PaymentTransaction(models.Model):
         This will also reopen the order and remove the payment pending state.
         Partial payment should not have a subscription_action defined and therefore should not reopen the order.
         """
+        reopen_reasons_ids = self.env['sale.order.close.reason']._get_reason_to_reopen()
         for tx in self:
             orders = tx.sale_order_ids
             # quotation subscription paid on portal have pending transactions
@@ -187,7 +194,11 @@ class PaymentTransaction(models.Model):
                 # validation transaction have the `assign_token` `subscription_action`
                 # Once the token is assigned, we are done because we don't send emails in that case.
                 continue
-            orders.set_open()
+            reopen_ids = []
+            for order in orders:
+                if order.subscription_state != '6_churn' or (not order.close_reason_id or order.close_reason_id.id in reopen_reasons_ids):
+                    reopen_ids.append(order.id)
+            self.env['sale.order'].browse(reopen_ids).set_open()
             if tx.subscription_action:
                 automatic = tx.subscription_action == 'automatic_send_mail'
                 for order in orders:

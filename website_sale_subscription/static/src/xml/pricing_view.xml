@@ -29,7 +29,7 @@
                                     <label t-att-for="'plan_' + pricing['plan_id']" class="mb-0 d-flex align-items-center">
                                         <input type="radio" name="plan_id" t-att-id="'plan_' + pricing['plan_id']"
                                             t-att-value="pricing['plan_id']" t-att-disabled="!pricing['can_be_added']"
-                                            t-att-checked="!combination_info.allow_one_time_sale and pricing['plan_id'] == combination_info['subscription_default_pricing_plan_id']"
+                                            t-att-checked="pricing['plan_id'] == combination_info['subscription_default_pricing_plan_id']"
                                             class="form-check-input me-2 flex-shrink-0 plan_select" required="1"
                                         />
                                         <div>

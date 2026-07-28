@@ -2,9 +2,7 @@ import { ListController } from "@web/views/list/list_controller";
 import { ListRenderer } from "@web/views/list/list_renderer";
 import { listView } from "@web/views/list/list_view";
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
 import { useState } from "@odoo/owl";
-import { formatMonetary } from "@web/views/fields/formatters";
 
 export class BankRecReconcileDialogListController extends ListController {
     static template = "account_accountant.BankRecReconcileDialogListView";
@@ -13,41 +11,8 @@ export class BankRecReconcileDialogListController extends ListController {
         bankRecInfo: { type: Object, optional: true },
     };
 
-    setup() {
-        super.setup();
-        this.orm = useService("orm");
-    }
-
     async onSelectionChanged() {
-        const resIds = await this.model.root.getResIds(true);
-        if (!resIds.length) {
-            this.props.onSelectionChanged(resIds, []);
-        }
-
-        let selectedLines;
-        // When being in the list view with more element than the limit and doing a select all, the user has the
-        // possibility to select more element than the limit. In this case the isDomainSelected is True
-        if (this.isDomainSelected) {
-            const { resModel, context } = this.model.root._config;
-            selectedLines = await this.orm.read(
-                resModel,
-                resIds,
-                ["amount_residual", "amount_residual_currency", "currency_id"],
-                { context }
-            );
-        } else {
-            selectedLines = Object.values(this.model.root.records)
-                .filter((record) => resIds.includes(record._config.resId))
-                .map((record) => {
-                    const data = record.data;
-                    return {
-                        amount_residual: data.amount_residual,
-                        amount_residual_currency: data.amount_residual_currency,
-                        currency_id: data.currency_id.id,
-                    };
-                });
-        }
-        this.props.onSelectionChanged(resIds, selectedLines);
+        this.props.bankRecInfo.onSelectionChanged(this);
     }
 }
 
@@ -61,15 +26,6 @@ export class BankRecReconcileDialogListRenderer extends ListRenderer {
         if (this.props.bankRecInfo?.state) {
             this.bankRecState = useState(this.props.bankRecInfo.state);
         }
-    }
-
-    get remainingAmountFormatted() {
-        const { currencyId } = this.props.bankRecInfo;
-        return formatMonetary(this.bankRecState.remainingAmount, { currencyId });
-    }
-
-    get hideRemainingAmount() {
-        return this.bankRecState?.hideRemainingAmount;
     }
 
     async openMoveView(record) {

@@ -531,7 +531,7 @@ class SaleOrderLine(models.Model):
                     'move_orig_ids': [Command.link(pick.id) for pick in moves['picks']],
                     'procure_method': 'make_to_order'
                 })
-                moves['returns'].picking_id.return_id = moves['picks'].picking_id
+                moves['returns'].picking_id.return_id = moves['picks'].picking_id[:1]
             returns._recompute_state()
         else:
             other_lines = self.filtered(lambda sol: not sol.is_rental)

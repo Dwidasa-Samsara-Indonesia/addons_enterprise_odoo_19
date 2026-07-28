@@ -2,11 +2,12 @@
 
 from datetime import date
 
-from odoo.tests.common import tagged
+from odoo.tests.common import freeze_time, tagged
 from odoo.addons.hr_payroll_account.tests.common import TestPayslipValidationCommon
 
 
 @tagged('post_install', 'post_install_l10n', '-at_install', 'payslips_validation')
+@freeze_time('2024-01-01')
 class TestPayslipValidation(TestPayslipValidationCommon):
 
     @classmethod

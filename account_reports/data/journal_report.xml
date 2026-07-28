@@ -98,7 +98,7 @@
                  <t t-call-assets="account_reports.assets_pdf_export" t-js="False" t-autoprefix="true"/>
              </head>
             <body t-att-dir="env['res.lang']._get_data(code=lang or env.user.lang).direction or 'ltr'">
-                <div t-att-class="options['css_custom_class']">
+                <div t-att-class="'o_content ' + options['css_custom_class']">
                     <header>
                         <div class="row align-items-center">
                             <div class="col-4 o_header_font">
@@ -118,7 +118,7 @@
 
                     <!-- Journal entries -->
                     <t t-foreach="document_data['journals_vals']" t-as="journal_vals">
-                        <section style="page-break-after: always;">
+                        <section t-att-style="'page-break-after: always;' if not journal_vals_last else None">
                             <div class="o_section_title">
                                 <t t-out="journal_vals.get('name')"/>
                             </div>
@@ -134,7 +134,7 @@
                         </section>
                     </t>
 
-                    <section t-if="document_data.get('global_tax_summary')">
+                    <section t-if="document_data.get('global_tax_summary')" style="page-break-before: always;">
                         <div class="o_section_title">
                             Global Tax Summary
                         </div>

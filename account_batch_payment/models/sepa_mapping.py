@@ -29,7 +29,7 @@ def _replace_characters_SEPA(string, size=None):
     See https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/sepa-requirements-extended-character-set-unicode-subset-best
     """
     string_array = [character for character in string]
-    for match in re.finditer(r"[^-A-Za-z0-9/?:().,\'<>+ ]", string):
+    for match in re.finditer(r"[^-A-Za-z0-9/?:().,\'&<>+ ]", string):
         match_index = match.start()
         string_array[match_index] = sepa_mapping.get(string_array[match_index], '')
     string = ''.join(string_array)
@@ -171,5 +171,5 @@ sepa_mapping = {
     "\u0445": "\u0068", "\u0446": "\u0074\u0073", "\u0447": "\u0063\u0068", "\u0448": "\u0073\u0068", "\u0449": "\u0073\u0068\u0074", "\u044A": "\u0061",
     "\u044B": "\u002E", "\u044C": "\u0079", "\u044D": "\u002E", "\u044E": "\u0079\u0075", "\u044F": "\u0079\u0061", "\u0450": "\u002E", "\u0451": "\u002E",
     "\u0452": "\u002E", "\u0453": "\u002E", "\u0454": "\u002E", "\u0455": "\u002E", "\u0456": "\u002E", "\u0457": "\u002E", "\u0458": "\u002E", "\u0459": "\u002E",
-    "\u045A": "\u002E", "\u045B": "\u002E", "\u045C": "\u002E", "\u045D": "\u002E", "\u0026": "\u002B",
+    "\u045A": "\u002E", "\u045B": "\u002E", "\u045C": "\u002E", "\u045D": "\u002E",
 }

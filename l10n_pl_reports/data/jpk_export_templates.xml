@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="jpk_export_monthly_template">
-        <JPK xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" t-attf-xmlns="#{xmlns}">
+        <JPK xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/09/13/eD/DefinicjeTypy/" t-attf-xmlns="#{xmlns}">
             <Naglowek>
-                <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
-                <WariantFormularza t-out="2"/>
+                <KodFormularza kodSystemowy="JPK_V7M (3)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+                <WariantFormularza t-out="3"/>
                 <DataWytworzeniaJPK t-out="date_now"/>
                 <NazwaSystemu>Odoo</NazwaSystemu>
                 <CelZlozenia poz="P_7" t-out="2 if options.get('l10n_pl_is_amendment') else 1"/>
@@ -39,9 +39,9 @@
             </Podmiot1>
             <Deklaracja t-if="agg_values">
                 <Naglowek>
-                    <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z"
+                    <KodFormularzaDekl kodSystemowy="VAT-7 (23)" kodPodatku="VAT" rodzajZobowiazania="Z"
                                        wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
-                    <WariantFormularzaDekl>22</WariantFormularzaDekl>
+                    <WariantFormularzaDekl>23</WariantFormularzaDekl>
                 </Naglowek>
                 <PozycjeSzczegolowe>
                     <P_10 t-if="agg_values.get('10')" t-out="float_repr(agg_values.get('10'), 0)"/>
@@ -127,6 +127,10 @@
                     <DowodSprzedazy t-out="i.get('move_name')"/>
                     <DataWystawienia t-out="i.get('invoice_date')"/>
                     <DataSprzedazy t-if="i.get('sale_date') and i.get('move_type') in ('out_invoice','out_refund')" t-out="i.get('sale_date')"/>
+                    <NrKSeF t-if="i.get('ksef_reference') not in ('OFF', 'BFK', 'DI')" t-out="i.get('ksef_reference')"/>
+                    <OFF t-elif="i.get('ksef_reference') == 'OFF'" t-out="1"/>
+                    <BFK t-elif="i.get('ksef_reference') == 'BFK'" t-out="1"/>
+                    <DI t-elif="i.get('ksef_reference') == 'DI'" t-out="1"/>
                     <TypDokumentu t-if="i.get('pos_session_id')" t-out="'RO'"/>
                     <TypDokumentu t-elif="i.get('move_type') == 'entry'" t-out="'WEW'"/>
                     <TypDokumentu t-elif="i.get('pos_order_id')" t-out="'FP'"/> <!-- to change everywhere to not include tax -->
@@ -208,6 +212,10 @@
                     <DowodZakupu t-out="b.get('move_name')"/>
                     <DataZakupu t-out="b.get('move_date')"/>
                     <DataWplywu t-if="b.get('create_date') != b.get('move_date')" t-out="b.get('create_date')"/>
+                    <NrKSeF t-if="b.get('ksef_reference') not in ('OFF', 'BFK', 'DI')" t-out="b.get('ksef_reference')"/>
+                    <OFF t-elif="b.get('ksef_reference') == 'OFF'" t-out="1"/>
+                    <BFK t-elif="b.get('ksef_reference') == 'BFK'" t-out="1"/>
+                    <DI t-elif="b.get('ksef_reference') == 'DI'" t-out="1"/>
                     <DokumentZakupu t-if="b.get('move_type') == 'entry'" t-out="'WEW'"/> <!--
                     Did not do 'MK' as we need to know when the supplier is using cash basis accounting
                     Did not do VAT_RR, as we need to provide a way to generate this type of invoice, (for example, it should be written on it that it is a VAT RR invoice => buying agricultural products) -->
@@ -237,13 +245,13 @@
         <!-- This template is used when returning quarterly the jpk -->
 
                 <xpath expr="//*[local-name()='JPK']/*[local-name()='Naglowek']/*[local-name()='KodFormularza']" position="replace">
-                    <KodFormularza kodSystemowy="JPK_V7K (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+                    <KodFormularza kodSystemowy="JPK_V7K (3)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
                 </xpath>
                 <xpath expr="//*[local-name()='JPK']/*[local-name()='Deklaracja']/*[local-name()='Naglowek']" position="replace">
                     <Naglowek>
-                    <KodFormularzaDekl kodSystemowy="VAT-7K (16)" kodPodatku="VAT" rodzajZobowiazania="Z"
+                    <KodFormularzaDekl kodSystemowy="VAT-7K (17)" kodPodatku="VAT" rodzajZobowiazania="Z"
                                        wersjaSchemy="1-0E">VAT-7K</KodFormularzaDekl>
-                    <WariantFormularzaDekl>16</WariantFormularzaDekl>
+                    <WariantFormularzaDekl>17</WariantFormularzaDekl>
                     <Kwartal t-out="int(date_month)//3"/>
                 </Naglowek>
                 </xpath>

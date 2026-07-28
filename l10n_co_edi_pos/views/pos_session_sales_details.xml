@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="daily_report" inherit_id="point_of_sale.pos_session_sales_details" name="Daily Report">
-        <xpath expr="//h2[@id='daily_report_title']" position="replace">
-            <div class="wrapper">
-                <t t-if="l10n_co_edi_pos_enable">
-                    <h2>Reporte comprobante de informe diario</h2>
-                    <div>NIT: <t t-out="company.vat"/></div>
-                    <div>Número de serie del punto de venta: <t t-out="l10n_co_edi_pos_serial_number"/></div>
-                </t>
-            </div>
+        <xpath expr="//h2[@id='daily_report_title']" position="attributes">
+            <attribute name="t-if">not l10n_co_edi_pos_enable and (state == 'closed' or state == 'opened')</attribute>
+        </xpath>
+        <xpath expr="//h2[@id='daily_report_title']" position="after">
+            <t t-if="l10n_co_edi_pos_enable">
+                <h2>Reporte comprobante de informe diario</h2>
+                <div>NIT: <t t-out="company.vat"/></div>
+                <div>Número de serie del punto de venta: <t t-out="l10n_co_edi_pos_serial_number"/></div>
+            </t>
         </xpath>
         <xpath expr="//div[@id='payments']" position="replace">
             <div t-if="l10n_co_edi_pos_enable and l10n_co_edi_pos_payment_options" id="l10n_co_edi_pos_payment_options">

@@ -8,6 +8,14 @@ from odoo.addons.stock_barcode.tests.test_barcode_client_action import TestBarco
 @tagged('post_install', '-at_install')
 class TestBarcodeQualityControlMRPClientAction(TestBarcodeClientAction):
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env['quality.alert.team'].create({
+            'name': 'Barcode MRP Quality Team',
+            'company_id': cls.company.id,
+        })
+
     def test_final_product_quality_check_mrp_barcode(self):
         """
         Test quality check on productions created in barcode.

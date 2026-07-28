@@ -22,6 +22,17 @@ class TestMarketingCampaign(MarketingAutomationCommon):
         )
 
     @users('user_marketing_automation')
+    def test_action_retry_failed_blocked_for_marketing_automation(self):
+        """ Ensure retrying a mailing linked to a marketing campaign is blocked. """
+        mailing = self.activity.mass_mailing_id
+
+        self.assertTrue(mailing.use_in_marketing_automation)
+
+        # Verify that calling action_retry_failed raises a UserError
+        with self.assertRaises(UserError, msg="Retrying a marketing automation mailing should be blocked."):
+            mailing.action_retry_failed()
+
+    @users('user_marketing_automation')
     def test_create_records_with_xml_ids(self):
         # The function tests creation of records.
         # If record is deleted and then re-created it has to get same xmlid.

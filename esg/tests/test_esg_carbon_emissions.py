@@ -20,12 +20,12 @@ class TestEsgCarbonEmission(TestEsgCommon):
             'uom_id': self.env.ref('uom.product_uom_mile').id,
             'quantity': 100,
         })
-        self.assertEqual(other_emission.esg_emissions_value, 6.214)  # 100 (emission quantity) * 0.1 (factor value) * 0.6214 (km->mile conversion) = 6.214 kgCO2e
-        self.assertEqual(other_emission.esg_uncertainty_absolute_value, 2.1749)  # 6.214 (emission value) * 0.35 (factor uncertainty) = 2.1749 kgCO2e
+        self.assertAlmostEqual(other_emission.esg_emissions_value, 16.09344)  # 100 (emission quantity) * 0.1 (factor value) * 1.60934 (mile->km conversion) = 16.09344 kgCO2e
+        self.assertAlmostEqual(other_emission.esg_uncertainty_absolute_value, 5.632704)  # 16.09344 (emission value) * 0.35 (factor uncertainty) = 5.632704 kgCO2e
         # Change quantity
         other_emission.quantity = 200
-        self.assertEqual(other_emission.esg_emissions_value, 12.428)  # 200 (emission quantity) * 0.1 (factor value) * 0.6214 (km->mile conversion) = 12.428 kgCO2e
-        self.assertEqual(other_emission.esg_uncertainty_absolute_value, 4.3498)  # 12.428 (emission value) * 0.35 (factor uncertainty) = 2.1749 kgCO2e
+        self.assertAlmostEqual(other_emission.esg_emissions_value, 32.18688)  # 200 (emission quantity) * 0.1 (factor value) * 1.60934 (mile->km conversion) = 32.18688 kgCO2e
+        self.assertAlmostEqual(other_emission.esg_uncertainty_absolute_value, 11.265408)  # 32.18688 (emission value) * 0.35 (factor uncertainty) = 11.265408 kgCO2e
 
     def test_monetary_method_other_emission_value(self):
         other_emission = self.env['esg.other.emission'].create({
@@ -40,7 +40,21 @@ class TestEsgCarbonEmission(TestEsgCommon):
         # Change quantity
         other_emission.quantity = 300
         self.assertEqual(other_emission.esg_emissions_value, 3)  # 300 (emission quantity) * 0.01 (factor value) * 1.0 (EUR->EUR conversion) = 3 kgCO2e
-        self.assertEqual(other_emission.esg_uncertainty_absolute_value, 0.75)  # 3 (emission value) * 0.35 (factor uncertainty) = 0.75 kgCO2e
+        self.assertEqual(other_emission.esg_uncertainty_absolute_value, 0.75)  # 3 (emission value) * 0.25 (factor uncertainty) = 0.75 kgCO2e
+
+        other_emission_foreign_currency = self.env['esg.other.emission'].create({
+            'name': 'Office Electricity',
+            'date': '2024-12-01',
+            'esg_emission_factor_id': self.emission_factor_electricity_consumption.id,
+            'currency_id': self.env.ref('base.USD').id,
+            'quantity': 150,
+        })
+        self.assertEqual(other_emission_foreign_currency.esg_emissions_value, 3)  # 150 (emission quantity) * 0.01 (factor value) * 2.0 (USD->EUR conversion) = 3 kgCO2e
+        self.assertEqual(other_emission_foreign_currency.esg_uncertainty_absolute_value, 0.75)  # 3 (emission value) * 0.25 (factor uncertainty) = 0.75 kgCO2e
+        # Change quantity
+        other_emission_foreign_currency.quantity = 300
+        self.assertEqual(other_emission_foreign_currency.esg_emissions_value, 6)  # 300 (emission quantity) * 0.01 (factor value) * 2.0 (USD->EUR conversion) = 6 kgCO2e
+        self.assertEqual(other_emission_foreign_currency.esg_uncertainty_absolute_value, 1.5)  # 6 (emission value) * 0.25 (factor uncertainty) = 1.5 kgCO2e
 
     def test_physical_method_account_move_line_emission_value(self):
         bill_line = self.env['account.move.line'].create({
@@ -92,13 +106,12 @@ class TestEsgCarbonEmission(TestEsgCommon):
                     'esg_emission_factor_id': self.emission_factor_foreign_electricity_consumption.id,
                     'account_id': account.id,
                 })
-                conversion_rate = self.emission_factor_foreign_electricity_consumption.currency_id._convert(1, bill_line.currency_id, date=bill_line.date)
-                self.assertEqual(bill_line.esg_emissions_value * conversion_rate, 5.0 if esg_usable else 0)  # 100.0 (aml price) * 0.05 (factor value) * (USD->EUR conversion) = 5 * (USD->EUR conversion) kgCO2e
-                self.assertEqual(bill_line.esg_uncertainty_absolute_value, 2.25 if esg_usable else 0)  # 5.0 (emission value) * 0.45 (factor uncertainty) = 2.25 kgCO2e
+                self.assertEqual(bill_line.esg_emissions_value, 2.5 if esg_usable else 0)  # 100.0 (aml price) * 0.05 (factor value) * 0.5 (EUR->USD conversion) = 2.5 kgCO2e
+                self.assertEqual(bill_line.esg_uncertainty_absolute_value, 1.125 if esg_usable else 0)  # 2.5 (emission value) * 0.45 (factor uncertainty) = 1.125 kgCO2e
                 # Change price
                 bill_line.price_unit = 200.0
-                self.assertEqual(bill_line.esg_emissions_value * conversion_rate, 10.0 if esg_usable else 0)  # 200.0 (aml price) * 0.05 (factor value) * (USD->EUR conversion) = 10 * (USD->EUR conversion) kgCO2e
-                self.assertEqual(bill_line.esg_uncertainty_absolute_value, 4.5 if esg_usable else 0)  # 10.0 (emission value) * 0.45 (factor uncertainty) = 4.5 kgCO2e
+                self.assertEqual(bill_line.esg_emissions_value, 5.0 if esg_usable else 0)  # 200.0 (aml price) * 0.05 (factor value) * 0.5 (EUR->USD conversion) = 5 kgCO2e
+                self.assertEqual(bill_line.esg_uncertainty_absolute_value, 2.25 if esg_usable else 0)  # 5.0 (emission value) * 0.45 (factor uncertainty) = 2.25 kgCO2e
 
     def test_compute_method_other_emission(self):
         other_emission = self.env['esg.other.emission'].create({

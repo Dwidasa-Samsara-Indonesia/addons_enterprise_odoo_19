@@ -172,19 +172,18 @@ class TestEmployeeSalaryConfigurator(odoo.tests.HttpCase):
             'date_version': date(2020, 1, 1),
             'contract_date_start': date(2020, 1, 1),
             'contract_date_end': False,
+            'private_country_id': cls.env.ref('base.be').id,
+            'private_state_id': cls.env.ref('base.state_be_1').id,
             'company_id': cls.company_id.id,
             'job_id': cls.job.id,
             'sign_template_id': cls.template.id,
             'contract_update_template_id': cls.template.id,
             'hr_responsible_id': cls.env.ref('base.user_admin').id,
             'work_email': 'ahmed.abdelrazek@test_email.com',
-
         })
 
     def test_employee_salary_configurator_amendment_flow(self):
         employee = self.employee_1
-        employee.private_country_id = self.env.ref('base.be').id
-        employee.private_state_id = self.env.ref('base.state_be_1').id
 
         with freeze_time("2022-01-01 12:00:00"):
             self.start_tour("/", 'hr_contract_salary_employee_flow_tour', login='admin', timeout=350)

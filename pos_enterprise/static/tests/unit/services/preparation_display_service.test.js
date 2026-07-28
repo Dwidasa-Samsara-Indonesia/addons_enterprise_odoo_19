@@ -314,3 +314,22 @@ test("moveAllOrdersToNextStage -> when order is in lastStage", async () => {
     await store.moveAllOrdersToNextStage();
     expect(orders[0].states.every((s) => s.todo === false)).toBe(true);
 });
+
+test("line clicked does not change display order", async () => {
+    const store = await setupPosPrepDisplayEnv();
+    await createPrepDisplayTicket(store);
+    await createPrepDisplayTicket(store);
+    const orders = store.filteredOrders;
+    orders[0].states.forEach((state) => {
+        state.last_stage_change = DateTime.now().minus({ minutes: 10 });
+        state.write_date = state.last_stage_change;
+    });
+    orders[1].states.forEach((state) => {
+        state.last_stage_change = DateTime.now().minus({ minutes: 5 });
+        state.write_date = state.last_stage_change;
+    });
+
+    expect(store.filteredOrders[0].prepOrder.id).toBe(orders[0].prepOrder.id);
+    orders[0].states[0].write_date = DateTime.now();
+    expect(store.filteredOrders[0].prepOrder.id).toBe(orders[0].prepOrder.id);
+});

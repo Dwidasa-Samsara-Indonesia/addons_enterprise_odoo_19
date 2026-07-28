@@ -30,10 +30,6 @@ class TestFiskalyPoS(TestFrontend):
         self.env['res.partner'].create({
             "name": "AA Test Partner",
         })
-        self.pos_admin.write({
-            "street": "POS Street",
-            "zip": "1234",
-        })
         self.env['pos.printer'].search([]).write({
             "product_categories_ids": [Command.clear()],
         })

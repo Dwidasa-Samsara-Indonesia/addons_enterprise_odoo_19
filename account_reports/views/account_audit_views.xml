@@ -28,13 +28,11 @@
                             </div>
 
                             <div class="d-flex flex-column w-100 h-100 px-2 mt-2 gap-3">
-                                <a type="object" class="link_balances_progressbar" name="action_open_audit_balances">
-                                    <div class="w-100">
-                                        <label for="resolved_check_count">Balances</label>
-                                        <field name="audit_balances_count" invisible="1"/>
-                                        <field name="audit_balances_completed_count" class="w-100 audit_return_progressbar" widget="account_audit_progressbar" options="{ 'max_value': 'audit_balances_count'}"/>
-                                    </div>
-                                </a>
+                                <div class="w-100">
+                                    <label for="resolved_check_count">Balances</label>
+                                    <field name="audit_balances_count" invisible="1"/>
+                                    <field name="audit_balances_completed_count" class="w-100 audit_return_progressbar" widget="account_audit_progressbar" options="{ 'max_value': 'audit_balances_count'}"/>
+                                </div>
 
                                 <div class="w-100" >
                                     <label for="resolved_check_count">Checks</label>
@@ -56,7 +54,7 @@
                         <a class="dropdown-item" type="object" name="action_archive" string="Archive" invisible="state != 'new' or is_completed or not active"/>
                         <a class="dropdown-item" type="object" name="action_unarchive" string="Unarchive" invisible="active"/>
                         <a class="dropdown-item" type="object" name="action_export_working_files" string="Export"/>
-                        <a invisible="state != 'new'" class="dropdown-item" type="object" name="action_delete" string="Delete"/>
+                        <a invisible="state != 'new'" class="dropdown-item" type="delete" groups="account.group_account_user">Delete</a>
                     </t>
                 </kanban>
             </field>

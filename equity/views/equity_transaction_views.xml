@@ -118,7 +118,7 @@
                     </group>
                     <group>
                         <group id="left_group">
-                            <field name="partner_id"/>
+                            <field name="partner_id" context="{'default_is_company': True}"/>
                             <field name="date"/>
                             <field name="seller_id" options="{'placeholder_field': 'subscriber_id_placeholder'}" invisible="transaction_type != 'transfer'" required="securities_type == 'shares'"/>
                             <field name="subscriber_id" options="{'placeholder_field': 'subscriber_id_placeholder'}" string="Buyer" invisible="transaction_type != 'transfer'" required="securities_type == 'shares'"/>
@@ -167,6 +167,7 @@
                                 <div>/ Security</div>
                             </div>
                             <field name="transfer_amount" widget="monetary"/>
+                            <field name="company_id" groups="base.group_multi_company" invisible="not company_id"/>
                         </group>
                     </group>
                     <group string="Notes">

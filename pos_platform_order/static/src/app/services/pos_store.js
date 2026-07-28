@@ -16,6 +16,7 @@ patch(PosStore.prototype, {
     },
 
     async _fetchPlatformOrder(order_id, is_new_order) {
+        const lastOrderStatus = this.models["pos.order"].get(order_id)?.platform_order_status;
         try {
             await this.getServerOrder(order_id);
         } catch (error) {
@@ -79,7 +80,7 @@ patch(PosStore.prototype, {
                 this.selectedOrderUuid = null;
             }
             if (isReadyToPrint) {
-                await this.deleteOrders([order]);
+                await this.deleteOrders([order], [], lastOrderStatus === "new");
             }
         }
     },
@@ -91,7 +92,10 @@ patch(PosStore.prototype, {
     getServerOrdersDomain() {
         return Domain.or([
             super.getServerOrdersDomain(),
-            new Domain([["platform_order_provider_id", "!=", false]]),
+            new Domain([
+                ["config_id", "in", [...this.config.raw.trusted_config_ids, this.config.id]],
+                ["platform_order_provider_id", "!=", false],
+            ]),
         ]);
     },
 
@@ -171,6 +175,33 @@ patch(PosStore.prototype, {
         // Always return true to ensure the order is removed from the POS UI,
         // regardless of the server's response.
         return true;
+    },
+
+    async deleteOrders(orders, serverIds = [], ignoreChange = false) {
+        const hasPlatformOrders = orders.some((order) => order.isPlatformOrder);
+        if (!hasPlatformOrders) {
+            return super.deleteOrders(orders, serverIds, ignoreChange);
+        }
+
+        const newOrders = [];
+        const otherOrders = [];
+
+        for (const order of orders) {
+            if (order.isPlatformOrder) {
+                if (order.platform_order_status === "new") {
+                    newOrders.push(order);
+                } else {
+                    otherOrders.push(order);
+                }
+            } else {
+                otherOrders.push(order);
+            }
+        }
+
+        return Promise.allSettled([
+            super.deleteOrders(newOrders, serverIds, true),
+            super.deleteOrders(otherOrders, serverIds, ignoreChange),
+        ]);
     },
 
     // =========================================================================

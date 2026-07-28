@@ -26,7 +26,7 @@ export class MpsSelection extends Component {
     }
 
     get placeholder(){
-        return "All Periods";
+        return _t("All Periods");
     }
 
     onChange(value) {

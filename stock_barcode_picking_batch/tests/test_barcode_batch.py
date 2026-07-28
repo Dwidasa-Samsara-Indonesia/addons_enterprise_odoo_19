@@ -706,6 +706,7 @@ class TestBarcodeBatchClientAction(TestBarcodeClientAction):
         batch_delivery = self.picking_delivery_1.batch_id
         self.assertEqual(len(batch_delivery.move_ids), 5)
         self.assertEqual(len(batch_delivery.move_line_ids), 7)
+        self.assertIn(batch_delivery.picking_type_id.sequence_code, batch_delivery.name)
 
     def test_pack_and_same_product_several_sml(self):
         """
@@ -806,6 +807,12 @@ class TestBarcodeBatchClientAction(TestBarcodeClientAction):
                 'product_id': self.productlot1.id,
                 'product_uom_qty': 4,
                 'picking_id': receipt1.id,
+            }, {
+                'location_id': self.supplier_location.id,
+                'location_dest_id': self.stock_location.id,
+                'product_id': self.product3.id,
+                'product_uom_qty': 4.4,
+                'picking_id': receipt1.id,
             }, {  # receipt2 moves.
                 'location_id': self.supplier_location.id,
                 'location_dest_id': self.stock_location.id,
@@ -819,6 +826,12 @@ class TestBarcodeBatchClientAction(TestBarcodeClientAction):
                 'product_id': self.product1.id,
                 'product_uom_qty': 2,
                 'product_uom': self.product1.uom_id.id,
+                'picking_id': receipt2.id,
+            }, {
+                'location_id': self.supplier_location.id,
+                'location_dest_id': self.stock_location.id,
+                'product_id': self.product3.id,
+                'product_uom_qty': 48.8,
                 'picking_id': receipt2.id,
             }, {
                 'location_id': self.supplier_location.id,

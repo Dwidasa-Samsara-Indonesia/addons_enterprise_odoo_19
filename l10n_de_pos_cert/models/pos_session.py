@@ -172,19 +172,18 @@ class PosSession(models.Model):
         # so we need to remove the number of orders of current session to get the length of old orders
         next_transaction_export_id = self.env['pos.order'].search_count([('config_id', '=', config.id)]) - len(orders)
         for i, o in enumerate(orders, start=1):
-            if o.partner_id:
-                buyer = {
-                    "name": f"{o.partner_id.name[:50]}",
-                    "buyer_export_id": f"{o.partner_id.id}",
-                    "type": "Kunde" if company.id != o.partner_id.company_id.id else "Mitarbeiter",
-                    "address": {
-                        "street": (o.partner_id.street or 'N/A')[:60],  # minimum 1 character required
-                        "postal_code": (o.partner_id.zip or 'N/A')[:10],  # minimum 1 character required
-                        "country_code": COUNTRY_CODE_MAP.get(o.partner_id.country_id.code) or "DEU",
-                    },
-                }
-            else:
-                buyer = {"name": "Customer", "buyer_export_id": "null", "type": "Kunde"}
+            buyer = {}
+            if partner := o.partner_id:
+                buyer.update({
+                    'name': f'{partner.name[:50]}',
+                    'buyer_export_id': f'{partner.id}',
+                    'type': 'Kunde' if company.id != partner.company_id.id else 'Mitarbeiter',
+                    'address': {'country_code': COUNTRY_CODE_MAP.get(partner.country_id.code) or 'DEU'},
+                })
+                if street := partner.street:
+                    buyer['address']['street'] = street[:60]
+                if postal_code := partner.zip:
+                    buyer['address']['postal_code'] = postal_code[:10]
 
             lines_data, payment_types = o._prepare_lines_and_payments()
             adjusted_order_total = self.currency_id.round(sum(
@@ -206,7 +205,6 @@ class PosSession(models.Model):
                         "user_export_id": f"{(o.user_id or o.create_uid).id}",
                         "name": f"{(o.user_id or o.create_uid).name[:50]}",
                     },
-                    "buyer": buyer,
                 },
                 "data": {
                     "full_amount_incl_vat": float_repr(adjusted_order_total, precision),
@@ -217,6 +215,8 @@ class PosSession(models.Model):
                 # `l10n_de_fiskaly_signature_public_key` is set only when the transaction finishes successfully (no 5xx errors or network issues).
                 "security": {"tss_tx_id": f"{o.l10n_de_fiskaly_transaction_uuid}"} if o.l10n_de_fiskaly_signature_public_key else {"error_message": "Error while reaching TSS may be due to network issues or TSS unavailability."},
             }
+            if buyer:
+                transaction['head']['buyer'] = buyer
             transactions.append(transaction)
 
         return {

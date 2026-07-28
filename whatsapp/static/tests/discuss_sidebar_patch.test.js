@@ -39,7 +39,7 @@ test("Can join whatsapp channels from search conversation button", async () => {
     await start();
     await openDiscuss();
     await click("input[placeholder='Search conversations']");
-    await contains(".o_command_name", { count: 6 });
+    await contains(".o_command_name", { count: 5 });
     await insertText("input[placeholder='Search a conversation']", "WhatsApp 2");
     await contains(".o_command_name", { count: 3 });
     await click(".o_command_name", { text: "WhatsApp 2" });
@@ -139,23 +139,26 @@ test("whatsapp are sorted by last activity time in the sidebar: most recent at t
     });
 });
 
-test("Whatsapp - Sidebar channel icons should have the partner's avatar", async () => {
+test("Whatsapp - Sidebar channel icons should have the whatsapp partner's avatar", async () => {
     const pyEnv = await startServer();
-    const partnerId = pyEnv["res.partner"].create({
-        name: "Demo",
-    });
+    const [memberPartnerId, whatsappPartnerId] = pyEnv["res.partner"].create([
+        { name: "Operator" },
+        { name: "Demo" },
+    ]);
     pyEnv["discuss.channel"].create({
         channel_member_ids: [
             Command.create({ partner_id: serverState.partnerId }),
-            Command.create({ partner_id: partnerId }),
+            Command.create({ partner_id: memberPartnerId }),
+            Command.create({ partner_id: whatsappPartnerId }),
         ],
         channel_type: "whatsapp",
+        whatsapp_partner_id: whatsappPartnerId,
     });
-    const [partner] = pyEnv["res.partner"].search_read([["id", "=", partnerId]]);
+    const [partner] = pyEnv["res.partner"].search_read([["id", "=", whatsappPartnerId]]);
     await start();
     await openDiscuss();
     await contains(
-        `.o-mail-DiscussSidebar-item img[data-src='${getOrigin()}/web/image/res.partner/${partnerId}/avatar_128?unique=${
+        `.o-mail-DiscussSidebar-item img[data-src='${getOrigin()}/web/image/res.partner/${whatsappPartnerId}/avatar_128?unique=${
             deserializeDateTime(partner.write_date).ts
         }']`
     );

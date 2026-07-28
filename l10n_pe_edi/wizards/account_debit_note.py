@@ -10,9 +10,10 @@ class AccountDebitNote(models.TransientModel):
         selection=[
             ('01', 'Default interest'),
             ('02', 'Increase in value'),
-            ('03', 'Penalties / other concepts'),
+            ('03', 'Other concepts'),
             ('11', 'Adjustments of export operations'),
             ('12', 'Adjustments affecting the IVAP'),
+            ('13', 'Penalties'),
         ],
         string="Debit Reason",
         default='01',

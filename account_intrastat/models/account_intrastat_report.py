@@ -374,7 +374,7 @@ class AccountIntrastatReportHandler(models.AbstractModel):
             import_merchandise_code=_merchandise_import_code.get(self.env.company.country_id.code, '29'),
             export_merchandise_code=_merchandise_export_code.get(self.env.company.country_id.code, '19'),
             country_name=self_lang.env['res.country']._field_to_sql('country', 'name'),
-            country_id=self.env.company.country_id.id,
+            country_id=self.env.company.country_id.id or None,
             commodity_code=query_params['commodity_code'],
             balance_select=report._currency_table_apply_rate(SQL("account_move_line.balance")),
             unknown_country_code=_unknown_country_code.get(self.env.company.country_id.code, 'QV'),
@@ -417,7 +417,7 @@ class AccountIntrastatReportHandler(models.AbstractModel):
 
     def _custom_line_postprocessor(self, report, options, lines):
         for line in lines:
-            if name := re.search(r"^[A-Za-z]+(/\d+)+", line['name']):
+            if name := re.search(r"^[A-Za-z]+([/-]\d+)+", line['name']):
                 line['name'] = name.group()
         return lines
 

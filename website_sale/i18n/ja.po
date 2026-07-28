@@ -8,18 +8,18 @@
 # Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2022
 # Martin Trigaux, 2022
 # Andy Yiu, 2023
-# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2025.
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2025, 2026.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# Yoshi Tashiro <tashiro@quartile.co>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Yoshi Tashiro <tashiro@quartile.co>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-03-19 11:56+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2026-07-10 17:36+0000\n"
+"PO-Revision-Date: 2026-07-01 22:51+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "website_sale/ja/>\n"
 "Language: ja\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -199,7 +199,7 @@ msgstr "<b>価格帯</b>"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.o_wsale_offcanvas
 msgid "<b>Sort By</b>"
-msgstr "<b>以下でソート:</b>"
+msgstr "<b>並べ替え</b>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.filter_products_tags
@@ -1168,7 +1168,7 @@ msgstr "自動"
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 #: code:addons/website_sale/static/src/website_builder/products_design_panel.xml:0
 msgid "Auto-crop"
-msgstr "自動トリミング"
+msgstr "自動切り抜き"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -1340,6 +1340,12 @@ msgstr "ボーダー(プライマリ)"
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Bordered"
 msgstr "枠線あり"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
+msgid "Bottom"
+msgstr "下"
 
 #. module: website_sale
 #. odoo-python
@@ -2082,7 +2088,7 @@ msgstr "デフォルト通貨"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Default Sort"
-msgstr "デフォルトソート"
+msgstr "デフォルトの並び順"
 
 #. module: website_sale
 #: model:ir.model.fields,help:website_sale.field_product_product__base_unit_id
@@ -2257,7 +2263,7 @@ msgstr "レポート"
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 #: model:ir.model.fields.selection,name:website_sale.selection__res_config_settings__account_on_checkout__disabled
 msgid "Disabled"
-msgstr "無効化されました"
+msgstr "無効"
 
 #. module: website_sale
 #: model:ir.model.fields.selection,name:website_sale.selection__website__account_on_checkout__disabled
@@ -2874,7 +2880,7 @@ msgstr "Google住所検証"
 #: model:ir.model.fields,field_description:website_sale.field_website__enabled_gmc_src
 #: model:ir.model.fields.selection,name:website_sale.selection__product_feed__target__gmc
 msgid "Google Merchant Center"
-msgstr "Googleマーチャントセンター"
+msgstr "Google Merchant Center"
 
 #. module: website_sale
 #. odoo-javascript
@@ -3357,6 +3363,7 @@ msgstr "レイアウト"
 
 #. module: website_sale
 #. odoo-javascript
+#: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 #: code:addons/website_sale/static/src/website_builder/product_ribbon_options.xml:0
 #: model:ir.model.fields.selection,name:website_sale.selection__product_ribbon__position__left
 msgid "Left"
@@ -3456,7 +3463,7 @@ msgstr "手動"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
 msgid "Map view"
-msgstr "地図表示"
+msgstr "マップビュー"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4090,7 +4097,7 @@ msgstr "電話番号"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
 msgid "Pickup Location"
-msgstr "ピックアップロケーション"
+msgstr "受取場所"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4238,7 +4245,7 @@ msgstr "プライバシーポリシー"
 #: model_terms:ir.actions.act_window,help:website_sale.action_unpaid_orders_ecommerce
 #: model_terms:ir.actions.act_window,help:website_sale.action_view_unpaid_quotation_tree
 msgid "Process the order once the payment is received."
-msgstr "支払いをもらったら注文を処理します。"
+msgstr "支払いを受け取り次第、オーダを処理します。"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4302,7 +4309,7 @@ msgstr "プロダクトフィード"
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_product_image
 msgid "Product Image"
-msgstr "製品画像"
+msgstr "プロダクト画像"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_image_view_kanban
@@ -4755,7 +4762,7 @@ msgstr "修理・整備"
 #: code:addons/website_sale/static/src/website_builder/product_image_option.xml:0
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 msgid "Replace"
-msgstr "置き換える"
+msgstr "置き換え"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4855,7 +4862,7 @@ msgstr "SEO最適化済"
 #: model:ir.model.fields,field_description:website_sale.field_product_feed__message_has_sms_error
 #: model:ir.model.fields,field_description:website_sale.field_product_template__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: website_sale
 #: model:product.ribbon,name:website_sale.sale_ribbon
@@ -5329,7 +5336,7 @@ msgstr "申し訳ありません。ご注文を発送することができませ
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.sort
 msgid "Sort By"
-msgstr "並び替え"
+msgstr "並べ替え"
 
 #. module: website_sale
 #. odoo-javascript
@@ -5766,6 +5773,12 @@ msgid "This product is no longer available."
 msgstr "この製品はもう使用できません。"
 
 #. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/sale_order.py:0
+msgid "This product is not available (anymore) in this unit of measure."
+msgstr ""
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products_item
 msgid "This product is unpublished."
 msgstr "この製品は未公開です。"
@@ -5897,7 +5910,7 @@ msgstr "Eコマース製品での単価が使用する測定単位。"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.view_sales_order_filter_ecommerce
 msgid "Unpaid"
-msgstr "未払い"
+msgstr "未払"
 
 #. module: website_sale
 #: model:ir.actions.act_window,name:website_sale.action_unpaid_orders_ecommerce
@@ -6092,8 +6105,8 @@ msgid ""
 "promising to repair or replace it if necessary within a specified period of "
 "time."
 msgstr ""
-"特定の期間内に必要に応じて修理または交換することを約束した、製造者が商品の購"
-"入者に発行する保証。"
+"特定の期間内に必要に応じて修理または交換することを約束した、メーカーが商品の"
+"購入者に発行する保証。"
 
 #. module: website_sale
 #. odoo-python
@@ -6326,7 +6339,7 @@ msgstr "サイトからの請求可能なオーダがありません"
 #. module: website_sale
 #: model:mail.template,subject:website_sale.mail_template_sale_cart_recovery
 msgid "You left items in your cart!"
-msgstr "カートに残り物があります!"
+msgstr "カートに商品が入ったままです！"
 
 #. module: website_sale
 #: model_terms:ir.actions.act_window,help:website_sale.action_view_abandoned_tree
@@ -6931,9 +6944,6 @@ msgstr "{{0}} 画像"
 
 #~ msgid "Both"
 #~ msgstr "両方"
-
-#~ msgid "Bottom"
-#~ msgstr "下"
 
 #~ msgid "Brand"
 #~ msgstr "ブランド"

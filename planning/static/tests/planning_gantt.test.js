@@ -11,6 +11,7 @@ import {
     mountWithCleanup,
     onRpc,
     patchWithCleanup,
+    selectFieldDropdownItem,
 } from "@web/../tests/web_test_helpers";
 import {
     CLASSES,
@@ -57,9 +58,27 @@ const getProgressBars = () => ({
             employee_id: 1,
             is_material_resource: true,
             display_popover_material_resource: false,
-            is_flexible: false,
-            avg_hours: 8,
-            work_intervals: [
+            is_flexible_hours: false,
+        },
+        2: {
+            value: 4,
+            max_value: 40,
+            employee_id: 2,
+            is_flexible_hours: true,
+        },
+        3: {
+            value: 4,
+            max_value: 40,
+            employee_id: 3,
+            is_flexible_hours: true,
+            is_fully_flexible_hours: true,
+        }
+    },
+});
+
+const getPlanningData = () => ({
+        "work_intervals": {
+            1: [
                 ["2022-10-10 06:00:00", "2022-10-10 10:00:00"], //Monday    4h
                 ["2022-10-11 06:00:00", "2022-10-11 10:00:00"], //Tuesday   5h
                 ["2022-10-11 11:00:00", "2022-10-11 12:00:00"],
@@ -70,26 +89,20 @@ const getProgressBars = () => ({
                 ["2022-10-14 06:00:00", "2022-10-14 10:00:00"], //Friday    8h
                 ["2022-10-14 11:00:00", "2022-10-14 15:00:00"],
             ],
+            2: [],
+            3: [],
         },
-        2: {
-            value: 4,
-            max_value: 40,
-            employee_id: 2,
-            is_flexible_hours: true,
-            work_intervals: [],
-            avg_hours: 8,
+        "is_flexible": {
+            1: false,
+            2: true,
+            3: true,
         },
-        3: {
-            value: 4,
-            max_value: 40,
-            employee_id: 3,
-            is_flexible_hours: true,
-            is_fully_flexible_hours: true,
-            work_intervals: [],
-            avg_hours: 24,
-        }
-    },
-});
+        "avg_hours": {
+            1: 8,
+            2: 8,
+            3: 24,
+        },
+    });
 
 async function recurrenceDeletionTemplate(mode) {
     onRpc("planning.slot", "action_address_recurrency", ({ args }) => {
@@ -161,6 +174,7 @@ beforeEach(() => {
     onRpc("get_gantt_data", async ({ kwargs, parent }) => {
         const result = await parent();
         result.progress_bars = getProgressBars();
+        result.planning_data = getPlanningData();
         return result;
     })
 });
@@ -358,6 +372,19 @@ test("gantt view totals are taking unavailability into account for the total dis
     ]);
 });
 
+test("gantt view totals are still right when not grouping by resources", async function () {
+    let createViewArgs = _getCreateViewArgsForGanttViewTotalsTests();
+    createViewArgs.groupBy = ['department_id'];
+    await mountGanttView(createViewArgs);
+    expect(queryAllTexts(".o_gantt_row_total .o_gantt_pill")).toEqual([
+        "02:00",
+        "02:30",
+        "03:00",
+        "03:30",
+        "04:00",
+    ]);
+});
+
 test("gantt view totals are taking unavailability into account according to range", async function () {
     const createViewArgs = _getCreateViewArgsForGanttViewTotalsTests();
     createViewArgs.arch = createViewArgs.arch.replace(
@@ -405,6 +432,7 @@ test("progress bar has the correct unit", async () => {
         const result = parent();
         expect(kwargs.progress_bar_fields).toEqual(["resource_id"]);
         result.progress_bars = getProgressBars();
+        result.planning_data = getPlanningData();
         return result;
     });
 
@@ -447,6 +475,67 @@ test("total computes correctly for open shifts", async () => {
     expect(queryAll(SELECTORS.rowTotal)[1]).toHaveText("08:00");
 });
 
+test("Add new employee shift with existing one doesn't shift order", async () => {
+    mockDate("2022-10-10 00:00:00", +1);
+    PlanningSlot._views = {
+        form: `
+            <form>
+                <field name="name"/>    
+                <field name="employee_id"/>
+            </form>
+        `,
+        list: `<list><field name="employee_id"/></list>`,
+    };
+    HrEmployee._records = [
+        { id: 1, name: "First (ab)" },
+        { id: 2, name: "Second (ac)" },
+    ];
+
+    PlanningSlot._records = [
+        {
+            id: 1,
+            name: "Old Shift",
+            start_datetime: "2022-10-10 08:00:00",
+            end_datetime: "2022-10-10 10:00:00",
+            employee_id: 1,
+        },
+        {
+            id: 2,
+            name: "truc",
+            employee_id: 2,
+        },
+    ];
+
+    onRpc("get_gantt_data", ({ parent }) => {
+        const result = parent();
+        result.progress_bars = getProgressBars();
+        return result;
+    });
+
+    await mountGanttView({
+        resModel: "planning.slot",
+        arch: `
+            <gantt js_class="planning_gantt" date_start="start_datetime" date_stop="end_datetime" default_range="week"
+                precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}" display_unavailability="1" progress_bar="resource_id"
+            >
+                <field name="allocated_percentage"/>
+                <field name="resource_id"/>
+                <field name="employee_id"/>
+                <field name="name"/>
+            </gantt>
+        `,
+    });
+    click(".o_gantt_button_add.btn-primary");
+    await animationFrame();
+    await waitFor(".o_dialog .o_form_view");
+    await contains(".modal .o_form_view .o_field_widget[name=name] input").edit("New Shift");
+    await selectFieldDropdownItem("employee_id", "Second (ac)");
+    await contains(`.modal-dialog .o_form_button_save`).click();
+    const { rows } = getGridContent();
+    const pills = rows[0].pills.map((pill) => pill.title);
+    expect(pills).toEqual(["New Shift\nSecond (ac)", "Old Shift\nFirst (ab)"]);
+});
+
 test("the grouped gantt view is coloured correctly and the occupancy percentage is correctly displayed", async () => {
     mockDate("2022-10-10 00:00:00", +1);
 
@@ -483,6 +572,7 @@ test("the grouped gantt view is coloured correctly and the occupancy percentage 
     onRpc("get_gantt_data", ({ parent }) => {
         const result = parent();
         result.progress_bars = getProgressBars();
+        result.planning_data = getPlanningData();
         return result;
     });
 
@@ -1133,6 +1223,7 @@ test("allocated percentage according to user work schedule ", async () => {
     onRpc("get_gantt_data", ({ parent }) => {
         const result = parent();
         result.progress_bars = getProgressBars();
+        result.planning_data = getPlanningData();
         return result;
     });
     await mountGanttView({

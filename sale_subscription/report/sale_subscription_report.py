@@ -42,24 +42,26 @@ class SaleSubscriptionReport(models.Model):
         res['origin_order_id'] = "s.origin_order_id"
         res['client_order_ref'] = "s.client_order_ref"
         res['margin'] = 0
-        res['recurring_monthly'] = f"""sum(l.price_subtotal)
+        res['recurring_monthly'] = f"""
+            SUM(CASE WHEN t.recurring_invoice = TRUE THEN l.price_subtotal ELSE 0 END)
             / CASE
                 WHEN ssp.billing_period_unit = 'week' THEN 7.0 / 30.437
                 WHEN ssp.billing_period_unit = 'month' THEN 1
                 WHEN ssp.billing_period_unit = 'year' THEN 12
                 ELSE 1
-             END
+            END
             / ssp.billing_period_value
             / {self._case_value_or_one('s.currency_rate') }
             * {self._case_value_or_one('account_currency_table.rate') }
         """
-        res['recurring_yearly'] = f"""sum(l.price_subtotal)
+        res['recurring_yearly'] = f"""
+            SUM(CASE WHEN t.recurring_invoice = TRUE THEN l.price_subtotal ELSE 0 END)
             / CASE
                 WHEN ssp.billing_period_unit = 'week' THEN 7.0 / 30.437
                 WHEN ssp.billing_period_unit = 'month' THEN 1
                 WHEN ssp.billing_period_unit = 'year' THEN 12
                 ELSE 1
-             END
+            END
             / ssp.billing_period_value
             * 12
             / {self._case_value_or_one('s.currency_rate') }

@@ -9,7 +9,7 @@ class DocumentsDocument(models.Model):
         """ As portal users can be employees, and as they need to access their employee related documents
         via their "My drive", allow portal user that are linked to employee to own root documents """
         unauthorized_owners_sudo = super()._get_unauthorized_root_document_owners_sudo()
-        return unauthorized_owners_sudo.with_context(active_test=False).filtered(lambda u: not u.employee_id)
+        return unauthorized_owners_sudo.with_context(active_test=False).filtered(lambda u: not u.employee)
 
     def _raise_if_used_folder(self):
         if folder_ids := self.filtered(lambda d: d.type == 'folder').ids:

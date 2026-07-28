@@ -12,11 +12,13 @@ class SignDocument(models.Model):
             attachment = self.env['ir.attachment'].browse(attachment_id)
 
             if attachment:
-                if attachment.res_model and attachment.res_model != 'documents.document':
-                    # Attachment is linked to something else, then make a copy
-                    vals['attachment_id'] = attachment.copy().id
+                if attachment.res_model:
+                    # Make a safe copy and explicitly set original_id for lineage tracking
+                    vals['attachment_id'] = attachment.copy({
+                        'original_id': attachment.id
+                    }).id
                 else:
-                    # Unlink from documents.document or leave it unlinked
+                    # leave it unlinked
                     attachment.write({'res_model': False, 'res_id': 0})
 
         records = super().create(vals_list)

@@ -153,6 +153,9 @@ class ShipRocket:
             rate_json = self._make_api_request('external/courier/international/serviceability', data=data, token=self._get_token())
         if rate_json and rate_json.get('data'):
             available_couriers = rate_json['data'].get('available_courier_companies')
+            available_couriers = [
+                courier for courier in available_couriers if not courier.get('odablock')
+            ]
             recommended_by = ''
             selected_couriers = False
             for available_courier in available_couriers:
@@ -447,7 +450,13 @@ class ShipRocket:
                 if order_id:
                     res['order_ids'].append(str(order_id))
                 res['all_pack'][delivery_package]['order_details'] = order_details
-                res['exact_price'] += float(order_details.get('data', {}).get('charges', {}).get('freight_charges', '0.00'))
+
+                exact_price = order_details.get('data', {}).get('charges', {}).get('freight_charges', '0.00')
+                try:
+                    exact_price = float(exact_price)
+                except ValueError:
+                    exact_price = 0
+                res['exact_price'] += exact_price
             else:
                 picking.message_post(body=_('AWB assignment was unsuccessful: %s') % (self._shiprocket_get_error_message(order_response)))
         return res

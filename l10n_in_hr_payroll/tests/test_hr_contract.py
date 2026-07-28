@@ -90,23 +90,11 @@ class TestHrContract(TestPayrollCommon):
         if self.env.ref('base.module_hr_contract_salary').state == 'installed':
             self.skipTest("Skip Test: Inconsistency with `hr_contract_salary` module")
 
-        version = self.rahul_emp.create_version({
-            'date_version': date(2025, 3, 1),
-            'contract_date_start': date(2025, 3, 1),
-            'contract_date_end':  date(2025, 6, 30),
+        version = self.percentage_emp.version_id
+        version.write({
             'name': 'Test Version',
-            'wage': 50000.0,
-            'l10n_in_basic_salary_amount': 20000,
-            'l10n_in_hra': 10000,
-            'l10n_in_standard_allowance': 1100,
-            'l10n_in_performance_bonus': 1000,
-            'l10n_in_leave_travel_allowance': 1000,
             'l10n_in_pf_employer_type': 'calculate',
             'l10n_in_pf_employee_type': 'calculate',
-            'l10n_in_gratuity': 962,
-            'resource_calendar_id': self.env.company.resource_calendar_id.id,
-            'contract_type_id': self.env.ref('l10n_in_hr_payroll.l10n_in_contract_type_probation').id,
-            'hr_responsible_id': self.env.ref('base.user_admin').id,
         })
 
         with Form(version) as version_form:

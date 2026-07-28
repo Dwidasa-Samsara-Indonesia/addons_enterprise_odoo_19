@@ -17,7 +17,7 @@
                     placeholder="props.inputAttributes?.placeholder"
                     onSelect="(value) => this.props.onChange(value, this.props.name)"
                     class="'border-0'"
-                    required="props.childProps.required !== false"
+                    required="props.childProps.required === true"
                     disabled="props.isReadonly"
                 />
             </div>

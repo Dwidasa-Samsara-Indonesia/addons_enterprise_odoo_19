@@ -18,6 +18,33 @@ STRIPE_VALID_JOURNAL_CURRENCIES = {
     'GB': 'GBP',
 }
 
+# List of countries that support Stripe Issuing
+# See https://docs.stripe.com/issuing/global#local-issuing
+# Note that US is not yet supported
+STRIPE_SUPPORTED_COUNTRY_CODES = {
+    'AT',
+    'BE',
+    'CY',
+    'DE',
+    'EE',
+    'ES',
+    'FI',
+    'FR',
+    'GB',
+    'GR',
+    'HR',
+    'IE',
+    'IT',
+    'LT',
+    'LU',
+    'LV',
+    'MT',
+    'NL',
+    'PT',
+    'SI',
+    'SK',
+}
+
 HANDLED_WEBHOOK_EVENTS = {
     # Balance
     'balance.available',
@@ -357,27 +384,27 @@ STRIPE_EXCEPTIONS_CURRENCY_MINOR_UNITS = {
 STRIPE_CURRENCY_MINOR_UNITS = {**CURRENCY_MINOR_UNITS, **STRIPE_EXCEPTIONS_CURRENCY_MINOR_UNITS}
 
 STRIPE_REQUEST_REFUSED_REASONS = {
-    'account_disabled': _lt("Your Stripe account is disabled"),
-    'card_active': _lt("The card is active, and there was no control setup on your Stripe account"),  # SHOULD NEVER HAPPEN
-    'card_canceled': _lt("The card used was blocked"),
-    'card_expired': _lt("The card has expired"),
-    'card_inactive': _lt("The card is currently inactive, please activate it first"),
-    'cardholder_blocked': _lt("The cardholder was blocked"),
-    'cardholder_inactive': _lt("The cardholder is currently inactive"),
-    'cardholder_verification_required': _lt("The cardholder is still under verification"),
-    'insecure_authorization_method': _lt("An insecure authorization method was used"),
+    'account_disabled': _lt("Your Stripe account is disabled."),
+    'card_active': _lt("The card is active, and there was no control setup on your Stripe account."),  # SHOULD NEVER HAPPEN
+    'card_canceled': _lt("The card used was blocked."),
+    'card_expired': _lt("The card has expired."),
+    'card_inactive': _lt("The card is currently inactive, please activate it first."),
+    'cardholder_blocked': _lt("The cardholder was blocked."),
+    'cardholder_inactive': _lt("The cardholder is currently inactive."),
+    'cardholder_verification_required': _lt("The cardholder is still under verification."),
+    'insecure_authorization_method': _lt("An insecure authorization method was used."),
     'insufficient_funds': _lt("There is insufficient funds on your Stripe account, please top-up your account first."),
-    'network_fallback': _lt("Stripe timed-out or encountered an error when communicating with the card network"),
+    'network_fallback': _lt("Stripe timed-out or encountered an error when communicating with the card network."),
     'not_allowed': _lt("The charge is not allowed on the Stripe network, possibly because it is an ATM withdrawal or cash advance."),
-    'pin_blocked': _lt("The card's PIN is blocked"),
-    'authorization_controls': _lt("Transaction amount exceeded the card daily/transaction hard limit of 50.000 €"),
-    'spending_controls': _lt("The card was declined because of the Stripe spending controls"),
-    'suspected_fraud': _lt("The authorization was suspected as fraudulent by Stripe's risk controls"),
-    'verification_failed': _lt("The authorization failed required verification checks"),
-    'webhook_approved': _lt("The authorization was approved by your Odoo database"),
-    'webhook_declined': _lt("The authorization was refused by your Odoo database"),
-    'webhook_error': _lt("There was an error in your Odoo database and Stripe received an invalid response"),
-    'webhook_timeout': _lt("Your Odoo database failed to respond to Stripe in time, and the authorization was refused by default")
+    'pin_blocked': _lt("The card's PIN is blocked."),
+    'authorization_controls': _lt("Transaction amount exceeded the card daily/transaction hard limit of 50.000 €."),
+    'spending_controls': _lt("The card was declined because of the Stripe spending controls."),
+    'suspected_fraud': _lt("The authorization was suspected as fraudulent by Stripe's risk controls."),
+    'verification_failed': _lt("The authorization failed required verification checks."),
+    'webhook_approved': _lt("The authorization was approved by your Odoo database."),
+    'webhook_declined': _lt("The authorization was refused by your Odoo database."),
+    'webhook_error': _lt("There was an error in your Odoo database and Stripe received an invalid response."),
+    'webhook_timeout': _lt("Your Odoo database failed to respond to Stripe in time, and the authorization was refused by default.")
 }
 
 
@@ -431,6 +458,9 @@ def interpret_error_code(response):
         459: _lt("Your account balance isn't zero, please use any remaining funds or contact support to close your account."),
         460: _lt("The creation rate limit for this type of cards has been reached. Please try again later."),  # Rate limit reached for creating cards
         461: _lt("Only licenses databases can use Odoo Stripe Issuing services."),
+        463: _lt("There was an error when sending the SMS, please try again later. If the problem persists, please contact the support."),
+        464: _lt("The country of the phone number is not supported for SMS."),
+        465: _lt("There was an error when sending the email, please try again later. If the problem persists, please contact the support."),
         500: _lt("There was an unexpected error on Odoo IAP proxy server"),
         503: _lt("We received the following error from Odoo IAP proxy server:\n- Missing account secret"),
         504: _lt("We received the following error from Odoo IAP proxy server:\n- Missing account webhook"),

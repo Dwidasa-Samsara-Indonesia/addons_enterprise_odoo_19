@@ -60,11 +60,12 @@ class IoTController(http.Controller):
             )
 
         # '_L.py' files for Linux and '_W.py' for Windows
-        incompatible_filename = "_L.py" if box.version[0] == 'W' else "_W.py"
+        is_windows = box.version[0] == "W"
+        incompatible_filename = "_L.py" if is_windows else "_W.py"
         module_ids = request.env['ir.module.module'].sudo().search([('state', '=', 'installed')])
         modules = module_ids.mapped('name') + ["iot_drivers", "pos_blackbox_be"]  # add pos_blackbox_be to detect blackbox devices without the module installed
 
-        if re.search(r"\d{4}\.\d{2}\.\d{2}", box.version):
+        if not is_windows and re.search(r"\d{4}\.\d{2}\.\d{2}", box.version):
             # New IoT Boxes get drivers from git repository, not from installed modules
             # for partners/clients that want to download custom drivers from the db, we only download
             # custom drivers, to avoid overwriting the git ones
@@ -133,17 +134,16 @@ class IoTController(http.Controller):
 
         if (
             device_identifier
+            and device_identifier != box.identifier  # target the box itself
             and not request.env["iot.device"].sudo().search(
                     [('identifier', '=', device_identifier), ('iot_id', '=', box.id)], limit=1
             )
-            and device_identifier != box.identifier  # target the box itself
         ):
             _logger.warning(
                 "No IoT device found with identifier '%s' (iot_box_identifier: %s). Request ignored",
                 device_identifier, iot_box_identifier
             )
             return
-
         request.env['iot.channel'].send_message({
             'session_id': session_id or kwargs.get("owner"),  # TODO: replace "owner" by "session_id" in drivers
             'iot_box_identifier': iot_box_identifier,
@@ -154,6 +154,8 @@ class IoTController(http.Controller):
                 'action_args': kwargs.get('action_args', {})
             },
         }, message_type='operation_confirmation')
+        _logger.info('Received websocket message for iot box %s, device %s, session_id %s with status %s and kwargs %s',
+                     box.name, device_identifier, session_id, status, kwargs)
 
     @http.route('/iot/box/webrtc_answer', type='jsonrpc', auth='public')
     def iot_box_webrtc_answer(self, iot_box_identifier, answer):
@@ -196,8 +198,9 @@ class IoTController(http.Controller):
             'version': new_iot_version,
         }
         if box:
-            if (box.identifier, box.ip, box.version) != (iot_identifier, new_iot_ip, new_iot_version):
-                _logger.info('Updating IoT %s with data: %s', box, create_update_value)
+            current_data = (box.identifier, box.ip, box.version)
+            if (current_data) != (iot_identifier, new_iot_ip, new_iot_version):
+                _logger.warning('Updating %s %s with data: %s', box.name, current_data, create_update_value)
                 box.write(create_update_value)
         else:
             name = 'IoT Box' if new_iot_version.startswith('L') else 'Virtual IoT Box'

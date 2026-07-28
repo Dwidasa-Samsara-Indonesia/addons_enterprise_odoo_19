@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-04-10 12:11+0000\n"
+"PO-Revision-Date: 2026-06-18 12:48+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "mrp_workorder/sv/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mrp_workorder
 #. odoo-python
@@ -909,24 +909,24 @@ msgstr "Hantera timer för arbetsorder på Shop Floor"
 #. module: mrp_workorder
 #: model_terms:ir.ui.view,arch_db:mrp_workorder.res_config_settings_view_form
 msgid "Manage your manufacturing orders from the shop floor app"
-msgstr "Hantera dina tillverkningsorder från Shop Floor appen"
+msgstr "Hantera dina produktionsorder från Shop Floor appen"
 
 #. module: mrp_workorder
 #: model:res.groups,name:mrp_workorder.group_mrp_wo_shop_floor
 msgid "Manage your manufacturing orders from the shop floor display app"
-msgstr "Hantera dina tillverkningsorder från Shop Floor displayapp"
+msgstr "Hantera dina produktionsorder från Shop Floor displayapp"
 
 #. module: mrp_workorder
 #: model:ir.model,name:mrp_workorder.model_mrp_production
 #: model_terms:ir.ui.view,arch_db:mrp_workorder.view_mrp_production_filter_shop_floor
 msgid "Manufacturing Order"
-msgstr "Tillverkningsorder"
+msgstr "Produktionsorder"
 
 #. module: mrp_workorder
 #: model_terms:ir.ui.view,arch_db:mrp_workorder.mrp_production_gantt_view
 #: model_terms:ir.ui.view,arch_db:mrp_workorder.mrp_production_tree_view_planning
 msgid "Manufacturing Orders"
-msgstr "Tillverkningsorder"
+msgstr "Produktionsordrar"
 
 #. module: mrp_workorder
 #. odoo-javascript
@@ -977,7 +977,7 @@ msgstr "Övergår till spårning"
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_bom__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Mina aktiviteters deadline"
+msgstr "Tidsgräns för mina aktiviteter"
 
 #. module: mrp_workorder
 #: model_terms:ir.ui.view,arch_db:mrp_workorder.mrp_view_employee_filter
@@ -1037,12 +1037,12 @@ msgstr "Nästa aktivitetshändelse i kalendern"
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_bom__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Nästa slutdatum för aktivitet"
+msgstr "Nästa tidsgräns för en aktivitet"
 
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_bom__activity_summary
 msgid "Next Activity Summary"
-msgstr "Nästa aktivitetssammanställning"
+msgstr "Nästa aktivitetssammanfattning"
 
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_bom__activity_type_id
@@ -1521,9 +1521,9 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baserad på aktiviteter\n"
-"Försenade: Leveranstidpunkten har passerat\n"
-"Idag: Aktivitetsdatum är idag\n"
-"Kommande: Framtida aktiviteter."
+"Försenade: Aktivitetsdatum har redan passerat\n"
+"Idag: Aktivitetsdatum är dagens datum\n"
+"Planerade: Kommande aktiviteter."
 
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_quality_point__operation_id
@@ -1545,7 +1545,7 @@ msgstr "Steg"
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_workorder__move_id
 #: model:ir.model.fields,field_description:mrp_workorder.field_quality_check__move_id
 msgid "Stock Move"
-msgstr "Lagerflytt"
+msgstr "Lagertransport"
 
 #. module: mrp_workorder
 #: model:ir.model,name:mrp_workorder.model_stock_rule
@@ -1728,7 +1728,7 @@ msgstr "Typ av undantagsaktivitet som har registrerats."
 msgid ""
 "Unable to load samples when you already have existing manufacturing orders"
 msgstr ""
-"Det går inte att ladda prover när du redan har befintliga tillverkningsorder"
+"Det går inte att ladda prover när du redan har befintliga produktionsorder"
 
 #. module: mrp_workorder
 #. odoo-javascript
@@ -1875,9 +1875,9 @@ msgid ""
 "manufacturing order directly."
 msgstr ""
 "Arbetsorder är operationer som ska utföras som en del av en "
-"tillverkningsorder.\n"
+"produktionsorder.\n"
 "            Aktiviteterna definieras i materialförteckningen eller läggs "
-"till direkt i tillverkningsordern."
+"till direkt i produktionsordern."
 
 #. module: mrp_workorder
 #: model_terms:ir.ui.view,arch_db:mrp_workorder.stock_picking_type_view_kanban
@@ -1953,7 +1953,7 @@ msgid ""
 "You cannot update the quantity to do of an ongoing manufacturing order for "
 "which quality checks have been performed."
 msgstr ""
-"Du kan inte uppdatera kvantiteten till do för en pågående tillverkningsorder "
+"Du kan inte uppdatera kvantiteten till do för en pågående produktionsorder "
 "för vilken kvalitetskontroller har utförts."
 
 #. module: mrp_workorder
@@ -2036,7 +2036,7 @@ msgstr "anställd som registrerar denna arbetstid"
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_workcenter_productivity__employee_cost
 msgid "employee_cost"
-msgstr "anställd_kostnad"
+msgstr "employee_cost"
 
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_mrp_workcenter__employee_ids

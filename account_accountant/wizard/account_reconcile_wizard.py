@@ -428,8 +428,9 @@ class AccountReconcileWizard(models.TransientModel):
 
     @api.depends('company_id', 'move_line_ids.partner_id', 'amount')
     def _compute_reco_model_autocomplete_ids(self):
-        """ Computes available reconcile models, we only take models that
-        and that have one (and only one) line, that have partners or amount that match the ones of the entries.
+        """ Computes available reconcile models, we only take manually created models that
+        have one (and only one) line, and have partners, amount, or journal that match the
+        ones of the entries.
         """
         for wizard in self:
             domain = [
@@ -452,6 +453,10 @@ class AccountReconcileWizard(models.TransientModel):
                 '&',
                 ('match_amount_min', '<', wizard.amount),
                 ('match_amount_max', '>', wizard.amount),
+                '|',
+                ('match_journal_ids', '=', False),
+                ('match_journal_ids', 'in', wizard.move_line_ids.journal_id.ids),
+                ('created_automatically', '=', False),
             ]
             query = self.env['account.reconcile.model']._search(domain, bypass_access=True)
             reco_model_ids = [r[0] for r in self.env.execute_query(SQL("""

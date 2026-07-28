@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 from freezegun import freeze_time
 from odoo.exceptions import UserError, ValidationError
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests import Form, new_test_user
 
 from odoo.addons.mail.tests.common import MockEmail
@@ -287,6 +287,37 @@ class TestPlanning(TestCommonPlanning, MockEmail):
         self.assertEqual(slot.start_datetime, datetime(2021, 1, 4, 11, 0), 'The start datetime should have the same hour and minutes defined in the template in the resource timezone.')
         self.assertEqual(slot.end_datetime, datetime(2021, 1, 5, 14, 0), 'The end datetime of this slot should be 3 hours after the start datetime as mentionned in the template in the resource timezone.')
         self.assertEqual(slot.allocated_hours, 10, 'The allocated hours of this slot should be the duration defined in the template in the resource timezone.')
+
+    def test_compute_datetime_template_slot_24_7_calendar(self):
+        """ A multi-day-span template on a 24/7 (0h-24h) calendar must not add a spurious minute.
+
+            On a 0h-24h calendar, plan_days() returns the day's end as 23:59:59.999999; the
+            end-datetime computation overwrote the hour and minute but kept the stale seconds,
+            so an 8-hour shift was stored as 8h 1min and allocated_hours showed 08:01.
+        """
+        calendar_24_7 = self.env['resource.calendar'].create({
+            'name': '24/7',
+            'tz': 'UTC',
+            'attendance_ids': [
+                Command.create({'name': 'Day %s' % d, 'dayofweek': str(d), 'hour_from': 0, 'hour_to': 24, 'day_period': 'full_day'})
+                for d in range(7)
+            ],
+        })
+        self.employee_bert.resource_calendar_id = calendar_24_7
+        template_slot = self.env['planning.slot.template'].create({
+            'start_time': 16,
+            'end_time': 0,
+            'duration_days': 2,
+        })
+        slot = self.env['planning.slot'].create({
+            'start_datetime': datetime(2021, 1, 4, 0, 0),
+            'end_datetime': datetime(2021, 1, 4, 23, 59),
+            'resource_id': self.resource_bert.id,
+        })
+        slot.write({'template_id': template_slot.id})
+
+        self.assertEqual(slot.end_datetime, datetime(2021, 1, 5, 0, 0), 'The end datetime should land exactly on midnight, with no leftover seconds from the 24/7 calendar.')
+        self.assertEqual(slot.allocated_hours, 8, 'An 8-hour shift should allocate exactly 8 hours, not 8h01.')
 
     def test_planning_state(self):
         """ The purpose of this test case is to check the planning state """
@@ -603,6 +634,50 @@ class TestPlanning(TestCommonPlanning, MockEmail):
         self.assertEqual(night_shift.resource_id, night_employee.resource_id, 'The night shift should be assigned to the night employee')
         self.assertEqual(night_shift.allocated_hours, 8, 'The allocated hours should remain the same')
         self.assertEqual(night_shift.allocated_percentage, 100, 'The allocated percentage should be 100% as the resource will work the allocated hours')
+
+    def test_auto_plan_undo_preserves_allocated_hours(self):
+        """
+            When undoing auto-plan, the system should preserve the original allocated_hours.
+            Test Case:
+            =========
+            1) Create an open shift with 6 allocated hours.
+            2) Auto-plan the shift to assign it to a resource.
+            3) Verify the shift is assigned and allocated_hours remains 6.
+            4) Undo the auto-plan assignment.
+            5) Check allocated_hours is still 6.
+        """
+        start_dt = datetime(2025, 12, 25, 9, 0, 0)
+        end_dt = datetime(2025, 12, 25, 17, 0, 0)
+        role = self.env['planning.role'].create({'name': 'Developer Test Role'})
+        self.employee_joseph.default_planning_role_id = role.id
+        open_shift = self.env['planning.slot'].create({
+            'start_datetime': start_dt,
+            'end_datetime': end_dt,
+            'allocated_hours': 6.0,
+            'resource_id': False,
+            'role_id': role.id,
+        })
+
+        self.assertEqual(open_shift.allocated_hours, 6.0, 'Initial allocated_hours should be 6.0')
+        self.assertFalse(open_shift.resource_id, 'Should be an open shift')
+
+        result = self.env['planning.slot'].with_context(
+            default_start_datetime=start_dt,
+            default_end_datetime=end_dt,
+        ).auto_plan_ids([('id', '=', open_shift.id)])
+
+        open_shift_assigned = result.get('open_shift_assigned', [])
+
+        self.assertEqual(len(open_shift_assigned), 1, 'One shift should be assigned')
+        open_shift.invalidate_recordset()
+        self.assertTrue(open_shift.resource_id, 'Shift should be assigned to a resource')
+        self.assertEqual(open_shift.allocated_hours, 6.0, 'allocated_hours should still be 6.0 after auto-plan')
+
+        self.env['planning.slot'].action_rollback_auto_plan_ids(result)
+
+        open_shift.invalidate_recordset()
+        self.assertFalse(open_shift.resource_id, 'Shift should be back to open state')
+        self.assertEqual(open_shift.allocated_hours, 6.0, 'allocated_hours should be preserved at 6.0 after undo')
 
     def test_write_multiple_slots(self):
         """ Test that we can write a resource_id on multiple slots at once. """
@@ -1425,3 +1500,24 @@ class TestPlanning(TestCommonPlanning, MockEmail):
             'week',
         )
         self.assertNotIn(employee.resource_id.id, unavailabilities)
+
+    def test_set_shift_template_on_planning_slot_with_long_calendar_leave(self):
+        """
+        Test that applying a shift template on a planning slot when the
+        resource calendar has a long leave.
+        """
+        self.env['resource.calendar.leaves'].create({
+            'name': "Long Leaves",
+            'calendar_id': self.resource_bert.calendar_id.id,
+            'date_from': datetime(2019, 6, 5, 8, 0),
+            'date_to': datetime(2023, 6, 24, 18, 0),
+        })
+        self.template.duration_days = 2
+
+        self.slot.write({
+            'resource_id': self.resource_bert.id,
+            'template_id': self.template.id,
+        })
+
+        self.assertEqual(self.slot.start_datetime, datetime(2019, 6, 27, 11, 0))
+        self.assertEqual(self.slot.end_datetime, datetime(2019, 6, 28, 14, 0))

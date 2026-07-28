@@ -34,7 +34,7 @@ class HrEmployee(models.Model):
         string="Number of days to recover (N)", tracking=True, groups="hr_payroll.group_hr_payroll_user",
         help="Number of days on which you should recover the holiday pay.")
     l10n_be_holiday_pay_recovered_n = fields.Float(
-        string="Recovered Simple Holiday Pay (N)", tracking=True,
+        string="Recovered Simple Holiday Pay (N)",
         compute='_compute_l10n_be_holiday_pay_recovered', groups="hr_payroll.group_hr_payroll_user",
         help="Amount of the holiday pay paid by the previous employer already recovered.")
     double_pay_line_n_ids = fields.Many2many(
@@ -52,7 +52,7 @@ class HrEmployee(models.Model):
         string="Number of days to recover (N-1)", tracking=True, groups="hr_payroll.group_hr_payroll_user",
         help="Number of days on which you should recover the holiday pay.")
     l10n_be_holiday_pay_recovered_n1 = fields.Float(
-        string="Recovered Simple Holiday Pay (N-1)", tracking=True,
+        string="Recovered Simple Holiday Pay (N-1)",
         compute='_compute_l10n_be_holiday_pay_recovered', groups="hr_payroll.group_hr_payroll_user",
         help="Amount of the holiday pay paid by the previous employer already recovered.")
     double_pay_line_n1_ids = fields.Many2many(

@@ -43,6 +43,7 @@ test("Should not have attachment preview for still uploading attachment", async 
     });
     await start();
     await openFormView("mail.test.simple.main.attachment", recordId);
+    await contains("button[aria-label='Attach files']:enabled");
     const files = [new File([new Uint8Array(1)], "invoice.pdf", { type: "application/pdf" })];
     await dragenterFiles(".o-mail-Chatter", files);
     await dropFiles(".o-Dropzone", files);

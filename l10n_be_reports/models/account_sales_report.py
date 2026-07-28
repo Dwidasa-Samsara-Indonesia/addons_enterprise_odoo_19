@@ -107,7 +107,8 @@ class L10n_BeEcSalesReportHandler(models.AbstractModel):
         colname_to_idx = {col['expression_label']: idx for idx, col in enumerate(options.get('columns', []))}
         # Check
         company = self.env.company
-        company_vat = company.partner_id.vat
+        report = self.env['account.report'].browse(options['report_id'])
+        company_vat = report.get_vat_for_export(options)
         if not company_vat:
             raise UserError(_('No VAT number associated with your company.'))
         default_address = company.partner_id.address_get()
@@ -126,7 +127,6 @@ class L10n_BeEcSalesReportHandler(models.AbstractModel):
         ads = None
         addr = company.partner_id.address_get(['invoice'])
         phone = email = city = post_code = street = country = company_country = ''
-        report = self.env['account.report'].browse(options['report_id'])
 
         if addr.get('invoice', False):
             ads = self.env['res.partner'].browse([addr['invoice']])[0]
@@ -153,23 +153,31 @@ class L10n_BeEcSalesReportHandler(models.AbstractModel):
         lines = report._get_lines(options)
         data_clientinfo = ''
         seq = 0
+        clients = {}
         for line in lines[:-1]:   # Remove total line
             country = line['columns'][colname_to_idx['country_code']].get('name', '')
-            vat = line['columns'][colname_to_idx['vat_number']].get('name', '')
+            vat = line['columns'][colname_to_idx['vat_number']].get('name', '').replace(' ', '').upper()
+            normalised_vat = (country + vat)
             amount = line['columns'][colname_to_idx['balance']]['no_format']
+            code = line['columns'][colname_to_idx['sales_type_code']]['name'][:1]
             if self.env.company.currency_id.is_zero(amount):
                 continue
             if not vat:
                 raise UserError(_('No vat number defined for %s.', line['name']))
-            seq += 1
-            client = {
-                'vatnum': vat,
-                'vat': (country + vat).replace(' ', '').upper(),
-                'country': country,
-                'amount': amount,
-                'code': line['columns'][colname_to_idx['sales_type_code']]['name'][:1],
-                'seq': seq,
-            }
+            if (normalised_vat, code) in clients:
+                clients[normalised_vat, code]['amount'] += amount
+            else:
+                seq += 1
+                clients[normalised_vat, code] = {
+                    'vatnum': vat,
+                    'vat': normalised_vat,
+                    'country': country,
+                    'amount': amount,
+                    'code': code,
+                    'seq': seq,
+                }
+
+        for client in clients.values():
             data_clientinfo += Markup("""
         <ns2:IntraClient SequenceNumber="%(seq)s">
             <ns2:CompanyVATNumber issuedBy="%(country)s">%(vatnum)s</ns2:CompanyVATNumber>

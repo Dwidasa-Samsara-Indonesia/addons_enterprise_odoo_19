@@ -1,5 +1,6 @@
-import { Component } from "@odoo/owl";
+import { Component, onWillStart } from "@odoo/owl";
 
+import { user } from "@web/core/user";
 import { registry } from "@web/core/registry";
 import { Many2OneGridRow, many2OneGridRow } from "@web_grid/components/many2one_grid_row/many2one_grid_row";
 import { EmployeeOvertimeIndication } from "../employee_overtime_indication/employee_overtime_indication";
@@ -25,10 +26,17 @@ export class TimesheetMany2OneAvatarEmployeeGridRow extends Component {
         super.setup(...arguments);
         this.employeeOvertimeProps = useTimesheetOvertimeProps();
         this.avatarCard = usePopover(AvatarCardEmployeePopover);
+
+        /* Before the component starts, check if the current user belongs to the HR user group.
+        This information is used to determine the appropriate relation for the component.*/
+        onWillStart(async () => {
+            this.isHrUser = await user.hasGroup("hr.group_hr_user");
+        });
     }
 
+    // Chooses employee data visibility based on user role.
     get relation() {
-        return this.props.relation || this.props.model.fieldsInfo[this.props.name].relation;
+        return this.isHrUser ? "hr.employee" : "hr.employee.public";
     }
 
     get many2OneProps() {

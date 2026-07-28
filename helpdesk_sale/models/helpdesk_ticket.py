@@ -13,7 +13,7 @@ class HelpdeskTicket(models.Model):
             '|', (not commercial_partner_id, '=', 1), ('partner_id', 'child_of', commercial_partner_id or []),
             ('company_id', '=', company_id)]""",
     )
-    sale_order_state = fields.Selection(related='sale_order_id.state')
+    sale_order_state = fields.Selection(related='sale_order_id.state', tracking=False)
 
     def copy_data(self, default=None):
         if not self.env.user.has_group('sales_team.group_sale_salesman') and not self.env.user.has_group('account.group_account_invoice'):

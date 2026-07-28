@@ -20,7 +20,7 @@ export class DocumentsKanbanRecord extends DocumentsRecordMixin(RelationalModel.
             accessToken: this.data.access_token,
             context: {
                 document_id: this.data.id,
-            }
+            },
         });
         ev.target.value = "";
     }

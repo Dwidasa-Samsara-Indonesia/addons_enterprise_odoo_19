@@ -33,9 +33,9 @@
                     </thead>
                     <tr t-foreach="o.payment_ids" t-as="payment">
                         <td class="text-start"><span t-out="payment.partner_id.name">ABC Suppliers</span></td>
-                        <td t-if="o.batch_type == 'outbound'" class="text-start"><span t-out="payment.partner_bank_id.acc_holder_name"> ABC Holder Name</span></td>
+                        <td t-if="o.batch_type == 'outbound'" class="text-start"><span t-out="payment.partner_bank_id.acc_holder_name" data-oe-demo="ABC Holder Name"/></td>
                         <td class="text-start"><span t-out="payment.date" t-options='{"widget": "date"}'>2023-08-15</span></td>
-                        <td class="text-start"><span t-out="payment.memo">Demo Ref</span></td>
+                        <td class="text-start"><span t-out="payment.memo" data-oe-demo="Demo Ref"/></td>
                         <td class="text-start"><span t-out="payment.partner_bank_id.acc_number">3956012345678</span></td>
                         <td class="text-end"><span t-out="payment.amount" t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}">$1000.0</span></td>
                     </tr>

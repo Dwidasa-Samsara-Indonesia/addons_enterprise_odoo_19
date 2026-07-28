@@ -1,5 +1,5 @@
 from odoo.addons.documents_account.tests.common import DocumentsAccountHelpersCommon
-from odoo.addons.test_mail.data.test_mail_data import MAIL_EML_ATTACHMENT
+from odoo.addons.test_mail.data.test_mail_data import MAIL_PDF_MIME_TEMPLATE
 from odoo.tests.common import tagged, RecordCapturer, users
 from odoo.addons.mail.tests.common import MailCommon
 from odoo.tools import mute_logger
@@ -81,13 +81,14 @@ class TestMultiCompanyDocumentsAccountMail(MailCommon, DocumentsAccountHelpersCo
             RecordCapturer(self.env["documents.document"], []) as doc_capture,
         ):
             self.format_and_process(
-                MAIL_EML_ATTACHMENT,
+                MAIL_PDF_MIME_TEMPLATE,
                 email_from,
                 email_to,
                 subject=subject,
                 target_model="account.move",
                 msg_id="<account-company-2-mail-test@odoo.com>",
                 target_field=target_field,
+                pdf_mime="application/pdf",
             )
 
         new_move = move_capture.records[0]

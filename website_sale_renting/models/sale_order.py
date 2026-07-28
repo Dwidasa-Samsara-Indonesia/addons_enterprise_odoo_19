@@ -1,11 +1,13 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import timedelta
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import pytz
 
 from odoo import fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.date_utils import end_of, float_to_time, localized, start_of, to_timezone
 
 
 class SaleOrder(models.Model):
@@ -81,11 +83,12 @@ class SaleOrder(models.Model):
     def _cart_add(self, product_id, *args, start_date=None, end_date=None, **kwargs):
         product = self.env['product.product'].browse(product_id)
         if product.rent_ok:
-            if not start_date or not end_date:
+            first_pricing = self.env["product.pricing"]._get_first_suitable_pricing(
+                product, pricelist=self.pricelist_id
+            )
+            dates_provided = start_date and end_date
+            if not dates_provided:
                 # Compute default dates based on the first suitable pricing (rental prices)
-                first_pricing = self.env['product.pricing']._get_first_suitable_pricing(
-                    product, pricelist=self.pricelist_id
-                )
                 if first_pricing:
                     rec = first_pricing.recurrence_id
                     start_date, end_date = product.product_tmpl_id._get_default_renting_dates(
@@ -97,6 +100,27 @@ class SaleOrder(models.Model):
                         + timedelta(hours=1)
                     end_date = start_date + timedelta(days=1)
 
+            recurrence = first_pricing.recurrence_id
+            if dates_provided and recurrence and self.website_id.tz:
+                website_tz = ZoneInfo(self.website_id.tz)
+                to_website_tz = to_timezone(website_tz)
+                to_naive_utc = to_timezone(None)
+                loc_start = to_website_tz(localized(start_date))
+                loc_end = to_website_tz(localized(end_date))
+                if recurrence.overnight:
+                    start_date = to_naive_utc(
+                        datetime.combine(
+                            loc_start, float_to_time(recurrence.pickup_time), tzinfo=website_tz
+                        )
+                    )
+                    end_date = to_naive_utc(
+                        datetime.combine(
+                            loc_end, float_to_time(recurrence.return_time), tzinfo=website_tz
+                        )
+                    )
+                elif recurrence.unit != "hour":
+                    start_date = to_naive_utc(start_of(loc_start, "day").replace(tzinfo=website_tz))
+                    end_date = to_naive_utc(end_of(loc_end, "day").replace(tzinfo=website_tz))
             if (
                 self.rental_start_date and self.rental_return_date
                 and (

@@ -133,7 +133,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('211000 Account Payable',                            2000.0,         100.0,            0.0,            2100.0),
                 ('400000 Product Sales',                             -3000.0,           0.0,          300.0,           -3300.0),
                 ('600000 Expenses',                                   2000.0,         200.0,            0.0,            2200.0),
-                ('Undistributed Profits/Losses - company_1_data',    -1000.0,           0.0,            0.0,           -1000.0),
+                ('Result Brought Forward - company_1_data',          -1000.0,           0.0,            0.0,           -1000.0),
                 ('Total',                                                0.0,         300.0,          300.0,               0.0),
 
             ],
@@ -172,7 +172,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('211000 Account Payable',                            1000.0,        1100.0,           0.0,         2100.0),
                 ('400000 Product Sales',                                 0.0,           0.0,        3300.0,        -3300.0),
                 ('600000 Expenses',                                      0.0,        2200.0,           0.0,         2200.0),
-                ('Undistributed Profits/Losses - company_1_data',    -1000.0,           0.0,           0.0,        -1000.0),
+                ('Result Brought Forward - company_1_data',          -1000.0,           0.0,           0.0,        -1000.0),
                 ('Total',                                                0.0,        3300.0,        3300.0,            0.0),
             ],
             options,
@@ -193,8 +193,8 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('400010 Product Sales',                              0.0,           0.0,         200.0,          -200.0),
                 ('600000 Expenses',                                   0.0,           0.0,       21000.0,        -21000.0),
                 ('600010 Expenses',                                   0.0,         200.0,           0.0,           200.0),
-                ('Undistributed Profits/Losses - company_1_data',  -100.0,           0.0,           0.0,          -100.0),
-                ('Undistributed Profits/Losses - company_2',        -50.0,           0.0,           0.0,           -50.0),
+                ('Result Brought Forward - company_1_data',        -100.0,           0.0,           0.0,          -100.0),
+                ('Result Brought Forward - company_2',              -50.0,           0.0,           0.0,           -50.0),
                 ('Total',                                             0.0,       21200.0,       21200.0,             0.0),
             ],
             options,
@@ -339,8 +339,8 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('400010 Product Sales',                             0.0,        0.0,       41.66,        -41.66,              0.0,          0.0,       166.62,           -166.62),
                 ('600000 Expenses',                                  0.0,      200.0,         0.0,         200.0,              0.0,          0.0,      21000.0,          -21000.0),
                 ('600010 Expenses',                                  0.0,        0.0,         0.0,           0.0,              0.0,       166.62,          0.0,            166.62),
-                ('Undistributed Profits/Losses - company_1_data',    0.0,        0.0,         0.0,           0.0,           -100.0,          0.0,          0.0,            -100.0),
-                ('Undistributed Profits/Losses - company_2',         0.0,        0.0,         0.0,           0.0,           -41.66,          0.0,          0.0,            -41.66),
+                ('Result Brought Forward - company_1_data',          0.0,        0.0,         0.0,           0.0,           -100.0,          0.0,          0.0,            -100.0),
+                ('Result Brought Forward - company_2',               0.0,        0.0,         0.0,           0.0,           -41.66,          0.0,          0.0,            -41.66),
                 ('Total',                                            0.0,      350.0,      341.66,          8.34,             8.34,     21166.62,     21166.62,              8.34),
             ],
             options,
@@ -362,8 +362,8 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('400010 Product Sales',                               0.0,         0.0,        200.0,          -200.0),
                 ('600000 Expenses',                                    0.0,         0.0,      21000.0,        -21000.0),
                 ('600010 Expenses',                                    0.0,       200.0,          0.0,           200.0),
-                ('Undistributed Profits/Losses - company_1_data',   -100.0,         0.0,          0.0,          -100.0),
-                ('Undistributed Profits/Losses - company_2',         -50.0,         0.0,          0.0,           -50.0),
+                ('Result Brought Forward - company_1_data',         -100.0,         0.0,          0.0,          -100.0),
+                ('Result Brought Forward - company_2',               -50.0,         0.0,          0.0,           -50.0),
                 ('Total',                                              0.0,     21200.0,      21200.0,             0.0),
             ],
             options,
@@ -455,8 +455,8 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('211010 Account Payable',                            50.0,         0.0,          0.0,            50.0),
                 ('400000 Product Sales',                           20000.0,         0.0,          0.0,         20000.0),
                 ('400010 Product Sales',                               0.0,         0.0,        200.0,          -200.0),
-                ('Undistributed Profits/Losses - company_1_data',   -100.0,         0.0,          0.0,          -100.0),
-                ('Undistributed Profits/Losses - company_2',         -50.0,         0.0,          0.0,           -50.0),
+                ('Result Brought Forward - company_1_data',         -100.0,         0.0,          0.0,          -100.0),
+                ('Result Brought Forward - company_2',               -50.0,         0.0,          0.0,           -50.0),
                 ('Total',                                              0.0,       200.0,        200.0,             0.0),
             ],
             options,
@@ -481,7 +481,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
 
         # Test case with more than one company
         res = self.report.caret_option_open_general_ledger(options, params)
-        self.assertEqual(res['context']['default_filter_accounts'], 'Undistributed Profits/Losses - company_1_data')
+        self.assertEqual(res['context']['default_filter_accounts'], 'Result Brought Forward - company_1_data')
 
         # Test case with only one company
         self.env.user.write({
@@ -489,10 +489,10 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
             'company_id': self.company_data['company'].id,
         })
         res = self.report.caret_option_open_general_ledger(options, params)
-        self.assertEqual(res['context']['default_filter_accounts'], 'Undistributed Profits/Losses')
+        self.assertEqual(res['context']['default_filter_accounts'], 'Result Brought Forward')
 
     def test_trial_balance_multiple_years_initial_balance(self):
-        # Entries in 2015 for company_1 to test the initial balance for the Undistributed Profits/Losses line.
+        # Entries in 2015 for company_1 to test the initial balance for the Result Brought Forward line.
         move_2015_1 = self.env['account.move'].create({
             'move_type': 'entry',
             'date': fields.Date.from_string('2015-01-01'),
@@ -506,7 +506,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
         move_2015_1.action_post()
 
         # Entry in 2016 for company_1 to test the initial balance for equity_unaffected accounts.
-        equity_unaffected_acc = self.env['account.account'].search([('account_type', '=', 'equity_unaffected')], limit=1)
+        equity_unaffected_acc = self.env['account.account'].search([('account_type', '=', 'equity_unaffected'), ('company_ids', 'in', self.company_data['company'].ids)], order='code desc', limit=1)
         move_2016_1 = self.env['account.move'].create({
             'move_type': 'entry',
             'date': fields.Date.from_string('2016-01-01'),
@@ -533,9 +533,9 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('400010 Product Sales',                              0.0,        0.0,       41.66,        -41.66,              0.0,          0.0,       166.62,           -166.62),
                 ('600000 Expenses',                                   0.0,      200.0,         0.0,         200.0,              0.0,          0.0,      21000.0,          -21000.0),
                 ('600010 Expenses',                                   0.0,        0.0,         0.0,           0.0,              0.0,       166.62,          0.0,            166.62),
-                ('999999 Undistributed Profits/Losses',               0.0,        0.0,        70.0,         -70.0,              0.0,          0.0,          0.0,               0.0),
-                ('Undistributed Profits/Losses - company_1_data',   -50.0,        0.0,         0.0,         -50.0,           -220.0,          0.0,          0.0,            -220.0),
-                ('Undistributed Profits/Losses - company_2',          0.0,        0.0,         0.0,           0.0,           -41.66,          0.0,          0.0,            -41.66),
+                ('999999 Profit or Loss Appropriation',               0.0,        0.0,        70.0,         -70.0,              0.0,          0.0,          0.0,               0.0),
+                ('Result Brought Forward - company_1_data',         -50.0,        0.0,         0.0,         -50.0,           -220.0,          0.0,          0.0,            -220.0),
+                ('Result Brought Forward - company_2',                0.0,        0.0,         0.0,           0.0,           -41.66,          0.0,          0.0,            -41.66),
                 ('Total',                                             0.0,      420.0,      411.66,          8.34,             8.34,     21166.62,     21166.62,              8.34),
             ],
             options,
@@ -561,7 +561,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('211000 Account Payable',                 100.0,     0.0,   0.0,     0.0,    0.0,  100.0,   100.0,       0.0,      0.0,  0.0,    0.0,    100.0),
                 ('400000 Product Sales',                  -300.0,     0.0,   0.0,     0.0,    0.0, -300.0,     0.0,   20000.0,      0.0,  0.0,    0.0,  20000.0),
                 ('600000 Expenses',                        200.0,     0.0,   0.0,     0.0,    0.0,  200.0,     0.0,       0.0,  21000.0,  0.0,    0.0, -21000.0),
-                ('Undistributed Profits/Losses',             0.0,     0.0,   0.0,     0.0,    0.0,    0.0,  -100.0,       0.0,      0.0,  0.0,    0.0,   -100.0),
+                ('Result Brought Forward',                   0.0,     0.0,   0.0,     0.0,    0.0,    0.0,  -100.0,       0.0,      0.0,  0.0,    0.0,   -100.0),
                 ('Total',                                    0.0,     0.0,   0.0,     0.0,    0.0,    0.0,     0.0,   21000.0,  21000.0,  0.0,    0.0,      0.0),
             ],
             options,
@@ -587,7 +587,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('211000 Account Payable',                   0.0,    100.0,     0.0,   100.0,   100.0,       0.0,      0.0,     100.0),
                 ('400000 Product Sales',                     0.0,      0.0,   300.0,  -300.0,     0.0,   20000.0,      0.0,   20000.0),
                 ('600000 Expenses',                          0.0,    200.0,     0.0,   200.0,     0.0,       0.0,  21000.0,  -21000.0),
-                ('Undistributed Profits/Losses',             0.0,      0.0,     0.0,     0.0,  -100.0,       0.0,      0.0,    -100.0),
+                ('Result Brought Forward',                   0.0,      0.0,     0.0,     0.0,  -100.0,       0.0,      0.0,    -100.0),
                 ('Total',                                    0.0,    300.0,   300.0,     0.0,     0.0,   21000.0,  21000.0,       0.0),
 
             ],
@@ -647,7 +647,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('INV/2017/00001 2017_1_7',                   0.0,              0.0,        6000.0,    -6000.0),
                 ('INV/2017/00001 2017_1_8',                   0.0,              0.0,        7000.0,    -7000.0),
                 ('INV/2017/00001 2017_1_9',                   0.0,              0.0,        8000.0,    -8000.0),
-                ('Undistributed Profits/Losses',           -100.0,              0.0,           0.0,     -100.0),
+                ('Result Brought Forward',                 -100.0,              0.0,           0.0,     -100.0),
                 ('Total',                                     0.0,          21100.0,       21100.0,        0.0),
             ],
             options,
@@ -801,7 +801,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
                 ('INV/2017/00001 2017_1_7',                   0.0,              0.0,        6000.0,    -6000.0),
                 ('INV/2017/00001 2017_1_8',                   0.0,              0.0,        7000.0,    -7000.0),
                 ('INV/2017/00001 2017_1_9',                   0.0,              0.0,        8000.0,    -8000.0),
-                ('Undistributed Profits/Losses',           -100.0,              0.0,           0.0,     -100.0),
+                ('Result Brought Forward',                 -100.0,              0.0,           0.0,     -100.0),
                 ('Total',                                     0.0,          21100.0,       21100.0,        0.0),
             ],
             options,
@@ -909,7 +909,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
             [
                 ('211000 Account Payable',                           50.0,     0.0,     50.0,     0.0,    100.0,     0.0,    100.0,     0.0,    150.0,     0.0,    150.0,     0.0),
                 ('400000 Product Sales',                              0.0,     0.0,      0.0,     0.0,      0.0,   100.0,      0.0,   100.0,      0.0,   100.0,      0.0,   100.0),
-                ('Undistributed Profits/Losses - company_1_data',     0.0,    50.0,      0.0,    50.0,      0.0,     0.0,      0.0,     0.0,      0.0,    50.0,      0.0,    50.0),
+                ('Result Brought Forward - company_1_data',           0.0,    50.0,      0.0,    50.0,      0.0,     0.0,      0.0,     0.0,      0.0,    50.0,      0.0,    50.0),
                 ('Total',                                            50.0,    50.0,     50.0,    50.0,    100.0,   100.0,    100.0,   100.0,    150.0,   150.0,    150.0,   150.0),
             ],
             options,
@@ -935,7 +935,7 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
             [
                 ('211000 Account Payable',                          50.0,     0.0,     50.0,     0.0,    100.0,     0.0,    100.0,     0.0,    150.0,     0.0,    150.0,     0.0),
                 ('400000 Product Sales',                             0.0,     0.0,      0.0,     0.0,      0.0,   100.0,      0.0,   100.0,      0.0,   100.0,      0.0,   100.0),
-                ('Undistributed Profits/Losses - company_1_data',    0.0,    50.0,      0.0,    50.0,      0.0,     0.0,      0.0,     0.0,      0.0,    50.0,      0.0,    50.0),
+                ('Result Brought Forward - company_1_data',          0.0,    50.0,      0.0,    50.0,      0.0,     0.0,      0.0,     0.0,      0.0,    50.0,      0.0,    50.0),
                 ('Total',                                           50.0,    50.0,     50.0,    50.0,    100.0,   100.0,    100.0,   100.0,    150.0,   150.0,    150.0,   150.0),
             ],
             options,
@@ -1053,15 +1053,15 @@ class TestTrialBalanceReport(TestAccountReportsCommon):
         default_options = {
             'unfold_all': True,
             'export_mode': 'print',
-            'filter_search_bar': 'undistributed',
+            'filter_search_bar': 'result brought forward',
         }
         options = self._generate_options(self.report, '2017-06-01', '2017-06-01', default_options=default_options)
         self.assertLinesValues(
             self.report._get_lines(options),
             [   0,                                                  1,              2,             3,            4],
             [
-                ['Undistributed Profits/Losses - company_1_data',  -100.0,          0.0,           0.0,          -100.0],
-                ['Undistributed Profits/Losses - company_2',        -50.0,          0.0,           0.0,           -50.0],
+                ['Result Brought Forward - company_1_data',        -100.0,          0.0,           0.0,          -100.0],
+                ['Result Brought Forward - company_2',              -50.0,          0.0,           0.0,           -50.0],
                 ['Total',                                          -150.0,          0.0,           0.0,          -150.0],
             ],
             options,

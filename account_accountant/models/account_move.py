@@ -334,7 +334,10 @@ class AccountMove(models.Model):
                     'date': line.move_id.date,
                 })
                 lines_vals_to_create.append([
-                    self.env['account.move.line']._get_deferred_lines_values(account.id, coeff * line.balance, ref, line.analytic_distribution, line)
+                    {
+                        **self.env['account.move.line']._get_deferred_lines_values(account.id, coeff * line.balance, ref, line.analytic_distribution, line),
+                        'partner_id': line.partner_id.id,
+                    }
                     for (account, coeff) in [(line.account_id, -1), (deferred_account, 1)]
                 ])
                 lines_periods.append((line, periods))
@@ -460,8 +463,31 @@ class AccountMove(models.Model):
             for line in move.invoice_line_ids - previous_lines:
                 line._onchange_name_predictive()
 
+    def _get_outstanding_bank_statement_lines_domain(self):
+        """
+        Returns a search domain for move lines for unreconciled bank payments
+        linked to this move's partner.
+        """
+        self.ensure_one()
+        return [
+                ('parent_state', '=', 'posted'),
+                ('partner_id', '=', self.commercial_partner_id.id),
+                ('partner_id', '!=', False),
+                ('account_id.account_type', '=', 'asset_cash'),
+                ('journal_id', 'in', self.env['account.journal']._search([
+                    *self.env['account.journal']._check_company_domain(self.company_id.id),
+                    ('type', '=', 'bank')
+                ])),
+                ('balance', '>' if self.is_inbound() else '<', 0.0),
+                ('statement_line_id', '!=', False),
+                ('move_id.line_ids', 'any', [
+                    ('account_id', '=', self.company_id.account_journal_suspense_account_id.id),
+                    ('reconciled', '=', False),
+                ]),
+            ]
+
     def _compute_payments_widget_to_reconcile_info(self):
-        # EXTENDS
+        # EXTENDS 'account'
         super()._compute_payments_widget_to_reconcile_info()
         for move in self:
             if move.state not in {'draft', 'posted'} \
@@ -476,9 +502,9 @@ class AccountMove(models.Model):
                 ('partner_id', '!=', False),
                 ('account_id.account_type', '=', 'asset_cash'),
                 ('journal_id', 'in', self.env['account.journal']._search([
-                    *self.env['account.journal']._check_company_domain(move.company_id.id),
-                    ('type', '=', 'bank')
-                ])),
+                        *self.env['account.journal']._check_company_domain(move.company_id.id),
+                        ('type', '=', 'bank')
+                    ])),
                 ('balance', '>' if move.is_inbound() else '<', 0.0),
                 ('statement_line_id', '!=', False),
                 ('move_id.line_ids', 'any', [
@@ -520,8 +546,36 @@ class AccountMove(models.Model):
             if payments_widget_vals['content']:
                 if move.invoice_outstanding_credits_debits_widget:
                     move.invoice_outstanding_credits_debits_widget['content'].extend(payments_widget_vals['content'])
+                    move.invoice_outstanding_credits_debits_widget['content'].sort(key=lambda x: (x['date'], x['id']), reverse=True)
                 else:
                     move.invoice_outstanding_credits_debits_widget = payments_widget_vals
+
+    def _get_partner_credit_warning_exclude_amount(self):
+        # EXTENDS 'account'
+        exclude_amount = super()._get_partner_credit_warning_exclude_amount()
+        bank_domain = self._get_outstanding_bank_statement_lines_domain()
+        for line in self.env['account.move.line'].search(bank_domain):
+            currency = line.statement_line_id.foreign_currency_id or line.statement_line_id.currency_id
+            exclude_amount += currency._convert(
+                from_amount=abs(line.statement_line_id.amount_residual),
+                to_currency=self.company_id.currency_id,
+                company=self.company_id,
+                date=line.date,
+            )
+
+        matched_credits = self.line_ids.filtered(lambda line: line.account_id.account_type == 'asset_receivable').matched_credit_ids
+        if matched_credits:
+            bank_line_amount = sum(matched_credits.mapped('amount'))
+            payment_date = max(matched_credits.mapped('max_date'))
+            amount_company = matched_credits[0].credit_currency_id._convert(
+                from_amount=bank_line_amount,
+                to_currency=self.company_id.currency_id,
+                company=self.company_id,
+                date=payment_date,
+            )
+            exclude_amount += amount_company
+
+        return exclude_amount
 
     def js_assign_outstanding_line(self, line_id):
         # EXTENDS
@@ -718,8 +772,8 @@ class AccountMoveLine(models.Model):
     def _onchange_deferred_end_date(self):
         if not self._has_deferred_compatible_account():
             self.deferred_end_date = False
-        if self.deferred_start_date and not self.deferred_end_date:
-            self.deferred_end_date = self.deferred_start_date
+        if self.deferred_end_date and not self.deferred_start_date:
+            self.deferred_start_date = self.deferred_end_date
 
     @api.depends('deferred_end_date', 'move_id.invoice_date', 'move_id.state')
     def _compute_deferred_start_date(self):
@@ -831,11 +885,11 @@ class AccountMoveLine(models.Model):
         return {'fr': 'french'}.get(lang, 'english')
 
     @api.model
-    def _build_predictive_query(self, move_id, additional_domain=None):
+    def _build_predictive_query(self, move_id, additional_domain=None, partner=None):
         move_query = self.env['account.move']._search([
             ('move_type', '=', move_id.move_type),
             ('state', '=', 'posted'),
-            ('partner_id', '=', move_id.partner_id.id),
+            ('partner_id', '=', (partner or move_id.partner_id).id),
             ('company_id', '=', move_id.journal_id.company_id.id or self.env.company.id),
         ], bypass_access=True)
         move_query.order = 'account_move.invoice_date'
@@ -885,7 +939,7 @@ class AccountMoveLine(models.Model):
         parsed_description = ' | '.join(parsed_description.split())
 
         try:
-            main_source = (query if query is not None else self._build_predictive_query(move_id)).select(
+            main_source = (query if query is not None else self._build_predictive_query(move_id, partner=partner_id)).select(
                 SQL("%s AS prediction", field),
                 SQL(
                     "setweight(to_tsvector(%s, account_move_line.name), 'B') || setweight(to_tsvector('simple', 'account_move_line'), 'A') AS document",
@@ -912,7 +966,7 @@ class AccountMoveLine(models.Model):
               ORDER BY ranking DESC, count DESC
                  LIMIT 2
                 """,
-                account_move_line=self._build_predictive_query(move_id).select(SQL('*')),
+                account_move_line=self._build_predictive_query(move_id, partner=partner_id).select(SQL('*')),
                 source=SQL('(%s)', SQL(') UNION ALL (').join([main_source] + (additional_queries or []))),
                 lang=psql_lang,
                 description=parsed_description,
@@ -945,7 +999,7 @@ class AccountMoveLine(models.Model):
     @api.model
     def _predict_specific_tax(self, move, name, partner, amount_type, amount, type_tax_use):
         field = SQL('array_agg(account_move_line__tax_rel__tax_ids.id ORDER BY account_move_line__tax_rel__tax_ids.id)')
-        query = self._build_predictive_query(move)
+        query = self._build_predictive_query(move, partner=partner)
         query.left_join('account_move_line', 'id', 'account_move_line_account_tax_rel', 'account_move_line_id', 'tax_rel')
         query.left_join('account_move_line__tax_rel', 'account_tax_id', 'account_tax', 'id', 'tax_ids')
         query.add_where("""
@@ -956,23 +1010,33 @@ class AccountMoveLine(models.Model):
         """, (amount_type, type_tax_use, amount))
         return self._predicted_field(move, name, partner, field, query)
 
-    def _predict_product(self):
+    @api.model
+    def _predict_specific_product(self, move, name, partner):
         predict_product = int(self.env['ir.config_parameter'].sudo().get_param('account_predictive_bills.predict_product', '1'))
-        if predict_product and self.company_id.predict_bill_product:
-            query = self._build_predictive_query(self.move_id, ['|', ('product_id', '=', False), ('product_id.active', '=', True)])
-            predicted_product_id = self._predicted_field(self.move_id, self.name, self.partner_id, SQL('account_move_line.product_id'), query)
-            if predicted_product_id and predicted_product_id != self.product_id.id:
-                return predicted_product_id
+        if predict_product and move.company_id.predict_bill_product:
+            query = self._build_predictive_query(
+                move_id=move,
+                additional_domain=['|', ('product_id', '=', False), ('product_id.active', '=', True)],
+                partner=partner or move.partner_id,
+            )
+            return self._predicted_field(move, name, partner, SQL('account_move_line.product_id'), query)
         return False
 
-    def _predict_account(self):
+    def _predict_product(self):
+        predicted_product_id = self._predict_specific_product(self.move_id, self.name, self.partner_id)
+        if predicted_product_id and predicted_product_id != self.product_id.id:
+            return predicted_product_id
+        return False
+
+    @api.model
+    def _predict_specific_account(self, move, name, partner):
         field = SQL('account_move_line.account_id')
-        if self.move_id.is_purchase_document(True):
+        if move.is_purchase_document(True):
             excluded_group = 'income'
         else:
             excluded_group = 'expense'
         account_query = self.env['account.account']._search([
-            *self.env['account.account']._check_company_domain(self.move_id.company_id or self.env.company),
+            *self.env['account.account']._check_company_domain(move.company_id or self.env.company),
             ('internal_group', 'not in', (excluded_group, 'off')),
             ('account_type', 'not in', ('liability_payable', 'asset_receivable')),
         ], bypass_access=True)
@@ -982,9 +1046,11 @@ class AccountMoveLine(models.Model):
             SQL("account_account.id AS account_id"),
             SQL("setweight(to_tsvector(%(psql_lang)s, %(account_name)s), 'B') AS document", psql_lang=psql_lang, account_name=account_name),
         ))]
-        query = self._build_predictive_query(self.move_id, [('account_id', 'in', account_query)])
+        query = self._build_predictive_query(move, [('account_id', 'in', account_query)], partner=partner)
+        return self._predicted_field(move, name, partner, field, query, additional_queries)
 
-        predicted_account_id = self._predicted_field(self.move_id, self.name, self.partner_id, field, query, additional_queries)
+    def _predict_account(self):
+        predicted_account_id = self._predict_specific_account(self.move_id, self.name, self.partner_id)
         if predicted_account_id and predicted_account_id != self.account_id.id:
             return predicted_account_id
         return False

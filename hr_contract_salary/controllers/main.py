@@ -487,7 +487,7 @@ class HrContractSalary(http.Controller):
             'contract_template_id': offer.contract_template_id.id,
             'hr_responsible_id': version_vals.get('hr_responsible_id'),
             'sign_template_id': offer.sign_template_id.id,
-            'contract_update_template_id': version_vals.get('contract_update_template_id'),
+            'contract_update_template_id': version_vals.get('contract_update_template_id') or offer.contract_template_id.contract_update_template_id.id,
             'date_version': effective_date,
             'contract_date_start': contract_date_start,
             'contract_date_end': contract_date_end,

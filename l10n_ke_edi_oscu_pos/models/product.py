@@ -68,3 +68,9 @@ class ProductCode(models.Model):
     @api.model
     def _load_pos_data_fields(self, config):
         return ['code']
+
+    @api.model
+    def _load_pos_data_domain(self, data, config):
+        products = data['product.product']
+        code_ids = [product['unspsc_code_id'] for product in products if product.get('unspsc_code_id')]
+        return [('id', 'in', code_ids)]

@@ -9,17 +9,17 @@
 # 江口和志 <sandwhale1010@gmail.com>, 2022
 # Andy Yiu, 2023
 # Martin Trigaux, 2023
-# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2025.
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2025, 2026.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-04-01 07:29+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-07-07 12:12+0000\n"
+"Last-Translator: Ryoko Tsuda <ryoko@quartile.co>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/project/"
 "ja/>\n"
 "Language: ja\n"
@@ -27,12 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
-
-#. module: project
-#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
-msgid " All internal users and invited portal users"
-msgstr " すべての社内ユーザおよび招待されたポータルユーザ"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__rating_count
@@ -889,8 +884,10 @@ msgstr "管理者"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_manager
-msgid "Administrator can manage the employees' schedule"
-msgstr "管理者は従業員のスケジュールを管理できます。"
+msgid ""
+"Administrator: Can manage projects and stages, with access to reporting and "
+"configuration."
+msgstr ""
 
 #. module: project
 #. odoo-javascript
@@ -961,6 +958,11 @@ msgstr "すべてのタスク"
 #: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__employees
 msgid "All internal users"
 msgstr "すべての内部ユーザ"
+
+#. module: project
+#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
+msgid "All internal users and invited portal users"
+msgstr ""
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__allocated_hours
@@ -4327,7 +4329,7 @@ msgstr "保存"
 #: model:ir.model.fields,field_description:project.field_project_task__message_has_sms_error
 #: model:ir.model.fields,field_description:project.field_project_update__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_share_wizard_view_form
@@ -5394,7 +5396,7 @@ msgstr "タイトル"
 #: code:addons/project/static/src/components/project_right_side_panel/components/project_profitability.xml:0
 #: model_terms:ir.ui.view,arch_db:project.project_update_default_description
 msgid "To Bill"
-msgstr "請求する"
+msgstr "未請求"
 
 #. module: project
 #: model:project.project.stage,name:project.project_project_stage_0
@@ -5543,7 +5545,7 @@ msgstr "2つのタスクは互いに依存し合うことはできません。"
 #: model:ir.model.fields,help:project.field_project_task__activity_exception_decoration
 #: model:ir.model.fields,help:project.field_project_update__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "記録上の例外活動の種類。"
+msgstr "レコード上の例外の活動タイプ。"
 
 #. module: project
 #. odoo-python
@@ -5723,8 +5725,8 @@ msgstr "ユーザ設定"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_user
-msgid "User can user the your employees' schedule"
-msgstr "ユーザは、あなたの従業員のスケジュールを利用できます。"
+msgid "User: Can manage tasks in projects shared with them."
+msgstr ""
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.view_project_kanban
@@ -6264,6 +6266,15 @@ msgstr "👤 未割当"
 #: code:addons/project/models/project_task.py:0
 msgid "🔒 Private"
 msgstr "🔒 非公開"
+
+#~ msgid " All internal users and invited portal users"
+#~ msgstr " すべての社内ユーザおよび招待されたポータルユーザ"
+
+#~ msgid "Administrator can manage the employees' schedule"
+#~ msgstr "管理者は従業員のスケジュールを管理できます。"
+
+#~ msgid "User can user the your employees' schedule"
+#~ msgstr "ユーザは、あなたの従業員のスケジュールを利用できます。"
 
 #~ msgid "Invalid fields: "
 #~ msgstr "項目が無効です: "

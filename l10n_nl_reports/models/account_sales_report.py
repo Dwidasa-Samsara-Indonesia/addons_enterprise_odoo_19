@@ -1,9 +1,10 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from lxml import etree
 import re
 
 from collections import defaultdict
+from lxml import etree
+from stdnum.nl.btw import compact
 
 from odoo import api, fields, models, _
 from odoo.exceptions import RedirectWarning
@@ -182,11 +183,16 @@ class L10n_Nl_ReportsEcSalesReportHandler(models.AbstractModel):
             return ctx_id
 
         codes_values = options.get('codes_values', {})
+        vat_identification_division = codes_values.get('VATIdentificationNumberNLFiscalEntityDivision')
+        if vat_identification_division is None:
+            sender_vat = report._get_sender_company_for_export(options).vat
+            vat_identification_division = compact(sender_vat) if sender_vat else ''
+
         codes_values.update({
             'IntraCommunitySupplies': [],
             'IntraCommunityServices': [],
             'IntraCommunityABCSupplies': [],
-            'VATIdentificationNumberNLFiscalEntityDivision': self.env.company.vat[2:] if self.env.company.vat.startswith('NL') else self.env.company.vat,
+            'VATIdentificationNumberNLFiscalEntityDivision': vat_identification_division,
         })
 
         icp_contexts_map = {}

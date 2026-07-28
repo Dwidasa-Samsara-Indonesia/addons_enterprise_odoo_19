@@ -27,47 +27,78 @@ class SaleOrderLine(models.Model):
             line.planning_hours_to_plan = line.company_id.resource_calendar_id.hours_per_day * days_per_week
         super(SaleOrderLine, self - planning_rental_sols)._compute_planning_hours_to_plan()
 
+    def _is_planning_rental_service(self):
+        self.ensure_one()
+        return bool(
+            self.is_rental
+            and self.product_id.planning_enabled
+            and self.product_id.planning_role_id
+        )
+
+    def _get_planning_resources_available(self):
+        self.ensure_one()
+        if not self._is_planning_rental_service():
+            return self.env['resource.resource']
+        available_resources = self.product_id.planning_role_id.resource_ids
+        if not available_resources:
+            return available_resources
+
+        unavailable_resource_slots = self.env['planning.slot'].search([
+            ('resource_id', 'in', available_resources.ids),
+            ('start_datetime', '<=', self.return_date),
+            ('end_datetime', '>=', self.start_date),
+            ('sale_line_id', '!=', self.id),
+        ])
+        resource_leaves = self.env['resource.calendar.leaves'].search([
+            ('resource_id', 'in', available_resources.ids + [False]),
+            ('date_from', '<=', self.return_date),
+            ('date_to', '>=', self.start_date),
+            ('company_id', '=', self.company_id.id),
+        ])
+        removed_calendar_ids = self.env['resource.calendar']
+        unavailable_resources = unavailable_resource_slots.resource_id
+        for leave in resource_leaves:
+            if leave.resource_id:
+                unavailable_resources += leave.resource_id
+            # if no resource_id then leave applies to all resources with the same calendar_id.
+            elif leave.calendar_id:
+                removed_calendar_ids += leave.calendar_id
+            # if no calendar_id then leave applies to all resources.
+            else:
+                return self.env['resource.resource']
+        available_resources = available_resources.filtered(
+            lambda r: r not in unavailable_resources and r.calendar_id not in removed_calendar_ids
+        )
+        if not available_resources:
+            return available_resources
+
+        date_from = utc.localize(self.start_date)
+        date_to = utc.localize(self.return_date)
+        work_intervals_per_resource, _dummy = available_resources._get_valid_work_intervals(
+            date_from, date_to, available_resources.calendar_id
+        )
+        return available_resources.filtered(
+            lambda r: not r.calendar_id or work_intervals_per_resource[r.id]
+        )
+
     def _planning_slot_vals_list_per_sol(self):
         vals_list_per_sol = super()._planning_slot_vals_list_per_sol()
         assigned_resource_ids = []
         problematic_services = []
         unit_uom = self.env.ref('uom.product_uom_unit')
         for sol, vals_list in vals_list_per_sol.items():
-            if not sol.is_rental:
+            if not sol._is_planning_rental_service():
                 continue
-            available_resources = sol.product_id.planning_role_id.resource_ids
             sync_shift_rental = sol.product_id.planning_role_id.sync_shift_rental
+            available_resources = sol._get_planning_resources_available().filtered(
+                lambda r: r.id not in assigned_resource_ids
+            )
             if not available_resources and sync_shift_rental:
                 problematic_services.append(sol.product_id.name)
                 continue
 
-            unavailable_resource_slots = self.env['planning.slot'].search([
-                ('resource_id', 'in', available_resources.ids),
-                ('start_datetime', '<=', sol.return_date),
-                ('end_datetime', '>=', sol.start_date),
-            ])
-            resource_leaves = self.env['resource.calendar.leaves'].search([
-                ('resource_id', 'in', available_resources.ids),
-                ('date_from', '<=', sol.return_date),
-                ('date_to', '>=', sol.start_date),
-            ])
-            available_resources -= (unavailable_resource_slots.resource_id + resource_leaves.resource_id)
-            if not available_resources and sync_shift_rental:
-                problematic_services.append(sol.product_id.name)
-                continue
-
-            date_from = utc.localize(sol.start_date)
-            date_to = utc.localize(sol.return_date)
-            work_intervals_per_resource, _dummy = available_resources._get_valid_work_intervals(date_from, date_to, available_resources.calendar_id)
-            free_resource_ids = []
-            flexible_resource_ids = []
-            for available_resource in available_resources:
-                if not available_resource.calendar_id:
-                    flexible_resource_ids.append(available_resource.id)
-                elif not work_intervals_per_resource[available_resource.id]:
-                    continue
-                if not (assigned_resource_ids and available_resource.id in assigned_resource_ids):
-                    free_resource_ids.append(available_resource.id)
+            free_resource_ids = available_resources.ids
+            flexible_resource_ids = available_resources.filtered(lambda r: not r.calendar_id).ids
 
             shuffle(free_resource_ids)
 

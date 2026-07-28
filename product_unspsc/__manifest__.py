@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'UNSPSC product codes',
-    'version': '0.2',
+    'version': '0.4',
     'category': 'Accounting/Accounting',
     'summary': 'UNSPSC product codes',
     'description': """

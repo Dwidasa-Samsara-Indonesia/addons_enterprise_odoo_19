@@ -476,13 +476,20 @@ export const DocumentsModelMixin = (component) =>
                     ...config,
                     domain: Domain.and([
                         config.domain,
-                        [["id", "=", documentIdToRestore]],
+                        [
+                            ["id", "=", documentIdToRestore],
+                            ["active", "in", [true, false]],
+                        ],
                     ]).toList(),
                     limit: 1,
                 });
                 if (missingData?.records?.length) {
-                    data.records.splice(0, 0, missingData.records[0]); // put it at the top of the list
+                    const addedRecord = missingData.records[0];
+                    data.records.splice(0, 0, addedRecord); // put it at the top of the list
                     data.records.pop(); // Remove the last item to not overflow page
+                    if (!addedRecord.active) {
+                        this.documentService.archivedDocumentRestored = addedRecord;
+                    }
                     this.documentService.documentIdToRestore = documentIdToRestore;
                 } else {
                     this.notification.add(_t("Document not found or inaccessible."), {

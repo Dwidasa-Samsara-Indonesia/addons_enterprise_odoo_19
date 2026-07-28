@@ -656,19 +656,31 @@ class LazadaShop(models.Model):
         :rtype: bool
         """
         # The provider type of DBS order is "seller_own_fleet", which is not supported for now.
-        provider_types = list({
-            item.get('shipping_provider_type') for item in order_data['order_items']
-        })
-        valid_provider_types = all(
-            provider_type in const.SUPPORTED_SHIPPING_PROVIDER_TYPES
-            for provider_type in provider_types
-        )
+        provider_types = {item.get("shipping_provider_type") for item in order_data["order_items"]}
+        invalid_types = provider_types - const.SUPPORTED_SHIPPING_PROVIDER_TYPES
 
-        statuses = order_data['statuses']
-        statuses_to_sync = const.ORDER_STATUSES_TO_SYNC.get(fulfillment_type, [])
-        valid_statuses = all(status in statuses_to_sync for status in statuses)
+        statuses = set(order_data["statuses"])
+        statuses_to_sync = const.ORDER_STATUSES_TO_SYNC.get(fulfillment_type, set())
+        invalid_statuses = statuses - statuses_to_sync
 
-        return valid_statuses and valid_provider_types
+        skip_reasons = []
+        if invalid_types:
+            skip_reasons.append(
+                f"- Unsupported shipping provider type(s): {', '.join(invalid_types)}."
+                f" Supported type(s): {', '.join(const.SUPPORTED_SHIPPING_PROVIDER_TYPES)}."
+            )
+        if invalid_statuses:
+            skip_reasons.append(
+                f"- Unsupported order status(es): {', '.join(invalid_statuses)}."
+                f" Expected status(es): {', '.join(statuses_to_sync)}."
+            )
+        if skip_reasons:
+            _logger.info(
+                "Skipped Lazada order %(ref)s for Lazada shop %(id)s.\n%(reasons)s",
+                {"ref": order_data["order_id"], "id": self.id, "reasons": "\n".join(skip_reasons)},
+            )
+
+        return not (invalid_statuses or invalid_types)
 
     def _generate_stock_moves(self, order):
         """
@@ -735,6 +747,9 @@ class LazadaShop(models.Model):
             ]
         else:
             package_item_data = order_data['order_items']
+
+        if not package_item_data:
+            return
 
         # ignore if the picking is already synced
         max_update_time = max(
@@ -813,7 +828,14 @@ class LazadaShop(models.Model):
         )
 
         fulfillment_type = self._get_fulfillment_type(order_data)
-        order_lines_values = self._prepare_order_lines_values(order_data, currency, fiscal_position)
+        order_income = {
+            'voucher': order_data.get('voucher'),
+            'shipping_fee': order_data.get('shipping_fee'),
+        }
+        order_lines_values = (
+            self.with_context(order_income=order_income)
+            ._prepare_order_lines_values(order_data, currency, fiscal_position)
+        )
         order_lines = [
             Command.create(order_line_values) for order_line_values in order_lines_values
         ]
@@ -856,11 +878,103 @@ class LazadaShop(models.Model):
             .create(order_vals)
         )
 
+        # price from Lazada API does not include shipping fee and voucher
+        lazada_total = (
+            float(order_data.get("price") or 0)
+            + float(order_data.get("shipping_fee") or 0)
+            - float(order_data.get("voucher") or 0)
+        )
+        self._adjust_order_total(order, currency, lazada_total)
+
         if order.picking_ids and fulfillment_type != 'fbl':
             # Initialize the lazada order items from the sale order lines
             order.picking_ids.move_ids.initialize_lazada_order_items()
             self._update_order_from_data(order, order_data)
         return order
+
+    def _adjust_order_total(self, order, currency, lazada_total):
+        """Adjust the order total to reconcile with Lazada's ``price``.
+
+        A single tax-free adjustment line absorbs the full residue. The residue
+        can come from any other component not explicitly modeled as a sale order line.
+
+        :param sale.order order: The order to adjust.
+        :param res.currency currency: The currency of the order.
+        :param float lazada_total: The total amount from Lazada.
+        """
+        residue = lazada_total - order.amount_total
+        if not order.amount_total or currency.is_zero(residue):
+            return
+
+        adjustment_product = self._find_matching_product(
+            internal_reference="",
+            default_xmlid="default_adjustment_product",
+            default_name=self.env._("Lazada Amount Adjustment"),
+            default_type="service",
+        )
+        order.order_line.create({
+            "order_id": order.id,
+            "product_id": adjustment_product.id,
+            "price_unit": residue,
+            "tax_ids": [],
+        })
+
+    def _prepare_discount_lines_values(self, currency, tax_group_bases, discount_total):
+        """Distribute an order-level discount across the product tax groups.
+
+        One negative discount line is created per distinct tax group, allocated
+        pro-rata to each group's buyer-paid (tax-inclusive) merchandise, so the
+        discount reduces each group's taxable base correctly. The allocation
+        sums exactly to ``discount_total``; the remainder lands on the largest
+        group, leaving only price rounding for the amount-adjustment line. With
+        a single tax group, this collapses to one discount line.
+
+        :param res.currency currency: The currency of the sale order.
+        :param dict tax_group_bases: Map of tax-id tuple to ``{'taxes', 'base'}``.
+        :param float discount_total: The order-level discount to distribute.
+        :return: The discount-line values list ready for ``Command.create``.
+        :rtype: list[dict]
+        """
+        if currency.is_zero(discount_total) or not tax_group_bases:
+            return []
+
+        discount_product = self._find_matching_product(
+            internal_reference="",
+            default_xmlid="default_discount_product",
+            default_name=self.env._("Lazada Order Discount"),
+            default_type="service",
+        )
+        total_base = sum(tax_group_bases.values())
+
+        # Largest group first: in the degenerate zero-base case (no merchandise to weight the
+        # split by) the whole discount lands on it rather than on a marginal group.
+        tax_groups = sorted(
+            [{"taxes": taxes, "base": base} for taxes, base in tax_group_bases.items()],
+            key=lambda tax_group: tax_group["base"], reverse=True
+        )
+
+        discount_lines_values = []
+        allocated_discount = 0.0
+        for index, tax_group in enumerate(tax_groups):
+            if index == len(tax_groups) - 1 or currency.is_zero(total_base):
+                group_discount = discount_total - allocated_discount
+            else:
+                group_discount = currency.round(discount_total * tax_group["base"] / total_base)
+            allocated_discount += group_discount
+            if currency.is_zero(group_discount):
+                continue
+            discount_subtotal = self._compute_subtotal(
+                -group_discount, tax_group["taxes"], currency
+            )
+            discount_lines_values.append(
+                self._convert_to_order_line_values(
+                    product_id=discount_product.id,
+                    subtotal=discount_subtotal,
+                    description=self.env._("Order Discount"),
+                    tax_ids=tax_group["taxes"].ids,
+                )
+            )
+        return discount_lines_values
 
     def _convert_to_order_line_values(self, **kwargs):
         """Convert values to sale order line format.
@@ -870,9 +984,7 @@ class LazadaShop(models.Model):
         :rtype: dict
         """
         subtotal = kwargs.get('subtotal', 0)
-        quantity = kwargs.get('quantity', 1)
-        original_subtotal = kwargs.get('original_subtotal', 0) or subtotal
-        diff = original_subtotal - subtotal
+        quantity = kwargs.get("quantity", 1)
         tax_ids = kwargs.get('tax_ids')
         order_item_values = [
             Command.create({
@@ -882,29 +994,35 @@ class LazadaShop(models.Model):
             for item in kwargs.get('order_items') or []
         ]
         return {
-            'name': kwargs.get('description', ''),
-            'product_id': kwargs.get('product_id'),
-            'price_unit': original_subtotal / quantity if quantity else 0,
-            'tax_ids': tax_ids if tax_ids else [],
-            'product_uom_qty': quantity,
-            'discount': diff / original_subtotal * 100 if original_subtotal else 0,
-            'lazada_order_item_ids': order_item_values,
+            "name": kwargs.get("description", ""),
+            "product_id": kwargs.get("product_id"),
+            "price_unit": subtotal / quantity if quantity else 0,
+            "tax_ids": tax_ids if tax_ids else [],
+            "product_uom_qty": quantity,
+            "lazada_order_item_ids": order_item_values,
         }
 
     def _prepare_order_lines_values(self, order_data, currency, fiscal_pos):
-        """Prepare sale order line values from Lazada order data.
+        """Prepare the sale order lines values from the Lazada order data.
 
-        Groups items by SKU and creates one order line per SKU.
+        Each SKU becomes one ``sale.order.line`` values dict (Lazada groups
+        multiple order items under the same SKU). The order-level voucher and
+        shipping fee are read from the ``order_income`` context key. Shipping
+        is appended as a final line when the shipping fee is non-zero.
 
-        :param dict order_data: Order data from Lazada API
-        :param record currency: Currency record (res.currency)
-        :param record fiscal_pos: Fiscal position record (account.fiscal.position)
-        :return: List of order line values
-        :rtype: list
+        :param dict order_data: The order data from the Lazada API.
+        :param res.currency currency: The currency of the sale order.
+        :param account.fiscal.position fiscal_pos: The fiscal position of the sale order.
+        :return: The order-line values list ready for ``Command.create``.
+        :rtype: list[dict]
         """
         self.ensure_one()
 
+        order_income = self.env.context.get('order_income') or {}
         order_lines_values = []
+        # Buyer-paid (tax-inclusive) merchandise per distinct tax group, used to
+        # distribute the order-level discount in `_prepare_discount_lines_values`.
+        tax_group_bases = {}
         sku_items = {}
         for item_data in order_data['order_items']:
             sku_items.setdefault(item_data['sku'], []).append(item_data)
@@ -913,9 +1031,7 @@ class LazadaShop(models.Model):
             # Use first item for common info
             common_item_data = items[0]
             fulfillment_type = 'fbl' if common_item_data['is_fbl'] else 'fbm'
-            item_extern_id = common_item_data['sku_id']
-            product_name = common_item_data['name']
-            promotion_id = common_item_data.get('voucher_code_seller')
+            item_extern_id = common_item_data["sku_id"]
 
             lazada_item = self._find_or_create_item(
                 sku, item_extern_id, fulfillment_type=fulfillment_type
@@ -923,40 +1039,86 @@ class LazadaShop(models.Model):
             product_taxes = lazada_item.product_id.taxes_id._filter_taxes_by_company(
                 self.company_id
             )
-
-            # Add promotion information to the description
-            if not promotion_id:
-                description = self.env._(
-                    "[%(sku)s] %(product_name)s", sku=sku, product_name=product_name
-                )
-            else:
-                description = self.env._(
-                    "[%(sku)s] %(product_title)s\nVoucher id: %(promotion_id)s",
-                    sku=sku,
-                    product_title=product_name,
-                    promotion_id=promotion_id,
-                )
-
-            # If the item is canceled, it should not be counted in the quantity
-            quantity = len([i for i in items if i.get('status') != 'canceled'])
-            original_subtotal = sum(item['item_price'] for item in items)
-            discounted_subtotal = sum(item['paid_price'] for item in items)
-
             taxes = fiscal_pos.map_tax(product_taxes)
-            subtotal = self._compute_subtotal(discounted_subtotal, taxes, currency)
+
+            quantity = len([i for i in items if i.get("status") != "canceled"])
+            paid_total = sum(float(item["paid_price"]) for item in items)
+
+            description = self._build_item_description(sku, common_item_data, currency)
+            subtotal = self._compute_subtotal(paid_total, taxes, currency)
+
             order_lines_values.append(
                 self._convert_to_order_line_values(
                     product_id=lazada_item.product_id.id,
-                    description=description,
-                    tax_ids=taxes.ids,
-                    original_subtotal=original_subtotal,
                     subtotal=subtotal,
+                    description=description,
                     quantity=quantity,
+                    tax_ids=taxes.ids,
                     order_items=items,
+                )
+            )
+            tax_group_bases[taxes] = tax_group_bases.get(taxes, 0.0) + paid_total
+
+        # Order-level discount lines (e.g. cart vouchers), distributed per tax group.
+        discount_total = float(order_income.get("voucher") or 0)
+        order_lines_values += self._prepare_discount_lines_values(
+            currency, tax_group_bases, discount_total
+        )
+
+        # Shipping line.
+        shipping_fee = float(order_income.get("shipping_fee") or 0)
+        if not currency.is_zero(shipping_fee):
+            shipping_carrier_code = self._get_shipping_carrier(order_data)
+            shipping_product = self._find_matching_product(
+                internal_reference=shipping_carrier_code,
+                default_xmlid="default_shipping_product",
+                default_name=self.env._("Lazada Shipping"),
+                default_type="service",
+            )
+            shipping_taxes_raw = shipping_product.taxes_id._filter_taxes_by_company(self.company_id)
+            shipping_taxes = fiscal_pos.map_tax(shipping_taxes_raw)
+            shipping_subtotal = self._compute_subtotal(shipping_fee, shipping_taxes, currency)
+            shipping_name = (
+                self.env._("Shipping: %(carrier)s", carrier=shipping_carrier_code)
+                if shipping_carrier_code
+                else self.env._("Shipping")
+            )
+            order_lines_values.append(
+                self._convert_to_order_line_values(
+                    product_id=shipping_product.id,
+                    subtotal=shipping_subtotal,
+                    description=shipping_name,
+                    tax_ids=shipping_taxes.ids,
                 )
             )
 
         return order_lines_values
+
+    def _build_item_description(self, sku, item_data, currency):
+        """Build the base description text for a Lazada item line.
+
+        Includes header, optional voucher line (guarded against absence of
+        ``voucher_code_seller``), and an original-price line when the item
+        was discounted.
+
+        :param str sku: The item SKU (used in the header).
+        :param dict item_data: The Lazada item payload.
+        :param res.currency currency: The currency (used to format the original price).
+        :return: The multi-line description text.
+        :rtype: str
+        """
+        lines = [f"[{sku}] {item_data['name']}"]
+        voucher_code = item_data.get("voucher_code_seller")
+        if voucher_code:
+            lines.append(
+                self.env._(
+                    "Voucher id: %(voucher_id)s\nOriginal price: %(price)s",
+                    voucher_id=voucher_code,
+                    price=currency.format(float(item_data["item_price"])),
+                )
+            )
+
+        return "\n".join(lines)
 
     def _find_matching_product(
         self, internal_reference, default_xmlid, default_name, default_type, fallback=True
@@ -1109,25 +1271,29 @@ class LazadaShop(models.Model):
         return pricelist
 
     def _compute_subtotal(self, total, taxes, currency):
-        """Compute tax-excluded subtotal from tax-included total.
+        """Compute the subtotal from the taxes.
 
-        Lazada provides tax-included totals without breakdown. This recomputes the
-        subtotal using Odoo's tax configuration.
+        Lazada does not include the tax amount of the order; we need to recompute the subtotal from
+        the taxes on the product (or those given by the fiscal position) to match the order total.
 
-        :param float total: Tax-included total
-        :param account.tax taxes: Tax records to apply
-        :param res.currency currency: Currency for rounding
-        :return: Tax-excluded subtotal
+        To achieve this, the subtotal is recomputed from the taxes for the total to match that of
+        the order. If the taxes used are not identical to those used by Lazada, the recomputed
+        subtotal will differ from the original subtotal.
+
+        :param float total: The original total.
+        :param account.tax taxes: The final taxes to use for the computation of the new subtotal.
+        :param res.currency currency: The currency used by the rounding methods.
+        :return: The new subtotal.
         :rtype: float
         """
-        taxes_res = taxes.with_context(force_price_include=True).compute_all(
+        taxes_res = taxes.with_context(force_price_include=True, round_base=False).compute_all(
             total, currency=currency
         )
-        subtotal = taxes_res['total_excluded']
+        subtotal = taxes_res['total_included']
         for tax_res in taxes_res['taxes']:
             tax = self.env['account.tax'].browse(tax_res['id'])
-            if tax.price_include:
-                subtotal += tax_res['amount']
+            if not tax.price_include:
+                subtotal -= tax_res['amount']
         return subtotal
 
     def _find_or_create_item(self, sku, item_extern_id, fulfillment_type='fbm', no_create=False):

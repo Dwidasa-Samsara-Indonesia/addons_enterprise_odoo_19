@@ -10,6 +10,7 @@ export class PayslipListRenderer extends ListRenderer {
     };
     static props = [
         ...ListRenderer.props,
+        "onAdd",
         "onGenerate",
         "payRunInfo",
     ];
@@ -21,8 +22,8 @@ export class PayslipListRenderer extends ListRenderer {
 
     get payslipActionHelperProps() {
         const helperProps = {
-            onClickCreate: this.props.onAdd.bind(this.onClickCreate),
-            onClickGenerate: this.props.onGenerate.bind(this.onGenerate),
+            onClickCreate: this.props.onAdd,
+            onClickGenerate: this.props.onGenerate,
         };
         if (this.props.payRunInfo.id) {
             helperProps.payrunId = this.props.payRunInfo.id;

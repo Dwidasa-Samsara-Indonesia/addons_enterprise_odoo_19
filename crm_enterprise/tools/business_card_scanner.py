@@ -114,6 +114,10 @@ class BusinessCardScanner:
                     if state:
                         lead_values['state_id'] = state.id
 
+                # extract city
+                if data.get('city'):
+                    lead_values['city'] = data['city']
+
                 # format phone
                 if lead_values.get('phone'):
                     lead_values['phone'] = self.env['crm.lead']._phone_format(

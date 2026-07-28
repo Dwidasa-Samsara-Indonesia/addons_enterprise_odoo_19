@@ -31,6 +31,20 @@ def _grams(kilograms):
     return int(kilograms * 1000)
 
 
+def _sanitize_hs_code(hs_code_str):
+    """
+    Sanitizes an HS code string to be a Bpost-compatible integer.
+    Bpost requires an integer, so we strip all non-numeric characters.
+    e.g., '6205.20' -> '620520'
+            'abcd'  -> '0'
+            None      -> '0'
+    """
+    if not hs_code_str:
+        return '0'
+    numeric_hs_code = re.sub(r'[^0-9]', '', hs_code_str)
+    return numeric_hs_code or '0'
+
+
 class BpostRequest():
 
     def __init__(self, prod_environment, debug_logger):
@@ -161,7 +175,11 @@ class BpostRequest():
         ###### need to change the get_rate !!!!!!!!!!
         price = 0.0
         for box in boxes:
-            price += self._get_rate(carrier, int(box['weight']), picking.partner_id.country_id)
+            box_rate = self._get_rate(
+                carrier, int(box["weight"]), picking.partner_id.country_id
+            )
+            box["shipping_cost"] = box_rate
+            price += box_rate
 
         # Announce shipment to bpost
         reference_id = str(picking.name.replace("/", ""))[:50]
@@ -313,24 +331,75 @@ class BpostRequest():
         used in creating the request in making order in bpost.
         """
         boxes = []
+        eu_group = carrier.env.ref("base.europe")
+        is_eu = picking.partner_id.country_id.id in eu_group.country_ids.ids
         for package in picking.move_line_ids.result_package_id:
             package_lines = picking.move_line_ids.filtered(lambda sml: sml.result_package_id.id == package.id)
             parcel_value = sum(sml.sale_price for sml in package_lines)
             weight_in_kg = carrier._bpost_convert_weight(package.shipping_weight)
-            boxes.append({
+            box = {
                 'weight': str(_grams(weight_in_kg)),
                 'parcelValue': max(min(int(parcel_value * 100), 2500000), 100),
                 'contentDescription': ' '.join(["%d %s" % (line.quantity, re.sub(r'[\W_]+', ' ', line.product_id.name or '')) for line in package_lines])[:50],
-            })
+            }
+            if not is_eu:
+                customs_items = []
+                for sml in package_lines:
+                    product = sml.product_id
+                    if not product.hs_code:
+                        raise UserError(_("Product [%s] is missing an HS Code, which is required for international shipping.", product.display_name))
+
+                    country_code = (
+                        product.country_of_origin.code
+                        or picking.picking_type_id.warehouse_id.partner_id.country_id.code
+                    )
+                    if not country_code:
+                        raise UserError(_("Product [%s] is missing a Country of Origin, which is required for international shipping.", product.display_name))
+
+                    customs_items.append({
+                        'description': re.sub(r'[\W_]+', ' ', product.name or '')[:40],
+                        'quantity': int(sml.quantity),
+                        'value': int(sml.sale_price * 100),
+                        'weight': _grams(product.weight * sml.quantity_product_uom),
+                        'hs_code': _sanitize_hs_code(product.hs_code),
+                        'country_of_origin': country_code,
+                    })
+                box['customs_items'] = customs_items
+            boxes.append(box)
+
         lines_without_package = picking.move_line_ids.filtered(lambda sml: not sml.result_package_id)
         if lines_without_package:
             parcel_value = sum(sml.sale_price for sml in lines_without_package)
             weight_in_kg = carrier._bpost_convert_weight(sum(sml.quantity * sml.product_id.weight for sml in lines_without_package))
-            boxes.append({
+            box = {
                 'weight': str(_grams(weight_in_kg)),
                 'parcelValue': max(min(int(parcel_value * 100), 2500000), 100),
                 'contentDescription': ' '.join(["%d %s" % (line.quantity, re.sub(r'[\W_]+', ' ', line.product_id.name or '')) for line in lines_without_package])[:50],
-            })
+            }
+            if not is_eu:
+                customs_items = []
+                for sml in lines_without_package:
+                    product = sml.product_id
+                    if not product.hs_code:
+                        raise UserError(_("Product [%s] is missing an HS Code, which is required for international shipping.", product.display_name))
+
+                    country_code = (
+                        product.country_of_origin.code
+                        or picking.picking_type_id.warehouse_id.partner_id.country_id.code
+                    )
+                    if not country_code:
+                        raise UserError(_("Product [%s] is missing a Country of Origin, which is required for international shipping.", product.display_name))
+
+                    customs_items.append({
+                        'description': re.sub(r'[\W_]+', ' ', product.name or '')[:40],
+                        'quantity': int(sml.quantity),
+                        'value': int(sml.sale_price * 100),
+                        'weight': _grams(product.weight * sml.quantity_product_uom),
+                        'hs_code': _sanitize_hs_code(product.hs_code),
+                        'country_of_origin': country_code,
+                    })
+                box['customs_items'] = customs_items
+            boxes.append(box)
         return boxes
 
     def _compute_return_boxes(self, picking, carrier):
@@ -342,4 +411,29 @@ class BpostRequest():
             'parcelValue': max(min(int(parcel_value * 100), 2500000), 100),
             'contentDescription': ' '.join(["%d %s" % (line.product_qty, re.sub(r'[\W_]+', ' ', line.product_id.name or '')) for line in picking.move_ids])[:50],
         }]
+
+        eu_group = carrier.env.ref("base.europe")
+        if picking.partner_id.country_id.id not in eu_group.country_ids.ids:
+            customs_items = []
+            for move in picking.move_ids:
+                product = move.product_id
+                if not product.hs_code:
+                    raise UserError(_("Product [%s] is missing an HS Code, which is required for international shipping.", product.display_name))
+
+                country_code = (
+                    product.country_of_origin.code
+                    or picking.picking_type_id.warehouse_id.partner_id.country_id.code
+                )
+                if not country_code:
+                    raise UserError(_("Product [%s] is missing a Country of Origin, which is required for international shipping.", product.display_name))
+
+                customs_items.append({
+                    'description': re.sub(r'[\W_]+', ' ', product.name or '')[:40],
+                    'quantity': int(move.product_qty),
+                    'value': int(product.lst_price * move.product_qty * 100),
+                    'weight': _grams(product.weight * move.product_qty),
+                    'hs_code': _sanitize_hs_code(product.hs_code),
+                    'country_of_origin': country_code,
+                })
+            boxes[0]['customs_items'] = customs_items
         return boxes

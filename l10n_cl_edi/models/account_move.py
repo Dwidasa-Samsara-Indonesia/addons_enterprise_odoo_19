@@ -128,8 +128,8 @@ services reception has been received as well.
         ('NCA', 'Reception of Cancellation that References Document'),
     ], string='Claim', copy=False, help='The reason why the DTE was accepted or claimed by the customer')
     l10n_cl_claim_description = fields.Char(string='Claim Detail', readonly=True, copy=False)
-    l10n_cl_sii_send_file = fields.Many2one('ir.attachment', string='SII Send file', copy=False, groups='base.group_system')
-    l10n_cl_dte_file = fields.Many2one('ir.attachment', string='DTE file', copy=False, groups='base.group_system')
+    l10n_cl_sii_send_file = fields.Many2one('ir.attachment', string='SII Send file', copy=False, groups='base.group_system', index='btree_not_null')
+    l10n_cl_dte_file = fields.Many2one('ir.attachment', string='DTE file', copy=False, groups='base.group_system', index='btree_not_null')
     l10n_cl_sii_send_ident = fields.Text(string='SII Send Identification(Track ID)', copy=False, tracking=True)
     l10n_cl_journal_point_of_sale_type = fields.Selection(related='journal_id.l10n_cl_point_of_sale_type')
     l10n_cl_reference_ids = fields.One2many('l10n_cl.edi.reference', 'move_id', string='Reference Records')
@@ -1076,6 +1076,11 @@ services reception has been received as well.
         origin_type = self.env['fetchmail.server']._get_xml_origin_type(xml_tree)
         if origin_type == 'not_classified':
             messages.append(_('Failed to determine origin type of the attached document, attempting to process as a vendor bill'))
+
+        # The file may contain several DTEs: only the first one belongs to this vendor bill.
+        dte_nodes = xml_tree.findall('.//ns0:DTE', namespaces=XML_NAMESPACES)
+        if len(dte_nodes) > 1:
+            xml_tree = dte_nodes[0]
 
         invoice._l10n_cl_fill_partner_vals_from_xml(xml_tree, vals, messages)
         invoice._l10n_cl_fill_document_number_vals_from_xml(xml_tree, vals, messages)

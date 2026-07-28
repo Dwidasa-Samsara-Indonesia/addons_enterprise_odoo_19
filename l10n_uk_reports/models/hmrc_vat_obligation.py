@@ -101,11 +101,18 @@ class L10n_UkVatObligation(models.Model):
 
     def _get_vat(self):
         # Use company's VAT if company is British, otherwise try to look for a UK fiscal position.
-        foreign_vat = False
-        if not self.env.company.country_id.code == 'GB':
-            foreign_vat = self.env.company.fiscal_position_ids.filtered(lambda fp: fp.country_id.code == 'GB').foreign_vat
+        vat = ""
+        report = self.env.ref('l10n_uk.tax_report')
+        options = report.get_options({})
+        if (tax_unit := options.get('tax_unit')) and tax_unit != 'company_only':
+            vat = self.env['account.tax.unit'].browse(tax_unit).vat
 
-        vat = foreign_vat or self.env.company.vat
+        if not vat:
+            foreign_vat = False
+            if self.env.company.country_id.code != 'GB':
+                foreign_vat = self.env.company.fiscal_position_ids.filtered(lambda fp: fp.country_id.code == 'GB').foreign_vat
+
+            vat = foreign_vat or self.env.company.vat
 
         if not vat:
             raise RedirectWarning(

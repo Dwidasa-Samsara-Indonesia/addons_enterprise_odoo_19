@@ -24,6 +24,7 @@ export class RefreshButton extends Component {
         );
 
         this.state.status = response[this.props.record.data.id];
+        this.props.record.model.load();
         this.state.isFetching = false;
     }
 }

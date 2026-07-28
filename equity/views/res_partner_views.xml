@@ -36,7 +36,7 @@
                     <group string="Holdings" invisible="is_company">
                         <field name="ubo_owned_company_ids" nolabel="1" colspan="4">
                             <list editable="bottom" open_form_view="True" context="{'default_holder_id': id}">
-                                <field name="partner_id"/>
+                                <field name="partner_id" context="{'default_is_company': True}"/>
                                 <field name="control_method"/>
                                 <field name="auth_rep_role" optional="hide"/>
                                 <field name="ownership" widget="percentage"/>

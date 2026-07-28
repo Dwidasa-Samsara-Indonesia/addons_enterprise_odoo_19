@@ -144,7 +144,7 @@ export default class BarcodePickingBatchModel extends BarcodePickingModel {
             );
             await this.refreshCache(data.records);
             this.selectedPickings = [];
-            this.config = { ...this.config, ...(data.config || {}) }; // Get the picking type's scan restrictions configuration.
+            this.setConfig(data.config); // Get the picking type's scan restrictions configuration.
             this.trigger("update");
         }
     }
@@ -191,14 +191,18 @@ export default class BarcodePickingBatchModel extends BarcodePickingModel {
         this._groupedLines = this._groupLines(
             [...this.pageLines],
             "batchParentLine",
-            super.groupKey,
+            super.groupKey.bind(this),
             false
         );
         return this._groupedLines;
     }
 
     groupKey(line) {
-        return `${line.picking_id.id}_` + super.groupKey(...arguments);
+        return `${line.picking_id.id}_${line.product_id.id}_${line.location_id.id}_${line.location_dest_id.id}`;
+    }
+
+    mustGroupSameProductLines() {
+        return this.config.group_lines_by_product;
     }
 
     get needPickings() {

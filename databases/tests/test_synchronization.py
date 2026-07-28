@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 from odoo.tools.mail import html2plaintext
 from odoo.tests import freeze_time, tagged
 from odoo.tests.common import users
+from odoo.addons.databases.models.project_project import get_database_api_keys
 
 
 @tagged('-at_install', 'post_install')
@@ -17,6 +18,7 @@ class TestSynchronization(TestDatabasesCommon):
     def mock_json2_calls_for_db(self, fqdn, version='dont-write-it-to-project', users=[], kpis=[]):
         self.json2_mocked_calls[fqdn]['version'] = version
         self.json2_mocked_calls[fqdn]['res.users']['search_read'] = users
+        self.json2_mocked_calls[fqdn]['res.users.apikeys']['generate'] = 'newApiKey'
         self.json2_mocked_calls[fqdn]['kpi.provider']['get_kpi_summary'] = kpis
 
     @users('db_manager@company.tld')
@@ -42,7 +44,7 @@ class TestSynchronization(TestDatabasesCommon):
 
         self.assertCountEqual(self.mock_requests_request.mock_calls[:1], [
             call('post', 'https://www.odoo.com/json/2/odoo.database/list', data=None, json={},
-                 headers={'Authorization': 'Bearer privateKey', 'X-Odoo-Database': 'openerp'}, allow_redirects=False, timeout=15),
+                 headers={'Authorization': 'Bearer odoocom_privateKey', 'X-Odoo-Database': 'openerp'}, allow_redirects=False, timeout=15),
         ])
         self.assertRecordValues(new_projects, [
             {
@@ -76,6 +78,57 @@ class TestSynchronization(TestDatabasesCommon):
         wizard, = captured['wizards']
         self.assertEqual(wizard.summary_message, "0 new databases, 1 updated.")
 
+    @users('db_user@company.tld')
+    def test_synchronize_database_with_db_user(self):
+        """
+        - 1) Synchronize all db as databases_admin with a new db listed on odoo.com, with 'db_user@company.tld' user in it
+           -> The database project should have been created
+           -> a database user 'db_user@company.tld' should have been created
+        - 2) Synchronize all db as databases_user with a new document kpi (and still report the same user)
+          -> The kpi should have been updated correctly
+        - 3) Synchronize all db as databases_user with a user deleted and a different kpi
+          -> It should delete the user if the databases_user isn't in the list anymore
+        """
+        # 1) Synchronize all db as databases_admin with a new db listed on odoo.com
+        self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = [
+            {'name': 'Odoo', 'url': 'http://odoo-sa.my.odoo.test', 'login': 'other_user@odoo.com', 'version': '17.0+e'},
+        ]
+        self.mock_json2_calls_for_db('odoo-sa.my.odoo.test', users=[{
+            'id': 3, 'name': 'db_user@company.tld', 'login': 'db_user@company.tld', 'login_date': '2026-03-24 17:02:44',
+        }])
+        self.env['project.project'].with_user(self.user_db_manager).action_synchronize_all_databases()
+        self.assertEqual(
+            self.env['project.project'].search([]).database_user_ids.mapped('login'),
+            ['db_user@company.tld'],
+            "a database user 'db_user@company.tld' should have been created",
+        )
+
+        # 2) Synchronize all db as databases_user with a new document kpi (and still report the same user)
+        self.mock_json2_calls_for_db(
+            'odoo-sa.my.odoo.test',
+            kpis=[{'id': 'documents.inbox', 'name': 'Inbox', 'type': 'integer', 'value': 10}],
+            users=[{'id': 3, 'name': 'db_user@company.tld', 'login': 'db_user@company.tld', 'login_date': '2026-03-24 17:02:44'}],
+        )
+        self.env['project.project'].action_synchronize_all_databases()
+        self.assertEqual(
+            self.env['project.project'].search([]).database_nb_documents,
+            10,
+            "The kpi should have been updated correctly",
+        )
+
+        # 3) Synchronize all db as databases_user with a user deleted and a different kpi
+        self.mock_json2_calls_for_db(
+            'odoo-sa.my.odoo.test',
+            kpis=[{'id': 'documents.inbox', 'name': 'Inbox', 'type': 'integer', 'value': 20}],
+            users=[]  # Simulate user deletion from the remote db
+        )
+        self.env['project.project'].action_synchronize_all_databases()
+        self.assertFalse(self.env['project.project'].search([]), 'db_user should have lost access')
+        project = self.env['project.project'].sudo().search([])
+        self.assertTrue(project, 'The database should still exist')
+        self.assertFalse(project.database_user_ids, 'The database_user should have been deleted')
+        self.assertEqual(project.database_nb_documents, 20, "The kpi should have been updated correctly")
+
     @users('db_manager@company.tld')
     def test_db_synchronize_several_dbs(self):
         Project = self.env['project.project']
@@ -95,7 +148,7 @@ class TestSynchronization(TestDatabasesCommon):
 
         self.assertCountEqual(self.mock_requests_request.mock_calls[:1], [
             call('post', 'https://www.odoo.com/json/2/odoo.database/list', data=None, json={},
-                 headers={'Authorization': 'Bearer privateKey', 'X-Odoo-Database': 'openerp'}, allow_redirects=False, timeout=15),
+                 headers={'Authorization': 'Bearer odoocom_privateKey', 'X-Odoo-Database': 'openerp'}, allow_redirects=False, timeout=15),
         ])
         new_projects = Project.search([], order='database_version')
         self.assertRecordValues(new_projects, [
@@ -172,6 +225,7 @@ class TestSynchronization(TestDatabasesCommon):
         ]
         self.json2_mocked_calls['cron-odoo-sa.my.odoo.test']['version'] = '16.0+e'
         self.json2_mocked_calls['cron-odoo-sa.my.odoo.test']['res.users']['search_read'] = []
+        self.json2_mocked_calls['cron-odoo-sa.my.odoo.test']['res.users.apikeys']['generate'] = 'some_new_api_key'
         self.json2_mocked_calls['cron-odoo-sa.my.odoo.test']['kpi.provider']['get_kpi_summary'] = []
 
         with freeze_time('2025-01-01 00:00'):
@@ -180,7 +234,14 @@ class TestSynchronization(TestDatabasesCommon):
 
         self.assertCountEqual(self.mock_requests_request.mock_calls, [
             call('post', 'https://www.odoo.com/json/2/odoo.database/list', data=None, json={},
-                 headers={'Authorization': 'Bearer privateKey', 'X-Odoo-Database': 'openerp'}, allow_redirects=False, timeout=15),
+                 headers={'Authorization': 'Bearer odoocom_privateKey', 'X-Odoo-Database': 'openerp'}, allow_redirects=False, timeout=15),
+            call('post', 'http://cron-odoo-sa.my.odoo.test/json/2/res.users.apikeys/generate', data=None, json={
+                    'key': 'odoocom_privateKey',
+                    'scope': None,
+                    'name': f'Access for {self.env.ref("base.main_company").name}',
+                    'expiration_date': False,
+                 },
+                 headers={'Authorization': 'Bearer odoocom_privateKey', 'X-Odoo-Database': 'cron-odoo-sa'}, allow_redirects=False, timeout=15),
         ])
         self.assertRecordValues(new_projects, [
             {
@@ -193,6 +254,9 @@ class TestSynchronization(TestDatabasesCommon):
                 'database_last_synchro': False,
             },
         ])
+
+        database_api_key = get_database_api_keys(new_projects).get(new_projects.id)
+        self.assertEqual(database_api_key, 'some_new_api_key')
 
         with freeze_time('2025-01-01 00:00'):
             Project._cron_synchronize_all_databases()
@@ -218,22 +282,26 @@ class TestSynchronization(TestDatabasesCommon):
             "The database should have been scanned",
         )
 
-    @users('db_manager@company.tld')
     def test_synchronizing_a_saas_db_with_just_a_url_should_raise_an_error(self):
         """ Trying to synchronize one single database missing a db name should raise a User Friendly error"""
-        db = self.env['project.project'].create([{
+        db_as_db_manager = self.env['project.project'].with_user(self.user_db_manager).create([{
             'name': 'An accounting DB',
             'database_hosting': 'saas',
             'database_url': 'http://anotherdb.that.doesnt.exist',
+            'database_user_ids': [Command.create({
+                'name': 'db_user@company.tld',
+                'login': 'db_user@company.tld',
+            })]
         }])
+        db_as_db_user = db_as_db_manager.with_user(self.user_db_user)
         with self.assertRaisesRegex(UserError, "1 databases could not be synchronized."):
-            db.action_database_synchronize()
-        self.assertRecordValues(db.message_ids, [
+            db_as_db_user.action_database_synchronize()
+        self.assertRecordValues(db_as_db_user.message_ids, [
             {'preview': 'Error while connecting to http://anotherdb.that.doesnt.exist: '
                         'We are missing the database name, the api login or the api key'},
             {'preview': 'Project created'},
         ])
-        self.assertIn('Unreachable', db.tag_ids.mapped('name'))
+        self.assertIn('Unreachable', db_as_db_user.tag_ids.mapped('name'))
 
     @users('db_manager@company.tld')
     def test_synchronizing_several_db_with_one_missing_its_name_and_api_info(self):
@@ -460,9 +528,10 @@ class TestSynchronization(TestDatabasesCommon):
                 'database_hosting': 'premise',
                 'database_url': 'http://odoo-sa.my.odoo.test',
                 'database_api_login': 'randomlogin@randomdomain.random',
-                'database_api_key': 'random api key, amazing',
             },
         ])
+        database_api_key = get_database_api_keys(db).get(db.id)
+        self.assertEqual(database_api_key, 'random api key, amazing')
 
         self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = [
             {'name': 'odoo-sa', 'url': 'http://odoo-sa.my.odoo.test', 'login': 'somethingelse@wout.wout', 'version': '16.0+e'},
@@ -477,10 +546,11 @@ class TestSynchronization(TestDatabasesCommon):
                 'database_hosting': 'premise',
                 'database_url': 'http://odoo-sa.my.odoo.test',
                 'database_api_login': 'randomlogin@randomdomain.random',
-                'database_api_key': 'random api key, amazing',
                 'database_version': False,
             },
         ])
+        database_api_key = get_database_api_keys(db).get(db.id)
+        self.assertEqual(database_api_key, 'random api key, amazing')
         wizard, = captured['wizards']
         self.assertFalse(wizard.error_message)
         self.assertRecordValues(db.message_ids, [{'preview': 'Project created'}])
@@ -635,6 +705,52 @@ class TestSynchronization(TestDatabasesCommon):
                 'my_kpi_another_unique_id': 4,
             },
         }])
+
+    @users('db_manager@company.tld')
+    def test_synchronization_applies_latest_kpi_snapshot(self):
+        Project = self.env['project.project']
+        self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = [
+            {'name': 'odoo-sa', 'url': 'http://odoo-sa.my.odoo.test', 'login': 'some_user@odoo.com', 'version': '16.0+e'},
+        ]
+        self.mock_json2_calls_for_db('odoo-sa.my.odoo.test', kpis=[
+            {'id': 'my_kpi.mon_bel_id', 'name': 'My KPI', 'type': 'integer', 'value': 1},
+            {'id': 'my_kpi.mon_autre_bel_id', 'name': 'My other KPI', 'type': 'integer', 'value': 2},
+        ])
+        Project.action_synchronize_all_databases()
+        new_projects = Project.search([])
+
+        self.assertRecordValues(new_projects.sudo().database_kpi_base_definition_id, [{
+            'properties_definition': [
+                {'name': 'my_kpi_mon_bel_id', 'string': 'My KPI', 'type': 'integer', 'default': 0},
+                {'name': 'my_kpi_mon_autre_bel_id', 'string': 'My other KPI', 'type': 'integer', 'default': 0},
+            ],
+        }])
+        self.assertRecordValues(
+            new_projects,
+            [{
+                "database_kpi_properties": {
+                    "my_kpi_mon_bel_id": 1,
+                    "my_kpi_mon_autre_bel_id": 2,
+                }
+            }],
+        )
+
+        self.mock_json2_calls_for_db('odoo-sa.my.odoo.test', kpis=[
+            {'id': 'my_kpi.mon_bel_id', 'name': 'My KPI', 'type': 'integer', 'value': 0},
+            {'id': 'my_kpi.mon_autre_bel_id', 'name': 'My KPI', 'type': 'integer', 'value': 1},
+        ])
+        Project.action_synchronize_all_databases()
+        self.assertRecordValues(new_projects, [{'database_kpi_properties': {'my_kpi_mon_bel_id': 0, 'my_kpi_mon_autre_bel_id': 1}}])
+
+        self.mock_json2_calls_for_db('odoo-sa.my.odoo.test', kpis=[
+            {'id': 'my_kpi.mon_autre_bel_id', 'name': 'My KPI', 'type': 'integer', 'value': 0},
+        ])
+        Project.action_synchronize_all_databases()
+        self.assertRecordValues(new_projects, [{'database_kpi_properties': {'my_kpi_mon_autre_bel_id': 0}}])
+
+        self.mock_json2_calls_for_db('odoo-sa.my.odoo.test', kpis=[])
+        Project.action_synchronize_all_databases()
+        self.assertRecordValues(new_projects, [{'database_kpi_properties': {}}])
 
     @users('db_manager@company.tld')
     def test_synchronize_all_databases_synchronization_order(self):

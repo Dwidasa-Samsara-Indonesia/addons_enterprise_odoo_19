@@ -38,11 +38,15 @@ patch(FormOptionPlugin.prototype, {
             // Do not try to load if form was never initialized.
             return models;
         }
-        const currentModel = appliedModel || getModelName(formEl);
+        const currentModel = getModelName(formEl);
+        const studioModels = [];
         if (currentModel && !models.find((m) => m.model === currentModel)) {
-            return [...models, this.studioModelsCache.get(currentModel)];
+            studioModels.push(this.studioModelsCache.get(currentModel));
         }
-        return models;
+        if (appliedModel && appliedModel !== currentModel && !models.find((m) => m.model === appliedModel)) {
+            studioModels.push(this.studioModelsCache.get(appliedModel));
+        }
+        return [...models, ...studioModels];
     },
     async fetchModels(formEl) {
         const formModels = await super.fetchModels(formEl);

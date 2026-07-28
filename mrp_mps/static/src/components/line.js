@@ -128,7 +128,7 @@ export default class MpsLineComponent extends Component {
      */
     _onChangeForecast(ev, productionScheduleId) {
         const dateIndex = parseInt(ev.target.dataset.date_index);
-        const forecastQty = ev.target.value;
+        const forecastQty = ev.target.value.trim();
         if (forecastQty === "" || isNaN(forecastQty)) {
             ev.target.value = this.model._getOriginValue(productionScheduleId, dateIndex, 'forecast_qty');
         } else {
@@ -152,7 +152,7 @@ export default class MpsLineComponent extends Component {
      */
     _onChangeToReplenish(ev, productionScheduleId) {
         const dateIndex = parseInt(ev.target.dataset.date_index);
-        const replenishQty = ev.target.value;
+        const replenishQty = ev.target.value.trim();
         if (replenishQty === "" || isNaN(replenishQty)) {
             ev.target.value = this.model._getOriginValue(productionScheduleId, dateIndex, 'replenish_qty');
         } else {

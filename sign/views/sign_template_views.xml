@@ -366,7 +366,7 @@
                         <group>
                             <field name="model_id" groups="base.group_system" invisible="item_type not in ['text', 'textarea']"  placeholder="Autocomplete this field"/>
                             <field name="auto_field" widget="field_selector"
-                                options="{'model': 'model_name'}"
+                                options="{'model': 'model_name', 'allow_properties': False}"
                                 invisible="item_type not in ['text', 'textarea'] or not model_name"
                                 groups="base.group_system"/>
                         </group>

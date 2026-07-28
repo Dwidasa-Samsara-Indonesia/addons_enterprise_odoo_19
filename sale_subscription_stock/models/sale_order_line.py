@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+from datetime import datetime, time
+
 from dateutil.relativedelta import relativedelta
+from pytz import timezone, UTC
 
 from odoo import  models, api, fields
 from odoo.tools import format_date, clean_context
@@ -154,8 +157,13 @@ class SaleOrderLine(models.Model):
         lang_code = self.order_id.partner_id.lang
         format_start = format_date(self.env, current_period_start, lang_code=lang_code)
         format_end = format_date(self.env, move_date, lang_code=lang_code)
+        if self.order_id.last_invoice_date:
+            company_tz = timezone(self.order_id.company_id.partner_id.tz or 'UTC')
+            date_planned = company_tz.localize(datetime.combine(current_period_start, time.min)).astimezone(UTC).replace(tzinfo=None)
+        else:
+            date_planned = self.order_id.date_order or fields.Datetime.now()
         values.update({
-            'date_planned': current_period_start,
+            'date_planned': date_planned,
             'date_deadline': move_date,
             'product_description_variants': f'{values.get("product_description_variants", "")}\n{format_start} to {format_end}',
         })

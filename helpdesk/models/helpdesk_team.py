@@ -30,10 +30,11 @@ class HelpdeskTeam(models.Model):
             if stage:
                 default_stages += stage
         if not default_stages:
+            email_template = self.env.ref('helpdesk.new_ticket_request_email_template', raise_if_not_found=False)
             default_stages = self.env['helpdesk.stage'].create({
                 'name': _("New"),
                 'sequence': 0,
-                'template_id': self.env.ref('helpdesk.new_ticket_request_email_template', raise_if_not_found=False).id or None
+                'template_id': email_template and email_template.id,
             })
         return [Command.set(default_stages.ids)]
 
@@ -690,7 +691,7 @@ class HelpdeskTeam(models.Model):
                 ('res_model', '=', 'helpdesk.ticket'),
                 ('res_id', '!=', False),
                 ('write_date', '>', fields.Datetime.to_string(one_week_before)),
-                ('write_date', '<=', fields.Date.today()),
+                ('write_date', '<=', fields.Datetime.now()),
                 ('rating', '>=', RATING_LIMIT_MIN),
                 ('consumed', '=', True),
             ])

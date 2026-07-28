@@ -83,6 +83,10 @@ export class PayslipListController extends ListController {
         }
     }
 
+    createNewPayslip() {
+        return this.actionService.doAction("hr_payroll.action_hr_payslip_new");
+    }
+
     displayButton(button) {
         if (!Object.values(this.displayHeaderButtonsTransitions).includes(button.clickParams.name)) {
             return true;

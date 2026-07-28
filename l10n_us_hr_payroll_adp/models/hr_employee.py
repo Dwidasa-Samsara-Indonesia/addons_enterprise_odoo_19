@@ -7,5 +7,5 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     l10n_us_adp_code = fields.Char("ADP Code",
-                           groups="hr.group_hr_user",
+                           groups="hr_payroll.group_hr_payroll_user",
                            help="Usually a 6-digit code in ADP to identify your employees (File #).")

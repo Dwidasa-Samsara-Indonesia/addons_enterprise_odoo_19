@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-04-04 10:42+0000\n"
+"POT-Creation-Date: 2026-06-05 19:37+0000\n"
+"PO-Revision-Date: 2026-06-11 17:59+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_intrastat/sv/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_intrastat
 #. odoo-javascript
@@ -78,17 +78,17 @@ msgstr "Gruppkoder för kontots skatteland"
 #. module: account_intrastat
 #: model_terms:ir.ui.view,arch_db:account_intrastat.account_move_line_tree_view_account_intrastat_transaction_codes
 msgid "Account move line"
-msgstr "Rad i kontorörelse"
+msgstr "Verifikationsrad"
 
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_return
 msgid "Accounting Return"
-msgstr "Redovisningsdeklaration"
+msgstr "Bokföringsdeklaration"
 
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_return_type
 msgid "Accounting Return Type"
-msgstr "Typ av redovisningsdeklaration"
+msgstr "Typ av bokföringsdeklaration"
 
 #. module: account_intrastat
 #: model_terms:ir.ui.view,arch_db:account_intrastat.view_intrastat_code_search
@@ -334,17 +334,17 @@ msgstr "Intrastat-land"
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_intrastat_goods_report_handler
 msgid "Intrastat Goods Report Custom Handler"
-msgstr "Anpassad hanterare för Intrastat-rapporter om varor"
+msgstr "Anpassad hantering av Intrastat-rapporter om varor"
 
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_intrastat_report_handler
 msgid "Intrastat Report Custom Handler"
-msgstr "Anpassad hanterare för Intrastat-rapporter"
+msgstr "Anpassad hantering av Intrastat-rapporter"
 
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_intrastat_services_report_handler
 msgid "Intrastat Services Report Custom Handler"
-msgstr "Anpassad hanterare för Intrastat-rapporter om tjänster"
+msgstr "Anpassad hantering av Intrastat-rapporter om tjänster"
 
 #. module: account_intrastat
 #: model:ir.model.fields,field_description:account_intrastat.field_product_template__intrastat_supplementary_unit
@@ -402,6 +402,12 @@ msgstr "Intrastat transaktionskod"
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid "Invalid Intrastat Code"
+msgstr "Ogiltig Intrastat-kod"
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Invalid commodity intrastat code products."
 msgstr "Produkter med ogiltiga varukoder."
@@ -432,17 +438,17 @@ msgstr "Är en typ av Intrastat-retur"
 #. module: account_intrastat
 #: model_terms:ir.ui.view,arch_db:account_intrastat.account_move_tree_view_account_intrastat_transport_codes
 msgid "Journal Entries"
-msgstr "Bokföringsposter"
+msgstr "Verifikationer"
 
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_move
 msgid "Journal Entry"
-msgstr "Bokföringspost"
+msgstr "Verifikation"
 
 #. module: account_intrastat
 #: model:ir.model,name:account_intrastat.model_account_move_line
 msgid "Journal Item"
-msgstr "Affärshändelse"
+msgstr "Verifikationsrad"
 
 #. module: account_intrastat
 #. odoo-python
@@ -455,6 +461,16 @@ msgstr "Ursprungsland inte angivet"
 #: code:addons/account_intrastat/models/account_intrastat_report.py:0
 msgid "Missing product"
 msgstr "Produkter inte angivna"
+
+#. module: account_intrastat
+#. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"Note that the selected commodity code is invalid based on its start or "
+"expiry date. You can still select it."
+msgstr ""
+"Observera att den valda varukoden är ogiltig baserat på dess start- eller "
+"utgångsdatum. Du kan fortfarande välja den."
 
 #. module: account_intrastat
 #. odoo-python
@@ -628,6 +644,16 @@ msgstr "Antalet kompletterande enheter per produktmängd."
 
 #. module: account_intrastat
 #. odoo-python
+#: code:addons/account_intrastat/models/product.py:0
+msgid ""
+"The product template has no products/variants. At least one variant is "
+"required to set the Intrastat values."
+msgstr ""
+"Produktmallen har inga produkter/varianter. Minst en variant krävs för att "
+"ange Intrastat-värden."
+
+#. module: account_intrastat
+#. odoo-python
 #: code:addons/account_intrastat/models/account_return.py:0
 msgid "The value of goods should be VAT exclusive."
 msgstr "Varors värde bör presenteras exklusive moms."
@@ -740,7 +766,7 @@ msgstr "ct/l"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__g
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__g
 msgid "g"
-msgstr ""
+msgstr "g"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__gi_f_/_s
@@ -752,7 +778,7 @@ msgstr "gi F / S"
 #. odoo-javascript
 #: code:addons/account_intrastat/static/src/components/intrastat_report/warnings.xml:0
 msgid "journals items with no product"
-msgstr "affärshändelser utan produkter"
+msgstr "verifikationsrader utan produkter"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__kg_90_%_sdt
@@ -818,7 +844,7 @@ msgstr "kg/netto eda"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__l
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__l
 msgid "l"
-msgstr ""
+msgstr "l"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__l_alc__100_%
@@ -830,7 +856,7 @@ msgstr "l alc. 100 %"
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__m
 #: model:ir.model.fields.selection,name:account_intrastat.selection__product_template__intrastat_supplementary_unit__m
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. module: account_intrastat
 #: model:ir.model.fields.selection,name:account_intrastat.selection__account_intrastat_code__supplementary_unit__m2

@@ -1,8 +1,11 @@
 import base64
+import re
 
 from .common import TestBankRecWidgetCommon
 from odoo import Command, fields
+from odoo.exceptions import ValidationError
 from odoo.tests import tagged
+from odoo.tests.common import Like
 
 
 @tagged('post_install', '-at_install')
@@ -307,6 +310,40 @@ class TestAccountBankStatement(TestBankRecWidgetCommon):
         # Now the payment should be fully reconciled and marked as paid
         self.assertEqual(payment.state, 'paid')
 
+    def test_multiple_reconcile_with_foreign_currency(self):
+        """Create a payment, then create 2 st_lines matching the payment."""
+        payment = self._create_and_post_payment(amount=400, memo="pay_AretqwwXerereE", currency_id=self.other_currency.id)
+        statement_line_1 = self._create_st_line(amount=200, payment_ref="pay_AretqwwXerereE", update_create_date=False)
+        statement_line_1._try_auto_reconcile_statement_lines()
+        self.assertRecordValues(statement_line_1.line_ids, [
+            {'account_id': statement_line_1.journal_id.default_account_id.id, 'balance': 200.0, 'reconciled': False},
+            {'account_id': payment.outstanding_account_id.id, 'balance': -200.0, 'reconciled': True},
+        ])
+
+        inv_line = self._create_invoice_line(
+            'out_invoice',
+            invoice_date='2017-01-01',
+            invoice_line_ids=[{'price_unit': 1000.0}],
+        )
+        statement_line_2 = self._create_st_line(amount=1000, payment_ref=inv_line.name, update_create_date=False)
+        statement_line_2._try_auto_reconcile_statement_lines()
+        self.assertRecordValues(statement_line_2.line_ids, [
+            {'account_id': statement_line_2.journal_id.default_account_id.id, 'balance': 1000.0, 'reconciled': False},
+            {'account_id': inv_line.account_id.id, 'balance': -1000.0, 'reconciled': True},
+        ])
+        foreign_inv_line = self._create_invoice_line(
+            'out_invoice',
+            currency_id=self.other_currency.id,
+            invoice_date='2017-01-01',
+            invoice_line_ids=[{'price_unit': 2000.0}],
+        )
+        statement_line_3 = self._create_st_line(amount=1000, payment_ref=foreign_inv_line.name, update_create_date=False)
+        statement_line_3._try_auto_reconcile_statement_lines()
+        self.assertRecordValues(statement_line_3.line_ids, [
+            {'account_id': statement_line_2.journal_id.default_account_id.id, 'balance': 1000.0, 'reconciled': False},
+            {'account_id': statement_line_2.journal_id.suspense_account_id.id, 'balance': -1000.0, 'reconciled': False},
+        ])
+
     def test_unreconciliation_base_case_invoice(self):
         st_line = self._create_st_line(1000.0, update_create_date=False)
         self.assertRecordValues(st_line.line_ids, [
@@ -424,6 +461,28 @@ class TestAccountBankStatement(TestBankRecWidgetCommon):
             {'account_id': st_line.journal_id.suspense_account_id.id, 'amount_currency': -500.0, 'currency_id': self.company_data['currency'].id, 'balance': -500.0, 'reconciled': False},
         ])
 
+    def test_manual_edit_change_currency(self):
+        self.account_current_assets_1 = self.company_data['default_account_deferred_expense']
+        st_line = self._create_st_line(1000.0, update_create_date=False)
+
+        self.assertRecordValues(st_line.line_ids, [
+            {'account_id': st_line.journal_id.default_account_id.id, 'amount_currency': 1000.0, 'currency_id': self.company_data['currency'].id, 'balance': 1000.0, 'reconciled': False},
+            {'account_id': st_line.journal_id.suspense_account_id.id, 'amount_currency': -1000.0, 'currency_id': self.company_data['currency'].id, 'balance': -1000.0, 'reconciled': False},
+        ])
+
+        st_line.set_account_bank_statement_line(st_line.line_ids[-1].id, self.account_current_assets_1.id)
+        self.assertRecordValues(st_line.line_ids, [
+            {'account_id': st_line.journal_id.default_account_id.id, 'amount_currency': 1000.0, 'currency_id': self.company_data['currency'].id, 'balance': 1000.0, 'reconciled': False},
+            {'account_id': self.account_current_assets_1.id, 'amount_currency': -1000.0, 'currency_id': self.company_data['currency'].id, 'balance': -1000.0, 'reconciled': False},
+        ])
+
+        st_line.edit_reconcile_line(st_line.line_ids[1].id, {'balance': -500, 'amount_currency': -500, 'currency_id': self.other_currency.id})
+        self.assertRecordValues(st_line.line_ids, [
+            {'account_id': st_line.journal_id.default_account_id.id, 'amount_currency': 1000.0, 'currency_id': self.company_data['currency'].id, 'balance': 1000.0, 'reconciled': False},
+            {'account_id': self.account_current_assets_1.id, 'amount_currency': -500.0, 'currency_id': self.other_currency.id, 'balance': -500.0, 'reconciled': False},
+            {'account_id': st_line.journal_id.suspense_account_id.id, 'amount_currency': -500.0, 'currency_id': self.company_data['currency'].id, 'balance': -500.0, 'reconciled': False},
+        ])
+
     def test_res_partner_bank_find_create_multi_account(self):
         """ Make sure that we can save multiple bank accounts for a partner. """
         partner = self.env['res.partner'].create({'name': "Zitycard"})
@@ -488,6 +547,38 @@ class TestAccountBankStatement(TestBankRecWidgetCommon):
             {'account_id': early_pay_acc.id, 'amount_currency': 9.0, 'currency_id': self.company_data['currency'].id, 'balance': 9.0, 'reconciled': False},
             {'account_id': st_line.journal_id.suspense_account_id.id, 'amount_currency': -19.0, 'currency_id': self.company_data['currency'].id, 'balance': -19.0, 'reconciled': False},
         ])
+
+    def test_early_payment_discount_batch_reconcile_merges_tax_lines(self):
+        """Batch-reconciling invoices sharing a tax with an EPD keeps one discount base line
+        per invoice but merges their tax lines into one, so the tax report base is not doubled."""
+        self.early_payment_term.early_pay_discount_computation = 'included'
+        invoice_lines = self.env['account.move.line']
+        for price in (100.0, 200.0):
+            invoice_lines += self._create_invoice_line(
+                'out_invoice',
+                date='2017-01-04',
+                invoice_payment_term_id=self.early_payment_term.id,
+                invoice_line_ids=[{'price_unit': price, 'tax_ids': [Command.set(self.tax_sale_a.ids)]}],
+            )
+        st_line = self._create_st_line(310.5, date='2017-01-10', update_create_date=False)
+        st_line.set_line_bank_statement_line(invoice_lines.ids)
+
+        tax_acc = self.company_data['default_account_tax_sale']
+        early_pay_acc = self.env.company.account_journal_early_pay_discount_loss_account_id
+        self.assertRecordValues(st_line.line_ids.sorted('balance'), [
+            {'account_id': invoice_lines.account_id.id,                 'balance': -230.0, 'reconciled': True},
+            {'account_id': invoice_lines.account_id.id,                 'balance': -115.0, 'reconciled': True},
+            {'account_id': tax_acc.id,                                  'balance': 4.5,    'reconciled': False},
+            {'account_id': early_pay_acc.id,                            'balance': 10.0,   'reconciled': False},
+            {'account_id': early_pay_acc.id,                            'balance': 20.0,   'reconciled': False},
+            {'account_id': st_line.journal_id.default_account_id.id,    'balance': 310.5,  'reconciled': False},
+        ])
+
+        # Removing the larger discount recomputes the merged tax line from 4.5 to 1.5.
+        epd_base_line = st_line.line_ids.filtered(lambda l: l.account_id == early_pay_acc and l.tax_ids).sorted('balance')[-1]
+        st_line.delete_reconciled_line(epd_base_line.id)
+        epd_tax_line = st_line.line_ids.filtered(lambda l: l.tax_line_id == self.tax_sale_a)
+        self.assertEqual(epd_tax_line.balance, 1.5)
 
     def test_exchange_diff_basic_case(self):
         self.other_currency.rate_ids = [Command.create({
@@ -2220,6 +2311,33 @@ class TestAccountBankStatement(TestBankRecWidgetCommon):
         early_payment_line = statement.line_ids.filtered(lambda p: p.balance == 2.0)
         self.assertTrue(early_payment_line.analytic_distribution)
 
+    def test_edit_account_id_analytic(self):
+        analytic_plan = self.env['account.analytic.plan'].create({'name': 'Plan Test'})
+        analytic_account_1 = self.env['account.analytic.account'].create({
+            'name': 'analytic_account_1',
+            'plan_id': analytic_plan.id,
+        })
+        analytic_distribution = self.env['account.analytic.distribution.model'].create({
+            'analytic_distribution': {analytic_account_1.id: 100},
+        })
+        account = self.env['account.account'].create({
+            'name': "test account",
+            'code': "60001",
+            'account_type': "expense",
+        })
+        st_line = self._create_st_line(amount=100, update_create_date=False)
+        st_line.edit_reconcile_line(st_line.line_ids[-1].id, {
+            'analytic_distribution': analytic_distribution.analytic_distribution,
+        })
+        old_analytic_line = st_line.line_ids[1].analytic_line_ids
+        self.assertEqual(len(old_analytic_line), 1)
+        self.assertTrue(old_analytic_line)
+        st_line.edit_reconcile_line(st_line.line_ids[-1].id, {
+            'account_id': account.id,
+        })
+        self.assertNotEqual(old_analytic_line, st_line.line_ids[1].analytic_line_ids)
+        self.assertEqual(len(st_line.line_ids[1].analytic_line_ids), 1)
+
     def test_reconciliation_without_payment_account(self):
         """Test reconciliation when there is no payment account on the payment method."""
         # make sure that no payment account is set on the payment method lines
@@ -2894,13 +3012,28 @@ class TestAccountBankStatement(TestBankRecWidgetCommon):
         self.assertTrue(rule)
 
     def test_auto_match_multiple_candidates_select_closer_prior_date(self):
+        self._create_invoice_line('out_invoice', invoice_date='2017-01-08', invoice_line_ids=[{'price_unit': 150}])
+        self._create_invoice_line('out_invoice', invoice_date='2017-01-06', invoice_line_ids=[{'price_unit': 150}])
+        statement_line = self._create_st_line(amount=150, partner_id=self.partner_a.id, date='2017-01-08', update_create_date=False)
+        statement_line._try_auto_reconcile_statement_lines()
+        # Nothing will be selected since we have 2 candidates with a prior date
+        self.assertFalse(statement_line.line_ids[-1].reconciled_lines_ids)
+
+    def test_auto_match_one_canditate_selected_prior_date(self):
         self._create_invoice_line('out_invoice', invoice_date='2017-01-10', invoice_line_ids=[{'price_unit': 150}])
         move_line_2 = self._create_invoice_line('out_invoice', invoice_date='2017-01-08', invoice_line_ids=[{'price_unit': 150}])
-        self._create_invoice_line('out_invoice', invoice_date='2017-01-06', invoice_line_ids=[{'price_unit': 150}])
         statement_line = self._create_st_line(amount=150, partner_id=self.partner_a.id, date='2017-01-08', update_create_date=False)
         statement_line._try_auto_reconcile_statement_lines()
         # move_line_2 will be selected because it's the one with the closer prior or equal date.
         self.assertEqual(statement_line.line_ids[-1].reconciled_lines_ids, move_line_2)
+
+    def test_auto_match_no_canditate_selected_prior_date(self):
+        self._create_invoice_line('out_invoice', invoice_date='2017-01-10', invoice_line_ids=[{'price_unit': 150}])
+        self._create_invoice_line('out_invoice', invoice_date='2017-01-09', invoice_line_ids=[{'price_unit': 150}])
+        statement_line = self._create_st_line(amount=150, partner_id=self.partner_a.id, date='2017-01-08', update_create_date=False)
+        statement_line._try_auto_reconcile_statement_lines()
+        # move_line_2 will be selected because it's the one with the closer prior or equal date.
+        self.assertFalse(statement_line.line_ids[-1].reconciled_lines_ids)
 
     def test_set_partner_on_statement_line_reconciles_with_move_line_missing_invoice_date(self):
         """Test that setting a partner on statement line reconciles it with a move line missing an
@@ -3269,3 +3402,258 @@ class TestAccountBankStatement(TestBankRecWidgetCommon):
         st_line = self._create_st_line(-100.0, date='2017-01-11', update_create_date=False)
         st_line.set_line_bank_statement_line([inv_line_with_epd.id])
         self.assertEqual(payment.state, 'paid')
+
+    def test_credit_warning_excludes_unreconciled_bank_statement_line(self):
+        """Credit warning must account for outstanding bank statement lines."""
+        self.env.company.account_use_credit_limit = True
+        self.partner_a.credit_limit = 1000.0
+        inv_line = self._create_invoice_line(
+            'out_invoice',
+            invoice_line_ids=[{'price_unit': 2000.0, 'tax_ids': []}],
+        )
+        invoice = inv_line.move_id
+        invoice.button_draft()  # warning only shows on draft invoices
+        self.assertTrue(invoice.partner_credit_warning)
+
+        # An unreconciled bank statement line for the partner
+        # should reduce the effective outstanding exposure.
+        self._create_st_line(
+            amount=1500.0,
+            date='2017-01-01',
+            partner_id=self.partner_a.id,
+        )
+        invoice.invalidate_recordset(['partner_credit_warning'])
+        self.assertFalse(invoice.partner_credit_warning)
+
+    def test_credit_warning_excludes_reconciled_bank_statement_line(self):
+        """Credit warning must account for bank statement lines already matched to the invoice."""
+        self.env.company.account_use_credit_limit = True
+        self.partner_a.credit_limit = 1000.0
+        inv_line = self._create_invoice_line(
+            'out_invoice',
+            invoice_line_ids=[{'price_unit': 2000.0, 'tax_ids': []}],
+        )
+        invoice = inv_line.move_id
+        invoice.button_draft()  # warning only shows on draft invoices
+        self.assertTrue(invoice.partner_credit_warning)
+
+        st_line = self._create_st_line(
+            amount=1500.0,
+            date='2017-01-01',
+            partner_id=self.partner_a.id,
+        )
+        invoice.action_post()  # reconciliation requires a posted move
+        bank_cash_line = st_line.move_id.line_ids.filtered(
+            lambda l: l.account_id.account_type == 'asset_cash'
+        )
+        invoice.js_assign_outstanding_line(bank_cash_line.id)
+        invoice.button_draft()  # warning only shows on draft invoices
+        self.assertFalse(invoice.partner_credit_warning)
+
+    def test_common_substring(self):
+        """Test finding longest common substring in fake payment_ref"""
+
+        # Fake Creditor Reference
+        payment_ref1 = "RF33 4434 5675 9111 4543 8787"
+        payment_ref2 = "RF13 4434 5675 9111 4512 7777"
+        payment_ref3 = "RF67 3791 6912 4434 5675 9132"
+        non_matching_ref = "ABCDEFG"
+        BankStatementLine = self.env['account.bank.statement.line']
+
+        self.assertEqual(BankStatementLine._get_common_substring([payment_ref1, payment_ref2]), re.escape('3 4434 5675 9111 45'))
+        self.assertEqual(BankStatementLine._get_common_substring([payment_ref1, payment_ref2, payment_ref3]), re.escape(' 4434 5675 91'))
+        self.assertIsNone(BankStatementLine._get_common_substring([payment_ref1, non_matching_ref]))
+        self.assertIsNone(BankStatementLine._get_common_substring([payment_ref1, payment_ref2, non_matching_ref]))
+
+    def test_tax_base_amount_bank_fees_reconciliation(self):
+        """Test tax_base_amount value is correctly updated after reconciliation."""
+
+        journal_entry = self.env['account.move'].create({
+            'move_type': 'entry',
+            'date': fields.Date.context_today(self),
+            'journal_id': self.company_data['default_journal_misc'].id,
+            'line_ids': [
+                Command.create({
+                    'account_id': self.company_data['default_account_revenue'].id,
+                    'credit': 1000.0,
+                    'tax_ids': [Command.set(self.tax_sale_a.ids)],
+                }),
+                Command.create({
+                    'account_id': self.company_data['default_journal_bank'].default_account_id.id,
+                    'debit': 1150.0,
+                }),
+            ]
+        })
+        journal_entry.action_post()
+
+        reco_model = self.env['account.reconcile.model'].search([
+            ('name', '=', 'Bank Fees'),
+            ('company_id', '=', self.company_data['company'].id)
+        ], limit=1)
+        reco_model.line_ids.write({'tax_ids': [Command.set(self.tax_sale_a.ids)]})
+
+        st_line = self._create_st_line(
+            amount=-2000.0,
+            payment_ref='bank fees',
+            update_create_date=False,
+        )
+        reco_model._trigger_reconciliation_model(st_line)
+        st_tax_line = st_line.line_ids.filtered(lambda l: l.tax_line_id == self.tax_sale_a)
+        self.assertEqual(st_tax_line.tax_base_amount, 1739.13)
+
+    def test_try_auto_reconcile_retry_after_error(self):
+        """Ensures the lines of a failing batch will be retried during the next run of _try_auto_reconcile_statement_lines"""
+        original_method = self.env.registry['account.bank.statement.line']._try_auto_reconcile_statement_lines
+        has_failed = False
+
+        def patched_try_auto_reconcile(self_model, company_id=None):
+            nonlocal has_failed
+            if not has_failed:
+                has_failed = True
+                raise ValidationError("Simulating a validation error")
+            return original_method(self_model, company_id)
+
+        payment = self._create_and_post_payment(amount=100, memo="pay_AretqwwXerereE")
+        statement_line = self._create_st_line(amount=100, payment_ref="pay_AretqwwXerereE", update_create_date=False)
+
+        self.patch(self.env.registry['account.bank.statement.line'], '_try_auto_reconcile_statement_lines', patched_try_auto_reconcile)
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=50)
+
+        self.assertEqual(
+            [
+                Like('...found 1 statement lines...'),
+                Like('...Simulating a validation error...'),
+                Like('...found 0 statement lines...'),
+                Like('...the cron will be triggered again...'),
+            ],
+            log_catcher.output,
+            "The first run should have failed. The cron should retry to process the failed line"
+        )
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=50)
+
+        self.assertEqual(
+            [
+                Like('...found 1 statement lines...'),
+                Like('...set line...'),
+                Like('...found 0 statement lines...'),
+            ],
+            log_catcher.output,
+            "The second run should have been succesfull."
+        )
+        self.assertRecordValues(statement_line.line_ids, [
+            {'account_id': statement_line.journal_id.default_account_id.id, 'balance': 100.0, 'reconciled': False},
+            {'account_id': payment.outstanding_account_id.id, 'balance': -100.0, 'reconciled': True},
+        ])
+
+    def test_try_auto_reconcile_drop_after_many_errors(self):
+        """Ensures the lines that fails twice won't be retried again"""
+        original_method = self.env.registry['account.bank.statement.line']._try_auto_reconcile_statement_lines
+        has_failed = 0
+
+        def patched_try_auto_reconcile(self_model, company_id=None):
+            nonlocal has_failed
+            if has_failed < 2:
+                has_failed = has_failed + 1
+                raise ValidationError("Simulating a validation error")
+            return original_method(self_model, company_id)
+
+        self._create_and_post_payment(amount=100, memo="pay_AretqwwXerereE")
+        statement_line = self._create_st_line(amount=100, payment_ref="pay_AretqwwXerereE", update_create_date=False)
+
+        self.patch(self.env.registry['account.bank.statement.line'], '_try_auto_reconcile_statement_lines', patched_try_auto_reconcile)
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=50)
+
+        self.assertEqual(
+            [
+                Like('...found 1 statement lines...'),
+                Like('...Simulating a validation error...'),
+                Like('...found 0 statement lines...'),
+                Like('...the cron will be triggered again...'),
+            ],
+            log_catcher.output,
+            "The first run should have failed. The cron should retry to process the failed line"
+        )
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=50)
+
+        self.assertEqual(
+            [
+                Like('...found 1 statement lines...'),
+                Like('...Simulating a validation error...'),
+                Like('...found 0 statement lines...'),
+            ],
+            log_catcher.output,
+            "The second run should have failed too."
+        )
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=50)
+
+        self.assertEqual([Like('...found 0 statement lines...')], log_catcher.output, "We shouldn't find any new line.")
+        self.assertRecordValues(statement_line.line_ids, [
+            {'account_id': statement_line.journal_id.default_account_id.id, 'balance': 100.0, 'reconciled': False},
+            {'account_id': statement_line.journal_id.suspense_account_id.id, 'balance': -100.0, 'reconciled': False},
+        ])
+
+    def test_try_auto_reconcile_multiple_batches(self):
+        """Ensure one batch failing and retried later on doesn't interfer with other batch"""
+        original_method = self.env.registry['account.bank.statement.line']._try_auto_reconcile_statement_lines
+        count = 0
+
+        def patched_try_auto_reconcile(self_model, company_id=None):
+            nonlocal count
+            count = count + 1
+            if count % 2:
+                raise ValidationError("Simulating a validation error")
+            return original_method(self_model, company_id)
+
+        self._create_and_post_payment(amount=100, memo="line #1")
+        statement_line_1 = self._create_st_line(amount=100, payment_ref="line #1", update_create_date=False)
+        payment = self._create_and_post_payment(amount=100, memo="line #2")
+        statement_line_2 = self._create_st_line(amount=100, payment_ref="line #2", update_create_date=False)
+
+        self.patch(self.env.registry['account.bank.statement.line'], '_try_auto_reconcile_statement_lines', patched_try_auto_reconcile)
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=1)
+
+        self.assertEqual(
+            [
+                Like('...found 2 statement lines...'),
+                Like('...Simulating a validation error...'),
+                Like('...found 1 statement lines...'),
+                Like('...set line...'),
+                Like('...found 0 statement lines...'),
+                Like('...the cron will be triggered again...'),
+            ],
+            log_catcher.output,
+            "The first run should have found 2 batch of 1 line, fail one of them and succesfully process the other. The cron should retry to process the failed line"
+        )
+
+        with self.assertLogs('odoo.addons.account_accountant.models.account_bank_statement') as log_catcher:
+            self.env['account.bank.statement.line']._cron_try_auto_reconcile_statement_lines(batch_size=1)
+
+        self.assertEqual(
+            [
+                Like('...found 1 statement lines...'),
+                Like('...Simulating a validation error...'),
+                Like('...found 0 statement lines...'),
+            ],
+            log_catcher.output,
+            "The second run should have failed."
+        )
+        self.assertRecordValues(statement_line_1.line_ids, [
+            {'account_id': statement_line_1.journal_id.default_account_id.id, 'balance': 100.0, 'reconciled': False},
+            {'account_id': statement_line_1.journal_id.suspense_account_id.id, 'balance': -100.0, 'reconciled': False},
+        ])
+        self.assertRecordValues(statement_line_2.line_ids, [
+            {'account_id': statement_line_2.journal_id.default_account_id.id, 'balance': 100.0, 'reconciled': False},
+            {'account_id': payment.outstanding_account_id.id, 'balance': -100.0, 'reconciled': True},
+        ])

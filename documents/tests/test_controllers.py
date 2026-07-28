@@ -708,6 +708,10 @@ class TestDocumentsControllers(HttpCaseWithUserDemo, MockEmail):
 
     def test_doc_ctrl_upload_request_public(self):
         self.authenticate(None, None)
+        # Check that uploading a document to a request is independent from user's access to related record
+        self.public_request.res_id = self.user_demo.id
+        self.public_request.res_model = self.user_demo._name
+        self.assertFalse(self.user_demo.check_access('read'))
 
         # Upload a text file
         res = self.url_open(f'/documents/upload/{self.public_request.access_token}',

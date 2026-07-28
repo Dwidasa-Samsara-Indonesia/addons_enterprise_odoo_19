@@ -56,8 +56,19 @@ class BudgetLine(models.Model):
         for line in self:
             line.is_above_budget = line.achieved_amount > line.budget_amount
 
+    def _compute_display_name(self):
+        for line in self:
+            analytic_accounts = [
+                line[fname].display_name
+                for fname in line._get_plan_fnames()
+                if line[fname]
+            ]
+            line.display_name = line.budget_analytic_id.name
+            if analytic_accounts:
+                line.display_name = f"{line.display_name}: {'; '.join(analytic_accounts)}"
+
     def _compute_all(self):
-        grouped = dict(self.env['budget.report'].with_context(budget_report_budget_line_ids=self.ids)._read_group(
+        grouped = dict(self.env['budget.report']._read_group(
             domain=[('budget_line_id', 'in', self.ids)],
             groupby=['budget_line_id'],
             aggregates=['achieved:sum'],

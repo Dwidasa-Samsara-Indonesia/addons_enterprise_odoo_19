@@ -117,13 +117,17 @@ class AccountReturn(models.Model):
                 ('company_id.account_fiscal_country_id.code', '=', 'IT'),
             ])
         ]), order='date desc', limit=1)
+        quarterly = self.env.company.account_return_periodicity == 'trimester'
         if last_posted_tax_closing:
             # If there is a posted tax closing, we only check that there is no gap in the months.
-            if closing_max_date.month - last_posted_tax_closing[0].date.month > 1:
+            max_expected_gap = 3 if quarterly else 1
+            if (
+                last_posted_tax_closing.date + relativedelta(months=max_expected_gap) < closing_max_date
+                and last_posted_tax_closing.date < closing_max_date - relativedelta(months=max_expected_gap)
+            ):
                 raise UserError(_("You cannot post the tax closing of %(month)s without posting the previous month tax closing first.", month=closing_max_date.strftime("%m/%Y")))
         else:
             # If no tax closing has ever been posted, we have to check if there are Italian taxes in a previous month (meaning a missing tax closing).
-            quarterly = self.env.company.account_return_periodicity == 'trimester'
             previous_move = self.env['account.move'].search_fetch(Domain([
                 *self.env['account.move']._check_company_domain(self.company_id),
                 ('closing_return_id', '=', False),
@@ -152,8 +156,24 @@ class AccountReturn(models.Model):
                         },
                     })
                     at_date_report_lines = report._get_lines(at_date_options)
-                    balance_col_idx = next((idx for idx, col in enumerate(at_date_options.get('columns', [])) if col.get('expression_label') == 'balance'), None)
-                    if any(line['columns'][balance_col_idx]['no_format'] for line in at_date_report_lines if line['name'].startswith('VP')):
+                    colname_to_idx = {col.get('expression_label'): idx for idx, col in enumerate(at_date_options.get('columns', []))}
+                    balance_col_idx = colname_to_idx.get('balance')
+                    debit_col_idx = colname_to_idx.get('debit')
+                    credit_col_idx = colname_to_idx.get('credit')
+                    if any(
+                        (
+                            balance_col_idx is not None
+                            and line['columns'][balance_col_idx]['no_format']
+                        )
+                        or (
+                            balance_col_idx is None
+                            and debit_col_idx is not None
+                            and credit_col_idx is not None
+                            and line['columns'][debit_col_idx]['no_format'] != line['columns'][credit_col_idx]['no_format']
+                        )
+                        for line in at_date_report_lines
+                        if line['name'].startswith('VP')
+                    ):
                         raise UserError(_("You cannot post the tax closing of that month because older months have taxes to report but no tax closing posted. Oldest month is %(month)s", month=current.strftime("%m/%Y")))
                     current += relativedelta(months=1)
         # If the process has not been stopped yet, we open the wizard for the xml export.
@@ -179,9 +199,17 @@ class AccountReturn(models.Model):
     def _get_vat_closing_entry_additional_domain(self):
         # EXTENDS account_reports
         domain = super()._get_vat_closing_entry_additional_domain()
-        if self.type_external_id in ('l10n_it_reports.it_tax_return_type', 'l10n_it_reports.it_withh_tax_return_type'):
+        if self.type_external_id == 'l10n_it_reports.it_tax_return_type':
             tax_tags = self.type_id.report_id.line_ids.expression_ids._get_matching_tags()
             domain.append(('tax_tag_ids', 'in', tax_tags.ids))
+        elif self.type_external_id == 'l10n_it_reports.it_withh_tax_return_type':
+            withholding_purchase_report_lines = (
+                self.env.ref('l10n_it.withh_purchase_tax_report_it_line', raise_if_not_found=False) |
+                self.env.ref('l10n_it.enasarco_purchase_tax_report_it_line', raise_if_not_found=False)
+            )
+            if withholding_purchase_report_lines:
+                tax_tags = withholding_purchase_report_lines.expression_ids._get_matching_tags()
+                domain.append(('tax_tag_ids', 'in', tax_tags.ids))
         return domain
 
     def _evaluate_deadline(self, company, return_type, return_type_external_id, date_from, date_to):
@@ -194,4 +222,23 @@ class AccountReturn(models.Model):
         return super()._evaluate_deadline(company, return_type, return_type_external_id, date_from, date_to)
 
     def _get_amount_to_pay_additional_tax_domain(self):
-        return super()._get_amount_to_pay_additional_tax_domain() + [('l10n_it_pension_fund_type', '=', False)]
+        domain = Domain(super()._get_amount_to_pay_additional_tax_domain())
+        withholding_purchase_report_lines = (
+            self.env.ref('l10n_it.withh_purchase_tax_report_it_line', raise_if_not_found=False) |
+            self.env.ref('l10n_it.enasarco_purchase_tax_report_it_line', raise_if_not_found=False)
+        )
+        it_withholding_report = self.env.ref('l10n_it.withh_tax_report_it', raise_if_not_found=False)
+        it_withholding_purchase_tags = withholding_purchase_report_lines.expression_ids._get_matching_tags().ids
+        it_withholding_tags = it_withholding_report.line_ids.expression_ids._get_matching_tags().ids
+        it_withholding_purchase_domain = Domain('repartition_line_ids', 'any', [('tag_ids', 'in', it_withholding_purchase_tags)])
+        it_withholding_domain = Domain('repartition_line_ids', 'any', [('tag_ids', 'in', it_withholding_tags)])
+
+        if self.type_external_id == 'l10n_it_reports.it_withh_tax_return_type':
+            domain &= it_withholding_purchase_domain
+        elif self.type_external_id == 'l10n_it_reports.it_tax_return_type':
+            domain &= ~it_withholding_domain
+
+        if 'l10n_it_edi' in self.env['ir.module.module']._installed():
+            domain &= Domain('l10n_it_pension_fund_type', '=', False)
+
+        return domain

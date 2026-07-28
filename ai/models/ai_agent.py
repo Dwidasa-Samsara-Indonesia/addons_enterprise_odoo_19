@@ -627,8 +627,9 @@ class AIAgent(models.Model):
         if self.sources_ids:
             provider = self._get_provider()
             embedding_model = self._get_embedding_model()
-            response = LLMApiService(env=self.env, provider=provider).get_embedding(
-                input=prompt,
+            llm_service = LLMApiService(env=self.env, provider=provider)
+            response = llm_service.get_embedding(
+                input=llm_service._format_for_embedding(content=prompt, mode="query"),
                 dimensions=self.env['ai.embedding']._get_dimensions(),
                 model=embedding_model
             )

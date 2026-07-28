@@ -88,7 +88,9 @@ class ProductTemplate(models.Model):
 
     def action_view_mos(self):
         action = self.env["ir.actions.actions"]._for_xml_id("mrp.mrp_production_action")
-        action['domain'] = [('state', '=', 'done'), ('product_tmpl_id', 'in', self.ids)]
+        action['domain'] = [('state', '=', 'done'), ('move_finished_ids', 'any', [
+            ('product_tmpl_id', 'in', self.ids), ('state', '!=', 'cancel'), ('picked', '=', True)])
+        ]
         action['context'] = {
             'search_default_filter_plan_date': 1,
         }
@@ -247,10 +249,19 @@ class ProductProduct(models.Model):
 
     def _compute_mrp_product_qty(self):
         date_from = fields.Datetime.to_string(fields.Datetime.now() - timedelta(days=365))
-        #TODO: state = done?
-        domain = [('state', '=', 'done'), ('product_id', 'in', self.ids), ('date_start', '>', date_from)]
-        read_group_res = self.env['mrp.production']._read_group(domain, ['product_id'], ['product_uom_qty:sum'])
-        mapped_data = {product.id: qty for product, qty in read_group_res}
+        domain = [
+            ('production_id.state', '=', 'done'),
+            ('product_id', 'in', self.ids),
+            ('production_id.date_start', '>', date_from),
+            ('state', '!=', 'cancel'),
+            ('picked', '=', True),
+        ]
+        read_group_res = self.env['stock.move']._read_group(domain, ['product_id', 'product_uom'], ['quantity:sum'])
+        mapped_data = collections.defaultdict(float)
+        for product, uom, qty in read_group_res:
+            if uom != product.uom_id:
+                qty = uom._compute_quantity(qty, product.uom_id)
+            mapped_data[product.id] += qty
         for product in self:
             if not product.id:
                 product.mrp_product_qty = 0.0
@@ -361,7 +372,9 @@ class ProductProduct(models.Model):
 
     def action_view_mos(self):
         action = self.product_tmpl_id.action_view_mos()
-        action['domain'] = [('state', '=', 'done'), ('product_id', 'in', self.ids)]
+        action['domain'] = [('state', '=', 'done'), ('move_finished_ids', 'any', [
+            ('product_id', 'in', self.ids), ('state', '!=', 'cancel'), ('picked', '=', True)])
+        ]
         return action
 
     def action_open_quants(self):

@@ -33,9 +33,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
-"PO-Revision-Date: 2026-04-10 08:34+0000\n"
-"Last-Translator: Konsta Aavaranta <konsta.aavaranta@sprintit.fi>\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-07-13 13:09+0000\n"
+"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/fi/>\n"
 "Language: fi\n"
@@ -43,13 +43,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "\" tilin saldoon vaikuttaa"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr "%(date_from)s - %(date_to)s"
 
 #. module: account_reports
 #. odoo-python
@@ -121,10 +127,10 @@ msgstr ""
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
+"targetting accounts or Result Brought Forward."
 msgstr ""
-"'Avaa pääkirja' -valinta on käytettävissä vain raporttiriveillä, jotka "
-"kohdistuvat tileihin tai jakamattomiin voittoihin/tappioihin."
+"Kursorivaihtoehto 'Avaa pääkirja' on käytettävissä vain raporttiriveillä, "
+"jotka kohdistuvat tileihin tai siirrettyihin tuloksiin."
 
 #. module: account_reports
 #. odoo-python
@@ -274,6 +280,45 @@ msgstr ""
 "object._get_followup_responsible().signature\"/>\n"
 "                </p>\n"
 "            </div>\n"
+"        "
+
+#. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hei <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    Määräaika <strong t-out=\"object.name\"/> lähettämiselle "
+"on <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    Mahdollisten sakkojen välttämiseksi varmistakaa, että "
+"kaikki jäljellä olevat asiakirjat lähetetään mahdollisimman pian.<br/>\n"
+"                    Jos olette jo lähettäneet kaiken, mutta saatte silti "
+"tämän sähköpostin, veroilmoitusta ei todennäköisesti ole merkitty Odoossa "
+"lähetetyksi.<br/>\n"
+"                    Otattehan rohkeasti yhteyttä, mikäli teillä on "
+"kysyttävää tai tarvitsette apua.<br/><br/>\n"
+"                    Ystävällisin terveisin,<br/>\n"
+"                </p>\n"
+"           </div> \n"
 "        "
 
 #. module: account_reports
@@ -679,17 +724,17 @@ msgstr "Kirjanpitoraportit"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_return
 msgid "Accounting Return"
-msgstr "Kirjanpidon palautus"
+msgstr "Kirjanpidon ilmoitus"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_return_check
 msgid "Accounting Return Check"
-msgstr "Kirjanpidon palautuksen tarkistus"
+msgstr "Kirjanpitoilmoituksen tarkastus"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_return_type
 msgid "Accounting Return Type"
-msgstr "Kirjanpidon palautuksen tyyppi"
+msgstr "Kirjanpitoilmoituksen tyyppi"
 
 #. module: account_reports
 #. odoo-javascript
@@ -982,6 +1027,7 @@ msgstr "Määrä"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -1043,15 +1089,33 @@ msgid "Analytic"
 msgstr "Analyyttinen"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr "Analyyttinen kattavuus"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "Analyyttinen ryhmittelyperuste"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Analyyttinen rivi"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "Analyyttiset simulaatiot"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr "Analyyttinen kattavuus"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1503,6 +1567,18 @@ msgstr ""
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr "CSV"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr "CSV-vienti toimii vain yhden sarakeryhmän kanssa"
+
+#. module: account_reports
+#. odoo-python
 #: code:addons/account_reports/tests/common.py:0
 msgid "Can't use this helper to create a line with both tags and formula"
 msgstr ""
@@ -1693,7 +1769,7 @@ msgstr "Tarkista tila"
 #. module: account_reports
 #: model:ir.actions.act_window,name:account_reports.action_view_account_return_check_templates
 msgid "Check Templates"
-msgstr "Tarkistusmallit"
+msgstr "Tarkistuspohjat"
 
 #. module: account_reports
 #: model:account.return.check.template,description:account_reports.account_return_check_template_aged_payable_review
@@ -1806,6 +1882,7 @@ msgstr "Tilinpäätöskirjaus kirjattu ja lukituspäivämäärä asetettu."
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2020,7 +2097,7 @@ msgstr "Sisältö"
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
 msgid "Cost of Revenue"
-msgstr "Liikevaihdon kustannukset"
+msgstr "Liikevaihdon kulut"
 
 #. module: account_reports
 #. odoo-python
@@ -2146,6 +2223,8 @@ msgid "Credit"
 msgstr "Kredit"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2189,12 +2268,7 @@ msgid "Current Liabilities"
 msgstr "Lyhytaikainen vieras pääoma"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "Kuluvan vuoden kertyneet voittovarat"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "Kuluvan vuoden kohdentamaton tulos"
 
@@ -2415,7 +2489,7 @@ msgstr "Tuloennakkoraportti"
 #. module: account_reports
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_deferred_revenue
 msgid "Deferred Revenues"
-msgstr "Laskennalliset tulot"
+msgstr "Tuloennakko"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_expression_form
@@ -2479,6 +2553,7 @@ msgstr "Näytä viestieditori"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2693,8 +2768,8 @@ msgstr "EU-vero samassa maassa"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "OMA PÄÄOMA"
+msgid "EQUITY (& EARNINGS)"
+msgstr "OMA PÄÄOMA (& TULOT)"
 
 #. module: account_reports
 #. odoo-python
@@ -2703,6 +2778,11 @@ msgid ""
 "Each bill should have its own document attached as a proof in case of audit."
 msgstr ""
 "Jokaisella laskulla tulisi olla oma liitetiedosto tarkastuksen varalle."
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr "Tulot"
 
 #. module: account_reports
 #. odoo-python
@@ -2874,6 +2954,7 @@ msgid "Entries with partners with no VAT"
 msgstr "Viennit, joihin liittyy kumppaneita ilman arvonlisäveroa"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -3204,16 +3285,6 @@ msgid "Formula"
 msgstr "Kaava"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr ""
-"Alkaa %(date_from)s\n"
-"päättyy %(date_to)s"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
 msgid "Function Parameter"
 msgstr "Toiminnon parametri"
@@ -3466,6 +3537,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3859,6 +3931,11 @@ msgstr "On seuraaja"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "On aktiivinen pääyritys"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr "On Master data"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -4407,6 +4484,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4710,8 +4788,14 @@ msgstr "Jatkuva"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr "Vain kirjanpitäjä voi poistaa ilmoituksen."
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
 msgid "Only an Accounting Administrator can reset a return"
-msgstr "Vain kirjanpidon ylläpitäjä voi nollata palautuksen"
+msgstr "Vain kirjanpidon ylläpitäjä voi nollata ilmoituksen"
 
 #. module: account_reports
 #. odoo-python
@@ -4736,6 +4820,12 @@ msgstr "Vain kirjanpidon ylläpitäjä voi määrittää/poistaa tarkastajan."
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "Vain EU:n sisäiset asiakkaat"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr "Vain manuaalisesti luodut ilmoitukset tilassa 'uusi' voi poistaa."
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -5227,14 +5317,9 @@ msgid "Previous Years"
 msgstr "Edelliset vuodet"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "Edellisten vuosien voitto"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "Edellisten vuosien kohdentamaton tulos"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr "Edellisten vuosien tulokset"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5413,6 +5498,11 @@ msgid "Reminder"
 msgstr "Muistutus"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr "Muistutus: Tuleva {{ object.name }} määräaika - Vaatii toimintaa"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5439,6 +5529,16 @@ msgstr "Raportti avattu kerran"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "Raporttivalinnat"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
+"Raporttia ladataan taustalla. Esitetyt tiedot tallennettiin välimuistiin, "
+"eivätkä ne ole välttämättä tarkkoja."
 
 #. module: account_reports
 #. odoo-python
@@ -5479,9 +5579,10 @@ msgid "Result"
 msgstr "Tulos"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "Kertyneet voittovarat"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr "Eteenpäin siirretty tulos"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5918,6 +6019,11 @@ msgid "Show Companies"
 msgstr "Näytä yritykset"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr "Näytä varoitus, jos yritykset eivät täsmää"
+
+#. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/aged_partner_balance/filters.js:0
 msgid "Show Currency"
@@ -6180,7 +6286,7 @@ msgstr "Verotunnus"
 #: model_terms:ir.ui.view,arch_db:account_reports.company_information
 #: model_terms:ir.ui.view,arch_db:account_reports.tax_information_customer_report
 msgid "Tax ID:"
-msgstr "Verotunniste:"
+msgstr "Verotunnus:"
 
 #. module: account_reports
 #. odoo-python
@@ -6219,6 +6325,11 @@ msgstr "Veroraportti"
 #: model_terms:ir.ui.view,arch_db:account_reports.view_move_form_vat_return
 msgid "Tax Return"
 msgstr "Veroilmoitus"
+
+#. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr "Veroilmoituksen määräaika"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -6773,11 +6884,6 @@ msgid "Type of the exception activity on record."
 msgstr "Kirjatun poikkeustoimenpiteen tyyppi."
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "Kohdentamaton tulos"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6788,12 +6894,6 @@ msgstr "Palauta arkistosta"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "Ei määritetty"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "Jakamattomat voitot/tappiot"
 
 #. module: account_reports
 #. odoo-javascript
@@ -7239,6 +7339,15 @@ msgstr ""
 "tarkastettu."
 
 #. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
+"Aktiiviset yrityksesi eivät vastaa tämän ilmoituksen yrityksiä. "
+"Tarkastustulokset saattavat olla puutteellisia."
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main
 #: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_customer_report
@@ -7469,6 +7578,44 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Palauta Odoon kurssiin"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr ""
+#~ "Alkaa %(date_from)s\n"
+#~ "päättyy %(date_to)s"
+
+#~ msgid "namecolumns"
+#~ msgstr "namecolumns"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr ""
+#~ "'Avaa pääkirja' -valinta on käytettävissä vain raporttiriveillä, jotka "
+#~ "kohdistuvat tileihin tai jakamattomiin voittoihin/tappioihin."
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "Kuluvan vuoden kertyneet voittovarat"
+
+#~ msgid "EQUITY"
+#~ msgstr "OMA PÄÄOMA"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "Edellisten vuosien voitto"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "Edellisten vuosien kohdentamaton tulos"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "Kertyneet voittovarat"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "Kohdentamaton tulos"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "Jakamattomat voitot/tappiot"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

@@ -255,6 +255,44 @@ ${"                    "}
         </q-table>`);
 });
 
+test("remove last column does not crash", async () => {
+    const { editor } = await setupEditor(
+        `<div style="width: 100px; margin-top: 50px; margin-left: 50px;">
+        <q-table>
+            <q-thead>
+                <q-tr>
+                    <q-th>HEAD1</q-th>
+                </q-tr>
+            </q-thead>
+            <q-tbody>
+                <q-tr>
+                    <q-td>1[]</q-td>
+                </q-tr>
+            </q-tbody>
+        </q-table></div>`,
+        getEditorOptions()
+    );
+
+    await hover(queryFirst(":iframe q-th"));
+    await contains(".o-overlay-container .o-we-table-menu").click();
+    await contains(".o-dropdown-item:contains(Delete)").click();
+
+    const el = editor.getElContent();
+    expect(getContent(el.firstElementChild)).toBe(`
+        <q-table>
+            <q-thead>
+                <q-tr>
+${"                    "}
+                </q-tr>
+            </q-thead>
+            <q-tbody>
+                <q-tr>
+${"                    "}
+                </q-tr>
+            </q-tbody>
+        </q-table>`);
+});
+
 test("remove column colspan", async () => {
     const { editor, el } = await setupEditor(
         `<div style="width: 100px; margin-top: 50px; margin-left: 50px;">
@@ -629,4 +667,30 @@ test("prevent selection placeholders in between header article footer", async ()
         <div class="header"><div class="o-paragraph"><br></div></div>
         <div class="article"><div class="o-paragraph"><br></div></div>
         <div class="footer"><div class="o-paragraph"><br></div></div>`);
+});
+
+test("do not add selection placeholder directly in article if report document exists", async () => {
+    const { el } = await setupEditor(
+        `<main>
+            <t t-name="web.some_layout" ws-view-id="42">
+                <div class="article">
+                    <t ws-view-id="1" ws-call-key="1" ws-call-group-key="1">
+                        <div />
+                    </t>
+                </div>
+            </t>
+        </main>`,
+        getEditorOptions()
+    );
+    expect(getContent(el)).toBe(
+        `<main>
+            <t t-name="web.some_layout" ws-view-id="42">
+                <div class="article">
+                    <t ws-view-id="1" ws-call-key="1" ws-call-group-key="1">
+                        <div class="o-paragraph"><br></div>
+                    </t>
+                </div>
+            </t>
+        </main>`
+    );
 });

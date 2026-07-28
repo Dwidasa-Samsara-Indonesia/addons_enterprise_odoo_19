@@ -6,7 +6,7 @@ import base64
 from .common import SpreadsheetTestCommon, TEST_CONTENT, GIF
 from odoo.exceptions import AccessError
 from odoo.tests import Form
-from odoo.tests.common import new_test_user
+from odoo.tests.common import RecordCapturer, new_test_user
 from odoo.tools import mute_logger
 
 
@@ -672,6 +672,15 @@ class SpreadsheetDocuments(SpreadsheetTestCommon):
         data = b'{ "sheets": [] }'
         document.spreadsheet_data = data
         self.assertEqual(document.datas, base64.b64encode(data))
+
+    @mute_logger('odoo.addons.documents.models.documents_document')
+    def test_copy_documents_spreadsheet(self):
+        spreadsheet = self.create_spreadsheet(name="My Spreadsheet")
+        spreadsheet.flush_recordset()
+        with RecordCapturer(self.env['ir.attachment'], []) as capture:
+            copy = spreadsheet.copy()
+        self.assertEqual(len(capture.records), 1)
+        self.assertNotEqual(spreadsheet.attachment_id, copy.attachment_id)
 
     def test_copy_spreadsheet_revisions(self):
         spreadsheet = self.create_spreadsheet()

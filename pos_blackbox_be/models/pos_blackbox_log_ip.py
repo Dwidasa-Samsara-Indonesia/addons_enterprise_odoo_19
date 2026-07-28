@@ -29,7 +29,7 @@ class PosBlackboxLogIp(models.Model):
             return
 
         ip = request.geoip.ip
-        if bool(config_id.certified_blackbox_identifier):
+        if bool(config_id._uses_blackbox_v1()):
             self.create({'ip': ip})
         elif self.search_count([('ip', '=', ip)]):
             raise UserError(_("Fiscal Data Module Error. You cannot open an uncertified Point of Sale with this device."))

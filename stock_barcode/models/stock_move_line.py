@@ -189,8 +189,3 @@ class StockMoveLine(models.Model):
         if res and from_barcode:
             res['context'] = {**res.get('context', {}), 'barcode_view': True}
         return res
-
-    def _should_display_put_in_pack_wizard(self, package_id, package_type_id, package_name, from_package_wizard):
-        if self.env.context.get('barcode_view'):
-            return False
-        return super()._should_display_put_in_pack_wizard(package_id, package_type_id, package_name, from_package_wizard)

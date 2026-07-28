@@ -30,6 +30,8 @@
                 </div>
 
                 <t t-set="months_overdue_dict" t-value="{}"/>
+                <t t-set="statement_total" t-value="0.0"/>
+                <t t-set="overdue_total" t-value="0.0"/>
                 <table class="table table-borderless o_main_table border-dark">
                     <thead>
                         <tr>
@@ -41,6 +43,10 @@
                     </thead>
                     <tbody>
                         <t t-foreach="o.unreconciled_aml_ids.filtered_domain(domain)" t-as="line">
+                            <t t-set="statement_total" t-value="statement_total + line.amount_residual"/>
+                            <t t-if="line.date_maturity and line.date_maturity &lt; date_to">
+                                <t t-set="overdue_total" t-value="overdue_total + line.amount_residual"/>
+                            </t>
                             <t t-set="month_diff"
                                 t-value="max([min([(date_to.year - line.date_maturity.year) * 12 + date_to.month - line.date_maturity.month, 11]), 0]) if line.date_maturity else -1" />
                             <t t-if="line.date_maturity"
@@ -56,11 +62,11 @@
                 </table>
                 <div class="text-end">
                     <strong>Total:</strong>
-                    <span t-field="o.total_due" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    <span t-esc="statement_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                 </div>
                 <div class="text-end">
                     <strong>Total Overdue:</strong>
-                    <span t-field="o.total_overdue" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    <span t-esc="overdue_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                 </div>
 
                 <table class="table table-borderless mt-5 border-dark">

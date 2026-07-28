@@ -30,8 +30,13 @@ registry.category("web_tour.tours").add("account_reports_audit", {
             run: "click",
         },
         {
-            trigger: ".o_kanban_record:nth-child(1) a[name='action_open_audit_balances']",
-            content: "Open the Balances Part of the Audit",
+            trigger: ".o_account_return_audit_kanban_view .o_kanban_record:nth-child(1)",
+            content: "Open the working file",
+            run: "click",
+        },
+        {
+            trigger: ".o_embedded_actions button:contains('Balances')",
+            content: "Switch to the 'Balances' tab",
             run: "click",
         },
         {

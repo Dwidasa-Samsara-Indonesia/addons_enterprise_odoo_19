@@ -18,13 +18,14 @@
 # fardin mardani, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Heshmatkhah <maheshmatkhah.soft@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 05:23+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-07-04 10:04+0000\n"
+"Last-Translator: Heshmatkhah <maheshmatkhah.soft@gmail.com>\n"
 "Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/fa/>\n"
 "Language: fa\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -491,8 +492,8 @@ msgstr "دارایی ایجاد شده از فاکتور: %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
-msgstr "دارایی واگذار شده. %s"
+msgid "Asset disposed. %(message)s"
+msgstr ""
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
@@ -508,8 +509,14 @@ msgstr "سرمایه‌ی متوقف شده. %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
-msgstr "سرمایه‌ی فروخته شده. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr ""
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
+msgstr ""
 
 #. module: account_asset
 #. odoo-python
@@ -1243,7 +1250,7 @@ msgid ""
 "Journal Items of %(account)s should have a label in order to generate an "
 "asset"
 msgstr ""
-"آیتم‌های دفتر روزنامه‌ی %(account)s باید دارای برچسب باشند تا یک دارایی ایجاد "
+"آیتم‌های دفتر روزنامه‌ %(account)s باید دارای برچسب باشند تا یک دارایی ایجاد "
 "شود"
 
 #. module: account_asset
@@ -2364,6 +2371,12 @@ msgstr ""
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "sell"
 msgstr ""
+
+#~ msgid "Asset disposed. %s"
+#~ msgstr "دارایی واگذار شده. %s"
+
+#~ msgid "Asset sold. %s"
+#~ msgstr "سرمایه‌ی فروخته شده. %s"
 
 #~ msgid " (copy)"
 #~ msgstr " (کپی)"

@@ -613,7 +613,7 @@ class TestAmazon(common.TestAmazonCommon):
             feed_info = self.offer._get_feed_data()
 
         self.assertIn(self.offer, feed_info)
-        self.assertEqual(self.offer.amazon_feed_ref, '{"productType":false}')
+        self.assertEqual(self.offer.amazon_feed_ref, '{"productType":"PRODUCT"}')
         self.assertEqual(self.offer.amazon_channel, 'fba')
 
     @mute_logger('odoo.addons.sale_amazon.models.amazon_offer')
@@ -691,7 +691,7 @@ class TestAmazon(common.TestAmazonCommon):
             decoded_feed_ = json.loads(feed_)
             message_ = decoded_feed_['messages'][0]
             self.assertEqual(message_['sku'], self.offer.sku)
-            self.assertEqual(message_['attributes']['fulfillment_availability'][0]['quantity'], 0)
+            self.assertEqual(message_["patches"][0]["value"][0]["quantity"], 0)
             return 'An_amazing_id'
 
         with patch(
@@ -711,7 +711,7 @@ class TestAmazon(common.TestAmazonCommon):
             decoded_feed_ = json.loads(feed_)
             message_ = decoded_feed_['messages'][0]
             self.assertEqual(message_['sku'], self.offer.sku)
-            self.assertEqual(message_['attributes']['fulfillment_availability'][0]['quantity'], 100)
+            self.assertEqual(message_["patches"][0]["value"][0]['quantity'], 100)
             return 'An_amazing_id'
 
         with patch(

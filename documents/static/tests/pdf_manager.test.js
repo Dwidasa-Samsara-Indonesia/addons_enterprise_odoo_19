@@ -48,8 +48,8 @@ function mountPdfManager() {
                 },
             ],
             embeddedActions: [
-                { id: 1, name: "action1" },
-                { id: 2, name: "action2" },
+                { id: 1, name: "Action1" },
+                { id: 2, name: "Action2" },
             ],
             onProcessDocuments: async () => {},
             close: () => {},
@@ -68,14 +68,14 @@ test(`Pdf Manager basic rendering`, async () => {
     expect(".o_pdf_manager_button:eq(0)").toHaveText("Split", {
         message: "There should be a split button",
     });
-    expect(".o_pdf_manager_button:eq(2)").toHaveText("ADD FILE", {
+    expect(".o_pdf_manager_button:eq(2)").toHaveText("Add File", {
         message: "There should be a ADD FILE button",
     });
-    expect(".o_pdf_manager_button:eq(3)").toHaveText("ACTION1", {
-        message: "There should be a ACTION1 button",
+    expect(".o_pdf_manager_button:eq(3)").toHaveText("Action1", {
+        message: "There should be a Action1 button",
     });
-    expect(".o_pdf_manager_button:eq(4)").toHaveText("ACTION2", {
-        message: "There should be a ACTION2 button",
+    expect(".o_pdf_manager_button:eq(4)").toHaveText("Action2", {
+        message: "There should be a Action2 button",
     });
     expect(".o_pdf_separator_selected").toHaveCount(1, {
         message: "There should be one active separator",

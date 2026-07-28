@@ -78,7 +78,7 @@ class HelpdeskTicket(models.Model):
                         outgoing_product[partner.id] = list(itertools.chain(*product_lists))
             product_ids = {item for partner_id in suitable_partner_ids for item in order_data.get(partner_id, []) + outgoing_product.get(partner_id, [])}
             tickets.suitable_product_ids = [fields.Command.set(product_ids)]
-            tickets.has_partner_picking = any((partner_id in outgoing_product) for partner_id in suitable_partner_ids)
+            tickets.has_partner_picking = any((partner_id in outgoing_product) or (partner_id in order_data) for partner_id in suitable_partner_ids)
 
     @api.onchange('suitable_product_ids')
     def onchange_product_id(self):
@@ -117,6 +117,18 @@ class HelpdeskTicket(models.Model):
         if 'suitable_product_ids' in vals:
             self.filtered(lambda t: t.product_id not in t.suitable_product_ids).product_id = False
         return res
+
+    def copy_data(self, default=None):
+        has_stock_access = self.env.user.has_group('stock.group_stock_user')
+        if not has_stock_access:
+            if default is None:
+                default = {}
+            default['product_id'] = False
+        vals_list = super().copy_data(default=default)
+        if not has_stock_access:
+            for vals in vals_list:
+                del vals['product_id']
+        return vals_list
 
     def action_view_pickings(self):
         self.ensure_one()

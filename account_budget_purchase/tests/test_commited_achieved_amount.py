@@ -627,3 +627,15 @@ class TestCommittedAchievedAmount(TestAccountBudgetPurchaseCommon):
         action = line.action_open_budget_entries()
         report_lines = self.env['budget.report'].search(action['domain'])
         self.assertEqual(sum(line.committed for line in report_lines), 100.0)
+
+    def test_budget_report_analytic_filter_purchase(self):
+        result = self.env['budget.report'].formatted_read_grouping_sets(
+            domain=[('budget_analytic_id', '=', self.budget_analytic_expense.id)],
+            grouping_sets=[['budget_analytic_id']],
+            aggregates=['budget:sum', 'achieved:sum'],
+        )
+        rows = result[0]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['budget_analytic_id'][0], self.budget_analytic_expense.id)
+        self.assertEqual(rows[0]['budget:sum'], 74000.0)
+        self.assertEqual(rows[0]['achieved:sum'], 0.0)

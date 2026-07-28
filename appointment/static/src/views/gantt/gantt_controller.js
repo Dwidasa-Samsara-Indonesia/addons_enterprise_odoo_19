@@ -48,7 +48,7 @@ export class AppointmentBookingGanttController extends GanttController {
      * The stop datetime is set by default to start + 1 hour to override the calendar.event's default_stop, which is currently setting the stop based on now instead of start.
      * The stop datetime will be updated in the default_get method on python side to match the appointment type duration.
     */
-    _onAddClicked() {
+    _onNewClicked() {
         const focusDate = this.getCurrentFocusDate();
         const now = DateTime.now();
         const start =

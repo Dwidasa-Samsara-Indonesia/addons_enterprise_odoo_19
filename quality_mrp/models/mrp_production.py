@@ -88,8 +88,8 @@ class MrpProduction(models.Model):
         if checks:
             return checks.action_open_quality_check_wizard()
 
-    def action_cancel(self):
-        res = super(MrpProduction, self).action_cancel()
+    def _action_cancel(self):
+        res = super()._action_cancel()
         self.sudo().mapped('check_ids').filtered(lambda x: x.quality_state == 'none').unlink()
         return res
 

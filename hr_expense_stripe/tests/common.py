@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import Command, fields
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.tests import freeze_time, Form, tagged
+from odoo.tests import Form, freeze_time, tagged
 
 from odoo.addons.hr_expense.tests.common import TestExpenseCommon
 from odoo.addons.hr_expense_stripe.controllers.main import StripeIssuingController
@@ -259,6 +259,78 @@ class TestExpenseStripeCommon(TestExpenseCommon):
             )
             self.assertEqual('NEW PUBLIC KEY', stripe_pk)
 
+    def test_restriction_email_sent_on_status_change(self):
+        """ Test that an email is generated when account status drops from verified to restricted. """
+        self.setup_account_creation()
+        self.stripe_company.stripe_account_issuing_status = 'verified'
+
+        expected_calls = [{
+            'route': 'accounts/{account}',
+            'method': 'GET',
+            'payload': {},
+            'route_params': {'account': 'acct_1234567890'},
+            'return_data': {
+                'id': 'acct_1234567890',
+                'capabilities': {'card_issuing': 'inactive'},
+                'requirements': {
+                    'current_deadline': int(fields.Datetime.now().timestamp()) + 86400
+                },
+                'stripe_pk': 'NEW PUBLIC KEY',
+            },
+        }]
+
+        with self.patch_stripe_requests('models.res_company', expected_calls):
+            self.stripe_company.action_refresh_stripe_account()
+
+        self.assertEqual(self.stripe_company.stripe_account_issuing_status, 'restricted')
+
+        message = self.env['mail.message'].sudo().search(
+            [
+                ('subject', '=', 'Action Required: Stripe Issuing Verification'),
+                ('model', '=', 'res.company'),
+                ('res_id', '=', self.stripe_company.id),
+            ],
+            limit=1,
+        )
+        self.assertTrue(message, "An email notifying the restriction should have been sent to the admin.")
+
+    def test_restriction_chatter_fallback(self):
+        """ Test that a message is posted to the chatter if the restriction email template is missing. """
+        self.setup_account_creation()
+        self.stripe_company.stripe_account_issuing_status = 'verified'
+
+        template = self.env.ref('hr_expense_stripe.email_template_hr_expense_stripe_restriction', raise_if_not_found=False)
+        if template:
+            template.sudo().unlink()
+
+        expected_calls = [{
+            'route': 'accounts/{account}',
+            'method': 'GET',
+            'payload': {},
+            'route_params': {'account': 'acct_1234567890'},
+            'return_data': {
+                'id': 'acct_1234567890',
+                'capabilities': {'card_issuing': 'inactive'},
+                'requirements': {
+                    'current_deadline': int(fields.Datetime.now().timestamp()) + 86400
+                },
+                'stripe_pk': 'NEW PUBLIC KEY',
+            },
+        }]
+
+        with self.patch_stripe_requests('models.res_company', expected_calls):
+            self.stripe_company.action_refresh_stripe_account()
+
+        message = self.env['mail.message'].sudo().search(
+            [
+                ('model', '=', 'res.company'),
+                ('res_id', '=', self.stripe_company.id),
+            ],
+            limit=1,
+        )
+        self.assertTrue(message, "A fallback message should have been posted to the chatter.")
+        self.assertIn("Stripe has restricted your account", message.body)
+
     def test_create_card(self):
         self.setup_account_creation(funds_amount=10000)
         with self.assertRaises(AccessError):
@@ -390,7 +462,7 @@ class TestExpenseStripeCommon(TestExpenseCommon):
                 'phone_number': '+32000000000',
                 'billing': {
                     'address': {
-                        'country': 'BE',
+                        'country': self.stripe_country.code.lower(),
                     },
                 },
             },
@@ -596,7 +668,7 @@ class TestExpenseStripeCommon(TestExpenseCommon):
         self.assertRecordValues(expense, [
             {'total_amount': 100, 'total_amount_currency': 100, 'state': 'refused', 'product_id': auth_mcc_product.id},
         ])
-        self.assertEqual(expense.message_ids[:1].preview, f"{reason_start} MCC {auth_mcc.code} {auth_mcc.name} not allowed")
+        self.assertEqual(expense.message_ids[:1].preview, f"{reason_start} MCC code {auth_mcc.code} is not allowed or was not found.")
 
         # Case 5 Good MCC
         card.spending_policy_category_tag_ids = [Command.set(auth_mcc.ids)]
@@ -727,6 +799,72 @@ class TestExpenseStripeCommon(TestExpenseCommon):
             {'total_amount': 100.0, 'total_amount_currency': 100.0, 'state': 'draft', 'product_id': auth_mcc.product_id.id},
         ])
 
+    def test_webhook_issuing_authorization_request_event_range_mcc_case(self):
+        """ Test the `issuing_authorization.request` event. Focusing on the checks the card payments limit"""
+        card = self.setup_account_creation(funds_amount=10000, create_active_card_for=self.stripe_employee)
+        stripe_amount = format_amount_to_stripe(100, self.stripe_currency)
+        auth_mcc = self.env['product.mcc.stripe.tag'].search([('code', '=', '3000-3350')], limit=1)
+        card.write({
+            'spending_policy_country_tag_ids': [Command.clear()],
+            'spending_policy_category_tag_ids': [Command.set(auth_mcc.ids)],
+            'spending_policy_transaction_amount': 0,
+            'spending_policy_interval_amount': 0,
+            'spending_policy_interval': 'all_time',
+        })
+
+        # CASE 1: MCC start range
+        event_data = self.get_event_expected_data()
+        event_data['type'] = 'issuing_authorization.request'
+        event_data['data']['object'] = {
+            'id': 'iauth_12345678900',
+            'object': 'issuing.authorization',
+            'amount': 0,  # Pending
+            'approved': False,
+            'authorization_method': 'online',
+            'card': {'id': card.stripe_id},
+            'cardholder': 'ic_1234567890',
+            'currency': self.stripe_currency.name.lower(),
+            'livemode': False,
+            'merchant_amount': 0,
+            'merchant_currency': self.stripe_currency.name.lower(),
+            'merchant_data': {
+                'category': auth_mcc.stripe_name,
+                'category_code': '3000',
+                'country': self.stripe_country.code.lower(),
+                'name': 'Test Merchant',
+                'tax_id': None,
+            },
+            'pending_request': {
+                'amount': stripe_amount,
+                'currency': self.stripe_currency.name.lower(),
+                'is_amount_controllable': False,
+                'merchant_amount': stripe_amount,
+                'merchant_currency': self.stripe_currency.name.lower(),
+            },
+            'status': 'pending',
+        }
+
+        result = self.simulate_webhook_call(event_data)
+        self.assertTrue(result['content']['approved'], "The authorization should be approved")
+
+        # Case 2 MCC in range
+        event_data['data']['object']['merchant_data']['category_code'] = '3250'
+        result = self.simulate_webhook_call(event_data)
+        self.assertTrue(result['content']['approved'], "The authorization should be approved")
+
+        # Case 2 MCC end range
+        event_data['data']['object']['merchant_data']['category_code'] = '3350'
+        result = self.simulate_webhook_call(event_data)
+        self.assertTrue(result['content']['approved'], "The authorization should be approved")
+
+        # Case 3 MCC out of ranges
+        event_data['data']['object']['merchant_data']['category_code'] = '2000'
+        result = self.simulate_webhook_call(event_data)
+        self.assertFalse(result['content']['approved'], "The authorization should be refused")
+        event_data['data']['object']['merchant_data']['category_code'] = '3400'
+        result = self.simulate_webhook_call(event_data)
+        self.assertFalse(result['content']['approved'], "The authorization should be refused")
+
     def test_webhook_issuing_authorization_updated_event(self):
         card = self.setup_account_creation(funds_amount=10000, create_active_card_for=self.stripe_employee)
         stripe_amount = format_amount_to_stripe(100, self.stripe_currency)
@@ -762,6 +900,94 @@ class TestExpenseStripeCommon(TestExpenseCommon):
         }
         self.simulate_webhook_call(event_data)
         expense = self.env['hr.expense'].sudo().search([('stripe_authorization_id', '=', 'iauth_1234567890')])
+        self.assertRecordValues(expense, [
+            {'total_amount': 100.0, 'total_amount_currency': 100.0, 'state': 'refused', 'product_id': auth_mcc.product_id.id},
+        ])
+
+    def test_webhook_issuing_authorization_updated_event_amount_zero(self):
+        """ An authorization updated with an amount of 0 acts as a reversal of the authorization,
+        which can happen after a certain amount of time if the authorization is not captured or if the vendor cancels it on their side
+        """
+        card = self.setup_account_creation(funds_amount=10000, create_active_card_for=self.stripe_employee)
+        stripe_amount = format_amount_to_stripe(100, self.stripe_currency)
+        auth_mcc = self.env['product.mcc.stripe.tag'].search([('code', '=', '4511')], limit=1)
+        auth_mcc_product = auth_mcc.product_id
+
+        # STEP 1: Create the authorization with a pending amount, which should create the expense in draft with the pending amount
+        event_data = self.get_event_expected_data()
+        event_data['type'] = 'issuing_authorization.created'
+        event_data['data']['object'] = {
+            'id': 'iauth_12345678900',
+            'object': 'issuing.authorization',
+            'amount': stripe_amount,
+            'approved': False,
+            'authorization_method': 'online',
+            'card': {'id': card.stripe_id},
+            'cardholder': 'ic_1234567890',
+            'currency': self.stripe_currency.name.lower(),
+            'livemode': False,
+            'merchant_amount': stripe_amount,
+            'merchant_currency': self.stripe_currency.name.lower(),
+            'merchant_data': {
+                'category': auth_mcc.stripe_name,
+                'category_code': auth_mcc.code,
+                'country': self.stripe_country.code.lower(),
+                'name': 'Test Merchant',
+                'tax_id': None,
+            },
+            'pending_request': None,
+            'request_history': [{
+                'approved': True,
+                'amount': stripe_amount,
+                'reason': 'webhook_approved',
+            }],
+            'status': 'pending',
+        }
+
+        self.simulate_webhook_call(event_data)
+        expense = self.env['hr.expense'].sudo().search([('stripe_authorization_id', '=', 'iauth_12345678900')])
+        self.assertRecordValues(expense, [
+            {'total_amount': 100.0, 'total_amount_currency': 100.0, 'state': 'draft', 'product_id': auth_mcc_product.id},
+        ])
+
+        # STEP 2: Update the authorization with an amount of 0, which should reverse the authorization and set the expense to refused
+        event_data = self.get_event_expected_data()
+        event_data['type'] = 'issuing_authorization.updated'  # Works the same way as created
+        event_data['data']['object'] = {
+            'id': 'iauth_12345678900',
+            'object': 'issuing.authorization',
+            'amount': 0,
+            'amount_details': {
+                'atm_fee': None,
+                'cashback_amount': 0
+            },
+            'approved': True,
+            'card': {'id': card.stripe_id},
+            'merchant_amount': 0,  # Amount is set to 0 to indicate a reversal
+            'merchant_currency': self.stripe_currency.name.lower(),
+            'merchant_data': {
+                'category': 'airlines_air_carriers',
+                'category_code': '4511',
+                'country': (self.stripe_country.code or '').upper(),
+                'name': 'Test Merchant',
+            },
+            'pending_request': None,
+            'request_history': [{
+                "amount": stripe_amount,
+                "amount_details": {
+                    "atm_fee": None,
+                    "cashback_amount": None,
+                },
+                "approved": True,
+                "currency": self.stripe_currency.name.lower(),
+                "merchant_amount": stripe_amount,
+                "merchant_currency": self.stripe_currency.name.lower(),
+                "reason": "webhook_approved",
+                "reason_message": None,
+            }],
+            'status': 'reversed',
+        }
+        self.simulate_webhook_call(event_data)
         self.assertRecordValues(expense, [
             {'total_amount': 100.0, 'total_amount_currency': 100.0, 'state': 'refused', 'product_id': auth_mcc.product_id.id},
         ])

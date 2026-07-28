@@ -197,7 +197,14 @@ class HrAppraisal(models.Model):
         all_department_template_ids = self.env['hr.appraisal.template'].search(
             [('department_ids', '=', False), ('company_id', 'in', self.company_id.ids + [False])])
         for appraisal in self:
-            appraisal.appraisal_template_id = appraisal.appraisal_template_id or \
+            # Keep the current template only when it belongs to the appraisal's
+            # department; otherwise prefer the department's own template and fall
+            # back to a generic one. This prevents a generic template that was
+            # auto-selected before the department was known from sticking, while
+            # still preserving a deliberate template chosen for that department.
+            current_template = appraisal.appraisal_template_id \
+                if appraisal.appraisal_template_id in appraisal.department_id.appraisal_template_ids else False
+            appraisal.appraisal_template_id = current_template or \
                 appraisal.department_id.appraisal_template_ids[:1] or \
                 all_department_template_ids.filtered(lambda t: t.company_id.id in [appraisal.company_id.id, False])[:1]
 
@@ -283,6 +290,9 @@ class HrAppraisal(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        today = fields.Date.today()
+        for vals in vals_list:
+            self._ensure_min_next_appraisal_date(vals, today)
         appraisals = super().create(vals_list)
         appraisals_to_send = self.env['hr.appraisal']
         for appraisal, vals in zip(appraisals, vals_list):
@@ -296,6 +306,15 @@ class HrAppraisal(models.Model):
         # TDE FIXME: check if we can use suggested recipients instead (master)
         appraisals.subscribe_employees()
         return appraisals
+
+    @api.model
+    def _ensure_min_next_appraisal_date(self, vals, min_date):
+        next_appraisal_date = vals.get('next_appraisal_date')
+        if not next_appraisal_date:
+            return
+        if isinstance(next_appraisal_date, str):
+            next_appraisal_date = fields.Date.from_string(next_appraisal_date)
+        vals['next_appraisal_date'] = max(min_date, next_appraisal_date)
 
     @api.depends('employee_feedback', 'can_see_employee_publish', 'employee_feedback_published')
     def _compute_accessible_employee_feedback(self):
@@ -351,6 +370,7 @@ class HrAppraisal(models.Model):
         if 'manager_feedback_published' in vals and not all(a.can_see_manager_publish for a in self):
             raise UserError(self.env._('The "Manager Feedback Published" cannot be changed by an employee.'))
 
+        self._ensure_min_next_appraisal_date(vals, fields.Date.today())
         force_published = self.env['hr.appraisal']
         if vals.get('employee_feedback_published'):
             user_employees = self.env.user.employee_ids

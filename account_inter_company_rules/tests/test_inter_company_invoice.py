@@ -268,3 +268,30 @@ class TestInterCompanyInvoice(TestInterCompanyRulesCommon):
 
         bill = self.env['account.move'].search([('move_type', '=', 'in_invoice'), ('company_id', '=', self.company_b.id)], limit=1)
         self.assertTrue(bill.attachment_ids)
+
+    def test_inter_company_with_contact_as_partner_same_company(self):
+        """
+        Test that when creating a bill in company A for an individual contact belonging to the same company A,
+        no invoice is created.
+        """
+        company_partner = self.env['res.partner'].create({
+            'name': 'company partner',
+            'parent_id': self.company_a.partner_id.id,
+        })
+
+        customer_expense_bill = self.env['account.move'].create({
+            'company_id': self.company_a.id,
+            'move_type': 'in_invoice',
+            'invoice_date': '2023-05-01',
+            'partner_id': company_partner.id,
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'price_unit': 100.0,
+                'quantity': 1.0,
+                'tax_ids': False,
+            })]
+        })
+
+        customer_expense_bill.action_post()
+        invoice = self.env['account.move'].search([('move_type', '=', 'out_invoice'), ('company_id', '=', self.company_a.id)], limit=1)
+        self.assertFalse(invoice)

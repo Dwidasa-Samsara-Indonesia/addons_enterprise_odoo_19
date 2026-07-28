@@ -133,7 +133,7 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('211000 Account Payable',                        2100.0,            0.0,          2100.0),
                 ('400000 Product Sales',                             0.0,         3300.0,         -3300.0),
                 ('600000 Expenses',                               2200.0,            0.0,          2200.0),
-                ('Undistributed Profits/Losses - company_1_data', 2000.0,         3000.0,         -1000.0),
+                ('Result Brought Forward - company_1_data',       2000.0,         3000.0,         -1000.0),
                 ('Total General Ledger',                          6300.0,         6300.0,             0.0),
             ],
             options,
@@ -183,7 +183,7 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('211000 Account Payable',                        2100.0,            0.0,          2100.0),
                 ('400000 Product Sales',                             0.0,         3300.0,         -3300.0),
                 ('600000 Expenses',                               2200.0,            0.0,          2200.0),
-                ('Undistributed Profits/Losses - company_1_data', 2000.0,         3000.0,         -1000.0),
+                ('Result Brought Forward - company_1_data',       2000.0,         3000.0,         -1000.0),
                 ('Total General Ledger',                          6300.0,         6300.0,             0.0),
             ],
             options,
@@ -205,8 +205,8 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('400010 Product Sales',                            0.0,       200.0,          -200.0),
                 ('600000 Expenses',                                 0.0,     21000.0,        -21000.0),
                 ('600010 Expenses',                               200.0,         0.0,           200.0),
-                ('Undistributed Profits/Losses - company_1_data', 200.0,       300.0,          -100.0),
-                ('Undistributed Profits/Losses - company_2',        0.0,        50.0,           -50.0),
+                ('Result Brought Forward - company_1_data',       200.0,       300.0,          -100.0),
+                ('Result Brought Forward - company_2',              0.0,        50.0,           -50.0),
                 ('Total General Ledger',                        21550.0,     21550.0,             0.0),
             ],
             options,
@@ -245,8 +245,8 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('600010 Expenses',                               200.0,         0.0,      200.0),
                 ('BNK1/2017/00001 2017_2_1',                      200.0,         0.0,      200.0),
                 ('Total 600010 Expenses',                         200.0,         0.0,      200.0),
-                ('Undistributed Profits/Losses - company_1_data', 200.0,       300.0,     -100.0),
-                ('Undistributed Profits/Losses - company_2',        0.0,        50.0,      -50.0),
+                ('Result Brought Forward - company_1_data',       200.0,       300.0,     -100.0),
+                ('Result Brought Forward - company_2',              0.0,        50.0,      -50.0),
                 ('Total General Ledger',                        21550.0,     21550.0,        0.0),
             ],
             options,
@@ -279,8 +279,8 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('400010 Product Sales',                              0.0,            200.0,      -200.0),
                 ('600000 Expenses',                                   0.0,          21000.0,    -21000.0),
                 ('600010 Expenses',                                 200.0,              0.0,       200.0),
-                ('Undistributed Profits/Losses - company_1_data',   400.0,            600.0,      -200.0),
-                ('Undistributed Profits/Losses - company_2',          0.0,             50.0,       -50.0),
+                ('Result Brought Forward - company_1_data',         400.0,            600.0,      -200.0),
+                ('Result Brought Forward - company_2',                0.0,             50.0,       -50.0),
                 ('Total General Ledger',                          21850.0,          21850.0,         0.0),
             ],
             options,
@@ -320,8 +320,8 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('600010 Expenses',                                 200.0,         0.0,         200.0),
                 ('BNK1/2017/00001 2017_2_1',                        200.0,         0.0,         200.0),
                 ('Total 600010 Expenses',                           200.0,         0.0,         200.0),
-                ('Undistributed Profits/Losses - company_1_data',   400.0,       600.0,        -200.0),
-                ('Undistributed Profits/Losses - company_2',          0.0,        50.0,         -50.0),
+                ('Result Brought Forward - company_1_data',         400.0,       600.0,        -200.0),
+                ('Result Brought Forward - company_2',                0.0,        50.0,         -50.0),
                 ('Total General Ledger',                          21850.0,     21850.0,           0.0),
             ],
             options,
@@ -370,7 +370,7 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('Load more...',                         '',          '',         ''),
                 ('Total 400000 Product Sales',      40000.0,         0.0,    40000.0),
                 ('600000 Expenses',                     0.0,     42000.0,   -42000.0),
-                ('Undistributed Profits/Losses',      200.0,       300.0,     -100.0),
+                ('Result Brought Forward',            200.0,       300.0,     -100.0),
                 ('Total General Ledger',            42300.0,     42300.0,        0.0),
             ],
             options,
@@ -504,8 +504,8 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('Initial Balance',                               -300.0,               0.0,       100.0,     -100.0),
                 ('INV/2017/00002 curr_2',                        -2000.0,               0.0,      1000.0,    -1100.0),
                 ('Total test foreign_curr_account',              -2300.0,               0.0,      1100.0,    -1100.0),
-                ('Undistributed Profits/Losses - company_1_data',     '',             200.0,       300.0,     -100.0),
-                ('Undistributed Profits/Losses - company_2',          '',               0.0,        50.0,      -50.0),
+                ('Result Brought Forward - company_1_data',           '',             200.0,       300.0,     -100.0),
+                ('Result Brought Forward - company_2',                '',               0.0,        50.0,      -50.0),
                 ('Total General Ledger',                              '',           22650.0,     22650.0,        0.0),
             ],
             options,
@@ -538,15 +538,15 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
             options,
         )
 
-        options['filter_search_bar'] = 'undistribut'
+        options['filter_search_bar'] = 'result brought forward'
         lines = self.report._get_lines(options)
         self.assertLinesValues(
             lines,
             #   Name                                                Debit           Credit          Balance
             [   0,                                                  3,              4,              5],
             [
-                ('Undistributed Profits/Losses - company_1_data',   200.0,          300.0,          -100.0),
-                ('Undistributed Profits/Losses - company_2',          0.0,           50.0,           -50.0),
+                ('Result Brought Forward - company_1_data',         200.0,          300.0,          -100.0),
+                ('Result Brought Forward - company_2',                0.0,           50.0,           -50.0),
                 ('Total General Ledger',                            200.0,          350.0,          -150.0),
             ],
             options,
@@ -588,7 +588,7 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
                 ('INV/2017/00002 2017_3_2',                 0.0,        1000.0,          19000.0),
                 ('Total 400000 Product Sales',          20000.0,        1000.0,          19000.0),
                 ('600000 Expenses',                         0.0,       21000.0,         -21000.0),
-                ('Undistributed Profits/Losses',          200.0,         300.0,           -100.0),
+                ('Result Brought Forward',                200.0,         300.0,           -100.0),
                 ('Total General Ledger',                22300.0,       22300.0,              0.0),
             ],
             options,
@@ -627,9 +627,137 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
             [0,                                                         1,     2],
             [
                 ('(No Group)',                                          '',    ''),
-                ('Undistributed Profits/Losses - company_1_data',       '',    ''),
-                ('Undistributed Profits/Losses - company_2',            '',    ''),
+                ('Result Brought Forward - company_1_data',             '',    ''),
+                ('Result Brought Forward - company_2',                  '',    ''),
                 ('Total General Ledger',                                '',    ''),
+            ],
+            options,
+        )
+
+    def test_general_ledger_hierarchy_numerical_value(self):
+        account_a, account_b = self.env['account.account'].create([{
+            'code': '222222',
+            'name': 'Account A',
+        }, {
+            'code': '333333',
+            'name': 'Account B',
+        }])
+
+        self.env['account.move'].create({
+            'move_type': 'entry',
+            'journal_id': self.company_data['default_journal_misc'].id,
+            'date': '2010-01-15',
+            'line_ids': [
+                Command.create({
+                    'debit': 50.0,
+                    'credit': 0.0,
+                    'account_id': account_a.id,
+                }),
+                Command.create({
+                    'debit': 0.0,
+                    'credit': 50.0,
+                    'account_id': account_b.id,
+                }),
+            ],
+        }).action_post()
+
+        options = self._generate_options(self.report, '2010-01-01', '2010-01-31')
+        options['hierarchy'] = True
+
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                                Debit        Credit       Balance
+            [   0,                                     3,            4,            5],
+            [
+                ('(No Group)',                      50.0,         50.0,          0.0),
+                ('Total General Ledger',            50.0,         50.0,          0.0),
+            ],
+            options,
+        )
+
+        currency_2 = self.env['res.currency'].create({
+            'name': "Test Currency",
+            'symbol': 'T',
+        })
+
+        account_a_cur_2, account_b_cur_2 = self.env['account.account'].create([{
+            'code': '444444',
+            'name': 'Account A Currency 2',
+            'currency_id': currency_2.id,
+        }, {
+            'code': '555555',
+            'name': 'Account B Currency 2',
+            'currency_id': currency_2.id,
+        }])
+
+        account_group = self.env['account.group'].create({
+            'name': 'Group',
+            'code_prefix_start': '4',
+            'code_prefix_end': '4',
+        })
+        accounts = (account_a + account_b + account_a_cur_2 + account_b_cur_2)
+        accounts.invalidate_recordset(['group_id'])
+
+        self.env['account.move'].create({
+            'move_type': 'entry',
+            'journal_id': self.company_data['default_journal_misc'].id,
+            'date': '2010-01-15',
+            'line_ids': [
+                Command.create({
+                    'amount_currency': 75.0,
+                    'currency_id': currency_2.id,
+                    'account_id': account_a_cur_2.id,
+                }),
+                Command.create({
+                    'amount_currency': -75.0,
+                    'currency_id': currency_2.id,
+                    'account_id': account_b_cur_2.id,
+                }),
+            ]
+        }).action_post()
+
+        options = self._generate_options(self.report, '2010-01-01', '2010-01-31')
+        options['hierarchy'] = True
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                               Currency        Debit        Credit       Balance
+            [   0,                                      3,            4,            5,            6],
+            [
+                ('4 Group',                          75.0,         75.0,          0.0,          75.0),
+                ('(No Group)',                         '',         50.0,        125.0,         -75.0),
+                ('Total General Ledger',               '',        125.0,        125.0,           0.0),
+            ],
+            options,
+            currency_map={3: {'currency': currency_2}},
+        )
+
+        account_group.code_prefix_end = '5'
+        accounts.invalidate_recordset(['group_id'])
+
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                               Currency        Debit        Credit       Balance
+            [   0,                                      3,            4,            5,            6],
+            [
+                ('4-5 Group',                         0.0,         75.0,         75.0,           0.0),
+                ('(No Group)',                         '',         50.0,         50.0,           0.0),
+                ('Total General Ledger',               '',        125.0,        125.0,           0.0),
+            ],
+            options,
+            currency_map={3: {'currency': currency_2}},
+        )
+
+        account_group.code_prefix_start = '3'
+        accounts.invalidate_recordset(['group_id'])
+
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                               Currency        Debit        Credit       Balance
+            [   0,                                      3,            4,            5,            6],
+            [
+                ('3-5 Group',                          '',         75.0,        125.0,        -50.0),
+                ('(No Group)',                         '',         50.0,          0.0,         50.0),
+                ('Total General Ledger',               '',        125.0,        125.0,          0.0),
             ],
             options,
         )
@@ -704,7 +832,7 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
             [
                 ('121000 Account Receivable',                     2500.0,        0.0,     2500.0),
                 ("Initial Balance",                               2500.0,        0.0,     2500.0),
-                ('Undistributed Profits/Losses - company_1_data',    0.0,     2500.0,    -2500.0),
+                ('Result Brought Forward - company_1_data',          0.0,     2500.0,    -2500.0),
                 ('Total General Ledger',                          2500.0,     2500.0,        0.0),
             ],
             options
@@ -888,3 +1016,135 @@ class TestGeneralLedgerReport(TestAccountReportsCommon, odoo.tests.HttpCase):
             ],
             options,
         )
+
+    def assertCSVExportLinesValues(self, options, expected_vals_list):
+        report = self.env['account.report'].browse(options['report_id'])
+        lines_gen = report.dispatch_report_action(options, 'generate_csv_export')['file_content']
+        lines_list = list(lines_gen)
+        self.assertEqual(len(lines_list), len(expected_vals_list))
+
+        for (line, expected_vals) in zip(lines_list, expected_vals_list):
+            self.assertEqual(line.decode('utf-8'), ','.join(expected_vals) + '\n')
+
+    def test_general_ledger_export_csv(self):
+        move_1 = self.init_invoice('out_invoice', invoice_date='2010-01-01', amounts=[100])
+        move_2 = self.init_invoice('out_invoice', invoice_date='2010-01-15', amounts=[150])
+        move_3 = self.init_invoice('out_invoice', invoice_date='2008-06-06', amounts=[25])
+        entry = self.env['account.move'].create({
+            'move_type': 'entry',
+            'date': '2009-12-30',
+            'line_ids': [
+                Command.create({
+                    'account_id': self.company_data['default_account_receivable'].id,
+                    'debit': 0.0,
+                    'credit': 50.0,
+                }),
+                Command.create({
+                    'account_id': self.company_data['default_account_assets'].id,
+                    'debit': 50.0,
+                    'credit': 0.0,
+                }),
+            ],
+        })
+        (move_1 + move_2 + move_3 + entry).action_post()
+
+        report = self.env.ref('account_reports.general_ledger_report')
+        options = self._generate_options(report, '2010-01-01', '2010-01-31')
+        self.assertCSVExportLinesValues(options, [
+            [  'Code',                                    'Name',       'Date',   'Partner',  'Debit', 'Credit', 'Balance'],
+            ['121000',                      'Account Receivable',           '',          '', '275.00',  '50.00',  '225.00'],
+            [      '',                         'Initial Balance',           '',          '',  '25.00',  '50.00',  '-25.00'],
+            [      '',                               move_1.name, '2010-01-01', 'partner_a', '100.00',   '0.00',   '75.00'],
+            [      '',                               move_2.name, '2010-01-15', 'partner_a', '150.00',   '0.00',  '225.00'],
+            ['151000',                             'Fixed Asset',           '',          '',  '50.00',   '0.00',   '50.00'],
+            [      '',                         'Initial Balance',           '',          '',  '50.00',   '0.00',   '50.00'],
+            ['400000',                           'Product Sales',           '',          '',   '0.00', '250.00', '-250.00'],
+            [      '',                               move_1.name, '2010-01-01', 'partner_a',   '0.00', '100.00', '-100.00'],
+            [      '',                               move_2.name, '2010-01-15', 'partner_a',   '0.00', '150.00', '-250.00'],
+            [     '/', 'Result Brought Forward - company_1_data',           '',          '',   '0.00',  '25.00',  '-25.00'],
+            [      '',                    'Total General Ledger',           '',          '', '325.00', '325.00',    '0.00'],
+        ])
+
+    def test_general_ledger_export_csv_multi_comp(self):
+        company_1 = self.env.company
+        company_2 = self.company_data_2['company']
+        company_2.currency_id.active = True
+        company_2.currency_id.decimal_places = 3
+        company_ids = (company_1 + company_2).ids
+
+        move_1 = self.init_invoice('out_invoice', invoice_date='2010-01-01', amounts=[100])
+        move_2 = self.init_invoice('out_invoice', invoice_date='2010-01-15', amounts=[50], company=company_2)
+        (move_1 + move_2).with_context(allowed_company_ids=company_ids).action_post()
+
+        report = self.env.ref('account_reports.general_ledger_report')
+        options = self._generate_options(report, '2010-01-01', '2010-01-31')
+        self.assertCSVExportLinesValues(options, [
+            [  'Code',                 'Name',       'Date',   'Partner', 'Amount Currency', 'Currency',  'Debit', 'Credit',  'Balance'],
+            ['121000',   'Account Receivable',           '',          '',                '',         '', '100.00',   '0.00',  '100.00'],
+            [      '',            move_1.name, '2010-01-01', 'partner_a',                '',         '', '100.00',   '0.00',  '100.00'],
+            ['400000',        'Product Sales',           '',          '',                '',         '',   '0.00', '100.00', '-100.00'],
+            [      '',            move_1.name, '2010-01-01', 'partner_a',                '',         '',   '0.00', '100.00', '-100.00'],
+            ['400010',        'Product Sales',           '',          '',                '',         '',   '0.00',  '50.00',  '-50.00'],
+            [      '',            move_2.name, '2010-01-15', 'partner_a',         '-50.000',      'CAD',   '0.00',  '50.00',  '-50.00'],
+            [     '/',   'Account Receivable',           '',          '',                '',         '',  '50.00',   '0.00',   '50.00'],
+            [      '',            move_2.name, '2010-01-15', 'partner_a',          '50.000',      'CAD',  '50.00',   '0.00',   '50.00'],
+            [      '', 'Total General Ledger',           '',          '',                '',         '', '150.00', '150.00',    '0.00'],
+        ])
+
+        self.company_data_2['default_account_revenue'].with_company(company_1).code = '400000'
+        self.company_data_2['default_account_receivable'].with_company(company_1).code = '121000'
+
+        self.assertCSVExportLinesValues(options, [
+            [  'Code',                 'Name',       'Date',   'Partner', 'Amount Currency', 'Currency',  'Debit', 'Credit', 'Balance'],
+            ['121000',   'Account Receivable',           '',          '',                '',         '', '100.00',   '0.00',  '100.00'],
+            [      '',            move_1.name, '2010-01-01', 'partner_a',                '',         '', '100.00',   '0.00',  '100.00'],
+            ['121000',   'Account Receivable',           '',          '',                '',         '',  '50.00',   '0.00',   '50.00'],
+            [      '',            move_2.name, '2010-01-15', 'partner_a',          '50.000',      'CAD',  '50.00',   '0.00',   '50.00'],
+            ['400000',        'Product Sales',           '',          '',                '',         '',   '0.00', '100.00', '-100.00'],
+            [      '',            move_1.name, '2010-01-01', 'partner_a',                '',         '',   '0.00', '100.00', '-100.00'],
+            ['400000',        'Product Sales',           '',          '',                '',         '',   '0.00',  '50.00',  '-50.00'],
+            [      '',            move_2.name, '2010-01-15', 'partner_a',         '-50.000',      'CAD',   '0.00',  '50.00',  '-50.00'],
+            [      '', 'Total General Ledger',           '',          '',                '',         '', '150.00', '150.00',    '0.00'],
+        ])
+
+        self.company_data_2['default_account_receivable'].currency_id = company_2.currency_id
+
+        self.assertCSVExportLinesValues(options, [
+            [  'Code',                 'Name',       'Date',   'Partner', 'Amount Currency', 'Currency', 'Debit', 'Credit',  'Balance'],
+            ['121000',   'Account Receivable',           '',          '',                '',         '', '100.00',   '0.00',  '100.00'],
+            [      '',            move_1.name, '2010-01-01', 'partner_a',                '',         '', '100.00',   '0.00',  '100.00'],
+            ['121000',   'Account Receivable',           '',          '',          '50.000',      'CAD',  '50.00',   '0.00',   '50.00'],
+            [      '',            move_2.name, '2010-01-15', 'partner_a',          '50.000',      'CAD',  '50.00',   '0.00',   '50.00'],
+            ['400000',        'Product Sales',           '',          '',                '',         '',   '0.00', '100.00', '-100.00'],
+            [      '',            move_1.name, '2010-01-01', 'partner_a',                '',         '',   '0.00', '100.00', '-100.00'],
+            ['400000',        'Product Sales',           '',          '',                '',         '',   '0.00',  '50.00',  '-50.00'],
+            [      '',            move_2.name, '2010-01-15', 'partner_a',         '-50.000',      'CAD',   '0.00',  '50.00',  '-50.00'],
+            [      '', 'Total General Ledger',           '',          '',                '',         '', '150.00', '150.00',    '0.00'],
+        ])
+
+    def test_open_gl_from_bs_then_change_date_filter(self):
+        """
+        Test that the 'filter_search_bar' option key is not filtered out when updating the date filter after opening
+        the General Ledger from a balance sheet line
+        """
+
+        # Open Balance Sheet
+        balance_sheet = self.env.ref('account_reports.balance_sheet')
+        bs_options = self._generate_options(balance_sheet, '2017-06-01', '2017-06-01', default_options={'unfold_all': True})
+        lines = balance_sheet._get_lines(bs_options)
+        line = [l for l in lines if l.get('caret_options')][:1]
+        self.assertLinesValues(line, [0, 1], [('121000 Account Receivable', 1000.0)], bs_options)
+
+        # Open General Ledger
+        general_ledger = self.env.ref('account_reports.general_ledger_report')
+        params = {'line_id': line[0]['id']}
+        res = balance_sheet.caret_option_open_general_ledger(bs_options, params)
+        gl_options = res['params']['options']
+
+        # options are updated afterward by the search() in account_reports/static/src/components/account_report/search_bar/search_bar.js
+        filter_search_bar = gl_options['filter_search_bar']
+
+        # Update the date filter
+        gl_options['date'] = {**gl_options['date'], 'filter': 'this_month'}
+        new_gl_options = general_ledger.with_context(res['context']).get_options(gl_options)
+        self.assertEqual(new_gl_options['filter_search_bar'], filter_search_bar, 'the filter_search_bar key should still be present and set in the options')

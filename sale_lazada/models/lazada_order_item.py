@@ -52,25 +52,3 @@ class LazadaOrderItem(models.Model):
                         " order item."
                     )
                 )
-
-    def write(self, vals):
-        """Update order item and adjust sale order line quantity if canceled.
-
-        :param dict vals: Values to write
-        """
-        if 'status' in vals:
-            new_status = vals['status']
-            diff_order_items = self.filtered(lambda order_item: order_item.status != new_status)
-            for order_item in diff_order_items:
-                if new_status == 'canceled':
-                    if order_item.sale_order_line_id.order_id.locked:
-                        order_item.sale_order_line_id.order_id.action_unlock()
-                        order_item.sale_order_line_id.product_uom_qty = max(
-                            order_item.sale_order_line_id.product_uom_qty - 1, 0
-                        )
-                        order_item.sale_order_line_id.order_id.action_lock()
-                    else:
-                        order_item.sale_order_line_id.product_uom_qty = max(
-                            order_item.sale_order_line_id.product_uom_qty - 1, 0
-                        )
-        return super().write(vals)

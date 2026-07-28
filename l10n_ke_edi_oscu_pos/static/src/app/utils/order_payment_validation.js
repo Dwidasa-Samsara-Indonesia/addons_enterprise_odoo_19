@@ -9,7 +9,12 @@ patch(OrderPaymentValidation.prototype, {
         if (this.pos.config.is_kenyan) {
             this.pos.env.services.ui.block();
             try {
-                await this.pos.data.call("pos.order", "action_post_order", [order_server_ids], {});
+                await this.pos.data.call(
+                    "pos.order",
+                    "action_post_selected_orders",
+                    [[], order_server_ids],
+                    {}
+                );
             } catch (error) {
                 this.pos.dialog.add(AlertDialog, {
                     title: _t("Error"),
@@ -19,7 +24,7 @@ patch(OrderPaymentValidation.prototype, {
                 const l10n_ke_edi_oscu_pos_data = await this.pos.data.call(
                     "pos.order",
                     "get_l10n_ke_edi_oscu_pos_data",
-                    [order_server_ids],
+                    [order.id],
                     {}
                 );
 

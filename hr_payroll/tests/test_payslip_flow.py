@@ -591,6 +591,84 @@ class TestPayslipFlow(TestPayslipBase):
         self.assertEqual(richard_slip.name, 'Salary Slip - Richard - August 2026')
         self.assertEqual(jules_slip.name, 'Cedolino retribuzione - Jules - agosto 2026')
 
+    def test_payslip_duplicate_warning_ignores_different_contract(self):
+        """
+        Test that the duplicate payslip warning does not appear when the existing payslips for the period
+        are linked to a different contract than the one on the payslip being computed.
+        """
+        structure_type = self.env['hr.payroll.structure.type'].create({
+            'name': 'Test Type',
+        })
+        employee = self.env['hr.employee'].create({
+            'name': 'Test Employee',
+        })
+        contract1 = self.env['hr.version'].create({
+            'employee_id': employee.id,
+            'structure_type_id': structure_type.id,
+            'date_version': datetime.date(2025, 3, 1),
+            'contract_date_start': datetime.date(2025, 3, 1),
+            'contract_date_end': datetime.date(2025, 3, 15),
+            'wage': 1000.0,
+        })
+        contract2 = self.env['hr.version'].create({
+            'employee_id': employee.id,
+            'structure_type_id': structure_type.id,
+            'date_version': datetime.date(2025, 3, 16),
+            'contract_date_start': datetime.date(2025, 3, 16),
+            'wage': 1000.0,
+        })
+
+        payslip_with_contract_1 = self.env['hr.payslip'].create({
+            'name': 'Payslip March Contract 1',
+            'employee_id': employee.id,
+            'struct_id': self.structure_type.default_struct_id.id,
+            'date_from': datetime.date(2025, 3, 1),
+            'date_to': datetime.date(2025, 3, 31),
+            'version_id': contract1.id,
+        })
+        payslip_with_contract_1.compute_sheet()
+        payslip_with_contract_1.action_payslip_done()
+
+        payslip_with_contract_2 = self.env['hr.payslip'].create({
+            'name': 'Payslip March Contract 2',
+            'employee_id': employee.id,
+            'struct_id': self.structure_type.default_struct_id.id,
+            'date_from': datetime.date(2025, 3, 1),
+            'date_to': datetime.date(2025, 3, 31),
+            'version_id': contract2.id,
+        })
+        payslip_with_contract_2.compute_sheet()
+
+        warning_messages = [
+            warning.get('message') or ''
+            for warning in payslip_with_contract_2._get_warnings_by_slip()[payslip_with_contract_2]
+        ]
+        self.assertFalse(
+            any("Similar payslips found" in msg for msg in warning_messages),
+            f"Warning incorrectly appeared. Found messages: {warning_messages}"
+        )
+        payslip_with_contract_2.action_payslip_done()
+
+        # Payslips linked to the same contract should still trigger the warning
+        payslip2_with_contract2 = self.env['hr.payslip'].create({
+            'name': 'Payslip 2 March Contract 2',
+            'employee_id': employee.id,
+            'struct_id': self.structure_type.default_struct_id.id,
+            'date_from': datetime.date(2025, 3, 1),
+            'date_to': datetime.date(2025, 3, 31),
+            'version_id': contract2.id,
+        })
+        payslip2_with_contract2.compute_sheet()
+
+        warning_messages = [
+            warning.get('message') or ''
+            for warning in payslip2_with_contract2._get_warnings_by_slip()[payslip2_with_contract2]
+        ]
+        self.assertTrue(
+            any("Similar payslips found" in msg for msg in warning_messages),
+            f"Warning did NOT appear. Found messages: {warning_messages}"
+        )
+
 
 @tagged('-at_install', 'post_install')
 class TestPayslipUi(HttpCase):

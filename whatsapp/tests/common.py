@@ -46,12 +46,13 @@ class MockOutgoingWhatsApp(common.BaseCase):
         def _get_whatsapp_document(document_id):
             return self._wa_document_store.get(document_id, "abcd")
 
-        def _send_whatsapp(number, *, send_vals, **kwargs):
+        def _send_whatsapp_to_identifier(bsuid, number, message_type=None, send_vals=None, parent_message_id=False):
             if send_vals:
                 msg_uid = f'test_wa_{time.time() + len(self._wa_msg_sent):.9f}'
                 self._wa_msg_sent.append(msg_uid)
                 self._wa_msg_sent_vals.append(send_vals)
-                return msg_uid
+                self._wa_msg_sent_recipients.append({'bsuid': bsuid, 'number': number})
+                return {'msg_uid': msg_uid, 'wa_id': number or bsuid}
             raise WhatsAppError("Please make sure to define a template before proceeding.")
 
         def _submit_template_new(json_data):
@@ -113,7 +114,7 @@ class MockOutgoingWhatsApp(common.BaseCase):
              patch.object(WhatsAppApi, '_get_whatsapp_document', side_effect=_get_whatsapp_document), \
              patch.object(WhatsAppApi, '_upload_demo_document', side_effect=_upload_demo_document), \
              patch.object(WhatsAppApi, '_upload_whatsapp_document', side_effect=_upload_whatsapp_document), \
-             patch.object(WhatsAppApi, '_send_whatsapp', side_effect=_send_whatsapp), \
+             patch.object(WhatsAppApi, '_send_whatsapp_to_identifier', side_effect=_send_whatsapp_to_identifier), \
              patch.object(WhatsAppApi, '_submit_template_new', side_effect=_submit_template_new), \
              patch.object(WhatsAppApi, '_get_header_data_from_handle', side_effect=_get_header_data_from_handle), \
              patch.object(WhatsAppApi, '_get_phone_number', side_effect=_get_phone_number), \
@@ -129,6 +130,7 @@ class MockOutgoingWhatsApp(common.BaseCase):
         self._wa_document_store = {}
         self._wa_uploaded_document_count = 0
         self._wa_msg_sent_vals = []
+        self._wa_msg_sent_recipients = []
 
     @contextmanager
     def mockWhatsappHTTPResponse(self, response_map):
@@ -255,8 +257,9 @@ class MockIncomingWhatsApp(common.HttpCase):
         )
 
     def _receive_whatsapp_message(
-        self, account, body, sender_phone_number, message_type="text",
+        self, account, body, sender_phone_number='', message_type="text",
         additional_message_values=None, content_values=None, sender_name='',
+        sender_bsuid='',
     ):
         body = body or ""
         cnt = self.env['whatsapp.message'].sudo().search_count([])
@@ -268,6 +271,8 @@ class MockIncomingWhatsApp(common.HttpCase):
             "timestamp": f"{time.time():.0f}",
             "type": message_type,
         }
+        if sender_bsuid:
+            message_vals["from_user_id"] = sender_bsuid
         match message_type:
             case "text":
                 message_vals.update(text={"body": body} | content_values)
@@ -288,6 +293,13 @@ class MockIncomingWhatsApp(common.HttpCase):
             case _:
                 raise Exception(f"Unsupported whatsapp message type {message_type}")
         message_vals.update(additional_message_values)
+        contact_val = {"profile": {"name": sender_name}}
+        if sender_phone_number:
+            # In production wa_id is the customer's phone number without the '+'
+            # (it's stored as a string by WhatsApp). Match that so wa_id-based routing works.
+            contact_val["wa_id"] = sender_phone_number.lstrip('+')
+        if sender_bsuid:
+            contact_val["user_id"] = sender_bsuid
         message_data = json.dumps({
             "object": "whatsapp_business_account",
             "entry": [{
@@ -297,10 +309,7 @@ class MockIncomingWhatsApp(common.HttpCase):
                     "value": {
                         "messaging_product": "whatsapp",
                         "metadata": {"phone_number_id": account.phone_uid, "display_phone_number": "12345678912"},
-                        "contacts": [{
-                            "profile": {"name": sender_name},
-                            "wa_id": f"{time.time() % 9 // 1:.0f}{sender_phone_number[1:]}",  # not necessarily the actual phone number
-                        }],
+                        "contacts": [contact_val],
                         "messages": [message_vals],
                     }
                 }]

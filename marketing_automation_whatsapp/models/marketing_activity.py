@@ -2,6 +2,7 @@ import logging
 
 from odoo import api, fields, models, _
 from odoo.tools import SQL
+from odoo.tools.misc import OrderedSet
 
 _logger = logging.getLogger(__name__)
 
@@ -114,13 +115,34 @@ class MarketingActivity(models.Model):
 
         return non_whatsapp_stats + self.env.cr.dictfetchall()
 
+    def _get_opposite_trigger_types(self):
+        types = super()._get_opposite_trigger_types()
+        wa_types = {
+            'whatsapp_bounced':
+                ['whatsapp_click', 'whatsapp_read', 'whatsapp_replied', 'activity'],
+            'whatsapp_click':
+                ['whatsapp_not_click'],
+            'whatsapp_not_click':
+                ['whatsapp_click'],
+            'whatsapp_not_read':
+                ['whatsapp_read'],
+            'whatsapp_not_replied':
+                ['whatsapp_replied'],
+            'whatsapp_read':
+                ['whatsapp_not_read'],
+            'whatsapp_replied':
+                ['whatsapp_not_replied'],
+        }
+        types.update(**wa_types)
+        return types
+
     def _get_reschedule_trigger_types(self):
         types = super()._get_reschedule_trigger_types()
         types |= {'whatsapp_not_read', 'whatsapp_not_replied', 'whatsapp_not_click'}
         return types
 
     def _execute_whatsapp(self, traces):
-        res_ids = [res_id for res_id in set(traces.mapped('res_id')) if res_id]
+        res_ids = list(OrderedSet(traces.mapped('res_id')))
         now = self.env.cr.now()
 
         composer_vals = {
@@ -132,7 +154,7 @@ class MarketingActivity(models.Model):
             composer = self.env['whatsapp.composer'].with_context(active_model=self.model_name).create(composer_vals)
             messages = composer._create_whatsapp_messages(force_create=True)
             message_by_res_id = {r.mail_message_id.res_id: r for r in messages}
-            for trace in self.trace_ids:
+            for trace in traces:
                 res_id = trace.res_id
                 message = message_by_res_id.get(res_id, self.env['whatsapp.message'])
                 if message:

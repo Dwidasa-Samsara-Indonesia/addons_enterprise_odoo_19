@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-04-08 12:03+0000\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
+"PO-Revision-Date: 2026-05-16 09:39+0000\n"
 "Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/esg/fr/>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: esg
 #. odoo-python
@@ -778,7 +778,7 @@ msgstr ""
 "Les données d’émission se synchroniseront automatiquement avec la "
 "comptabilité lors de la réception de factures fournisseurs.<br>\n"
 "                Vous pouvez également ajouter manuellement d’autres "
-"émissions non liées aux écritures comptables."
+"émissions non liées à des pièces comptables."
 
 #. module: esg
 #. odoo-python
@@ -1195,7 +1195,7 @@ msgstr "La réponse JSON n’a pas pu être décodée."
 #: model:ir.model,name:esg.model_account_move
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__move_id
 msgid "Journal Entry"
-msgstr "Écriture comptable"
+msgstr "Pièce comptable"
 
 #. module: esg
 #: model:ir.model,name:esg.model_account_move_line
@@ -1959,6 +1959,11 @@ msgstr "Valide à partir du"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__valid_to
 msgid "Valid To"
 msgstr "Valide jusqu’au"
+
+#. module: esg
+#: model_terms:ir.ui.view,arch_db:esg.emission_factor_form_view
+msgid "Validity Period"
+msgstr "Période de validité"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_2_1

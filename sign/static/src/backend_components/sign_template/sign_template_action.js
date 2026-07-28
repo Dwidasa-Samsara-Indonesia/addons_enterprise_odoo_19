@@ -52,6 +52,7 @@ export class SignTemplate extends Component {
             discardChanges : () => {},
             isDiscardingChanges: false,
         });
+        this.signStatus.discardChanges = () => this.discardChanges();
 
         onWillStart(async () => {
             if (!this.templateID) {
@@ -389,6 +390,34 @@ export class SignTemplate extends Component {
 
     goBackToKanban() {
         return this.action.doAction("sign.sign_template_action", { clearBreadcrumbs: true });
+    }
+
+    /**
+     * Discards unsaved sign-item edits in place for all active documents. Keeps the current action and PDF
+     * iframes mounted, fetch the items info from the back-end and assign them to the front-end to replace drafts visually.
+     */
+    async discardChanges() {
+        this.signStatus.isTemplateChanged = false;
+        this.signStatus.isDiscardingChanges = true;
+        try {
+            const activeDocuments = this.state.documents.filter((document) => !document.deleted);
+            for (const document of activeDocuments) {
+                const [radioSets, signItems] = await Promise.all([
+                    this.orm.call("sign.document", "get_radio_sets_dict", [document.id]),
+                    this.orm.call("sign.item", "search_read", [[["document_id", "=", document.id]]], { context: user.context }),
+                ]);
+                signItems.forEach((item) => {
+                    item.type_id = item.type_id[0];
+                    item.radio_set_id = item.radio_set_id[0];
+                    item.roleName = item.responsible_id[1];
+                    item.document_id = item.document_id[0];
+                });
+                document.iframe?.discardUnsavedChanges(signItems, radioSets);
+            }
+            this.updateSignItemsCount();
+        } finally {
+            this.signStatus.isDiscardingChanges = false;
+        }
     }
 
     async onTemplateSaveClick() {

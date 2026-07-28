@@ -52,9 +52,10 @@ class AccountMove(models.Model):
         if not self:
             return
 
-        all_statuses = self.env['account.audit.account.status'].search([
+        all_statuses = self.env['account.audit.account.status'].sudo().search([
             ('account_id', 'in', self.line_ids.account_id.ids),
             ('status', 'in', (False, 'reviewed', 'supervised')),
+            ('audit_id.company_ids', 'in', self.company_id.ids),
         ])
 
         if not all_statuses:
@@ -66,7 +67,7 @@ class AccountMove(models.Model):
             audit.id: {
                 'date_from': audit.date_from,
                 'date_to': audit.date_to
-            } for audit in audits.sudo()
+            } for audit in audits
         }
 
         statuses_to_update = self.env['account.audit.account.status']

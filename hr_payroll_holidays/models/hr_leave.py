@@ -194,9 +194,11 @@ class HrLeave(models.Model):
         ])
         for leave in self:
             if any(
+                    leave.state == 'validate' and
                     p.employee_id == leave.employee_id and
                     p.date_from <= leave.date_to.date() and
                     p.date_to >= leave.date_from.date() and
+                    p.done_date > leave.create_date and
                     p.is_regular
                     for p in payslips
             ):

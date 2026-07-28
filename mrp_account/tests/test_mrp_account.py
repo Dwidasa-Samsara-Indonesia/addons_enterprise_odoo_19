@@ -7,7 +7,7 @@ from odoo.addons.mrp_account.tests.common import TestBomPriceCommon, TestBomPric
 from odoo.tests import Form
 from odoo.tests.common import new_test_user
 from odoo.tools import float_compare, float_round
-from odoo import fields
+from odoo import Command, fields
 
 
 class TestMrpAccount(TestBomPriceCommon):
@@ -54,6 +54,12 @@ class TestMrpAccount(TestBomPriceCommon):
 
         bom_form = Form(self.env['mrp.bom'].with_user(mrp_manager))
         bom_form.product_id = self.dining_table
+
+    def test_mrp_manager_without_account_permissions_can_duplicate_mo(self):
+        mrp_manager = new_test_user(
+            self.env, 'temp_mrp_manager', 'mrp.group_mrp_manager,product.group_product_variant',
+        )
+        self.assertTrue(self._create_mo(self.bom_1, 1).with_user(mrp_manager).copy())
 
     def test_two_productions_unbuild_one_sell_other_fifo(self):
         """ Unbuild orders, when supplied with a specific MO record, should restrict their value
@@ -159,6 +165,45 @@ class TestMrpAccount(TestBomPriceCommon):
         self.assertEqual(productB_debit_line.account_id, self.account_stock_valuation)
         self.assertEqual(productB_credit_line.account_id, self.account_production)
 
+    def test_delivery_validate_after_product_converted_to_kit(self):
+        """
+        Create a delivery for a product, make the product a kit then
+        validate it.
+        """
+        self.env['stock.quant']._update_available_quantity(self.dining_table, self.stock_location, 1)
+        self.screw.categ_id = self.category_avco_auto
+        self.stock_location.valuation_account_id = self.account_production
+        delivery = self.env['stock.picking'].create({
+            'location_id': self.stock_location.id,
+            'location_dest_id': self.customer_location.id,
+            'picking_type_id': self.picking_type_out.id,
+            'move_ids': [Command.create({
+                'product_id': self.dining_table.id,
+                'product_uom_qty': 1,
+                'location_id': self.stock_location.id,
+                'location_dest_id': self.customer_location.id,
+            })],
+        })
+        delivery.action_confirm()
+        self.bom_1.bom_line_ids = self.bom_1.bom_line_ids[1]
+        self.bom_1.type = 'phantom'
+        self.dining_table.invalidate_recordset()
+        delivery.button_validate()
+        self.assertEqual(delivery.move_ids.product_id, self.bom_1.bom_line_ids.product_id)
+        self.assertEqual(delivery.state, 'assigned')
+        # Needs to validate the delivery twice
+        delivery.move_ids.quantity = 5
+        delivery.button_validate()
+        self.assertEqual(delivery.move_ids.product_id, self.bom_1.bom_line_ids.product_id)
+        self.assertEqual(delivery.state, 'done')
+        product_aml = self.env['account.move.line'].search([('product_id', '=', self.dining_table.id)])
+        comp_aml = self.env['account.move.line'].search([('product_id', '=', self.screw.id)], order='debit')
+        self.assertEqual(len(product_aml), 0)
+        self.assertRecordValues(comp_aml, [
+            {'debit':  0.0, 'credit':  50.0},
+            {'debit':  50.0, 'credit':  0.0},
+        ])
+
     def test_mo_overview_comp_different_uom(self):
         """ Test that the overview takes into account the uom of the component in the price computation
         """
@@ -175,6 +220,22 @@ class TestMrpAccount(TestBomPriceCommon):
         mrp_user = new_test_user(self.env, 'temp_mrp_user', 'mrp.group_mrp_user')
         mo_1 = self._create_mo(self.bom_1, 1)
         mo_1.with_user(mrp_user).button_mark_done()
+
+    def test_stock_valuation_report_cost_of_production_past_date(self):
+        date_before = fields.Datetime.now() - timedelta(days=1)
+
+        mo = self._create_mo(self.bom_1, 1)
+        mo.button_mark_done()
+
+        report = self.env['stock_account.stock.valuation.report']
+        report_data_before = report._get_report_data(date=date_before)
+
+        cost_before = report_data_before.get('cost_of_production', {}).get('value', 0)
+        self.assertEqual(cost_before, 0)
+
+        report_data_after = report._get_report_data(date=fields.Datetime.now())
+        cost_after = report_data_after.get('cost_of_production', {}).get('value', 0)
+        self.assertNotEqual(cost_after, 0)
 
 
 class TestMrpAccountWorkorder(TestBomPriceOperationCommon):

@@ -17,6 +17,11 @@ class TestUi(TestPeEdiCommon, TestPointOfSaleHttpCommon):
             "edi_format_ids": [Command.link(edi_format.id)]
         })
 
+        # Products created in TestPointOfSaleHttpCommon have no company_id, so their
+        # currency_id falls back to the main company's currency instead of PEN and
+        # causes incorrect price conversion in POS.
+        cls.desk_organizer.company_id = cls.company_data['company']
+
     def test_pos_invoice_order_and_refund(self):
         self.main_pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour("l10n_pe_edi_pos.RefundWithReasonTour")

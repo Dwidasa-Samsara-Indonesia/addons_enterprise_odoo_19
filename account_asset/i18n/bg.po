@@ -17,13 +17,14 @@
 # Ивайло Малинов <iv.malinov@gmail.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Toma Tomov <toma.tomov@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 05:22+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-07-18 00:45+0000\n"
+"Last-Translator: Toma Tomov <toma.tomov@gmail.com>\n"
 "Language-Team: Bulgarian <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/bg/>\n"
 "Language: bg\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -91,18 +92,20 @@ msgid ""
 "%s Future entries will be recomputed to depreciate the asset following the "
 "changes."
 msgstr ""
+"%s Бъдещите записи ще бъдат преизчислени, за да се амортизира актива в "
+"съответствие с промените."
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "%s: Depreciation"
-msgstr ""
+msgstr "%s: Амортизация"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_assets_report.py:0
 msgid "(No %s)"
-msgstr ""
+msgstr "(Без „ %s “)"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
@@ -145,7 +148,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "A depreciation entry will be posted on and including the date %s."
-msgstr ""
+msgstr "Записът за амортизация ще бъде осчетоводен на и включително датата %s."
 
 #. module: account_asset
 #. odoo-python
@@ -157,7 +160,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "A document linked to this move has been deleted: %s"
-msgstr ""
+msgstr "Документ, свързан с това осчетоводяване, е бил изтрит: %s"
 
 #. module: account_asset
 #. odoo-python
@@ -302,7 +305,7 @@ msgstr "Икона за Вид Дейност"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
 msgid "Add an internal note"
-msgstr ""
+msgstr "Добави вътрешна бележка"
 
 #. module: account_asset
 #. odoo-python
@@ -479,12 +482,12 @@ msgstr "Създаден актив"
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Asset created from invoice: %s"
-msgstr ""
+msgstr "Актив, създаден въз основа на фактура: %s"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
+msgid "Asset disposed. %(message)s"
 msgstr ""
 
 #. module: account_asset
@@ -496,19 +499,25 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Asset paused. %s"
+msgstr "Активът е замразен. %s"
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold. %(message)s See %(invoice_links)s"
 msgstr ""
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
-msgstr ""
+msgid "Asset sold: %s"
+msgstr "Продаден актив: %s"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "Asset unpaused. %s"
-msgstr ""
+msgstr "Активът е активиран. %s"
 
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_group_form_view
@@ -560,6 +569,8 @@ msgid ""
 "Atleast one asset (%s) couldn't be set as running because it lacks any "
 "required information"
 msgstr ""
+"Поне един актив (%s) не може да бъде настроен като активен, тъй като липсва "
+"необходимата информация"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__message_attachment_count
@@ -876,7 +887,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "Depreciation board modified %s"
-msgstr ""
+msgstr "Табло за амортизация – променено %s"
 
 #. module: account_asset
 #. odoo-python
@@ -1734,7 +1745,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/models/account_move.py:0
 msgid "Some fields are missing %s"
-msgstr ""
+msgstr "Липсват някои полета %s"
 
 #. module: account_asset
 #. odoo-python
@@ -1861,6 +1872,9 @@ msgid ""
 "(e.g., MISC - Miscellaneous Operations, INV - Customer Invoices, BILL - "
 "Vendor Bills)."
 msgstr ""
+"Кодът или името на свързания дневник в Odoo за записите за амортизация "
+"(например, MISC – Разнообразни операции, INV – Фактури на клиенти, BILL – "
+"Сметки на доставчици)."
 
 #. module: account_asset
 #: model:ir.model.fields,help:account_asset.field_asset_modify__invoice_ids
@@ -1987,7 +2001,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "Warning for the Original Value of %s"
-msgstr ""
+msgstr "Предупреждение за Първоначалната Стойност на %s"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__website_message_ids
@@ -2076,7 +2090,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "You cannot delete a document that is in %s state."
-msgstr ""
+msgstr "Не можете да изтриете документ, който е в състояние %s."
 
 #. module: account_asset
 #. odoo-python

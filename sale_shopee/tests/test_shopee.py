@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from unittest.mock import patch
 from freezegun import freeze_time
 
-from odoo import _
+from odoo import Command, _
 from odoo.tests.common import tagged
 from odoo.tools import mute_logger
 
@@ -56,10 +56,13 @@ class TestShopee(common.TestShopeeCommon):
 
         1 order with 3 order lines is created: a product line and an adjustment line.
         """
-        with patch(
-            'odoo.addons.sale_shopee.utils.make_shopee_api_request',
-            new=lambda _shop, operation, *_args: common.OPERATIONS_RESPONSES_MAP[operation],
-        ):
+
+        def api_mock(_shop, operation_, *_args):
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock()
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch("odoo.addons.sale_shopee.utils.make_shopee_api_request", new=api_mock):
 
             self.shop._sync_orders(auto_commit=False)
             order = self.env['sale.order'].search([('shopee_order_ref', '=', common.ORDER_SN_MOCK)])
@@ -75,24 +78,31 @@ class TestShopee(common.TestShopeeCommon):
                     " successful run",
             )
             self.assertEqual(len(order), 1)
-            self.assertEqual(len(order_lines), 1) # product line only
-            self.assertRecordValues(order, [{
-                'origin': _(
-                    "Shopee Order %(order)s at mock_shopee_shop", order=common.ORDER_SN_MOCK
-                ),
-                'date_order': datetime(2020, 1, 15, 1),
-                'company_id': self.shop.company_id.id,
-                'user_id': self.shop.user_id.id,
-                'team_id': self.shop.team_id.id,
-                'warehouse_id': self.shop.fbs_location_id.warehouse_id.id,
-                'shopee_fulfillment_type': 'fbm',
-                'amount_total': 160.0,
-            }])
-            self.assertRecordValues(product_line, [{
-                'price_unit': 100,
-                'product_uom_qty': 4.0,
-                'product_id': self.item.product_id.id,
-            }])
+            self.assertEqual(len(order_lines), 2)  # product line + shipping line
+            shipping_line = order_lines - product_line
+            self.assertEqual(len(shipping_line), 1)
+            self.assertEqual(shipping_line.price_unit, 10.0)
+            self.assertRecordValues(
+                order,
+                [
+                    {
+                        "origin": _(
+                            "Shopee Order %(order)s at mock_shopee_shop", order=common.ORDER_SN_MOCK
+                        ),
+                        "date_order": datetime(2020, 1, 15, 1),
+                        "company_id": self.shop.company_id.id,
+                        "user_id": self.shop.user_id.id,
+                        "team_id": self.shop.team_id.id,
+                        "warehouse_id": self.shop.fbs_location_id.warehouse_id.id,
+                        "shopee_fulfillment_type": "fbm",
+                        "amount_total": 170.0,
+                    }
+                ],
+            )
+            self.assertRecordValues(
+                product_line,
+                [{"price_unit": 40, "product_uom_qty": 4.0, "product_id": self.item.product_id.id}],
+            )
 
     @mute_logger('odoo.addons.sale_shopee.models.shopee_shop')
     def test_sync_orders_partial(self):
@@ -110,6 +120,8 @@ class TestShopee(common.TestShopeeCommon):
             Raise a ShopeeRateLimitError when the second order is synchronized, to simulate a
             throttling issue.
             """
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock()
             response_ = common.OPERATIONS_RESPONSES_MAP[operation_]
             if operation_ == 'get_order_list':
                 response_['order_list'].append(
@@ -191,14 +203,15 @@ class TestShopee(common.TestShopeeCommon):
             """ Return a mocked response without making an actual call to the Shopee API. """
             if operation_ == 'get_order_detail':
                 return {
-                    'order_list': [{
-                        **common.ORDER_MOCK,
-                        'fulfillment_flag': 'fulfilled_by_shopee',
-                        'order_status': 'SHIPPED'
-                    }]
+                    "order_list": [
+                        common.build_order_mock(
+                            fulfillment_flag="fulfilled_by_shopee", order_status="SHIPPED"
+                        )
+                    ]
                 }
-            else:
-                return common.OPERATIONS_RESPONSES_MAP[operation_]
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock()
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
 
         with patch(
             'odoo.addons.sale_shopee.utils.make_shopee_api_request',
@@ -222,17 +235,13 @@ class TestShopee(common.TestShopeeCommon):
         """
 
         def get_shopee_api_response_mock(_shop, operation_, *_args):
-            """ Return a mocked response without making an actual call to the Shopee API. """
-            order_status_ = 'CANCELLED'  if self.order_created else 'READY_TO_SHIP'
+            """Return a mocked response without making an actual call to the Shopee API."""
+            order_status_ = "CANCELLED" if self.order_created else "READY_TO_SHIP"
             if operation_ == 'get_order_detail':
-                return {
-                    'order_list': [{
-                        **common.ORDER_MOCK,
-                        'order_status': order_status_
-                    }]
-                }
-            else:
-                return common.OPERATIONS_RESPONSES_MAP[operation_]
+                return {"order_list": [common.build_order_mock(order_status=order_status_)]}
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock()
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
 
         with patch(
             'odoo.addons.sale_shopee.utils.make_shopee_api_request',
@@ -262,17 +271,13 @@ class TestShopee(common.TestShopeeCommon):
         """
 
         def get_shopee_api_response_mock(_shop, operation_, *_args):
-            """ Return a mock response without making an actual call to the Selling Partner API. """
-            response_ = common.OPERATIONS_RESPONSES_MAP[operation_]
-            order_status_ =  'CANCELLED' if self.order_cancelled else 'PROCESSED'
+            """Return a mock response without making an actual call to the Selling Partner API."""
+            order_status_ = "CANCELLED" if self.order_cancelled else "PROCESSED"
             if operation_ == 'get_order_detail':
-                response_ = {
-                    'order_list': [{
-                        **common.ORDER_MOCK,
-                        'order_status': order_status_
-                    }]
-                }
-            return response_
+                return {"order_list": [common.build_order_mock(order_status=order_status_)]}
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock()
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
 
         with patch(
             'odoo.addons.sale_shopee.utils.make_shopee_api_request',
@@ -616,7 +621,9 @@ class TestShopee(common.TestShopeeCommon):
             })
             contacts_count = self.env['res.partner'].search_count([])
 
-            contact, delivery = self.shop._find_or_create_partners_from_data(common.ORDER_MOCK)
+            contact, delivery = self.shop._find_or_create_partners_from_data(
+                common.build_order_mock()
+            )
 
             self.assertEqual(self.env['res.partner'].search_count([]), contacts_count)
             self.assertRecordValues(contact, [{
@@ -651,9 +658,8 @@ class TestShopee(common.TestShopeeCommon):
             parent_id=contact.id,
         ))
         partners_count = self.env['res.partner'].search_count([])
-        order_data = dict(
-            common.ORDER_MOCK,
-            recipient_address=dict(common.BUYER_ADDRESS_MOCK, name='Gederic Frilson Delivery'),
+        order_data = common.build_order_mock(
+            recipient_address=dict(common.BUYER_ADDRESS_MOCK, name="Gederic Frilson Delivery")
         )
 
         contact, delivery = self.shop._find_or_create_partners_from_data(order_data)
@@ -676,7 +682,7 @@ class TestShopee(common.TestShopeeCommon):
             'shopee_buyer_identifier': 444444,
         })
         partners_count = self.env['res.partner'].search_count([])
-        contact, delivery = self.shop._find_or_create_partners_from_data(common.ORDER_MOCK)
+        contact, delivery = self.shop._find_or_create_partners_from_data(common.build_order_mock())
 
         self.assertNotEqual(contact.id, delivery.id)
         self.assertEqual(
@@ -697,7 +703,7 @@ class TestShopee(common.TestShopeeCommon):
         """
         partners_count = self.env['res.partner'].search_count([])
 
-        contact, delivery = self.shop._find_or_create_partners_from_data(common.ORDER_MOCK)
+        contact, delivery = self.shop._find_or_create_partners_from_data(common.build_order_mock())
 
         self.assertEqual(
             self.env['res.partner'].search_count([]),
@@ -731,9 +737,8 @@ class TestShopee(common.TestShopeeCommon):
         is not the same as the buyer name.
         """
         partners_count = self.env['res.partner'].search_count([])
-        order_data = dict(
-            common.ORDER_MOCK,
-            recipient_address=dict(common.BUYER_ADDRESS_MOCK, name="Gederic Frilson Delivery"),
+        order_data = common.build_order_mock(
+            recipient_address=dict(common.BUYER_ADDRESS_MOCK, name="Gederic Frilson Delivery")
         )
 
         contact, delivery = self.shop._find_or_create_partners_from_data(order_data)
@@ -765,7 +770,7 @@ class TestShopee(common.TestShopeeCommon):
             'shopee_buyer_identifier': 444444,
         })
         partners_count = self.env['res.partner'].search_count([])
-        order_data = dict(common.ORDER_MOCK, buyer_username=None)
+        order_data = common.build_order_mock(buyer_username=None)
 
         contact, delivery = self.shop._find_or_create_partners_from_data(order_data)
 
@@ -869,3 +874,264 @@ class TestShopee(common.TestShopeeCommon):
             result = action_shipping_label.with_context(active_model='stock.picking', active_ids=picking.id).run()
             self.assertFalse(result, msg="Fetching the label of a non-shopee picking shouldn't raise.")
             mock_api.assert_not_called()
+
+    # --- Computed Subtotals --- #
+
+    def test_compute_subtotal_price_include_tax(self):
+        """Price-included taxes keep the line subtotal aligned with Shopee's total."""
+        currency = self.quick_ref("base.USD")
+        subtotal = self.shop._recompute_subtotal(10.0, self.tax_price_include_7, currency)
+
+        # subtotal is not rounded to compute the correct unit price
+        # but the rounded subtotal should be equal to the total for price-included taxes
+        self.assertEqual(subtotal, 10.0)
+
+    def test_compute_subtotal_price_exclude_tax(self):
+        """Price-excluded taxes are backed out from Shopee's tax-included total."""
+        currency = self.quick_ref("base.USD")
+        subtotal = self.shop._recompute_subtotal(10.00, self.tax_price_exclude_7, currency)
+
+        # subtotal is not rounded to compute the correct unit price
+        # but the rounded subtotal should be equal to the total for price-excluded taxes
+        self.assertEqual(subtotal, 9.35)
+
+    # --- Test Adjustment Lines --- #
+
+    @mute_logger("odoo.addons.sale_shopee.models.shopee_shop")
+    def test_no_adjustment_line_for_tax_exclusive_unit_rounding(self):
+        """Tax-exclusive non-divisible unit prices do not emit a rounding adjustment line."""
+        self.product.taxes_id = self.tax_price_exclude_7
+        # Keep the unrounded tax-exclusive subtotal on the line so Odoo can reconcile exactly.
+        item = dict(
+            common.ORDER_ITEM_MOCK,
+            model_original_price=15.0,
+            model_discounted_price=10.0,
+            model_quantity_purchased=3,
+        )
+        order_payload = common.build_order_mock(
+            "ADJ_RESIDUE_001", [item], buyer_paid_shipping_fee=0, currency="USD"
+        )
+
+        def api_mock(_shop, operation_, *_args):
+            if operation_ == "get_order_list":
+                return {
+                    "order_list": [{"order_sn": "ADJ_RESIDUE_001"}],
+                    "more": False,
+                    "next_cursor": None,
+                }
+            if operation_ == "get_order_detail":
+                return {"order_list": [order_payload]}
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock(buyer_paid_shipping_fee=0)
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch("odoo.addons.sale_shopee.utils.make_shopee_api_request", new=api_mock):
+            self.shop._sync_orders(auto_commit=False)
+            order = self.env["sale.order"].search(
+                [("shopee_order_ref", "=", "ADJ_RESIDUE_001")], limit=1
+            )
+            adjustment_product = self.env.ref("sale_shopee.default_adjustment_product")
+            adjustment_lines = order.order_line.filtered(
+                lambda line: line.product_id == adjustment_product
+            )
+            self.assertEqual(len(adjustment_lines), 0)
+            self.assertEqual(order.amount_total, order_payload["total_amount"])
+
+    # --- Test Shipping Lines --- #
+
+    @mute_logger("odoo.addons.sale_shopee.models.shopee_shop")
+    def test_free_shipping_omits_shipping_line(self):
+        """A zero buyer-paid shipping fee produces no shipping line."""
+        order_payload = common.build_order_mock(
+            order_sn="FREE_SHIP_001",
+            items=[
+                dict(common.ORDER_ITEM_MOCK, model_original_price=40, model_discounted_price=40)
+            ],
+            buyer_paid_shipping_fee=0,
+        )
+
+        def api_mock(_shop, operation_, *_args):
+            if operation_ == "get_order_list":
+                return {
+                    "order_list": [{"order_sn": "FREE_SHIP_001"}],
+                    "more": False,
+                    "next_cursor": None,
+                }
+            if operation_ == "get_order_detail":
+                return {"order_list": [order_payload]}
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock(buyer_paid_shipping_fee=0)
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch("odoo.addons.sale_shopee.utils.make_shopee_api_request", new=api_mock):
+            self.shop._sync_orders(auto_commit=False)
+            order = self.env["sale.order"].search(
+                [("shopee_order_ref", "=", "FREE_SHIP_001")], limit=1
+            )
+            # Only one line for the one item — no shipping line.
+            self.assertEqual(len(order.order_line), 1)
+
+    @mute_logger("odoo.addons.sale_shopee.models.shopee_shop")
+    def test_shipping_line_with_tax(self):
+        """Shipping line carries product's fiscal-position-mapped tax and reconciles."""
+        # Create a shipping product carrying 7% price-exclude tax.
+        shipping_product = self.env["product.product"].create({
+            "name": "Shopee Shipping (test)",
+            "type": "service",
+            "default_code": "Fake Ship",
+            "list_price": 0.0,
+            "taxes_id": self.tax_price_exclude_7,
+        })
+        self.product.taxes_id = self.tax_price_exclude_7
+
+        # Use shipping fee=10.70 tax-incl; reverse: 10.00 tax-excl. Clean reconciliation.
+        item = dict(
+            common.ORDER_ITEM_MOCK,
+            model_original_price=20.00,
+            model_discounted_price=20.00,
+            model_quantity_purchased=1,
+        )
+        order_payload = common.build_order_mock(
+            "SHIP_TAX_001", [item], buyer_paid_shipping_fee=10.70, currency="USD"
+        )
+
+        def api_mock(_shop, operation_, *_args):
+            if operation_ == "get_order_list":
+                return {
+                    "order_list": [{"order_sn": "SHIP_TAX_001"}],
+                    "more": False,
+                    "next_cursor": None,
+                }
+            if operation_ == "get_order_detail":
+                return {"order_list": [order_payload]}
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock(buyer_paid_shipping_fee=10.70)
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch("odoo.addons.sale_shopee.utils.make_shopee_api_request", new=api_mock):
+            self.shop._sync_orders(auto_commit=False)
+            order = self.env["sale.order"].search(
+                [("shopee_order_ref", "=", "SHIP_TAX_001")], limit=1
+            )
+            shipping_line = order.order_line.filtered(
+                lambda line: line.product_id.id == shipping_product.id
+            )
+            self.assertEqual(len(shipping_line), 1)
+            self.assertEqual(shipping_line.product_uom_qty, 1)
+            self.assertEqual(shipping_line.tax_ids, self.tax_price_exclude_7)
+            # Exact reconciliation with Shopee's total.
+            self.assertEqual(order.amount_total, order_payload["total_amount"])
+
+    # --- Test _prepare_order_lines_values --- #
+
+    def test_prepare_order_lines_values(self):
+        """Product line uses the discounted price as unit price; shipping comes from the escrow."""
+        self.product.taxes_id = self.tax_price_include_7
+        order_data = common.build_order_mock(buyer_paid_shipping_fee=10, currency="USD")
+
+        def get_shopee_api_response_mock(_shop, operation_, *_args):
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock(buyer_paid_shipping_fee=10)
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch(
+            "odoo.addons.sale_shopee.utils.make_shopee_api_request",
+            new=get_shopee_api_response_mock,
+        ):
+            order = self.shop._create_order_from_data(order_data)
+
+        shipping_product = self.quick_ref("sale_shopee.default_shipping_product")
+        product_line = order.order_line.filtered(lambda line: line.product_id == self.product)
+        shipping_line = order.order_line.filtered(lambda line: line.product_id == shipping_product)
+        self.assertEqual(len(order.order_line), 2)
+        self.assertEqual(product_line.product_uom_qty, 4)  # ORDER_ITEM_MOCK quantity
+        self.assertEqual(product_line.price_unit, 40.0)  # discounted price
+        self.assertEqual(product_line.tax_ids, self.tax_price_include_7)
+        self.assertEqual(shipping_line.price_unit, 10.0)
+
+    def test_prepare_order_lines_values_discount_untaxed(self):
+        """Order-level vouchers and coins aggregate into one untaxed negative line."""
+        self.product.taxes_id = [Command.clear()]
+        order_data = common.build_order_mock(buyer_paid_shipping_fee=0, currency="USD")
+
+        def get_shopee_api_response_mock(_shop, operation_, *_args):
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock(
+                    buyer_paid_shipping_fee=0,
+                    voucher_from_seller=10,
+                    voucher_from_shopee=4,
+                    coins=2,
+                )
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch(
+            "odoo.addons.sale_shopee.utils.make_shopee_api_request",
+            new=get_shopee_api_response_mock,
+        ):
+            order = self.shop._create_order_from_data(order_data)
+
+        discount_product = self.quick_ref("sale_shopee.default_discount_product")
+        discount_line = order.order_line.filtered(lambda line: line.product_id == discount_product)
+        # No product tax → a single untaxed discount line of the buyer-funded total (10+4+2).
+        # Field access on `discount_line` raises if more than one line matched.
+        self.assertEqual(discount_line.price_unit, -16.0)
+        self.assertFalse(discount_line.tax_ids)
+
+    def test_prepare_order_lines_values_discount_distributed_per_tax_group(self):
+        """The order-level discount is split per tax group, pro-rata to each group's base.
+
+        Bases 200 (7% tax) and 100 (10% tax) share a 9.99 discount: the larger group is allocated
+        first (6.66) and the last group absorbs the exact remainder (3.33), summing to -9.99.
+        """
+        tax_include_10 = self.env["account.tax"].create({
+            "name": "Shopee Test Tax 10% Included",
+            "amount": 10.0,
+            "price_include_override": "tax_included",
+            "tax_group_id": self.tax_price_include_7.tax_group_id.id,
+        })
+        self.product.taxes_id = self.tax_price_include_7
+        product_2 = self.env["product.product"].create({
+            "name": "Second product",
+            "default_code": "SKU2",
+            "taxes_id": tax_include_10.ids,
+        })
+        self.env["shopee.item"].create({
+            "product_id": product_2.id,
+            "shop_id": self.shop.id,
+            "shopee_item_identifier": 999999,
+            "shopee_model_identifier": 888888,
+            "sync_to_shopee": True,
+        })
+
+        items = [
+            dict(common.ORDER_ITEM_MOCK, model_discounted_price=200, model_quantity_purchased=1),
+            dict(
+                common.ORDER_ITEM_MOCK,
+                item_id=999999,
+                model_id=888888,
+                model_sku="SKU2",
+                model_discounted_price=100,
+                model_quantity_purchased=1,
+            ),
+        ]
+        order_data = common.build_order_mock(items=items, buyer_paid_shipping_fee=0, currency="USD")
+
+        def get_shopee_api_response_mock(_shop, operation_, *_args):
+            if operation_ == "get_escrow_detail":
+                return common.build_escrow_mock(buyer_paid_shipping_fee=0, voucher_from_seller=9.99)
+            return common.OPERATIONS_RESPONSES_MAP[operation_]
+
+        with patch(
+            "odoo.addons.sale_shopee.utils.make_shopee_api_request",
+            new=get_shopee_api_response_mock,
+        ):
+            order = self.shop._create_order_from_data(order_data)
+
+        discount_product = self.quick_ref("sale_shopee.default_discount_product")
+        discount_lines = order.order_line.filtered(lambda line: line.product_id == discount_product)
+        self.assertEqual(len(discount_lines), 2)  # one negative line per tax group
+        # Field access on each filtered line raises if more than one line carries that group's tax.
+        line_7 = discount_lines.filtered(lambda line: line.tax_ids == self.tax_price_include_7)
+        line_10 = discount_lines.filtered(lambda line: line.tax_ids == tax_include_10)
+        self.assertEqual(line_7.price_unit, -6.66)
+        self.assertEqual(line_10.price_unit, -3.33)

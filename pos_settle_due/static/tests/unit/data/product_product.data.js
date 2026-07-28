@@ -16,4 +16,11 @@ ProductProduct._records = [
         price_extra: 0,
         active: true,
     },
+    {
+        id: 207,
+        product_tmpl_id: 207,
+        barcode: false,
+        price_extra: 0,
+        active: true,
+    },
 ];

@@ -11,7 +11,7 @@ class L10nBeDimonaPeriod(models.Model):
 
     name = fields.Char('Period ID', required=True, readonly=True, index=True)
     company_id = fields.Many2one('res.company', required=True, readonly=True, index=True)
-    relation_id = fields.Many2one('l10n.be.dimona.relation', 'relation_id', compute='_compute_period_info', store=True, readonly=True)
+    relation_id = fields.Many2one('l10n.be.dimona.relation', 'relation_id', compute='_compute_period_info', store=True, readonly=True, index='btree_not_null')
     declaration_ids = fields.One2many('l10n.be.dimona.declaration', 'period_id')
     employee_id = fields.Many2one('hr.employee', compute='_compute_period_info', store=True, readonly=True)
     date_start = fields.Date(compute='_compute_period_info', store=True, readonly=True)

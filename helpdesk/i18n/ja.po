@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-04-13 09:41+0000\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
+"PO-Revision-Date: 2026-05-02 09:43+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "helpdesk/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__answered_customer_message_count
@@ -123,7 +123,7 @@ msgid ""
 "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/Sir'\">Madam/"
 "Sir</t>,<br/><br/>\n"
 "        We would like to inform you that we have closed your ticket "
-"(reference <t t-out=\"object.id or ''\">15</t>). \n"
+"(reference <t t-out=\"object.ticket_ref or ''\">15</t>).\n"
 "        We trust that the services provided have met your expectations and "
 "that you have found a satisfactory resolution to your issue.<br/><br/>\n"
 "        However, if you have any further questions or comments, please do "
@@ -138,24 +138,6 @@ msgid ""
 "    </div>\n"
 "        "
 msgstr ""
-"<div>\n"
-"        <t t-out=\"object.sudo().partner_id.name or 'Madam/Sir'\">お客様</"
-"t>、<br/><br/>\n"
-"        以下のお客様のチケットをクローズ致しましたことをお知らせ致します: (参"
-"照番号 <t t-out=\"object.id or ''\">15</t>) \n"
-"        ご提供したサービスがお客様のご期待に沿い、ご満足頂ける問題解決につな"
-"がれば幸いです。<br/><br/>\n"
-"        さらにご質問やご意見がある場合は、ご遠慮なくこのメールにご返信頂き、"
-"チケットを再開して下さい。\n"
-"        何かお困りのことがございましたら、いつでも当社のチームがお手伝い・サ"
-"ポートをさせて頂きます。<br/><br/>\n"
-"        当社のサービスをご愛顧頂き、誠にありがとうございました。お客様のビジ"
-"ネスをサポートする機会を頂いたことに感謝しております。<br/><br/>\n"
-"        今後ともよろしくお願い致します。<br/><br/>\n"
-"        <t t-out=\"object.team_id.name or 'Helpdesk'\">ヘルプデスク</t> チー"
-"ム\n"
-"    </div>\n"
-"        "
 
 #. module: helpdesk
 #: model:mail.template,body_html:helpdesk.rating_ticket_request_email_template
@@ -1164,7 +1146,7 @@ msgstr "取引先によりクローズ済"
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla_report_analysis__close_date
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_report_analysis__close_date
 msgid "Closing Date"
-msgstr "クローズ日"
+msgstr "完了日"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__allow_portal_ticket_closing
@@ -3125,7 +3107,7 @@ msgstr "SLA"
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__message_has_sms_error
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: helpdesk
 #. odoo-javascript
@@ -3595,9 +3577,10 @@ msgstr "終了済チケット"
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.solved_ticket_request_email_template
-msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
+msgid ""
+"Ticket Closed - Reference {{ object.ticket_ref if object.ticket_ref else "
+"15 }}"
 msgstr ""
-"チケットがクローズされました - 参照{{ object.id if object.id else 15 }}"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla__ticket_count
@@ -3719,7 +3702,7 @@ msgstr "チケット検索"
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_stage__fold
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__fold
 msgid "Tickets in a folded stage are considered as closed."
-msgstr "折畳済ステージにあるチケットは終了済とみなされます"
+msgstr "折りたたまれたステージにあるチケットは、クローズ(完了)と見なされます。"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team__use_helpdesk_sale_timesheet
@@ -3819,7 +3802,7 @@ msgstr "2つ星、最高値は３"
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "記録上の例外活動の種類。"
+msgstr "レコード上の例外の活動タイプ。"
 
 #. module: helpdesk
 #. odoo-python
@@ -4192,6 +4175,51 @@ msgstr "{{ object.name }}"
 #: code:addons/helpdesk/models/helpdesk_ticket.py:0
 msgid "👤 Unassigned"
 msgstr "👤 未割当"
+
+#~ msgid ""
+#~ "<div>\n"
+#~ "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/"
+#~ "Sir'\">Madam/Sir</t>,<br/><br/>\n"
+#~ "        We would like to inform you that we have closed your ticket "
+#~ "(reference <t t-out=\"object.id or ''\">15</t>). \n"
+#~ "        We trust that the services provided have met your expectations "
+#~ "and that you have found a satisfactory resolution to your issue.<br/><br/"
+#~ ">\n"
+#~ "        However, if you have any further questions or comments, please do "
+#~ "not hesitate to reply to this email to re-open your ticket. \n"
+#~ "        Our team is always here to help you and we will be happy to "
+#~ "assist you with any further concerns you may have.<br/><br/>\n"
+#~ "        Thank you for choosing our services and for your cooperation "
+#~ "throughout this process. We truly value your business and appreciate the "
+#~ "opportunity to serve you.<br/><br/>\n"
+#~ "        Kind regards,<br/><br/>\n"
+#~ "        <t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t> "
+#~ "Team.\n"
+#~ "    </div>\n"
+#~ "        "
+#~ msgstr ""
+#~ "<div>\n"
+#~ "        <t t-out=\"object.sudo().partner_id.name or 'Madam/Sir'\">お客様</"
+#~ "t>、<br/><br/>\n"
+#~ "        以下のお客様のチケットをクローズ致しましたことをお知らせ致します: "
+#~ "(参照番号 <t t-out=\"object.id or ''\">15</t>) \n"
+#~ "        ご提供したサービスがお客様のご期待に沿い、ご満足頂ける問題解決につ"
+#~ "ながれば幸いです。<br/><br/>\n"
+#~ "        さらにご質問やご意見がある場合は、ご遠慮なくこのメールにご返信頂"
+#~ "き、チケットを再開して下さい。\n"
+#~ "        何かお困りのことがございましたら、いつでも当社のチームがお手伝い・"
+#~ "サポートをさせて頂きます。<br/><br/>\n"
+#~ "        当社のサービスをご愛顧頂き、誠にありがとうございました。お客様のビ"
+#~ "ジネスをサポートする機会を頂いたことに感謝しております。<br/><br/>\n"
+#~ "        今後ともよろしくお願い致します。<br/><br/>\n"
+#~ "        <t t-out=\"object.team_id.name or 'Helpdesk'\">ヘルプデスク</t> "
+#~ "チーム\n"
+#~ "    </div>\n"
+#~ "        "
+
+#~ msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
+#~ msgstr ""
+#~ "チケットがクローズされました - 参照{{ object.id if object.id else 15 }}"
 
 #~ msgid ""
 #~ "<div>\n"

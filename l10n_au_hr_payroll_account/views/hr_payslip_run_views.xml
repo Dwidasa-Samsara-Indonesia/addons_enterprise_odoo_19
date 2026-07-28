@@ -25,11 +25,24 @@
                         <span class="o_stat_value"><field name="l10n_au_stp_count"/></span>
                     </div>
                 </button>
+                <button name="action_open_superstream" class="oe_stat_button" icon="fa-money"
+                        type="object" help="View Superstreams"
+                        options="{'is_smart_button': true}"
+                        invisible="l10n_au_superstream_submitted or country_code != 'AU' or state == '01_ready'">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Super Submissions</span>
+                    </div>
+                </button>
             </t>
             <button name="action_paid" position="before">
                 <button name="action_open_stp"
                     string="Submit to ATO" type="object" class="btn-primary"
+                    options="{'is_priority': True}"
                     invisible="l10n_au_stp_status != 'ready' or country_code != 'AU'"/>
+                <button name="action_open_superstream"
+                    string="Submit to Super" type="object" class="btn-primary"
+                    options="{'is_priority': True}"
+                    invisible="l10n_au_superstream_submitted or country_code != 'AU' or state == '01_ready'"/>
                 <button name="action_register_payment"
                         type="object" string="Pay"
                         invisible="state != '02_close' or l10n_au_stp_status != 'sent' or country_code != 'AU'"

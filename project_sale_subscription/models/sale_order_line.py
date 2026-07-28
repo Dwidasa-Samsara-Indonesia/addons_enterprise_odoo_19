@@ -24,8 +24,11 @@ class SaleOrderLine(models.Model):
         return self.order_id._can_generate_service() or not self.recurring_invoice
 
     def _timesheet_create_task(self, project):
-        task = super()._timesheet_create_task(project)
         order = self.order_id
+        task = super()._timesheet_create_task(project)
+        # Recurrence cannot be configured for recurring products without a subscription plan.
+        if not order.plan_id and self.product_id.recurring_invoice:
+            return task
         # if the product is not recurrent or the project doesn't allow recurring tasks, we don't bother
         if not self.product_id.recurring_invoice or not project.allow_recurring_tasks:
             return task

@@ -40,9 +40,7 @@ export class SignTemplateBody extends Component {
         this.popover = useService("popover");
         this.dialog = useService("dialog");
         this.PDFIframe = useRef("PDFIframe");
-        this.action = useService("action");
-        this.PDFViewerURL = buildPDFViewerURL(this.props.attachmentLocation, this.env.isSmall);
-        this.props.signStatus.discardChanges = this.discardChanges.bind(this);
+        this.PDFViewerURL = buildPDFViewerURL(this.props.attachmentLocation);
         this.state = useState({
             documentUsedTimesCounter: 0,
         })
@@ -146,24 +144,6 @@ export class SignTemplateBody extends Component {
             this.attachDropdownCloseOnIframeClick(this.PDFIframe.el.contentDocument);
             setTimeout(() => this.doPDFPostLoad(), 1);
         };
-    }
-
-    async discardChanges() {
-        const { signTemplate } = this.props;
-        const templateName = signTemplate.display_name;
-        const templateId = parseInt(signTemplate.id, 10);
-        this.props.signStatus.isTemplateChanged = false;
-        this.props.signStatus.isDiscardingChanges = true;
-        await this.action.doAction({
-            type: "ir.actions.client",
-            tag: "sign.Template",
-            name: _t("Template %s", templateName),
-            params: {
-                id: templateId,
-            },
-        }, {
-            stackPosition: "replaceCurrentAction"
-        });
     }
 
     doPDFPostLoad() {

@@ -153,7 +153,7 @@ class AccountReconcileModelLine(models.Model):
             aml_values['currency_id'] = journal_currency.id
         elif self.amount_type == 'regex':
             aml_values['amount_currency'] = self._get_amount_currency_by_regex(st_line, residual_amount_currency, self.amount_string)
-            aml_values['balance'] = self._get_amount_currency_by_regex(st_line, residual_balance, self.amount_string)
+            aml_values['balance'] = currency._convert(aml_values['amount_currency'], st_line.company_currency_id, st_line.company_id, st_line.date)
 
         if 'amount_currency' not in aml_values or 'balance' not in aml_values:
             aml_values.update(self._apply_in_manual_widget(

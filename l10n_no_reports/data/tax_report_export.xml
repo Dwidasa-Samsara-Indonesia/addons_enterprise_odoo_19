@@ -82,6 +82,12 @@
                         <sats t-out="tax_details['rate']"/>
                     </t>
                     <merverdiavgift t-out="tax_details['tax_amount']"/>
+                    <!-- Note -->
+                    <t t-if="tax_details['tax_amount'] > 0 and tax_details['tax_code'] in ('81', '83', '86', '88', '91')">
+                        <merknad>
+                            <beskrivelse>Purchase of goods/services from abroad with reverse charge</beskrivelse>
+                        </merknad>
+                    </t>
                 </mvaSpesifikasjonslinje>
             </skattegrunnlagOgBeregnetSkatt>
             <betalingsinformasjon>

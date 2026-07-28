@@ -73,3 +73,69 @@ class TestReportsCommon(TestBomPriceOperationCommon):
         self.assertEqual(self.company.currency_id.round(unit_component_cost), 6425)
         self.assertEqual(self.company.currency_id.round(unit_operation_cost), 50)
         self.assertEqual(self.company.currency_id.round(unit_duration), 30)
+
+    def test_report_uom_conversion_quantities_and_costs(self):
+        """Ensure mrp.report correctly handles UoM conversions when aggregating MOs.
+            Scenario:
+            - Product with UoM = Unit
+            - BoM: 1 unit of component C1 with cost = $10
+
+            Create two MOs with different UoMs:
+            - MO1 in Dozen (produce 1 dozen = 12 units)
+            - MO2 in Unit (produce 1 unit)
+
+            The report should:
+            - Convert all quantities into the product's UoM (Unit)
+            - Keep consistent unit costs across MOs
+            - Aggregate quantities correctly
+
+            Expected:
+            - Total produced quantity = 13 units
+            - Unit cost = $10
+        """
+        # Set component cost
+        self.bom_2.type = 'normal'
+        self.bom_2.product_uom_id = self.env.ref('uom.product_uom_unit').id
+        self.bom_2.bom_line_ids = self.bom_2.bom_line_ids[0]
+        self.bom_2.bom_line_ids.product_id.standard_price = 10
+        self.bom_2.bom_line_ids.product_qty = 1
+        self.bom_2.operation_ids = False  # Remove operation to simplify the test and focus on UoM conversion
+        # Mo1: Dozen
+        mo = self.env['mrp.production'].create({
+            'bom_id': self.bom_2.id,
+            'product_uom_id': self.env.ref('uom.product_uom_dozen').id,
+            'product_qty': 1,
+        })
+        mo.action_confirm()
+        mo.move_raw_ids.quantity = 12
+        mo.move_raw_ids.picked = True
+        mo.button_mark_done()
+        self.assertEqual(mo.state, 'done')
+        # must flush else SQL request in report is not accurate
+        self.env.flush_all()
+        report = self.env['mrp.report']._read_group(
+            [('product_id', '=', self.bom_2.product_id.id)],
+            aggregates=['unit_cost:avg', 'unit_component_cost:avg', 'qty_produced:sum'],
+        )[0]
+        unit_cost, unit_component_cost, qty_produced = report
+        self.assertEqual(unit_cost, 10)
+        self.assertEqual(unit_component_cost, 10)
+        self.assertEqual(qty_produced, 12)
+        # Mo2: Unit
+        mo_2 = self.env['mrp.production'].create({
+            'bom_id': self.bom_2.id,
+        })
+        mo_2.action_confirm()
+        mo_2.move_raw_ids.quantity = 1
+        mo_2.move_raw_ids.picked = True
+        mo_2.button_mark_done()
+        self.assertEqual(mo_2.state, 'done')
+        self.env.flush_all()
+        report = self.env['mrp.report']._read_group(
+            [('product_id', '=', self.bom_2.product_id.id)],
+            aggregates=['unit_cost:avg', 'unit_component_cost:avg', 'qty_produced:sum'],
+        )[0]
+        unit_cost, unit_component_cost, qty_produced = report
+        self.assertEqual(unit_cost, 10)
+        self.assertEqual(unit_component_cost, 10)
+        self.assertEqual(qty_produced, 13)

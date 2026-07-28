@@ -23,7 +23,7 @@ import {
     getPill,
     getPillWrapper,
     mountGanttView,
-    dragPill,
+    dragPill, resizePill,
 } from "./web_gantt_test_helpers";
 
 import { GanttRenderer } from "@web_gantt/gantt_renderer";
@@ -778,3 +778,24 @@ test("move a pill in the same row (Maintain Buffer Reschedule)", async () => {
     );
 });
 
+test("reschedule gets triggered when resizing a pill (Maintain Buffer Reschedule)", async () => {
+    onRpc(({method}) => {
+        expect.step(method);
+        if (["web_gantt_reschedule"].includes(method)) {
+            return {
+                type: "success",
+                message: "Tasks rescheduled",
+            };
+        }
+    });
+    await mountGanttView(ganttViewParams);
+
+    // resize to one cell larger (1 day)
+    await resizePill(getPillWrapper("Task 1"), "end", +1);
+    expect.verifySteps([
+        "get_views",
+        "get_gantt_data",
+        "web_gantt_reschedule",
+        "get_gantt_data",
+    ]);
+});

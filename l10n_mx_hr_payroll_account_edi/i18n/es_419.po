@@ -2,15 +2,16 @@
 # This file contains the translation of the following modules:
 # * l10n_mx_hr_payroll_account_edi
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2026.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 19:18+0000\n"
-"PO-Revision-Date: 2026-02-21 10:11+0000\n"
-"Last-Translator: \"Patricia Gutiérrez (pagc)\" <pagc@odoo.com>\n"
+"POT-Creation-Date: 2026-07-17 18:07+0000\n"
+"PO-Revision-Date: 2026-06-06 10:08+0000\n"
+"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19-l10n/l10n_mx_hr_payroll_account_edi/es_419/>\n"
 "Language: es_419\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_mx_hr_payroll_account_edi
 #: model:ir.actions.report,print_report_name:l10n_mx_hr_payroll_account_edi.action_report_payslip_mx_cfdi
@@ -557,7 +558,7 @@ msgstr "Tipo de entrada de trabajo de RR. HH."
 #. module: l10n_mx_hr_payroll_account_edi
 #: model:ir.model.fields.selection,name:l10n_mx_hr_payroll_account_edi.selection__hr_version__l10n_mx_shift_type__04
 msgid "Hourly"
-msgstr "Por horas"
+msgstr "Por hora"
 
 #. module: l10n_mx_hr_payroll_account_edi
 #: model:ir.model.fields,field_description:l10n_mx_hr_payroll_account_edi.field_hr_employee__id
@@ -827,6 +828,12 @@ msgid "Payslip"
 msgstr "Recibo de nómina"
 
 #. module: l10n_mx_hr_payroll_account_edi
+#. odoo-python
+#: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_payslip.py:0
+msgid "Payslip(s)"
+msgstr ""
+
+#. module: l10n_mx_hr_payroll_account_edi
 #: model:ir.model.fields.selection,name:l10n_mx_hr_payroll_account_edi.selection__hr_version__l10n_mx_regime_type__04
 msgid "Pensioners"
 msgstr "Pensionados"
@@ -840,6 +847,31 @@ msgstr "Percepciones"
 #: model:ir.model.fields.selection,name:l10n_mx_hr_payroll_account_edi.selection__l10n_mx_concept__cfdi_type__perception
 msgid "Perception"
 msgstr "Percepción"
+
+#. module: l10n_mx_hr_payroll_account_edi
+#. odoo-python
+#: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_payslip.py:0
+msgid ""
+"Perception '038' (Other Salary Income) cannot have a Tax-Exempt amount "
+"(ImporteExento). It must be completely recorded under Taxable Income "
+"(ImporteGravado)."
+msgstr ""
+
+#. module: l10n_mx_hr_payroll_account_edi
+#. odoo-python
+#: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_payslip.py:0
+msgid ""
+"Perception '038' (Other Salary Income) must have a positive Taxable amount "
+"(ImporteGravado)."
+msgstr ""
+
+#. module: l10n_mx_hr_payroll_account_edi
+#. odoo-python
+#: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_payslip.py:0
+msgid ""
+"Perception cannot have both Taxable (ImporteGravado) and Exempt "
+"(ImporteExento) amounts set to 0 simultaneously."
+msgstr ""
 
 #. module: l10n_mx_hr_payroll_account_edi
 #: model_terms:ir.ui.view,arch_db:l10n_mx_hr_payroll_account_edi.report_payslip_mx_cfdi
@@ -1068,6 +1100,13 @@ msgstr "El CURP debe contener 18 caracteres."
 
 #. module: l10n_mx_hr_payroll_account_edi
 #. odoo-python
+#: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_payslip.py:0
+msgid ""
+"The Employment Subsidy (SubsidioCausado) exceeds the maximum allowed limit"
+msgstr ""
+
+#. module: l10n_mx_hr_payroll_account_edi
+#. odoo-python
 #: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_employee.py:0
 msgid "The RFC must contain 13 characters."
 msgstr "El RFC debe contener 13 caracteres."
@@ -1083,6 +1122,14 @@ msgstr ""
 "El SAT no proporciona información para la moneda %s.\n"
 "Debes obtener manualmente una clave del PAC para confirmar que el tipo de "
 "cambio es preciso."
+
+#. module: l10n_mx_hr_payroll_account_edi
+#. odoo-python
+#: code:addons/l10n_mx_hr_payroll_account_edi/models/hr_payslip.py:0
+msgid ""
+"This employee exceeds the \"Salary Limit for Employment Subsidy\" - Validate "
+"Subsidy and ISR Adjustments"
+msgstr ""
 
 #. module: l10n_mx_hr_payroll_account_edi
 #: model_terms:ir.ui.view,arch_db:l10n_mx_hr_payroll_account_edi.report_payslip_mx_cfdi
@@ -1122,7 +1169,7 @@ msgstr "Falta el RFC de la empresa"
 #. module: l10n_mx_hr_payroll_account_edi
 #: model_terms:ir.ui.view,arch_db:l10n_mx_hr_payroll_account_edi.l10n_mx_hr_payslip_view_form
 msgid "Validate"
-msgstr ""
+msgstr "Validar"
 
 #. module: l10n_mx_hr_payroll_account_edi
 #: model:ir.model.fields.selection,name:l10n_mx_hr_payroll_account_edi.selection__hr_payslip__l10n_mx_edi_cfdi_sat_state__valid

@@ -221,19 +221,19 @@
     }
 
     .o_bank_rec_list_renderer {
-        .o_bank_rec_info_header {
-            position: sticky;
-            top: 0;
-            z-index: 3;
-            background-color: $o-view-background-color;
-        }
-
         > table > thead {
             position: sticky;
             top: 54px;
             z-index: 2;
         }
     }
+}
+
+.o_bank_rec_info_header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: $o-view-background-color;
 }
 
 .o_bank_rec_statement_line_date {
@@ -243,4 +243,8 @@
 .o_bank_rec_statement_line_remaining_amount {
     margin-left: auto;
     margin-right: 95px;
+}
+
+.o_bank_rec_ref {
+    min-height: 60px;
 }

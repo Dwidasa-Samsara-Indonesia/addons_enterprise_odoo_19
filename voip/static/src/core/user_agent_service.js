@@ -160,7 +160,7 @@ export class UserAgent extends Reactive {
         this.attemptingToReconnect = true;
         try {
             await this.__sipJsUserAgent.reconnect();
-            this.registerer.register();
+            await this.registerer.register();
             this.voip.resolveError();
         } catch {
             setTimeout(

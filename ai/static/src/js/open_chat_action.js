@@ -11,6 +11,7 @@ async function initChat(env, action) {
         throw new Error("Thread not found");
     }
     thread.open({ focus: true });
+    thread.openChatWindow();
     await thread.isLoadedDeferred;
     if (action.params.user_prompt && thread.status !== "loading") {
         await thread.post(action.params.user_prompt);

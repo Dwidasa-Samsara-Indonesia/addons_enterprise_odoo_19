@@ -72,6 +72,18 @@ export default class GroupedLineComponent extends LineComponent {
         return super.lotName;
     }
 
+    get mainSubLine() {
+        // In case we don't display unscanned reserved lots, this util can be
+        // used to record the data of the unique relevant representant.
+        if (!this.env.model.showReservedSns && this.linesToDisplay.length === 1) {
+            const line = this.linesToDisplay[0];
+            if (this.env.model.getQtyDone(line) && (line.package_id || line.result_package_id)) {
+                return line;
+            }
+        }
+        return false;
+    }
+
     get displayToggleBtn() {
         return this.linesToDisplay.length > 1;
     }

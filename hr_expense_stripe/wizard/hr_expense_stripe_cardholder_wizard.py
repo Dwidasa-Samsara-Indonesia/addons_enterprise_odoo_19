@@ -89,8 +89,10 @@ class HrExpenseStripeCardholderWizard(models.TransientModel):
             if billing_adress['line2']:
                 tracked_create_vals['billing_street2'] = billing_adress['line2']
             if billing_adress['state']:
-                state = self.env['res.country.state'].search([('name', 'ilike', billing_adress['state'])], limit=1)
-                tracked_create_vals['billing_state_id'] = state.id
+                state = self.env['res.country.state'].search([('code', '=', billing_adress['state'])], limit=1)
+                if not state:  # We previously stored the name of the state, so Stripe might still have the name instead of the code
+                    state = self.env['res.country.state'].search([('name', 'ilike', billing_adress['state'])], limit=1)
+                tracked_create_vals['billing_state_id'] = state.id or False
             create_vals['stripe_values'] = deepcopy(tracked_create_vals)
 
         else:
@@ -216,7 +218,9 @@ class HrExpenseStripeCardholderWizard(models.TransientModel):
         if self.billing_street2:
             payload['billing']['address']['line2'] = self.billing_street2
         if self.billing_state_id:
-            payload['billing']['address']['state'] = self.billing_state_id.name
+            # Stripe uses the ISO 3166-2 for the state for the US. However, Odoo doesn't use the ISO 3611-2 for all the countries
+            # But the ISO 3166-2 is used for the US states in Odoo and Stripe doesn't check it for the others (EU/UK) so we can safely use it.
+            payload['billing']['address']['state'] = self.billing_state_id.code
 
         employee_stripe_id = employee_sudo.private_stripe_id
         if employee_stripe_id:

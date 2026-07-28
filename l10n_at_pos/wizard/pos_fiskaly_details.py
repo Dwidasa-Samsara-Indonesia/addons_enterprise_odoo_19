@@ -21,5 +21,5 @@ class PosFiskalyDetailsWizard(models.TransientModel):
             self.start_date = self.end_date
 
     def action_dep_audit_report(self):
-        if self.pos_config_ids:
-            return self.pos_config_ids.print_dep7_report(self.start_date, self.end_date)
+        configs = self.pos_config_ids or self.env['pos.config'].search(self._check_company_domain(self.env.company))
+        return configs.print_dep7_report(self.start_date, self.end_date)

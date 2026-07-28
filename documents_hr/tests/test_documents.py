@@ -42,12 +42,17 @@ class TestCaseDocumentsBridgeHR(HttpCase, TransactionCaseDocumentsHr):
         self.assertEqual(self.employee.hr_employee_folder_id.name, "Zator",
                          "HR Employee Subfolder should be renamed when renaming the employee.")
 
+        admin_user = self.env.ref('base.user_admin')
         # Test on new Company - HR Employee folder should be created on company create.
         # and a new employee should generate a subfolder for that employee inside the company's HR Employee folder.
-        new_company = self.env['res.company'].create({
+        new_company = self.env['res.company'].with_user(admin_user).create({
             'name': 'New Company'
         })
         self.assertTrue(new_company.documents_employee_folder_id)
+        # Newly created folder, created on company creation, should be in the company root.
+        self.assertFalse(new_company.documents_employee_folder_id.owner_id)
+        self.assertEqual(new_company.documents_employee_folder_id.user_folder_id, 'COMPANY')
+
         new_company_employee = self.env['hr.employee'].create({
             'name': 'New Company Employee',
             'user_id': self.doc_user_2.id,

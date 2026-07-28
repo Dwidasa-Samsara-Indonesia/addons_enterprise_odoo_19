@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from odoo import Command
 from odoo.addons.mrp_plm.tests.test_common import TestPlmCommon
+from odoo.exceptions import UserError
 from odoo.tests import Form
 
 class TestMrpWorkorderPlm(TestPlmCommon):
@@ -150,6 +151,49 @@ class TestMrpWorkorderPlm(TestPlmCommon):
             'name': 'QC Test',
         })
         add_step_check.add_check_in_chain()
+        self.assertFalse(add_step_check.point_id)
+        self.assertFalse(self.bom_table.eco_ids)
+
+    def test_add_check_in_chain_when_operation_match_is_ambiguous_or_missing(self):
+        """
+        Ensure a quality check can only be added when exactly one BOM operation matches the work order operation.
+        """
+        # Make sure both operations have the same name and workcenter
+        self.bom_table.operation_ids[1].write({
+            'name': self.bom_table.operation_ids[0].name,
+            'workcenter_id': self.bom_table.operation_ids[0].workcenter_id.id,
+        })
+        mo = self.env['mrp.production'].create({
+            'product_id': self.table.id,
+            'bom_id': self.bom_table.id,
+            'product_qty': 1,
+        })
+        mo.action_confirm()
+
+        wo = mo.workorder_ids
+        add_step_check = self.env['quality.check'].create({
+            'test_type_id': self.env.ref('quality.test_type_instructions').id,
+            'workorder_id': wo[0].id,
+            'production_id': mo.id,
+            'product_id': self.table.id,
+            'team_id': self.env['quality.alert.team'].search(['|', ('company_id', '=', self.env.company.id), ('company_id', '=', False)], limit=1).id,
+            'name': 'QC Test',
+        })
+        with self.assertRaisesRegex(UserError,
+                'Unable to add the proposed step to the corresponding Engineering Change Order .* for '
+                'this work order .* because multiple operations were matched with the WO. '
+                'Please differentiate the operations by name, work center, or product variant. '
+                'Please let your manager know if you need additional assistance for your proposed change.'
+            ):
+            add_step_check.add_check_in_chain()
+
+        self.bom_table.operation_ids[0].name = 'different-name'
+        with self.assertRaisesRegex(UserError,
+                'Unable to add the proposed step to the corresponding Engineering Change Order .* '
+                'for this work order because no corresponding operation could not be found in the ECO\'s '
+            ):
+            add_step_check.add_check_in_chain()
+
         self.assertFalse(add_step_check.point_id)
         self.assertFalse(self.bom_table.eco_ids)
 

@@ -50,6 +50,43 @@ class TestEdiXmls(TestPeEdiCommon):
             expected_etree = self.get_xml_tree_from_string(self.expected_invoice_xml_values)
             self.assertXmlTreeEqual(current_etree, expected_etree)
 
+    def test_invoice_address_nodes(self):
+        """ The address must set the district as cbc:District and the street2 as
+        cbc:CitySubdivisionName, and must not set cbc:PostalZone (UBL 2.1 / SUNAT). """
+        self.partner_a.write({
+            'street': 'Av. test 123',
+            'street2': 'Urb. test',
+            'zip': '15001',
+            'l10n_pe_district': self.env.ref('l10n_pe.district_pe_150101').id,
+        })
+        with freeze_time(self.frozen_today), \
+                patch(
+                    'odoo.addons.l10n_pe_edi.models.account_edi_format.AccountEdiFormat._l10n_pe_edi_post_invoice_web_service',
+                    new=mocked_l10n_pe_edi_post_invoice_web_service):
+            move = self._create_invoice()
+            move.action_post()
+            generated_files = self._process_documents_web_services(move, {'pe_ubl_2_1'})
+            self.assertTrue(generated_files)
+            edi_xml = self.edi_format._l10n_pe_edi_unzip_edi_document(generated_files[0])
+
+        invoice_etree = self.get_xml_tree_from_string(edi_xml)
+        address_node = invoice_etree.find('.//{*}AccountingCustomerParty//{*}PostalAddress')
+        expected_address = self.get_xml_tree_from_string(b'''
+            <cac:PostalAddress
+                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+                xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+                <cbc:ID>150101</cbc:ID>
+                <cbc:StreetName>Av. test 123</cbc:StreetName>
+                <cbc:CitySubdivisionName>Urb. test</cbc:CitySubdivisionName>
+                <cbc:District>Lima</cbc:District>
+                <cac:Country>
+                    <cbc:IdentificationCode>PE</cbc:IdentificationCode>
+                    <cbc:Name>Peru</cbc:Name>
+                </cac:Country>
+            </cac:PostalAddress>
+        ''')
+        self.assertXmlTreeEqual(address_node, expected_address)
+
     def test_refund_simple_case(self):
         with freeze_time(self.frozen_today), \
              patch('odoo.addons.l10n_pe_edi.models.account_edi_format.AccountEdiFormat._l10n_pe_edi_post_invoice_web_service',
@@ -138,6 +175,46 @@ class TestEdiXmls(TestPeEdiCommon):
         current_etree = self.get_xml_tree_from_string(edi_xml)
 
         with file_open('l10n_pe_edi/tests/test_files/invoice_detraction_with_decimal.xml', 'rb') as expected_invoice_file:
+            expected_etree = self.get_xml_tree_from_string(expected_invoice_file.read())
+        self.assertXmlTreeEqual(current_etree, expected_etree)
+
+    def test_invoice_detraction_usd_company_currency(self):
+        """ Invoice in USD with detraction when company currency is also USD (not PEN).
+        The detraction cbc:Amount must still be in PEN, converted via the exchange rate. """
+        self.product.l10n_pe_withhold_percentage = 10
+        self.product.l10n_pe_withhold_code = '019'
+
+        with freeze_time(self.frozen_today), \
+                patch('odoo.addons.l10n_pe_edi.models.account_edi_format.AccountEdiFormat._l10n_pe_edi_post_invoice_web_service',
+                   new=mocked_l10n_pe_edi_post_invoice_web_service):
+            self.company_data['company'].currency_id = self.other_currency
+            vals = {
+                'name': 'F FFI-%s1' % self.time_name,
+                'move_type': 'out_invoice',
+                'partner_id': self.partner_a.id,
+                'invoice_date': '2017-01-01',
+                'date': '2017-01-01',
+                'currency_id': self.other_currency.id,
+                'invoice_payment_term_id': self.env.ref("account.account_payment_term_end_following_month").id,
+                'l10n_latam_document_type_id': self.env.ref('l10n_pe.document_type01').id,
+                'l10n_pe_edi_operation_type': '1001',
+                'invoice_line_ids': [Command.create({
+                    'product_id': self.product.id,
+                    'price_unit': 990.0,
+                    'quantity': 1,
+                    'tax_ids': [Command.set(self.tax_18.ids)],
+                })],
+            }
+            invoice = self.env['account.move'].create(vals).with_context(edi_test_mode=True)
+            invoice.action_post()
+
+            generated_files = self._process_documents_web_services(invoice, {'pe_ubl_2_1'})
+            self.assertTrue(generated_files)
+        zip_edi_str = generated_files[0]
+        edi_xml = self.edi_format._l10n_pe_edi_unzip_edi_document(zip_edi_str)
+        current_etree = self.get_xml_tree_from_string(edi_xml)
+
+        with file_open('l10n_pe_edi/tests/test_files/invoice_detraction_with_decimal_foreign_currency.xml', 'rb') as expected_invoice_file:
             expected_etree = self.get_xml_tree_from_string(expected_invoice_file.read())
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
@@ -455,6 +532,7 @@ class TestEdiXmls(TestPeEdiCommon):
     def test_invoice_withholding(self):
         """ Invoice with withholding tax associated. There should be only one allowance node
             even though there are two lines with the withholding tax. """
+        self.tax_18.include_base_amount = True
         tax_withholding = self.env['account.tax'].create({
             'name': 'tax_withholding',
             'amount_type': 'percent',
@@ -471,15 +549,15 @@ class TestEdiXmls(TestPeEdiCommon):
                     Command.create({
                         'product_id': self.product.id,
                         'product_uom_id': self.env.ref('uom.product_uom_kgm').id,
-                        'price_unit': 2000.0,
-                        'quantity': 5,
+                        'price_unit': 0.481936,
+                        'quantity': 300,
                         'tax_ids': [(6, 0, [tax_withholding.id, self.tax_18.id])],
                     }),
                     Command.create({
                         'product_id': self.product.id,
                         'product_uom_id': self.env.ref('uom.product_uom_kgm').id,
-                        'price_unit': 2000.0,
-                        'quantity': 5,
+                        'price_unit': 0.747376,
+                        'quantity': 300,
                         'tax_ids': [(6, 0, [tax_withholding.id, self.tax_18.id])],
                     }),
                 ],
@@ -649,3 +727,22 @@ class TestEdiXmls(TestPeEdiCommon):
             </cac:PaymentTerms>
         </root>''')
         self.assertXmlTreeEqual(generated_root, expected_root)
+
+    def test_reversal_cancel_reason_mapping(self):
+        """Test that the cancel and credit reason in the reversal wizard are correctly mapped to the fields in the Peruvian EDI tab."""
+
+        move = self._create_invoice()
+        move.action_post()
+
+        reversal_wizard = self.env['account.move.reversal'].with_context(
+            active_model="account.move",
+            active_ids=move.ids
+        ).create({
+            'reason': 'Test reason',
+            'journal_id': move.journal_id.id,
+            'l10n_pe_edi_refund_reason': '01',
+        })
+        action = reversal_wizard.reverse_moves()
+        reverse_move = self.env['account.move'].browse(action['res_id'])
+        self.assertEqual(reverse_move.l10n_pe_edi_cancel_reason, 'Test reason')
+        self.assertEqual(reverse_move.l10n_pe_edi_refund_reason, '01')

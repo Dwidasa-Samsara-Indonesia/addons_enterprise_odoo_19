@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-14 10:03+0000\n"
+"POT-Creation-Date: 2026-05-22 17:48+0000\n"
+"PO-Revision-Date: 2026-05-30 09:44+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "account_fiscal_categories_fleet/de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: account_fiscal_categories_fleet
 #: model:ir.model,name:account_fiscal_categories_fleet.model_account_fiscal_category
@@ -47,12 +47,6 @@ msgid "Created on"
 msgstr "Erstellt am"
 
 #. module: account_fiscal_categories_fleet
-#: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_fleet_disallowed_expenses_rate__rate
-msgid "Deductibility (%)"
-msgstr "Abzugsfähigkeit (%)"
-
-#. module: account_fiscal_categories_fleet
-#: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_fleet_vehicle__rate_ids
 #: model_terms:ir.ui.view,arch_db:account_fiscal_categories_fleet.fleet_vehicle_view_form
 msgid "Deductibility Rates"
 msgstr "Abzugsfähigkeitsrate"
@@ -60,7 +54,8 @@ msgstr "Abzugsfähigkeitsrate"
 #. module: account_fiscal_categories_fleet
 #: model:ir.model,name:account_fiscal_categories_fleet.model_account_deferred_report_handler
 msgid "Deferred Expense Report Custom Handler"
-msgstr "Benutzerdefinierter Handler für Bericht über aktive Rechnungsabgrenzung"
+msgstr ""
+"Benutzerdefinierter Handler für Bericht über aktive Rechnungsabgrenzung"
 
 #. module: account_fiscal_categories_fleet
 #: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_account_deferred_report_handler__display_name
@@ -71,6 +66,11 @@ msgstr "Benutzerdefinierter Handler für Bericht über aktive Rechnungsabgrenzun
 #: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_fleet_vehicle__display_name
 msgid "Display Name"
 msgstr "Anzeigename"
+
+#. module: account_fiscal_categories_fleet
+#: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_fleet_vehicle__rate_ids
+msgid "Fiscal Deductibility"
+msgstr "Steuerliche Absetzbarkeit"
 
 #. module: account_fiscal_categories_fleet
 #: model:ir.model,name:account_fiscal_categories_fleet.model_account_fiscal_categories_fleet_report_handler
@@ -110,6 +110,11 @@ msgstr "Zuletzt aktualisiert von"
 #: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_fleet_disallowed_expenses_rate__write_date
 msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
+
+#. module: account_fiscal_categories_fleet
+#: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_fleet_disallowed_expenses_rate__rate
+msgid "Non-deductible (%)"
+msgstr "Nicht abzugsfähig (%)"
 
 #. module: account_fiscal_categories_fleet
 #: model:ir.model.fields,field_description:account_fiscal_categories_fleet.field_account_fiscal_category__car_category
@@ -154,3 +159,6 @@ msgstr "brauchen eine Steuerkategorie."
 #: code:addons/account_fiscal_categories_fleet/static/src/components/fiscal_report/warnings.xml:0
 msgid "these accounts"
 msgstr "diese Konten"
+
+#~ msgid "Deductibility (%)"
+#~ msgstr "Abzugsfähigkeit (%)"

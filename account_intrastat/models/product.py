@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.addons.account_intrastat.models.account_intrastat_code import SUPPLEMENTARY_UNITS
+from odoo.exceptions import ValidationError
 
 
 class ProductTemplate(models.Model):
@@ -82,6 +83,28 @@ class ProductTemplate(models.Model):
                 valid_codes = valid_intrastat_code['commodity']
             product.valid_intrastat_code_ids = valid_codes
 
+    @api.constrains('product_variant_ids', 'intrastat_code_id')
+    def _check_variant_for_intrastat(self):
+        for product_template in self:
+            if (not product_template.product_variant_ids and product_template.intrastat_code_id and
+                any(attribute.create_variant == 'dynamic' for attribute in product_template.attribute_line_ids.attribute_id)):
+                raise ValidationError(_("The product template has no products/variants. At least one variant is required to set the Intrastat values."))
+
+    @api.onchange('intrastat_code_id')
+    def _onchange_intrastat_code_id(self):
+        return self._check_active_intrastat_code()
+
+    def _check_active_intrastat_code(self):
+        expired = self.intrastat_code_id.expiry_date and fields.Date.context_today(self) >= self.intrastat_code_id.expiry_date
+        not_yet_active = self.intrastat_code_id.start_date and fields.Date.context_today(self) < self.intrastat_code_id.start_date
+        if expired or not_yet_active:
+            return {
+                'warning': {
+                    'title': _("Invalid Intrastat Code"),
+                    'message': _("Note that the selected commodity code is invalid based on its start or expiry date. You can still select it.")
+                }
+            }
+
     def _inverse_intrastat_code_id(self):
         for product_template in self:
             product_template.product_variant_ids.intrastat_code_id = product_template.intrastat_code_id
@@ -119,3 +142,7 @@ class ProductProduct(models.Model):
         for product in self:
             if not product.intrastat_supplementary_unit:
                 product.intrastat_supplementary_unit_amount = 0
+
+    @api.onchange('intrastat_code_id')
+    def _onchange_intrastat_code_id(self):
+        return self.product_tmpl_id._check_active_intrastat_code()

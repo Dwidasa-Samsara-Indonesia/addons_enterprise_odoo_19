@@ -16,8 +16,8 @@
                         </thead>
                         <tbody>
                             <tr class="exports_body">
-                                <td t-out="o.l10n_cl_port_origin_id.name" class="text-start"/>
-                                <td t-out="o.l10n_cl_port_destination_id.name" class="text-start"/>
+                                <td t-out="o.l10n_cl_port_origin_id.name or ''" class="text-start"/>
+                                <td t-out="o.l10n_cl_port_destination_id.name or ''" class="text-start"/>
                                 <td t-out="o.l10n_cl_customs_quantity_of_packages" class="text-center"/>
                                 <td>
                                     <span t-if="o.l10n_cl_customs_service_indicator" class="text-start"

@@ -21,4 +21,17 @@
             background: darken($popover-bg, 10%);
         }
     }
+
+    .btn-secondary {
+        --#{$prefix}btn-bg: #{lighten($popover-bg, 10%)};
+        --#{$prefix}btn-border-color: #{lighten($popover-bg, 10%)};
+        --#{$prefix}btn-hover-bg: #{lighten($popover-bg, 15%)};
+        --#{$prefix}btn-hover-border-color: #{lighten($popover-bg, 15%)};
+    }
+
+    .o_form_view {
+        &.o_form_nosheet, .o_form_nosheet, .o_form_sheet {
+            background-color: $popover-bg;
+        }
+    }
 }

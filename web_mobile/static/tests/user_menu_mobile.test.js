@@ -10,6 +10,7 @@ import {
 import { queryAll } from "@odoo/hoot-dom";
 import { animationFrame } from "@odoo/hoot-mock";
 
+import { download } from "@web/core/network/download";
 import { methods as mobileNativeMethods } from "@web_mobile/js/services/core";
 import { config as transitionConfig } from "@web/core/transition";
 import { WebClient } from "@web/webclient/webclient";
@@ -94,4 +95,29 @@ test("can execute the callback of switchAccount", async () => {
         root: document.body,
     }).click();
     expect.verifySteps(["should call switchAccount"]);
+});
+
+test("remove origin from url before calling downloadFile native method", async () => {
+    patchWithCleanup(mobileNativeMethods, {
+        downloadFile(options) {
+            expect.step(options.url);
+        },
+    });
+
+    await download({
+        data: {},
+        url: "http://localhost:8080/abcd?a=b&c=d#e",
+    });
+
+    await download({
+        data: {},
+        url: "https://www.odoo.com/example",
+    });
+
+    await download({
+        data: {},
+        url: "/web/content/1?download=true",
+    });
+
+    expect.verifySteps(["/abcd?a=b&c=d#e", "/example", "/web/content/1?download=true"]);
 });

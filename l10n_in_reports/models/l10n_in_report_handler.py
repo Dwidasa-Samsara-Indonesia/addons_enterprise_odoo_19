@@ -164,20 +164,29 @@ class L10n_InReportHandler(models.AbstractModel):
 
     @api.model
     def _get_invalid_tds_tcs_moves(self, options, report):
-        AccountMove = self.env['account.move']
-        domain = [
-            ('date', '>=', options['date']['date_from']),
-            ('date', '<=', options['date']['date_to']),
-            ('state', '=', 'posted'),
-            ('commercial_partner_id.l10n_in_pan_entity_id', '=', False),
-        ]
+
+        def get_invalid_moves(tax_type, group_ref):
+            return self.env['account.move'].search(
+                [
+                    ('date', '>=', options['date']['date_from']),
+                    ('date', '<=', options['date']['date_to']),
+                    ('state', '=', 'posted'),
+                    ('commercial_partner_id.l10n_in_pan_entity_id', '=', False),
+                    ('invoice_line_ids.tax_ids.l10n_in_tax_type', '=', tax_type),
+                    ('invoice_line_ids.tax_ids.tax_group_id', '=', self.env['account.chart.template'].with_company(self.env.company).ref(group_ref, raise_if_not_found=False)),
+                ]
+            )
+
         invalid_move_ids = []
         if report.id == self.env.ref("l10n_in.tds_report").id:
-            domain += [('invoice_line_ids.tax_ids.l10n_in_tax_type', '=', 'tds_purchase')]
-            invalid_move_ids = AccountMove.search(domain).l10n_in_withholding_ref_move_id.ids
-        if report.id == self.env.ref("l10n_in.tcs_report").id:
-            domain += [('invoice_line_ids.tax_ids.l10n_in_tax_type', '=', 'tcs')]
-            invalid_move_ids = AccountMove.search(domain).ids
+            invalid_move_ids = get_invalid_moves('tds_purchase', 'tds_group').l10n_in_withholding_ref_move_id.ids
+        elif report.id == self.env.ref("l10n_in.tcs_report").id:
+            invalid_move_ids = get_invalid_moves('tcs', 'tcs_group').ids
+        elif report.id == self.env.ref("l10n_in.tds_report_it_act_25").id:
+            invalid_move_ids = get_invalid_moves('tds_purchase', 'tds_it_act_25_group').l10n_in_withholding_ref_move_id.ids
+        elif report.id == self.env.ref("l10n_in.tcs_report_it_act_25").id:
+            invalid_move_ids = get_invalid_moves('tcs', 'tcs_it_act_25_group').ids
+
         return 'l10n_in_reports.missing_pan_tds_tcs_warning', invalid_move_ids
 
     def _dynamic_lines_generator(self, report, options, all_column_groups_expression_totals, warnings=None):
@@ -207,7 +216,7 @@ class L10n_InReportHandler(models.AbstractModel):
                     (xml_id, obj.ids)
                     for xml_id, obj in all_checks
                 ]
-            elif report.id in (self.env.ref("l10n_in.tds_report").id, self.env.ref("l10n_in.tcs_report").id):
+            elif report.id in (self.env.ref("l10n_in.tds_report").id, self.env.ref("l10n_in.tcs_report").id, self.env.ref("l10n_in.tds_report_it_act_25").id, self.env.ref("l10n_in.tcs_report_it_act_25").id):
                 all_checks = [
                     self._get_invalid_tds_tcs_moves(options, report),
                 ]
@@ -264,13 +273,16 @@ class L10n_InReportHandler(models.AbstractModel):
 
         if self.env.company.account_fiscal_country_id.code != 'IN':
             return
-        if report in (self.env.ref('l10n_in.tds_report'), self.env.ref('l10n_in.tcs_report')):
+        if report in (self.env.ref('l10n_in.tds_report'), self.env.ref('l10n_in.tcs_report'), self.env.ref('l10n_in.tcs_report_it_act_25'), self.env.ref('l10n_in.tds_report_it_act_25')):
             xlsx_button_option = next(button_opt for button_opt in options['buttons'] if button_opt.get('action_param') == 'export_to_xlsx')
             xlsx_button_option['action_param'] = 'tds_tcs_export_to_xlsx'
 
     @api.model
     def tds_tcs_export_to_xlsx(self, options):
-        is_tds_report = options['report_id'] == self.env.ref('l10n_in.tds_report').id
+        is_tds_report = options['report_id'] in (
+            self.env.ref('l10n_in.tds_report').id,
+            self.env.ref('l10n_in.tds_report_it_act_25').id,
+        )
         with io.BytesIO() as output:
             with xlsxwriter.Workbook(output, {
                 'in_memory': True,
@@ -333,7 +345,7 @@ class L10n_InReportHandler(models.AbstractModel):
             sheet = workbook.add_worksheet(section_name)
             for i, width in enumerate(col_widths):
                 sheet.set_column(i, i, width)
-            write_header(sheet, [report_date, next(iter(section_info['description'].values()))])
+            write_header(sheet, [report_date, section_info['description']])
             write_rows(sheet, 3, section_info['moves'], lambda i: title_style if i == 0 else line_style)
 
     @api.model
@@ -350,6 +362,27 @@ class L10n_InReportHandler(models.AbstractModel):
             _("TDS Rate") if is_tds_report else _("TCS Rate"),
         ]
 
+        # -----------------------------------
+        # Step 1: Map report tags to section metadata (name & description)
+        # -----------------------------------
+        report = self.env['account.report'].browse(options['report_id'])
+
+        tag_to_section = {}
+        all_tag_ids = set()
+
+        for line in report.line_ids:
+            tags = line.expression_ids._get_matching_tags()
+
+            for tag in tags:
+                tag_to_section[tag.id] = {
+                    'code': tag.name,
+                    'description': line.name,
+                }
+                all_tag_ids.add(tag.id)
+
+        # -----------------------------------
+        # Step 2: Domain & Query
+        # -----------------------------------
         domain = [
             ('date', '>=', options['date']['date_from']),
             ('date', '<=', options['date']['date_to']),
@@ -362,16 +395,19 @@ class L10n_InReportHandler(models.AbstractModel):
         # common joins
         query.join('account_move', 'id', 'account_move_line', 'move_id', 'aml')
         query.join('account_move__aml', 'tax_line_id', 'account_tax', 'id', 'tax')
-        query.join('account_move__aml__tax', 'l10n_in_section_id', 'l10n_in_section_alert', 'id', 'section')
-        query.join('account_move__aml__tax__section', 'tax_report_line_id', 'account_report_line', 'id', 'report_line')
+        query.join('account_move__aml', 'id', 'account_account_tag_account_move_line_rel', 'account_move_line_id', 'aml_tag_rel')
         query.left_join('account_move__aml', 'partner_id', 'res_partner', 'id', 'partner')
         query.left_join('account_move__aml__partner', 'l10n_in_pan_entity_id', 'l10n_in_pan_entity', 'id', 'pan_entity')
 
+        query.add_where('account_move__aml__aml_tag_rel.account_account_tag_id IN %s', [tuple(all_tag_ids)])
+
+        # -----------------------------------
+        # Step 3: Select
+        # -----------------------------------
         common_cols = [
             'account_move__aml__partner.name AS partner_name',
             'account_move__aml__partner__pan_entity.name AS partner_pan',
-            'account_move__aml__tax__section.name AS section_name',
-            'account_move__aml__tax__section__report_line.name AS section_description',
+            'account_move__aml__aml_tag_rel.account_account_tag_id AS tag_id',
             'COALESCE(account_move__aml.debit, 0) AS tax_debit_amount',
             'COALESCE(account_move__aml.credit, 0) AS tax_credit_amount',
             'COALESCE(account_move__aml.tax_base_amount, 0) AS amount',
@@ -408,15 +444,19 @@ class L10n_InReportHandler(models.AbstractModel):
         self.env.cr.execute(qu)
         rows = self.env.cr.dictfetchall()
 
+        # -----------------------------------
+        # Step 4: Group by Section
+        # -----------------------------------
         section_data = defaultdict(lambda: {'description': '', 'moves': [], 'row_count': 0})
         for row in rows:
-            section = row['section_name']
-            data = section_data[section]
+            section = tag_to_section.get(row['tag_id'])
+            section_key = section['code']
+            data = section_data[section_key]
 
             data['row_count'] += 1
             sr_no = data['row_count']
 
-            data['description'] = row['section_description']
+            data['description'] = section['description']
             if not data['moves']:
                 data['moves'].append(columns)
 

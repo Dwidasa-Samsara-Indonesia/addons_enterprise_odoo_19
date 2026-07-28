@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:53+0000\n"
+"POT-Creation-Date: 2026-07-10 17:53+0000\n"
 "PO-Revision-Date: 2025-11-16 17:56+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
@@ -573,12 +573,6 @@ msgid "From"
 msgstr "由"
 
 #. module: sale_commission
-#. odoo-python
-#: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "From must be before To"
-msgstr "「從」日期必須先於「至」日期"
-
-#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
 msgid "Has Message"
 msgstr "有訊息"
@@ -1004,9 +998,22 @@ msgstr "目標"
 
 #. module: sale_commission
 #. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid "The assignment start date must be before the end date"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The plan should have at least one target with an achievement rate of 0%"
 msgstr "該計劃應至少有一個實現率為 0% 的目標"
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid ""
+"The sales person's assignment must be within the commission plan period."
+msgstr ""
 
 #. module: sale_commission
 #. odoo-python
@@ -1120,8 +1127,8 @@ msgstr "使用者期間不可在計劃適用期後才結束。"
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "User period cannot start before the plan."
-msgstr "使用者期間不可在計劃適用期前開始。"
+msgid "User period cannot start after the plan."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__website_message_ids
@@ -1163,6 +1170,12 @@ msgstr "例：2025 年佣金計劃"
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "per"
 msgstr "每個"
+
+#~ msgid "From must be before To"
+#~ msgstr "「從」日期必須先於「至」日期"
+
+#~ msgid "User period cannot start before the plan."
+#~ msgstr "使用者期間不可在計劃適用期前開始。"
 
 #~ msgid "By Quarter"
 #~ msgstr "按季度"

@@ -345,16 +345,15 @@ class TestSignTemplate(TransactionCase):
         self.assertEqual(len(new_template.sign_item_ids), 1, 'Sign items should be preserved in the new template')
 
     def _get_signer_and_item_gc_context(self, sign_template):
-        all_signer_ids = self.env['sign.item'].search([]).mapped('responsible_id.id')
-        active_signer_ids = self.env['sign.item'].search([
-            ('page', '>', -1)
-        ]).mapped('responsible_id.id')
+        template_item_ids = self.env['sign.item'].search([('template_id', '=', sign_template.id)])
+        all_signer_ids = template_item_ids.mapped('responsible_id.id')
+        active_signer_ids = template_item_ids.filtered(lambda item: item.page > -1).mapped('responsible_id.id')
         template_active_signer_ids = sign_template.sign_item_ids.mapped('responsible_id.id')
         signers_without_item_ids = self.env['sign.item.role'].search([
             ('id', 'in', all_signer_ids),
             ('id', 'not in', active_signer_ids)
         ]).ids
-        non_active_item_ids = self.env['sign.item'].search([('page', '<', 0)]).ids
+        non_active_item_ids = template_item_ids.filtered(lambda item: item.page < 0).ids
 
         return all_signer_ids, template_active_signer_ids, signers_without_item_ids, non_active_item_ids
 
@@ -484,6 +483,110 @@ class TestSignTemplate(TransactionCase):
         template = self.env['sign.template'].browse(template_id)
         # check existing sign items have not been copied to avoid access errors
         self.assertFalse(template.sign_item_ids)
+
+    def test_copy_template_gives_own_roles(self):
+        """
+        When duplicating a template, its sign items should get their own copy of any non-default role,
+        so that editing a role on one template doesn't leak to the other.
+        """
+
+        sign_template_id = self.env['sign.template'].with_user(self.test_user).create_from_attachment_data(
+            attachment_data_list=[{'name': 'sample_contract.pdf', 'datas': self.pdf_data}])['id']
+        sign_template = self.env['sign.template'].with_user(self.test_user).browse(sign_template_id)
+        sign_template.with_user(self.test_user).update_from_attachment_data(
+            attachment_data_list=[{'name': 'sample_contract.pdf', 'datas': self.pdf_data}])
+        document_id = sign_template.document_ids[0].id
+        document_id_2 = sign_template.document_ids[1].id
+        custom_role_id = sign_template.create_item_and_role(document_id, 'Signer')
+        custom_role_id_2 = sign_template.create_item_and_role(document_id, 'Signer 2')
+        default_role = self.env.ref('sign.sign_item_role_default')
+        sign_template.update_from_pdfviewer(sign_items={'-1': {
+            'type_id': self.env.ref('sign.sign_item_type_text').id,
+            'name': 'employee_id.name',
+            'required': True,
+            'responsible_id': custom_role_id,
+            'page': 1,
+            'posX': 0.273,
+            'posY': 0.158,
+            'document_id': document_id,
+            'width': 0.150,
+            'height': 0.015,
+            'transaction_id': -1,
+        },
+        '-2': {
+            'type_id': self.env.ref('sign.sign_item_type_text').id,
+            'name': 'employee_id.name',
+            'required': True,
+            'responsible_id': default_role.id,
+            'page': 1,
+            'posX': 0.273,
+            'posY': 0.258,
+            'document_id': document_id,
+            'width': 0.150,
+            'height': 0.015,
+            'transaction_id': -2,
+        },
+        '-3': {
+            'type_id': self.env.ref('sign.sign_item_type_text').id,
+            'name': 'employee_id.name',
+            'required': True,
+            'responsible_id': custom_role_id_2,
+            'page': 1,
+            'posX': 0.273,
+            'posY': 0.158,
+            'document_id': document_id_2,
+            'width': 0.150,
+            'height': 0.015,
+            'transaction_id': -1,
+        },
+        '-4': {
+            'type_id': self.env.ref('sign.sign_item_type_text').id,
+            'name': 'employee_id.name',
+            'required': True,
+            'responsible_id': custom_role_id,
+            'page': 1,
+            'posX': 0.273,
+            'posY': 0.158,
+            'document_id': document_id_2,
+            'width': 0.150,
+            'height': 0.015,
+            'transaction_id': -1,
+        },
+        '-5': {
+            'type_id': self.env.ref('sign.sign_item_type_text').id,
+            'name': 'employee_id.name',
+            'required': True,
+            'responsible_id': custom_role_id_2,
+            'page': 1,
+            'posX': 0.273,
+            'posY': 0.158,
+            'document_id': document_id,
+            'width': 0.150,
+            'height': 0.015,
+            'transaction_id': -1,
+        }})
+
+        sign_template_copy = sign_template.copy()
+        copy_custom_item = sign_template_copy.sign_item_ids.filtered(lambda i: not i.responsible_id.default)
+        copy_default_item = sign_template_copy.sign_item_ids.filtered(lambda i: i.responsible_id.default)
+
+        self.assertNotEqual(copy_custom_item.responsible_id, self.env['sign.item.role'].browse(custom_role_id),
+                            'The duplicated template should own a new copy of the non-default role')
+        copied_roles = copy_custom_item.responsible_id
+        self.assertNotIn(custom_role_id, copied_roles.ids,
+                 'The duplicated template should own a new copy of the non-default role')
+        self.assertNotIn(custom_role_id_2, copied_roles.ids,
+                 'The duplicated template should own a new copy of the non-default role')
+        self.assertEqual(copy_default_item.responsible_id, default_role, 'The default role should be shared, not copied')
+
+        # editing the role on the copy must not leak to the original template
+        partner = self.env['res.partner'].create({'name': 'Test Partner'})
+        copied_roles.assign_to = partner
+        roles_original = sign_template.sign_item_ids.filtered(lambda i: not i.responsible_id.default).responsible_id
+        self.assertFalse(roles_original.assign_to,
+                        "Editing the copied role should not affect the original template's role")
+        self.assertEqual(len(copied_roles), len(roles_original),
+                         'A role shared across documents should be copied once, not once per document')
 
     def test_get_selection_ids_from_value_order(self):
         """

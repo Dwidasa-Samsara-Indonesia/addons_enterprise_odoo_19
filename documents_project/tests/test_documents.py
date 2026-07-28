@@ -228,3 +228,18 @@ class TestDocumentsBridgeProject(TestProjectCommon, TransactionCaseDocuments):
             len(copied_project_documents), 1,
             "The copied project should have one document copied."
         )
+
+    def test_project_document_unarchive_on_revert(self):
+        """ Ensure project documents are unarchived when a project is reverted
+        Steps:
+            1. Create a project
+            2. Convert the project into a project template
+            3. Undo the project
+            4. Check project documents
+        """
+        client_action = self.project_pigs.action_create_template_from_project()
+        self.env['project.project'].browse(client_action['params']['project_id']).unlink()
+        self.project_pigs.create_template_from_project_undo_callback(
+            client_action['params']['callback_data']['args'][1]
+        )
+        self.project_pigs.action_create_template_from_project()

@@ -197,7 +197,9 @@ class ProductTemplate(models.Model):
             }
 
             # Calculate discount percentage
-            if product_or_template.allow_one_time_sale and 0 < price <= sales_price:  # One-time sale: compare against sale price
+            if pricing.compute_price == 'percentage':  # Percentage discount: use the value directly
+                discount = pricing.percent_price
+            elif product_or_template.allow_one_time_sale and 0 < price <= sales_price:  # One-time sale: compare against sale price
                 discount = ((sales_price - price) * 100) / sales_price
             elif (product_or_template.type == 'consu' and 0 < price <= max_price):  # Consumables: compare against max price
                 discount = ((max_price - price) * 100) / max_price
@@ -277,7 +279,7 @@ class ProductTemplate(models.Model):
                 date=date,
                 uom=template.uom_id,
                 currency=currency,
-                plan_id=so_plan_id,
+                plan_id=pricing.plan_id.id,
             )
 
             # taxes application

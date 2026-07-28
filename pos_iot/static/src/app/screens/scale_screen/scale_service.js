@@ -3,6 +3,7 @@ import {
     posScaleService,
 } from "@point_of_sale/app/screens/scale_screen/scale_service";
 import { patch } from "@web/core/utils/patch";
+import { _t } from "@web/core/l10n/translation";
 
 patch(posScaleService, {
     dependencies: [...posScaleService.dependencies, "iot_http"],
@@ -64,7 +65,11 @@ patch(PosScaleService.prototype, {
 
     _handleScaleMessage(data) {
         if (data.status.status === "error") {
-            throw new Error(`Cannot weigh product - ${data.status.message_body}`);
+            throw new Error(
+                _t("Cannot weigh product – %(msg)s", {
+                    msg: data.status.message_body,
+                })
+            );
         } else if (data.status.status === "connected" || data.status === "success") {
             return data.result || 0;
         }

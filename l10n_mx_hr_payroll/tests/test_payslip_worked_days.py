@@ -1,6 +1,9 @@
-from datetime import datetime
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from datetime import date
 from freezegun import freeze_time
 
+from odoo.fields import Command
 from odoo.addons.hr_payroll.tests.common import TestPayslipBase
 from odoo.tests.common import tagged
 
@@ -16,119 +19,157 @@ class TestPayrollWorkedDays(TestPayslipBase):
             'country_id': mexico.id
         })
         cls.richard_emp.write({
-            'company_id': cls.env.company,
+            'company_id': cls.env.company.id,
             'country_id': mexico.id,
+            'contract_date_end': date(2050, 1, 1),
+            'wage': 30000.0,
         })
-        sw_structure = cls.env['hr.payroll.structure.type'].create({
-            'name': 'Software Developer'
+        cls.richard_contract.structure_id.write({
+            'unpaid_work_entry_type_ids': [Command.link(cls.work_entry_type_unpaid.id)],
         })
-        developer_pay_structure = cls.env['hr.payroll.structure'].create({
-            'name': 'Salary Structure for Software Developer',
-            'type_id': sw_structure.id,
-            'unpaid_work_entry_type_ids': [(4, cls.work_entry_type_unpaid.id, False)],
-        })
-        cls.richard_emp.write({
-            'contract_date_end': datetime(2050, 1, 1),
-        })
-        cls.payslip = cls.env['hr.payslip'].create({
-            'name': 'Payslip of Richard Quarter',
-            'employee_id': cls.richard_emp.id,
-            'struct_id': developer_pay_structure.id,
-            'date_from': datetime(2030, 1, 1).date(),
-            'date_to': datetime(2030, 2, 1).date(),
-        })
-        cls.richard_emp.wage = 5000
 
-    def _reset_work_entries(self, emp):
-        self.env['hr.work.entry'].search([('employee_id', '=', emp.id)]).unlink()
-        now = datetime(2030, 1, 1, 0, 0, 0)
-        emp.write({
-            'date_generated_from': now,
-            'date_generated_to': now,
+        cls.leave_type = cls.env['hr.leave.type'].create({
+            'name': 'Leaves Test',
+            'time_type': 'leave',
+            'requires_allocation': False,
+            'leave_validation_type': 'no_validation',
+            'work_entry_type_id': cls.work_entry_type_unpaid.id,
+            'request_unit': 'hour',
+        })
+        cls.work_entry_types = {
+            entry_type.code: entry_type
+            for entry_type in cls.env['hr.work.entry.type'].search([])
+        }
+
+    def _create_worked_days(self, name=False, code=False, number_of_days=0, number_of_hours=0):
+        return Command.create({
+            'name': name,
+            'work_entry_type_id': self.work_entry_types[code].id,
+            'code': code,
+            'number_of_days': number_of_days,
+            'number_of_hours': number_of_hours,
+        })
+
+    def _create_leave(self, date_from, date_to, hour_from=0.0, hour_to=24.0):
+        return self.env['hr.leave'].create({
+            'employee_id': self.richard_emp.id,
+            'holiday_status_id': self.leave_type.id,
+            'request_date_from': date_from,
+            'request_date_to': date_to,
+            'request_hour_from': hour_from,
+            'request_hour_to': hour_to,
+        })
+
+    def _create_payslip(self, date_from, date_to=None):
+        return self.env['hr.payslip'].create({
+            'name': 'Payslip Test',
+            'employee_id': self.richard_emp.id,
+            'date_from': date_from,
+            **({'date_to': date_to} if date_to else {})
         })
 
     def test_monthly_payslip(self):
-        self._reset_work_entries(self.richard_emp)
-        amount_to_be_paid = sum(line.amount for line in self.payslip.worked_days_line_ids)
-        self.assertEqual(amount_to_be_paid, 5000)
-        self.env['resource.calendar.leaves'].create({
-            'name': 'Doctor Appointment',
-            'date_from': datetime.strptime('2030-01-01 07:00:00', '%Y-%m-%d %H:%M:%S'),
-            'date_to': datetime.strptime('2030-01-16 18:00:00', '%Y-%m-%d %H:%M:%S'),
-            'resource_id': self.richard_emp.resource_id.id,
-            'calendar_id': self.richard_emp.resource_calendar_id.id,
-            'work_entry_type_id': self.work_entry_type_unpaid.id,
-            'time_type': 'leave',
-        })
-        self.payslip._compute_worked_days_line_ids()
-        amount_to_be_paid = sum(line.amount for line in self.payslip.worked_days_line_ids)
-        self.assertAlmostEqual(amount_to_be_paid, 2500, places=2)
+        payslip = self._create_payslip(date(2030, 1, 1))
+        self.assertEqual(payslip._get_paid_amount(), 30000.0)
+
+        self._create_leave(date(2030, 1, 1), date(2030, 1, 15))
+        self.assertEqual(payslip._get_paid_amount(), 19000.0)
 
     def test_hourly_payslip(self):
-        self._reset_work_entries(self.richard_emp)
-        self.richard_emp.wage_type = 'hourly'
-        self.richard_emp.hourly_wage = 20
-        self.payslip._compute_worked_days_line_ids()
-        amount_to_be_paid = sum(line.amount for line in self.payslip.worked_days_line_ids)
-        self.assertEqual(amount_to_be_paid, 3840)
-        self.env['resource.calendar.leaves'].create({
-            'name': 'Doctor Appointment',
-            'date_from': datetime.strptime('2030-01-01 07:00:00', '%Y-%m-%d %H:%M:%S'),
-            'date_to': datetime.strptime('2030-01-16 18:00:00', '%Y-%m-%d %H:%M:%S'),
-            'resource_id': self.richard_emp.resource_id.id,
-            'calendar_id': self.richard_emp.resource_calendar_id.id,
-            'work_entry_type_id': self.work_entry_type_unpaid.id,
-            'time_type': 'leave',
+        self.richard_contract.write({
+            'wage_type': 'hourly',
+            'hourly_wage': 125.0,
         })
-        self._reset_work_entries(self.richard_emp)
-        self.payslip._compute_worked_days_line_ids()
-        amount_to_be_paid = sum(line.amount for line in self.payslip.worked_days_line_ids)
-        self.assertEqual(amount_to_be_paid, 1920)
+        payslip = self._create_payslip(date(2030, 1, 1))
+        self.assertEqual(payslip._get_paid_amount(), 30000.0)
 
-    def test_partial_payslip_new_hire(self):
-        self.richard_emp.contract_date_start = '2026-01-10'
-        payslip_run = self.env['hr.payslip.run'].create({
-            'date_start': '2026-01-01',
-            'date_end': '2026-01-31',
+        self._create_leave(date(2030, 1, 1), date(2030, 1, 15))
+        self.assertEqual(payslip._get_paid_amount(), 19000.0)
+
+    def test_monthly_payslip_with_partial_leave(self):
+        payslip = self._create_payslip(date(2030, 1, 1))
+        self.assertEqual(payslip._get_paid_amount(), 30000.0)
+
+        self._create_leave(date(2030, 1, 2), date(2030, 1, 2), 9.0, 11.0)
+        self.assertEqual(payslip._get_paid_amount(), 29750.0)
+
+    def test_partial_payslip(self):
+        payslip = self._create_payslip(date(2030, 1, 11), date(2030, 1, 21))
+        self.assertEqual(payslip._get_paid_amount(), 11000.0)
+
+    def test_partial_payslip_new_hire_month_31_days(self):
+        self.richard_contract.contract_date_start = date(2030, 1, 11)
+        payslip = self._create_payslip(date(2030, 1, 1))
+        self.assertEqual(payslip._get_paid_amount(), 21000.0)
+
+    def test_partial_payslip_new_hire_month_28_days(self):
+        self.richard_contract.contract_date_start = date(2030, 2, 11)
+        payslip = self._create_payslip(date(2030, 2, 1))
+        self.assertEqual(payslip._get_paid_amount(), 18000.0)
+
+    def test_hourly_payslip_by_attendance(self):
+        if self.env['ir.module.module']._get('hr_payroll_attendance').state != 'installed':
+            self.skipTest("Skipping test because hr_payroll_attendance is not installed.")
+
+        self.richard_contract.write({
+            'work_entry_source': 'attendance',
+            'wage_type': 'hourly',
+            'hourly_wage': 125.0,
         })
-        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
+        payslip = self._create_payslip(date(2030, 1, 1))
 
-        out_of_contract_type = self.env.ref('hr_work_entry.hr_work_entry_type_out_of_contract')
-        attendance_type = self.env.ref('hr_work_entry.work_entry_type_attendance')
-        payslip_work_entry_types = payslip_run.slip_ids.worked_days_line_ids.mapped('work_entry_type_id')
+        worked_days_vals = [
+            {'name': 'Attendance', 'code': 'WORK100', 'number_of_hours': 88, 'number_of_days': 11},
+            {'name': 'Paid Time Off', 'code': 'LEAVE120', 'number_of_hours': 24, 'number_of_days': 3},
+        ]
+        payslip.write({
+            "worked_days_line_ids": [self._create_worked_days(**vals) for vals in worked_days_vals],
+        })
+        self.assertEqual(payslip._get_paid_amount(), 14000.0)
 
-        self.assertIn(out_of_contract_type, payslip_work_entry_types)
-        self.assertIn(attendance_type, payslip_work_entry_types)
+        worked_days_vals = [
+            {'name': 'Unpaid', 'code': 'LEAVE90', 'number_of_hours': 16, 'number_of_days': 2},
+            {'name': 'Out of Contract', 'code': 'OUT', 'number_of_hours': 32, 'number_of_days': 4},
+        ]
+        payslip.write({
+            "worked_days_line_ids": [self._create_worked_days(**vals) for vals in worked_days_vals],
+        })
+        self.assertEqual(payslip._get_paid_amount(), 14000.0)
 
     @freeze_time('2026-03-10')
     def test_years_worked(self):
         """
         Test the number of years worked by an employee taking gaps between contracts into consideration
         """
-        self.richard_contract.contract_date_end = datetime(2025, 1, 31)
+        self.richard_contract.contract_date_end = date(2025, 1, 31)
         new_contract_1 = self.richard_emp.create_version({
-            'date_version': datetime(2025, 2, 1),
-            'contract_date_start': datetime(2025, 2, 1),
-            'contract_date_end': datetime(2026, 1, 31),
+            'date_version': date(2025, 2, 1),
+            'contract_date_start': date(2025, 2, 1),
+            'contract_date_end': date(2026, 1, 31),
         })
         new_contract_2 = self.richard_emp.create_version({
-            'date_version': datetime(2026, 3, 1),
-            'contract_date_start': datetime(2026, 3, 1),
+            'date_version': date(2026, 3, 1),
+            'contract_date_start': date(2026, 3, 1),
         })
-        payslip_run = self.env['hr.payslip.run'].create({
-            'date_start': '2026-01-01',
-            'date_end': '2026-01-15',
+        payslip = self._create_payslip(date(2026, 1, 1))
+
+        self.assertEqual(payslip.version_id.id, new_contract_1.id)
+        self.assertEqual(payslip.l10n_mx_years_worked, 9)
+
+        payslip = self._create_payslip(date(2026, 3, 1))
+
+        self.assertEqual(payslip.version_id.id, new_contract_2.id)
+        self.assertEqual(payslip.l10n_mx_years_worked, 1)
+
+    def test_compute_sheets_with_higher_seniority(self):
+        """
+        Ensure that computing a payslip for an employee with more than the maximum
+        defined years in the holiday table does not raise a KeyError.
+        """
+        self.richard_emp.write({
+            'contract_date_start': '1985-01-01',
+            'wage': 100000
         })
-
-        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
-        self.assertEqual(payslip_run.slip_ids.version_id.id, new_contract_1.id)
-        self.assertEqual(payslip_run.slip_ids.l10n_mx_years_worked, 9)
-
-        payslip_run = self.env['hr.payslip.run'].create({
-            'date_start': '2026-03-01',
-            'date_end': '2026-03-15',
-        })
-
-        payslip_run.generate_payslips(employee_ids=[self.richard_emp.id])
-        self.assertEqual(payslip_run.slip_ids.version_id.id, new_contract_2.id)
-        self.assertEqual(payslip_run.slip_ids.l10n_mx_years_worked, 1)
+        payslip = self._create_payslip(date(2026, 1, 1))
+        # This should no longer raise KeyError
+        self.assertTrue(payslip.compute_sheet())

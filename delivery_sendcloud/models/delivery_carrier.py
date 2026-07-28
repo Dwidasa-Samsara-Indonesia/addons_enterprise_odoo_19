@@ -30,7 +30,7 @@ class DeliveryCarrier(models.Model):
     sendcloud_can_batch_shipping = fields.Boolean(
         related="sendcloud_shipping_id.has_multicollo")
     sendcloud_use_batch_shipping = fields.Boolean(
-        string="Use Batch Shipping",
+        string="Use Multicollo",
         help="When sending multiple parcels, combine them in one shipment. Not supported for international shipping requiring customs' documentation",)
 
     @api.constrains('delivery_type', 'sendcloud_public_key', 'sendcloud_secret_key')
@@ -124,7 +124,10 @@ class DeliveryCarrier(models.Model):
             }
         messages = []
         if packages_no > 1:
-            messages.append(_("Note that this price is for %s packages since the order weight is more than the maximum weight allowed by the shipping method.", packages_no))
+            if self.sendcloud_convert_weight(order_weight or order.shipping_weight, grams=True) >= self.sendcloud_shipping_id.max_weight:
+                messages.append(_("Note that this price is for %s packages since the order weight is more than the maximum weight allowed by the shipping method.", packages_no))
+            else:
+                messages.append(_("Note that this price is for %s packages since the order weight is more than the maximum packaging weight.", packages_no))
 
         # Check if the products individually fit in the delivery method
         max_weight_user_uom = self.sendcloud_convert_weight(self.sendcloud_shipping_id.max_weight - 1, grams=True, reverse=True)

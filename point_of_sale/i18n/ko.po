@@ -6,16 +6,16 @@
 # JH CHOI <hwangtog@gmail.com>, 2022
 # Sarah Park, 2023
 # Martin Trigaux, 2023
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Kwanghee Park (kwpa)" <kwpa@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2026-04-09 11:23+0000\n"
-"Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
+"POT-Creation-Date: 2026-07-10 17:36+0000\n"
+"PO-Revision-Date: 2026-07-02 00:41+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/"
 "point_of_sale/ko/>\n"
 "Language: ko\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: point_of_sale
 #. odoo-python
@@ -223,37 +223,6 @@ msgstr "코튼 데님 5포켓 진..."
 
 #. module: point_of_sale
 #: model:mail.template,body_html:point_of_sale.email_template_pos_receipt
-#, fuzzy
-#| msgid ""
-#| "<div style=\"margin: 0; padding: 0; font-size: 14px;\">\n"
-#| "                    <t t-set=\"client_name\" t-"
-#| "value=\"object.partner_id.name\"/>\n"
-#| "                    <t t-set=\"store_name\" t-"
-#| "value=\"object.config_id.name\"/>\n"
-#| "                    <t t-set=\"tz\" t-value=\"object.env.user.tz\"/>\n"
-#| "                    <t t-set=\"lg\" t-value=\"object.partner_id.lang or "
-#| "user.lang\"/>\n"
-#| "                    <div>\n"
-#| "                        <t t-if=\"client_name\">Hello <t t-"
-#| "out=\"client_name\">Client name</t>,</t>\n"
-#| "                        <t t-else=\"\">Hello,</t>\n"
-#| "                    </div>\n"
-#| "                    <br/>\n"
-#| "                    <div>Thank you for purchasing from <t t-"
-#| "out=\"store_name\">Store name</t>!</div>\n"
-#| "                    <div>Attached, you will find your receipt for the "
-#| "purchase of <span><t t-out=\"format_datetime(dt=object.date_order, tz=tz, "
-#| "dt_format=&quot;EEEE d MMMM&quot;,                          lang_code=lg) "
-#| "or ''\">date</t> <t t-out=\"format_time(time=object.date_order, tz=tz, "
-#| "time_format='short',                          lang_code=lg)\">time</t>.</"
-#| "span>\n"
-#| "                    </div>\n"
-#| "                    <br/>\n"
-#| "                    <div>With kind regards,</div>\n"
-#| "                    <br/>\n"
-#| "                    <t t-out=\"store_name\">Store name</t>\n"
-#| "                </div>\n"
-#| "            "
 msgid ""
 "<div style=\"margin: 0; padding: 0; font-size: 14px;\">\n"
 "                    <t t-set=\"client_name\" t-"
@@ -291,23 +260,24 @@ msgstr ""
 "value=\"object.partner_id.name\"/>\n"
 "                    <t t-set=\"store_name\" t-"
 "value=\"object.config_id.name\"/>\n"
-"                    <t t-set=\"tz\" t-value=\"object.env.user.tz\"/>\n"
+"                    <t t-set=\"tz\" t-"
+"value=\"object.company_id.partner_id.tz\"/>\n"
 "                    <t t-set=\"lg\" t-value=\"object.partner_id.lang or "
 "user.lang\"/>\n"
 "                    <div>\n"
 "                        <t t-if=\"client_name\">안녕하세요 <t t-"
-"out=\"client_name\">Client name</t> 고객님,</t>\n"
+"out=\"client_name\">Client name</t>님,</t>\n"
 "                        <t t-else=\"\">안녕하세요,</t>\n"
 "                    </div>\n"
 "                    <br/>\n"
-"                    <div>저희 <t t-out=\"store_name\">Store name</t> 스토어"
-"를 이용해 주셔서 감사합니다!</div>\n"
-"                    <div>첨부한  <span><t t-"
-"out=\"format_datetime(dt=object.date_order, tz=tz, dt_format=&quot;EEEE d "
-"MMMM&quot;,                          lang_code=lg) or ''\">date</t>  <t t-"
-"out=\"format_time(time=object.date_order, tz=tz, "
-"time_format='short',                          lang_code=lg)\">time</t> 기준"
-"의 구매영수증을 확인해 주세요.</span>\n"
+"                    <div>저희 <t t-out=\"store_name\">Store name</t> 매장을 "
+"이용해주셔서 감사합니다!</div>\n"
+"                    <div>첨부 파일에서 고객님의 구매 영수증을 확인하세요: "
+"<span><t t-out=\"format_datetime(dt=object.date_order, tz=tz, "
+"dt_format=&quot;EEEE d MMMM&quot;,                          lang_code=lg) or "
+"''\">날짜 </t> <t t-out=\"format_time(time=object.date_order, tz=tz, "
+"time_format='short',                          lang_code=lg)\">시간</t>.</"
+"span>\n"
 "                    </div>\n"
 "                    <br/>\n"
 "                    <div>감사합니다.</div>\n"
@@ -504,12 +474,6 @@ msgstr "같은 이름의 메모가 이미 존재합니다."
 #: model:ir.model.constraint,message:point_of_sale.constraint_pos_payment_unique_uuid
 msgid "A payment with this uuid already exists"
 msgstr "이 UUID 항목에 대한 결제 항목이 이미 존재합니다"
-
-#. module: point_of_sale
-#. odoo-javascript
-#: code:addons/point_of_sale/static/src/app/screens/feedback_screen/feedback_screen.js:0
-msgid "A request is still being processed in the background. Please wait."
-msgstr ""
 
 #. module: point_of_sale
 #: model_terms:ir.actions.act_window,help:point_of_sale.action_pos_session
@@ -942,7 +906,7 @@ msgstr "모든 판매 항목"
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
 msgid "Allow"
-msgstr ""
+msgstr "허용"
 
 #. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
@@ -1782,6 +1746,11 @@ msgid "Cash Rounding (PoS)"
 msgstr "시재 반올림 처리 (POS)"
 
 #. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Cash Rounding:"
+msgstr ""
+
+#. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
 msgid "Cash Roundings"
 msgstr "현금 올림"
@@ -2359,7 +2328,7 @@ msgstr "환경 설정"
 #. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_config_kanban
 msgid "Configure"
-msgstr ""
+msgstr "환경설정"
 
 #. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
@@ -2865,6 +2834,12 @@ msgstr "현황판"
 
 #. module: point_of_sale
 #. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid "Database Connection Lost"
+msgstr ""
+
+#. module: point_of_sale
+#. odoo-javascript
 #: code:addons/point_of_sale/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_order__date_order
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_payment__payment_date
@@ -3247,6 +3222,7 @@ msgstr "할인"
 #: model:ir.model.fields,field_description:point_of_sale.field_product_pricelist__display_name
 #: model:ir.model.fields,field_description:point_of_sale.field_product_pricelist_item__display_name
 #: model:ir.model.fields,field_description:point_of_sale.field_product_product__display_name
+#: model:ir.model.fields,field_description:point_of_sale.field_product_removal__display_name
 #: model:ir.model.fields,field_description:point_of_sale.field_product_tag__display_name
 #: model:ir.model.fields,field_description:point_of_sale.field_product_template__display_name
 #: model:ir.model.fields,field_description:point_of_sale.field_product_template_attribute_exclusion__display_name
@@ -3325,6 +3301,18 @@ msgstr "고객 목록을 열어서 고객을 선택하시겠습니까?"
 #: code:addons/point_of_sale/static/src/app/components/popups/retry_print_popup/retry_print_popup.xml:0
 msgid "Download"
 msgstr "다운로드"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/debug/debug_widget.xml:0
+msgid "Download IDB Errors"
+msgstr ""
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/debug/debug_widget.xml:0
+msgid "Download IndexedDB error logs from localStorage"
+msgstr ""
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -3539,8 +3527,10 @@ msgstr "Epson 영수증 프린터 IP 주소"
 
 #. module: point_of_sale
 #. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/closing_popup/closing_popup.js:0
 #: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_screen.js:0
 #: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+#: code:addons/point_of_sale/static/src/app/services/printer_service.js:0
 msgid "Error"
 msgstr "오류"
 
@@ -3555,12 +3545,6 @@ msgstr "오류가 발생했습니다! 순환 참조되는 카테고리는 생성
 #: code:addons/point_of_sale/static/src/app/utils/order_payment_validation.js:0
 msgid "Error: no internet connection."
 msgstr "오류: 인터넷에 연결되어 있지 않습니다."
-
-#. module: point_of_sale
-#. odoo-javascript
-#: code:addons/point_of_sale/static/src/app/screens/feedback_screen/feedback_screen.xml:0
-msgid "Everything is ready to go!"
-msgstr "모든 준비가 완료되었습니다!"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -3985,6 +3969,11 @@ msgid "Has Refundable Lines"
 msgstr "환불 가능 내역 있음"
 
 #. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_stock_picking_type__has_stock_reports_to_print
+msgid "Has Stock Reports To Print"
+msgstr ""
+
+#. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
 msgid "Header"
 msgstr "머리글"
@@ -4122,6 +4111,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:point_of_sale.field_product_pricelist__id
 #: model:ir.model.fields,field_description:point_of_sale.field_product_pricelist_item__id
 #: model:ir.model.fields,field_description:point_of_sale.field_product_product__id
+#: model:ir.model.fields,field_description:point_of_sale.field_product_removal__id
 #: model:ir.model.fields,field_description:point_of_sale.field_product_tag__id
 #: model:ir.model.fields,field_description:point_of_sale.field_product_template__id
 #: model:ir.model.fields,field_description:point_of_sale.field_product_template_attribute_exclusion__id
@@ -5641,6 +5631,12 @@ msgstr "청구서 미발행"
 #: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_screen.xml:0
 msgid "Not available"
 msgstr "사용할 수 없습니다"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/printer/base_printer.js:0
+msgid "Not implemented"
+msgstr ""
 
 #. module: point_of_sale
 #: model:ir.model.fields.selection,name:point_of_sale.selection__pos_preset__identification__none
@@ -7356,6 +7352,12 @@ msgid "Proceed Anyway"
 msgstr "계속 진행"
 
 #. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/feedback_screen/feedback_screen.xml:0
+msgid "Processing..."
+msgstr ""
+
+#. module: point_of_sale
 #: model:ir.model,name:point_of_sale.model_product_template
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_order_line__product_id
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_pack_operation_lot__product_id
@@ -7830,6 +7832,12 @@ msgstr "관련 세션: %(link)s"
 
 #. module: point_of_sale
 #. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid "Reload"
+msgstr ""
+
+#. module: point_of_sale
+#. odoo-javascript
 #: code:addons/point_of_sale/static/src/app/components/navbar/navbar.js:0
 #: code:addons/point_of_sale/static/src/app/components/navbar/navbar.xml:0
 #: code:addons/point_of_sale/static/src/app/components/popups/confirmation_dialog/confirmation_dialog.js:0
@@ -7860,6 +7868,11 @@ msgstr "데이터 새로고침"
 #: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_status/payment_status.js:0
 msgid "Remaining"
 msgstr "잔여"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_product_removal
+msgid "Removal Strategy"
+msgstr ""
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -8448,6 +8461,12 @@ msgid "Session Statistics"
 msgstr "세션 통계"
 
 #. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "Session already closed"
+msgstr ""
+
+#. module: point_of_sale
 #: model:mail.activity.type,name:point_of_sale.mail_activity_old_session
 msgid "Session open over 7 days"
 msgstr "세션이 열린 지 7일 경과"
@@ -8699,8 +8718,10 @@ msgstr ""
 
 #. module: point_of_sale
 #. odoo-javascript
-#: code:addons/point_of_sale/static/src/app/screens/feedback_screen/feedback_screen.xml:0
-msgid "Some process are still running in background, please wait..."
+#: code:addons/point_of_sale/static/src/app/main.js:0
+msgid ""
+"Some paid orders have not been synced to the server yet. Closing or "
+"reloading now may cause data loss."
 msgstr ""
 
 #. module: point_of_sale
@@ -9170,6 +9191,14 @@ msgstr "%(pos)s POS은 '%(value)s' 반올림 방식을 사용해야 합니다."
 #. odoo-python
 #: code:addons/point_of_sale/models/pos_config.py:0
 msgid "The company must have a fiscal country set."
+msgstr ""
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid ""
+"The connection to the local database was lost. Reloading the page will "
+"restore it and prevent any loss of unsaved orders."
 msgstr ""
 
 #. module: point_of_sale
@@ -9883,6 +9912,13 @@ msgstr ""
 
 #. module: point_of_sale
 #. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid ""
+"This order is currently syncing, please wait a moment before loading it."
+msgstr ""
+
+#. module: point_of_sale
+#. odoo-javascript
 #: code:addons/point_of_sale/static/src/app/screens/receipt_screen/receipt_screen.js:0
 msgid ""
 "This order is not yet synced to server. Make sure it is synced then try "
@@ -10448,6 +10484,7 @@ msgstr "부가가치세"
 #. module: point_of_sale
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/app/components/popups/product_info_popup/product_info_popup.js:0
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
 msgid "VAT:"
 msgstr "VAT :"
 
@@ -10456,6 +10493,14 @@ msgstr "VAT :"
 #: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_screen.xml:0
 msgid "Validate"
 msgstr "승인"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_payment_method.py:0
+msgid ""
+"Validation Error: You cannot assign the same Cash payment method to multiple "
+"POS Shops. Please create a separate Cash payment method for each shop."
+msgstr ""
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_bill__value
@@ -10881,6 +10926,12 @@ msgstr "POS 마감 관리 데이터를 가져올 수 있는 접근 권한이 없
 #. module: point_of_sale
 #. odoo-python
 #: code:addons/point_of_sale/models/pos_session.py:0
+msgid "You don't have the access rights to perform a cash in/out."
+msgstr ""
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
 msgid ""
 "You have enabled the \"Identify Customer\" option for %(payment_method)s "
 "payment method,but the order %(order)s does not contain a customer."
@@ -10987,7 +11038,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
 msgid "access"
-msgstr ""
+msgstr "사용 권한"
 
 #. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.product_pos_category_form_view
@@ -11086,7 +11137,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
 msgid "ePOS-print"
-msgstr ""
+msgstr "ePOS-print"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -11144,7 +11195,7 @@ msgstr "보낸 사람"
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
 msgid "http://[printer_ip]/cgi-bin/epos/service.cgi?devid=local_printer"
-msgstr ""
+msgstr "http://[printer_ip]/cgi-bin/epos/service.cgi?devid=local_printer"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -11251,7 +11302,7 @@ msgstr "미해결 헬프 세션"
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
 msgid "point_of_sale.use_lna"
-msgstr ""
+msgstr "point_of_sale.use_lna"
 
 #. module: point_of_sale
 #. odoo-python
@@ -11299,6 +11350,9 @@ msgstr ""
 #: code:addons/point_of_sale/static/src/customer_display/customer_display.xml:0
 msgid "x"
 msgstr ""
+
+#~ msgid "Everything is ready to go!"
+#~ msgstr "모든 준비가 완료되었습니다!"
 
 #~ msgid "0.00"
 #~ msgstr "0.00"

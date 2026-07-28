@@ -17,13 +17,14 @@
 # Tomaž Jug <tomaz@editor.si>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Žiga Trček <ziga.trcek@implex.si>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2025-11-16 13:49+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-05-15 17:40+0000\n"
+"PO-Revision-Date: 2026-06-23 17:30+0000\n"
+"Last-Translator: Žiga Trček <ziga.trcek@implex.si>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-19/"
 "sale_subscription/sl/>\n"
 "Language: sl\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_subscription
 #. odoo-python
@@ -125,7 +126,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "(Change Plan)"
-msgstr ""
+msgstr "(Spremeni Plan)"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -174,7 +175,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:sale.subscription.plan,name:sale_subscription.subscription_plan_6_month
 msgid "6 Months"
-msgstr ""
+msgstr "6 Mesecev"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
@@ -225,6 +226,41 @@ msgid ""
 "            </div>\n"
 "        "
 msgstr ""
+"<div style=\"background:#F0F0F0;color:#515166;padding:10px 0px;font-"
+"family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"                <table style=\"width:600px;margin:5px auto;\">\n"
+"                    <tbody>\n"
+"                        <tr><td t-if=\"not "
+"object.company_id.uses_default_logo\">\n"
+"                            <a href=\"/\"><img t-attf-src=\"/"
+"logo.png?company={{ object.company_id.id }}\" style=\"vertical-"
+"align:baseline;max-width:100px;\"/></a>\n"
+"                        </td><td style=\"text-align:right;vertical-"
+"align:middle;\">\n"
+"                                Obnovitev naročnine\n"
+"                        </td></tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <table style=\"width:600px;margin:0px "
+"auto;background:white;border:1px solid #e1e1e1;\">\n"
+"                    <tbody>\n"
+"                        <tr><td style=\"padding:15px 20px 10px 20px;\">\n"
+"                            <p>Spoštovani <t t-out=\"object.partner_id.name "
+"or ''\">Brandon Freeman</t>,</p>\n"
+"                            <p>vaša naročnina za <strong t-out=\"object.name "
+"or ''\">\"Office Cleaning Service\"</strong> potrebuje vašo pozornost.</p>\n"
+"                            <p>Vabimo vas, da jo obnovite s klikom na "
+"sledečo povezavo.</p>\n"
+"                            <p>Lep pozdrav</p>\n"
+"                        </td></tr>\n"
+"                        <tr data-o-mail-quote-container=\"1\"><td "
+"style=\"padding:15px 20px 10px 20px;\" t-out=\"object.user_id.signature or "
+"''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</"
+"td></tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            </div>\n"
+"        "
 
 #. module: sale_subscription
 #: model:mail.template,body_html:sale_subscription.mail_template_subscription_rating
@@ -334,7 +370,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 msgid "<i class=\"fa fa-download me-1\"/> Download"
-msgstr ""
+msgstr "<i class=\"fa fa-download me-1\"/> Prenesi"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -344,27 +380,27 @@ msgstr "<i class=\"fa fa-fw fa-check\"/> V teku"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-check\"/> Paused"
-msgstr ""
+msgstr "<i class=\"fa fa-fw fa-check\"/> Na Pavzi"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-check\"/> Renewed"
-msgstr ""
+msgstr "<i class=\"fa fa-fw fa-check\"/> Obnovljeno"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-remove\"/> Closed"
-msgstr ""
+msgstr "<i class=\"fa fa-fw fa-remove\"/> Zaključeno"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-remove\"/> Closing"
-msgstr ""
+msgstr "<i class=\"fa fa-fw fa-remove\"/> Se zaključuje"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
 msgid "<i class=\"fa fa-fw fa-repeat\"/> To Renew"
-msgstr ""
+msgstr "<i class=\"fa fa-fw fa-repeat\"/> Za Obnovitev"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -374,12 +410,12 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "<i class=\"oi oi-arrow-right me-1\"/>Back to your subscription"
-msgstr ""
+msgstr "<i class=\"oi oi-arrow-right me-1\"/>Nazaj na vašo naročnino"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
 msgid "<option value=\"\">Choose a reason...</option>"
-msgstr ""
+msgstr "<option value=\"\">Izberite razlog...</option>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.payment_method_form
@@ -395,6 +431,8 @@ msgid ""
 "<span class=\"badge rounded-pill text-bg-danger\"><i class=\"fa fa-fw fa-"
 "repeat\"/> To Renew</span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-danger\"><i class=\"fa fa-fw fa-"
+"repeat\"/> Za Obnoviti</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
@@ -402,6 +440,8 @@ msgid ""
 "<span class=\"badge rounded-pill text-bg-dark\"><i class=\"fa fa-fw fa-"
 "remove\"/> Closed</span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-dark\"><i class=\"fa fa-fw fa-"
+"remove\"/> Zaključeno</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
@@ -430,6 +470,8 @@ msgid ""
 "<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
 "check\"/> In Progress</span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
+"check\"/> V Teku</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.portal_my_subscriptions
@@ -437,6 +479,8 @@ msgid ""
 "<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
 "check\"/> Paused</span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\"><i class=\"fa fa-fw fa-"
+"check\"/> Na Pavzi</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -472,12 +516,12 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.recurring_details
 msgid "<span class=\"text-start\">Non Recurring</span>:"
-msgstr ""
+msgstr "<span class=\"text-start\">Enkratno</span>:"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.recurring_details
 msgid "<span class=\"text-start\">Recurring</span>:"
-msgstr ""
+msgstr "<span class=\"text-start\">Ponavljajoče</span>:"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_order_view_form
@@ -485,6 +529,7 @@ msgid ""
 "<span invisible=\"not plan_id or subscription_state == '7_upsell'\">until</"
 "span>"
 msgstr ""
+"<span invisible=\"not plan_id or subscription_state == '7_upsell'\">do</span>"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_content
@@ -494,6 +539,9 @@ msgid ""
 "subscription.\n"
 "                            </span>"
 msgstr ""
+"<span>\n"
+"                                Za to naročnino je plačilo že v teku.\n"
+"                            </span>"
 
 #. module: sale_subscription
 #: model_terms:web_tour.tour,rainbow_man_message:sale_subscription.sale_subscription_tour
@@ -713,16 +761,17 @@ msgid ""
 "                        </t>\n"
 "                    </t>\n"
 "                    <t t-else=\"\">\n"
-"                        Your subscription <t t-out=\"ctx.get('code') or "
-"''\">CODE</t> is due for renewal but we haven’t received your payment yet. "
-"To keep your subscription active, please make your payment as soon as "
+"                        Your subscription <t t-out=\"object.client_order_ref "
+"or ''\">CODE</t> is due for renewal but we haven’t received your payment "
+"yet. To keep your subscription active, please make your payment as soon as "
 "possible.\n"
 "                    </t>\n"
 "                    <br/><br/>\n"
-"                    Your subscription <t t-out=\"ctx.get('code') or "
+"                    Your subscription <t t-out=\"object.client_order_ref or "
 "''\">CODE</t> is still valid but will be <strong>suspended</strong>\n"
-"                    on <t t-out=\"format_date(ctx.get('date_close')) or "
-"''\">05/05/2021</t><br/>\n"
+"                    on <t t-"
+"out=\"format_date(object._get_subscription_close_date()) or ''\">05/05/2021</"
+"t><br/>\n"
 "                    <div style=\"margin: 16px 0px; text-align: center;\">\n"
 "                        <a t-attf-href=\"{{ ctx.get('payment_link', "
 "object.get_portal_url()) }}\" t-attf-style=\"display: inline-block; padding: "
@@ -1062,13 +1111,6 @@ msgstr ""
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_order.py:0
-msgid ""
-"Automatic payment failed. No country specified on payment_token's partner"
-msgstr ""
-
-#. module: sale_subscription
-#. odoo-python
-#: code:addons/sale_subscription/models/sale_order.py:0
 msgid "Automatic payment failed. No email sent this time. Error: %s"
 msgstr ""
 
@@ -1090,7 +1132,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_auto_close_limit_reached
 msgid "Automatic renewal failed"
-msgstr ""
+msgstr "Avtomatsko podaljšanje ni uspelo"
 
 #. module: sale_subscription
 #. odoo-python
@@ -1187,12 +1229,12 @@ msgstr "Sprememba kupca"
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_sidebar
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "Change Plan"
-msgstr ""
+msgstr "Spremeni Plan"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_so_portal_template
 msgid "Change Plan for"
-msgstr ""
+msgstr "Spremeni Plan za"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
@@ -1715,7 +1757,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_end_of_contract
 msgid "End of contract"
-msgstr ""
+msgstr "Konec pogodbe"
 
 #. module: sale_subscription
 #: model:ir.model.fields.selection,name:sale_subscription.selection__sale_subscription_plan__user_closable_options__end_of_period
@@ -3055,7 +3097,7 @@ msgstr "Ponavljajoči načrt"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_portal_content_inherit
 msgid "Recurring Plan:"
-msgstr ""
+msgstr "Periodičen plan:"
 
 #. module: sale_subscription
 #: model:ir.actions.act_window,name:sale_subscription.sale_subscription_plan_action
@@ -3894,7 +3936,7 @@ msgstr ""
 #. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_renew
 msgid "The subscription was renewed with a new plan"
-msgstr ""
+msgstr "Naročnina je bila obnovnjena z novim planom"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_subscription_close_reason_view_form
@@ -4071,7 +4113,7 @@ msgstr "Neznano"
 #. module: sale_subscription
 #: model:sale.order.close.reason,name:sale_subscription.close_reason_unpaid_subscription
 msgid "Unpaid subscription"
-msgstr ""
+msgstr "Neplačana naročnina"
 
 #. module: sale_subscription
 #: model:ir.model.fields,field_description:sale_subscription.field_sale_subscription_report__untaxed_amount_invoiced
@@ -4091,7 +4133,7 @@ msgstr "Skupaj brez davka"
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.sale_order_digest
 msgid "Untaxed Total:"
-msgstr ""
+msgstr "Skupaj (brez DDV):"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.report_saleorder_document
@@ -4282,6 +4324,14 @@ msgstr ""
 msgid ""
 "You are about to permanently close a subscription that is valid until\n"
 "                    &amp;nbsp;"
+msgstr ""
+
+#. module: sale_subscription
+#. odoo-python
+#: code:addons/sale_subscription/models/product_template.py:0
+msgid ""
+"You can not change the recurring property of this product because it has "
+"been sold already (%s)"
 msgstr ""
 
 #. module: sale_subscription
@@ -4547,37 +4597,37 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per %d months"
-msgstr ""
+msgstr "na %d mesecev"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per %d weeks"
-msgstr ""
+msgstr "na %d tednov"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per %d years"
-msgstr ""
+msgstr "na %d let"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per month"
-msgstr ""
+msgstr "na mesec"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per week"
-msgstr ""
+msgstr "na teden"
 
 #. module: sale_subscription
 #. odoo-python
 #: code:addons/sale_subscription/models/sale_subscription_plan.py:0
 msgid "per year"
-msgstr ""
+msgstr "na leto"
 
 #. module: sale_subscription
 #. odoo-python
@@ -4588,7 +4638,7 @@ msgstr ""
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
 msgid "quotation"
-msgstr ""
+msgstr "ponudba"
 
 #. module: sale_subscription
 #: model_terms:ir.ui.view,arch_db:sale_subscription.subscription_portal_template
@@ -4630,6 +4680,9 @@ msgid ""
 "your subscription failed. As your payment should have been made on "
 "{{ object.next_invoice_date }}, your subscription has been terminated."
 msgstr ""
+"{{ object.company_id.name }}: Naš zadnji poiskus obdelave plačila za vašo "
+"naročnino ni uspel. Kot bi vaše plačilo moralo biti storjeno do {{ "
+"object.next_invoice_date }}, je vaša naročnina bila prekinjena."
 
 #. module: sale_subscription
 #: model:mail.template,subject:sale_subscription.mail_template_subscription_alert
@@ -4650,6 +4703,9 @@ msgid ""
 "suspended on {{ object.next_invoice_date }} unless the payment succeeds in "
 "the meantime."
 msgstr ""
+"{{ object.company_id.name }}: Ni bilo možno obdelati plačila za vašo "
+"naročnino. Vaša naročnina za {{ object.name }} je še v teku, a bo prekinjena "
+"{{ object.next_invoice_date }}, razen, če plačilo uspe v vmesnem času."
 
 #. module: sale_subscription
 #: model:sms.template,body:sale_subscription.sms_template_data_default_alert
@@ -4658,6 +4714,9 @@ msgid ""
 "attention. If you have some concerns about it, please contact "
 "{{ object.user_id.name }}, your contact person."
 msgstr ""
+"{{ object.company_id.name }}: Vaša naročnina za {{ object.name }} potrebuje "
+"vašo pozornost. Če imate kakšne pomisleke ali vprašanja, prosimo "
+"kontaktirajte {{ object.user_id.name }}, vašo kontaktno osebo."
 
 #~ msgid "Applied On"
 #~ msgstr "Uporabljeno na"

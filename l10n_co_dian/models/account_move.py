@@ -132,14 +132,13 @@ class AccountMove(models.Model):
     @api.depends('l10n_co_dian_document_ids', 'l10n_co_dian_document_ids.state', 'l10n_co_dian_document_ids.commercial_state')
     def _compute_l10n_co_dian_states(self):
         for move in self:
+            if accepted_doc := move._l10n_co_dian_get_last_accepted_document():
+                move.l10n_co_dian_state = accepted_doc.state
+                move.l10n_co_dian_commercial_state = accepted_doc.commercial_state
+                continue
             move.l10n_co_dian_commercial_state = False
-            move.l10n_co_dian_state = False
-            documents = move.l10n_co_dian_document_ids.sorted()
-            for document in documents:
-                if not move.l10n_co_dian_state:
-                    move.l10n_co_dian_state = document.state
-                if not move.l10n_co_dian_commercial_state and document.state == 'invoice_accepted':
-                    move.l10n_co_dian_commercial_state = document.commercial_state
+            doc = move.l10n_co_dian_document_ids.sorted()[:1]
+            move.l10n_co_dian_state = doc.state if doc else False
 
     @api.depends('l10n_co_dian_document_ids', 'l10n_co_dian_document_ids.state')
     def _compute_l10n_co_dian_attachment_id(self):
@@ -217,7 +216,7 @@ class AccountMove(models.Model):
     def _compute_show_reset_to_draft_button(self):
         # EXTENDS 'account'
         super()._compute_show_reset_to_draft_button()
-        for move in self.filtered(lambda m: m.move_type == 'out_invoice'):
+        for move in self.filtered(lambda m: m.is_sale_document()):
             # Reset to draft is not possible for invoices validated by DIAN
             if any(d.state in ('invoice_pending', 'invoice_accepted') and d.commercial_state == 'pending' for d in move.l10n_co_dian_document_ids):
                 move.show_reset_to_draft_button = False
@@ -238,6 +237,7 @@ class AccountMove(models.Model):
         # EXTENDS 'account'
         if (
             file_data['xml_tree'] is not None
+            and etree.QName(file_data['xml_tree']).localname != 'AttachedDocument'
             and (ubl_profile := file_data['xml_tree'].findtext('{*}ProfileID'))
             and ubl_profile.startswith('DIAN 2.1:')
         ):

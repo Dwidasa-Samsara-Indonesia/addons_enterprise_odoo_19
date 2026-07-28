@@ -27,6 +27,7 @@ export class DocumentsFolderMany2One extends Component {
         const value = this.props.record.data[this.props.name];
         await this.action.doAction("documents.document_action_preference", {
             additionalContext: {
+                documents_show_default_breadcrumb: true,
                 no_documents_unique_folder_id: true,
                 searchpanel_default_user_folder_id: value && value.id.toString(),
             },

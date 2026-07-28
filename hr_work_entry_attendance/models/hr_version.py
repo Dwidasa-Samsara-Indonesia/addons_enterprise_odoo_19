@@ -25,13 +25,16 @@ class HrVersion(models.Model):
         start_naive = start_dt.replace(tzinfo=None)
         end_naive = end_dt.replace(tzinfo=None)
 
+        domain = [("manual_duration", ">", 0),
+                  ("employee_id", "=", self.employee_id.ids),
+                  "|",
+                  ("time_stop", "<=", end_naive),
+                  ("time_stop", "=", False),
+                  ("time_start", ">=", start_naive),
+                  ]
+
         overtimes = self.env['hr.attendance.overtime.line']._read_group(
-            domain=[
-                ('employee_id', 'in', self.employee_id.ids),
-                ('date', '<=', end_naive.date()),
-                ('date', '>=', start_naive.date()),
-                ('manual_duration', '>', 0),
-            ],
+            domain=domain,
             groupby=['employee_id', 'date:day'],
             aggregates=['id:recordset']
         )
@@ -43,18 +46,25 @@ class HrVersion(models.Model):
             resource = employee.resource_id
             overtime_list = []
             for day, overtimes in overtimes_by_date.items():
+                overtimes = overtimes.sorted(lambda ot: ot.time_stop or ot.time_start)
+                prev_ot = None
                 for (check_in, check_out), ots in overtimes.grouped(lambda ot: (ot.time_start, ot.time_stop)).items():
                     prev_duration = 0  # to avoid intervals overlapping
                     for ot in ots:
                         tz = timezone(ot.employee_id.tz or resource.tz or 'UTC')
                         # Localization represents the LOCAL end of day for the date of the line
-                        end_of_day_tz = tz.localize(datetime.combine(ot.date, datetime.max.time()))
+                        end_of_day_tz = tz.localize(datetime.combine(day + relativedelta(days=1), datetime.min.time()))
                         end_of_day = end_of_day_tz.astimezone(utc).replace(tzinfo=None)
+                        start_of_day_tz = tz.localize(datetime.combine(day, datetime.min.time()))
+                        start_of_day = start_of_day_tz.astimezone(utc).replace(tzinfo=None)
 
                         datetime_stop = (
                             min(end_of_day, ot.time_stop) if ot.time_stop else end_of_day
                         ) - relativedelta(hours=prev_duration)
-                        datetime_start = datetime_stop - timedelta(hours=ot.duration)
+                        datetime_start = max(start_of_day, (datetime_stop - timedelta(hours=ot.duration)))
+                        if prev_ot and prev_ot[0] < datetime_stop and datetime_start < prev_ot[1]:
+                            datetime_start = prev_ot[1]
+                        prev_ot = (datetime_start, datetime_stop)
                         prev_duration += ot.duration
                         overtime_list.append((utc.localize(datetime_start), utc.localize(datetime_stop), ot))
             res[resource.id] = Intervals(overtime_list, keep_distinct=True)

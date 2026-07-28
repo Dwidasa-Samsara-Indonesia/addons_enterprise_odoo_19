@@ -80,7 +80,10 @@ class L10n_Mx_EdiInvoiceCancel(models.TransientModel):
             invoice = self.document_id.move_id
             new_invoice_data = invoice\
                 .with_context(include_business_fields=True)\
-                .copy_data({'l10n_mx_edi_cfdi_origin': f'04|{invoice.l10n_mx_edi_cfdi_uuid}'})[0]
+                .copy_data({
+                    'l10n_mx_edi_cfdi_origin': f'04|{invoice.l10n_mx_edi_cfdi_uuid}',
+                    'invoice_origin': invoice.invoice_origin,
+                    })[0]
             # Only invoice lines have to be copied
             # as we want them to be recomputed using the current currency rate
             new_invoice_data['line_ids'] = [line for line in new_invoice_data['line_ids'] if line[2]['display_type'] in ('product', 'line_section', 'line_note')]

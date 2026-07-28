@@ -3,14 +3,14 @@
 # * sale_renting_planning
 #
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-13 18:45+0000\n"
-"PO-Revision-Date: 2025-12-06 10:16+0000\n"
+"PO-Revision-Date: 2026-05-05 12:51+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting_planning/ru/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,help:sale_renting_planning.field_planning_role__sync_shift_rental
@@ -32,11 +32,17 @@ msgid ""
 "- On the website, users can’t select dates when no resources are available.\n"
 "- The order's rental period and the shift dates are synchronized."
 msgstr ""
+"- Создавайте заказы на аренду для ваших смен.\n"
+"- Заказы на товары, связанные с этой ролью, невозможно подтвердить, если нет "
+"доступных ресурсов для выполнения смен.\n"
+"- При отсутствии доступных ресурсов выбор дат на сайте для пользователей "
+"недоступен.\n"
+"- Период аренды заказа и даты смен синхронизированы."
 
 #. module: sale_renting_planning
 #: model_terms:ir.ui.view,arch_db:sale_renting_planning.planning_view_form_in_gantt_inherit
 msgid "Add to Last Order"
-msgstr ""
+msgstr "Добавить в последний заказ"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_role__display_name
@@ -58,7 +64,7 @@ msgstr "ID"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Impossible to generate a rental order for a shift in conflict."
-msgstr ""
+msgstr "Невозможно создать заказ на аренду для конфликтующей смены."
 
 #. module: sale_renting_planning
 #: model_terms:ir.ui.view,arch_db:sale_renting_planning.planning_view_form_in_gantt_inherit
@@ -69,13 +75,13 @@ msgstr "Новый заказ"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "No Rental Order is found."
-msgstr ""
+msgstr "Заказ на аренду не найден."
 
 #. module: sale_renting_planning
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "No resources are available for the shifts in: %s."
-msgstr ""
+msgstr "Нет доступных ресурсов для смен в: %s."
 
 #. module: sale_renting_planning
 #: model:ir.model,name:sale_renting_planning.model_planning_role
@@ -101,19 +107,19 @@ msgstr "Позиция заказа на продажу"
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Shift added to last order"
-msgstr ""
+msgstr "Смена добавлена в последний заказ"
 
 #. module: sale_renting_planning
 #. odoo-python
 #: code:addons/sale_renting_planning/models/planning_slot.py:0
 msgid "Shift not rescheduled due to conflicts"
-msgstr ""
+msgstr "Смена не перенесена из-за конфликтов"
 
 #. module: sale_renting_planning
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_role__sync_shift_rental
 #: model:ir.model.fields,field_description:sale_renting_planning.field_planning_slot__role_sync_shift_rental
 msgid "Sync Shifts and Rental Orders"
-msgstr ""
+msgstr "Синхронизировать смены и заказы на аренду"
 
 #. module: sale_renting_planning
 #. odoo-python
@@ -122,6 +128,8 @@ msgid ""
 "The shift should not be in conflict to be able to correctly add it to an "
 "existing rental order."
 msgstr ""
+"Чтобы корректно добавить смену к существующему заказу на аренду, у нее не "
+"должно быть конфликтов."
 
 #. module: sale_renting_planning
 #. odoo-python
@@ -130,6 +138,8 @@ msgid ""
 "This Sales Order can't be confirmed. No enough resources are available for "
 "the shifts in: %(product_name)s."
 msgstr ""
+"Этот заказ на продажу не может быть подтвержден. Недостаточно ресурсов для "
+"смен в: %(product_name)s."
 
 #. module: sale_renting_planning
 #. odoo-python
@@ -138,3 +148,5 @@ msgid ""
 "This Sales Order can't be confirmed. No resources are available for the "
 "shifts in: %(problematic_services)s."
 msgstr ""
+"Этот заказ на продажу не может быть подтвержден. Нет доступных ресурсов для "
+"смен в: %(problematic_services)s."

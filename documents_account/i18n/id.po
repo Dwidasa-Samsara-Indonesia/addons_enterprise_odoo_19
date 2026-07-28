@@ -4,13 +4,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Abe Manyo (abem)" <abem@odoo.com>, 2025.
+# "Nurul Aini Akrima Sabila (nuaas)" <nuaas@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 18:44+0000\n"
-"PO-Revision-Date: 2025-12-10 10:28+0000\n"
-"Last-Translator: \"Abe Manyo (abem)\" <abem@odoo.com>\n"
+"POT-Creation-Date: 2026-05-08 17:43+0000\n"
+"PO-Revision-Date: 2026-06-22 10:10+0000\n"
+"Last-Translator: \"Nurul Aini Akrima Sabila (nuaas)\" <nuaas@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/"
 "documents_account/id/>\n"
 "Language: id\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: documents_account
 #. odoo-python
@@ -102,6 +103,11 @@ msgstr "Lampiran"
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_bank_statement
 msgid "Bank Statement"
 msgstr "Rekening Koran"
+
+#. module: documents_account
+#: model:ir.model,name:documents_account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr ""
 
 #. module: documents_account
 #: model_terms:ir.ui.view,arch_db:documents_account.res_config_settings_view_form
@@ -257,7 +263,7 @@ msgstr "Dibuat pada"
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_out_refund
 msgid "Credit Note"
-msgstr "Catatan Kredit"
+msgstr "Nota Kredit"
 
 #. module: documents_account
 #. odoo-python
@@ -277,6 +283,7 @@ msgid "Customer Invoices"
 msgstr ""
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:documents_account.field_account_report__display_name
@@ -312,7 +319,7 @@ msgstr "Jurnal Akun Dokumen"
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_move_type
 #: model:ir.model.fields,field_description:documents_account.field_ir_cron__documents_account_move_type
 msgid "Documents Account Move Type"
-msgstr "Tipe Pergerakkan Akun Dokumen"
+msgstr "Tipe Pergerakan Akun Dokumen"
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_ir_actions_server__documents_account_suitable_journal_ids
@@ -335,6 +342,12 @@ msgstr "Ekspor format untuk laporan akuntansi"
 #: model:ir.model,name:documents_account.model_account_reports_export_wizard
 msgid "Export wizard for accounting's reports"
 msgstr "Wizard ekspor untuk laporan akuntansi"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Failed to paste links: "
+msgstr ""
 
 #. module: documents_account
 #. odoo-javascript
@@ -380,6 +393,7 @@ msgid "Has Embedded PDF"
 msgstr "Memiliki PDF yang Diembed"
 
 #. module: documents_account
+#: model:ir.model.fields,field_description:documents_account.field_account_document_import_mixin__id
 #: model:ir.model.fields,field_description:documents_account.field_account_journal__id
 #: model:ir.model.fields,field_description:documents_account.field_account_move__id
 #: model:ir.model.fields,field_description:documents_account.field_account_report__id
@@ -468,6 +482,12 @@ msgid ""
 msgstr ""
 "Ayo tag email ini sebagai Keuangan<br/> <i>Tips: action dapat disesuaikan ke "
 "proses Anda, menurut folder.</i>"
+
+#. module: documents_account
+#. odoo-javascript
+#: code:addons/documents_account/static/src/components/mail_attachments/mail_attachments_selector_patch.js:0
+msgid "Links pasted"
+msgstr ""
 
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_entry
@@ -608,7 +628,7 @@ msgstr ""
 #. module: documents_account
 #: model:ir.model.fields.selection,name:documents_account.selection__ir_actions_server__documents_account_create_model__account_move_in_refund
 msgid "Vendor Credit Note"
-msgstr "Catatan Kredit Pemasok"
+msgstr "Nota Kredit Pemasok"
 
 #. module: documents_account
 #. odoo-python
@@ -643,7 +663,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/documents_account/models/documents_document.py:0
 msgid "You can not create account move on folder."
-msgstr "Anda tidak dapat membuat pergerakkan akun pada folder."
+msgstr "Anda tidak dapat membuat pergerakan akun pada folder."
 
 #. module: documents_account
 #: model:ir.model.fields,field_description:documents_account.field_res_config_settings__account_folder_id

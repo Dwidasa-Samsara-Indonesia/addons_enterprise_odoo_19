@@ -51,7 +51,7 @@
                     <span t-attf-class="{{! (groups.mrp_mps_show_actual_demand and groups.mrp_mps_show_demand_forecast) and 'o_hidden' or ''}}"> / </span>
                     <span t-attf-class="{{! groups.mrp_mps_show_demand_forecast and 'o_hidden' or ''}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The forecasted demand. This value has to be entered manually.">Forecasted Demand</span>
                     <span> </span>
-                    <button type="button" t-attf-class="{{! groups.mrp_mps_show_safety_stock and 'o_hidden' or 'btn btn-link text-muted o_no_padding o_mrp_mps_edit'}}" t-on-click.stop="(ev) => this._onClickSuggestForecastedDemand(ev, productionSchedule.id)">
+                    <button type="button" t-attf-class="{{! groups.mrp_mps_show_demand_forecast and 'o_hidden' or 'btn btn-link text-muted o_no_padding o_mrp_mps_edit'}}" t-on-click.stop="(ev) => this._onClickSuggestForecastedDemand(ev, productionSchedule.id)">
                         <span class="fa fa-pencil text-muted fa-fw" role="img" aria-label="Suggest Forecasted Demand" title="Suggest Forecasted Demand"/>
                     </button>
                 </th>

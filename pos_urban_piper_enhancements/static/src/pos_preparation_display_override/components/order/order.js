@@ -4,6 +4,6 @@ import { getTime } from "@pos_urban_piper/utils";
 
 patch(Order.prototype, {
     get deliveryDatetime() {
-        return getTime(this.order.delivery_datetime);
+        return getTime(Number(this.order.delivery_datetime));
     },
 });

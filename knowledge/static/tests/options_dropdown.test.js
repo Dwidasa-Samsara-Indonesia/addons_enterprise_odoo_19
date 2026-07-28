@@ -20,7 +20,7 @@ import { serializeDateTime } from "@web/core/l10n/dates";
 import { user } from "@web/core/user";
 
 import { expect, test } from "@odoo/hoot";
-import { click, runAllTimers, waitFor } from "@odoo/hoot-dom";
+import { click, runAllTimers, setInputFiles, waitFor } from "@odoo/hoot-dom";
 import { animationFrame } from "@odoo/hoot-mock";
 
 class KnowledgeArticle extends models.ServerModel {
@@ -180,6 +180,29 @@ test("Add/Remove Cover", async () => {
     await waitFor(".o_select_media_dialog");
     // search should be populated with article name
     expect(".o_select_media_dialog input.o_we_search").toHaveValue("Bloups");
+});
+
+test("Abort article cover upload", async () => {
+    const mockServer = await makeMockServer();
+    const articleId = mockServer.env["knowledge.article"].create({ name: "Bloups" });
+    onRpc(`/knowledge/article/${articleId}/add_random_cover`, () => ({ error: "key_not_found" }));
+    mockService("upload", {
+        uploadFiles(_files, _options, _onUploaded, setAbortCallback) {
+            asyncStep("upload started");
+            setAbortCallback(() => asyncStep("upload aborted"));
+            return new Promise(() => {});
+        },
+    });
+
+    await mountTopbar(articleId);
+    await openOptionsDropdown();
+    await click(".dropdown-item:contains('Add Cover')");
+    await waitFor(".o_select_media_dialog");
+    await click(".o_select_media_dialog .o_upload_media_button");
+    await setInputFiles(new File(["test"], "cover.png", { type: "image/png" }));
+    await waitForSteps(["upload started"]);
+    await click(".o_select_media_dialog .modal-footer .btn-secondary:contains('Discard')");
+    await waitForSteps(["upload aborted"]);
 });
 
 test("Add Properties", async () => {

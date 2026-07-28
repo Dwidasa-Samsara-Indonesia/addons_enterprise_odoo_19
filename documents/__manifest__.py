@@ -58,6 +58,9 @@ App to upload and manage your documents.
     ],
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',
+    'kpi_providers': [
+        'models.kpi_provider:get_kpi_summary',
+    ],
     'assets': {
         'web.assets_backend': [
             'documents/static/src/scss/documents_views.scss',

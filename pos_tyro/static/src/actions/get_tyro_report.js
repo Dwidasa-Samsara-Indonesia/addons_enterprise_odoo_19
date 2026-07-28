@@ -6,6 +6,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 import { TYRO_LIB_URLS } from "@pos_tyro/urls";
+import { _t } from "@web/core/l10n/translation";
 
 class GetTyroReport extends Component {
     static props = { ...standardActionServiceProps };
@@ -34,7 +35,7 @@ class GetTyroReport extends Component {
     async loadTyro() {
         const { tyro_mode, payment_method_id, merchant_id, terminal_id } = this.props.action.params;
         if (!merchant_id || !terminal_id) {
-            throw new Error("Merchant ID and/or Terminal ID are not configured.");
+            throw new Error(_t("Merchant ID and/or Terminal ID are not configured."));
         }
         await loadJS(TYRO_LIB_URLS[tyro_mode]);
         const posProductInfo = await this.orm.call("pos.payment.method", "get_tyro_product_info", [
@@ -50,7 +51,7 @@ class GetTyroReport extends Component {
         }
         this.state.loading = true;
         this.state.result = "";
-        this.state.message = "Requesting Tyro Reconciliation Report";
+        this.state.message = _t("Requesting Tyro Reconciliation Report");
         this.state.reportLines = [];
 
         const { merchant_id, terminal_id, integration_key } = this.props.action.params;

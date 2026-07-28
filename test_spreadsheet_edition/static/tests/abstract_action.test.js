@@ -1,5 +1,5 @@
 import { expect, test } from "@odoo/hoot";
-import { animationFrame, rightClick, runAllTimers, waitFor } from "@odoo/hoot-dom";
+import { animationFrame, Deferred, rightClick, runAllTimers, waitFor } from "@odoo/hoot-dom";
 import { EventBus } from "@odoo/owl";
 
 import { helpers, registries } from "@odoo/o-spreadsheet";
@@ -176,4 +176,62 @@ test("The geoJson service is given to the model for geo charts", async function 
             geometry: {},
         },
     ]);
+});
+
+test("The action should redirect to the home menu when access is denied", async function () {
+    const menuDef = new Deferred();
+    onRpc("/spreadsheet/data/*", () => {
+        expect.step("try-open-spreadsheet");
+        throw new Response("", { status: 403 });
+    });
+    mockService("action", {
+        async doAction(actionRequest) {
+            if (actionRequest === "menu") {
+                expect.step("redirect-to-home-menu");
+                menuDef.resolve();
+            }
+            return super.doAction(...arguments);
+        },
+    });
+    await mountWithCleanup(WebClient);
+    getService("action")
+        .doAction({
+            type: "ir.actions.client",
+            tag: "spreadsheet_test_action",
+            params: {
+                spreadsheet_id: 1,
+            },
+        })
+        .catch(() => {});
+    await menuDef;
+    expect.verifySteps(["try-open-spreadsheet", "redirect-to-home-menu"]);
+});
+
+test("The action should redirect to the home menu when the related record cannot be found", async function () {
+    const menuDef = new Deferred();
+    onRpc("/spreadsheet/data/*", () => {
+        expect.step("try-open-spreadsheet");
+        throw new Response("", { status: 404 });
+    });
+    mockService("action", {
+        async doAction(actionRequest) {
+            if (actionRequest === "menu") {
+                expect.step("redirect-to-home-menu");
+                menuDef.resolve();
+            }
+            return super.doAction(...arguments);
+        },
+    });
+    await mountWithCleanup(WebClient);
+    getService("action")
+        .doAction({
+            type: "ir.actions.client",
+            tag: "spreadsheet_test_action",
+            params: {
+                spreadsheet_id: 1,
+            },
+        })
+        .catch(() => {});
+    await menuDef;
+    expect.verifySteps(["try-open-spreadsheet", "redirect-to-home-menu"]);
 });

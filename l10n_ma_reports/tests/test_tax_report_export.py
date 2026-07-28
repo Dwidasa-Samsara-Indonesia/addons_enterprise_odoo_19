@@ -302,3 +302,54 @@ class TestAccountMaExport(TestAccountReportsCommon):
                 </DeclarationReleveDeduction>
             """,
         )
+
+    def test_export_tax_report_with_reversed_entries(self):
+        """This will test make sure that no entries with a zero balance appears in the report"""
+        self.partner_ma.company_registry = "123456789123456"
+
+        bill = self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "date": "2025-12-31",
+            "invoice_date": "2025-12-31",
+            "partner_id": self.partner_ma.id,
+            "currency_id": self.other_currency.id,
+            "invoice_line_ids": [
+                Command.create({
+                    "product_id": self.product_a.id,
+                    "price_unit": 100.0,
+                    "tax_ids": [
+                        Command.set(self.company_data["default_tax_purchase"].ids)
+                    ],
+                })
+            ],
+        })
+
+        bill.action_post()
+        self.pay_with_statement_line(
+            bill, self.company_data["default_journal_bank"].id, "2026-04-14", -100
+        )
+
+        # Unreconcile the bill
+        bill_payable_lines = bill.line_ids.filtered(
+            lambda l: l.account_id.account_type == "liability_payable"
+        )
+        bill_payable_lines.remove_move_reconcile()
+        self.pay_with_statement_line(
+            bill, self.company_data["default_journal_bank"].id, "2025-12-31", -100
+        )
+        self.assertEqual(len(bill.tax_cash_basis_created_move_ids.ids), 3)
+        self.env.flush_all()
+
+        self._report_compare_with_test_file(
+            self.report.dispatch_report_action(self._generate_options(self.report, '2026-04-01', '2026-04-30'), 'l10n_ma_reports_export_vat_to_xml'),
+            test_xml="""
+                <DeclarationReleveDeduction>
+                    <idf>22233411</idf>
+                    <annee>2026</annee>
+                    <periode>4</periode>
+                    <regime>1</regime>
+                    <releveDeductions>
+                    </releveDeductions>
+                </DeclarationReleveDeduction>
+            """,
+        )

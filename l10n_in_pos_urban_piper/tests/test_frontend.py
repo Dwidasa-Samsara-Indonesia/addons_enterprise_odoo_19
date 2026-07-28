@@ -44,10 +44,14 @@ class TestL10nINPosUrbanPiperCommon(TestTaxCommonPOS):
                 'country_id': cls.env.ref('base.in').id,
             }).id,
         })
+        cls.product_tag_1 = cls.env['product.tag'].create({
+            'name': 'allergen-milk',
+        })
         cls.product_1 = cls.env['product.template'].create({
             'name': 'Product 1',
             'available_in_pos': True,
             'taxes_id': cls.taxes_5.ids,
+            'product_tag_ids': [cls.product_tag_1.id],
             'type': 'consu',
             'list_price': 100.0,
             'urbanpiper_pos_platform_ids': [Command.set([cls.env.ref('l10n_in_pos_urban_piper.pos_delivery_provider_zomato').id])],
@@ -68,8 +72,5 @@ class TestL10nINPosUrbanPiperCommon(TestTaxCommonPOS):
         up = UrbanPiperClient(self.urban_piper_config)
         items = up._prepare_items_data([self.product_1, self.product_2])
         self.assertEqual(len(items), 2)
-        self.assertEqual(items[0]['tags'].get('default', []), [])
-        self.assertEqual(
-            items[1]['tags'].get('default', []),
-            ['packaged-good']
-        )
+        self.assertEqual(items[0]['tags'].get('zomato', []), ['allergen-milk', 'alcohol-absent'])
+        self.assertEqual(items[1]['tags'].get('default', []), ['alcohol-absent', 'packaged-good'])

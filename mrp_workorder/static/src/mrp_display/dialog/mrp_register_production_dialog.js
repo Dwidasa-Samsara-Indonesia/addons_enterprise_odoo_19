@@ -3,7 +3,7 @@ import { formatFloat } from "@web/views/fields/formatters";
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { FloatField } from "@web/views/fields/float/float_field";
 import { Many2ManyTagsField } from "@web/views/fields/many2many_tags/many2many_tags_field";
-import { useState } from "@odoo/owl";
+import { useState, onWillStart } from "@odoo/owl";
 
 export class MrpRegisterProductionDialog extends ConfirmationDialog {
     static template = "mrp_workorder.MrpRegisterProductionDialog";
@@ -29,9 +29,14 @@ export class MrpRegisterProductionDialog extends ConfirmationDialog {
         }
         this.formatFloat = formatFloat;
         this.state = useState({ disabled: false });
-        if(["lot", "serial"].includes(this.props.record.data.product_tracking) && !this.props.record.data.lot_producing_ids.count) {
-            this.props.record.load();
-        }
+        onWillStart(async () => {
+            if (
+                ["lot", "serial"].includes(this.props.record.data.product_tracking) &&
+                !this.props.record.data.lot_producing_ids.count
+            ) {
+                await this.props.record.load();
+            }
+        });
         this.actionService = useService("action");
     }
 
@@ -47,6 +52,7 @@ export class MrpRegisterProductionDialog extends ConfirmationDialog {
     }
 
     async actionGenerateSerial() {
+        await this.props.record.save();
         const action = await this.props.record.model.orm.call(
             this.props.record.resModel,
             "action_generate_serial",

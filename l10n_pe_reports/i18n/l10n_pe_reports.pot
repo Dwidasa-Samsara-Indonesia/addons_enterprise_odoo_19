@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 19:07+0000\n"
-"PO-Revision-Date: 2026-02-20 19:07+0000\n"
+"POT-Creation-Date: 2026-06-12 18:08+0000\n"
+"PO-Revision-Date: 2026-06-12 18:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -179,6 +179,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_1_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_2_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_report_handler__display_name
+#: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_report_handler__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_country__display_name
@@ -219,6 +220,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_1_report_handler__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_8_2_report_handler__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_ple_report_handler__id
+#: model:ir.model.fields,field_description:l10n_pe_reports.field_l10n_pe_tax_report_handler__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_pe_reports.field_res_country__id
@@ -318,6 +320,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_pe_reports
+#: model:account.report.column,name:l10n_pe_reports.column_net
+msgid "Net"
+msgstr ""
+
+#. module: l10n_pe_reports
 #. odoo-python
 #: code:addons/l10n_pe_reports/models/account_general_ledger.py:0
 msgid "Only Peruvian company can generate PLE 5.3 report."
@@ -331,6 +338,11 @@ msgstr ""
 #. module: l10n_pe_reports
 #: model:ir.model.fields.selection,name:l10n_pe_reports.selection__res_company__l10n_pe_chart_of_accounts__99
 msgid "Others"
+msgstr ""
+
+#. module: l10n_pe_reports
+#: model:ir.model,name:l10n_pe_reports.model_l10n_pe_tax_report_handler
+msgid "PE Tax Report Custom Handler"
 msgstr ""
 
 #. module: l10n_pe_reports
@@ -486,6 +498,21 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pe_reports/models/account_ple_cash_bank.py:0
 msgid "TXT PLE 1.2 (Bank)"
+msgstr ""
+
+#. module: l10n_pe_reports
+#: model:account.report.column,name:l10n_pe_reports.column_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_pe_reports
+#: model:account.return.type,name:l10n_pe_reports.pe_tax_return_type
+msgid "Tax (PE)"
+msgstr ""
+
+#. module: l10n_pe_reports
+#: model:account.report,name:l10n_pe_reports.l10n_pe_tax_report
+msgid "Tax Report"
 msgstr ""
 
 #. module: l10n_pe_reports

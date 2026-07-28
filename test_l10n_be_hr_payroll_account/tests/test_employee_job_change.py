@@ -1,5 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+import base64
 import datetime
 from freezegun import freeze_time
 
@@ -76,7 +77,7 @@ class TestEmployeeJobChange(common.TestPayrollAccountCommon):
             'private_phone': '+32 2 290 34 90',
             'private_email': 'jeanjasse@doublehelice.be',
             'lang': 'en_US',
-            'id_card': cls.pdf_content,
+            'id_card': base64.b64encode(cls.pdf_content),
             'wage': 3000,
             'hr_responsible_id': cls.env.ref('base.user_admin').id,
             'contract_template_id': cls.new_dev_contract.id,

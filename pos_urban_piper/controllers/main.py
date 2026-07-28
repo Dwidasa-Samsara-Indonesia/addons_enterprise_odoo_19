@@ -398,8 +398,13 @@ class PosUrbanPiperController(http.Controller):
         main_product = self._product_template_to_product_variant(int(line_data['merchant_id'].split('-')[0]), variant_value_lst)
         price_unit = float(line_data['price'] + price_extra)
         tax_ids = main_product.taxes_id.filtered_domain(request.env['account.tax']._check_company_domain(pos_config_sudo.company_id))
+        tax_types = tax_ids.flatten_taxes_hierarchy().mapped('price_include')
+        if len(set(tax_types)) > 1:
+            _logger.warning("UrbanPiper: Multiple tax types found for product %s. Using the first one.", main_product.name)
         if line_data.get('taxes'):
-            line_taxes = self._get_tax_value(line_data.get('taxes'), pos_config_sudo)
+            if tax_types and len(set(tax_types)) >= 1 and tax_types[0]:
+                price_unit = float(line_data['total_with_tax'] + price_extra)
+            line_taxes = tax_ids
         elif tax_ids:
             price_unit = self._prepare_price_unit_from_baseline(tax_ids, price_unit, main_product, pos_config_sudo)
             line_taxes = tax_ids
@@ -463,8 +468,11 @@ class PosUrbanPiperController(http.Controller):
             pos_config_sudo = request.env['pos.config'].sudo().search([
                 ('urbanpiper_store_identifier', '=', data['store_id'])
             ])
-            if current_order_id.state == 'draft' and current_order_id.delivery_status in ('food_ready', 'dispatched', 'completed'):
-                pos_config_sudo._make_order_payment(current_order_id)
+            if current_order_id.state == 'draft':
+                if current_order_id.delivery_status in ('food_ready', 'dispatched', 'completed'):
+                    pos_config_sudo._make_order_payment(current_order_id)
+                elif current_order_id.delivery_status == 'cancelled':
+                    current_order_id.with_context(active_ids=current_order_id.ids).action_pos_order_cancel()
             pos_config_sudo._send_delivery_order_count(current_order_id.id)
 
     def _rider_status_update(self, data):

@@ -24,6 +24,7 @@ in the "Statement Reports" section).
         'data/template.xml',
         'data/account_report_ec_sales_list_report.xml',
         'data/account_return_data.xml',
+        'data/account_return_check_template.xml',
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
         'views/account_report_async_export_view.xml',

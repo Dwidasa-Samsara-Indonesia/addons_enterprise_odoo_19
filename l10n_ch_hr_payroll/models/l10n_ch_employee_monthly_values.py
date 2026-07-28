@@ -104,6 +104,8 @@ class L10nCHEmployeeMonthlySnapshot(models.Model):
 
         return values
 
+    def _get_swissdec_structure_rules(self):
+        return self.env.ref('l10n_ch_hr_payroll.hr_payroll_structure_ch_elm').with_context(active_test=False).rule_ids
 
     @api.depends('yearly_values_id', 'month')
     def _compute_employee_meta_data(self):
@@ -265,7 +267,7 @@ class L10nCHEmployeeMonthlySnapshot(models.Model):
 
     @api.depends("employee_id", "year", "month")
     def _compute_bvg_lpp_annual_basis(self):
-        swissdec_structure_rules = self.env.ref('l10n_ch_hr_payroll.hr_payroll_structure_ch_elm').rule_ids
+        swissdec_structure_rules = self._get_swissdec_structure_rules()
         paid_slips = self.env["hr.payslip"]._read_group(
             domain=[("employee_id", 'in', self.employee_id.ids),
                     ('l10n_ch_lpp_not_insured', '!=', True),
@@ -454,7 +456,7 @@ class L10nCHEmployeeMonthlySnapshot(models.Model):
     @api.depends("month", "year", "employee_id")
     def _compute_monthly_statistics(self):
         swissdec_declaration = SwissdecDeclaration()
-        swissdec_structure_rules = self.env.ref('l10n_ch_hr_payroll.hr_payroll_structure_ch_elm').rule_ids
+        swissdec_structure_rules = self._get_swissdec_structure_rules()
         paid_slips = self.env["hr.payslip"]._read_group(
             domain=[
                 ("employee_id", 'in', self.employee_id.ids),

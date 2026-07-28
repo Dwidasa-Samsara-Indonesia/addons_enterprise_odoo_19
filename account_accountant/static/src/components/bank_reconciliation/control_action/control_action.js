@@ -51,15 +51,17 @@ export class BankRecKanbanControlPanel extends ControlPanel {
             return;
         }
 
-        const companyIds = this.selectedUnreconciledStatementLines.map(
-            (st_line) => st_line.data.company_id.id
-        );
+        const companyIds = [
+            ...new Set(
+                this.selectedUnreconciledStatementLines.map((st_line) => st_line.data.company_id.id)
+            ),
+        ];
         this.addDialog(SelectCreateDialog, {
             title: _t("Search: Partner"),
             noCreate: false,
             multiSelect: false,
             resModel: "res.partner",
-            domain: [["company_id", "in", [false, ...companyIds]]],
+            domain: ["|", ["company_id", "in", [false, ...companyIds]], ["company_id", "parent_of", companyIds]],
             onSelected: async (partner) => {
                 await this.orm.call(
                     "account.bank.statement.line",
@@ -285,6 +287,12 @@ export class BankRecKanbanControlPanel extends ControlPanel {
     }
 
     get reconcileModelsToDisplay() {
+        if (this.selectedUnreconciledStatementLinesIds.length === 1) {
+            return this.bankReconciliation.reconcileModelPerStatementLineId[
+                this.selectedUnreconciledStatementLinesIds[0]
+            ];
+        }
+
         const allReconcileModels = [];
         for (const statementLineId of this.selectedUnreconciledStatementLinesIds) {
             const reconcileModels =
@@ -297,8 +305,8 @@ export class BankRecKanbanControlPanel extends ControlPanel {
         }
 
         const intersection = allReconcileModels.pop();
-        const remainingRecoModels = allReconcileModels.flat();
-        return intersection.filter((item) => remainingRecoModels.includes(item));
+        const remainingRecoModels = allReconcileModels.flat().map((recoModel) => recoModel.id);
+        return intersection.filter((item) => remainingRecoModels.includes(item.id));
     }
 
     get extraButtonToDisplay() {

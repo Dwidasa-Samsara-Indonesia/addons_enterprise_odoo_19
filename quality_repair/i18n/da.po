@@ -3,13 +3,13 @@
 # * quality_repair
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2025-09-25 13:33+0000\n"
+"PO-Revision-Date: 2026-06-23 16:12+0000\n"
 "Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "quality_repair/da/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: quality_repair
 #. odoo-python
@@ -29,37 +29,37 @@ msgstr ""
 #. module: quality_repair
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
 msgid "--&gt;"
-msgstr ""
+msgstr "--&gt;"
 
 #. module: quality_repair
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
 msgid "<span class=\"o_stat_text text-danger\">Quality Checks</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text text-danger\">Kvalitetskontroller</span>"
 
 #. module: quality_repair
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
 msgid "<span class=\"o_stat_text text-success\">Quality Checks</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text text-success\">Kvalitetskontroller</span>"
 
 #. module: quality_repair
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
 msgid "<span class=\"o_stat_text\">Quality Alerts</span>"
-msgstr "<span class=\"o_stat_text\">Kvalitets alarmer</span>"
+msgstr "<span class=\"o_stat_text\">Kvalitetsmeddelelser</span>"
 
 #. module: quality_repair
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
 msgid "<span class=\"o_stat_text\">Quality Checks</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Kvalitetskontroller</span>"
 
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_repair_order__quality_alert_ids
 msgid "Alerts"
-msgstr "Alarmer"
+msgstr "Advarsler"
 
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_repair_order__quality_check_ids
 msgid "Checks"
-msgstr "Kontrolpunkter"
+msgstr "Kontroller"
 
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_quality_alert__display_name
@@ -67,7 +67,7 @@ msgstr "Kontrolpunkter"
 #: model:ir.model.fields,field_description:quality_repair.field_quality_point__display_name
 #: model:ir.model.fields,field_description:quality_repair.field_repair_order__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_quality_alert__id
@@ -81,12 +81,12 @@ msgstr "ID"
 #: model:ir.model,name:quality_repair.model_quality_alert
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
 msgid "Quality Alert"
-msgstr "Kvalitetsalarm"
+msgstr "Kvalitetsmeddelelse"
 
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_repair_order__quality_alert_count
 msgid "Quality Alert Count"
-msgstr "Kvalitet advarsels antal"
+msgstr "Antal kvalitetsmeddelelser"
 
 #. module: quality_repair
 #: model:ir.model,name:quality_repair.model_quality_check
@@ -96,12 +96,12 @@ msgstr "Kvalitetskontrol"
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_repair_order__quality_check_fail
 msgid "Quality Check Fail"
-msgstr "Kvalitet fejlet tjek"
+msgstr "Kvalitetskontrol mislykket"
 
 #. module: quality_repair
 #: model:ir.model.fields,field_description:quality_repair.field_repair_order__quality_check_todo
 msgid "Quality Check Todo"
-msgstr "Kvalitet at tjekke"
+msgstr "Kvalitetskontrol, der skal foretages"
 
 #. module: quality_repair
 #: model_terms:ir.ui.view,arch_db:quality_repair.view_repair_order_form_inherit_quality
@@ -111,7 +111,7 @@ msgstr "Kvalitetskontroller"
 #. module: quality_repair
 #: model:ir.model,name:quality_repair.model_quality_point
 msgid "Quality Control Point"
-msgstr "Kvalitetskontrol punkt"
+msgstr "Kvalitetskontrolpunkt"
 
 #. module: quality_repair
 #: model:ir.model,name:quality_repair.model_repair_order
@@ -126,9 +126,11 @@ msgstr "Reparationsordre"
 msgid ""
 "The Quantity quality check type is not possible with repair operation types."
 msgstr ""
+"Kvalitetskontroltypen \"Mængde\" understøttes ikke for "
+"reparationsoperationstyper."
 
 #. module: quality_repair
 #. odoo-python
 #: code:addons/quality_repair/models/repair.py:0
 msgid "You still need to do the quality checks!"
-msgstr "Du mangler stadig at lave en kvalitets kontrol!"
+msgstr "Du mangler stadig at lave kvalitetskontrollerne!"

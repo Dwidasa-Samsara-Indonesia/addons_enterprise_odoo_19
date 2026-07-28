@@ -1,15 +1,21 @@
 import { Component, useRef } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
-import { formatMonetary } from "@web/views/fields/formatters";
+import { formatMonetary, formatPercentage } from "@web/views/fields/formatters";
 import { useService } from "@web/core/utils/hooks";
 import { useBankReconciliation } from "../bank_reconciliation_service";
 import { usePopover } from "@web/core/popover/popover_hook";
 import { BankRecFormDialog } from "../bankrec_form_dialog/bankrec_form_dialog";
 import { BankRecLineInfoPopOver } from "../line_info_pop_over/line_info_pop_over";
 import { x2ManyCommands } from "@web/core/orm_service";
+import { roundDecimals } from "@web/core/utils/numbers";
+import { TagsList } from "@web/core/tags_list/tags_list";
 
 export class BankRecLineToReconcile extends Component {
     static template = "account_accountant.BankRecLineToReconcile";
+
+    static components = {
+        TagsList,
+    };
 
     static props = {
         line: Object,
@@ -52,15 +58,22 @@ export class BankRecLineToReconcile extends Component {
             resModel: "account.move.line",
             resId: this.lineData.id,
             context: {
+                skip_analytic_sync: true,
                 form_view_ref: "account_accountant.view_bank_rec_edit_line",
                 is_reviewed: this.lineData.move_id.checked,
             },
             onRecordSave: async (record) => {
+                const changes = await record.getChanges();
                 await this.orm.call("account.bank.statement.line", "edit_reconcile_line", [
                     this.statementLineData.id,
                     this.lineData.id,
-                    await record.getChanges(),
+                    changes,
                 ]);
+                if (Object.keys(changes?.analytic_distribution || {}).length) {
+                    await this.bankReconciliation.checkAnalyticAccounts(
+                        changes?.analytic_distribution
+                    );
+                }
                 this.props.statementLine.load();
                 this.bankReconciliation.reloadChatter();
                 return true;
@@ -81,7 +94,7 @@ export class BankRecLineToReconcile extends Component {
             this.statementLineData.id,
             this.lineData.id,
         ]);
-        if (this.lineData.reconciled_lines_ids.records.length) {
+        if (this.lineData.first_reconciled_lines_id) {
             // Only update the line count per partner if we delete
             // a line which is reconciled to another move line
             // We don't use await here as it could be reloaded asynchronously.
@@ -91,6 +104,114 @@ export class BankRecLineToReconcile extends Component {
         }
         this.props.statementLine.load();
         this.bankReconciliation.reloadChatter();
+    }
+
+    get jsonToData() {
+        const jsonFieldValue = this.lineData.analytic_distribution;
+        const analyticAccountIds = jsonFieldValue
+            ? Object.keys(jsonFieldValue)
+                  .filter((key) => key !== "__update__")
+                  .map((key) => key.split(","))
+                  .flat()
+                  .map((id) => parseInt(id))
+            : [];
+
+        const fetchedAnalyticAccounts = new Map(
+            analyticAccountIds.map((id) => [
+                id,
+                this.bankReconciliation.availableAnalyticAccounts?.[id],
+            ])
+        );
+        return this.buildDistribution(jsonFieldValue, fetchedAnalyticAccounts);
+    }
+
+    buildDistribution(jsonFieldValue, analyticAccount) {
+        const distribution = [];
+        let id = 1;
+        for (const [accountIds, percentage] of Object.entries(jsonFieldValue)) {
+            if (accountIds === "__update__") {
+                continue;
+            }
+            const defaultVals = []; // empty if the popup was not opened
+            const ids = accountIds.split(",");
+
+            for (const id of ids) {
+                const account = analyticAccount.get(parseInt(id));
+                if (!account) {
+                    continue;
+                }
+                // since tags are displayed even though plans might not be retrieved (ie defaultVals is empty)
+                // push the accounts anyway, as order doesn't matter
+                // once the popup is opened, plans are fetched and the analyticAccounts list will be ordered
+                Object.assign(
+                    defaultVals.find((plan) => plan.planId === account.root_plan_id[0]) ||
+                        (defaultVals.push({}) && defaultVals[defaultVals.length - 1]),
+                    {
+                        accountId: parseInt(id),
+                        accountDisplayName: account.display_name,
+                        accountColor: account.color,
+                        accountRootPlanId: account.root_plan_id[0],
+                    }
+                );
+            }
+            distribution.push({
+                analyticAccounts: defaultVals,
+                percentage: percentage / 100,
+                id: id++,
+            });
+        }
+        return distribution;
+    }
+
+    planIsComplete(total) {
+        return roundDecimals(total, 2) === 1;
+    }
+
+    /**
+     * Computes the totals for each account, grouped by plan (primarily used in tags)
+     * @returns {Object}
+     */
+    accountTotalsByPlan() {
+        const accountTotals = {};
+        this.jsonToData.map((line) => {
+            line.analyticAccounts.map((column) => {
+                if (column.accountId) {
+                    let {
+                        accId = column.accountId,
+                        accName = column.accountDisplayName,
+                        total = 0.0,
+                        planId = column.accountRootPlanId,
+                        planColor = column.accountColor,
+                    } = accountTotals[column.accountRootPlanId]?.[column.accountId] || {};
+
+                    total += roundDecimals(line.percentage, 2);
+
+                    accountTotals[planId] = accountTotals[planId] || {};
+                    accountTotals[planId][accId] = { accId, accName, planId, total, planColor };
+                }
+            });
+        });
+        return accountTotals;
+    }
+
+    planSummaryTags() {
+        const accountTotals = this.accountTotalsByPlan();
+        return Object.values(accountTotals).map((planSummary) => {
+            const accs = Object.values(planSummary);
+            return {
+                id: accs[0].planId,
+                text: accs.reduce(
+                    (p, n) =>
+                        p +
+                        (p.length ? " | " : "") +
+                        (this.planIsComplete(n.total)
+                            ? n.accName
+                            : `${formatPercentage(n.total)} ${n.accName}`),
+                    ""
+                ),
+                colorIndex: accs[0].planColor,
+            };
+        });
     }
 
     // -----------------------------------------------------------------------------
@@ -116,18 +237,16 @@ export class BankRecLineToReconcile extends Component {
         });
     }
 
-    openLineInfoPopOver() {
-        if (this.lineInfoPopOver.isOpen || !this.showLineInfo) {
-            this.lineInfoPopOver.close();
-        } else {
-            const popoverConfig = {
-                statementLineData: this.statementLineData,
-                lineData: this.lineData,
-                isPartiallyReconciled: this.isPartiallyReconciled,
-            };
-            if (this.exchangeMove) {
-                popoverConfig.exchangeMove = this.exchangeMove;
-            }
+    hoverLineInfoPopOver() {
+        const popoverConfig = {
+            statementLineData: this.statementLineData,
+            lineData: this.lineData,
+            isPartiallyReconciled: this.isPartiallyReconciled,
+        };
+        if (this.exchangeMove) {
+            popoverConfig.exchangeMove = this.exchangeMove;
+        }
+        if (!this.lineInfoPopOver.isOpen && this.showLineInfo) {
             this.lineInfoPopOver.open(this.lineInfoRef.el, popoverConfig);
         }
     }
@@ -155,14 +274,14 @@ export class BankRecLineToReconcile extends Component {
     }
 
     get reconciledLineId() {
-        return this.lineData.reconciled_lines_ids.records.length === 1
-            ? this.lineData.reconciled_lines_ids.records[0].data
+        return this.lineData.count_reconciled_lines === 1
+            ? this.lineData.first_reconciled_lines_id
             : null;
     }
 
     get reconciledLineExcludingExchangeDiffId() {
-        return this.lineData.reconciled_lines_excluding_exchange_diff_ids.records.length === 1
-            ? this.lineData.reconciled_lines_excluding_exchange_diff_ids.records[0].data
+        return this.lineData.count_reconciled_lines_excluding_exchange_diff === 1
+            ? this.lineData.first_reconciled_lines_excluding_exchange_diff_id
             : null;
     }
 
@@ -198,10 +317,9 @@ export class BankRecLineToReconcile extends Component {
     }
 
     get exchangeMove() {
-        return (
-            this.lineData.matched_debit_ids.records[0]?.data.exchange_move_id ||
-            this.lineData.matched_credit_ids.records[0]?.data.exchange_move_id
-        );
+        return this.lineData.exchange_move_ids.records.length === 1
+            ? this.lineData.exchange_move_ids.records[0].data
+            : null;
     }
 
     get showLineInfo() {

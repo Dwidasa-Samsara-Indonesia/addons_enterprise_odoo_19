@@ -69,3 +69,37 @@ class TestPayrollRightToLegalLeaves(TestPayrollCommon):
         public_holiday_date_work_entry = work_entries.filtered(lambda we: we.date == date(2024, 9, 19))
         self.assertEqual(public_holiday_date_work_entry.work_entry_type_id, sick_work_entry_type_without_salary)
         self.assertEqual(public_holiday_date_work_entry.leave_id, sick_leave)
+
+    def test_multi_day_leave_be_payroll(self):
+        flexible_calendar = self.env['resource.calendar'].sudo().create({
+            'name': 'flexible calendar',
+            'flexible_hours': True,
+            'full_time_required_hours': 21,
+            'hours_per_day': 3,
+            'hours_per_week': 21,
+        })
+
+        self.employee_georges.resource_calendar_id = flexible_calendar
+        self.employee_georges.version_id.resource_calendar_id = flexible_calendar
+
+        self.env['hr.leave.allocation'].create({
+            'name': 'Allocation',
+            'employee_id': self.employee_georges.id,
+            'holiday_status_id': self.holiday_leave_types.id,
+            'number_of_days': 20,
+            'date_from': '2026-05-01',
+        }).action_approve()
+
+        multi_day_leave = self.env['hr.leave'].create({
+            'name': 'Leave',
+            'employee_id': self.employee_georges.id,
+            'holiday_status_id': self.holiday_leave_types.id,
+            'request_date_from': datetime(2026, 5, 8),
+            'request_date_to': datetime(2026, 5, 12),
+        })
+
+        self.assertEqual(multi_day_leave.number_of_days, 5)
+
+        multi_day_leave.action_approve()
+
+        self.assertEqual(multi_day_leave.state, 'validate')

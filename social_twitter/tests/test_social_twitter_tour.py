@@ -43,7 +43,7 @@ class TestSocialTwitter(HttpCase):
 
             self.stream_post = self.env['social.stream.post'].with_user(self.social_manager).create({
                 'author_name': 'Author name',
-                'message': 'A simple post',
+                'message': '@social_manager A simple post',
                 'stream_id': self.social_stream.id,
                 'twitter_conversation_id': '1337',
                 'twitter_tweet_id': 'test_tweet_id',

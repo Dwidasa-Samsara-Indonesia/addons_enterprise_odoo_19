@@ -6,7 +6,7 @@
                 class="list-group-item d-flex gap-2 py-2 cursor-pointer border-end-0 border-top-0"
                 t-on-click="() => props.setSessionOwner(employee.id,pin)"
                 t-att-class="{'o_admin_user': employee.id === props.employees.admin.id}">
-                <img t-attf-src="/web/image/hr.employee/{{employee.id}}/avatar_128"
+                <img t-attf-src="/web/image/hr.employee.public/{{employee.id}}/avatar_128"
                     class="o_avatar rounded-circle"
                     t-att-class="{'opacity-50': !employee.workcenters.length and employee.id !== props.employees.admin.id}"/>
                 <div class="d-flex flex-column flex-grow-1 gap-1 overflow-auto">

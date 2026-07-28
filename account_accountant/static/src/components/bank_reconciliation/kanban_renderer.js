@@ -80,6 +80,7 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
             this.bankReconciliation.computeReconcileLineCountPerPartnerId(records),
             this.bankReconciliation.computeAvailableReconcileModels(records),
             this.bankReconciliation.computeAvailableReconcileLines(records),
+            this.bankReconciliation.computeAvailableAnalyticAccounts(records),
         ]);
         const statementLineId =
             parseInt(browser.sessionStorage.getItem("bankReconciliationStatementLineId")) ||

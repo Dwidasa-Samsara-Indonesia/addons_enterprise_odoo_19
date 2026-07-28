@@ -157,6 +157,8 @@ export class DocumentsListRenderer extends DocumentsRendererMixin(DocumentsSecon
      * Called when a click event is triggered.
      */
     onGlobalClick(ev) {
+        this.props.list.leaveEditMode();
+
         // We have to check that we are indeed clicking in the list view as on mobile,
         // the inspector renders above the renderer but it still triggers this event.
         if (ev.target.closest(".o_data_row") || !ev.target.closest(".o_list_renderer")) {

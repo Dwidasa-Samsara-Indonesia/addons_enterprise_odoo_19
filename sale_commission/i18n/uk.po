@@ -3,13 +3,15 @@
 # * sale_commission
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Vlad Patenko <vlad.patenko@gmail.com>, 2026.
+# Alina Lisnenko <alina.lisnenko@erp.co.ua>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:53+0000\n"
-"PO-Revision-Date: 2025-11-16 13:49+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-10 17:53+0000\n"
+"PO-Revision-Date: 2026-07-15 07:43+0000\n"
+"Last-Translator: Alina Lisnenko <alina.lisnenko@erp.co.ua>\n"
 "Language-Team: Ukrainian <https://translate.odoo.com/projects/odoo-19/"
 "sale_commission/uk/>\n"
 "Language: uk\n"
@@ -18,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_commission
 #. odoo-python
@@ -168,7 +170,7 @@ msgstr "Усі категорії"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_plan_view_form
 msgid "All products"
-msgstr ""
+msgstr "Усі товари"
 
 #. module: sale_commission
 #: model_terms:ir.actions.act_window,help:sale_commission.sale_commission_action_achievement
@@ -562,12 +564,6 @@ msgstr "Прогноз"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_report__date_from
 msgid "From"
 msgstr "Від"
-
-#. module: sale_commission
-#. odoo-python
-#: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "From must be before To"
-msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_plan__has_message
@@ -998,8 +994,21 @@ msgstr ""
 
 #. module: sale_commission
 #. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid "The assignment start date must be before the end date"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
 #: code:addons/sale_commission/model/commission_plan.py:0
 msgid "The plan should have at least one target with an achievement rate of 0%"
+msgstr ""
+
+#. module: sale_commission
+#. odoo-python
+#: code:addons/sale_commission/model/commission_plan_user.py:0
+msgid ""
+"The sales person's assignment must be within the commission plan period."
 msgstr ""
 
 #. module: sale_commission
@@ -1114,7 +1123,7 @@ msgstr ""
 #. module: sale_commission
 #. odoo-python
 #: code:addons/sale_commission/model/commission_plan_user.py:0
-msgid "User period cannot start before the plan."
+msgid "User period cannot start after the plan."
 msgstr ""
 
 #. module: sale_commission

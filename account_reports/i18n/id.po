@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:44+0000\n"
-"PO-Revision-Date: 2026-04-09 11:20+0000\n"
+"POT-Creation-Date: 2026-07-03 17:43+0000\n"
+"PO-Revision-Date: 2026-06-23 10:49+0000\n"
 "Last-Translator: \"Nurul Aini Akrima Sabila (nuaas)\" <nuaas@odoo.com>\n"
 "Language-Team: Indonesian <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/id/>\n"
@@ -24,13 +24,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/bank_reconciliation_report/warnings.xml:0
 msgid "\" account balance is affected by"
 msgstr "\" saldo akun dipengaruhi oleh"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "%(date_from)s - %(date_to)s"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -100,10 +106,8 @@ msgstr ""
 #: code:addons/account_reports/models/account_report.py:0
 msgid ""
 "'Open General Ledger' caret option is only available form report lines "
-"targetting accounts or Undistributed Profits/Losses."
+"targetting accounts or Result Brought Forward."
 msgstr ""
-"Opsi caret 'Buka Buku Umum' hanya tersedia pada baris laporan yang menarget "
-"akun atau Laba/Rugi yang Belum Dibagi."
 
 #. module: account_reports
 #. odoo-python
@@ -233,6 +237,28 @@ msgstr ""
 "                </p>\n"
 "            </div>\n"
 "        "
+
+#. module: account_reports
+#: model:mail.template,body_html:account_reports.email_template_tax_return_deadline
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px;\">\n"
+"                    Hi <span t-out=\"ctx.get('partner') and "
+"ctx['partner'].name\"/>,<br/><br/>\n"
+"                    The deadline to submit <strong t-out=\"object.name\"/> "
+"is <strong t-out=\"object.date_deadline\"/>.<br/>\n"
+"                    To avoid any potential fine, please ensure all remaining "
+"documents are sent over as soon as possible.<br/>\n"
+"                    If you've already submitted everything but still "
+"received this email, it's likely the tax return hasn't been marked as "
+"submitted in Odoo.<br/>\n"
+"                    Should you have any question or need assistance, feel "
+"free to get in touch.<br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
 
 #. module: account_reports
 #: model:mail.template,body_html:account_reports.email_template_generic_tax_instructions
@@ -679,7 +705,7 @@ msgstr "Status Aktivitas"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Ikon Jenis Aktifitas"
+msgstr "Ikon Jenis Aktivitas"
 
 #. module: account_reports
 #. odoo-javascript
@@ -872,8 +898,8 @@ msgid ""
 "All selected companies or branches do not share the same Tax ID. Please "
 "check the Tax ID of the selected companies."
 msgstr ""
-"Semua perusahaan atau cabang yang dipilih tidak memiliki Pajak ID yang sama. "
-"Mohon periksa Pajak ID dari perusahaan terpilih"
+"Semua perusahaan atau cabang yang dipilih tidak memiliki ID Pajak yang sama. "
+"Mohon periksa ID Pajak dari perusahaan yang dipilih."
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_allocation_of_prior_year_result_to_equity
@@ -896,6 +922,7 @@ msgstr "Jumlah"
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_amount_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_amount_currency
@@ -957,15 +984,33 @@ msgid "Analytic"
 msgstr "Analitik"
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__analytic_coverage
+#: model:ir.model.fields,field_description:account_reports.field_account_move_line__analytic_coverage
+msgid "Analytic Coverage"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report__filter_analytic_groupby
 msgid "Analytic Group By"
 msgstr "Analitik Dikelompokkan Berdasarkan"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
 
 #. module: account_reports
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
 msgstr "Simulasi Analitik"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/header/header.xml:0
+#: model_terms:ir.ui.view,arch_db:account_reports.pdf_export_main_table_header
+msgid "Analytic coverage"
+msgstr ""
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -1294,7 +1339,7 @@ msgstr "Tinjauan Analitik Biaya Bank"
 #: code:addons/account_reports/models/account_return.py:0
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation
 msgid "Bank Matching"
-msgstr "Pencocokkan Bank"
+msgstr "Pencocokan Bank"
 
 #. module: account_reports
 #. odoo-python
@@ -1333,7 +1378,7 @@ msgstr "Rekening Bank dan Kas"
 msgid ""
 "Bank matching isn’t required for VAT returns but helps spot missing bills."
 msgstr ""
-"Pencocokkan bank tidak diperlukan untuk SPT PPN tapi membantu menemukan "
+"Pencocokan bank tidak diperlukan untuk SPT PPN, tapi membantu menemukan "
 "tagihan yang kurang."
 
 #. module: account_reports
@@ -1413,6 +1458,18 @@ msgstr ""
 "Secara default, Odoo menerapkan deadlinenya sendiri untuk pengembalian "
 "(ditunjukkan sebagai 0). Memasukkan value di sini akan menimpanya dan akan "
 "digunakan sebagai deadline baru."
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV"
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
+msgid "CSV export only works with one column group"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -1681,7 +1738,7 @@ msgstr "Entri Penutupan"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__closing_move_ids
 msgid "Closing Move"
-msgstr "Pergerakkan Penutup"
+msgstr "Pergerakan Penutup"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_statement_line__closing_return_id
@@ -1714,6 +1771,7 @@ msgstr "Entri penutup diposting dan tanggal kunci diterapkan."
 
 #. module: account_reports
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_report.py:0
 #: model:account.report.column,name:account_reports.journal_report_code
 #: model:ir.model.fields,field_description:account_reports.field_account_return_check_template__code
@@ -2053,6 +2111,8 @@ msgid "Credit"
 msgstr "Kredit"
 
 #. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: model:account.report.column,name:account_reports.aged_payable_report_currency
 #: model:account.report.column,name:account_reports.aged_receivable_report_currency
 #: model:account.report.column,name:account_reports.bank_reconciliation_report_currency
@@ -2087,7 +2147,7 @@ msgstr "Terbaru"
 #: model:account.report.line,name:account_reports.account_financial_report_current_assets0
 #: model:account.report.line,name:account_reports.account_financial_report_current_assets_view0
 msgid "Current Assets"
-msgstr "Aktiva Terkini"
+msgstr "Aktiva Lancar"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_current_liabilities0
@@ -2096,12 +2156,7 @@ msgid "Current Liabilities"
 msgstr "Pasiva Terkini"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_1
-msgid "Current Year Retained Earnings"
-msgstr "Laba Ditahan Tahun Ini"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_current_year_earnings0
+#: model:account.report.line,name:account_reports.account_financial_report_current_years_earnings
 msgid "Current Year Unallocated Earnings"
 msgstr "Penghasilan Belum Teralokasi pada Tahun Terkini"
 
@@ -2206,7 +2261,7 @@ msgstr "Tanggal"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/aged_partner_balance/filter_aging.xml:0
 msgid "Days"
-msgstr "Hari-Hari"
+msgstr "Hari"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__days_to_deadline
@@ -2386,6 +2441,7 @@ msgstr "Tampilkan Komposer Email"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
@@ -2598,8 +2654,8 @@ msgstr "Pajak EC di negara yang sama"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_equity0
-msgid "EQUITY"
-msgstr "EKUITAS"
+msgid "EQUITY (& EARNINGS)"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -2609,6 +2665,11 @@ msgid ""
 msgstr ""
 "Setiap tagihan harus memiliki dokumennya terlampir sebagai bukti sebagai "
 "persiapan bila terjadi audit."
+
+#. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_earnings
+msgid "Earnings"
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -2773,6 +2834,7 @@ msgid "Entries with partners with no VAT"
 msgstr "Entri dengan mitra tanpa PPN"
 
 #. module: account_reports
+#: model:account.report.line,name:account_reports.account_financial_report_equity1
 #: model:ir.model.fields,field_description:account_reports.field_account_return_creation_wizard__equity
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__equity
 msgid "Equity"
@@ -2991,7 +3053,7 @@ msgstr "Tinjauan Financial Provision"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_fiscal_position
 msgid "Fiscal Position"
-msgstr "Fiscal Position"
+msgstr "Posisi Fiskal"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_tax_unit__fpos_synced
@@ -3101,16 +3163,6 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/account_report/line/popover/debug_popover.xml:0
 msgid "Formula"
 msgstr "Rumus"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"From %(date_from)s\n"
-"to  %(date_to)s"
-msgstr ""
-"Dari %(date_from)s\n"
-"sampai %(date_to)s"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_reports_export_wizard_format__fun_param
@@ -3295,7 +3347,7 @@ msgstr "Memiliki Pesan"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__has_move_entries
 msgid "Has Move Entries"
-msgstr "Memiki Entri Pergerakkan"
+msgstr "Memiki Entri Pergerakan"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_return__report_opened_once
@@ -3332,7 +3384,7 @@ msgstr "Kelompok Horizontal:"
 #: model:ir.model.fields,field_description:account_reports.field_account_report__horizontal_group_ids
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_horizontal_groups
 msgid "Horizontal Groups"
-msgstr "Kelompok-kelompok Horizontal"
+msgstr "Grup Horizontal"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_horizontal_group
@@ -3365,6 +3417,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_balance_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_report_handler__id
+#: model:ir.model.fields,field_description:account_reports.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_reports.field_account_audit_account_status__id
 #: model:ir.model.fields,field_description:account_reports.field_account_balance_sheet_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
@@ -3695,7 +3748,7 @@ msgstr "Token '%(token)s' tidak valid di formula account_codes '%(formula)s'"
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_check_template__cycle__inventory
 #: model:ir.ui.menu,name:account_reports.account_audit_inventory_entries_menu
 msgid "Inventory"
-msgstr "Stok Persediaan"
+msgstr "Inventaris"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_inventory_analytical_review
@@ -3754,6 +3807,11 @@ msgstr "Apakah Pengikut"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__is_main_company_active
 msgid "Is Main Company Active"
 msgstr "Apakah Perusahaan Utama Aktif"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return_type__is_master_data
+msgid "Is Master Data"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__is_recoverable
@@ -3968,7 +4026,7 @@ msgstr "Statement balance terakhir"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_search_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_search_view
 msgid "Late Activities"
-msgstr "Aktifitas terakhir"
+msgstr "Aktivitas terakhir"
 
 #. module: account_reports
 #. odoo-python
@@ -4284,7 +4342,7 @@ msgstr "Aktivitas Saya"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Deadline Kegiatan Saya"
+msgstr "Tenggat Aktivitas Saya"
 
 #. module: account_reports
 #. odoo-python
@@ -4299,6 +4357,7 @@ msgstr ""
 #. module: account_reports
 #. odoo-javascript
 #. odoo-python
+#: code:addons/account_reports/models/account_general_ledger.py:0
 #: code:addons/account_reports/models/account_journal_report.py:0
 #: code:addons/account_reports/static/src/components/journal_report/line/line.xml:0
 #: model:account.report.line,name:account_reports.journal_report_line
@@ -4370,7 +4429,7 @@ msgstr "Kalender Acara Aktivitas Berikutnya"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Batas Waktu Aktivitas Berikutnya"
+msgstr "Tenggat Aktivitas Berikutnya"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return__activity_summary
@@ -4604,6 +4663,12 @@ msgstr "Terus-menerus"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+msgid "Only an Accountant can delete a return."
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
 msgid "Only an Accounting Administrator can reset a return"
 msgstr "Hanya Administrator Akuntansi yang dapat reset return"
 
@@ -4631,6 +4696,12 @@ msgstr ""
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only intra-EU customers"
 msgstr "Hanya pelanggan di dalam UE"
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_return.py:0
+msgid "Only manually created returns in 'new' state can be deleted."
+msgstr ""
 
 #. module: account_reports
 #: model:ir.actions.server,name:account_reports.action_account_reports_customer_statements
@@ -5122,14 +5193,9 @@ msgid "Previous Years"
 msgstr "Tahun Sebelumnya"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings_line_2
-msgid "Previous Years Retained Earnings"
-msgstr "Laba Ditahan Tahun Sebelumnya"
-
-#. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_previous_year_earnings0
-msgid "Previous Years Unallocated Earnings"
-msgstr "Pendapatan Belum Teralokasi pada Tahun Sebelumnya"
+#: model:account.report.line,name:account_reports.account_financial_report_previous_years_earnings
+msgid "Previous Years Earnings"
+msgstr ""
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_send_form
@@ -5306,6 +5372,11 @@ msgid "Reminder"
 msgstr "Pengingat"
 
 #. module: account_reports
+#: model:mail.template,subject:account_reports.email_template_tax_return_deadline
+msgid "Reminder: Upcoming {{ object.name }} Deadline - Action Required"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__account_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_return_type__report_id
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -5332,6 +5403,14 @@ msgstr "Laporan Dibuka Sekali"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_send__report_options
 msgid "Report Options"
 msgstr "Pilihan Laporan"
+
+#. module: account_reports
+#. odoo-javascript
+#: code:addons/account_reports/static/src/components/account_report/warnings.xml:0
+msgid ""
+"Report is being loaded in the background. Presented data were cached and may "
+"not be accurate."
+msgstr ""
 
 #. module: account_reports
 #. odoo-python
@@ -5372,9 +5451,10 @@ msgid "Result"
 msgstr "Hasil"
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_retained_earnings0
-msgid "Retained Earnings"
-msgstr "Laba Ditahan"
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid "Result Brought Forward"
+msgstr "Saldo Pindahan"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_return_payment_wizard__return_id
@@ -5689,7 +5769,7 @@ msgstr "Cari ..."
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_report_form
 msgid "Sections"
-msgstr "Bagian-Bagian"
+msgstr "Bagian"
 
 #. module: account_reports
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_type__deadline_periodicity__semester
@@ -5809,6 +5889,11 @@ msgstr "Tunjukkan Jumlah Untuk Dibayar"
 #: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies
 msgid "Show Companies"
 msgstr "Tunjukkan Perusahaan"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_return__show_companies_mismatch_warning
+msgid "Show Companies Mismatch Warning"
+msgstr ""
 
 #. module: account_reports
 #. odoo-javascript
@@ -6118,6 +6203,11 @@ msgid "Tax Return"
 msgstr "SPT"
 
 #. module: account_reports
+#: model:mail.template,name:account_reports.email_template_tax_return_deadline
+msgid "Tax Return Deadline"
+msgstr ""
+
+#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
 msgid "Tax Return Periodicity"
 msgstr "Periodisitas SPT"
@@ -6184,7 +6274,7 @@ msgstr "Taxes Applied"
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Taxes and countries matching"
-msgstr "Pencocokkan pajak dan negara"
+msgstr "Pencocokan pajak dan negara"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_tax_unit__fpos_synced
@@ -6487,9 +6577,9 @@ msgid ""
 "using different currencies,\n"
 "        which can lead the report to be unbalanced."
 msgstr ""
-"Laporan ini menggunakan metode konversi CTA untuk menkonsolidasi lebih dari "
-"satu perusahaan menggunakan mata uang yang berbeda-beda,\n"
-"        yang dapat berujung ke laporan yang tidak seimbang."
+"Laporan ini menggunakan metode konversi CTA untuk mengonsolidasi beberapa "
+"perusahaan menggunakan mata uang berbeda-beda,\n"
+"        dan hal ini dapat menyebabkan laporan tidak seimbang."
 
 #. module: account_reports
 #. odoo-python
@@ -6615,7 +6705,7 @@ msgstr "Keuangan dan pembiayaan"
 #: model:ir.actions.client,name:account_reports.action_account_report_coa
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_coa
 msgid "Trial Balance"
-msgstr "Saldo Trial"
+msgstr "Neraca Saldo"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_trial_balance_report_handler
@@ -6681,11 +6771,6 @@ msgid "Type of the exception activity on record."
 msgstr "Jenis dari aktivitas pengecualian pada rekaman data."
 
 #. module: account_reports
-#: model:account.report.line,name:account_reports.account_financial_unaffected_earnings0
-msgid "Unallocated Earnings"
-msgstr "Pendapatan Belum Teralokasi"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_kanban_view
 #: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
 msgid "Unarchive"
@@ -6696,12 +6781,6 @@ msgstr "Batalkan Pengarsipan"
 #: code:addons/account_reports/models/account_report.py:0
 msgid "Undefined"
 msgstr "Undefined"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid "Undistributed Profits/Losses"
-msgstr "Laba/Rugi yang Belum Dibagi"
 
 #. module: account_reports
 #. odoo-javascript
@@ -6937,7 +7016,7 @@ msgstr "Pesan situs"
 #: model:ir.model.fields,help:account_reports.field_account_return__website_message_ids
 #: model:ir.model.fields,help:account_reports.field_account_return_type__website_message_ids
 msgid "Website communication history"
-msgstr "Sejarah komunikasi situs"
+msgstr "Riwayat komunikasi situs"
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.res_config_settings_view_form
@@ -7050,7 +7129,7 @@ msgstr "Anda hanya dapat membatalkan arsip pengembalian yang selesai."
 #. odoo-python
 #: code:addons/account_reports/models/account_move_line.py:0
 msgid "You cannot add taxes on a tax closing move line."
-msgstr "Anda tidak dapat menambakan pajak ke baris pergerakkan closing pajak."
+msgstr "Anda tidak dapat menambakan pajak ke baris pergerakan closing pajak."
 
 #. module: account_reports
 #. odoo-python
@@ -7133,6 +7212,13 @@ msgid ""
 msgstr ""
 "Anda hanya diizinkan untuk mengubah status pemeriksaan saat pengembalian "
 "belum ditinjau."
+
+#. module: account_reports
+#: model_terms:ir.ui.view,arch_db:account_reports.account_return_kanban_view
+msgid ""
+"Your active companies do not match this return's companies. The results "
+"shown for the checks might be incomplete."
+msgstr ""
 
 #. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.journal_report_pdf_export_main
@@ -7287,7 +7373,7 @@ msgstr "unit pajak [%s]"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/sales_report/warnings.xml:0
 msgid "that are not established abroad."
-msgstr "yang tidak didirikan diluar negeri"
+msgstr "yang tidak didirikan di luar negeri."
 
 #. module: account_reports
 #. odoo-javascript
@@ -7362,6 +7448,41 @@ msgstr ""
 #: code:addons/account_reports/static/src/components/multicurrency_revaluation_report/warnings.xml:0
 msgid "⇒ Reset to Odoo’s Rate"
 msgstr "⇒ Reset ke Kurs Odoo"
+
+#~ msgid ""
+#~ "From %(date_from)s\n"
+#~ "to  %(date_to)s"
+#~ msgstr ""
+#~ "Dari %(date_from)s\n"
+#~ "sampai %(date_to)s"
+
+#~ msgid ""
+#~ "'Open General Ledger' caret option is only available form report lines "
+#~ "targetting accounts or Undistributed Profits/Losses."
+#~ msgstr ""
+#~ "Opsi caret 'Buka Buku Umum' hanya tersedia pada baris laporan yang "
+#~ "menarget akun atau Laba/Rugi yang Belum Dibagi."
+
+#~ msgid "Current Year Retained Earnings"
+#~ msgstr "Laba Ditahan Tahun Ini"
+
+#~ msgid "EQUITY"
+#~ msgstr "EKUITAS"
+
+#~ msgid "Previous Years Retained Earnings"
+#~ msgstr "Laba Ditahan Tahun Sebelumnya"
+
+#~ msgid "Previous Years Unallocated Earnings"
+#~ msgstr "Pendapatan Belum Teralokasi pada Tahun Sebelumnya"
+
+#~ msgid "Retained Earnings"
+#~ msgstr "Laba Ditahan"
+
+#~ msgid "Unallocated Earnings"
+#~ msgstr "Pendapatan Belum Teralokasi"
+
+#~ msgid "Undistributed Profits/Losses"
+#~ msgstr "Laba/Rugi yang Belum Dibagi"
 
 #~ msgid ""
 #~ "'%s' date scope cannot be evaluated for a report which is not used by any "

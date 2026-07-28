@@ -10,15 +10,15 @@
 # Martin Trigaux, 2022
 # Mads Søndergaard, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2025-11-08 19:46+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-06-23 16:04+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting/da/>\n"
 "Language: da\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_renting
 #. odoo-python
@@ -52,7 +52,6 @@ msgstr "%(amount)s / %(duration)s"
 
 #. module: sale_renting
 #. odoo-python
-#: code:addons/sale_renting/models/product_template.py:0
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "%(duration)s %(unit)s"
 msgstr "%(duration)s %(unit)s"
@@ -72,6 +71,12 @@ msgid ""
 msgstr ""
 "(object.rental_status not in ('draft', 'sent') and 'Kvittering for levering "
 "eller returnering – %s' %(object.name)) or 'Ordre – %s' % (object.name)"
+
+#. module: sale_renting
+#. odoo-python
+#: code:addons/sale_renting/models/product_template.py:0
+msgid "/ %(duration)s %(unit)s"
+msgstr ""
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
@@ -213,7 +218,7 @@ msgstr "Ekstra omkostninger for forsinkede returneringer"
 #: model:ir.model.fields,help:sale_renting.field_product_template__rent_ok
 #: model:ir.model.fields,help:sale_renting.field_sale_order_line__is_product_rentable
 msgid "Allow renting of this product."
-msgstr "Tillad leje af dette produkt"
+msgstr "Tillad leje af dette produkt."
 
 #. module: sale_renting
 #. odoo-python
@@ -504,7 +509,7 @@ msgstr "Beskrivelse"
 #: model:ir.model.fields,field_description:sale_renting.field_sale_rental_report__display_name
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_sale_temporal_recurrence__displayed_unit
@@ -1015,12 +1020,12 @@ msgstr "Projektør"
 #: model:ir.model.fields,field_description:sale_renting.field_product_product__qty_in_rent
 #: model:ir.model.fields,field_description:sale_renting.field_product_template__qty_in_rent
 msgid "Quantity currently in rent"
-msgstr "Mængde pt. udlejet"
+msgstr "Mængde p.t. udlejet"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_quarterly
 msgid "Quarterly"
-msgstr "Kvartalvis"
+msgstr "Kvartalsvis"
 
 #. module: sale_renting
 #: model:ir.model.fields.selection,name:sale_renting.selection__sale_order__rental_status__draft
@@ -1085,7 +1090,7 @@ msgstr ""
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard_line__rental_order_wizard_id
 msgid "Rental Order Wizard"
-msgstr "Guide til lejeordre"
+msgstr "Assistent til lejeordre"
 
 #. module: sale_renting
 #: model:ir.actions.act_window,name:sale_renting.rental_order_action
@@ -1120,7 +1125,7 @@ msgstr "Udlejningsstatus"
 #. module: sale_renting
 #: model:ir.model.fields,field_description:sale_renting.field_rental_order_wizard__rental_wizard_line_ids
 msgid "Rental Wizard Line"
-msgstr "Udlejningsguidelinje"
+msgstr "Udlejningsassistentlinje"
 
 #. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.rental_order_form_view

@@ -42,7 +42,7 @@ class StockPicking(models.Model):
             if not sale_order or move.location_dest_id.usage != 'customer' or not move.picked:
                 continue
 
-            if sale_order.subscription_state == "7_upsell":
+            if sale_order.sudo().subscription_state == "7_upsell":
                 # we need to compute the parent id, because it was not computed when we created the SOL in _subscription_update_line_data
                 self.env.add_to_compute(self.env['sale.order.line']._fields['parent_line_id'], move.sale_line_id)
                 for line in move.sale_line_id:

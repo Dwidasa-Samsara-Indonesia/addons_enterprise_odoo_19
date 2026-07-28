@@ -114,7 +114,7 @@ class AccountReportBudgetItem(models.Model):
     account_id = fields.Many2one(
         string="Account",
         comodel_name='account.account',
-        domain="[('account_type', 'in', ('income', 'income_other', 'expense', 'expense_depreciation', 'expense_direct_cost'))]",
+        domain="[('account_type', 'in', ('income', 'income_other', 'expense', 'expense_other', 'expense_depreciation', 'expense_direct_cost'))]",
         required=True,
         index=True,
     )

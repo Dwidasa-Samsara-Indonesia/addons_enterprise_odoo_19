@@ -435,3 +435,62 @@ class TestSaleSubscriptionProjectProfitability(TestProjectProfitabilityCommon, T
                 }
             }
         )
+
+    def test_project_profitability_with_yearly_subscription_without_template(self):
+        self.env.user.group_ids += self.env.ref('analytic.group_analytic_accounting')
+        (self.product | self.product2).write({
+            'service_tracking': 'task_global_project',
+            'project_id': self.project.id
+        })
+        subscription = self.env['sale.order'].create({
+            'is_subscription': True,
+            'partner_id': self.partner.id,
+            'plan_id': self.plan_year.id,
+            'order_line': [Command.create({
+                'product_id': self.product.product_variant_id.id,
+                'price_unit': 252,
+                'tax_ids': [Command.clear()],
+            })]
+        })
+        subscription.action_confirm()
+        invoice = subscription._create_invoices()
+        invoice.action_post()
+        analytic_line = self.env['account.analytic.line'].sudo().search([('move_line_id.subscription_id', 'in', subscription.ids)])
+        analytic_line.write({'account_id': self.project.account_id.id})
+        profitability = subscription.project_id._get_profitability_items(False)
+        self.assertDictEqual(
+            profitability['revenues'],
+            {
+                'data': [{
+                    'id': 'subscriptions',
+                    'sequence': 8,
+                    'invoiced': subscription.order_line.price_unit,
+                    'to_invoice': subscription.order_line.price_unit,
+                }],
+                'total': {'invoiced': subscription.order_line.price_unit, 'to_invoice': subscription.order_line.price_unit},
+            }
+        )
+        subscription_2 = self.env['sale.order'].create({
+            'is_subscription': True,
+            'partner_id': self.partner.id,
+            'plan_id': self.plan_month.id,
+            'order_line': [Command.create({
+                'product_id': self.product2.product_variant_id.id,
+                'price_unit': 10,
+                'tax_ids': [Command.clear()],
+            })]
+        })
+        subscription_2.action_confirm()
+        profitability = subscription.project_id._get_profitability_items(False)
+        self.assertDictEqual(
+            profitability['revenues'],
+            {
+                'data': [{
+                    'id': 'subscriptions',
+                    'sequence': 8,
+                    'invoiced': subscription.order_line.price_unit,
+                    'to_invoice': subscription_2.order_line.price_unit + subscription.order_line.price_unit,
+                }],
+                'total': {'invoiced': subscription.order_line.price_unit, 'to_invoice': subscription_2.order_line.price_unit + subscription.order_line.price_unit},
+            }
+        )

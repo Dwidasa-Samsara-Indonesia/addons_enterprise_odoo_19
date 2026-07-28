@@ -4,6 +4,7 @@ from odoo import Command
 from odoo.exceptions import AccessError
 from odoo.tests import tagged
 from odoo.tests.common import users
+from odoo.addons.databases.models.project_project import get_database_api_keys
 
 
 @tagged('-at_install', 'post_install')
@@ -100,3 +101,39 @@ class TestDatabasesSecurity(TestDatabasesCommon):
 
         # Ensure that above of the Odoo AccessError, there isn't any call made to the outsite world
         self.mock_requests_request.authenticate.assert_not_called()
+
+    @users('db_manager@company.tld')
+    def test_database_api_key_should_never_leak_to_anyone(self):
+        database = self.env.user.database_user_ids.project_id[0]
+        self.assertEqual(
+            database.database_api_key,
+            '',
+            "We shouldn't display anything if there isn't any key configured."
+        )
+
+        database_api_key = get_database_api_keys(database, fallback=False).get(database.id, '')
+        self.assertEqual(
+            database_api_key,
+            '',
+            "The project key hasn't been set yet and fallback=False, we shouldn't retrieve any key."
+        )
+
+        database_api_key = get_database_api_keys(database).get(database.id)
+        self.assertEqual(
+            database_api_key,
+            'odoocom_privateKey',
+            "We should be able to access the apikey by other mean."
+        )
+
+        database.database_api_key = 'MY SEEEEECRET'
+        self.assertEqual(
+            database.database_api_key,
+            '****************************************',
+            "We shouldn't leak the value but we should display something for the user"
+        )
+        database_api_key = get_database_api_keys(database).get(database.id)
+        self.assertEqual(
+            database_api_key,
+            "MY SEEEEECRET",
+            "We should be able to retrieve the key from the database by other mean",
+        )

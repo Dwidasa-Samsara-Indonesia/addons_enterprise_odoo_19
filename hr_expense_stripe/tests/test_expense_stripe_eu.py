@@ -21,6 +21,12 @@ class TestExpenseStripeEU(TestExpenseStripeCommon):
     def test_refresh_account(self):
         super().test_refresh_account()
 
+    def test_restriction_email_sent_on_status_change(self):
+        super().test_restriction_email_sent_on_status_change()
+
+    def test_restriction_chatter_fallback(self):
+        super().test_restriction_chatter_fallback()
+
     def test_create_card(self):
         super().test_create_card()
 
@@ -48,8 +54,14 @@ class TestExpenseStripeEU(TestExpenseStripeCommon):
     def test_webhook_issuing_authorization_created_event(self):
         super().test_webhook_issuing_authorization_created_event()
 
+    def test_webhook_issuing_authorization_request_event_range_mcc_case(self):
+        super().test_webhook_issuing_authorization_request_event_range_mcc_case()
+
     def test_webhook_issuing_authorization_updated_event(self):
         super().test_webhook_issuing_authorization_updated_event()
+
+    def test_webhook_issuing_authorization_updated_event_amount_zero(self):
+        super().test_webhook_issuing_authorization_updated_event_amount_zero()
 
     def test_webhook_issuing_card_updated_event(self):
         super().test_webhook_issuing_card_updated_event()

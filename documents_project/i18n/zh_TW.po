@@ -7,13 +7,14 @@
 # Tony Ng, 2025
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tony Ng (ngto)" <ngto@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:44+0000\n"
-"PO-Revision-Date: 2025-11-16 13:41+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-04-17 18:48+0000\n"
+"PO-Revision-Date: 2026-04-21 11:38+0000\n"
+"Last-Translator: \"Tony Ng (ngto)\" <ngto@odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19/documents_project/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: documents_project
 #: model:ir.model,name:documents_project.model_ir_attachment
@@ -61,6 +62,11 @@ msgid "Default Project Folder"
 msgstr "預設專案資料夾"
 
 #. module: documents_project
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__display_name
+msgid "Destination Display Name"
+msgstr ""
+
+#. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__display_name
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__display_name
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__display_name
@@ -90,6 +96,11 @@ msgid "Documents Folder"
 msgstr ""
 
 #. module: documents_project
+#: model:ir.model,name:documents_project.model_documents_operation
+msgid "Documents Operation"
+msgstr "文件操作"
+
+#. module: documents_project
 #: model:documents.document,name:documents_project.project_1_document_3
 msgid "First Floor Plan"
 msgstr "首份平面圖"
@@ -112,6 +123,7 @@ msgstr "建立新專案的資料夾"
 
 #. module: documents_project
 #: model:ir.model.fields,field_description:documents_project.field_documents_document__id
+#: model:ir.model.fields,field_description:documents_project.field_documents_operation__id
 #: model:ir.model.fields,field_description:documents_project.field_documents_tag__id
 #: model:ir.model.fields,field_description:documents_project.field_ir_attachment__id
 #: model:ir.model.fields,field_description:documents_project.field_project_project__id
@@ -173,6 +185,12 @@ msgid ""
 "%(projects)s\n"
 "To continue, choose different folders for these projects."
 msgstr ""
+
+#. module: documents_project
+#. odoo-python
+#: code:addons/documents_project/wizard/documents_operation.py:0
+msgid "This document belongs to %(task)s."
+msgstr "此文件隸屬於：%(task)s。"
 
 #. module: documents_project
 #. odoo-python

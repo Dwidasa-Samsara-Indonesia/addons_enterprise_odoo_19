@@ -1,5 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from datetime import datetime
 from dateutil.relativedelta import FR, SA, SU, relativedelta
 from freezegun import freeze_time
 
@@ -147,3 +148,32 @@ class TestWebsiteSaleRenting(TestWebsiteSaleRentingCommon):
         # pytz.exceptions.NonExistentTimeError
         with freeze_time('2025-03-30 02:01:00 UTC'):
             self.assertFalse(self.website._is_customer_in_the_same_timezone())
+
+    def test_cart_add_day_pricing_dates(self):
+        """Adding a day-priced rental product to cart with dates that include a time component
+        should not raise "cannot mix different rental periods".
+
+        When the rental date picker sends start/end dates with hours (e.g. 14:30) but the product is
+        priced by Days, the time component must be normalized to midnight in the website timezone so
+        that adding the same product from the shop card and from the product page always yields the
+        same stored period.
+        """
+        day_product = self._create_product(
+            is_published=True,
+            product_pricing_ids=[fields.Command.create({"recurrence_id": self.recurrence_day.id})],
+        )
+
+        start_date = datetime(2025, 1, 10, 14, 30, 0)
+        end_date = datetime(2025, 1, 12, 14, 30, 0)
+
+        website = self.website.with_user(self.website.user_id)
+        with freeze_time("2025-01-10"), MockRequest(website.env, website=website) as request:
+            cart = request.website._create_cart()
+
+            cart._cart_add(day_product.id, 1, start_date=start_date, end_date=end_date)
+
+            self.assertEqual(cart.rental_start_date, datetime(2025, 1, 9, 23, 0, 0))
+            self.assertEqual(cart.rental_return_date, datetime(2025, 1, 12, 22, 59, 59, 999999))
+
+            # Shouldn't raise on second call
+            cart._cart_add(day_product.id, 1, start_date=start_date, end_date=end_date)

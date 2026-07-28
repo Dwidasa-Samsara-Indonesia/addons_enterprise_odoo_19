@@ -4,13 +4,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:48+0000\n"
-"PO-Revision-Date: 2025-11-08 19:57+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:24+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "stock_barcode_picking_batch/da/>\n"
 "Language: da\n"
@@ -18,12 +19,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.ui.view,arch_db:stock_barcode_picking_batch.stock_move_line_product_selector_inherit
 msgid "<i class=\"fa fa-lg fa-truck\" title=\"Transfer\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-lg fa-truck\" title=\"Overfør\"/>"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.ui.view,arch_db:stock_barcode_picking_batch.stock_picking_view_kanban
@@ -31,8 +32,7 @@ msgid ""
 "<span class=\"fa fa-external-link-square ms-1\" title=\"Open Batch Picking\"/"
 ">"
 msgstr ""
-"<span class=\"fa fa-external-link-square ms-1\" title=\"Open Batch Picking\"/"
-">"
+"<span class=\"fa fa-external-link-square ms-1\" title=\"Åbn partiplukning\"/>"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.ui.view,arch_db:stock_barcode_picking_batch.stock_barcode_batch_picking_view_info
@@ -47,23 +47,23 @@ msgstr "Stregkode"
 #. module: stock_barcode_picking_batch
 #: model:ir.actions.client,name:stock_barcode_picking_batch.stock_barcode_picking_batch_client_action
 msgid "Barcode Batch Picking Client Action"
-msgstr "Stregkode Parti Pluk Klient Handling"
+msgstr "Klientfunktion til partiplukning via stregkode"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model,name:stock_barcode_picking_batch.model_stock_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_barcode_cancel_operation__batch_id
 msgid "Batch Transfer"
-msgstr "Parti overførsel"
+msgstr "Batchoverførsel"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_barcode_cancel_operation__batch_name
 msgid "Batch Transfer Name"
-msgstr ""
+msgstr "Navn på batchoverførsel"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.actions.act_window,name:stock_barcode_picking_batch.stock_barcode_batch_picking_action_kanban
 msgid "Batch Transfers"
-msgstr "Parti overførsler"
+msgstr "Batchoverførsler"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
@@ -75,18 +75,18 @@ msgstr "Partier"
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "Cancel Batch Transfer"
-msgstr ""
+msgstr "Annullér batchoverførsel"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model,name:stock_barcode_picking_batch.model_stock_barcode_cancel_operation
 msgid "Cancel Operation"
-msgstr ""
+msgstr "Annullér operation"
 
 #. module: stock_barcode_picking_batch
 #. odoo-python
 #: code:addons/stock_barcode_picking_batch/models/stock_picking_batch.py:0
 msgid "Cancel this batch transfer?"
-msgstr ""
+msgstr "Annullér denne batchoverførsel?"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.ui.view,arch_db:stock_barcode_picking_batch.stock_barcode_batch_picking_view_info
@@ -106,7 +106,7 @@ msgstr "Kassér"
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_picking__display_batch_button
 msgid "Display Batch Button"
-msgstr ""
+msgstr "Vis partiknap"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_barcode_cancel_operation__display_name
@@ -115,12 +115,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_picking_batch__display_name
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_picking_type__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_picking_type__group_lines_by_product
 msgid "Group batch lines"
-msgstr ""
+msgstr "Gruppér partilinjer"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_barcode_cancel_operation__id
@@ -142,57 +142,59 @@ msgid ""
 "Lines of same product at same location appear grouped. Not to use for "
 "cluster picking"
 msgstr ""
+"Linjer med samme produkt på samme lokation vises samlet. Må ikke bruges til "
+"klyngeplukning"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.actions.act_window,help:stock_barcode_picking_batch.stock_barcode_batch_picking_action_kanban
 msgid "No batch transfer found"
-msgstr "Ingen partioverførsel fundet"
+msgstr "Ingen batchoverførsel fundet"
 
 #. module: stock_barcode_picking_batch
 #. odoo-python
 #: code:addons/stock_barcode_picking_batch/models/stock_picking_batch.py:0
 msgid "Open picking batch form"
-msgstr "Åben parti pluk formular"
+msgstr "Åbn formular til partiplukning"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model,name:stock_barcode_picking_batch.model_stock_picking_type
 msgid "Picking Type"
-msgstr "Pluk type"
+msgstr "Plukningstype"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "Print Batch Transfer"
-msgstr "Print Parti Overførsel"
+msgstr "Udskriv batchoverførsel"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "Print Product Labels"
-msgstr ""
+msgstr "Udskriv produktetiketter"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model,name:stock_barcode_picking_batch.model_stock_move_line
 msgid "Product Moves (Stock Move Line)"
-msgstr "Produkt bevægelser (Lagerbevægelse linje)"
+msgstr "Produktbevægelser (Lagerbevægelseslinje)"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "Scan the package %s"
-msgstr ""
+msgstr "Scan pakken %s"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "The Batch Transfer has been validated"
-msgstr ""
+msgstr "Batchoverførslen er valideret"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "The batch picking has been cancelled"
-msgstr "Parti plukket er blevet annulleret"
+msgstr "Partiplukningen er annulleret"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.actions.act_window,help:stock_barcode_picking_batch.stock_barcode_batch_picking_action_kanban
@@ -205,29 +207,29 @@ msgid ""
 "            help the timing management of operations (tasks to be done at "
 "1pm)."
 msgstr ""
-"Målet med parti overførslen er at gruppere operationer der kan\n"
-"              (skal) udføres sammen, for at forøge deres effektivitet.\n"
-"              Det kan også være nyttigt at tildele jobs (en person = et "
-"parti), eller\n"
-"              at hjælpe administrationen med timingen af operationer "
-"(opgaver der skal udføres kl 13:00)."
+"Formålet med batchoverførslen er at samle operationer, der kan\n"
+"            (eller skal) udføres sammen, for at øge effektiviteten.\n"
+"            Den kan også bruges til at tildele opgaver (én person pr. parti) "
+"eller\n"
+"            til at understøtte planlægning og timing af operationer (f.eks. "
+"opgaver, der skal udføres kl. 13:00)."
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,help:stock_barcode_picking_batch.field_stock_move_line__picking_id
 msgid "The stock operation where the packing has been made"
-msgstr "Lager operationen hvor pakningen er foretaget"
+msgstr "Lageroperationen, hvor pakningen er foretaget"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "This batch is already cancelled"
-msgstr ""
+msgstr "Dette parti er allerede annulleret"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
 #: code:addons/stock_barcode_picking_batch/static/src/models/barcode_picking_batch_model.js:0
 msgid "This batch is already done"
-msgstr ""
+msgstr "Dette parti er allerede klaret"
 
 #. module: stock_barcode_picking_batch
 #. odoo-javascript
@@ -236,6 +238,8 @@ msgid ""
 "This batch transfer is still in draft, scans are disabled until the batch is "
 "confirmed"
 msgstr ""
+"Denne batchoverførsel er stadig et udkast, scanning er deaktiveret, indtil "
+"partiet er bekræftet"
 
 #. module: stock_barcode_picking_batch
 #: model:ir.model,name:stock_barcode_picking_batch.model_stock_picking
@@ -253,12 +257,12 @@ msgstr "Overførsler"
 #. module: stock_barcode_picking_batch
 #: model:ir.model.fields,field_description:stock_barcode_picking_batch.field_stock_picking_batch__picking_type_code
 msgid "Type of Operation"
-msgstr "Type af drift"
+msgstr "Operationstype"
 
 #. module: stock_barcode_picking_batch
 #: model_terms:ir.ui.view,arch_db:stock_barcode_picking_batch.stock_barcode_batch_picking_view_info
 msgid "Unbatch Transfer"
-msgstr "Af-batch Overførsel"
+msgstr "Fjern overførsel fra partiet"
 
 #. module: stock_barcode_picking_batch
 #. odoo-python
@@ -268,6 +272,6 @@ msgid ""
 "can use the info button on the top right corner of your screen to remove the "
 "transfer in question from the batch."
 msgstr ""
-"Du kan ikke validere en overførsel hvis ingen kvantiteter er reserveret "
-"eller færdige. Du kan bruge info knappen oppe i højre hjørne af din skærm, "
-"til at fjerne den pågældende overførsel fra partiet."
+"Du kan ikke validere en overførsel, hvis ingen mængder er reserveret eller "
+"færdigbehandlet. Brug infoknappen øverst til højre på skærmen for at fjerne "
+"overførslen fra partiet."

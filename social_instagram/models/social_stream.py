@@ -52,13 +52,17 @@ class SocialStream(models.Model):
                 'instagram_likes_count': post.get('like_count', 0),
                 'instagram_post_id': post.get('id'),
                 'instagram_post_link': post.get('permalink'),
-                'message': post.get('caption'),
+                'message': post.get('caption') or '',
                 'published_date': dateutil.parser.parse(post.get('timestamp'), ignoretz=True),
                 'stream_id': self.id,
             }
 
             if post.get('media_type') == 'CAROUSEL_ALBUM':
                 media_urls = [{'image_url': media.get('media_url', '')} for media in post.get('children', {}).get('data', [])]
+            elif post.get("media_type") == "VIDEO":
+                # Instagram real
+                values['message'] = (values['message'] + "\n" + post.get('media_url')).strip()
+                media_urls = []
             else:
                 media_urls = [{'image_url': post.get('media_url', '')}]
 

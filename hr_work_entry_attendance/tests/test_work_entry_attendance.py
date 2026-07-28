@@ -303,6 +303,58 @@ class TestWorkentryAttendance(HrWorkEntryAttendanceCommon):
         self.assertEqual(time_off_entries.duration, 8)
         self.assertEqual((work_entries - time_off_entries).duration, 4)
 
+    def test_worked_time_leave_over_public_holiday(self):
+        """Worked-time leaves should not duplicate overlapping public holidays."""
+        if 'hr.leave' not in self.env.registry:
+            self.skipTest("hr_work_entry_holidays is required to test approved time off work entries")
+
+        self.employee.resource_calendar_id.tz = 'UTC'
+        self.employee.resource_calendar_id.flexible_hours = True
+        worked_time_type = self.env['hr.work.entry.type'].create({
+            'name': 'Worked Time Off',
+            'is_leave': True,
+            'code': 'WORKEDTIMEOFF',
+        })
+        leave_type = self.env['hr.leave.type'].create({  # noqa: OLS03001
+            'name': 'Worked Time Leave',
+            'time_type': 'other',
+            'requires_allocation': False,
+            'work_entry_type_id': worked_time_type.id,
+        })
+        self.env['resource.calendar.leaves'].create({
+            'name': 'Public holiday',
+            'date_from': datetime(2026, 1, 6, 0, 0, 0),
+            'date_to': datetime(2026, 1, 6, 23, 59, 59),
+            'calendar_id': self.employee.resource_calendar_id.id,
+            'time_type': 'leave',
+        })
+        self.contract.generate_work_entries(date(2026, 1, 5), date(2026, 1, 7))
+
+        leave = self.env['hr.leave'].create({  # noqa: OLS03001
+            'name': 'Worked time leave',
+            'employee_id': self.employee.id,
+            'holiday_status_id': leave_type.id,
+            'request_date_from': date(2026, 1, 5),
+            'request_date_to': date(2026, 1, 7),
+        })
+        leave.action_approve()
+
+        work_entries = self.env['hr.work.entry'].search([
+            ('employee_id', '=', self.employee.id),
+            ('date', '>=', date(2026, 1, 5)),
+            ('date', '<=', date(2026, 1, 7)),
+            ('active', '=', True),
+        ])
+        pto_entries = work_entries.filtered(lambda entry: entry.work_entry_type_id == worked_time_type)
+        public_holiday_entries = work_entries - pto_entries
+
+        self.assertEqual(len(work_entries), 3)
+        self.assertEqual(sorted(pto_entries.mapped('date')), [date(2026, 1, 5), date(2026, 1, 7)])
+        self.assertEqual(sorted(pto_entries.mapped('duration')), [8.0, 8.0])
+        self.assertEqual(len(public_holiday_entries), 1)
+        self.assertEqual(public_holiday_entries.date, date(2026, 1, 6))
+        self.assertFalse(public_holiday_entries.work_entry_type_id)
+
     def test_creating_attendance_regenerate_work_entry(self):
         self.contract.write({
             'date_generated_from': datetime(2021, 9, 1, 0, 0, 0),
@@ -684,3 +736,186 @@ class TestWorkentryAttendance(HrWorkEntryAttendanceCommon):
 
         overtime_lines = self.env['hr.attendance.overtime.line'].search([('employee_id', '=', self.employee.id)])
         self.assertFalse(overtime_lines)
+
+    def test_regeneration_only_affect_current_day(self):
+        """
+        Test that when regenerating work entries, if there is an overtime work entry on the day before the selected day to regenerate,
+        another one is not added.
+
+        This test should fail if two overtime work entries are present on the previous day after regeneration.
+        """
+
+        attendance = self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 3, 10, 8, 0),
+            'check_out': datetime(2026, 3, 10, 20, 0),
+        })
+
+        self.employee.generate_work_entries(attendance.date, attendance.date)
+        work_entry = self.env['hr.work.entry'].search([
+            ('employee_id', '=', self.employee.id),
+            ('date', '=', attendance.date),
+            ('work_entry_type_id.code', '=', 'OVERTIME'),
+        ])
+
+        self.assertEqual(len(work_entry), 1)
+
+        slots = [{"date": date(2026, 3, 10), "employee_id": self.employee.id}, {"date": date(2026, 3, 11), "employee_id": self.employee.id}]
+        self.env["hr.work.entry.regeneration.wizard"].regenerate_work_entries(slots=slots)
+
+        work_entry_after_regen = self.env["hr.work.entry"].search(
+            [
+                ("employee_id", "=", self.employee.id),
+                ("date", "=", attendance.date),
+                ("work_entry_type_id.code", "=", "OVERTIME"),
+            ]
+        )
+
+        self.assertEqual(len(work_entry_after_regen), 1, "There should be only one overtime work entry on this day")
+
+    def test_multiple_overlapping_overtimes(self):
+        """
+        Checks that overtimes are computed correctly even if multiple overtimes are present on the same date, including
+        one that overlaps on the day after. This test needs to trigger a specific use case, where we have 2 attendances
+        that create overtime, and the second attendance has an overtime for which the end time occurs after the end of
+        day UTC. In our case, as we work with Brussels time (GMT+2), our shift ends at
+        midnight (so UTC = 22:00:00) but the end of day in GMT+2 is at 23:59:59 (so UTC = 21:59:59).
+        """
+        self.employee.resource_calendar_id.flexible_hours = False
+        self.employee.version_id.resource_calendar_id.tz = self.employee.tz
+        self.employee.version_id.write({
+            'date_generated_from': date(2026, 2, 1),
+            'date_generated_to': date(2026, 10, 31),
+        })
+        attendance_0, attendance_1 = self.env['hr.attendance'].create([{
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 11, 12, 0, 0),
+            'check_out': datetime(2026, 4, 11, 18, 0, 0),
+        }, {
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 11, 18, 0, 0),
+            'check_out': datetime(2026, 4, 12, 0, 0, 0),
+        }])
+        self.assertEqual(attendance_0.overtime_hours, 6.0)
+        self.assertEqual(attendance_1.overtime_hours, 6.0)
+
+    def test_multiple_overlapping_overtimes_rounding(self):
+        """
+        Checks that overtimes are computed correctly when an attendance covers multiple dates with separate
+        overtimes for each date, a non-UTC timezone, and the overtime durations are rounded.
+        """
+        self.employee.resource_calendar_id.flexible_hours = False
+        self.employee.tz = "Europe/Brussels"
+        self.employee.version_id.resource_calendar_id.tz = self.employee.tz
+        self.employee.version_id.write({
+            'date_generated_from': date(2026, 1, 1),
+            'date_generated_to': date(2026, 10, 31),
+        })
+        attendance_0 = self.env['hr.attendance'].create([{
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 1, 23, 12, 29, 32),
+            'check_out': datetime(2026, 1, 24, 0, 29, 44),
+        }])
+        self.assertAlmostEqual(attendance_0.overtime_hours, 4.003, places=3)
+
+    @freeze_time("2026-04-30 14:00:00")
+    def test_automatic_checkout_with_multiple_overtimes(self):
+        """
+        Checks that a checkout time is correctly generated when the scheduled action of checking out employees is
+        executed and such employees have multiple overtime entries for the same day.
+        """
+        self.employee.resource_calendar_id.flexible_hours = False
+        self.employee.company_id.write({
+            'auto_check_out': True,
+            'auto_check_out_tolerance': 2
+        })
+        attendance_1, attendance_2 = self.env['hr.attendance'].create([{
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 18, 6, 0),
+            'check_out': datetime(2026, 4, 18, 6, 1)
+        }, {
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 18, 6, 2),
+            'check_out': False
+        }])
+
+        self.env['hr.attendance']._cron_auto_check_out()
+        self.assertEqual(attendance_1.overtime_hours + attendance_2.overtime_hours, self.employee.company_id.auto_check_out_tolerance)
+
+    @freeze_time("2026-04-30 14:00:00")
+    def test_automatic_checkout_with_timezone(self):
+        """
+        Checks that a checkout time is correctly generated when the scheduled action of checking out employees is
+        executed and such employees have a different timezone than UTC.
+        """
+        self.employee.write({'tz': 'Europe/Brussels'})
+        self.employee.resource_calendar_id.flexible_hours = False
+        self.employee.company_id.write({
+            'auto_check_out': True,
+            'auto_check_out_tolerance': 2
+        })
+        attendance = self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 17, 6, 2),
+            'check_out': False
+        })
+        self.env['hr.attendance']._cron_auto_check_out()
+        self.assertEqual(attendance.check_out, datetime(2026, 4, 17, 17, 2))
+
+    def test_reset_work_entry_tz_aware_pos(self):
+        """
+        Test that we can reset the work entries of an employee for a given period and that it correctly regenerates the work entries without impact on other periods, even with timezone involved
+        """
+        self.employee.tz = 'Europe/Samara'  # utc+4
+        self.employee.work_entry_source = 'attendance'
+        self.employee.resource_calendar_id.tz = 'Europe/Brussels'  # utc+1
+        self.employee.version_id.date_generated_from = date(2026, 4, 1)
+        self.employee.version_id.date_generated_to = datetime.max.date()
+        self.assertNotEqual(self.employee.tz, self.employee.resource_calendar_id.tz, "The employee and the resource calendar should have different timezones for this test")
+
+        attendance = self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 16, 7, 0, 0),
+            'check_out': datetime(2026, 4, 16, 11, 0, 0),
+        })
+
+        work_entry = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id), ('date', '=', attendance.date)])
+        self.assertEqual(len(work_entry), 1, "One work entry should be generated for the attendance")
+
+        # Regenerate work entries for previous day
+        self.env['hr.work.entry.regeneration.wizard'].regenerate_work_entries(
+            slots=[{'date': "2026-4-15", 'employee_id': self.employee.id}],
+            record_ids=[],
+        )
+
+        work_entry = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id), ('date', '=', attendance.date)])
+        self.assertEqual(len(work_entry), 1, "Work entry should not be deleted when regenerating for another day")
+
+    def test_reset_work_entry_tz_aware_neg(self):
+        """
+        Test that we can reset the work entries of an employee for a given period and that it correctly regenerates the work entries without impact on other periods, even with timezone involved
+        """
+        self.employee.tz = 'America/New_York'  # utc-4
+        self.employee.work_entry_source = 'attendance'
+        self.employee.resource_calendar_id.tz = 'Europe/Brussels'  # utc+1
+        self.employee.version_id.date_generated_from = date(2026, 4, 1)
+        self.employee.version_id.date_generated_to = datetime.max.date()
+        self.assertNotEqual(self.employee.tz, self.employee.resource_calendar_id.tz, "The employee and the resource calendar should have different timezones for this test")
+
+        attendance = self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': datetime(2026, 4, 16, 7, 0, 0),
+            'check_out': datetime(2026, 4, 16, 11, 0, 0),
+        })
+
+        work_entry = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id), ('date', '=', attendance.date)])
+        self.assertEqual(len(work_entry), 1, "One work entry should be generated for the attendance")
+
+        # Regenerate work entries for next day
+        self.env['hr.work.entry.regeneration.wizard'].regenerate_work_entries(
+            slots=[{'date': "2026-4-17", 'employee_id': self.employee.id}],
+            record_ids=[],
+        )
+
+        work_entry = self.env['hr.work.entry'].search([('employee_id', '=', self.employee.id), ('date', '=', attendance.date)])
+        self.assertEqual(len(work_entry), 1, "Work entry should not be deleted when regenerating for another day")

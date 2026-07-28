@@ -43,7 +43,9 @@ class ReportSaleDetails(models.AbstractModel):
                 payment_options = self.env.cr.dictfetchall()
 
             data['l10n_co_edi_pos_payment_options'] = payment_options or []
-            data['l10n_co_edi_pos_serial_number'] = (config_ids or orders.config_id).l10n_co_edi_pos_serial_number
+            serial_numbers = (self.env['pos.config'].browse(config_ids).exists() or orders.config_id).mapped('l10n_co_edi_pos_serial_number')
+            serial_numbers = [sn if sn else "" for sn in serial_numbers]
+            data['l10n_co_edi_pos_serial_number'] = ", ".join(serial_numbers)
 
             if orders:
                 data['l10n_co_edi_pos_start_pos_order_number'] = get_name_for(orders[-1])

@@ -200,14 +200,16 @@
                     </t>
                     <t t-name="card">
                         <div name="card_top">
-                            <span class="d-inline-flex fw-bold ps-1">
+                            <span class="d-flex flex-wrap fw-bold">
                                 <i class="me-1 mt-1 fa fa-clock-o" role="img" aria-label="Date" title="Date"/>
                                 <field class="me-1" name="start_datetime" widget="daterange" options="{'end_date_field': 'end_datetime'}"/>
-                                <t t-if="record.start_datetime.raw_value and record.end_datetime.raw_value"> (<field name="allocated_hours" widget="float_time"/>)</t>
+                                <t t-if="record.start_datetime.raw_value and record.end_datetime.raw_value">
+                                    (<t t-esc="Math.floor(record.allocated_hours.raw_value)"/>h<t t-esc="Math.round((record.allocated_hours.raw_value % 1) * 60).toString().padStart(2,'0')"/>)
+                                </t>
                                 <t t-else="">
                                     <field name="allocated_hours" widget="float_time"/>
                                 </t>
-                                <t t-if="record.resource_type.raw_value == 'user'"> (<field name="allocated_percentage" digits="[0,0]"/>%)</t>
+                                <t t-if="false"> (<field name="allocated_percentage" digits="[0,0]"/>%)</t>
                             </span>
                         </div>
                         <div>

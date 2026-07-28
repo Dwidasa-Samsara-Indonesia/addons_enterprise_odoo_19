@@ -296,7 +296,7 @@ class AccountJournal(models.Model):
         PmtId = etree.SubElement(CdtTrfTxInf, "PmtId")
         if payment['name']:
             InstrId = etree.SubElement(PmtId, "InstrId")
-            InstrId.text = sanitize_communication(payment['name'], 35)
+            InstrId.text = sanitize_communication(payment['name'].replace('&', '+'), 35)
         EndToEndId = etree.SubElement(PmtId, "EndToEndId")
         EndToEndId.text = payment.get('end_to_end_uuid') or uuid4().hex
         Amt = etree.SubElement(CdtTrfTxInf, "Amt")
@@ -417,8 +417,11 @@ class AccountJournal(models.Model):
         # Check whether we have a structured communication
         else:
             Ustrd = etree.SubElement(RmtInf, "Ustrd")
-            Ustrd.text = sanitize_communication(payment['memo'])
+            Ustrd.text = sanitize_communication(payment['memo'].replace('&', '+'))
         return RmtInf
+
+    def _get_organization_id_node_text(self, payment_method_code, postal_address):
+        return self.company_id.iso20022_orgid_id
 
     def _get_company_PartyIdentification32(self, payment_method_code, postal_address=True, nm=True, issr=True, schme_nm=False):
         """ Returns a PartyIdentification32 element identifying the current journal's company
@@ -444,7 +447,7 @@ class AccountJournal(models.Model):
                 OrgId.insert(0, LEI)
             Othr = etree.SubElement(OrgId, "Othr")
             _Id = etree.SubElement(Othr, "Id")
-            _Id.text = sanitize_communication(self.company_id.iso20022_orgid_id)
+            _Id.text = sanitize_communication(self._get_organization_id_node_text(payment_method_code, postal_address))
             if issr and company.iso20022_orgid_issr:
                 Issr = etree.SubElement(Othr, "Issr")
                 Issr.text = sanitize_communication(company.iso20022_orgid_issr)

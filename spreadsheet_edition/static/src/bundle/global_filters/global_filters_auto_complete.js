@@ -6,8 +6,9 @@ registries.autoCompleteProviders.add("global_filters", {
     autoSelectFirstProposal: true,
     getProposals(tokenAtCursor) {
         const functionContext = tokenAtCursor.functionContext;
+        const filterFunctions = ["ODOO.FILTER.VALUE", "ODOO.FILTER.LABEL"];
         if (
-            functionContext?.parent.toUpperCase() === "ODOO.FILTER.VALUE" &&
+            filterFunctions.includes(functionContext?.parent.toUpperCase()) &&
             functionContext.argPosition === 0
         ) {
             const labels = this.getters.getGlobalFilters().map((filter) => filter.label);

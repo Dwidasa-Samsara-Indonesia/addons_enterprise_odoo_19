@@ -126,7 +126,7 @@ class AccountReport(models.AbstractModel):
 
         all_stored_aml_fields = {
             field
-            for field, attrs in self.env['account.move.line'].fields_get().items()
+            for field, attrs in self.env['account.move.line'].fields_get(attributes=["type", "store"]).items()
             if attrs['type'] not in ['many2many', 'one2many'] and attrs.get('store')
         }
 

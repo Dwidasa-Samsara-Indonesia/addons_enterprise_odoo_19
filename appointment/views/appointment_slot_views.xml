@@ -17,12 +17,10 @@
                             <field name="restrict_to_user_ids"
                                 widget="many2many_avatar_user"
                                 options="{'no_create': True}"
-                                domain="[('id', 'in', 'appointment_type_id.staff_user_ids')]"
                                 invisible="schedule_based_on != 'users'"/>
                             <field name="restrict_to_resource_ids"
                                 widget="many2many_tags_avatar"
                                 options="{'no_create': True}"
-                                domain="[('id', 'in', 'appointment_type_id.resource_ids')]"
                                 invisible="schedule_based_on != 'resources'"/>
                         </group>
                         <group invisible="slot_type == 'unique'">

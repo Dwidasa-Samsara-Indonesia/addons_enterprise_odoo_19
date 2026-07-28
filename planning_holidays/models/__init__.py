@@ -3,4 +3,3 @@
 
 from . import planning_slot
 from . import resource_calendar_leave
-from . import resource_calendar

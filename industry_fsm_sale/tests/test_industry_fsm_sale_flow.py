@@ -204,6 +204,27 @@ class TestFsmFlowSale(TestFsmFlowSaleCommon):
         so_form.save()
         self.assertEqual(sol.qty_to_invoice, 0.0, "Anglo Saxon Accounting should be disable")
 
+    def test_qty_to_invoice_with_service_policy(self):
+        """
+        Check that free service products with prepaid invoice policies are added to invoices, even
+        when Anglo-Saxon Accounting is not enabled
+        """
+        self.task.partner_id = self.partner_1.id
+        self.env.company.anglo_saxon_accounting = False
+        self.service_product_delivered.list_price = 0.0
+        # Case 1: Service product is not invoiced while not on 'Prepaid' service_policy
+        self.service_product_delivered.service_policy = 'delivered_timesheet'
+        self.service_product_delivered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
+        so = self.task.sale_order_id
+        sol = so.order_line[0]
+        if so.state == 'draft':
+            so.action_confirm()  # needed if stock is not installed
+        self.assertEqual(sol.qty_to_invoice, 0.0, "Qty to invoice should not be set for non-prepaid, free services (non-anglo-saxon)")
+        # Case 2: Service product is invoiced on 'Prepaid' service_policy
+        self.service_product_delivered.service_policy = 'ordered_prepaid'
+        self.service_product_delivered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
+        self.assertEqual(sol.qty_to_invoice, 2.0, "Qty to invoice should be set for prepaid, free services, even if Anglo-Saxon Accounting is disabled")
+
     def test_uom_conversion_fsm_task_to_so(self):
         """Checks that the hours recorded on Timesheets are converted to the correct UOM on the Sales Order"""
 
@@ -390,44 +411,14 @@ class TestFsmFlowSale(TestFsmFlowSaleCommon):
         res = self.task.action_create_invoice()
         self.assertEqual(res['params']['type'], 'danger', "Expected a red toast notification")
 
-    def test_invoice_status_in_anglo_saxon(self):
-        self.task.partner_id = self.partner_1.id
-        # Case 1: Product price is zero and Anglo-Saxon accounting is enabled.
-        self.service_product_delivered.list_price = 0.0
-        self.service_product_delivered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
-        so = self.task.sale_order_id
-        sol = so.order_line[0]
-        if so.state == 'draft':
-            so.action_confirm()  # needed if stock is not installed
-        self.assertEqual(
-            sol.invoice_status,
-            'to invoice',
-            "Invoice status should be 'to invoice' when Anglo-Saxon accounting is enabled and the price is zero."
-        )
-        self.assertEqual(sol.qty_to_invoice, 1.0, "Qty to invoice should be set on anglo-saxon lines")
-        # Case 2: Product price is greater than zero and Anglo-Saxon accounting is enabled.
-        self.service_product_ordered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
-        self.assertEqual(
-            sol.invoice_status,
-            'to invoice',
-            "Invoice status should be 'to invoice' when the price is greater than zero."
-        )
-        so._create_invoices()
-        self.assertEqual(
-            sol.invoice_status,
-            'invoiced',
-            "Invoice status should be 'invoiced' when Anglo-Saxon accounting is enabled and invoice is generated."
-        )
-        # Case 3: Product price is zero and Anglo-Saxon accounting is disabled.
+    def test_invoice_status_so_non_anglo_saxon_task_anglo_saxon(self):
+        """
+        When the SO's company has Anglo-Saxon accounting disabled and the
+        material price is zero, the invoice status must be 'invoiced'.
+        The task's company Anglo-Saxon setting must have no influence.
+        """
         self.env.company.anglo_saxon_accounting = False
-        self.service_product_delivered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
-        self.assertEqual(
-            sol.invoice_status,
-            'no',
-            "Invoice status should be 'no' when Anglo-Saxon accounting is disabled and the price is zero."
-        )
-        # Case 4: create SO in self env company which has anglo saxon true and task company is different where anglo saxon is false
-        self.env.company.anglo_saxon_accounting = True
+        self.company_data_2['company'].anglo_saxon_accounting = True
         fsm_project_second = self.env['project.project'].create({
             'name': 'Field Service second',
             'is_fsm': True,
@@ -436,15 +427,240 @@ class TestFsmFlowSale(TestFsmFlowSaleCommon):
         task_second = self.env['project.task'].create({
             'name': 'Fsm task second',
             'project_id': fsm_project_second.id,
-            'partner_id': self.partner_1.id})
+            'partner_id': self.partner_1.id,
+        })
+        self.assertTrue(task_second.company_id.anglo_saxon_accounting)
+        task_second_so = self.env['sale.order'].create({
+            'partner_id': self.partner_1.id,
+            'project_id': fsm_project_second.id,
+            'task_id': task_second.id,
+            'company_id': self.env.company.id,
+        })
+        task_second.sale_order_id = task_second_so
+        self.assertFalse(task_second_so.company_id.anglo_saxon_accounting)
+
+        product = self.env['product.product'].create({
+            'name': 'product',
+            'list_price': 0.0,
+            'type': 'consu',
+            'invoice_policy': 'order',
+        })
+        product.with_context({'fsm_task_id': task_second.id}).fsm_add_quantity()
+
+        if task_second_so.state == 'draft':
+            task_second_so.action_confirm()  # needed if stock is not installed
+        self.assertRecordValues(task_second_so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'no'},
+        ])
+        self.assertEqual(task_second_so.invoice_status, 'invoiced')
+
+    def test_invoice_status_so_anglo_saxon_task_non_anglo_saxon(self):
+        """
+        When the SO's company has Anglo-Saxon accounting enabled and the
+        material price is zero, the invoice status must be 'to invoice'.
+        The task's company Anglo-Saxon setting must have no influence.
+        """
+        self.env.company.anglo_saxon_accounting = True
         self.company_data_2['company'].anglo_saxon_accounting = False
-        self.service_product_delivered.list_price = 0.0
-        self.service_product_delivered.with_context({'fsm_task_id': task_second.id}).fsm_add_quantity()
+        fsm_project_second = self.env['project.project'].create({
+            'name': 'Field Service second',
+            'is_fsm': True,
+            'company_id': self.company_data_2['company'].id,
+        })
+        task_second = self.env['project.task'].create({
+            'name': 'Fsm task second',
+            'project_id': fsm_project_second.id,
+            'partner_id': self.partner_1.id,
+        })
+        self.assertFalse(task_second.company_id.anglo_saxon_accounting)
+        task_second_so = self.env['sale.order'].create({
+            'partner_id': self.partner_1.id,
+            'project_id': fsm_project_second.id,
+            'task_id': task_second.id,
+            'company_id': self.env.company.id,
+        })
+        task_second.sale_order_id = task_second_so
+        self.assertTrue(task_second_so.company_id.anglo_saxon_accounting)
+
+        product = self.env['product.product'].create({
+            'name': 'product',
+            'list_price': 0.0,
+            'type': 'consu',
+            'invoice_policy': 'order',
+        })
+        product.with_context({'fsm_task_id': task_second.id}).fsm_add_quantity()
+
+        if task_second_so.state == 'draft':
+            task_second_so.action_confirm()  # needed if stock is not installed
+        self.assertRecordValues(task_second_so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'to invoice'},
+        ])
+        self.assertEqual(task_second_so.invoice_status, 'to invoice')
+
+    def test_invoice_status_with_anglo_saxon(self):
+        """
+        Verify SO and order line invoice statuses across multiple scenarios
+        when Anglo-Saxon accounting is enabled on the SO's company.
+        Material lines at price 0 added via FSM must be invoiced like any other line.
+        """
+        self.task.partner_id = self.partner_1.id
+        self.env.company.anglo_saxon_accounting = True
+        preexisting_product = self.env['product.product'].create({
+            'name': 'pre existing',
+            'list_price': 0.0,
+            'type': 'consu',
+            'invoice_policy': 'order',
+        })
+
+        # Case 0: Pre-added product with price is 0 in SO are always to invoice
+        so = self.env['sale.order'].create({
+            'partner_id': self.partner_1.id,
+            'order_line': [
+                Command.create({
+                    'product_id': preexisting_product.id,
+                    'price_unit': 0.0,
+                }),
+            ],
+        })
+        # Link the task here to ensure the pre-added products aren't considered as added materials
+        self.task.sale_order_id = so
+        so.action_confirm()
         self.assertEqual(
-            task_second.sale_order_id.invoice_status,
-            'no',
-            "Invoice status should be 'no' when the task's company has Anglo-Saxon accounting disabled and the price is zero."
+            so.invoice_status,
+            'to invoice',
+            "SO invoice status should be 'to invoice' when anglo-saxon accounting is enabled and lines are not invoiced."
         )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'to invoice'},
+        ])
+
+        # Case 1: Adding a material at price 0 keeps the SO 'to invoice'; the line is 'to invoice'
+        self.env.company.anglo_saxon_accounting = True
+        self.consu_product_ordered.list_price = 0.0
+        self.consu_product_ordered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
+        self.assertEqual(
+            so.invoice_status,
+            'to invoice',
+            "SO invoice status should be 'to invoice' when anglo-saxon accounting is enabled and lines are not invoiced."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'to invoice'},
+            {'price_unit': 0.0, 'invoice_status': 'to invoice'},
+        ])
+        so._create_invoices()
+        self.assertEqual(
+            so.invoice_status,
+            'invoiced',
+            "SO invoice status should be 'invoiced' after invoicing the anglo-saxon line."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+        ])
+
+        # Case 2: Adding a priced line brings the SO back to 'to invoice'; the line is 'to invoice'
+        self.service_product_ordered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
+        self.assertEqual(
+            so.invoice_status,
+            'to invoice',
+            "SO invoice status should be 'to invoice' when there is still a line to invoice."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 885.0, 'invoice_status': 'to invoice'},
+        ])
+
+        # Case 3: After invoicing all lines, the SO is 'invoiced'
+        so._create_invoices()
+        self.assertEqual(
+            so.invoice_status,
+            'invoiced',
+            "SO invoice status should be 'invoiced' after all lines are invoiced."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 885.0, 'invoice_status': 'invoiced'},
+        ])
+
+    def test_invoice_status_without_anglo_saxon(self):
+        """
+        Verify SO and order line invoice statuses across multiple scenarios
+        when Anglo-Saxon accounting is disabled on the SO's company.
+        Material lines at price 0 added via FSM are ignored ('no') and must
+        not prevent the SO from reaching 'invoiced'.
+        """
+        self.task.partner_id = self.partner_1.id
+        self.env.company.anglo_saxon_accounting = False
+        preexisting_product = self.env['product.product'].create({
+            'name': 'pre existing',
+            'list_price': 0.0,
+            'type': 'consu',
+            'invoice_policy': 'order',
+        })
+
+        # Case 0: A pre-existing line at price 0 is always 'to invoice'
+        so = self.env['sale.order'].create({
+            'partner_id': self.partner_1.id,
+            'order_line': [
+                Command.create({
+                    'product_id': preexisting_product.id,
+                    'price_unit': 0.0,
+                }),
+            ],
+        })
+        # Link the task here to ensure the pre-added products aren't considered as added materials
+        self.task.sale_order_id = so
+        so.action_confirm()
+        self.assertEqual(
+            so.invoice_status,
+            'to invoice',
+            "SO invoice status should be 'to invoice' when anglo-saxon accounting is enabled and lines are not invoiced."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'to invoice'},
+        ])
+        so._create_invoices()
+
+        # Case 1: Adding a material at price 0 keeps the SO 'invoiced'; the line is 'no'
+        self.service_product_delivered.list_price = 0.0
+        self.service_product_delivered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
+        self.assertEqual(
+            so.invoice_status,
+            'invoiced',
+            "SO invoice status should be 'invoiced' when all remaining lines are material lines with price 0 (non-anglo-saxon)."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 0.0, 'invoice_status': 'no'},
+        ])
+
+        # Case 2: Adding a priced line brings the SO back to 'to invoice'; the line is 'to invoice'
+        self.service_product_ordered.with_user(self.project_user).with_context({'fsm_task_id': self.task.id}).fsm_add_quantity()
+        self.assertEqual(
+            so.invoice_status,
+            'to invoice',
+            "SO invoice status should be 'to invoice' when there is still a line to invoice."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 0.0, 'invoice_status': 'no'},
+            {'price_unit': 885.0, 'invoice_status': 'to invoice'},
+        ])
+
+        # Case 3: After invoicing all lines, the SO is 'invoiced' despite the 'no' line
+        so._create_invoices()
+        self.assertEqual(
+            so.invoice_status,
+            'invoiced',
+            "SO invoice status should be 'invoiced' after all lines are invoiced."
+        )
+        self.assertRecordValues(so.order_line, [
+            {'price_unit': 0.0, 'invoice_status': 'invoiced'},
+            {'price_unit': 0.0, 'invoice_status': 'no'},
+            {'price_unit': 885.0, 'invoice_status': 'invoiced'},
+        ])
 
     def test_sale_order_unlink_on_sale_item_removal(self):
         """
@@ -480,3 +696,83 @@ class TestFsmFlowSale(TestFsmFlowSaleCommon):
         (task | fsm_task).sale_line_id = False
         self.assertFalse(task.sale_order_id.id)
         self.assertTrue(fsm_task.sale_order_id.id)
+
+    def test_create_fsm_project_from_sale_order(self):
+        """
+        Test: Create an FSM project from a sale order and link it to the sale order.
+
+        Steps:
+            1. Create an FSM project template.
+            2. Create a sale order with a service product.
+            3. Confirm the sale order.
+            4. Create a project from the sale order.
+            5. Select the fsm project template to the project.
+            6. Create project.
+        """
+
+        fsm_project_template = self.env['project.project'].create({
+            'name': 'FSM Project template',
+            'is_template': True,
+            'is_fsm': True,
+            'company_id': self.company_data_2['company'].id,
+        })
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.partner_1.id,
+            'order_line': [
+                Command.create({
+                    'product_id': self.product_delivery_timesheet1.id,
+                    'product_uom_qty': 10,
+                }),
+            ],
+        })
+        sale_order.action_confirm()
+
+        action = sale_order.action_create_project()
+        view_id = self.env.ref('sale_project.sale_project_view_form_simplified_template').id
+
+        with Form(self.env[action['res_model']].with_context(action['context']), view=view_id) as wizard:
+            wizard.template_id = fsm_project_template
+            task_action = wizard.save().action_create_project_from_so()
+            project = self.env['project.project'].browse(task_action['context'].get('default_project_id'))
+            self.assertFalse(
+                project.sale_order_id,
+                "FSM project should not be linked to any sale order."
+            )
+            self.assertFalse(
+                sale_order.project_id,
+                "Sale order should not be linked to any FSM project."
+            )
+
+    def test_fsm_message_post_returns_recordset(self):
+        """
+        Ensure `message_post` returns an empty `mail.message` recordset
+        when `fsm_no_message_post` is set, avoiding crashes in automation
+        wrappers expecting a recordset.
+        """
+        fsm_product = self.service_product_ordered
+        fsm_product.service_tracking = 'task_global_project'
+        fsm_product.project_id = self.fsm_project
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.partner_1.id,
+            'order_line': [
+                Command.create({
+                    'product_id': fsm_product.id,
+                    'product_uom_qty': 1,
+                }),
+            ],
+        })
+        sale_order.action_confirm()
+        task = sale_order.tasks_ids
+        self.assertTrue(task)
+
+        # Verify message_post returns a mail.message recordset
+        # when the fsm_no_message_post context flag is set.
+        result = sale_order.with_context(fsm_no_message_post=True).message_post(body="test")
+        self.assertTrue(isinstance(result, self.env.registry['mail.message']))
+        self.assertFalse(result)
+        product_ctx = fsm_product.with_context(fsm_task_id=task.id)
+        product_ctx.set_fsm_quantity(5)
+        sol = sale_order.order_line.filtered(lambda l: l.product_id == fsm_product)
+        self.assertEqual(sol.product_uom_qty, 5)

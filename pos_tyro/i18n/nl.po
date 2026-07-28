@@ -3,15 +3,15 @@
 # * pos_tyro
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# Bren Driesen <brdri@odoo.com>, 2025.
+# Bren Driesen <brdri@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-11-17 03:38+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-03 17:45+0000\n"
+"PO-Revision-Date: 2026-07-06 13:38+0000\n"
+"Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/pos_tyro/"
 "nl/>\n"
 "Language: nl\n"
@@ -19,7 +19,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
+
+#. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid ""
+"A tip was added on the Tyro terminal, but tipping is not enabled for this "
+"Point of Sale. It will instead be recorded as a surcharge."
+msgstr ""
+"Er is een fooi toegevoegd op de Tyro-terminal, maar fooien zijn niet "
+"ingeschakeld voor dit kassasysteem. Het wordt in plaats daarvan "
+"geregistreerd als een toeslag."
 
 #. module: pos_tyro
 #: model:ir.model.fields,field_description:pos_tyro.field_pos_payment_method__tyro_always_print_merchant_receipt
@@ -93,6 +104,13 @@ msgstr "Logs"
 
 #. module: pos_tyro
 #. odoo-javascript
+#: code:addons/pos_tyro/static/src/actions/get_tyro_report.js:0
+#: code:addons/pos_tyro/static/src/actions/pair_tyro_terminal.js:0
+msgid "Merchant ID and/or Terminal ID are not configured."
+msgstr "De handelaars-ID en/of terminal-ID zijn niet geconfigureerd."
+
+#. module: pos_tyro
+#. odoo-javascript
 #: code:addons/pos_tyro/static/src/app/components/failure_dialog.xml:0
 msgid "OK"
 msgstr "OK"
@@ -101,6 +119,12 @@ msgstr "OK"
 #: model_terms:ir.ui.view,arch_db:pos_tyro.pos_payment_method_view_form_inherit_pos_tyro
 msgid "Pair Terminal"
 msgstr "Pair terminal"
+
+#. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/actions/pair_tyro_terminal.js:0
+msgid "Pairing timed out."
+msgstr "Koppelingstijd is verlopen."
 
 #. module: pos_tyro
 #. odoo-javascript
@@ -156,6 +180,13 @@ msgstr "Rapportages"
 
 #. module: pos_tyro
 #. odoo-javascript
+#: code:addons/pos_tyro/static/src/actions/get_tyro_report.js:0
+#, fuzzy
+msgid "Requesting Tyro Reconciliation Report"
+msgstr "Tyro-afstemmingsrapport aanvragen"
+
+#. module: pos_tyro
+#. odoo-javascript
 #: code:addons/pos_tyro/static/src/actions/get_tyro_report.xml:0
 msgid "Select a report type..."
 msgstr "Selecteer een rapporttype..."
@@ -204,6 +235,12 @@ msgid "Tyro"
 msgstr "Tyro"
 
 #. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid "Tyro Error"
+msgstr "Tyro-fout"
+
+#. module: pos_tyro
 #: model:ir.model.fields,field_description:pos_tyro.field_pos_payment_method__tyro_merchant_id
 msgid "Tyro Merchant ID"
 msgstr "Tyro Merchant ID"
@@ -229,6 +266,12 @@ msgid "Tyro Terminal ID"
 msgstr "Tyro Terminal ID"
 
 #. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid "Tyro Warning"
+msgstr "Tyro waarschuwing"
+
+#. module: pos_tyro
 #: model_terms:ir.ui.view,arch_db:pos_tyro.pos_payment_method_view_form_inherit_pos_tyro
 msgid "Tyro logs"
 msgstr "Tyro logs"
@@ -249,3 +292,9 @@ msgstr "Rapporten weergeven"
 #: code:addons/pos_tyro/static/src/overrides/screens/payment_screen/payment_lines/payment_lines.xml:0
 msgid "Waiting for card"
 msgstr "Wachtend op kaart"
+
+#. module: pos_tyro
+#. odoo-javascript
+#: code:addons/pos_tyro/static/src/app/payment_tyro.js:0
+msgid "You cannot refund more than the original amount."
+msgstr "Je kunt niet meer dan het oorspronkelijke bedrag terugbetalen."

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:46+0000\n"
-"PO-Revision-Date: 2026-02-17 12:43+0000\n"
+"POT-Creation-Date: 2026-05-22 17:47+0000\n"
+"PO-Revision-Date: 2026-07-04 09:59+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/mrp_mps/"
 "fi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mrp_mps
 #. odoo-python
@@ -105,6 +105,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:mrp_mps.action_mrp_mps_form_view
 msgid "Add a Product"
 msgstr "Lisää tuote"
+
+#. module: mrp_mps
+#. odoo-javascript
+#: code:addons/mrp_mps/static/src/components/mps_selection.js:0
+msgid "All Periods"
+msgstr "Kaikki ajanjaksot"
 
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_production_schedule__allowed_route_ids
@@ -346,7 +352,7 @@ msgstr "Vienti"
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/main.js:0
 msgid "External ID"
-msgstr "Ulkoinen ID"
+msgstr "Ulkoinen tunnus"
 
 #. module: mrp_mps
 #: model:ir.model,name:mrp_mps.model_mrp_mps_forecast_details
@@ -731,12 +737,12 @@ msgstr "Tuotepohja"
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_production_schedule__product_uom_id
 msgid "Product UoM"
-msgstr "Tuotteen yksikkö"
+msgstr "Tuotteen mittayksikkö"
 
 #. module: mrp_mps
 #: model:ir.model,name:mrp_mps.model_product_product
 msgid "Product Variant"
-msgstr "Tuotevariaatio"
+msgstr "Tuotevariantti"
 
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_product_forecast__production_schedule_id
@@ -908,12 +914,12 @@ msgstr "Aikataulut"
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_production_schedule__mps_sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_production_schedule__show_bom
 msgid "Show Bom"
-msgstr "Näytä osaluettelo"
+msgstr "Näytä materiaaliluettelo"
 
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_production_schedule__show_vendor
@@ -1135,7 +1141,7 @@ msgstr "yksiköt x"
 #. module: mrp_mps
 #: model_terms:ir.ui.view,arch_db:mrp_mps.mrp_mps_forecast_suggestion_form_view
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #~ msgid ""
 #~ "The quantity to replenish through Purchase Orders or Manufacturing Orders."

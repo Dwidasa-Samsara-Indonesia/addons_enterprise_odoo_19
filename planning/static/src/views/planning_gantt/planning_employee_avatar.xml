@@ -4,6 +4,7 @@
     <t t-name="planning.PlanningEmployeeAvatar" t-inherit="mail.Avatar">
         <xpath expr="//span[@t-esc='props.displayName']" position="attributes">
             <attribute name="t-ref">displayName</attribute>
+            <attribute name="t-key">this.props.displayName</attribute>
         </xpath>
         <xpath expr="//div[hasclass('o-mail-Avatar')]" position="attributes">
             <attribute name="t-attf-class" add="{{ props.showPopover ? 'o_field_many2one_avatar' : '' }}" separator=" "/>

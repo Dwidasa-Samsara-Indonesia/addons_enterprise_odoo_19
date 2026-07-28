@@ -12,7 +12,6 @@ export class AccountReportComponent extends Component {
     };
     setup() {
         this.actionService = useService("action");
-        this.props.name = _t(this.props.name);
     }
     /** @returns {Promise} */
     openAccountReport() {
@@ -36,8 +35,14 @@ export class AccountReportComponent extends Component {
 export const accountReportEmbedding = {
     name: "accountReport",
     Component: AccountReportComponent,
-    getProps: (host) => ({
-        ...getEmbeddedProps(host),
-        host,
-    }),
+    getProps: (host) => {
+        const props = {
+            ...getEmbeddedProps(host),
+            host
+        };
+        if (props.name) {
+            props.name = _t(props.name);
+        }
+        return props;
+    },
 };

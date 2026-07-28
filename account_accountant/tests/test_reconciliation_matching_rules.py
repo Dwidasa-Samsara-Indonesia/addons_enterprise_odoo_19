@@ -7,6 +7,7 @@ from odoo.exceptions import RedirectWarning
 from odoo.tests import Form, tagged
 from odoo import Command
 from odoo.addons.account_accountant.models.account_reconcile_model_line import split_amount_str
+from odoo.tests.common import new_test_user
 
 
 @tagged('post_install', '-at_install')
@@ -1452,6 +1453,23 @@ class TestReconciliationMatchingRules(AccountTestInvoicingCommon):
             {'account_id': payment.outstanding_account_id.id, 'balance': -200.0, 'reconciled': True},
         ])
 
+    def test_matching_with_outstanding_accounts_partial_payment_invoice_user(self):
+        """ Test that a basic accounting user can automatically match a bank statement
+        line with an outstanding payment linked to an invoice without triggering
+        an incorrect over-reconciliation.
+        """
+        invoicing_banks_user = new_test_user(self.env, 'inv_bank', groups='account.group_account_basic')
+
+        invoice = self._create_invoice_line(1100, self.partner_1, 'out_invoice').move_id
+        payment = self._create_and_post_payment(amount=500, memo=invoice.name, partner_id=self.partner_1.id)
+        bank_stmt_line = self._create_st_line(amount=500, payment_ref=invoice.name, partner_id=self.partner_1.id)
+        bank_stmt_line.with_user(invoicing_banks_user.id)._try_auto_reconcile_statement_lines()
+
+        self.assertRecordValues(bank_stmt_line.line_ids, [
+            {'account_id': self.bank_journal.default_account_id.id, 'balance': 500.0, 'reconciled': False, 'account_name': 'Bank'},
+            {'account_id': payment.outstanding_account_id.id, 'balance': -500.0, 'reconciled': True, 'account_name': 'Outstanding Receipts'},
+        ])
+
     def test_not_matching_when_outstanding_account_is_liquidity(self):
         bank_stmt_line = self._create_st_line(amount=200, payment_ref='some random reference')
         bank_stmt_line.journal_id.inbound_payment_method_line_ids[0].payment_account_id = bank_stmt_line.journal_id.default_account_id
@@ -1525,19 +1543,44 @@ class TestReconciliationMatchingRules(AccountTestInvoicingCommon):
             {'account_id': self.company_data['default_account_revenue'].id, 'amount_currency': -500.0, 'balance': -500.0, 'reconciled': False},
         ])
 
-    def test_set_account_reco_model_multiple_statement_lines(self):
+    def test_reconciliation_model_preserves_payment_ref_as_label(self):
+        """ Ensure that both automatically generated and manual reconciliation models
+        preserve the statement line's payment reference as the label ('name')
+        on the created counterpart move lines.
+        """
         account_a = self.env['account.account'].create({
             'name': "Custom Account A",
             'code': "010101",
             'account_type': "asset_current",
         })
+        bank_account = self.bank_journal.default_account_id
 
+        # Automatic reconciliation model
         st_line_1 = self._create_st_line(amount=100, payment_ref='This is a test')
         st_line_2 = self._create_st_line(amount=100, payment_ref='This is a test')
         st_line_3 = self._create_st_line(amount=1000, payment_ref='This is a test')
         (st_line_1 + st_line_2).set_account_bank_statement_line([st_line_1.line_ids[-1].id, st_line_2.line_ids[-1].id], account_a.id)
         # Check that a reco model has been created with the right name
         self.assertEqual(st_line_3.line_ids[-1].reconcile_model_id.name, "Custom Account A")
+        st_line_3.line_ids[-1].reconcile_model_id._trigger_reconciliation_model(st_line_3)
+        self.assertRecordValues(st_line_3.line_ids, [
+            {'account_id': bank_account.id, 'name': 'This is a test'},
+            {'account_id': account_a.id, 'name': 'This is a test'},
+        ])
+
+        # Manual reconciliation model
+        new_rule = self.env['account.reconcile.model'].create({
+            'name': 'Manual Rule',
+            'match_label': 'contains',
+            'match_label_param': 'manual',
+            'line_ids': [Command.create({'account_id': account_a.id})],
+        })
+        st_line_4 = self._create_st_line(amount=100, payment_ref='This is a manual test')
+        new_rule._trigger_reconciliation_model(st_line_4)
+        self.assertRecordValues(st_line_4.line_ids, [
+            {'account_id': bank_account.id, 'name': 'This is a manual test'},
+            {'account_id': account_a.id, 'name': 'This is a manual test'},
+        ])
 
     def test_reconciliation_model_extracts_decimal_amount_from_regex(self):
         salary_account = self.env['account.account'].create({
@@ -1618,6 +1661,52 @@ class TestReconciliationMatchingRules(AccountTestInvoicingCommon):
             {'account_id': bank_fees_account.id, 'balance': 7.71, 'amount_currency': 7.71},
         ])
 
+    def test_reconciliation_model_regex_amount_currency_conversion(self):
+        salary_account = self.env['account.account'].create({
+            'name': "Salary Account",
+            'code': "501010",
+            'account_type': "liability_current",
+        })
+        bank_fees_account = self.env['account.account'].create({
+            'name': "Bank Fees Account",
+            'code': "510101",
+            'account_type': "expense",
+        })
+        other_currency_bank = self.bank_journal.copy({'currency_id': self.other_currency_2.id})
+
+        bank_stm_line = self.env['account.bank.statement.line'].create({
+            'journal_id': other_currency_bank.id,
+            'date': '2020-01-01',
+            'payment_ref': 'Salary BRUT: 1.344,00 COMM 7,71',
+            'amount': 1336.29,
+        })
+
+        model = self.env['account.reconcile.model'].create({
+            'name': 'format rule',
+            'match_label': 'contains',
+            'match_label_param': 'BRUT',
+            'line_ids': [
+                Command.create({
+                    'account_id': salary_account.id,
+                    'amount_type': 'regex',
+                    'amount_string': r'BRUT:\s*(\d[\d.,]*)',
+                }),
+                Command.create({
+                    'account_id': bank_fees_account.id,
+                    'amount_type': 'regex',
+                    'amount_string': r'COMM\s*(\d[\d.,]*)',
+                }),
+            ],
+        })
+
+        model._trigger_reconciliation_model(bank_stm_line)
+
+        self.assertRecordValues(bank_stm_line.line_ids, [
+            {'account_id': other_currency_bank.default_account_id.id, 'balance': 66.81, 'amount_currency': 1336.29},
+            {'account_id': salary_account.id, 'balance': -67.2, 'amount_currency': -1344.00},
+            {'account_id': bank_fees_account.id, 'balance': 0.39, 'amount_currency': 7.71},
+        ])
+
     def test_split_amount_string(self):
         test_cases = [
             # Plain integer
@@ -1663,6 +1752,33 @@ class TestReconciliationMatchingRules(AccountTestInvoicingCommon):
         for value, expected in test_cases:
             with self.subTest(value=value):
                 self.assertEqual(split_amount_str(value), expected)
+
+    def test_matching_rules_parent_and_branch_companies(self):
+        branch_a = self.setup_other_company(name='Test Branch A', parent_id=self.company_data['company'].id)
+        invoice_1 = self._create_invoice_one_line(
+            price_unit=100,
+            quantity=1,
+            date='2019-09-01',
+            move_name='INV/2019/0010',
+            company_id=branch_a['company'].id,
+        )
+        invoice_line_1 = invoice_1.line_ids.filtered(lambda l: l.account_id.account_type in ('asset_receivable', 'liability_payable'))
+        statement_line = self._create_st_line(amount=100, date='2019-09-01', payment_ref='INV/2019/0010')
+        statement_line._try_auto_reconcile_statement_lines()
+        self._check_st_line_matching(statement_line, [
+            {'account_id': self.bank_journal.default_account_id.id, 'balance': 100.0},
+            {'account_id': self.account_rec.id, 'balance': -100.0},
+        ], reconciled_amls=[invoice_line_1])
+
+    def test_matching_rules_parent_and_branch_companies_for_payment_with_outstanding_account(self):
+        branch_a = self.setup_other_company(name='Test Branch A', parent_id=self.company_data['company'].id)
+        payment = self._create_and_post_payment(amount=100, memo="INV/2019/0010", company_id=branch_a['company'].id)
+        statement_line = self._create_st_line(amount=100, date='2019-09-01', payment_ref='INV/2019/0010')
+        statement_line._try_auto_reconcile_statement_lines()
+        self.assertRecordValues(statement_line.line_ids, [
+            {'account_id': statement_line.journal_id.default_account_id.id, 'balance': 100.0, 'reconciled': False},
+            {'account_id': payment.outstanding_account_id.id, 'balance': -100.0, 'reconciled': True},
+        ])
 
     # TODO add tests on multi companies
     # TODO add tests on multi currencies

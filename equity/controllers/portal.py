@@ -15,9 +15,8 @@ class PortalEquity(CustomerPortal):
         if 'transaction_count' in counters:
             holder_id = self._get_user_partner_id()
             values['transaction_count'] = (
-                request.env['equity.transaction'].search_count(self._get_transactions_domain(holder_id), limit=1)
-                if holder_id and request.env['equity.transaction'].has_access('read') else
-                0
+                request.env['equity.transaction'].sudo().search_count(self._get_transactions_domain(holder_id), limit=1)
+                if holder_id else 0
             )
         return values
 
@@ -32,7 +31,7 @@ class PortalEquity(CustomerPortal):
             consteq(partner.equity_access_token, token)
         ):
             return int(partner_id)
-        elif default_to_request_partner and request.env['equity.transaction'].has_access('read'):
+        elif default_to_request_partner:
             return request.env.user.partner_id.id
         return False
 

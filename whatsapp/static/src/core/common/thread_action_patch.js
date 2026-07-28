@@ -15,7 +15,7 @@ patch(ThreadAction.prototype, {
                 action.id === "create-ticket" &&
                 store.has_access_create_ticket &&
                 store.helpdesk_livechat_active &&
-                !action.isDiscussSidebarChannelActions
+                !owner.isDiscussSidebarChannelActions
             ) {
                 return true;
             }

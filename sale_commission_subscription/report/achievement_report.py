@@ -18,20 +18,38 @@ class SaleCommissionAchievementReport(models.Model):
         if self.env.context.get('conversion_date'):
             conversion_date = datetime.strptime(self.env.context['conversion_date'], '%Y-%m-%d')
         query = f"""
-            sub_rate_query AS(
+            default_rate AS (
                 SELECT
-                        rc.id AS currency_id,
-                        rc.name,
-                        rcr.company_id,
-                        (array_agg(rcr.name order by rcr.name desc))[1] as date,
-                        (array_agg(rcr.rate order by rcr.name desc))[1] as rate
-                  FROM res_currency rc
-                  JOIN res_currency_rate rcr
+                    {self.env.company.currency_id.id} AS currency_id,
+                    '{self.env.company.currency_id.name}' AS name,
+                    {self.env.company.id} AS company_id,
+                    '{conversion_date}'::DATE AS date,
+                    1 AS rate
+            ),
+            sub_rate AS (
+                SELECT
+                    rc.id AS currency_id,
+                    rc.name,
+                    rcr.company_id,
+                    (array_agg(rcr.name order by rcr.name desc))[1] as date,
+                    (array_agg(rcr.rate order by rcr.name desc))[1] as rate
+                FROM res_currency rc
+                JOIN res_currency_rate rcr
                     ON rcr.currency_id = rc.id
-                 WHERE rc.active
+                WHERE rc.active
                    AND rcr.name <= '{conversion_date}'
-              GROUP BY rc.id, rc.name, rcr.company_id
-        ),
+                GROUP BY rc.id, rc.name, rcr.company_id
+            ),
+            sub_rate_query AS (
+                SELECT *
+                FROM sub_rate
+                UNION ALL
+                SELECT *
+                FROM default_rate
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM sub_rate
+                )
+            ),
         """
         return query
 

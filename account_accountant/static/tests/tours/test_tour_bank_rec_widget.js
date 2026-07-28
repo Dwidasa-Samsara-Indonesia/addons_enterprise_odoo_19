@@ -63,7 +63,7 @@ registry.category("web_tour.tours").add("account_accountant_bank_rec_widget", {
         },
         {
             content: "Select first partner",
-            trigger: "tbody > tr > td[name='complete_name']",
+            trigger: "tbody > tr > td[name='display_name']",
             run: "click",
         },
         {
@@ -157,4 +157,61 @@ registry.category("web_tour.tours").add("account_accountant_bank_rec_widget", {
             run: "click",
         },
     ],
+});
+
+registry.category("web_tour.tours").add("account_accountant_set_partner_with_child_contact", {
+    url: "/odoo",
+    steps: () => [
+        stepUtils.showAppsMenuItem(),
+        ...accountTourSteps.goToAccountMenu("Open the accounting module"),
+
+        {
+            content: "Open the bank reconciliation widget",
+            trigger: "a.oe_kanban_action span:contains('Bank')",
+            run: "click",
+        },
+        {
+            trigger: "div.o_bank_reconciliation_kanban_renderer",
+        },
+        {
+            content: "Create New statement",
+            trigger: "button.o-kanban-button-new",
+            run: "click",
+        },
+        {
+            trigger: "div.o_bank_reconciliation_quick_create",
+        },
+        {
+            content: "Write Label",
+            trigger: "div[name='payment_ref'] input",
+            run: "edit test",
+        },
+        {
+            content: "Add a amount",
+            trigger: "div[name='amount'] input",
+            run: "edit 100",
+        },
+        {
+            content: "Save & close",
+            trigger: "div.button_group button.o_kanban_edit",
+            run: "click",
+        },
+        {
+            content: "Statement is created",
+            trigger: "div[name='bank_statement_line']",
+        },
+        {
+            content: "Set Partner",
+            trigger: "button.set-partner-btn",
+            run: "click",
+        },
+        {
+            content: "Search view is opened",
+            trigger: "div.modal-dialog",
+        },
+        {
+            content: "Select partner",
+            trigger: "body:not(:has(tbody > tr > td[name='display_name']:contains('test child contact')))",
+        },
+    ]
 });

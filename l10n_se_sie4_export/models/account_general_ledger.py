@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models, release
 from odoo.exceptions import UserError
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, SQL
 
 DATEFORMAT_SIE4 = '%Y%m%d'
 DATEFORMAT_MAIN = DEFAULT_SERVER_DATE_FORMAT
@@ -211,26 +211,48 @@ class GeneralLedgerCustomHandler(models.AbstractModel):
     @api.model
     def _export_l10n_se_sie4_verification(self, options):
         sie4_verification_lines = []
-        dates = self._get_l10n_se_sie4_dates(options)
-        company_id = options['companies'][0]['id']
-        unsupported_display_type = {'line_note', 'line_section', 'line_subsection'}
-        moves = self.env['account.move'].with_company(company_id).search([
-            ('state', '=', 'posted'),
-            ('date', '>=', dates['curr_date_from']),
-            ('date', '<=', dates['curr_date_to']),
-        ])
-
-        for verification_idx, move in enumerate(moves.sorted(reverse=True), start=1):
-            transactions = []
-            for line in move.line_ids:
-                if line.display_type not in unsupported_display_type:
-                    transactions.append(f'    #TRANS {line.account_id.code} {{}} {line.balance}')
-
-            sie4_verification_lines.extend((
-                f'#VER A {verification_idx} {move.date.strftime(DATEFORMAT_SIE4)} "{move.name}"',
-                '{', *transactions, '}',
-            ))
-
+        report = self.env['account.report'].browse(options.get('report_id'))
+        company_ids = report.get_report_company_ids(options)
+        query = report._get_report_query(options, 'strict_range', [])
+        account_alias = query.join(lhs_alias='account_move_line', lhs_column='account_id', rhs_table='account_account', rhs_column='id', link='account_id')
+        account_env = self.env['account.account'].with_context(allowed_company_ids=company_ids)
+        account_code = account_env._field_to_sql(account_alias, 'code', query)
+        sql_query = SQL(
+            """
+            SELECT
+                m.id AS move_id,
+                m.name AS move_name,
+                m.date AS move_date,
+                %(account_code)s AS account_code,
+                account_move_line.balance AS balance
+            FROM %(table)s
+            JOIN account_move m ON m.id = account_move_line.move_id
+            WHERE %(where_clause)s
+            ORDER BY m.date ASC, m.name ASC, m.id ASC, account_move_line.id ASC
+            """,
+            account_code=account_code,
+            table=query.from_clause,
+            where_clause=query.where_clause,
+        )
+        self.env.flush_all()
+        self.env.cr.execute(sql_query)
+        last_move_id = None
+        verification_idx = 0
+        for row in self.env.cr.dictfetchall():
+            current_move_id = row['move_id']
+            if current_move_id != last_move_id:
+                if last_move_id is not None:
+                    sie4_verification_lines.append('}')
+                verification_idx += 1
+                move_date_str = row['move_date'].strftime(DATEFORMAT_SIE4)
+                sie4_verification_lines.extend((
+                    f'#VER A {verification_idx} {move_date_str} "{row["move_name"]}"',
+                    '{'
+                ))
+                last_move_id = current_move_id
+            sie4_verification_lines.append(f'    #TRANS {row["account_code"]} {{}} {row["balance"]}')
+        if last_move_id is not None:
+            sie4_verification_lines.append('}')
         return sie4_verification_lines
 
     def export_l10n_se_sie4_file(self, options):

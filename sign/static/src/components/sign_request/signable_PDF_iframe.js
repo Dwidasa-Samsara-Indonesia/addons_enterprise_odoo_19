@@ -459,7 +459,8 @@ export class SignablePDFIframe extends PDFIframe {
                     : [false, false];
 
                 if (!value) {
-                    if (item.data.required) {
+                    // Only validate required items that must be filled by the signer.
+                    if (item.data.required && !item.data.constant) {
                         return [{}, {}];
                     }
                     continue;

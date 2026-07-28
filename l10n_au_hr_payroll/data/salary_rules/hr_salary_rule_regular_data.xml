@@ -262,6 +262,21 @@ result = (inputs.get("LSL", 0) and inputs.get("LSL").amount) + (inputs.get("AL",
         <field name="struct_id" ref="l10n_au_hr_payroll.hr_payroll_structure_au_regular"/>
     </record>
 
+    <record id="l10n_au_qe_salary_rule" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_au_hr_payroll.rule_category_qualifying_earnings"/>
+        <field name="name">Qualifying Earnings</field>
+        <field name="code">QE</field>
+        <field name="sequence">107</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.date_from &gt;= date(2026, 7, 1)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories['OTE'] + sum(payslip.input_line_ids.filtered(lambda l: l.input_type_id == payslip.env.ref('l10n_au_hr_payroll.input_bonus_commissions_overtime')).mapped('amount'))
+        </field>
+        <field name="struct_id" ref="l10n_au_hr_payroll.hr_payroll_structure_au_regular"/>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
     <!-- Schedule 1 - Statement of formulas for calculating amounts to be withheld -->
     <record id="l10n_au_withholding_structure_1" model="hr.salary.rule">
         <field name="category_id" ref="l10n_au_hr_payroll.rule_category_withholding"/>
@@ -437,12 +452,22 @@ elif version.schedule_pay == "quarterly":
         <field name="condition_python">result = version.l10n_au_medicare_exemption != 'X' or version.l10n_au_tax_free_threshold</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-rates = payslip._rule_parameter("l10n_au_withholding_schedule_1")['medicare']
-if version.l10n_au_medicare_exemption == "H":
-    params = rates['half-exemption']
-    result = payslip._l10n_au_compute_medicare_adjustment(categories['GROSS'], version.schedule_pay, params)
-elif version.l10n_au_tax_free_threshold:
-    params = rates['tax-free']
+if version.l10n_au_tax_treatment_category == "S" and version.l10n_au_medicare_exemption != "F":
+    rates = payslip._rule_parameter("l10n_au_withholding_schedule_9")
+    # Backward compatibility with pre-2024 structure
+    if payslip.date_from &lt;= date(2024, 7, 1):
+        params = rates["medicare"]
+    # Post July 2024
+    params = rates["medicare"]["half-exemption"] if version.l10n_au_medicare_exemption == "H" else rates["medicare"]["full"]
+else:
+    # Schedule 1
+    rates = payslip._rule_parameter("l10n_au_withholding_schedule_1")["medicare"]
+    if version.l10n_au_medicare_exemption == "H":
+        params = rates["half-exemption"]
+    elif version.l10n_au_tax_free_threshold:
+        params = rates["tax-free"]
+
+if params:
     result = payslip._l10n_au_compute_medicare_adjustment(categories['GROSS'], version.schedule_pay, params)
         </field>
         <field name="struct_id" ref="l10n_au_hr_payroll.hr_payroll_structure_au_regular"/>
@@ -651,7 +676,8 @@ result = version.l10n_au_salary_sacrifice_superannuation + extra_super + sacrifi
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 rate = payslip._rule_parameter("l10n_au_withholding_super")
-result = categories['OTE'] * rate/100
+base = categories['QE'] if payslip.date_from &gt;= date(2026, 7, 1) else categories['OTE']
+result = base * (rate / 100)
         </field>
         <field name="struct_id" ref="l10n_au_hr_payroll.hr_payroll_structure_au_regular"/>
     </record>

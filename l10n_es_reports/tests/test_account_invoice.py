@@ -204,8 +204,8 @@ class TestAccountInvoice(TestAccountReportsCommon):
         self._test_xlsx_file(vat_record_books, {
             0: ('Autoliquidación', '', 'Actividad', '', '', 'Tipo de Factura', 'Concepto de Ingreso', 'Ingreso Computable', 'Fecha Expedición', 'Fecha Operación', 'Identificación de la Factura', '', '', 'NIF Destinario', '', '', 'Nombre Destinario', 'Clave de Operación', 'Calificación de la Operación', 'Operación Exenta', 'Total Factura', 'Base Imponible', 'Tipo de IVA', 'Cuota IVA Repercutida', 'Tipo de Recargo eq.', 'Cuota Recargo eq.', 'Cobro (Operación Criterio de Caja de IVA y/o artículo 7.2.1º de Reglamento del IRPF)', '', '', '', 'Tipo Retención del IRPF', 'Importe Retenido del IRPF', 'Registro Acuerdo Facturación', 'Inmueble', '', 'Referencia Externa'),
             1: ('Ejercicio', 'Periodo', 'Código', 'Tipo', 'Grupo o Epígrafe del IAE', '', '', '', '', '', 'Serie', 'Número', 'Número-Final', 'Tipo', 'Código País', 'Identificación', '', '', '', '', '', '', '', '', '', '', 'Fecha', 'Importe', 'Medio Utilizado', 'Identificación Medio Utilizado', '', '', '', 'Situación', 'Referencia Catastral', ''),
-            2: (2019, '4T', 'A', '01', '0000', 'F2', 'I01', 3000, '31/12/2019', '', '', 'INV/2019/00002', '', '', '', '', False, '01', 'S1', '', 3630, 3000, 21, 630, 0, 0, '', '', '', '', 0, 0, '', '', '', ''),
-            3: (2019, '4T', 'A', '01', '0000', 'F1', 'I01', 5000, '31/12/2019', '', '', 'INV/2019/00001', '', '', '', '', 'España', '01', 'S1', '', 6050, 5000, 21, 1050, 0, 0, '', '', '', '', 0, 0, '', '', '', ''),
+            2: (2019, '12', 'A', '01', '0000', 'F2', 'I01', 3000, '31/12/2019', '', '', 'INV/2019/00002', '', '', '', '', '', '01', 'S1', '', 3630, 3000, 21, 630, 0, 0, '', '', '', '', 0, 0, '', '', '', ''),
+            3: (2019, '12', 'A', '01', '0000', 'F1', 'I01', 5000, '31/12/2019', '', '', 'INV/2019/00001', '', '', '', '', 'España', '01', 'S1', '', 6050, 5000, 21, 1050, 0, 0, '', '', '', '', 0, 0, '', '', '', ''),
         })
 
     def test_exclude_349_from_internal_customer_invoice(self):

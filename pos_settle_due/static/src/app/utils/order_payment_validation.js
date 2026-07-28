@@ -89,7 +89,7 @@ patch(OrderPaymentValidation.prototype, {
         const order = this.order;
         const commercialPartnerId = order.commercialPartnerId;
         const amountToSettle = order.getSettleAmount();
-        if (commercialPartnerId && commercialPartnerId == partner.commercial_partner_id.id) {
+        if (commercialPartnerId && commercialPartnerId == partner.raw.commercial_partner_id) {
             const confirmed = await ask(this.pos.dialog, {
                 title: _t("Settle due orderlines"),
                 body: _t(

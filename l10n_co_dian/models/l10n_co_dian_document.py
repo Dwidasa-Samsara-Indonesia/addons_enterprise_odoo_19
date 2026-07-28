@@ -109,12 +109,13 @@ class L10n_Co_DianDocument(models.Model):
     @api.model
     def _create_document(self, xml, move, state, **kwargs):
         def resolve_doc_datetime(demo_mode, root, kwargs_dict):
+            doc_datetime = fields.Datetime.context_timestamp(self.with_context(tz='America/Bogota'), fields.Datetime.now()).replace(tzinfo=None)
             if demo_mode:
-                return datetime.now()
+                return doc_datetime
             if 'datetime' in kwargs_dict:
                 return kwargs_dict.pop('datetime')
             if root is None:
-                return datetime.now()
+                return doc_datetime
             return date_utils.to_timezone(None)(datetime.fromisoformat(root.find('.//{*}SigningTime').text))
 
         def resolve_identifier(demo_mode, root, kwargs_dict):
@@ -434,6 +435,7 @@ class L10n_Co_DianDocument(models.Model):
                 'uuid_attrs': {
                     'schemeName': self[-idx]._get_identifier_type().upper() + "-SHA384",
                 },
+                'document_id': event_tree.findtext('./{*}DocumentResponse/{*}DocumentReference/{*}ID'),
                 'issue_date': event_tree.findtext('./{*}IssueDate'),
                 'issue_time': event_tree.findtext('./{*}IssueTime'),
                 'response_code': event_tree.findtext('.//{*}Response/{*}ResponseCode'),
@@ -463,6 +465,7 @@ class L10n_Co_DianDocument(models.Model):
                 'uuid_attrs': {
                     'schemeName': f"{identifier_type}-SHA384",
                 },
+                'document_id': original_xml_etree.findtext('./{*}ID'),
                 'issue_date': 'Demo',
                 'issue_time': 'Demo',
                 'response_code': 'Demo',
@@ -519,7 +522,7 @@ class L10n_Co_DianDocument(models.Model):
         if error_msg:
             return "", error_msg
 
-        current_attachment_raw = self[-1].attachment_id.raw
+        current_attachment_raw = self.sorted()[:1].attachment_id.raw
         original_xml_etree = etree.fromstring(current_attachment_raw)
 
         if self[0]._get_company().l10n_co_dian_demo_mode:

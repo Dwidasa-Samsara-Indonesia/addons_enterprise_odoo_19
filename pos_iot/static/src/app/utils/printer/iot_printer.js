@@ -51,7 +51,7 @@ export class IoTPrinter extends BasePrinter {
      * @override
      */
     getActionError() {
-        if (window.isSecureContext && this.device.iotIp.endsWith(".odoo-iot.com")) {
+        if (window.isSecureContext && this.device.iotIp?.endsWith(".odoo-iot.com")) {
             return {
                 successful: false,
                 canRetry: true,

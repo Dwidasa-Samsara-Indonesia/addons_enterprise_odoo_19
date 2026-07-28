@@ -84,6 +84,12 @@
             <xpath expr="//field[@name='attachment_ids']" position="attributes">
                 <attribute name="readonly" add="not use_in_marketing_automation" separator="and"/>
             </xpath>
+            <xpath expr="//button[@name='action_retry_failed']" position="before">
+                <field name="use_in_marketing_automation" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_retry_failed']" position="attributes">
+                <attribute name="invisible" add="use_in_marketing_automation" separator=" or "/>
+            </xpath>
         </field>
     </record>
 

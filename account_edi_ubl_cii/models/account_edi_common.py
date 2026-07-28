@@ -1,13 +1,16 @@
+from datetime import datetime
 from markupsafe import Markup
+from lxml import etree
 
 from odoo import _, api, models
+from odoo.addons.account.tools import dict_to_xml
 from odoo.addons.base.models.res_bank import sanitize_account_number
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare, float_is_zero, float_repr
+from odoo.tools import float_compare, float_is_zero, float_repr, html2plaintext
 from odoo.tools.float_utils import float_round
+from odoo.tools.translate import _lt
 from odoo.tools.misc import clean_context, formatLang, html_escape
 from odoo.tools.xml_utils import find_xml_value
-from datetime import datetime
 
 # -------------------------------------------------------------------------
 # UNIT OF MEASURE
@@ -63,7 +66,7 @@ EAS_MAPPING = {
     'EE': {'9931': 'vat'},
     'ES': {'9920': 'vat'},
     'FI': {'0216': None},
-    'FR': {'0009': 'company_registry', '9957': 'vat', '0002': None},
+    'FR': {'0225': 'peppol_endpoint', '0009': 'company_registry', '9957': 'vat', '0002': None},  # `peppol_endpoint` used as place holder for custom logic via `_get_peppol_endpoint_value`
     'SG': {'0195': 'l10n_sg_unique_entity_number'},
     'GB': {'9932': 'vat'},
     'GR': {'9933': 'vat'},
@@ -227,6 +230,11 @@ EUROPEAN_ECONOMIC_AREA_COUNTRY_CODES = {
     'IS', 'LI', 'NO',
 }
 
+COCONTRACTANT_DEFAULT_NOTE = _lt('Reverse charge: In the absence of a written objection within one month of receipt of the invoice, '
+                              'the customer is deemed to acknowledge that they are a taxable person required to file periodic returns. '
+                              'If this condition is not met, the customer will be liable for the payment of the tax, interest, '
+                              'and penalties due in relation to this condition.')
+
 # -------------------------------------------------------------------------
 # SUPPORTED FILE TYPES FOR IMPORT
 # -------------------------------------------------------------------------
@@ -254,29 +262,29 @@ class FloatFmt(float):
     def __str__(self):
         if not isinstance(self.min_dp, int) or (self.max_dp is not None and not isinstance(self.max_dp, int)):
             return "<FloatFmt()>"
-        self_float = float(self)
-        min_dp_int = int(self.min_dp)
+        # why do we round ?
+        # imagine we have: 0.499 and max_dp = 2.
+        # The best representation for 0.499 with max_dp = 2 is 0.50 not 0.49
+        # rounding with max_dp precision ensure we have the best representation with max_dp decimal places.
+        self_float = float_round(float(self), self.min_dp if self.max_dp is None else self.max_dp)
         if self.max_dp is None:
-            return float_repr(self_float, min_dp_int)
+            return float_repr(self_float, self.min_dp)
         else:
             # Format the float to between self.min_dp and self.max_dp decimal places.
             # We start by formatting to self.max_dp, and then remove trailing zeros,
             # but always keep at least self.min_dp decimal places.
-            max_dp_int = int(self.max_dp)
-            amount_max_dp = float_repr(self_float, max_dp_int)
+            amount_max_dp = float_repr(self_float, self.max_dp)
             num_trailing_zeros = len(amount_max_dp) - len(amount_max_dp.rstrip('0'))
-            return float_repr(self_float, max(max_dp_int - num_trailing_zeros, min_dp_int))
+            return float_repr(self_float, max(self.max_dp - num_trailing_zeros, self.min_dp))
 
     def __repr__(self):
         if not isinstance(self.min_dp, int) or (self.max_dp is not None and not isinstance(self.max_dp, int)):
             return "<FloatFmt()>"
         self_float = float(self)
-        min_dp_int = int(self.min_dp)
         if self.max_dp is None:
-            return f"FloatFmt({self_float!r}, {min_dp_int!r})"
+            return f"FloatFmt({self_float!r}, {self.min_dp!r})"
         else:
-            max_dp_int = int(self.max_dp)
-            return f"FloatFmt({self_float!r}, {min_dp_int!r}, {max_dp_int!r})"
+            return f"FloatFmt({self_float!r}, {self.min_dp!r}, {self.max_dp!r})"
 
 
 class AccountEdiCommon(models.AbstractModel):
@@ -286,6 +294,25 @@ class AccountEdiCommon(models.AbstractModel):
     # -------------------------------------------------------------------------
     # HELPERS
     # -------------------------------------------------------------------------
+
+    def _vals_to_etree(self, vals):
+        document_node = vals['document_node']
+        return dict_to_xml(document_node, nsmap=document_node['_nsmap'], template=document_node['_template'])
+
+    def _etree_to_string(self, tree):
+        return etree.tostring(tree, xml_declaration=True, encoding='UTF-8')
+
+    def _define_document_type(self, vals, document_type):
+        vals['_document_type'] = {
+            'name': document_type,
+            'model': self,
+        }
+
+    def _get_document_type(self, vals):
+        return vals.get('_document_type', {}).get('name')
+
+    def _is_document(self, vals, *document_types):
+        return self._get_document_type(vals) in document_types
 
     def module_installed(self, module_name):
         return self.env['ir.module.module']._get(module_name).state == 'installed'
@@ -322,6 +349,20 @@ class AccountEdiCommon(models.AbstractModel):
     def _can_export_selfbilling(self):
         return False
 
+    def _get_belgian_cocontractant_note(self, customer, supplier):
+        invoice = self.env.context.get('tax_exemption_reason_invoice')
+        if self._is_cocontractant_fiscal_position(invoice, customer, supplier):
+            note = html2plaintext(invoice.fiscal_position_id.note) if invoice.fiscal_position_id.note else ''
+            return note or COCONTRACTANT_DEFAULT_NOTE
+        return ''
+
+    def _is_cocontractant_fiscal_position(self, invoice, customer, supplier):
+        return (invoice and
+                customer.country_id.code == 'BE' and
+                supplier.country_id == customer.country_id and
+                (co_contractant := self.env['account.chart.template'].ref('fiscal_position_template_4', raise_if_not_found=False)) and
+                invoice.fiscal_position_id == co_contractant
+        )
     # -------------------------------------------------------------------------
     # TAXES
     # -------------------------------------------------------------------------
@@ -400,6 +441,12 @@ class AccountEdiCommon(models.AbstractModel):
             Note: In Peppol, taxes should be grouped by tax category code but *not* by
             exemption reason, see https://docs.peppol.eu/poacc/billing/3.0/bis/#_calculation_of_vat
         """
+
+        if reason := tax and not tax.amount and self._get_belgian_cocontractant_note(customer, supplier):
+            return {
+                'tax_exemption_reason_code': 'VATEX-EU-AE',
+                'tax_exemption_reason': reason,
+            }
 
         if tax and (code := tax.ubl_cii_tax_exemption_reason_code):
             return {
@@ -551,7 +598,7 @@ class AccountEdiCommon(models.AbstractModel):
     def _import_attachments(self, invoice, tree):
         # Import the embedded documents in the xml if some are found
         attachments = self.env['ir.attachment']
-        if invoice.message_main_attachment_id:
+        if invoice.message_main_attachment_id.mimetype == 'application/pdf':
             # Invoice look like it was already imported, don't import attachments again
             return attachments
         additional_docs = tree.findall('./{*}AdditionalDocumentReference')
@@ -833,6 +880,13 @@ class AccountEdiCommon(models.AbstractModel):
                 discount_amount += amount
         return discount_amount, charges
 
+    def _get_basis_qty(self, tree, xpath_dict):
+        """ Return the base quantity used to derive the unit price from PriceAmount.
+        The standard UBL/CII divides PriceAmount by BaseQuantity to obtain the unit price upon
+        import.
+        """
+        return float(self._find_value(xpath_dict['basis_qty'], tree) or 1) or 1.0
+
     def _retrieve_line_vals(self, tree, document_type=False, qty_factor=1):
         """
         Read the xml invoice, extract the invoice line values, compute the odoo values
@@ -875,7 +929,7 @@ class AccountEdiCommon(models.AbstractModel):
         """
         xpath_dict = self._get_line_xpaths(document_type, qty_factor)
         # basis_qty (optional)
-        basis_qty = float(self._find_value(xpath_dict['basis_qty'], tree) or 1) or 1.0
+        basis_qty = self._get_basis_qty(tree, xpath_dict)
 
         # gross_price_unit (optional)
         gross_price_unit = None
@@ -899,11 +953,9 @@ class AccountEdiCommon(models.AbstractModel):
             delivered_qty = float(quantity_node.text)
             uom_xml = quantity_node.attrib.get('unitCode')
             if uom_xml:
-                uom_infered_xmlid = [
-                    odoo_xmlid for odoo_xmlid, uom_unece in UOM_TO_UNECE_CODE.items() if uom_unece == uom_xml
-                ]
+                uom_infered_xmlid = {v: k for k, v in UOM_TO_UNECE_CODE.items()}.get(uom_xml)
                 if uom_infered_xmlid:
-                    product_uom = self.env.ref(uom_infered_xmlid[0], raise_if_not_found=False) or self.env['uom.uom']
+                    product_uom = self.env.ref(uom_infered_xmlid, raise_if_not_found=False) or self.env['uom.uom']
         if product and product_uom and not product_uom._has_common_reference(product.product_tmpl_id.uom_id):
             # uom incompatibility
             product_uom = self.env['uom.uom']
@@ -999,7 +1051,7 @@ class AccountEdiCommon(models.AbstractModel):
                     return tax
         return self.env['account.tax']
 
-    def _retrieve_taxes(self, record, line_values, tax_type, tax_exigibility=False):
+    def _retrieve_taxes(self, record, line_values, tax_type, tax_exigibility=None):
         """
         Retrieve the taxes on the document line at import.
 
@@ -1010,6 +1062,9 @@ class AccountEdiCommon(models.AbstractModel):
         # if no results, try to fetch the price_include=True taxes. If results, need to adapt the price_unit.
         logs = []
         taxes = []
+        fpos_domain = [('fiscal_position_ids', '=', record.fiscal_position_id.id)]
+        if record.fiscal_position_id.is_domestic:
+            fpos_domain = ['|', ('fiscal_position_ids', '=', False)] + fpos_domain
         for tax_node in line_values.pop('tax_nodes'):
             amount = float(tax_node.text)
             domain = [
@@ -1017,14 +1072,19 @@ class AccountEdiCommon(models.AbstractModel):
                 ('amount_type', '=', 'percent'),
                 ('type_tax_use', '=', tax_type),
                 ('amount', '=', amount),
+                ('country_id', '=', record.tax_country_id.id),
             ]
             tax = self.env['account.tax']
             if hasattr(record, '_get_specific_tax'):
                 tax = record._get_specific_tax(line_values['name'], 'percent', amount, tax_type).filtered_domain(domain)[:1]
-            if tax_exigibility:
-                if not tax and tax_exigibility:
+            if tax_exigibility is not None:
+                if not tax:
+                    tax = self.env['account.tax'].search(domain + fpos_domain + [('price_include', '=', False), ('tax_exigibility', '=', tax_exigibility)], limit=1)
+                if not tax:
+                    tax = self.env['account.tax'].search(domain + fpos_domain + [('price_include', '=', True), ('tax_exigibility', '=', tax_exigibility)], limit=1)
+                if not tax:
                     tax = self.env['account.tax'].search(domain + [('price_include', '=', False), ('tax_exigibility', '=', tax_exigibility)], limit=1)
-                if not tax and tax_exigibility:
+                if not tax:
                     tax = self.env['account.tax'].search(domain + [('price_include', '=', True), ('tax_exigibility', '=', tax_exigibility)], limit=1)
                 if not tax:
                     logs.append(
@@ -1032,6 +1092,10 @@ class AccountEdiCommon(models.AbstractModel):
                         exigibility=tax_exigibility,
                         line=line_values['name']),
                     )
+            if not tax:
+                tax = self.env['account.tax'].search(domain + fpos_domain + [('price_include', '=', False)], limit=1)
+            if not tax:
+                tax = self.env['account.tax'].search(domain + fpos_domain + [('price_include', '=', True)], limit=1)
             if not tax:
                 tax = self.env['account.tax'].search(domain + [('price_include', '=', False)], limit=1)
             if not tax:

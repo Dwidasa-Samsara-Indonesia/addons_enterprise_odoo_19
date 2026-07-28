@@ -98,6 +98,58 @@ class TestPayslipOvertime(HrWorkEntryAttendanceCommon):
         self.payslip._compute_worked_days_line_ids()
         self.assertEqual(self.payslip.worked_days_line_ids.filtered(lambda w: w.code == 'OVERTIME').number_of_hours, 11)
 
+    def test_overtime_duration_precision_no_leak_to_attendance(self):
+        calendar_8h = self.env['resource.calendar'].create({
+            'name': 'Classic 40h/week',
+            'attendance_ids': [
+                Command.create({
+                    'name': f'Day {i}',
+                    'dayofweek': str(i),
+                    'hour_from': 9.0,
+                    'hour_to': 17.0,
+                    'day_period': 'morning',
+                })
+                for i in range(5)
+            ],
+        })
+        self.contract.resource_calendar_id = calendar_8h
+        self.contract.hourly_wage = 3600
+
+        overtime_seconds = 5
+        scheduled_hours = 8.0
+        check_in = datetime(2022, 1, 3, 9, 0, 0)
+        check_out = datetime(2022, 1, 3, 17, 0, overtime_seconds)
+        self.env['hr.attendance'].create({
+            'employee_id': self.employee.id,
+            'check_in': check_in,
+            'check_out': check_out,
+        })
+        self.payslip.version_id.generate_work_entries(
+            self.payslip.date_from, self.payslip.date_to, force=True
+        )
+        self.payslip._compute_worked_days_line_ids()
+        self.payslip.compute_sheet()
+
+        attendance_amount = sum(
+            self.payslip.worked_days_line_ids
+            .filtered(lambda w: w.code == 'WORK100')
+            .mapped('amount'),
+            0.0,
+        )
+        overtime_amount = sum(
+            self.payslip.worked_days_line_ids
+            .filtered(lambda w: w.code == 'OVERTIME')
+            .mapped('amount'),
+            0.0,
+        )
+
+        # hourly_wage=3600 with amount_rate=1.0: 1 monetary unit = 1 second of work
+        expected_attendance_amount = scheduled_hours * self.contract.hourly_wage
+        expected_overtime_amount = overtime_seconds / 3600 * self.contract.hourly_wage
+
+        self.assertAlmostEqual(attendance_amount, expected_attendance_amount, places=2)
+        self.assertAlmostEqual(overtime_amount, expected_overtime_amount, places=2)
+
     def test_overtime_with_approval(self):
         """Test that the overtime is taken into account only when it's approved."""
         self.company.write({

@@ -45,12 +45,12 @@ class HrEmployee(models.Model):
 
     def write(self, vals):
         if 'active' in vals and not vals['active']:
-            for employee in self:
+            for employee_sudo in self.sudo():
                 # As this is impossible to archive a version if it's the only employee version
                 # could be required to cancel a dimona if there was no date_end on the dimona
                 # IN and we archive the employee itself.
-                if employee.active and len(employee.version_ids) == 1 and employee.version_ids.l10n_be_dimona_declaration_id and not employee.version_ids.l10n_be_dimona_declaration_id.date_end:
-                    employee.version_ids.l10n_be_needs_dimona_cancel = True
+                if employee_sudo.active and len(employee_sudo.version_ids) == 1 and employee_sudo.version_ids.l10n_be_dimona_declaration_id and not employee_sudo.version_ids.l10n_be_dimona_declaration_id.date_end:
+                    employee_sudo.version_ids.l10n_be_needs_dimona_cancel = True
         return super().write(vals)
 
     def action_open_relation(self):

@@ -1,6 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import date
+from datetime import date, datetime
 
 from odoo.fields import Command
 from odoo.tests.common import tagged
@@ -251,3 +251,38 @@ class TestPayslipValidation(TestPayslipValidationCommon):
             'BASIC': 0.0,
         }
         self._validate_payslip(payslip, payslip_results, skip_lines=True)
+
+    def test_saudi_payslip_gosi_contribution(self):
+        self.env['resource.calendar.leaves'].create([{
+            'name': "Absence",
+            'company_id': self.env.company.id,
+            'resource_id': self.saudi_employee.resource_id.id,
+            'date_from': datetime(2024, 1, 10, 6, 0, 0),
+            'date_to': datetime(2024, 1, 11, 22, 0, 0),
+            'time_type': "leave",
+            'work_entry_type_id': self.env.ref('hr_work_entry.work_entry_type_unpaid_leave').id
+        }])
+
+        payslip = self._generate_payslip(
+            date(2024, 1, 1), date(2024, 1, 31),
+            employee_id=self.saudi_employee.id,
+            version_id=self.saudi_employee.version_id.id,
+            struct_id=self.env.ref('l10n_sa_hr_payroll.ksa_saudi_employee_payroll_structure').id)
+        payslip_results = {
+            'BASIC': 12000.0,
+            'HOUALLOW': 1000.0,
+            'TRAALLOW': 200.0,
+            'OTALLOW': 500.0,
+            'GOSI_COMP': -1527.5,
+            'GOSI_EMP': -1267.5,
+            'UNPAID': -685.0,
+            'EOSP': 570.83,
+            'MEDICAL': 400.0,
+            'IQAMA': 500.0,
+            'WORKPER': 300.0,
+            'ANNUALP': 799.17,
+            'GROSS': 13700.0,
+            'NET': 11747.5,
+            'NETCOST': 13342.5,
+        }
+        self._validate_payslip(payslip, payslip_results)

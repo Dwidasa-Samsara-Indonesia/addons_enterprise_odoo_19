@@ -19,15 +19,17 @@
 # Reza Royaei <mr.royaei@gmail.com>, 2023
 # Hamed Mohammadi <hamed@dehongi.com>, 2023
 # Hamid Darabi, 2023
-# "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tiffany Chang (tic)" <tic@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
+# Heshmatkhah <maheshmatkhah.soft@gmail.com>, 2026.
+# سید سعید محمودزاده حسینی <ssmhos@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:37+0000\n"
-"PO-Revision-Date: 2025-11-08 18:01+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-24 17:38+0000\n"
+"PO-Revision-Date: 2026-07-26 05:30+0000\n"
+"Last-Translator: سید سعید محمودزاده حسینی <ssmhos@gmail.com>\n"
 "Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/project/"
 "fa/>\n"
 "Language: fa\n"
@@ -35,30 +37,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12.2\n"
-
-#. module: project
-#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
-msgid " All internal users and invited portal users"
-msgstr ""
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__rating_count
 msgid "# Ratings"
-msgstr "رتبه دهی"
+msgstr "# امتیاز دهی"
 
 #. module: project
 #. odoo-javascript
 #: code:addons/project/static/src/views/burndown_chart/burndown_chart_model.js:0
 #: model:ir.model.fields,field_description:project.field_report_project_task_user__nbr
 msgid "# of Tasks"
-msgstr "تعداد کارها"
+msgstr "# وظایف"
 
 #. module: project
 #. odoo-javascript
 #: code:addons/project/static/src/views/widget/subtask_counter.js:0
 msgid "%(closedCount)s sub-tasks closed out of %(totalCount)s"
-msgstr "%(closedCount)s وظایف فرعی بسته شد %(totalCount)s"
+msgstr "%(closedCount)s تا از %(totalCount)s زیر وظیفه بسته شده"
 
 #. module: project
 #. odoo-python
@@ -76,13 +73,13 @@ msgstr "%(closed_task_count)s / %(task_count)s (%(closed_rate)s%%)"
 #. odoo-javascript
 #: code:addons/project/static/src/views/widget/subtask_counter.js:0
 msgid "%(count1)s/%(count2)s"
-msgstr ""
+msgstr "%(count1)s/%(count2)s"
 
 #. module: project
 #. odoo-python
 #: code:addons/project/models/project_project.py:0
 msgid "%(name)s Dashboard"
-msgstr "%(name)s داشبورد"
+msgstr "داشبورد %(name)s"
 
 #. module: project
 #. odoo-python
@@ -94,13 +91,13 @@ msgstr "نمودار سوختن %(name)s"
 #. odoo-python
 #: code:addons/project/models/project_project.py:0
 msgid "%(name)s's Milestones"
-msgstr "مراحل مهم %(name)s's"
+msgstr "مایل‌استون های %(name)s's"
 
 #. module: project
 #. odoo-python
 #: code:addons/project/models/project_project.py:0
 msgid "%(name)s's Rating"
-msgstr "رتبه‌بندی %(name)s"
+msgstr "امتیازدهی %(name)s"
 
 #. module: project
 #. odoo-python
@@ -121,6 +118,8 @@ msgid ""
 "%(warning_messages)s\n"
 "Are you sure you want to continue?"
 msgstr ""
+"%(warning_messages)s\n"
+"آیا از ادامه دادن اطمینان دارید؟"
 
 #. module: project
 #. odoo-python
@@ -146,13 +145,13 @@ msgstr "(تا"
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_update_default_description
 msgid "(last project update),"
-msgstr "(آخرین آپدیت پروژه),"
+msgstr "(آخرین بروزرسانی پروژه)،"
 
 #. module: project
 #. odoo-javascript
 #: code:addons/project/static/src/project_sharing/components/depend_on_ids_one2many/depend_on_ids_list_renderer.xml:0
 msgid "(other) tasks to which you do not have access."
-msgstr "(سایر) کارهایی که به آنها دسترسی ندارید."
+msgstr "(سایر) وظایفی که به آنها دسترسی ندارید."
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_message_user_assigned
@@ -161,7 +160,7 @@ msgid ""
 ",\n"
 "    <br/><br/>"
 msgstr ""
-",\n"
+"،\n"
 "    <br/><br/>"
 
 #. module: project
@@ -173,7 +172,7 @@ msgstr "دست یافته در -"
 #. odoo-javascript
 #: code:addons/project/static/src/js/tours/project.js:0
 msgid "<b>Drag &amp; drop</b> the card to change your task from stage."
-msgstr "<b>بکشید &amp; رها کنید</b>کارت را برای تغییر مرحله."
+msgstr "برای تغییر وضعیت وظیفه، کارت را <b>بکشید و رها</b> کنید."
 
 #. module: project
 #. odoo-javascript
@@ -730,7 +729,9 @@ msgstr "مدیر"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_manager
-msgid "Administrator can manage the employees' schedule"
+msgid ""
+"Administrator: Can manage projects and stages, with access to reporting and "
+"configuration."
 msgstr ""
 
 #. module: project
@@ -802,6 +803,11 @@ msgstr "همه وظایف"
 #: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__employees
 msgid "All internal users"
 msgstr "همه کاربران داخلی"
+
+#. module: project
+#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
+msgid "All internal users and invited portal users"
+msgstr ""
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__allocated_hours
@@ -2130,7 +2136,7 @@ msgstr "دنبال کردن"
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.portal_my_home
 msgid "Follow and comment on tasks in your projects"
-msgstr ""
+msgstr "وظایف پروژه‌های خود را دنبال کنید و در مورد آنها نظر دهید"
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.portal_my_home
@@ -4456,7 +4462,7 @@ msgstr "تاریخ آغاز"
 #: model:ir.model.fields,field_description:project.field_project_task_burndown_chart_report__state
 #: model:ir.model.fields,field_description:project.field_report_project_task_user__state
 msgid "State"
-msgstr "استان"
+msgstr "وضعیت"
 
 #. module: project
 #. odoo-javascript
@@ -5460,7 +5466,7 @@ msgstr "تنظیمات کاربر"
 
 #. module: project
 #: model:res.groups,comment:project.group_project_user
-msgid "User can user the your employees' schedule"
+msgid "User: Can manage tasks in projects shared with them."
 msgstr ""
 
 #. module: project
@@ -5991,6 +5997,9 @@ msgstr "👤 اختصاص نیافته"
 #: code:addons/project/models/project_task.py:0
 msgid "🔒 Private"
 msgstr "خصوصی 🔒"
+
+#~ msgid " All internal users and invited portal users"
+#~ msgstr " همه کاربران داخلی و کاربران پرتال دعوت شده"
 
 #~ msgid "# Collaborators"
 #~ msgstr "#همکاران"

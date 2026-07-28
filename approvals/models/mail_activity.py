@@ -42,4 +42,4 @@ class MailActivity(models.Model):
             )
 
     def _to_store_defaults(self, target):
-        return super()._to_store_defaults(target) + [Store.One("approver_id", ["status"])]
+        return super()._to_store_defaults(target) + [Store.One("approver_id", ["status", "user_id"])]

@@ -206,6 +206,26 @@ test("Freeze&Share a spreadsheet with an odoo list", async function () {
     expect.verifySteps(["open_share"]);
 });
 
+test("cannot manage versions of a spreadsheet", async function () {
+    const serverData = getTestServerData();
+    serverData.models["ir.attachment"] = { records: [{ id: 1 }] };
+    const spreadsheet = serverData.models["documents.document"].records[1];
+    spreadsheet.attachment_id = 1;
+
+    await makeDocumentsSpreadsheetMockEnv({ serverData });
+    await mountView({
+        type: "kanban",
+        resModel: "documents.document",
+        arch: basicDocumentKanbanArch,
+        actionMenus: { action: [], print: [] },
+        searchViewArch: getEnrichedSearchArch(),
+    });
+
+    await contains(".o_kanban_record:contains(My spreadsheet) .o_record_selector").click();
+    await contains(".o_control_panel_actions button:contains(Actions)").click();
+    expect(".o-dropdown-item:contains(Manage Versions)").toHaveCount(0);
+});
+
 test("open xlsx converts to o-spreadsheet, clone it and opens the spreadsheet", async () => {
     const spreadsheetId = 10;
     const spreadsheetCopyId = 99;
@@ -500,6 +520,12 @@ test("Cannot download spreadsheets", async () => {
             id: 4,
             name: "Spreadsheet",
         },
+        {
+            folder_id: 1,
+            type: "url",
+            id: 5,
+            name: "Hurle",
+        },
     ]);
     const serverData = {
         models: Object.fromEntries(
@@ -541,6 +567,10 @@ test("Cannot download spreadsheets", async () => {
     // Button should remain even if some records are not downloadable
     await contains(`.o_kanban_record:contains('Spreadsheet')`).click({ ctrlKey: true });
     await waitFor(".o_control_panel_actions:contains('Download')");
+    // Spreadsheet with url should not be downloadable
+    await contains(`.o_kanban_record:contains('Spreadsheet')`).click();
+    await contains(`.o_kanban_record:contains('Hurle')`).click({ ctrlKey: true });
+    await waitForNone(".o_control_panel_actions:contains('Download')");
 });
 
 test("Share button is hidden for spreadsheet in Trash", async () => {

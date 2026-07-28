@@ -13,6 +13,7 @@ export class BankReconciliationService {
     setup(env, services) {
         this.bus = new EventBus();
         this.orm = services["orm"];
+        this.batchedOrm = services["batchedOrm"];
 
         this.chatterState = reactive({
             visible:
@@ -24,6 +25,7 @@ export class BankReconciliationService {
         this.reconcileCountPerPartnerId = reactive({});
         this.reconcileModelPerStatementLineId = reactive({});
         this.availableReconcileLines = reactive({});
+        this.availableAnalyticAccounts = reactive({});
     }
 
     toggleChatter() {
@@ -117,6 +119,71 @@ export class BankReconciliationService {
         this.reconcileModelPerStatementLineId[recordId] = result[recordId];
     }
 
+    async checkAnalyticAccounts(analyticAccounts) {
+        const analyticAccountIds = analyticAccounts
+            ? Object.keys(analyticAccounts)
+                  .filter((key) => key != "__update__")
+                  .map((key) => key.split(","))
+                  .flat()
+                  .map((id) => parseInt(id))
+            : [];
+
+        const missingIds = analyticAccountIds.filter((id) => !this.availableAnalyticAccounts[id]);
+        if (missingIds.length > 0) {
+            const newlyFetchedAccounts = await this.fetchAnalyticAccounts([
+                ["id", "in", missingIds],
+            ]);
+            this.availableAnalyticAccounts = {
+                ...this.availableAnalyticAccounts,
+                ...newlyFetchedAccounts,
+            };
+        }
+    }
+
+    async computeAvailableAnalyticAccounts(records) {
+        const allDistributions = records
+            .flatMap((record) => record.data.line_ids.records)
+            .filter((line) => line.data.analytic_distribution)
+            .map((line) => line.data.analytic_distribution);
+
+        const analyticAccountIds = [
+            ...new Set(
+                allDistributions.flatMap((dist) =>
+                    Object.keys(dist)
+                        .filter((key) => key !== "__update__")
+                        .flatMap((key) => key.split(","))
+                        .map((id) => parseInt(id))
+                )
+            ),
+        ];
+        this.availableAnalyticAccounts = analyticAccountIds.length
+            ? await this.fetchAnalyticAccounts([["id", "in", analyticAccountIds]])
+            : [];
+    }
+
+    async fetchAnalyticAccounts(domain) {
+        const args = {
+            domain: domain,
+            fields: ["id", "display_name", "root_plan_id", "color"],
+            context: [],
+        };
+        // batched call
+        const records = await this.batchedOrm.read(
+            "account.analytic.account",
+            domain[0][2],
+            args.fields,
+            {}
+        );
+
+        return Object.assign(
+            {},
+            ...records.map((r) => {
+                const { id, ...rest } = r;
+                return { [id]: rest };
+            })
+        );
+    }
+
     async reloadRecords(records) {
         await Promise.all([...records.map((record) => record.load())]);
     }
@@ -139,7 +206,7 @@ export class BankReconciliationService {
 }
 
 const bankReconciliationService = {
-    dependencies: ["orm"],
+    dependencies: ["orm", "batchedOrm"],
     start(env, services) {
         return new BankReconciliationService(env, services);
     },

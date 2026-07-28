@@ -978,6 +978,14 @@ Source: Opinion on the indexation of the amounts set in Article 1, paragraph 4, 
             'no_withholding_taxes',
         ]
 
+    def _l10n_be_is_isolated(self):
+        self.ensure_one()
+        return self.marital in ['divorced', 'single', 'widower', 'separated']
+
+    def _l10n_be_is_coupled(self):
+        self.ensure_one()
+        return self.marital in ['married', 'cohabitant']
+
     def action_work_schedule_change_wizard(self):
         if len(self) != 1:
             raise UserError(_("This feature can only be used on a single contract."))

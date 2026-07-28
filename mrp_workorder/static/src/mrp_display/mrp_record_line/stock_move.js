@@ -1,6 +1,7 @@
 import { _t } from "@web/core/l10n/translation";
 import { useActiveActions, useOpenMany2XRecord } from "@web/views/fields/relational_utils";
 import { useService } from "@web/core/utils/hooks";
+import { formatFloat } from "@web/core/utils/numbers";
 import { QualityCheck } from "./quality_check";
 import { MrpQuantityDialog } from "../dialog/mrp_quantity_dialog";
 import { MrpSelectQuantDialog } from "../dialog/mrp_select_quant_dialog"; // TODO remove in master
@@ -64,7 +65,12 @@ export class StockMove extends QualityCheck {
         const moveLines = this.props.record.data.move_line_ids.records.filter(
             (ml) => (this.isTracked ? ml.data.lot_id : true) && ml.data.picked
         );
-        return moveLines.reduce((total, ml) => total + ml.data.quantity, 0);
+        return parseFloat(
+            formatFloat(
+                moveLines.reduce((total, ml) => total + ml.data.quantity, 0),
+                { digits: this.props.record.fields?.quantity?.digits }
+            )
+        );
     }
 
     get uom() {
@@ -106,7 +112,10 @@ export class StockMove extends QualityCheck {
     }
 
     get byproduct() {
-        return this.props.record.data.byproduct_id;
+        if (this.props.production.data.move_byproduct_ids.records.includes(this.props.record)) {
+            return this.props.record;
+        }
+        return false;
     }
 
     //TODO remove in master

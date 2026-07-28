@@ -162,12 +162,9 @@
                                     string="Edit Signatories" invisible="not sign_template_id"/>
                             </div>
                             <field name="final_yearly_costs" readonly="state in ['cancelled', 'full_signed']"/>
-                            <field name="contract_type_id" groups="hr.group_hr_user"
-                                readonly="state in ['cancelled', 'full_signed']"
-                                placeholder="e.g. Permanent, Replacement, Short term" />
-                            <field name="contract_type_id" readonly="1" options="{'no_open': True}"
-                                groups="!hr.group_hr_user"
-                                placeholder="e.g. Permanent, Replacement, Short term" />
+                            <!-- TODO Drop those 2 fields in master -->
+                            <field name="contract_type_id" invisible="1"/>
+                            <field name="contract_type_id" invisible="1"/>
                             <field name="job_title" readonly="state == 'cancelled'"
                                 placeholder="e.g. Lead Dev, Junior Consultant"/>
                             <field name="employee_job_id" readonly="state in ['cancelled', 'full_signed']"
@@ -191,7 +188,7 @@
                             <field name="employee_id" invisible="applicant_id or not context.get('is_hr_payroll', True)"
                                 required="context.get('is_hr_payroll')" domain="[('company_id', 'in', allowed_company_ids)]"
                                 readonly="not context.get('is_hr_payroll', False) or state == 'full_signed'" placeholder="Select an employee..."/>
-                            <field name="applicant_id" invisible="employee_version_id or context.get('is_hr_payroll', False)"
+                            <field name="applicant_id" invisible="not applicant_id and employee_id or context.get('is_hr_payroll', False)"
                                 required="not context.get('is_hr_payroll')" domain="[('company_id', 'in', allowed_company_ids)]"
                                 readonly="context.get('is_hr_payroll', True) or state == 'full_signed'"
                                 context="{'show_partner_name': True}" placeholder="Select an applicant..."/>

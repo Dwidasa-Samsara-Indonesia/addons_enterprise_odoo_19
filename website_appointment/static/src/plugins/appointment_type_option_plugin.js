@@ -27,15 +27,13 @@ class AppointmentTypeOptionPlugin extends Plugin {
 }
 
 export class BaseAppointmentAction extends BuilderAction {
-    
     setup(fieldName, applyValue, clearValue) {
         this.fieldName = fieldName;
         this.applyValue = applyValue;
         this.clearValue = clearValue;
-        this.isReload = true;
+        this.reload = {};
         this.appointmentTypeId = Number(this.document.documentElement.querySelector(".o_wappointment_type_options")?.dataset.appointmentTypeId);
         this.appointmentTypeCache = new Cache(this._fetchAppointmentType.bind(this), JSON.stringify);
-        
     }
     async _fetchAppointmentType() {
         return (await this.services.orm.read(

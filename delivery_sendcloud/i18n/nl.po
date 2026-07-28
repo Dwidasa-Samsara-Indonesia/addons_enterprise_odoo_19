@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2026-03-14 09:38+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-05-23 09:37+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "delivery_sendcloud/nl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -59,6 +59,8 @@ msgid ""
 " Please make sure there is an address with the same name under \"Address "
 "Name (optional)\" in your Sendcloud Address configuration."
 msgstr ""
+" Zorg ervoor dat er een adres met dezelfde naam staat onder \"Adresnaam "
+"(optioneel)\" in je Sendcloud-adresconfiguratie."
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -374,6 +376,16 @@ msgid ""
 msgstr ""
 "Houd er rekening mee dat een eenheid van het product '%s' zwaarder is dan "
 "het maximaal toegestane gewicht voor de verzendmethode."
+
+#. module: delivery_sendcloud
+#. odoo-python
+#: code:addons/delivery_sendcloud/models/delivery_carrier.py:0
+msgid ""
+"Note that this price is for %s packages since the order weight is more than "
+"the maximum packaging weight."
+msgstr ""
+"Houd er rekening mee dat deze prijs geldt voor %s pakketten, aangezien het "
+"gewicht van de bestelling hoger is dan het maximale verpakkingsgewicht."
 
 #. module: delivery_sendcloud
 #. odoo-python
@@ -728,8 +740,8 @@ msgstr "Verplaatsing"
 
 #. module: delivery_sendcloud
 #: model:ir.model.fields,field_description:delivery_sendcloud.field_delivery_carrier__sendcloud_use_batch_shipping
-msgid "Use Batch Shipping"
-msgstr "Gebruik batchverzending"
+msgid "Use Multicollo"
+msgstr ""
 
 #. module: delivery_sendcloud
 #: model:ir.model.fields,field_description:delivery_sendcloud.field_delivery_carrier__sendcloud_shipping_rules
@@ -795,4 +807,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/delivery_sendcloud/static/src/views/sendcloud_product_selection_widget.xml:0
 msgid "g"
-msgstr ""
+msgstr "g"
+
+#~ msgid "Use Batch Shipping"
+#~ msgstr "Gebruik batchverzending"

@@ -16,6 +16,6 @@ class HrEmployee(models.Model):
         vals = super()._get_offer_values()
         monthly_wage = self.version_id._get_gross_from_employer_costs(self.version_id.final_yearly_costs)
         vals.update({
-            'monthly_wage': monthly_wage
+            'default_monthly_wage': monthly_wage
         })
         return vals

@@ -146,7 +146,16 @@ class TestCommercialEvents(TestCoDianCommon):
             'message': "<p>EL CUFE o Factura consultada no tiene a la fecha eventos asociados.</p>",
         }])
 
-        # GetStatusEvent after event has been sent
+        # Rejected commercial event
+        with self._mock_build_and_send_request('CommercialEventRejected.xml'):
+            bill.l10n_co_dian_send_event_update_status_received()
+        self.assertEqual(len(bill.l10n_co_dian_document_ids), 2)
+        self.assertRecordValues(bill.l10n_co_dian_document_ids.sorted(), [
+            {'state': 'invoice_rejected', 'commercial_state': 'received'},
+            self.bill_pending_document_data,
+        ])
+
+        # Send the commercial event succesfully after a rejection
         with self._mock_build_and_send_request('CommercialEvent.xml'):
             bill.l10n_co_dian_send_event_update_status_received()
         self.assertEqual(len(bill.l10n_co_dian_document_ids), 2)

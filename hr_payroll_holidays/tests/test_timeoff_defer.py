@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from odoo.exceptions import UserError
 from odoo.fields import Datetime
@@ -9,6 +9,7 @@ from odoo.tests.common import tagged
 from odoo.addons.hr_payroll_holidays.tests.common import TestPayrollHolidaysBase
 
 from dateutil.relativedelta import relativedelta
+from freezegun import freeze_time
 
 
 @tagged('post_install', '-at_install')
@@ -110,7 +111,8 @@ class TestTimeoffDefer(TestPayrollHolidaysBase):
             'request_date_from': '2022-01-12',
             'request_date_to': '2022-01-12',
         })
-        payslip.action_payslip_done()
+        with freeze_time('2022-02-02'):
+            payslip.action_payslip_done()
         self.assertEqual(payslip.state, 'validated')
 
         leave_1.sudo().action_approve()
@@ -126,6 +128,10 @@ class TestTimeoffDefer(TestPayrollHolidaysBase):
         })
         leave_2.sudo().action_approve()
         self.assertEqual(leave_2.payslip_state, 'blocked', 'Leave should be to defer')
+        try:
+            leave_2.with_user(self.env.ref('base.user_admin')).unlink()
+        except UserError:
+            self.fail('A leave created after payslip validation should be deletable.')
 
         # Check overlapping periods with no payslip
         leave_3 = self.env['hr.leave'].with_user(self.vlad).create({
@@ -147,6 +153,34 @@ class TestTimeoffDefer(TestPayrollHolidaysBase):
         })
         leave_4.sudo().action_approve()
         self.assertEqual(leave_4.payslip_state, 'blocked', 'Leave should be to defer')
+
+    def test_unlink_leave_after_payslip_generation(self):
+        """
+        Ensures that a request for time off can be deleted after validating
+        the payslip for the related period.
+        """
+        leave = self.env['hr.leave'].with_user(self.vlad).create({
+            'name': 'Leave',
+            'holiday_status_id': self.leave_type.id,
+            'employee_id': self.emp.id,
+            'request_date_from': '2022-01-10',
+            'request_date_to': '2022-01-10',
+        })
+        self.assertEqual(leave.state, 'confirm')
+        payslip = self.env['hr.payslip'].create({
+            'name': 'Payslip',
+            'employee_id': self.emp.id,
+            'date_from': '2022-01-01',
+            'date_to': '2022-01-31',
+        })
+        payslip.compute_sheet()
+        with freeze_time(datetime.now() + timedelta(hours=1)):  # Prevents non-determinism
+            payslip.action_payslip_done()
+        self.assertEqual(payslip.state, 'validated')
+        try:
+            leave.with_user(self.env.ref('base.user_admin')).unlink()
+        except UserError:
+            self.fail('A leave that is not validated should be deletable, even after payslip validation.')
 
     def test_report_to_next_month(self):
         self.emp.version_ids.generate_work_entries(date(2022, 1, 1), date(2022, 2, 28))

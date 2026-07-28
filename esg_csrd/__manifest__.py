@@ -28,7 +28,7 @@
             'esg_csrd/static/src/**/*',
         ],
     },
-    'auto_install': ['esg'],
+    'auto_install': ['esg', 'survey'],
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',
 }

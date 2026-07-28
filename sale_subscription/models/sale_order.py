@@ -12,6 +12,7 @@ from odoo import _, api, fields, models, modules
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Command, Domain
 from odoo.tools import config, format_amount, plaintext2html, split_every, str2bool
+from odoo.tools.sql import column_exists, create_column
 from odoo.tools.misc import format_date
 
 _logger = logging.getLogger(__name__)
@@ -93,7 +94,7 @@ class SaleOrder(models.Model):
                                         copy=False)
     payment_term_id = fields.Many2one(tracking=True)
     currency_id = fields.Many2one(tracking=True)
-    last_reminder_date = fields.Date(help="Last time when we sent a payment reminder")
+    last_reminder_date = fields.Date(help="Last time when we sent a payment reminder", copy=False)
     user_pause_start = fields.Date()
 
     ###################
@@ -167,19 +168,45 @@ class SaleOrder(models.Model):
             if so.subscription_state == '7_upsell' and so.subscription_id.pricelist_id.currency_id != so.pricelist_id.currency_id:
                 raise ValidationError(_('You cannot upsell a subscription using a different currency.'))
 
+    def _is_exempt_from_subscription_plan_check(self):
+        """Return True if this order is exempt from subscription plan validation.
+
+        Exempt cases:
+        - Draft or cancelled orders: plan is not required yet.
+        - Upsell orders (7_upsell): plan is inherited from the parent subscription.
+        - Legacy orders created before the sale.subscription/sale.order merge.
+        - One-time sale orders: recurring lines flagged as one-time do not require a plan.
+        """
+        self.ensure_one()
+        return (
+            self.state in ['draft', 'cancel']
+            or self.subscription_state == '7_upsell'
+            or (self.subscription_id and not self.subscription_state)
+            or (self.has_recurring_line and self._subscription_is_one_time_sale())
+        )
+
+    def _check_recurring_plan_mismatch(self, has_recurring_product):
+        """Raise a UserError if there is a mismatch between recurring products and the
+        subscription plan on this order.
+
+        Does not check for exempt states — the caller is responsible for calling
+        :meth:`_is_exempt_from_subscription_plan_check` first.
+
+        :param bool has_recurring_product: True when the order contains or will contain
+            at least one recurring product.
+        """
+        self.ensure_one()
+        if has_recurring_product and not self.plan_id:
+            raise UserError(_('Please add a recurring plan on the subscription or remove the recurring product.'))
+        if self.plan_id and not has_recurring_product:
+            raise UserError(_('Please add a recurring product in the subscription or remove the recurring plan.'))
+
     @api.constrains('plan_id', 'state', 'order_line')
     def _constraint_subscription_plan(self):
         for so in self:
-            if so.state in ['draft', 'cancel'] or so.subscription_state == '7_upsell':
+            if so._is_exempt_from_subscription_plan_check():
                 continue
-            if so.subscription_id and not so.subscription_state:
-                # so created before merge sale.subscription into sale.order upgrade.
-                # This is the so that created the sale.subscription records.
-                continue
-            if not so.plan_id and (so.has_recurring_line and not so._subscription_is_one_time_sale()):
-                raise UserError(_('Please add a recurring plan on the subscription or remove the recurring product.'))
-            if so.plan_id and not so.has_recurring_line:
-                raise UserError(_('Please add a recurring product in the subscription or remove the recurring plan.'))
+            so._check_recurring_plan_mismatch(so.has_recurring_line)
 
     @api.constrains('subscription_state', 'state')
     def _constraint_canceled_subscription(self):
@@ -518,6 +545,11 @@ class SaleOrder(models.Model):
             return self.env.ref('sale_subscription.subtype_resume_and_pause_subscription')
         return super()._track_subtype(init_values)
 
+    def _auto_init(self):
+        if not column_exists(self.env.cr, 'sale_order', 'plan_id'):
+            create_column(self.env.cr, 'sale_order', 'plan_id', 'int4')
+        return super()._auto_init()
+
     @api.depends('sale_order_template_id')
     def _compute_plan_id(self):
         for order in self:
@@ -623,25 +655,8 @@ class SaleOrder(models.Model):
         return orders
 
     def write(self, vals):
-        new_user_id = vals.get('user_id')
-        valid_state_update = vals.get('subscription_state') in SUBSCRIPTION_PROGRESS_STATE
         res = super().write(vals)
-        if new_user_id or valid_state_update:
-            for order in self:
-                if not order.is_subscription or order.subscription_state not in SUBSCRIPTION_PROGRESS_STATE:
-                    continue
-                # Update the user responsible of the contact to align the values
-                current_partner_user = order.partner_id.user_id
-                subscription_user = order.user_id
-                if subscription_user != current_partner_user:
-                    partner_to_remove = current_partner_user.partner_id - order.partner_id
-                    order.message_unsubscribe(partner_ids=partner_to_remove.ids)
-                    partners_to_update = order.partner_id
-                    # If the partner is a company, keep all child contacts in sync so
-                    # portal users see the updated salesperson as well.
-                    if order.partner_id.is_company:
-                        partners_to_update |= order.partner_id.child_ids
-                    partners_to_update.sudo().write({'user_id': subscription_user.id})
+        self._reset_sub_salesperson(vals)
         for order in self:
             # Add/update a subscription_discount line depending on the start_date and next_invoice_date
             if order.subscription_state == '7_upsell' and order.state in ['draft', 'sent'] and \
@@ -1276,6 +1291,27 @@ class SaleOrder(models.Model):
             })
         return res
 
+    def _reset_sub_salesperson(self, vals):
+        """update salesperson on customer if salesperson on subscription is get changed."""
+        new_user_id = vals.get('user_id')
+        valid_state_update = vals.get('subscription_state') in SUBSCRIPTION_PROGRESS_STATE
+        if new_user_id or valid_state_update:
+            for order in self:
+                if not order.is_subscription or order.subscription_state not in SUBSCRIPTION_PROGRESS_STATE:
+                    continue
+                # Update the user responsible of the contact to align the values
+                current_partner_user = order.partner_id.user_id
+                subscription_user = order.user_id
+                if subscription_user != current_partner_user:
+                    partner_to_remove = current_partner_user.partner_id - order.partner_id
+                    order.message_unsubscribe(partner_ids=partner_to_remove.ids)
+                    partners_to_update = order.partner_id
+                    # If the partner is a company, keep all child contacts in sync so
+                    # portal users see the updated salesperson as well.
+                    if order.partner_id.is_company:
+                        partners_to_update |= order.partner_id.child_ids
+                    partners_to_update.sudo().write({'user_id': subscription_user.id})
+
     ####################
     # Invoicing Methods #
     ####################
@@ -1388,6 +1424,15 @@ class SaleOrder(models.Model):
         ):
             AccountMoveSend._generate_and_send_invoices(moves=moves_to_send)
 
+    def _get_subscription_close_date(self):
+        """ Return the date after which this subscription is automatically closed when invoices remain unpaid,
+        computed from next_invoice_date and the plan's auto_close_limit. Returns False if next_invoice_date is not set. """
+        self.ensure_one()
+        if not self.next_invoice_date:
+            return False
+        auto_close_days = self.plan_id.auto_close_limit if self.plan_id.auto_close_limit is not None else 15
+        return self.next_invoice_date + relativedelta(days=auto_close_days)
+
     def _get_subscription_mail_payment_context(self, mail_ctx=None):
         self.ensure_one()
         if not mail_ctx:
@@ -1443,8 +1488,7 @@ class SaleOrder(models.Model):
         invoice.unlink()
         self.pending_transaction = False
         for order in self:
-            auto_close_days = self.plan_id.auto_close_limit or 15
-            date_close = order.next_invoice_date + relativedelta(days=auto_close_days)
+            date_close = order._get_subscription_close_date()
             close_contract = current_date >= date_close
             email_context = order._get_subscription_mail_payment_context()
             _logger.info('Failed to create recurring invoice for contract %s', order.client_order_ref or order.name)
@@ -2123,7 +2167,12 @@ class SaleOrder(models.Model):
             is_grandparent_collapsed = line.parent_id.parent_id._is_collapsed()
             is_section = line.display_type == 'line_section'
             visible_subsection = line.display_type == 'line_subsection' and not is_parent_collapsed
-            visible_product = line.display_type not in ('line_section', 'line_subsection') and not is_parent_collapsed and not is_grandparent_collapsed
+            visible_product = (
+                    line.display_type not in ('line_section', 'line_subsection')
+                    and not is_parent_collapsed
+                    and not is_grandparent_collapsed
+                    and line in display_lines
+            )
             if is_section or visible_subsection or visible_product:
                 visible_ids.append(line.id)
         return {
@@ -2209,8 +2258,7 @@ class SaleOrder(models.Model):
             if subscription.prepayment_percent != 1 and subscription.id not in invoiced_sub_ids:
                 # don't send reminder when prepayment_per <100 and there is no invoice created
                 continue
-            auto_close_days = subscription.plan_id.auto_close_limit or 15
-            date_close = subscription.next_invoice_date + relativedelta(days=auto_close_days)
+            date_close = subscription._get_subscription_close_date()
             close_contract = today >= date_close
             email_context = subscription._get_subscription_mail_payment_context()
             if close_contract and subscription.next_invoice_date not in parameters['next_invoice_dates']:
@@ -2343,6 +2391,25 @@ class SaleOrder(models.Model):
         return res
 
     def _update_order_line_info(self, product_id, quantity, **kwargs):
+        """
+        Override to:
+        - Validate the subscription plan when adding products via catalog view, preventing
+          the bypass of the plan validation that occurs on manual save.
+        - Forward the plan_id to ensure the correct price is computed for recurring products.
+        """
+        product = self.env['product.product'].browse(product_id)
+        if product.recurring_invoice and not self._is_exempt_from_subscription_plan_check():
+            # The product being added is not yet in self.order_line, so compute whether
+            # the order will have a recurring product after this catalog operation.
+            # Exclude the current product_id to avoid double-counting an existing line.
+            has_other_recurring = any(
+                line.product_id.recurring_invoice
+                for line in self.order_line
+                if line.product_id.id != product_id
+            )
+            will_have_recurring = has_other_recurring or quantity > 0
+            self._check_recurring_plan_mismatch(will_have_recurring)
+
         if self.plan_id:
             # plan must be forwarded to ensure the right price is computed for recurring products
             kwargs['plan_id'] = self.plan_id.id

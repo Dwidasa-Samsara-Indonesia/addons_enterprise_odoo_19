@@ -5,7 +5,7 @@ import math
 from datetime import datetime, timedelta
 
 from odoo import Command, _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.service.model import PG_CONCURRENCY_EXCEPTIONS_TO_RETRY
 
 from odoo.addons.sale_shopee import const, utils
@@ -252,6 +252,7 @@ class ShopeeShop(models.Model):
         :param int account_id: The Shopee account identifier.
         :param int shop_id: The Shopee shop identifier.
         :param dict shop_vals: The values to update the shop with.
+            TODO: rename to ``token_vals`` in master
         :return: shopee.shop
         """
         shop = self.search(
@@ -266,9 +267,9 @@ class ShopeeShop(models.Model):
                 'company_id': company_id,
                 **shop_vals,  # Contains the tokens from the account
             })
+        elif shop_vals:
+            shop.write(shop_vals)
         else:
-            if shop_vals:
-                shop.write(shop_vals)
             utils.request_access_token(shop)
 
         shop._update_shop_information(force_update=True)
@@ -447,6 +448,34 @@ class ShopeeShop(models.Model):
 
         return orders_detail
 
+    def _fetch_order_income(self, order_sn):
+        """Fetch the buyer-side income breakdown of a Shopee order from its escrow detail.
+
+        Only the order-level discounts paid by the buyer are read by the caller
+        (``voucher_from_seller``, ``voucher_from_shopee``, ``coins``); seller-side fees are out of
+        scope. An empty dict is returned when the escrow detail is not yet available so that order
+        creation can proceed, the residue then falling into the amount adjustment line as before.
+
+        :param str order_sn: Shopee's unique order identifier.
+        :return: The ``order_income`` mapping, or an empty dict.
+        :rtype: dict
+        """
+        self.ensure_one()
+        try:
+            response = utils.make_shopee_api_request(
+                self, "get_escrow_detail", {"order_sn": order_sn}
+            )
+        except utils.ShopeeRateLimitError:
+            raise
+        except (UserError, ValidationError):
+            _logger.warning(
+                "Could not fetch the escrow detail for Shopee order %(ref)s at shop with id"
+                " %(id)s; order-level discounts will fall into the amount adjustment line.",
+                {"ref": order_sn, "id": self.id},
+            )
+            return {}
+        return response.get("order_income") or {}
+
     def _process_order_data(self, order_data):
         """ Process the provided order details and return the matching sales order, if any.
 
@@ -528,7 +557,7 @@ class ShopeeShop(models.Model):
         :return: The created order.
         :rtype: sale.order
         """
-        shipping_code = order_data['shipping_carrier']
+        shipping_code = order_data.get("shipping_carrier")
         shipping_product = self._find_matching_product(
             shipping_code, 'default_shipping_product', 'Shopee Shipping', 'service'
         )
@@ -540,8 +569,11 @@ class ShopeeShop(models.Model):
         fiscal_position = self.env['account.fiscal.position'].with_company(
             self.company_id
         )._get_fiscal_position(contact_partner, delivery_partner)
-        order_lines_values = self._prepare_order_lines_values(
-            order_data, currency, fiscal_position, shipping_product
+
+        order_income = self._fetch_order_income(shopee_order_ref)
+        order_lines_values = (
+            self.with_context(order_income=order_income)
+            ._prepare_order_lines_values(order_data, currency, fiscal_position, shipping_product)
         )
         fulfillment_type = order_data['fulfillment_flag']
         order_lines = [
@@ -582,10 +614,85 @@ class ShopeeShop(models.Model):
             mail_create_nosubscribe=True
         ).with_company(self.company_id).create(order_vals)
 
+        self._adjust_order_total(order, currency, order_data["total_amount"])
+
         if order.picking_ids and shipping_code:  # The buyer chose a specific delivery method
             delivery_method = self._find_or_create_delivery_carrier(shipping_code, shipping_product)
             order.picking_ids.carrier_id = delivery_method
         return order
+
+    def _adjust_order_total(self, order, currency, shopee_total):
+        """Adjust the order total to reconcile with Shopee's ``total_amount``.
+
+        A single tax-free adjustment line absorbs the full residue. The residue
+        can come from any other component not explicitly modeled as a sale order line.
+
+        :param sale.order order: The order to adjust.
+        :param res.currency currency: The currency of the order.
+        :param float shopee_total: The total amount from Shopee.
+        """
+        residue = shopee_total - order.amount_total
+        if not order.amount_total or currency.is_zero(residue):
+            return
+
+        adjustment_product = self._find_matching_product(
+            "", "default_adjustment_product", "Shopee Amount Adjustment", "service"
+        )
+        order.order_line.create({
+            "order_id": order.id,
+            "product_id": adjustment_product.id,
+            "price_unit": residue,
+            "tax_ids": [],
+        })
+
+    def _prepare_discount_lines_values(self, currency, tax_group_bases, discount_total):
+        """Distribute an order-level discount across the product tax groups.
+
+        One negative discount line is created per distinct tax group, allocated pro-rata to each
+        group's buyer-paid (tax-inclusive) merchandise, so the discount reduces each group's taxable
+        base correctly. The allocation sums exactly to ``discount_total``; the remainder lands on the
+        largest group, leaving only price rounding for the amount-adjustment line. With a single tax
+        group, this collapses to one discount line.
+
+        :param res.currency currency: The currency of the sale order.
+        :param dict tax_group_bases: Map of tax-id tuple to ``{'taxes', 'base'}``.
+        :param float discount_total: The order-level discount to distribute.
+        :return: The discount-line values list ready for `Command.create`.
+        :rtype: list[dict]
+        """
+        if currency.is_zero(discount_total) or not tax_group_bases:
+            return []
+
+        discount_product = self._find_matching_product(
+            "", "default_discount_product", "Shopee Order Discount", "service"
+        )
+        total_base = sum(tax_group_bases.values())
+        # Largest group first: in the degenerate zero-base case (no merchandise to weight the
+        # split by) the whole discount lands on it rather than on a marginal group.
+        tax_groups = sorted(tax_group_bases.items(), key=lambda item: item[1], reverse=True)
+
+        discount_lines_values = []
+        allocated_discount = 0.0
+        for index, (taxes, base) in enumerate(tax_groups):
+            if index == len(tax_groups) - 1 or currency.is_zero(total_base):
+                group_discount = discount_total - allocated_discount
+            else:
+                group_discount = currency.round(discount_total * base / total_base)
+            allocated_discount += group_discount
+            if currency.is_zero(group_discount):
+                continue
+            discount_subtotal = self._recompute_subtotal(
+                -group_discount, taxes, currency
+            )
+            discount_lines_values.append(
+                self._convert_to_order_line_values(
+                    product_id=discount_product.id,
+                    subtotal=discount_subtotal,
+                    description=self.env._("Order Discount"),
+                    tax_ids=taxes.ids,
+                )
+            )
+        return discount_lines_values
 
     def _find_matching_product(
             self, internal_reference, default_xmlid, default_name, default_type, fallback=True
@@ -657,6 +764,11 @@ class ShopeeShop(models.Model):
                 ('name', '=ilike', state_name),  # shopee can return a state name in capital letters
                 ('country_id', '=', country.id),
             ], limit=1)
+        shopee_buyer_ref_field, shopee_buyer_identifier = (
+            ("shopee_buyer_identifier", shopee_buyer_identifier)
+            if not shopee_buyer_identifier or shopee_buyer_identifier < 2**31
+            else ("ref", f"Shopee-Buyer-{shopee_buyer_identifier}")
+        )
         partner_vals = {
             'street': street,
             'street2': street2,
@@ -667,7 +779,7 @@ class ShopeeShop(models.Model):
             'phone': phone,
             'customer_rank': 1,
             'company_id': self.company_id.id,
-            'shopee_buyer_identifier': shopee_buyer_identifier,
+            shopee_buyer_ref_field: shopee_buyer_identifier,
         }
 
         # The contact partner is searched based on all the personal information and only if the
@@ -681,7 +793,7 @@ class ShopeeShop(models.Model):
             *self.env['product.pricelist']._check_company_domain(self.company_id),
             ('type', '=', 'contact'),
             ('name', '=', buyer_name),
-            ('shopee_buyer_identifier', '=', shopee_buyer_identifier),
+            (shopee_buyer_ref_field, "=", shopee_buyer_identifier),
         ], limit=1) if shopee_buyer_identifier else None  # Don't match random partners.
         if not contact:
             contact_name = buyer_name or _("Shopee Customer #%(order_no)s", order_no=shopee_order_ref)
@@ -725,24 +837,30 @@ class ShopeeShop(models.Model):
         return contact, delivery
 
     def _prepare_order_lines_values(self, order_data, currency, fiscal_pos, shipping_product):
-        """ Prepare the values for the order lines to create based on Shopee data.
+        """Prepare the sale order lines values from the Shopee order data.
 
-        Note: self.ensure_one()
+        Each Shopee item becomes one `sale.order.line` values dict. The buyer-funded order-level
+        discount (vouchers and coins, read from the escrow ``order_income`` context key) is
+        distributed across the product tax groups, and shipping is appended as a final line when
+        the buyer-paid shipping fee is non-zero.
 
-        :param dict order_data: The order data related to the item data.
-        :param record currency: The currency of the sales order, as a `res.currency` record.
-        :param record fiscal_pos: The fiscal position of the sales order, as an
-                                  `account.fiscal.position` record.
+        :param dict order_data: The order data from the Shopee API.
+        :param res.currency currency: The currency of the sale order.
+        :param account.fiscal.position fiscal_pos: The fiscal position of the sale order.
         :param record shipping_product: The shipping product matching the shipping code, as a
                                         `product.product` record.
-        :return: The order lines values.
-        :rtype: dict
+        :return: The order-line values list ready for `Command.create`.
+        :rtype: list[dict]
         """
         self.ensure_one()
 
+        order_income = self.env.context.get('order_income') or {}
         order_lines_values = []
+        # Buyer-paid (tax-inclusive) merchandise per distinct tax group, used to distribute the
+        # order-level discount in `_prepare_discount_lines_values`.
+        tax_group_bases = {}
         for item_data in order_data['item_list']:
-            sku = item_data['item_sku'] or item_data['model_sku']
+            sku = item_data['model_sku'] or item_data['item_sku']
             fulfillment_type = const.FULFILLMENT_TYPE_MAPPING[order_data['fulfillment_flag']]
             shopee_item = self._find_or_create_item(
                 sku, item_data['item_id'], item_data['model_id'], fulfillment_type
@@ -750,39 +868,55 @@ class ShopeeShop(models.Model):
             product_taxes = shopee_item.product_id.taxes_id._filter_taxes_by_company(
                 self.company_id
             )
-            # add promotion information to the description
-            promotion_type = self._get_promotion_type(item_data.get('promotion_type'))
-            promotion_id = item_data.get('promotion_id')
-            if not promotion_id:
-                description = _(
-                    "[%(sku)s] %(product_name)s", sku=sku, product_name=item_data['item_name']
-                )
-            else:
-                item_title = item_data['item_name']
-                description = _(
-                    '[%(sku)s] %(product_title)s\nPromotion: %(promotion_type)s - id: '
-                    '%(promotion_id)d',
-                    sku=sku,
-                    product_title=item_title,
-                    promotion_type=promotion_type,
-                    promotion_id=promotion_id,
-                )
-            quantity = item_data['model_quantity_purchased']
-            original_subtotal = quantity * item_data['model_original_price']
-            discounted_subtotal = quantity * item_data['model_discounted_price']
-
             taxes = fiscal_pos.map_tax(product_taxes)
-            subtotal = self._recompute_subtotal(
-                discounted_subtotal, taxes, currency
+
+            quantity = item_data['model_quantity_purchased']
+            paid_total = quantity * float(item_data["model_discounted_price"])
+
+            description = self._build_item_description(sku, item_data, currency)
+            subtotal = self._recompute_subtotal(paid_total, taxes, currency)
+
+            order_lines_values.append(
+                self._convert_to_order_line_values(
+                    product_id=shopee_item.product_id.id,
+                    subtotal=subtotal,
+                    description=description,
+                    quantity=quantity,
+                    tax_ids=taxes.ids,
+                )
             )
-            order_lines_values.append(self._convert_to_order_line_values(
-                product_id=shopee_item.product_id.id,
-                description=description,
-                tax_ids=taxes.ids,
-                original_subtotal=original_subtotal,
-                subtotal=subtotal,
-                quantity=quantity,
-            ))
+            tax_group_bases[taxes] = tax_group_bases.get(taxes, 0.0) + paid_total
+
+        # Order-level discount lines (vouchers, coins), distributed per tax group.
+        discount_total = (
+            float(order_income.get("voucher_from_seller") or 0)
+            + float(order_income.get("voucher_from_shopee") or 0)
+            + float(order_income.get("coins") or 0)
+        )
+        order_lines_values += self._prepare_discount_lines_values(
+            currency, tax_group_bases, discount_total
+        )
+
+        # Shipping line. The buyer-paid fee comes from the escrow detail (it nets free-shipping
+        # subsidies, including a genuine 0); when the escrow detail is unavailable it defaults to 0
+        # and the shipping amount falls into the amount adjustment line instead.
+        shipping_fee = float(order_income.get("buyer_paid_shipping_fee", 0))
+        if not currency.is_zero(shipping_fee):
+            shipping_code = order_data.get("shipping_carrier")
+            shipping_product = self._find_matching_product(
+                shipping_code, "default_shipping_product", "Shopee Shipping", "service"
+            )
+            shipping_taxes_raw = shipping_product.taxes_id._filter_taxes_by_company(self.company_id)
+            shipping_taxes = fiscal_pos.map_tax(shipping_taxes_raw)
+            shipping_subtotal = self._recompute_subtotal(shipping_fee, shipping_taxes, currency)
+            order_lines_values.append(
+                self._convert_to_order_line_values(
+                    product_id=shipping_product.id,
+                    subtotal=shipping_subtotal,
+                    description=self.env._("Shipping: %(carrier)s", carrier=shipping_code),
+                    tax_ids=shipping_taxes.ids,
+                )
+            )
 
         return order_lines_values
 
@@ -862,36 +996,59 @@ class ShopeeShop(models.Model):
         :return: The new subtotal.
         :rtype: float
         """
-        taxes_res = taxes.with_context(force_price_include=True).compute_all(
+        taxes_res = taxes.with_context(force_price_include=True, round_base=False).compute_all(
             total, currency=currency
         )
-        subtotal = taxes_res['total_excluded']
+        subtotal = taxes_res['total_included']
         for tax_res in taxes_res['taxes']:
             tax = self.env['account.tax'].browse(tax_res['id'])
-            if tax.price_include:
-                subtotal += tax_res['amount']
+            if not tax.price_include:
+                subtotal -= tax_res['amount']
         return subtotal
 
     def _convert_to_order_line_values(self, **kwargs):
-        """ Convert and complete a dict of values to comply with fields of `sale.order.line`.
+        """Convert values to sale order line format.
 
-        :param dict kwargs: The values to convert and complete.
-        :return: The completed values.
+        :param dict kwargs: Values including product_id, quantity, subtotal, etc.
+        :return: Sale order line values dict.
         :rtype: dict
         """
         subtotal = kwargs.get('subtotal', 0)
-        quantity = kwargs.get('quantity', 1)
-        original_subtotal = kwargs.get('original_subtotal', 0) or subtotal
-        diff = original_subtotal - subtotal
+        quantity = kwargs.get("quantity", 1)
         tax_ids = kwargs.get('tax_ids')
         return {
-            'name': kwargs.get('description', ''),
-            'product_id': kwargs.get('product_id'),
-            'price_unit': original_subtotal / quantity if quantity else 0,
-            'tax_ids': tax_ids if tax_ids else [],
-            'product_uom_qty': quantity,
-            'discount': diff / original_subtotal * 100 if original_subtotal else 0,
+            "name": kwargs.get("description", ""),
+            "product_id": kwargs.get("product_id"),
+            "price_unit": subtotal / quantity if quantity else 0,
+            "tax_ids": tax_ids if tax_ids else [],
+            "product_uom_qty": quantity,
         }
+
+    def _build_item_description(self, sku, item_data, currency):
+        """Build the base description text for a Shopee item line.
+
+        Includes header, optional promotion line (guarded against absence of
+        `promotion_id` to stay robust against future Shopee API changes), and an
+        original-price line when the item was discounted.
+
+        :param str sku: The item SKU (used in the header).
+        :param dict item_data: The Shopee item payload.
+        :param res.currency currency: The currency (used to format the original price).
+        :return: The multi-line description text.
+        :rtype: str
+        """
+        lines = [f"[{sku}] {item_data['item_name']}"]
+        promotion_id = item_data.get("promotion_id")
+        if promotion_id:
+            lines.append(
+                self.env._(
+                    "Promotion: %(promotion_type)s - id: %(promotion_id)d\nOriginal price: %(price)s",
+                    promotion_type=self._get_promotion_type(item_data.get("promotion_type")),
+                    promotion_id=promotion_id,
+                    price=currency.format(float(item_data["model_original_price"])),
+                )
+            )
+        return "\n".join(lines)
 
     def _find_or_create_pricelist(self, currency):
         """ Find or create the pricelist.

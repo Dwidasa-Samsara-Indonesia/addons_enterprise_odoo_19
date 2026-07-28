@@ -2,14 +2,14 @@
 # This file contains the translation of the following modules:
 # * l10n_cl_edi
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.3alpha1+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-10 19:11+0000\n"
-"PO-Revision-Date: 2026-02-21 10:10+0000\n"
+"PO-Revision-Date: 2026-06-06 10:06+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19-l10n/l10n_cl_edi/es_419/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_cl_edi
 #: model:ir.model.fields,help:l10n_cl_edi.field_account_bank_statement_line__l10n_cl_dte_partner_status
@@ -192,8 +192,8 @@ msgstr ""
 "        Apreciable\n"
 "        <t t-if=\"object.commercial_partner_id\">\n"
 "            <t t-out=\"object.partner_id.name or ''\">Corporación Acme</t> "
-"(<t t-out=\"object.commercial_partner_id.name or ''\">Corporación Acme</"
-"t>),\n"
+"(<t t-out=\"object.commercial_partner_id.name or ''\">Corporación Acme</t>)"
+",\n"
 "        </t>\n"
 "         <t t-else=\"\">\n"
 "            <t t-out=\"object.partner_id.name or ''\">Corporación Acme</t>,\n"
@@ -208,8 +208,8 @@ msgstr ""
 "            factura\n"
 "        </t>\n"
 "        <t t-if=\"object.invoice_origin\">\n"
-"            (con referencia: <t t-out=\"object.invoice_origin or "
-"''\">S00056</t>)\n"
+"            (con referencia: <t t-out=\"object.invoice_origin or ''\">"
+"S00056</t>)\n"
 "        </t>\n"
 "        por un total de <strong t-out=\"format_amount(object.amount_total, "
 "object.currency_id) or ''\">$377,825</strong>\n"
@@ -342,14 +342,14 @@ msgstr ""
 "servicios RG 19.983 - <t t-out=\"object.display_name or ''\"/></strong>\n"
 "                </header>\n"
 "                <p>En el archivo adjunto encontrarás la recepción de bienes "
-"o servicios RG 19.983 para tu o tus documentos tributarios electrónicos.</"
-"p>\n"
+"o servicios RG 19.983 para tu o tus documentos tributarios electrónicos.</p>"
+"\n"
 "                <p>El acuse de recibo que se declara en este acto, de "
 "acuerdo a lo dispuesto en la letra b)\n"
 "                del Art. 4, y la letra c) del Art. 5 de la Ley 19.983, "
 "acredita que la entrega de\n"
-"                mercaderias o servicio(s) prestado(s) ha(n) sido recibido(s)."
-"</p>\n"
+"                mercaderias o servicio(s) prestado(s) ha(n) sido recibido(s)"
+".</p>\n"
 "                <br/><br/><br/><br/>\n"
 "                <p>Enviado con Odoo</p>\n"
 "            \n"
@@ -566,8 +566,7 @@ msgstr "Consultar Estado Doc"
 #. odoo-python
 #: code:addons/l10n_cl_edi/models/l10n_cl_edi_util.py:0
 msgid "Ask for DTE status to SII failed due to: %s"
-msgstr ""
-"La consulta del estado del DTE al SII falló por el siguiente motivo: %s"
+msgstr "La consulta del estado del DTE al SII falló por el siguiente motivo: %s"
 
 #. module: l10n_cl_edi
 #. odoo-python
@@ -616,8 +615,8 @@ msgstr ""
 "las facturas electrónicas\n"
 "emitidas. En este caso, este correo electrónico debe coincidir con ambos "
 "correos electrónicos\n"
-"declarados en el sitio SII en la sección: \"ACTUALIZACIÓN DE DATOS DEL "
-"\\CONTRIBUYENTE\",\n"
+"declarados en el sitio SII en la sección: \"ACTUALIZACIÓN DE DATOS DEL \\C"
+"ONTRIBUYENTE\",\n"
 "\"Mail Contacto SII\" y \"Mail Contacto Empresas\"."
 
 #. module: l10n_cl_edi
@@ -844,7 +843,7 @@ msgstr "La compañía no está autorizada a enviar archivos"
 #. module: l10n_cl_edi
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_l10n_cl_company_activities__name
 msgid "Complete Name"
-msgstr "Nombre Completo"
+msgstr "Nombre completo"
 
 #. module: l10n_cl_edi
 #: model:ir.model.fields.selection,name:l10n_cl_edi.selection__res_company__l10n_cl_sii_regional_office__ur_cop
@@ -944,7 +943,7 @@ msgstr "Curicó"
 #. module: l10n_cl_edi
 #: model_terms:ir.ui.view,arch_db:l10n_cl_edi.dte_subtemplate
 msgid "D"
-msgstr ""
+msgstr "D"
 
 #. module: l10n_cl_edi
 #: model_terms:ir.ui.view,arch_db:l10n_cl_edi.barcode_stamp_footer
@@ -1216,7 +1215,7 @@ msgstr ""
 #. module: l10n_cl_edi
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_l10n_cl_dte_caf__filename
 msgid "File Name"
-msgstr "Nombre del Archivo"
+msgstr "Nombre del archivo"
 
 #. module: l10n_cl_edi
 #. odoo-python
@@ -1323,8 +1322,8 @@ msgid ""
 "li><li><b>REVISIONDTE/ESTADO</b>: %(error_status)s</li><li><b>REVISIONDTE/"
 "DETALLE</b>: %(details)s</li>"
 msgstr ""
-"Resultado del DTE entrante del SII:<br/> <li><b>ESTADO</b>: %(status)s</"
-"li><li><b>REVISIONDTE/ESTADO</b>: %(error_status)s</li><li><b>REVISIONDTE/"
+"Resultado del DTE entrante del SII:<br/> <li><b>ESTADO</b>: %(status)s</li>"
+"<li><b>REVISIONDTE/ESTADO</b>: %(error_status)s</li><li><b>REVISIONDTE/"
 "DETALLE</b>: %(details)s</li>"
 
 #. module: l10n_cl_edi
@@ -1483,7 +1482,7 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_l10n_cl_dte_caf__write_date
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_l10n_cl_edi_reference__write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: l10n_cl_edi
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_fetchmail_server__l10n_cl_last_uid
@@ -1923,7 +1922,7 @@ msgstr "Actividades económicas de la compañía"
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_account_bank_statement_line__l10n_cl_dte_status
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_account_move__l10n_cl_dte_status
 msgid "SII DTE status"
-msgstr "Estado del DTE en SII"
+msgstr "Estado del DTE en el SII"
 
 #. module: l10n_cl_edi
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_l10n_cl_edi_reference__l10n_cl_reference_doc_type_id
@@ -2140,8 +2139,8 @@ msgstr ""
 "SII.\n"
 "    - Rechazado: El DTE ha sido rechazado por el SII.\n"
 "    - Cancelado: El DTE ha sido cancelado por un usuario.\n"
-"    - Manual: El DTE ha sido generado manualmente (no involucra envío al "
-"SII)."
+"    - Manual: El DTE ha sido generado manualmente (no involucra envío al SII)"
+"."
 
 #. module: l10n_cl_edi
 #: model:ir.model.fields,field_description:l10n_cl_edi.field_certificate_certificate__subject_serial_number
@@ -2386,9 +2385,10 @@ msgid ""
 "mandatory for electronic invoicing. Please go to your company and set the "
 "regional office, according to your company address (www.sii.cl - Mi SII)"
 msgstr ""
-"No hay una oficina regional configurada para su compañía. Esto es mandatorio "
-"para facturación electrónica. Por favor vaya a los datos de su compañía y "
-"coloque la oficina regional correcta, acorde a la dirección de su compañía."
+"No hay una oficina regional del SII configurada en tu empresa. Esta es "
+"obligatoria para la facturación electrónica. Ve a los datos de tu empresa y "
+"configura la oficina regional según la dirección de tu empresa (http://"
+"www.sii.cl - Mi SII)"
 
 #. module: l10n_cl_edi
 #. odoo-python
@@ -2849,8 +2849,8 @@ msgstr "recepción de bienes o servicios RG 19.983"
 #: model:mail.template,subject:l10n_cl_edi.l10n_cl_edi_email_template_invoice
 msgid "{{ object.company_id.name }} DTE (Ref {{ (object.name or 'n/a') }})"
 msgstr ""
-"{{ object.company_id.name }} Documento Tributario Electrónico (Ref "
-"{{ (object.name or 'n/a') }})"
+"{{ object.company_id.name }} Documento Tributario Electrónico (Ref {{ "
+"(object.name or 'n/a') }})"
 
 #. module: l10n_cl_edi
 #: model:ir.model.fields.selection,name:l10n_cl_edi.selection__res_company__l10n_cl_sii_regional_office__ur_nunoa

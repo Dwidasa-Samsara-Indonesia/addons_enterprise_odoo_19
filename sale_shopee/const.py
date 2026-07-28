@@ -11,58 +11,35 @@ API_PATHS = {
 
 # Mapping of Shopee API operations to their respective URL path, HTTP method, and API type
 API_OPERATIONS_MAPPING = {
-    'auth_partner': {
-        'url_path': '/api/v2/shop/auth_partner',
-        'api_type': 'public',
+    "auth_partner": {"url_path": "/api/v2/shop/auth_partner", "api_type": "public"},
+    "refresh_token": {"url_path": "/api/v2/auth/access_token/get", "api_type": "public"},
+    "get_token": {"url_path": "/api/v2/auth/token/get", "api_type": "public"},
+    "get_shop_info": {"url_path": "/api/v2/shop/get_shop_info", "api_type": "shop"},
+    "get_order_list": {"url_path": "/api/v2/order/get_order_list", "api_type": "order"},
+    "get_order_detail": {"url_path": "/api/v2/order/get_order_detail", "api_type": "order"},
+    "get_escrow_detail": {"url_path": "/api/v2/payment/get_escrow_detail", "api_type": "order"},
+    "get_shipping_parameter": {
+        "url_path": "/api/v2/logistics/get_shipping_parameter",
+        "api_type": "logistics",
     },
-    'refresh_token': {
-        'url_path': '/api/v2/auth/access_token/get',
-        'api_type': 'public',
+    "ship_order": {"url_path": "/api/v2/logistics/ship_order", "api_type": "logistics"},
+    "get_tracking_number": {
+        "url_path": "/api/v2/logistics/get_tracking_number",
+        "api_type": "logistics",
     },
-    'get_token': {
-        'url_path': '/api/v2/auth/token/get',
-        'api_type': 'public',
+    "create_shipping_document": {
+        "url_path": "/api/v2/logistics/create_shipping_document",
+        "api_type": "logistics",
     },
-    'get_shop_info': {
-        'url_path': '/api/v2/shop/get_shop_info',
-        'api_type': 'shop',
+    "get_shipping_document_result": {
+        "url_path": "/api/v2/logistics/get_shipping_document_result",
+        "api_type": "logistics",
     },
-    'get_order_list': {
-        'url_path': '/api/v2/order/get_order_list',
-        'api_type': 'order',
+    "download_shipping_document": {
+        "url_path": "/api/v2/logistics/download_shipping_document",
+        "api_type": "logistics",
     },
-    'get_order_detail': {
-        'url_path': '/api/v2/order/get_order_detail',
-        'api_type': 'order',
-    },
-    'get_shipping_parameter': {
-        'url_path': '/api/v2/logistics/get_shipping_parameter',
-        'api_type': 'logistics',
-    },
-    'ship_order': {
-        'url_path': '/api/v2/logistics/ship_order',
-        'api_type': 'logistics',
-    },
-    'get_tracking_number': {
-        'url_path': '/api/v2/logistics/get_tracking_number',
-        'api_type': 'logistics',
-    },
-    'create_shipping_document': {
-        'url_path': '/api/v2/logistics/create_shipping_document',
-        'api_type': 'logistics',
-    },
-    'get_shipping_document_result': {
-        'url_path': '/api/v2/logistics/get_shipping_document_result',
-        'api_type': 'logistics',
-    },
-    'download_shipping_document': {
-        'url_path': '/api/v2/logistics/download_shipping_document',
-        'api_type': 'logistics',
-    },
-    'update_stock': {
-        'url_path': '/api/v2/product/update_stock',
-        'api_type': 'product',
-    },
+    "update_stock": {"url_path": "/api/v2/product/update_stock", "api_type": "product"},
 }
 
 # Mapping of Shopee fulfillment type to Shopee status to synchronize

@@ -13,15 +13,20 @@ patch(posService, {
 patch(PosStore.prototype, {
     async setup(env, { blackbox_queue_service }) {
         await super.setup(...arguments);
-        this.waitBeforePayment = false;
-        this.blackbox_queue = blackbox_queue_service;
-        this.multiple_discount = false;
-        this.blackbox_queue.addCallback(this.deleteOrderCallback.bind(this), "delete_order_token");
-        this.blackbox_queue.addCallback(
-            this.proFormaRefundCallback.bind(this),
-            "pro_forma_refund_token"
-        );
-        this.blackbox_queue.addCallback(this.pushOrderCallback.bind(this), "push_order_token");
+        if (this.useBlackBoxBe()) {
+            this.waitBeforePayment = false;
+            this.blackbox_queue = blackbox_queue_service;
+            this.multiple_discount = false;
+            this.blackbox_queue.addCallback(
+                this.deleteOrderCallback.bind(this),
+                "delete_order_token"
+            );
+            this.blackbox_queue.addCallback(
+                this.proFormaRefundCallback.bind(this),
+                "pro_forma_refund_token"
+            );
+            this.blackbox_queue.addCallback(this.pushOrderCallback.bind(this), "push_order_token");
+        }
     },
     async initServerData() {
         await super.initServerData();
@@ -308,8 +313,15 @@ patch(PosStore.prototype, {
             await this.increaseCorrectionCounter(order.priceIncl);
         }
     },
+    async getSelfOrderToPrint(orderId) {
+        const order = await super.getSelfOrderToPrint(...arguments);
+        if (this.useBlackBoxBe() && order) {
+            order.updateReceiptType();
+        }
+        return order;
+    },
     async reloadData(fullReload = false) {
-        this.blackbox_queue.clearQueue();
+        this.blackbox_queue?.clearQueue();
         await super.reloadData(...arguments);
     },
     async _fetchUrbanpiperOrderCount(order_id) {

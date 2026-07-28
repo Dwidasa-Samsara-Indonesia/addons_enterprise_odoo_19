@@ -358,3 +358,94 @@ class TestSalaryConfiguratorForApplicant(HttpCase):
         )
         self.assertIn('result', json.loads(sign_res.content))
         self.assertEqual(employee.work_email, 'foo@bar.com')
+
+    def test_open_contract_on_offer_signed_multiple_times(self):
+        applicant = self.env['hr.applicant'].create({
+            'partner_name': 'Test app',
+            'job_id': self.senior_dev_job.id,
+        })
+        applicant.action_generate_offer()
+        offer = self.env['hr.contract.salary.offer'].search([('applicant_id', '=', applicant.id)])
+        data = {
+            "params": {
+                "offer_id": offer.id,
+                "benefits": {
+                    'version': {
+                        'wage': 1000,
+                        'final_yearly_costs': 12000,
+                        'holidays': 10,
+                    },
+                    'version_personal': {
+                        'private_city': "Louvain-La-Neuve",
+                        'private_country_id': self.env.ref("base.be").id,
+                        'private_street': "58 rue des Wallons",
+                    },
+                    'employee': {
+                        'name': 'New Employee',
+                        'private_email': 'new_employee@test.example.com',
+                        'employee_job_id': self.senior_dev_job.id,
+                        'department_id': None,
+                        'job_title': self.senior_dev_job.name,
+                    },
+                    'address': {},
+                    'bank_account': {},
+                },
+                "token": offer.access_token,
+            },
+        }
+
+        # applicant signs for the first time
+        res_1 = self.url_open("/salary_package/submit", json=data)
+        content_1 = json.loads(res_1.content)
+        sign_request_1 = self.env['sign.request'].browse(content_1['result']['request_id'])
+        sign_request_1.template_id.sign_item_ids.write({'required': False})
+        sign_data_applicant_1 = {
+            'signature': self._create_sign_values(
+                sign_request_1.template_id.sign_item_ids,
+                self.env.ref('hr_sign.sign_item_role_employee_signatory').id,
+            ),
+        }
+        self.url_open(
+            '/sign/sign/%d/%s' % (sign_request_1.id, content_1['result']['token']),
+            data=json.dumps(sign_data_applicant_1),
+            headers={'Content-Type': 'application/json'},
+        )
+
+        # applicant signs for the second time
+        res_2 = self.url_open("/salary_package/submit", json=data)
+        content_2 = json.loads(res_2.content)
+        sign_request_2 = self.env['sign.request'].browse(content_2['result']['request_id'])
+        sign_request_2.template_id.sign_item_ids.write({'required': False})
+        sign_data_applicant_2 = {
+            'signature': self._create_sign_values(
+                sign_request_1.template_id.sign_item_ids,
+                self.env.ref('hr_sign.sign_item_role_employee_signatory').id,
+            ),
+        }
+        self.url_open(
+            '/sign/sign/%d/%s' % (sign_request_2.id, content_2['result']['token']),
+            data=json.dumps(sign_data_applicant_2),
+            headers={'Content-Type': 'application/json'},
+        )
+
+        # hr signs counter signs the second sign request
+        sign_data_hr = {
+            'signature': self._create_sign_values(
+                sign_request_2.template_id.sign_item_ids,
+                self.env.ref('hr_sign.sign_item_role_job_responsible').id,
+            ),
+        }
+        self.url_open(
+            '/sign/sign/%d/%s' % (sign_request_2.id, content_2['result']['token']),
+            data=json.dumps(sign_data_hr),
+            headers={'Content-Type': 'application/json'},
+        )
+
+        # check that the smart button redirects to the correct version
+        action = offer.action_view_version()
+        redirected_version_id = action['context']['version_id']
+        self.assertEqual(
+            redirected_version_id,
+            content_2['result']['new_version_id'],
+            "action_view_version() should redirect to the fully signed contract and not to the partially signed archived one",
+        )

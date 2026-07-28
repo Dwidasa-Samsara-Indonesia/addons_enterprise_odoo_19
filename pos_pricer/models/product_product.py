@@ -1,21 +1,27 @@
+import logging
+
 from odoo import models, fields, api
 from odoo.tools.float_utils import float_repr
 
+_logger = logging.getLogger(__name__)
+
 PRICER_RELATED_FIELDS = [
-    'name',
-    'lst_price',
-    'list_price',
+    'additional_product_tag_ids',
     'barcode',
-    'weight',
-    'to_weight',
-    'stock',
-    'taxes_id',
     'currency_id',
+    'list_price',
+    'lst_price',
+    'name',
+    'on_sale_price',
+    'pricer_sale_pricelist_id',
     'pricer_tag_ids',
     'pricer_store_id',
-    'additional_product_tag_ids',
-    'pricer_sale_pricelist_id',
-    'on_sale_price',
+    'res.partner',
+    'seller_ids',
+    'stock',
+    'taxes_id',
+    'to_weight',
+    'weight',
 ]
 
 
@@ -94,22 +100,34 @@ class ProductProduct(models.Model):
 
         self.pricer_display_price = self.compute_prices(on_sale=self.pricer_sale_pricelist_id)
 
-        return {
-            "itemId": str(self.id),
+        # If multiple suppliers / taxes are set, we only send the first one to Pricer
+        supplier_id = self.seller_ids[0] if self.seller_ids else None
+        taxes_id = self.product_tmpl_id.taxes_id[0] if self.product_tmpl_id.taxes_id else None
+
+        data_to_send = {
+            "itemId": self.id,
             "itemName": self.name,
-            "price": self.pricer_display_price,
+            "price": self.pricer_display_price,  # price including taxes
             "presentation": "PROMO" if self.pricer_sale_pricelist_id else "NORMAL",  # template name used on pricer tags
             "properties": {
-                "currency": self.currency_id.symbol,
-                "barcode": self.barcode or "",
-                "variant": variant or "",
-                "variant_tag": variant_tag or "",
-                "weight": self.weight or "",
-                "stock": self.qty_available or "",
-                "to_weight": self.to_weight or "",
-                "old_price": self.compute_prices(on_sale=False),
+                "barcode": self.barcode or "",  # product barcode
+                "currency": self.currency_id.symbol,  # product currency symbol (Ex: '$')
+                "price_before_discount": self.compute_prices(on_sale=False),  # product price before pricelist discount (if any)
+                "price_excl_tax": self.lst_price,  # product price excluding taxes
+                "stock_qty_available": self.qty_available or "",  # stock_qty_available
+                "supplier_reference": supplier_id.partner_id.ref if supplier_id and supplier_id.partner_id else "",  # reference identifying the supplier
+                "supplier_product_code": supplier_id.product_code if supplier_id else "",  # reference identifying the product for the supplier
+                "tax_name": taxes_id.name if taxes_id else "",  # the name of the tax rule applied to the product (Ex: VAT 21%)
+                "to_weight": self.to_weight or "",  # boolean indicating if the product is sold by weight
+                "unit_of_measure": self.uom_id.name if self.uom_id else "",  # units used to sell the product (Ex: 1.5 eur per kg)
+                "variant": variant or "",  # product variant names separated by ','
+                "variant_tag": variant_tag or "",  # product additional tags separated by ','
+                "weight": self.weight or "",  # product weight as used in inventory
             }
         }
+        _logger.debug("Data to send to Pricer API for product [%s] %s: %s", self.id, self.name, data_to_send)
+
+        return data_to_send
 
     def write(self, vals):
         """
@@ -126,13 +144,23 @@ class ProductProduct(models.Model):
 
         return result
 
-    @api.onchange('pricer_sale_pricelist_id', 'lst_price')
+    @api.onchange('pricer_sale_pricelist_id', 'lst_price', 'standard_price')
     def _onchange_compute_pricing(self):
         # We use '._origin' to avoid getting a NewId (as the record is in a transient state) instead of id
         for product in self:
             if product.pricer_sale_pricelist_id:
+                # temporarily patch _origin with dirty values so _get_product_price
+                # uses the latest unsaved values
+                original_lst_price = product._origin.lst_price
+                original_standard_price = product._origin.standard_price
+
                 product._origin.lst_price = product.lst_price
+                product._origin.standard_price = product.standard_price
                 computed_price = product.pricer_sale_pricelist_id._get_product_price(product._origin or product, quantity=1.0)
+
+                product._origin.lst_price = original_lst_price
+                product._origin.standard_price = original_standard_price
+
                 product.on_sale_price = product._origin.on_sale_price = computed_price
             else:
                 product.on_sale_price = 0.0

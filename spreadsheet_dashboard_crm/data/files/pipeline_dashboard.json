@@ -407,9 +407,7 @@
             },
             "searchParams": {
               "comparison": null,
-              "context": {
-                "default_type": "opportunity"
-              },
+              "context": { "default_type": "opportunity" },
               "domain": [
                 "&",
                 ["type", "=", "opportunity"],
@@ -419,10 +417,8 @@
               "orderBy": []
             },
             "type": "odoo_bar",
-            "dataSets": [
-              {},
-              {}
-            ],
+            "dataSets": [],
+            "humanize": true,
             "verticalAxisPosition": "left",
             "stacked": true,
             "axesDesign": {
@@ -517,9 +513,7 @@
                 },
                 "searchParams": {
                   "comparison": null,
-                  "context": {
-                    "default_type": "opportunity"
-                  },
+                  "context": { "default_type": "opportunity" },
                   "domain": [
                     ["type", "=", "opportunity"]
                   ],
@@ -528,6 +522,7 @@
                 },
                 "type": "odoo_bar",
                 "dataSets": [],
+                "humanize": true,
                 "verticalAxisPosition": "left",
                 "stacked": true,
                 "axesDesign": {
@@ -559,9 +554,8 @@
                 },
                 "type": "odoo_funnel",
                 "actionXmlId": "crm_enterprise.crm_opportunity_action_dashboard",
-                "dataSets": [
-                  {}
-                ],
+                "dataSets": [],
+                "humanize": true,
                 "cumulative": true
               }
             },
@@ -632,6 +626,7 @@
                 "type": "odoo_geo",
                 "actionXmlId": "crm_enterprise.crm_opportunity_action_dashboard",
                 "dataSets": [],
+                "humanize": true,
                 "colorScale": "blues"
               },
               "df10a4eb-48ac": {
@@ -657,6 +652,7 @@
                 "type": "odoo_geo",
                 "actionXmlId": "crm_enterprise.crm_opportunity_action_dashboard",
                 "dataSets": [],
+                "humanize": true,
                 "colorScale": "blues"
               }
             },
@@ -727,7 +723,8 @@
                 },
                 "type": "odoo_treemap",
                 "actionXmlId": "crm_enterprise.crm_opportunity_action_dashboard",
-                "dataSets": []
+                "dataSets": [],
+                "humanize": true
               }
             },
             "items": [
@@ -1044,16 +1041,18 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         ["type", "=", "opportunity"]
       ],
       "id": "1",
       "measures": [
         { "id": "__count", "fieldName": "__count" },
-        { "id": "prorated_revenue", "fieldName": "prorated_revenue", "aggregator": "sum_currency" }
+        {
+          "id": "prorated_revenue",
+          "fieldName": "prorated_revenue",
+          "aggregator": "sum_currency"
+        }
       ],
       "model": "crm.lead",
       "name": "expected - current",
@@ -1076,16 +1075,18 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         ["type", "=", "opportunity"]
       ],
       "id": "2",
       "measures": [
         { "id": "__count", "fieldName": "__count" },
-        { "id": "prorated_revenue", "fieldName": "prorated_revenue", "aggregator": "sum_currency" }
+        {
+          "id": "prorated_revenue",
+          "fieldName": "prorated_revenue",
+          "aggregator": "sum_currency"
+        }
       ],
       "model": "crm.lead",
       "name": "expected - previous",
@@ -1108,9 +1109,7 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         ["type", "=", "opportunity"],
@@ -1151,9 +1150,7 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         ["type", "=", "opportunity"],
@@ -1194,9 +1191,7 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         ["type", "=", "opportunity"],
@@ -1237,9 +1232,7 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         ["type", "=", "opportunity"],
@@ -1280,9 +1273,7 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         ["type", "=", "opportunity"],
@@ -1323,9 +1314,7 @@
         "c21a4660-9a0a-4757-8d28-1c8d95f73edb": { "chain": "medium_id", "type": "many2one" },
         "c33d6d0a-df2d-4150-86b0-112cd250ddbd": { "chain": "source_id", "type": "many2one" }
       },
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "domain": [
         "&",
         ["type", "=", "opportunity"],
@@ -1401,7 +1390,7 @@
       "id": "bf6dcdb0-d22d-468c-b6a9-64f717005043",
       "type": "date",
       "label": "Period",
-      "defaultValue": "last_12_months"
+      "defaultValue": "last_30_days"
     },
     {
       "id": "9f3d4602-0b4b-4eb4-b013-959d72af88ab",
@@ -1469,9 +1458,7 @@
         ["type", "=", "opportunity"]
       ],
       "model": "crm.lead",
-      "context": {
-        "default_type": "opportunity"
-      },
+      "context": { "default_type": "opportunity" },
       "orderBy": [
         { "name": "prorated_revenue", "asc": false }
       ],

@@ -1,49 +1,86 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* sale_lazada
+# * sale_lazada
 #
+# Weblate <noreply-mt-weblate@weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-15 18:41+0000\n"
-"PO-Revision-Date: 2026-01-15 18:41+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2026-05-15 17:40+0000\n"
+"PO-Revision-Date: 2026-06-13 10:01+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
+"sale_lazada/vi/>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_lazada
 #: model:mail.template,body_html:sale_lazada.order_sync_failure
+#, fuzzy
 msgid ""
 "<div>\n"
-"                <p>The synchronization of the Lazada order with reference <t t-out=\"ctx.get('lazada_order_ref') or ''\">REF</t> encountered an error and was not completed.</p>\n"
-"                <p>Unless the order is cancelled in Lazada, no other synchronization will be attempted.</p>\n"
-"                <p>To schedule a new synchronization attempt, proceed as follows:\n"
+"                <p>The synchronization of the Lazada order with reference <t "
+"t-out=\"ctx.get('lazada_order_ref') or ''\">REF</t> encountered an error and "
+"was not completed.</p>\n"
+"                <p>Unless the order is cancelled in Lazada, no other "
+"synchronization will be attempted.</p>\n"
+"                <p>To schedule a new synchronization attempt, proceed as "
+"follows:\n"
 "                    </p><ol>\n"
 "                        <li>Enter the Developer Tools.</li>\n"
-"                        <li>Open the form of the Lazada Shop on which the order was placed.</li>\n"
+"                        <li>Open the form of the Lazada Shop on which the "
+"order was placed.</li>\n"
 "                        <li>Navigate to the Order Follow-up tab.</li>\n"
-"                        <li>Set a date for <em>Last Order Synchronization Date</em> that is anterior to the last status update of the order.</li>\n"
-"                        <li>Save the changes and click on the <em>SYNC ORDERS</em> button.</li>\n"
+"                        <li>Set a date for <em>Last Order Synchronization "
+"Date</em> that is anterior to the last status update of the order.</li>\n"
+"                        <li>Save the changes and click on the <em>SYNC "
+"ORDERS</em> button.</li>\n"
 "                    </ol>\n"
 "                \n"
-"                <p>If the problem persists, contact <a href=\"https://www.odoo.com/help/\">Odoo support</a>.</p>\n"
+"                <p>If the problem persists, contact <a href=\"https://"
+"www.odoo.com/help/\">Odoo support</a>.</p>\n"
 "            </div>\n"
 "        "
 msgstr ""
+"<div>\n"
+"                <p>Việc đồng bộ hóa đơn hàng Lazada có mã tham chiếu <t t-"
+"out=\"ctx.get('lazada_order_ref') or ''\">REF</t> đã gặp lỗi và không hoàn "
+"tất.</p>\n"
+"                <p>Trừ khi đơn hàng bị hủy trên Lazada, sẽ không có lần đồng "
+"bộ hóa nào khác được thực hiện.</p>\n"
+"                <p>Để lên lịch thử đồng bộ hóa mới, thực hiện các bước sau:\n"
+"                   </p><ol> \n"
+"                       <li> Truy cập Công cụ Phát triển.</li>\n"
+"                        <li>Mở biểu mẫu cửa hàng Lazada nơi đơn hàng được "
+"đặt.</li>\n"
+"                        <li>Chuyển đến tab Theo dõi Đơn hàng.</li>\n"
+"                        <li>Đặt ngày cho <em>Ngày Đồng bộ Hóa Đơn Hàng Cuối "
+"Cùng</em> trước ngày cập nhật trạng thái cuối cùng của đơn hàng.</li>\n"
+"                        <li>Lưu thay đổi và nhấp vào nút <em>ĐỒNG BỘ HÓA ĐƠN "
+"HÀNG</em>.</li>\n"
+"                    </ol>\n"
+"                \n"
+"               <p> Nếu vấn đề vẫn tiếp diễn, liên hệ <a href=\"https://"
+"www.odoo.com/help/\">Hỗ trợ Odoo</a>.</p>\n"
+"            </div>\n"
+"        "
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
 msgid ""
 "<strong>Authorization Failed: </strong>\n"
-"                    An unexpected error occurred during authorization. Please try again."
+"                    An unexpected error occurred during authorization. "
+"Please try again."
 msgstr ""
 
 #. module: sale_lazada
 #: model:mail.template,body_html:sale_lazada.inventory_sync_failure
+#, fuzzy
 msgid ""
 "<style>\n"
 "                .lazada_table {\n"
@@ -75,7 +112,8 @@ msgid ""
 "            </style>\n"
 "            <body><div>\n"
 "                <p>The synchronization of the inventory for Lazada Shop\n"
-"                    <b><t t-out=\"ctx.get('lazada_shop') or ''\">REF</t></b>\n"
+"                    <b><t t-out=\"ctx.get('lazada_shop') or ''\">REF</t></"
+"b>\n"
 "                    encountered some errors and was not completed.</p>\n"
 "                <p>Here are the errors sent by Lazada: </p>\n"
 "                <table class=\"lazada_table\">\n"
@@ -86,13 +124,19 @@ msgid ""
 "                        </tr>\n"
 "                    </thead>\n"
 "                    <tbody>\n"
-"                        <tr t-foreach=\"ctx.get('error_messages')\" t-as=\"error\">\n"
-"                            <th><t t-out=\"', '.join(error['default_codes'])\"/></th>\n"
+"                        <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th><t t-out=\"', '.join(error['default_codes'])"
+"\"/></th>\n"
 "                            <td>\n"
-"                                <t t-if=\"error['message']\" t-out=\"error['message']\"/>\n"
-"                                <t t-else=\"\">An unknown error occurred during the synchronisation with Lazada.\n"
-"                                    Unfortunately you need to manually check if the available quantity for the product is correct or not.\n"
-"                                    If the problem persists, contact <a href=\"https://www.odoo.com/help/\">Odoo support </a>.\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/>\n"
+"                                <t t-else=\"\">An unknown error occurred "
+"during the synchronisation with Lazada.\n"
+"                                    Unfortunately you need to manually check "
+"if the available quantity for the product is correct or not.\n"
+"                                    If the problem persists, contact <a "
+"href=\"https://www.odoo.com/help/\">Odoo support </a>.\n"
 "                                </t>\n"
 "                            </td>\n"
 "                        </tr>\n"
@@ -101,6 +145,64 @@ msgid ""
 "            </div>\n"
 "        </body>"
 msgstr ""
+"<style>\n"
+"                .lazada_table {\n"
+"                    width: 100%;\n"
+"                    max-width: 900px;\n"
+"                    border-collapse: collapse;\n"
+"                }\n"
+"\n"
+"                .lazada_table th,\n"
+"                .lazada_table td {\n"
+"                    border: 1px solid #888;\n"
+"                }\n"
+"\n"
+"                .lazada_table th {\n"
+"                    white-space: nowrap;\n"
+"                }\n"
+"\n"
+"                .lazada_table thead th {\n"
+"                    padding: 0.5em 0.5em;\n"
+"                    text-align: center;\n"
+"                    border-bottom: 1px solid #888;\n"
+"                }\n"
+"\n"
+"                .lazada_table tbody th,\n"
+"                .lazada_table tbody td {\n"
+"                    padding: 0.5em 0.5em 1em;\n"
+"                    vertical-align: top;\n"
+"                }\n"
+"           </style>\n"
+"            <body> <div>\n"
+"                <p> Việc đồng bộ hóa Tồn kho cho Lazada Shop\n"
+"                   <b><t t-out=\"ctx.get('lazada_shop') or ''\"> REF</t></b>"
+"\n"
+"                    đã gặp một số lỗi và không hoàn tất.</p>\n"
+"                <p>Dưới đây là các lỗi được gửi từ Lazada: </p>\n"
+"                <table class=\"lazada_table\">\n"
+"                   <thead>\n"
+"                        <tr> \n"
+"                           <th> Mã tham chiếu nội bộ sản phẩm</th>\n"
+"                            <th>Thông báo</th>\n"
+"                        </tr> </thead>\n"
+"                    <tbody> <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th> <t t-out=\"', '.join(error['default_codes'])"
+"\"/></th> <td>\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/> <t t-else=\"\"> Một lỗi không xác định đã xảy ra "
+"trong quá trình đồng bộ hóa với Lazada.\n"
+"Rất tiếc, bạn cần kiểm tra thủ công xem số lượng hàng tồn kho của sản phẩm "
+"có chính xác hay không.\n"
+"Nếu vấn đề vẫn tiếp diễn, vui lòng liên hệ với bộ phận hỗ trợ Odoo tại <a "
+"href=\"https://www.odoo.com/help/\">hoặc </a>.\n"
+"                               </t>\n"
+"                            </td> \n"
+"                       </tr>\n"
+"                    </tbody> \n"
+"               </table>\n"
+"            </div> \n"
+"       </body>"
 
 #. module: sale_lazada
 #: model:ir.model.constraint,message:sale_lazada.constraint_lazada_shop_unique_shop_extern_id_company
@@ -121,18 +223,21 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__api_endpoint
+#, fuzzy
 msgid "API Endpoint"
-msgstr ""
+msgstr "Endpoint API"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__access_token
+#, fuzzy
 msgid "Access Token"
-msgstr ""
+msgstr "Token truy cập"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__access_token_expiration_date
+#, fuzzy
 msgid "Access Token Expiration Date"
-msgstr ""
+msgstr "Ngày hết hạn token truy cập"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
@@ -142,8 +247,9 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__active
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_search
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "Đang hoạt động"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__synchronize_inventory
@@ -171,24 +277,28 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__app_secret
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__app_secret
+#, fuzzy
 msgid "App Secret"
-msgstr ""
+msgstr "Mã bí mật ứng dụng"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Archived"
-msgstr ""
+msgstr "Đã lưu trữ"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_create_wizard_form
+#, fuzzy
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__canceled
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__canceled
+#, fuzzy
 msgid "Canceled"
-msgstr ""
+msgstr "Đã huỷ"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__canceled
@@ -205,14 +315,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__company_id
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__company_id
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__company_id
+#, fuzzy
 msgid "Company"
-msgstr ""
+msgstr "Công ty"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__confirmed
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__confirmed
+#, fuzzy
 msgid "Confirmed"
-msgstr ""
+msgstr "Đã xác nhận"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_list
@@ -226,8 +338,9 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_res_partner
+#, fuzzy
 msgid "Contact"
-msgstr ""
+msgstr "Liên hệ"
 
 #. module: sale_lazada
 #. odoo-python
@@ -253,40 +366,46 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model,website_form_label:sale_lazada.model_res_partner
+#, fuzzy
 msgid "Create a Customer"
-msgstr ""
+msgstr "Tạo một khách hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__create_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__create_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__create_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__create_uid
+#, fuzzy
 msgid "Created by"
-msgstr ""
+msgstr "Được tạo bởi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__create_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__create_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__create_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__create_date
+#, fuzzy
 msgid "Created on"
-msgstr ""
+msgstr "Được tạo vào"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__team_id
+#, fuzzy
 msgid "Default Sales Team"
-msgstr ""
+msgstr "Bộ phận sales mặc định"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__user_id
+#, fuzzy
 msgid "Default Salesperson"
-msgstr ""
+msgstr "Nhân viên sales mặc định"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__delivered
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__delivered
+#, fuzzy
 msgid "Delivered"
-msgstr ""
+msgstr "Đã giao"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__delivered
@@ -304,8 +423,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_sale_order_line__display_name
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_move__display_name
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__display_name
+#, fuzzy
 msgid "Display Name"
-msgstr ""
+msgstr "Tên hiển thị"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.stock_picking_form
@@ -315,8 +435,9 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__draft
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__draft
+#, fuzzy
 msgid "Draft"
-msgstr ""
+msgstr "Nháp"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__sync_lazada_inventory
@@ -327,21 +448,31 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__synchronize_inventory
+#, fuzzy
 msgid ""
 "Enable this to automatically sync your Odoo inventory quantities to Lazada. "
 "When enabled, product stock levels in Odoo will be pushed to Lazada for FBM "
 "(Fulfilled by Merchant) items. This ensures your Lazada listings show "
 "accurate stock availability."
 msgstr ""
+"Bật tính năng này để đồng bộ tự động số lượng tồn kho Odoo với Lazada. Khi "
+"được bật, số lượng tồn kho của sản phẩm trong Odoo sẽ được đồng bộ hóa với "
+"Lazada cho các mặt hàng FBM (Fulfilled by Merchant). Điều này đảm bảo rằng "
+"các danh sách sản phẩm trên Lazada hiển thị số lượng tồn kho chính xác."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__manage_fbl_inventory
+#, fuzzy
 msgid ""
 "Enable this to track inventory for FBL (Fulfilled by Lazada) items in Odoo. "
-"When enabled, stock in the FBL location will be deducted from your available"
-" FBM stock. The FBL location is automatically created when you set up the "
+"When enabled, stock in the FBL location will be deducted from your available "
+"FBM stock. The FBL location is automatically created when you set up the "
 "shop."
 msgstr ""
+"Bật tính năng này để theo dõi tồn kho cho các mặt hàng FBL (Fulfilled by "
+"Lazada) trong Odoo. Khi bật tính năng này, tồn kho tại vị trí FBL sẽ được "
+"trừ vào tồn kho FBM sẵn có của bạn. Vị trí FBL sẽ được tạo tự động khi bạn "
+"thiết lập cửa hàng."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__fbl_location_id
@@ -365,8 +496,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale_lazada/models/stock_picking.py:0
 msgid ""
-"Failed to get shipment provider for order: %(order_id)s. Error: "
-"%(error_msg)s"
+"Failed to get shipment provider for order: %(order_id)s. Error: %(error_msg)s"
 msgstr ""
 
 #. module: sale_lazada
@@ -394,7 +524,8 @@ msgstr ""
 #: code:addons/sale_lazada/models/lazada_shop.py:0
 msgid ""
 "Failed to synchronize Lazada product catalog for shop: %(shop)d.\n"
-"The total number of products in Lazada changed during synchronization. Please re-run the synchronization."
+"The total number of products in Lazada changed during synchronization. "
+"Please re-run the synchronization."
 msgstr ""
 
 #. module: sale_lazada
@@ -417,8 +548,9 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_item__fulfillment_type__fbm
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_fulfillment_type__fbm
+#, fuzzy
 msgid "Fulfillment by Merchant"
-msgstr ""
+msgstr "Xử lý bởi người bán"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__id
@@ -431,28 +563,34 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_lazada.field_sale_order_line__id
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_move__id
 #: model:ir.model.fields,field_description:sale_lazada.field_stock_picking__id
+#, fuzzy
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.view_order_form
+#, fuzzy
 msgid ""
 "If the sale is locked, you can not modify it anymore. However, you will "
 "still be able to invoice or deliver."
 msgstr ""
+"Bạn không thể sửa đơn hàng đã khóa. Tuy nhiên, bạn vẫn có thể xuất hóa đơn "
+"hoặc giao hàng."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/utils.py:0
 msgid ""
-"In Lazada Shop '%(shop_name)s', an error %(error_code)s occurred during the Lazada API operation '%(operation)s' with request ID '%(request_id)s':\n"
+"In Lazada Shop '%(shop_name)s', an error %(error_code)s occurred during the "
+"Lazada API operation '%(operation)s' with request ID '%(request_id)s':\n"
 "%(error_message)s"
 msgstr ""
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_search
+#, fuzzy
 msgid "Inactive"
-msgstr ""
+msgstr "Không hoạt động"
 
 #. module: sale_lazada
 #. odoo-python
@@ -483,8 +621,9 @@ msgstr ""
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Items"
-msgstr ""
+msgstr "Mặt hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__last_product_catalog_sync_date
@@ -503,29 +642,33 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__last_orders_sync_date
+#, fuzzy
 msgid "Last Order Synchronization Date"
-msgstr ""
+msgstr "Ngày đồng bộ đơn hàng cuối cùng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__write_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__write_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__write_uid
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__write_uid
+#, fuzzy
 msgid "Last Updated by"
-msgstr ""
+msgstr "Cập nhật lần cuối bởi"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__write_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__write_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__write_date
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop_create_wizard__write_date
+#, fuzzy
 msgid "Last Updated on"
-msgstr ""
+msgstr "Cập nhật lần cuối vào"
 
 #. module: sale_lazada
 #: model:ir.ui.menu,name:sale_lazada.root_menu
+#, fuzzy
 msgid "Lazada"
-msgstr ""
+msgstr "Lazada"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_create_wizard_form
@@ -708,22 +851,28 @@ msgstr ""
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.view_order_form
+#, fuzzy
 msgid "Lock"
-msgstr ""
+msgstr "Khoá"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__refresh_token
+#, fuzzy
 msgid ""
-"Long-term refresh token used to automatically obtain new access tokens. This"
-" token expires after 30 days. If it expires, you'll need to re-authorize the"
-" connection by clicking the authorization button in the Lazada shop view."
+"Long-term refresh token used to automatically obtain new access tokens. This "
+"token expires after 30 days. If it expires, you'll need to re-authorize the "
+"connection by clicking the authorization button in the Lazada shop view."
 msgstr ""
+"Token làm mới dài hạn được sử dụng để tự động lấy các token truy cập mới. "
+"Token này sẽ hết hạn sau 30 ngày. Nếu token hết hạn, bạn cần phải xác thực "
+"lại kết nối bằng cách nhấp vào nút xác thực trong giao diện cửa hàng Lazada."
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__manual
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__manual
+#, fuzzy
 msgid "Manual"
-msgstr ""
+msgstr "Thủ công"
 
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__stock_picking__lazada_package_status__manual
@@ -732,8 +881,9 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__name
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #. module: sale_lazada
 #. odoo-python
@@ -766,20 +916,29 @@ msgid "Only FBM items can be synced to Lazada."
 msgstr ""
 
 #. module: sale_lazada
-#: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__order_count
-msgid "Order Count"
+#. odoo-python
+#: code:addons/sale_lazada/models/lazada_item.py:0
+msgid "Only goods are supported with Lazada."
 msgstr ""
 
 #. module: sale_lazada
+#: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__order_count
+#, fuzzy
+msgid "Order Count"
+msgstr "Số lượng đơn hàng"
+
+#. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Order Synchronization"
-msgstr ""
+msgstr "Đồng bộ hoá đơn hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__order_ids
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Orders"
-msgstr ""
+msgstr "Đơn hàng"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.stock_picking_form
@@ -799,24 +958,28 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields.selection,name:sale_lazada.selection__lazada_order_item__status__processing
 #: model:ir.model.fields.selection,name:sale_lazada.selection__sale_order__lazada_order_status__processing
+#, fuzzy
 msgid "Processing"
-msgstr ""
+msgstr "Đang xử lý"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__product_id
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_item_search
+#, fuzzy
 msgid "Product"
-msgstr ""
+msgstr "Sản phẩm"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__product_tmpl_id
+#, fuzzy
 msgid "Product Template"
-msgstr ""
+msgstr "Mẫu sản phẩm"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_product_product
+#, fuzzy
 msgid "Product Variant"
-msgstr ""
+msgstr "Biến thể sản phẩm"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
@@ -830,8 +993,9 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__refresh_token
+#, fuzzy
 msgid "Refresh Token"
-msgstr ""
+msgstr "Refresh Token"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__refresh_token_expiration_date
@@ -840,34 +1004,40 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__sale_order_line_id
+#, fuzzy
 msgid "Sale Order Line"
-msgstr ""
+msgstr "Dòng đơn bán hàng"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_sale_order
+#, fuzzy
 msgid "Sales Order"
-msgstr ""
+msgstr "Đơn bán hàng"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_sale_order_line
+#, fuzzy
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Dòng đơn bán hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_item__shop_id
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_search
+#, fuzzy
 msgid "Shop"
-msgstr ""
+msgstr "Sản phẩm & Dịch vụ"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Shop Information"
-msgstr ""
+msgstr "Thông tin cửa hàng"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Shop Name"
-msgstr ""
+msgstr "Tên cửa hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__country_id
@@ -876,13 +1046,15 @@ msgstr ""
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Shop Settings"
-msgstr ""
+msgstr "Cài đặt cửa hàng"
 
 #. module: sale_lazada
 #: model:ir.ui.menu,name:sale_lazada.shops_menu
+#, fuzzy
 msgid "Shops"
-msgstr ""
+msgstr "Cửa hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__last_orders_sync_date
@@ -893,23 +1065,30 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__last_product_catalog_sync_date
+#, fuzzy
 msgid ""
 "Shows when the product catalog was last synchronized from Lazada to Odoo. "
 "Only products updated in Lazada after this date will be fetched in the next "
 "synchronization. This is automatically updated after each sync. To re-"
 "initialize the full catalog, clear this value."
 msgstr ""
+"Hiển thị thời điểm danh mục sản phẩm được đồng bộ hóa lần cuối từ Lazada "
+"sang Odoo. Chỉ các sản phẩm được cập nhật trên Lazada sau ngày này mới được "
+"lấy trong lần đồng bộ hóa tiếp theo. Giá trị này được cập nhật tự động sau "
+"mỗi lần đồng bộ hóa. Để khởi tạo lại toàn bộ danh mục, hãy xóa giá trị này."
 
 #. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__status
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Trạng thái"
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_stock_move
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_order_item__stock_move_id
+#, fuzzy
 msgid "Stock Move"
-msgstr ""
+msgstr "Điều chuyển tồn kho"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
@@ -918,18 +1097,21 @@ msgstr ""
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Sync Inventory"
-msgstr ""
+msgstr "Đồng bộ tồn kho"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Sync Orders"
-msgstr ""
+msgstr "Đồng bộ đơn hàng"
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "Synchronization Information"
-msgstr ""
+msgstr "Thông tin đồng bộ"
 
 #. module: sale_lazada
 #: model:mail.template,subject:sale_lazada.inventory_sync_failure
@@ -949,11 +1131,15 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__access_token
+#, fuzzy
 msgid ""
-"Temporary access token provided by Lazada for API authentication. This token"
-" expires after 4 hours and is automatically refreshed using the refresh "
+"Temporary access token provided by Lazada for API authentication. This token "
+"expires after 4 hours and is automatically refreshed using the refresh "
 "token. You don't need to manage this manually."
 msgstr ""
+"Token truy cập tạm thời do Lazada cung cấp để xác thực API. Token này sẽ hết "
+"hạn sau 4 giờ và được tự động làm mới bằng token làm mới. Bạn không cần phải "
+"quản lý điều này thủ công."
 
 #. module: sale_lazada
 #. odoo-python
@@ -980,10 +1166,13 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__lazada_sku
+#, fuzzy
 msgid ""
 "The SKU of the item in Lazada. Odoo can match the product when the Lazada "
 "SKU is equivalent to the default code of the product."
 msgstr ""
+"SKU của sản phẩm trên Lazada. Odoo có thể đối chiếu sản phẩm khi SKU trên "
+"Lazada tương đương với mã mặc định của sản phẩm."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__lazada_label_attachment_ids
@@ -992,19 +1181,25 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__access_token_expiration_date
+#, fuzzy
 msgid ""
 "The date and time when the current access token will expire. The system "
 "automatically refreshes the token before expiration, so no action is "
 "required."
 msgstr ""
+"Ngày và giờ mà token truy cập hiện tại sẽ hết hạn. Hệ thống sẽ tự động làm "
+"mới token trước khi hết hạn, vì vậy bạn không cần thực hiện thao tác nào."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__refresh_token_expiration_date
+#, fuzzy
 msgid ""
 "The date and time when the refresh token will expire. If this date passes, "
 "you'll need to re-authorize the connection to continue synchronizing with "
 "Lazada."
 msgstr ""
+"Ngày và giờ mà token làm mới sẽ hết hạn. Nếu vượt quá ngày này, bạn sẽ cần "
+"cấp quyền kết nối lại để tiếp tục đồng bộ với Lazada."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__team_id
@@ -1037,8 +1232,9 @@ msgstr ""
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/controllers/onboarding.py:0
+#, fuzzy
 msgid "The request signature is not valid."
-msgstr ""
+msgstr "Chữ ký yêu cầu không hợp lệ."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_stock_picking__lazada_shipping_allocate_type
@@ -1052,6 +1248,7 @@ msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_order_item__status
+#, fuzzy
 msgid ""
 "The status of the order item on Lazada:\n"
 "- Draft: The order item is in draft status by default.\n"
@@ -1061,15 +1258,27 @@ msgid ""
 "- Canceled: The order item has been canceled.\n"
 "- Manual: The order item has to be processed manually on Lazada."
 msgstr ""
+"Trạng thái của mặt hàng trong đơn hàng trên Lazada:\n"
+"- Bản nháp: Mặt hàng trong đơn hàng mặc định ở trạng thái bản nháp.\n"
+"- Đã xác nhận: Mặt hàng trong đơn hàng đã được đóng gói.\n"
+"- Đang xử lý: Mặt hàng trong đơn hàng đã sẵn sàng để vận chuyển.\n"
+"- Đã giao: Mặt hàng trong đơn hàng đã được vận chuyển hoặc giao hàng.\n"
+"- Đã hủy: Mặt hàng trong đơn hàng đã bị hủy.\n"
+"- Thủ công: Mặt hàng trong đơn hàng phải được xử lý thủ công trên Lazada."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__fbl_location_id
+#, fuzzy
 msgid ""
 "The stock location representing inventory managed by Lazada under the FBL "
 "(Fulfilled by Lazada) program. This location is automatically created when "
 "you set up the shop. Stock moves to this location represent items sent to "
 "Lazada warehouses for fulfillment."
 msgstr ""
+"Vị trí kho hàng đại diện cho Tồn kho được Lazada quản lý trong chương trình "
+"FBL (Fulfilled by Lazada). Vị trí này được tạo tự động khi bạn thiết lập cửa "
+"hàng. Hàng tồn kho được chuyển đến vị trí này đại diện cho các mặt hàng được "
+"gửi đến kho hàng của Lazada để xử lý đơn hàng."
 
 #. module: sale_lazada
 #. odoo-python
@@ -1082,18 +1291,23 @@ msgstr ""
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_item__lazada_item_extern_id
 msgid ""
-"The unique identifier for an item in Lazada. An item in Lazada is equivalent"
-" to a product variant in Odoo."
+"The unique identifier for an item in Lazada. An item in Lazada is equivalent "
+"to a product variant in Odoo."
 msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__fbm_warehouse_id
+#, fuzzy
 msgid ""
 "The warehouse containing inventory that will be synchronized to Lazada for "
 "FBM (Fulfilled by Merchant) orders. Select the warehouse where you store "
 "products that you ship directly to customers. If not set, your company's "
 "default warehouse will be used."
 msgstr ""
+"Kho hàng chứa Tồn kho sẽ được đồng bộ hóa với Lazada cho các đơn hàng FBM "
+"(Do nhà bán hàng tự giao hàng). Chọn kho hàng nơi bạn lưu trữ sản phẩm mà "
+"bạn giao trực tiếp cho khách hàng. Nếu không được thiết lập, kho hàng mặc "
+"định của công ty bạn sẽ được sử dụng."
 
 #. module: sale_lazada
 #: model:ir.model.constraint,message:sale_lazada.constraint_sale_order_unique_lazada_order_ref_lazada_shop_id
@@ -1117,54 +1331,68 @@ msgid ""
 msgstr ""
 
 #. module: sale_lazada
+#. odoo-python
+#: code:addons/sale_lazada/models/lazada_item.py:0
+msgid ""
+"This product does not track inventory and can not be synchronized with "
+"Lazada."
+msgstr ""
+
+#. module: sale_lazada
 #: model:ir.model.fields,field_description:sale_lazada.field_lazada_shop__manage_fbl_inventory
 msgid "Track FBL Inventory"
 msgstr ""
 
 #. module: sale_lazada
 #: model:ir.model,name:sale_lazada.model_stock_picking
+#, fuzzy
 msgid "Transfer"
-msgstr ""
-
-#. module: sale_lazada
-#. odoo-python
-#: code:addons/sale_lazada/models/lazada_item.py:0
-msgid ""
-"We do not support syncing services or combo products to Lazada. Only "
-"storable products are supported."
-msgstr ""
+msgstr "Lệnh chuyển hàng"
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__app_key
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop_create_wizard__app_key
+#, fuzzy
 msgid ""
 "Your Lazada application key (App Key). You can find this in your Lazada "
 "Service Provider Center after creating an application. Enter this before "
 "authorizing the connection."
 msgstr ""
+"Khóa ứng dụng Lazada của bạn. Bạn có thể tìm thấy thông tin này trong Trung "
+"tâm Nhà cung cấp Dịch vụ Lazada sau khi tạo ứng dụng. Nhập khóa này trước "
+"khi cấp quyền kết nối."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__app_secret
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop_create_wizard__app_secret
+#, fuzzy
 msgid ""
-"Your Lazada application secret (App Secret). This is provided alongside your"
-" App Key in the Lazada Service Provider Center. Keep this confidential and "
+"Your Lazada application secret (App Secret). This is provided alongside your "
+"App Key in the Lazada Service Provider Center. Keep this confidential and "
 "enter it before authorizing the connection."
 msgstr ""
+"Khóa bí mật ứng dụng Lazada (App Secret). Khóa này được cung cấp cùng với "
+"Khóa ứng dụng (App Key) trong Trung tâm Nhà cung cấp Dịch vụ Lazada. Hãy giữ "
+"bí mật thông tin này và nhập nó trước khi xác thực kết nối."
 
 #. module: sale_lazada
 #: model:ir.model.fields,help:sale_lazada.field_lazada_shop__shop_extern_id
+#, fuzzy
 msgid ""
 "Your unique seller ID assigned by Lazada. This is automatically set during "
-"authorization and ensures the same Lazada shop cannot be linked twice to the"
-" same company."
+"authorization and ensures the same Lazada shop cannot be linked twice to the "
+"same company."
 msgstr ""
+"Mã nhà bán hàng duy nhất được Lazada cấp cho bạn. Mã này được thiết lập tự "
+"động trong quá trình xác thực và đảm bảo rằng cùng một cửa hàng Lazada không "
+"thể được liên kết hai lần với cùng một công ty."
 
 #. module: sale_lazada
 #. odoo-python
 #: code:addons/sale_lazada/models/lazada_shop.py:0
+#, fuzzy
 msgid "[%(sku)s] %(product_name)s"
-msgstr ""
+msgstr "[%(sku)s] %(product_name)s"
 
 #. module: sale_lazada
 #. odoo-python
@@ -1176,5 +1404,6 @@ msgstr ""
 
 #. module: sale_lazada
 #: model_terms:ir.ui.view,arch_db:sale_lazada.lazada_shop_form
+#, fuzzy
 msgid "e.g. Indonesian Shop"
-msgstr ""
+msgstr "VD: Cửa hàng Indonesia"

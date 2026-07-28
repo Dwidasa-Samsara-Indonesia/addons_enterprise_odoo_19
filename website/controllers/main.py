@@ -698,7 +698,10 @@ class Website(Home):
         # If that URL is also a menu, we update it accordingly.
         # NB: we don't want to slugify on menu creation as it could redirect
         # towards files (with spaces, apostrophes, etc.).
-        menu = request.env['website.menu'].search([('url', '=', '/' + path), ('page_id', '=', False)])
+        # When searching for a menu, we also match URLs with or without a
+        # leading slash to prevent mismatches when records were created without
+        # a leading slash.
+        menu = request.env['website.menu'].search([('url', 'in', ['/' + path, path]), ('page_id', '=', False)])
         if menu:
             menu.page_id = page['page_id']
 
@@ -870,7 +873,7 @@ class Website(Home):
                         "updated": False,
                         "res_model": model['model'],
                         "res_id": model['id'],
-                        "id": f"{model['model']}-{model['id']}-{index}",
+                        "id": f"{model['model']}-{model['id']}-{model['field']}-{index}",
                         "field": model.get('field'),
                     })
         return json.dumps(result)

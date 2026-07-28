@@ -85,6 +85,9 @@ class AccountMove(models.Model):
         )
 
     def _update_or_create_document(self, attachment_id):
+        super()._update_or_create_document(attachment_id)
+        if not self.env['ir.attachment'].browse(attachment_id).res_model:
+            return
         setting = self.env['documents.account.folder.setting'].sudo().search(
             [('journal_id', '=', self.journal_id.id),
              ('company_id', '=', self.company_id.id)], limit=1)

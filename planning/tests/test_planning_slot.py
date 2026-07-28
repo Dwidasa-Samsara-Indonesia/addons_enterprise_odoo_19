@@ -81,15 +81,14 @@ class TestPlanningContract(TestPlanningContractCommon):
             'end_datetime': datetime(2015, 12, 16, 17, 0, 0),
             'resource_id': self.resource_bert.id,
         })
-        planning_hours_info = self.env['planning.slot']._gantt_progress_bar(
-            'resource_id', self.resource_bert.ids, datetime(2015, 12, 16), datetime(2015, 12, 16, 23, 59, 59)
-        )
+        domain = [['start_datetime', '<', datetime(2015, 12, 18, 0, 0, 0)], ['end_datetime', '>', datetime(2015, 12, 15, 0, 0, 0)]]
+        planning_hours_info = self.env['planning.slot']._get_gantt_planning_data(domain, datetime(2015, 12, 16), datetime(2015, 12, 17))
 
         res_intervals = [
             (UTC.localize(datetime(2015, 12, 16, 7, 0, 0)), UTC.localize(datetime(2015, 12, 16, 11, 0, 0))),
             (UTC.localize(datetime(2015, 12, 16, 12, 0, 0)), UTC.localize(datetime(2015, 12, 16, 16, 0, 0)))
         ]
-        self.assertEqual(planning_hours_info[self.resource_bert.id]['work_intervals'], res_intervals, "work_intervals should be in UTC")
+        self.assertEqual(planning_hours_info['work_intervals'][self.resource_bert.id], res_intervals, "work_intervals should be in UTC")
 
     def test_creation_recurrencing_planning_without_employee_contract_access(self):
         """

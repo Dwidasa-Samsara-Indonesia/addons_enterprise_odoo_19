@@ -247,6 +247,33 @@ class BelgiumPartnerVatListingTest(TestAccountReportsCommon):
             self.get_xml_tree_from_string(expected_xml)
         )
 
+    def test_ignore_VAT_partners(self):
+        self.partner_ignore_be = self.env['res.partner'].create({
+            'name': 'Partner C (BE)',
+            'country_id': self.env.ref('base.be').id,
+            'vat': '/',
+        })
+
+        self.env = self.env(context=dict(self.env.context, allowed_company_ids=self.env.company.ids))
+        options = self._generate_options(self.report, '2022-06-01', '2022-06-30')
+
+        self.create_and_post_account_move('out_invoice', self.partner_ignore_be.id, '2022-06-01', product_quantity=10, product_price_unit=200)
+
+        self.create_and_post_account_move('out_invoice', self.partner_b_be.id, '2022-06-01', product_quantity=10, product_price_unit=200)
+        self.create_and_post_account_move('out_invoice', self.partner_a_be.id, '2022-06-01', product_quantity=10, product_price_unit=100)
+
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                        VAT number          Turnover            VAT amount
+            [   0,                          1,                  2,                  3],
+            [
+                ('Partner VAT Listing',     '',                 3000.0,             630.0),
+                ('Partner A (BE)',          'BE0246697724',     1000.0,             210.0),
+                ('Partner B (BE)',          'BE0766998497',     2000.0,             420.0),
+            ],
+            options,
+        )
+
     def test_misc_operation(self):
         self.env = self.env(context=dict(self.env.context, allowed_company_ids=self.env.company.ids))
         options = self._generate_options(self.report, fields.Date.from_string('2022-06-01'), fields.Date.from_string('2022-06-30'))

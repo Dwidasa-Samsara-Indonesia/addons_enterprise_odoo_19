@@ -18,7 +18,7 @@ from markupsafe import Markup, escape
 from json.decoder import JSONDecodeError
 from urllib.parse import urlencode
 
-from odoo import fields, models, modules, tools
+from odoo import api, fields, models, modules, tools
 from odoo.exceptions import AccessError, RedirectWarning, UserError
 from odoo.http import request
 from odoo.tools import LazyTranslate
@@ -105,6 +105,12 @@ class ResCompany(models.Model):
         required=True,
     )
     l10n_be_intervat_last_call_date = fields.Datetime(groups='account.group_account_user')
+    l10n_be_intervat_show_settings = fields.Boolean(compute="_compute_l10n_be_intervat_show_settings")
+
+    @api.depends('account_enabled_tax_country_ids')
+    def _compute_l10n_be_intervat_show_settings(self):
+        for company in self:
+            company.l10n_be_intervat_show_settings = 'BE' in company.account_enabled_tax_country_ids.mapped('code')
 
     ########################################
     # Tokens & Certificates                #

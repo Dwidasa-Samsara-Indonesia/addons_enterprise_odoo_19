@@ -82,16 +82,16 @@ class ProjectTask(models.Model):
         if not self.env['sale.order.line'].has_access('read'):
             return {}
         uom_hour = self.env.ref('uom.product_uom_hour')
-        planned_hours_per_sol = self.env['project.task']._read_group([
+        allocated_hours_per_sol = self.env['project.task']._read_group([
             ('sale_line_id', 'in', res_ids),
-        ], ['sale_line_id'], ['planned_hours:sum'])
-        planned_hours_per_sol_mapped = {
-            sale_line.id: planned_hours_sum
-            for sale_line, planned_hours_sum in planned_hours_per_sol
+        ], ['sale_line_id'], ['allocated_hours:sum'])
+        allocated_hours_per_sol_mapped = {
+            sale_line.id: allocated_hours_sum
+            for sale_line, allocated_hours_sum in allocated_hours_per_sol
         }
         return {
             sol.id: {
-                'value': planned_hours_per_sol_mapped.get(sol.id, 0.0),
+                'value': allocated_hours_per_sol_mapped.get(sol.id, 0.0),
                 'max_value': sol.product_uom_id._compute_quantity(sol.product_uom_qty, uom_hour),
             }
             for sol in self.env['sale.order.line'].search([('id', 'in', res_ids)])

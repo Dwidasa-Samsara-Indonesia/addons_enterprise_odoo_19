@@ -8,15 +8,15 @@
 # Mads Søndergaard, 2022
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-11-11 23:44+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 16:07+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "project_forecast/da/>\n"
 "Language: da\n"
@@ -24,23 +24,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: project_forecast
 #. odoo-python
 #: code:addons/project_forecast/models/project_project.py:0
 msgid "%s Hours"
-msgstr ""
+msgstr "%s Timer"
 
 #. module: project_forecast
 #: model_terms:ir.ui.view,arch_db:project_forecast.planning_shift_ics_description_inherit
 msgid "<b>Project:</b>"
-msgstr ""
+msgstr "<b>Projekt:</b>"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.planning_menu_schedule_by_project
 msgid "By Project"
-msgstr "Af projekt"
+msgstr "Efter projekt"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_planning_slot_template__company_id
@@ -53,7 +53,7 @@ msgstr "Virksomhed"
 #: model:ir.model.fields,field_description:project_forecast.field_planning_slot_template__display_name
 #: model:ir.model.fields,field_description:project_forecast.field_project_project__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_planning_analysis_report__id
@@ -80,7 +80,7 @@ msgstr "Mine projekter"
 #: model_terms:ir.actions.act_window,help:project_forecast.project_forecast_action_from_project
 #: model_terms:ir.actions.act_window,help:project_forecast.project_forecast_action_schedule_by_employee
 msgid "No shifts found. Let's create one!"
-msgstr "Ingen vagt fundet. Lad os skabe en!"
+msgstr "Ingen vagt fundet. Lad os oprette en!"
 
 #. module: project_forecast
 #. odoo-python
@@ -104,7 +104,7 @@ msgstr "Planlægningsanalyserapport"
 #. module: project_forecast
 #: model:ir.model,name:project_forecast.model_planning_slot
 msgid "Planning Shift"
-msgstr "Planlægning vagt"
+msgstr "Planlægningsvagt"
 
 #. module: project_forecast
 #: model:ir.model,name:project_forecast.model_project_project
@@ -120,17 +120,17 @@ msgstr "Projekt"
 #. module: project_forecast
 #: model_terms:ir.ui.view,arch_db:project_forecast.planning_shift_ics_description_inherit
 msgid "Project:"
-msgstr ""
+msgstr "Projekt:"
 
 #. module: project_forecast
 #: model:ir.actions.act_window,name:project_forecast.planning_action_schedule_by_project
 msgid "Schedule by Project"
-msgstr "Planlæg per Projekt"
+msgstr "Planlæg efter projekt"
 
 #. module: project_forecast
 #: model:ir.actions.act_window,name:project_forecast.project_forecast_action_schedule_by_employee
 msgid "Schedule by Resource"
-msgstr ""
+msgstr "Planlæg efter ressource"
 
 #. module: project_forecast
 #: model_terms:ir.actions.act_window,help:project_forecast.planning_action_schedule_by_project
@@ -146,12 +146,12 @@ msgstr ""
 #. module: project_forecast
 #: model:ir.model,name:project_forecast.model_planning_slot_template
 msgid "Shift Template"
-msgstr "Vagt skabelon"
+msgstr "Vagtskabelon"
 
 #. module: project_forecast
 #: model:planning.role,name:project_forecast.planning_role_tester
 msgid "Tester"
-msgstr ""
+msgstr "Tester"
 
 #. module: project_forecast
 #. odoo-python
@@ -162,6 +162,11 @@ msgid ""
 "To change it, first clear the company field for the project. Then move the "
 "shifts to the new company, and update the project's company."
 msgstr ""
+"Du kan ikke ændre virksomheden for projektet %(project_name)s, da det er "
+"knyttet til vagter i en anden virksomhed.\n"
+"For at ændre dette skal du først fjerne virksomheden fra projektet. Derefter "
+"skal du flytte vagterne til den nye virksomhed og opdatere projektets "
+"virksomhed."
 
 #~ msgid "Plan your resources on project tasks"
 #~ msgstr "Planlæg dine ressourcer på projektopgaver"

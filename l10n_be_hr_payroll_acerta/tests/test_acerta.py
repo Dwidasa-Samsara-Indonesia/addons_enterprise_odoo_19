@@ -31,7 +31,7 @@ class TestHrPayrollPayrollAcerta(TransactionCase):
             'company_id': cls.company.id,
             'contract_date_start': datetime(2024, 10, 1),
             'contract_date_end': datetime(2024, 10, 31),
-            'acerta_code': '12345678901234567890',
+            'acerta_code': '12345678901234567',
             'wage': 3000,
             'date_version': datetime(2024, 10, 1).date(),
         })
@@ -45,7 +45,7 @@ class TestHrPayrollPayrollAcerta(TransactionCase):
     def test_hr_version_acerta_code_zfill(self):
         """Test hr.version acerta_code shorter than 20 chars is zero-padded"""
         self.version.write({'acerta_code': '12345'})
-        self.assertEqual(len(self.version.acerta_code), 20)
+        self.assertEqual(len(self.version.acerta_code), 17)
         self.assertTrue(self.version.acerta_code.endswith('12345'))
 
     def test_work_entry_type_acerta_code_validation(self):

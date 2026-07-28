@@ -8,6 +8,12 @@ download._download = async function (options) {
         if (odoo.csrf_token) {
             options.csrf_token = odoo.csrf_token;
         }
+
+        const parsedUrl = URL.parse(options.url);
+        if (parsedUrl) {
+            options.url = `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+        }
+
         mobile.methods.downloadFile(options);
         // There is no need to wait downloadFile because we delegate this to
         // Download Manager Service where error handling will be handled correclty.

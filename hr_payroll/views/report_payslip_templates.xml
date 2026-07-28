@@ -74,7 +74,7 @@
                                     <span t-if="o.date_from &lt; o.version_id.contract_date_start" t-field="o.version_id.contract_date_start"/>
                                     <span t-else="" t-field="o.date_from"/>
                                     -
-                                    <span t-out="end_date"/>
+                                    <span t-out="end_date" t-options="{'widget': 'date'}"/>
                                 </div>
                                 <div id="computed_on">
                                     <strong class="me-2">Computed On:</strong>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div id="contract_start">
                                     <strong class="me-2">Entry Date:</strong>
-                                    <span t-out="o.version_id.employee_id.with_context(before_date=end_date)._get_first_contract_date()"/>
+                                    <span t-out="o.version_id.employee_id.with_context(before_date=end_date)._get_first_contract_date()" t-options="{'widget': 'date'}"/>
                                 </div>
                                 <div id="contract_type" t-if="o.version_id.contract_type_id">
                                     <strong class="me-2">Contract Type:</strong>

@@ -78,6 +78,6 @@ class DanishReportCustomHandler(models.AbstractModel):
             raise UserError(_(
                 "Something went wrong:\n%s",
                 "\n".join(
-                    self.ERROR_MESSAGES.get(error_code.text) or error_code.text for error_code in error_codes
+                    str(self.ERROR_MESSAGES.get(error_code.text)) or error_code.text for error_code in error_codes
                 )
             ))

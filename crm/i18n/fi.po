@@ -29,16 +29,16 @@
 # Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2022
 # Kari Lindgren <kari.lindgren@emsystems.fi>, 2022
 # Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2023
-# "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tiffany Chang (tic)" <tic@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # Saara Hakanen <sahak@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-20 18:35+0000\n"
-"PO-Revision-Date: 2026-03-14 09:32+0000\n"
-"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
+"PO-Revision-Date: 2026-06-30 04:47+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/crm/fi/>"
 "\n"
 "Language: fi\n"
@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team__lead_all_assigned_month_count
@@ -225,8 +225,8 @@ msgid ""
 "                                    <span class=\"o_stat_text\" "
 "invisible=\"duplicate_lead_count &gt; 1\">Similar Lead</span>"
 msgstr ""
-"<span class=\"o_stat_text\" invisible=\"duplicate_lead_count &lt; "
-"2\">Samankaltaiset liidit </span>\n"
+"<span class=\"o_stat_text\" invisible=\"duplicate_lead_count &lt; 2\">"
+"Samankaltaiset liidit </span>\n"
 "                                    <span class=\"o_stat_text\" "
 "invisible=\"duplicate_lead_count &gt; 1\">Samanlainen liidi</span>"
 
@@ -238,8 +238,8 @@ msgid ""
 "invisible=\"use_leads\">Opportunities</span>"
 msgstr ""
 "<span class=\"o_stat_text\" invisible=\"not use_leads\">Liidit</span>\n"
-"                        <span class=\"o_stat_text\" "
-"invisible=\"use_leads\">Myyntimahdollisuudet</span>"
+"                        <span class=\"o_stat_text\" invisible=\"use_leads\">"
+"Myyntimahdollisuudet</span>"
 
 #. module: crm
 #: model_terms:ir.ui.view,arch_db:crm.crm_lost_reason_view_form
@@ -438,14 +438,14 @@ msgstr ""
 "                    <span style=\"font-size: 20px; font-weight: bold;\" t-"
 "out=\"object.name or ''\">Kiinnostus tuotteitasi kohtaan</span>\n"
 "                </td><td valign=\"middle\" align=\"right\">\n"
-"                    <img t-attf-src=\"/logo.png?"
-"company={{ object.company_id.id }}\" style=\"padding: 0px; margin: 0px; "
-"height: 48px;\" t-att-alt=\"object.company_id.name\"/>\n"
+"                    <img t-attf-src=\"/logo.png?company={{ "
+"object.company_id.id }}\" style=\"padding: 0px; margin: 0px; height: 48px;\" "
+"t-att-alt=\"object.company_id.name\"/>\n"
 "                </td></tr>\n"
 "                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
-"                    <hr width=\"100%\" style=\"background-"
-"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
-"size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;\"/>\n"
+"                    <hr width=\"100%\" style=\"background-color:rgb"
+"(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-"
+"height:1px;line-height:0; margin:4px 0px 32px 0px;\"/>\n"
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -471,16 +471,16 @@ msgstr ""
 "                            Ota rohkeasti yhteyttä koska tahansa!<br/><br/>\n"
 "                            Parhain terveisin,<br/>\n"
 "                            <t t-if=\"object.user_id\">\n"
-"                                <b><t t-out=\"object.user_id.name or "
-"''\">Marc Demo</t></b>\n"
+"                                <b><t t-out=\"object.user_id.name or ''\">"
+"Marc Demo</t></b>\n"
 "                                <br/>Sähköposti: <t t-"
 "out=\"object.user_id.email or ''\">mark.brown23@esimerkki.com</t>\n"
 "                                <br/>Puhelin: <t t-"
 "out=\"object.user_id.phone or ''\">+1 650-123-4567</t>\n"
 "                            </t>\n"
 "                            <t t-else=\"\">\n"
-"                                <t t-out=\"object.company_id.name or "
-"''\">Yritykseni (Kerava)</t>\n"
+"                                <t t-out=\"object.company_id.name or ''\">"
+"Yritykseni (Kerava)</t>\n"
 "                            </t>\n"
 "                        </div>\n"
 "                    </td>\n"
@@ -492,18 +492,18 @@ msgstr ""
 "    <tr>\n"
 "        <td align=\"center\" style=\"min-width: 590px; padding: 0 8px 0 8px; "
 "font-size:11px;\">\n"
-"            <hr width=\"100%\" style=\"background-"
-"color:rgb(204,204,204);border:medium none;clear:both;display:block;font-"
-"size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;\"/>\n"
-"            <b t-out=\"object.company_id.name or ''\">Yritykseni (Kerava)</"
-"b><br/>\n"
+"            <hr width=\"100%\" style=\"background-color:rgb(204,204,204)"
+";border:medium none;clear:both;display:block;font-size:0px;min-"
+"height:1px;line-height:0; margin: 16px 0px 4px 0px;\"/>\n"
+"            <b t-out=\"object.company_id.name or ''\">Yritykseni (Kerava)</b>"
+"<br/>\n"
 "            <div style=\"color: #999999;\">\n"
 "                <t t-out=\"object.company_id.phone or ''\">+1 650-123-4567</"
 "t>\n"
 "                <t t-if=\"object.company_id.email\">\n"
-"                    | <a t-attf-href=\"'mailto:%s' % "
-"{{ object.company_id.email }}\" style=\"text-decoration:none; color: "
-"#999999;\" t-out=\"object.company_id.email or ''\">info@yritykseni.com</a>\n"
+"                    | <a t-attf-href=\"'mailto:%s' % {{ "
+"object.company_id.email }}\" style=\"text-decoration:none; color: #999999;\" "
+"t-out=\"object.company_id.email or ''\">info@yritykseni.com</a>\n"
 "                </t>\n"
 "                <t t-if=\"object.company_id.website\">\n"
 "                    | <a t-attf-href=\"'%s' % {{ object.company_id.website }}"
@@ -518,9 +518,9 @@ msgstr ""
 "</td></tr>\n"
 "<!-- POWERED BY -->\n"
 "<tr><td align=\"center\" style=\"min-width: 590px;\">\n"
-"    Palvelun tarjoaa <a target=\"_blank\" href=\"https://www.odoo.com?"
-"utm_source=db&amp;utm_medium=email\" t-attf-style=\"color: "
-"{{object.company_id.email_secondary_color or '#875A7B'}};;\">Odoo</a>\n"
+"    Palvelun tarjoaa <a target=\"_blank\" href=\"https://"
+"www.odoo.com?utm_source=db&amp;utm_medium=email\" t-attf-style=\"color: {"
+"{object.company_id.email_secondary_color or '#875A7B'}};;\">Odoo</a>\n"
 "</td></tr>\n"
 "</table>\n"
 "        "
@@ -829,8 +829,8 @@ msgstr ""
 "Koska et ole minkään myyntitiimin jäsen, sinulle näytetään <b>oletuksena "
 "ensimmäisen tiimin</b>myyntiputki.\n"
 "                                        Jotta voisit työskennellä CRM-"
-"järjestelmässä, sinun on <a name=\"%d\" type=\"action\" "
-"tabindex=\"-1\">liityttävä tiimiin</a>"
+"järjestelmässä, sinun on <a name=\"%d\" type=\"action\" tabindex=\"-1\">"
+"liityttävä tiimiin</a>"
 
 #. module: crm
 #. odoo-python
@@ -972,27 +972,27 @@ msgstr "Viestin palautuminen"
 #: model_terms:ir.ui.view,arch_db:crm.digest_digest_view_form
 #: model_terms:ir.ui.view,arch_db:crm.res_config_settings_view_form
 msgid "CRM"
-msgstr "CRM-järjestelmä"
+msgstr "CRM"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_activity_report
 msgid "CRM Activity Analysis"
-msgstr "CRM-järjestelmän toimenpiteiden analyysi"
+msgstr "CRM-toimenpideanalyysi"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_recurring_plan
 msgid "CRM Recurring revenue plans"
-msgstr "CRM-järjestelmän toistuvien tulojen suunnitelmat"
+msgstr "CRM: toistuvan liikevaihdon suunnitelmat"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_stage
 msgid "CRM Stages"
-msgstr "CRM-järjestelmän vaiheet"
+msgstr "CRM-vaiheet"
 
 #. module: crm
 #: model:ir.actions.server,name:crm.ir_cron_crm_lead_assign_ir_actions_server
 msgid "CRM: Lead Assignment"
-msgstr "CRM-järjestelmä: liidien kohdennus"
+msgstr "CRM: liidien kohdennus"
 
 #. module: crm
 #: model:ir.model,name:crm.model_calendar_event
@@ -1406,7 +1406,7 @@ msgstr "Luo myyntimahdollisuus"
 #: code:addons/crm/models/crm_lead.py:0
 #: model_terms:ir.ui.view,arch_db:crm.crm_action_helper
 msgid "Create an opportunity to start playing with your pipeline."
-msgstr "Luo uusi myyntimahdollisuus aloittaakseni myyntiputken käytön."
+msgstr "Luo uusi myyntimahdollisuus aloittaaksesi myyntiputken käytön."
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead2opportunity_partner__create_uid
@@ -1455,7 +1455,7 @@ msgstr "Luontipäivä"
 #. module: crm
 #: model:ir.actions.server,name:crm.action_opportunity_forecast
 msgid "Crm: Forecast"
-msgstr "CRM-järjestelmä: Ennuste"
+msgstr "CRM: Ennuste"
 
 #. module: crm
 #: model:ir.actions.server,name:crm.action_your_pipeline
@@ -1835,7 +1835,7 @@ msgstr "Kenttä"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_scoring_frequency_field__name
 msgid "Field Label"
-msgstr "Kentän otsikko"
+msgstr "Kentän nimi"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_lead__phone_sanitized
@@ -2158,8 +2158,7 @@ msgstr "Onko automaattinen todennäköisyys?"
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_lead__duration_tracking
 msgid "JSON that maps ids from a many2one field to seconds spent"
-msgstr ""
-"JSON, joka kartoittaa many2one-kentän tunnukset käytetyiksi sekunneiksi"
+msgstr "JSON, joka kartoittaa many2one-kentän tunnukset käytetyiksi sekunneiksi"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead__function
@@ -2174,12 +2173,12 @@ msgstr "Tehtävänimike:"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_digest_digest__kpi_crm_lead_created_value
 msgid "Kpi Crm Lead Created Value"
-msgstr "KPI-mittaristo CRM-järjestelmä Liidi Luotu Arvo"
+msgstr "Kpi CRM Liidi Luotu arvo"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_digest_digest__kpi_crm_opportunities_won_value
 msgid "Kpi Crm Opportunities Won Value"
-msgstr "KPI-mittaristo CRM-järjestelmä Myyntimahdollisuudet Voitettu Arvo"
+msgstr "Kpi CRM Myyntimahdollisuudet Voitettu arvo"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead__lang_active_count
@@ -2733,8 +2732,7 @@ msgstr "Tapaamiset"
 msgid ""
 "Member assignment domain for user %(user)s and team %(team)s is incorrectly "
 "formatted"
-msgstr ""
-"Käyttäjän %(user)s ja tiimin %(team)s kohdistusalue on muotoiltu väärin"
+msgstr "Käyttäjän %(user)s ja tiimin %(team)s kohdistusalue on muotoiltu väärin"
 
 #. module: crm
 #. odoo-python
@@ -3533,7 +3531,7 @@ msgstr "Toistuvat suunnitelmat"
 #. module: crm
 #: model_terms:ir.ui.view,arch_db:crm.crm_case_tree_view_oppor
 msgid "Recurring Revenue"
-msgstr "Toistuva tulo"
+msgstr "Toistuva liikevaihto"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead__recurring_revenue
@@ -3732,7 +3730,7 @@ msgstr "Lähetä sähköposti"
 #: model:ir.model.fields,field_description:crm.field_crm_recurring_plan__sequence
 #: model:ir.model.fields,field_description:crm.field_crm_stage__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: crm
 #: model_terms:ir.actions.act_window,help:crm.crm_recurring_plan_action
@@ -4100,8 +4098,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_lead__lang_code
 msgid "This field is used to set/get locales for user"
-msgstr ""
-"Tämän kentän avulla haetaan/asetetaan käyttäjän aluekohtaiset asetukset"
+msgstr "Tämän kentän avulla haetaan/asetetaan käyttäjän aluekohtaiset asetukset"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_lead__campaign_id

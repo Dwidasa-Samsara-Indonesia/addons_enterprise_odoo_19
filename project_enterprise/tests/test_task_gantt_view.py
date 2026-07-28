@@ -331,3 +331,25 @@ class TestTaskGanttView(TestProjectCommon):
         start_date, stop_date = Datetime.now().strftime('%Y-%m-%d 00:00:00'), (Datetime.now() + relativedelta(days=30)).strftime('%Y-%m-%d 23:59:59')
         gantt_data = Task.get_gantt_data([], group_by, {'display_name': {}}, unavailability_fields=group_by, progress_bar_fields=group_by, start_date=start_date, stop_date=stop_date, scale='month')
         self.assertEqual(gantt_data["unavailabilities"]['user_ids'][False], [], 'There should be no unavailability intervals when the company calendar has flexible hours.')
+
+    def test_gantt_unavailability_flexible_employee_no_leaves(self):
+        """Flex employee with no leaves should have no Gantt unavailabilities."""
+        flex_calendar = self.env['resource.calendar'].create({
+            'name': 'Flexible Test Calendar',
+            'flexible_hours': True,
+        })
+        self.env['resource.resource'].create({
+            'name': self.user_gantt_test_1.name,
+            'user_id': self.user_gantt_test_1.id,
+            'calendar_id': flex_calendar.id,
+            'company_id': self.env.company.id,
+        })
+        start = Datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        stop = start + relativedelta(days=30)
+        result = self.env['project.task']._gantt_unavailability(
+            'user_ids', [self.user_gantt_test_1.id], start, stop, 'month'
+        )
+        self.assertEqual(
+            result[self.user_gantt_test_1.id], [],
+            "Flex employee with no leaves should have no unavailabilities.",
+        )

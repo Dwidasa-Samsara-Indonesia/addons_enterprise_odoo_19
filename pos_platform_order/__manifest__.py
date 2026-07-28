@@ -28,6 +28,9 @@ This module integrates the Odoo Point of Sale with various ordering platforms.
         'web.assets_tests': [
             'pos_platform_order/static/tests/tours/**/*',
         ],
+        'web.assets_unit_tests': [
+            'pos_platform_order/static/tests/unit/**/*',
+        ],
     },
     'author': 'Odoo S.A.',
     'license': 'OEEL-1',

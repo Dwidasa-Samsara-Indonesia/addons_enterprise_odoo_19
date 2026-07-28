@@ -40,5 +40,5 @@ test("FSM project.task (form) shows template action in multiple FSM projects", a
     });
 
     await contains(".o_form_button_create").click();
-    expect(queryAllTexts(".o-task-template")).toEqual(["FSM Task Template1", "FSM Task Template2"]);
+    expect(queryAllTexts(".o-task-template:not(.o-new-task)")).toEqual(["FSM Task Template1", "FSM Task Template2"]);
 });

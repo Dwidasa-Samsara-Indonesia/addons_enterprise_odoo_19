@@ -1,12 +1,13 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import base64
+from codecs import BOM_UTF8
 from collections import defaultdict
 from datetime import date
 
 from lxml.html import etree
 
-from odoo import api, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -50,6 +51,14 @@ class L10n_HkIr56f(models.Model):
                 "The following employees don't have a valid departure reason: %s",
                 invalid_lines.employee_id.mapped("name"),
             )
+        invalid_lines = self.line_ids.filtered(
+            lambda line: line.employee_id.departure_reason_id.l10n_hk_ir56f_code == '5' and not line.employee_id.departure_description
+        )
+        if invalid_lines:
+            error_messages += "\n" + self.env._(
+                "The following employees don't have a reason set for their departure of type 'Other': %s",
+                invalid_lines.employee_id.mapped("name"),
+            )
         return error_messages
 
     def _get_rendering_data(self, employees):
@@ -70,7 +79,7 @@ class L10n_HkIr56f(models.Model):
         for payslip in all_payslips:
             employee_payslips[payslip.employee_id] |= payslip
 
-        line_codes = ['BASIC', 'COMMISSION', 'REFERRAL_FEE', 'END_OF_YEAR_PAYMENT', 'BACKPAY', 'ALW.INT', 'HRA', 'MPF_GROSS', 'EEMC', 'ERMC', 'EEVC', 'ERVC']
+        line_codes = ['BASIC', 'COMMISSION', 'REFERRAL_FEE', 'END_OF_YEAR_PAYMENT', 'BACKPAY', 'ALW.INT', 'HRA', 'MPF_GROSS', 'EEMC', 'ERMC', 'EEVC', 'ERVC', 'GLOBAL_REIMBURSEMENT', 'GLOBAL_DEDUCTION']
         all_line_values = all_payslips._get_line_values(line_codes, vals_list=['total', 'quantity'])
 
         sequence = 0
@@ -95,8 +104,8 @@ class L10n_HkIr56f(models.Model):
 
             departure_code = sheet_line.employee_id.departure_reason_id.l10n_hk_ir56f_code
             if departure_code == '5':
-                departure_reason_other = sheet_line.employee_id.departure_description
-                departure_reason_str = sheet_line.employee_id.departure_description
+                departure_reason_other = fields.Html.to_plaintext(sheet_line.employee_id.departure_description)
+                departure_reason_str = fields.Html.to_plaintext(sheet_line.employee_id.departure_description)
             elif departure_code:
                 departure_reason_other = ''
                 departure_reason_str = {
@@ -106,6 +115,7 @@ class L10n_HkIr56f(models.Model):
                     '4': 'Death',
                 }[departure_code]
 
+            year_of_return = end_date.year if end_date.month < 4 else end_date.year + 1
             sheet_values = {
                 **self._get_employee_data(employee),
                 **self._get_employee_spouse_data(employee),
@@ -117,10 +127,10 @@ class L10n_HkIr56f(models.Model):
                 'CESSATION_REASON': departure_code,
                 'CESSATION_REASON_OTHER': departure_reason_other,
                 'cessation_reason_str': departure_reason_str,
-                'RTN_ASS_YR': self.end_year,
+                'RTN_ASS_YR': year_of_return,
                 'StartDateOfEmp': start_date,
                 'EndDateOfEmp': end_date,
-                'AmtOfSalary': int(mapped_total['BASIC']),
+                'AmtOfSalary': int(mapped_total['BASIC'] + mapped_total['GLOBAL_REIMBURSEMENT'] + mapped_total['GLOBAL_DEDUCTION']),
                 'AmtOfCommFee': int(mapped_total['COMMISSION']) + int(mapped_total['REFERRAL_FEE']),
                 'AmtOfBonus': int(mapped_total['END_OF_YEAR_PAYMENT']),
                 'AmtOfBpEtc': int(mapped_total['BACKPAY']),
@@ -185,9 +195,9 @@ class L10n_HkIr56f(models.Model):
 
         # Prettify xml string
         root = etree.fromstring(xml_str, parser=etree.XMLParser(remove_blank_text=True))
-        xml_formatted_str = etree.tostring(root, pretty_print=True, encoding='utf-8', xml_declaration=True, standalone=True)
+        xml_formatted_str = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True, standalone=True)
 
-        self.xml_file = base64.encodebytes(xml_formatted_str)
+        self.xml_file = base64.encodebytes(BOM_UTF8 + xml_formatted_str)
         self.state = 'waiting'
 
     def _get_pdf_report(self):

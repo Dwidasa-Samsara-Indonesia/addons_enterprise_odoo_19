@@ -609,7 +609,11 @@ class DMFAOccupation(DMFANode):
             days_per_week = 5.0
             mean_working_hours = 38.0
         else:
-            days_per_week = 5 * contract.resource_calendar_id.work_time_rate / 100
+            if contract.resource_calendar_id.work_time_rate == 100:
+                days_per_week = contract.resource_calendar_id._get_days_per_week()
+            else:
+                reference_days_per_week = contract.company_id.resource_calendar_id._get_days_per_week() if contract.company_id.resource_calendar_id else 5
+                days_per_week = reference_days_per_week * contract.resource_calendar_id.work_time_rate / 100
             mean_working_hours = contract.resource_calendar_id.hours_per_week
 
         self.days_per_week = format_amount(days_per_week, width=3)
@@ -637,6 +641,8 @@ class DMFAOccupation(DMFANode):
             if wd.work_entry_type_id.dmfa_code != '-1' and wd.work_entry_type_id.code not in ['OUT', 'LEAVE300', 'LEAVE510', 'MEDIC01']:
                 services_by_dmfa_code[wd.work_entry_type_id.dmfa_code] |= wd
         skip_remun = all(dmfa_code in ['30', '50', '52'] for dmfa_code in services_by_dmfa_code.keys())
+        # Do not skip remun if there is some remunerations not linked to worked days (PFA, etc)
+        skip_remun = skip_remun and not any(p.basic_wage and p.struct_id.code in ['CP200TERM', 'CP200HOLN', 'CP200HOLN1', 'CP200THIRTEEN'] for p in self.payslips)
         return (DMFAService.init_multi([(wds,) for wds in services_by_dmfa_code.values()]), skip_remun)
 
     def _prepare_remunerations(self):
@@ -1273,6 +1279,8 @@ class L10n_BeDmfaLocationUnit(models.Model):
 
     def _get_code(self):
         self.ensure_one()
+        if self.code and not self.code.isdigit():
+            raise ValidationError(self.env._("The DMFA location code must contain only numbers."))
         return self.code
 
     _unique = models.Constraint(

@@ -1,6 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from freezegun import freeze_time
+import base64
 
 from odoo import Command
 from odoo.tests import tagged, Form
@@ -75,25 +76,44 @@ class TestPayslipRun(L10nPayrollAccountCommon):
 
         self.assertEqual(payslip_run.l10n_au_payment_batch_id.state, "reconciled", "Batch Should be in reconciled state!")
 
+    @freeze_time("2023-01-31")
     def test_payslip_aba(self):
+        # ABA file generation can be done from both Payslip Batch and Batch Payment
         payslip_run = self._prepare_payslip_run()
+        payslip_run.slip_ids.flush_recordset()
+
         self.assertEqual(
             payslip_run.state, "02_close", "Payslip run should be in close state"
         )
+        # Post journal entries and generate aba file from Payment Batch first
+        # Using the hr.payroll.payment.report.wizard first will replace the export file generated on batch payment
+        payslip_run.slip_ids.move_id._post()
+        self._register_payment(payslip_run)
+        payslip_run.l10n_au_payment_batch_id.validate_batch()
+        self.assertTrue(payslip_run.l10n_au_payment_batch_id.export_file, "Aba file should be generated on payment batch!")
+
+        # Generate ABA file from Payslip Run
+        # hr.payroll.payment.report.wizard
         action = payslip_run.action_payment_report('aba')
         self.env["hr.payroll.payment.report.wizard"].with_context(
             **action["context"]
         ).create({}).generate_payment_report()
-        self.assertTrue(payslip_run.payment_report, "Aba File should be generated!")
-
-        payslip_run.slip_ids.move_id._post()
-        self._register_payment(payslip_run)
-        payslip_run.l10n_au_payment_batch_id.validate_batch()
+        self.assertTrue(payslip_run.payment_report, "Aba file should be generated on payslip wizard!")
 
         self.assertEqual(
             payslip_run.l10n_au_payment_batch_id.export_file,
             payslip_run.payment_report
         )
+
+        file = base64.b64decode(payslip_run.payment_report).decode()
+        expected_lines = [
+            "0                 01CBA       Test Ltd                  111111PAYROLL     310123",
+            f"1654-321  123-888 530000537500Harry                           {str(payslip_run.slip_ids[0].id).ljust(18)}123-456 12344321company_1_data  00000000",
+            f"1123-456  123-777 530000406800mel (hr.group_hr_manager)       {str(payslip_run.slip_ids[1].id).ljust(18)}123-456 12344321company_1_data  00000000",
+            "7999-999            000094430000009443000000000000                        000002",
+        ]
+        actual_lines = [line.strip() for line in file.split('\r\n')][:-1]
+        self.assertListEqual(actual_lines, expected_lines, "ABA file content mismatch")
 
     def test_single_payslip_payment(self):
         payslip_run = self._prepare_payslip_run()

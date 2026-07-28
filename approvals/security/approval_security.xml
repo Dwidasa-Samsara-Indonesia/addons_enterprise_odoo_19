@@ -134,17 +134,6 @@
             <field name="domain_force">[('approval_request_id.request_status','=','cancel')]</field>
         </record>
 
-        <record id="approval_approver_manager" model="ir.rule">
-            <field name="name">Approval Approver: manage all</field>
-            <field name="model_id" ref="model_approval_approver"/>
-            <field name="groups" eval="[(4, ref('group_approval_user'))]"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="1"/>
-            <field name="perm_unlink" eval="0"/>
-            <field name="domain_force">[(1, '=', 1)]</field>
-        </record>
-
         <record id="approval_approver_manager_unlink" model="ir.rule">
             <field name="name">Approval Approver: unlink unapproved</field>
             <field name="model_id" ref="model_approval_approver"/>
@@ -171,7 +160,7 @@
         <record id="approval_approver_manager" model="ir.rule">
             <field name="name">Approval Approver: manager</field>
             <field name="model_id" ref="model_approval_approver"/>
-            <field name="groups" eval="[(4, ref('group_approval_manager'))]"/>
+            <field name="groups" eval="[(4, ref('group_approval_user')), (4, ref('group_approval_manager'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>

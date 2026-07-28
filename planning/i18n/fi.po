@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 18:44+0000\n"
-"PO-Revision-Date: 2026-04-13 09:42+0000\n"
+"POT-Creation-Date: 2026-07-17 17:43+0000\n"
+"PO-Revision-Date: 2026-07-07 17:13+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/planning/"
 "fi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: planning
 #. odoo-python
@@ -738,12 +738,12 @@ msgstr ""
 "out=\"ctx['employee'].name or ''\">Anita Oliver</t>,</p>\n"
 "                    <p t-else=\"\">Hei,</p>\n"
 "                    <br/>\n"
-"                    <p t-if=\"ctx.get('start_datetime') and ctx.get"
-"('end_datetime')\">\n"
-"                        Tulevat työvuorosi <t t-out=\"format_date"
-"(ctx['start_datetime'])\">05.05.2021</t>\n"
-"                        ja <t t-out=\"format_date(ctx['end_datetime'])\">"
-"11.05.2021</t> välillä on julkaistu.\n"
+"                    <p t-if=\"ctx.get('start_datetime') and "
+"ctx.get('end_datetime')\">\n"
+"                        Tulevat työvuorosi <t t-"
+"out=\"format_date(ctx['start_datetime'])\">05.05.2021</t>\n"
+"                        ja <t t-out=\"format_date(ctx['end_datetime'])"
+"\">11.05.2021</t> välillä on julkaistu.\n"
 "                    </p>\n"
 "                    <div style=\"display: flex; margin: 15px;\">\n"
 "                        <div t-if=\"ctx.get('planning_url')\" style=\"margin-"
@@ -751,8 +751,8 @@ msgstr ""
 "                            <a t-att-href=\"ctx['planning_url']\" "
 "target=\"_blank\" class=\"planning_mail_template_button\" t-attf-"
 "style=\"color: {{object.company_id.email_primary_color or '#FFFFFF'}}; "
-"background-color: {{object.company_id.email_secondary_color or '#875A7B'}}"
-";\">Näytä suunnitelmasi</a>\n"
+"background-color: {{object.company_id.email_secondary_color or '#875A7B'}};"
+"\">Näytä suunnitelmasi</a>\n"
 "                        </div>\n"
 "                        <div t-if=\"ctx.get('planning_url_ics')\">\n"
 "                            <a t-att-href=\"ctx['planning_url_ics']\" "
@@ -777,8 +777,8 @@ msgstr ""
 "alkua.\n"
 "                        </t>\n"
 "                    </p>\n"
-"                    <p t-if=\"ctx.get('message')\" t-out=\"ctx['message']\"/>"
-"\n"
+"                    <p t-if=\"ctx.get('message')\" t-out=\"ctx['message']\"/"
+">\n"
 "                    <p t-if=\"object.allow_self_unassign\">Jos nykyinen "
 "aikataulusi ei sovi sinulle, kehotamme sinua ottamaan yhteyttä kollegoihisi "
 "ja pyytämään vuoronvaihtoa. He saattavat olla kiinnostuneita vaihtamaan "
@@ -942,7 +942,7 @@ msgstr "Nuoli"
 #. odoo-javascript
 #: code:addons/planning/static/src/components/conflicting_slot_ids_field/conflicting_slot_ids_field.xml:0
 msgid "Arrow icon"
-msgstr "Nuolen kuvake"
+msgstr "Nuolikuvake"
 
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_form
@@ -2490,7 +2490,7 @@ msgstr "Vuoroluettelo"
 #. module: planning
 #: model:ir.model,name:planning.model_planning_slot_template
 msgid "Shift Template"
-msgstr "Vuoron malli"
+msgstr "Vuoropohja"
 
 #. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_slot_template_view_form
@@ -2742,9 +2742,9 @@ msgstr "Aloitustunti ei voi olla negatiivinen."
 #. odoo-python
 #: code:addons/planning/models/planning_template.py:0
 msgid ""
-"The start hour cannot be before the end hour for a one-day shift template."
+"The start hour cannot be after the end hour for a one-day shift template."
 msgstr ""
-"Aloitustunti ei voi olla ennen lopputuntia yhden päivän työvuoromallissa."
+"Yhden päivän vuoropohjassa aloitusaika ei voi olla päättymisajan jälkeen."
 
 #. module: planning
 #. odoo-python
@@ -2965,8 +2965,8 @@ msgid ""
 "needing to complete a mission. Then, assign those open shifts to the "
 "resources that are available.</i>"
 msgstr ""
-"Kirjoita, <b>mitä</b> tehtäviä työntekijäsi hoitaa<i>(esim. kokki, "
-"baarimikko, tarjoilija jne</i>.). <i>Vinkki: Luo avoimia vuoroja rooleille, "
+"Kirjoita, <b>mitä</b> tehtäviä työntekijäsi suorittaa<i>(esim. kokki, "
+"baarimikko, tarjoilija, jne</i>.). <i>Vinkki: Luo avoimia vuoroja rooleille, "
 "joita tarvitset tehtävän suorittamiseen. Määritä sitten nämä avoimet vuorot "
 "käytettävissä oleville resursseille.</i>"
 
@@ -3140,6 +3140,11 @@ msgid "e.g. John Doe"
 msgstr "esim. Matti Meikäläinen"
 
 #. module: planning
+#: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban
+msgid "h"
+msgstr ""
+
+#. module: planning
 #: model_terms:ir.ui.view,arch_db:planning.planning_view_kanban_inherit
 msgid "other shift(s) in conflict."
 msgstr "muut ristiriidassa olevat vuorot."
@@ -3176,6 +3181,11 @@ msgstr "->"
 #: model:mail.template,subject:planning.email_template_slot_single
 msgid "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
 msgstr "{{ ctx.get('mail_subject', '') }} {{ ctx.get('start_datetime' , '') }}"
+
+#~ msgid ""
+#~ "The start hour cannot be before the end hour for a one-day shift template."
+#~ msgstr ""
+#~ "Aloitustunti ei voi olla ennen lopputuntia yhden päivän työvuoromallissa."
 
 #~ msgid "The work email is missing for the following employees:"
 #~ msgstr "Työsähköposti puuttuu seuraavilta työntekijöiltä:"

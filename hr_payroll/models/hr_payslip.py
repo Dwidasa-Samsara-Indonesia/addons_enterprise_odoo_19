@@ -50,7 +50,7 @@ class HrPayslip(models.Model):
         compute='_compute_name', store=True, readonly=False)
     employee_id = fields.Many2one(
         'hr.employee', string='Employee', required=True, index=True,
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id), '|', ('active', '=', True), ('active', '=', False)]")
+        domain="['|', ('company_id', '=', False), ('company_id', 'child_of', company_id), '|', ('active', '=', True), ('active', '=', False)]")
     employee_reference = fields.Char(related='employee_id.registration_number')
     image_128 = fields.Image(related='employee_id.image_128')
     image_1920 = fields.Image(related='employee_id.image_1920')
@@ -121,8 +121,8 @@ class HrPayslip(models.Model):
         readonly=False,
         index=True,
         domain="""[
-            ('contract_date_start', '<=', date_end),
-            '|', ('contract_date_end', '=', False), ('contract_date_end', '>=', date_from)
+            ('date_start', '<=', date_to),
+            '|', ('date_end', '=', False), ('date_end', '>=', date_from)
         ]""",
     )
     credit_note = fields.Boolean(
@@ -204,7 +204,7 @@ class HrPayslip(models.Model):
             is_second_week = week % 2 == 0
             date_from = today + relativedelta(days=-week_day - 7 * int(is_second_week))
         elif schedule == 'semi-monthly':
-            date_from = today.replace(day=1 if today.day < 15 else 15)
+            date_from = today.replace(day=1 if today.day < 16 else 16)
         elif schedule == 'bi-monthly':
             current_year_slice = math.ceil(today.month / 2)
             date_from = today.replace(day=1, month=(current_year_slice - 1) * 2 + 1)
@@ -260,7 +260,7 @@ class HrPayslip(models.Model):
         elif schedule == 'bi-weekly':
             timedelta = relativedelta(days=13)
         elif schedule == 'semi-monthly':
-            timedelta = relativedelta(day=15 if date_from.day < 15 else 31)
+            timedelta = relativedelta(day=15 if date_from.day < 16 else 31)
         elif schedule == 'bi-monthly':
             timedelta = relativedelta(months=2, days=-1)
         elif schedule == 'daily':
@@ -272,7 +272,7 @@ class HrPayslip(models.Model):
     def _get_schedule_timedelta(self):
         self.ensure_one()
         schedule = self.version_id.schedule_pay or self.version_id.structure_type_id.default_schedule_pay
-        return self._schedule_timedelta(schedule, self.date_from)
+        return self._schedule_timedelta(schedule, self.date_from, self.country_code)
 
     @api.depends('date_from', 'version_id', 'struct_id')
     def _compute_date_to(self):
@@ -396,7 +396,7 @@ class HrPayslip(models.Model):
         for payslip in self:
             payslip.is_regular = payslip.struct_id.type_id.default_struct_id == payslip.struct_id
 
-    @api.depends('employee_id.current_version_id', 'version_id.last_modified_date', 'date_from')
+    @api.depends('employee_id.current_version_id', 'version_id.last_modified_date', 'date_from', 'done_date')
     def _compute_is_wrong_version(self):
         for payslip in self.filtered(lambda slip: slip.state in ("validated", "paid")):
             payslip.is_wrong_version = payslip.employee_id and payslip.version_id \
@@ -483,9 +483,9 @@ class HrPayslip(models.Model):
             # NOTE: Since we combine multiple attachments on one input line, it's not possible to compute
             #  how much per attachment needs to be taken record_payment will consume monthly payments (child_support) before other attachments
             for slip in self.filtered(lambda r: r.salary_attachment_ids):
-                for deduction_codes, attachments in slip.salary_attachment_ids.grouped(lambda x: x.other_input_type_id.code).items():
+                for deduction_code, attachments in slip.salary_attachment_ids.grouped(lambda x: x.other_input_type_id.code).items():
                     # Use the amount from the computed value in the payslip lines not the input
-                    salary_lines = slip.line_ids.filtered(lambda r: r.code in deduction_codes)
+                    salary_lines = slip.line_ids.filtered(lambda r: r.code == deduction_code)
                     if not attachments or not salary_lines:
                         continue
                     slip._record_attachment_payment(attachments, salary_lines)
@@ -503,7 +503,7 @@ class HrPayslip(models.Model):
         for regular_payslip in self:
             payslip_start = regular_payslip.date_from
             payslip_end = regular_payslip.date_to
-            key = (regular_payslip.employee_id.id, regular_payslip.struct_id.id, payslip_start, payslip_end)
+            key = (regular_payslip.version_id.id, regular_payslip.struct_id.id, payslip_start, payslip_end)
             duplicates = similar_payslips[key].filtered(lambda dup: dup.id != regular_payslip.id)
             if duplicates:
                 continue
@@ -525,7 +525,8 @@ class HrPayslip(models.Model):
             'payment_report': False,
             'payment_report_filename': False,
             'payment_report_date': False,
-            'state': 'draft'
+            'state': 'draft',
+            'done_date': False,
         })
         self.action_draft_linked_entries()
         return True
@@ -585,6 +586,24 @@ class HrPayslip(models.Model):
                 (p.version_id.contract_date_end and p.version_id.contract_date_end < p.date_from)
             ))
 
+    def _get_payslip_send_trigger(self):
+        """ Return when payslips should be generated and sent ('on_confirmed', 'on_paid', or 'never'). """
+        # Read the global parameter, fall back to on_confirmed to preserve the historical behaviour.
+        return self.env['ir.config_parameter'].sudo().get_param(
+            'hr_payroll.payslip_generate_and_send_trigger', default='on_confirmed'
+        )
+
+    def _queue_for_send(self):
+        """ Mark payslips as queued for PDF generation and wake the cron. """
+        self.write({'queued_for_pdf': True})
+        # Do flush_all so the cron sees the updated queued_for_pdf flags right away.
+        self.env.flush_all()
+        payslip_cron = self.env.ref(
+            'hr_payroll.ir_cron_generate_payslip_pdfs', raise_if_not_found=False
+        )
+        if payslip_cron:
+            payslip_cron._trigger()
+
     def action_payslip_done(self):
         if any(slip.state == 'cancel' for slip in self):
             raise ValidationError(_("You can't confirm cancelled payslips."))
@@ -612,13 +631,14 @@ class HrPayslip(models.Model):
             work_entries.action_validate()
 
         if self.env.context.get('payslip_generate_pdf'):
-            if self.env.context.get('payslip_generate_pdf_direct'):
+            if self.env.context.get('payslip_generate_pdf_direct') or (
+                len(self) == 1 and self._get_payslip_send_trigger() == 'on_confirmed'
+            ):
+                # Single payslip confirmed: generate immediately so it appears in the chatter right away.
                 self._generate_pdf()
-            else:
-                self.write({'queued_for_pdf': True})
-                payslip_cron = self.env.ref('hr_payroll.ir_cron_generate_payslip_pdfs', raise_if_not_found=False)
-                if payslip_cron:
-                    payslip_cron._trigger()
+            elif self._get_payslip_send_trigger() == 'on_confirmed':
+                # Batch confirmation: queue so the cron can spread the work.
+                self._queue_for_send()
 
     def action_validate(self):
         self.filtered(lambda slip: slip.state == 'draft' and not slip.line_ids).compute_sheet()
@@ -628,7 +648,7 @@ class HrPayslip(models.Model):
         if not self.env.user.has_group('hr_payroll.group_hr_payroll_manager') \
             and self.filtered(lambda slip: slip.state == 'validated'):
             raise UserError(_("Cannot cancel a payslip that is validated."))
-        self.write({'state': 'cancel'})
+        self.write({'state': 'cancel', 'done_date': False})
         self.action_draft_linked_entries()
 
     def action_payslip_paid(self):
@@ -640,6 +660,9 @@ class HrPayslip(models.Model):
             'state': 'paid',
             'paid_date': fields.Date.today(),
         })
+        # Send payslips now if the company chose to deliver them on payment.
+        if self._get_payslip_send_trigger() == 'on_paid':
+            self._queue_for_send()
 
     def action_payslip_payment_report(self, export_format='csv'):
         self.ensure_one()
@@ -1370,8 +1393,8 @@ class HrPayslip(models.Model):
                     'level': 'warning',
                 })
 
-            if slip.employee_id and slip.struct_id and slip.date_from and slip.date_to:
-                key = (slip.employee_id.id, slip.struct_id.id, slip.date_from, slip.date_to)
+            if slip.version_id and slip.struct_id and slip.date_from and slip.date_to:
+                key = (slip.version_id.id, slip.struct_id.id, slip.date_from, slip.date_to)
                 duplicates = similar_payslips[key].filtered(lambda dup: dup.id != slip.id)
                 # Ignore duplicate warning if this slip is a refund of the original
                 if duplicates:
@@ -1494,20 +1517,20 @@ class HrPayslip(models.Model):
             slip.update({'worked_days_line_ids': slip._get_new_worked_days_lines()})
 
     def _get_similar_payslips(self):
-        done_payslips = self.filtered(lambda p: p.employee_id and p.struct_id and p.date_from and p.date_to)
+        done_payslips = self.filtered(lambda p: p.version_id and p.struct_id and p.date_from and p.date_to)
         search_domain = [
-            ('employee_id', 'in', done_payslips.employee_id.ids),
             ('struct_id', 'in', done_payslips.struct_id.ids),
             ('date_from', 'in', done_payslips.mapped('date_from')),
             ('date_to', 'in', done_payslips.mapped('date_to')),
-            ('state', 'in', ['validated', 'paid'])
+            ('state', 'in', ['validated', 'paid']),
+            ('version_id', 'in', done_payslips.version_id.ids),
         ]
         all_existing_payslips = self.env['hr.payslip'].search(search_domain)
 
         # Group existing slips for easy lookup
         existing_payslip_map = defaultdict(lambda: self.env['hr.payslip'])
         for slip in all_existing_payslips:
-            key = (slip.employee_id.id, slip.struct_id.id, slip.date_from, slip.date_to)
+            key = (slip.version_id.id, slip.struct_id.id, slip.date_from, slip.date_to)
             existing_payslip_map[key] |= slip
 
         return existing_payslip_map

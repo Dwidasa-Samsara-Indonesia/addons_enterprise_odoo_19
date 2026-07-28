@@ -4,6 +4,7 @@
 from unittest.mock import patch
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from copy import deepcopy
 
 from odoo import tests
 from odoo.fields import Date
@@ -93,3 +94,36 @@ class TestRuleParameter(TransactionCase):
                 rule_value.date_from = date.today() + relativedelta(months=2)
         new_rule = rule.save()
         self.assertTrue(new_rule.exists())
+
+    def test_rule_parameter_modified_cache(self):
+        """
+        Rule parameters are cached using @ormcache, functions using @ormcache
+        are not supposed to return mutable data (but rule params can be mutable)
+
+        This function tests whether _get_parameter_from_code() handles the issue
+        correctly (the issue being that cached mutable data's changes are
+        reflected for any subsequent calls)
+        """
+        rule_parameter = self.env['hr.rule.parameter'].create({
+            'name': 'Mutable Rule Parameter',
+            'code': 'mutable_rule_parameter',
+        })
+        mutable_data = [5, 0, 3]
+        self.env['hr.rule.parameter.value'].create({
+            'rule_parameter_id': rule_parameter.id,
+            'date_from': date(2015, 10, 10),
+            'parameter_value': deepcopy(mutable_data),
+        })
+        value = self.env['hr.rule.parameter']._get_parameter_from_code('mutable_rule_parameter')
+        self.assertEqual(
+            mutable_data, value, "Expected to get assigned parameter_value when calling _get_parameter_from_code()",
+        )
+        value.append(10)  # this should not affect subsequent calls to _get_parameter_from_code()
+        value = self.env['hr.rule.parameter']._get_parameter_from_code('mutable_rule_parameter')
+        self.assertEqual(
+            mutable_data, value, """
+_get_parameter_from_code() should always return the defined parameter_value,
+even if the return value has been modified by a caller at some point.
+This issue usually occurs when modifying cached mutable data.
+            """,
+        )

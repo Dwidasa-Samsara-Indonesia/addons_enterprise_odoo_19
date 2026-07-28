@@ -8,6 +8,9 @@ patch(ProductProduct.prototype, {
         this.checkEtimsFields = this.checkProductFields;
     },
     checkProductFields() {
+        if (this.isCombo()) {
+            return true;
+        }
         return (
             this.l10n_ke_packaging_unit_id &&
             this.l10n_ke_packaging_quantity &&

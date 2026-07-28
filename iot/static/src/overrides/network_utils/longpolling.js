@@ -24,13 +24,15 @@ patch(IoTLongpolling.prototype, {
      * @param onFailure Callback to run when the request fails (can return ``deviceIdentifier`` and ``messageId``)
      * @param requestId The request ID to listen for (optional)
      */
-    onMessage(
+    async onMessage(
         iotBoxIp,
         iotDeviceIdentifier,
         onSuccess = (_message, _deviceIdentifier, _messageId) => {},
         onFailure = (_message, _deviceIdentifier, _messageId) => {},
         requestId = null
     ) {
+        const { promise, reject } = Promise.withResolvers();
+
         const listenerCallback = (message) => {
             if (requestId && message.owner !== requestId) {
                 return;
@@ -38,10 +40,14 @@ patch(IoTLongpolling.prototype, {
             this.removeListener(iotBoxIp, iotDeviceIdentifier, requestId);
             if (message.status === "success" || message.status?.status === "connected") { // 'connected' is the serial driver success status
                 onSuccess(message, iotDeviceIdentifier, requestId);
+            } else if (message.status === "unreachable") {
+                reject(new Error("IoT box is unreachable"));
             } else {
                 onFailure(message, iotDeviceIdentifier, requestId);
             }
         }
-        return this.addListener(iotBoxIp, [ iotDeviceIdentifier ], requestId, listenerCallback, true);
+        await this.addListener(iotBoxIp, [ iotDeviceIdentifier ], requestId, listenerCallback, true);
+
+        return promise;
     },
 });

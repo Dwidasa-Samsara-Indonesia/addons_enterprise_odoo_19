@@ -1319,3 +1319,33 @@ class TestAccountAssetComputation(TestAccountAssetCommon):
                 ])
                 asset.validate()
                 self.assertEqual(asset.state, 'open')
+
+    def test_degressive_no_skipped_entries_at_fiscal_year_boundary(self):
+        """Test that degressive depreciation does not skip entries after a fiscal year boundary. """
+        # Create a shortened fiscal year: May 1, 2025 → December 31, 2025
+        # The next FY (Jan 1 - Dec 31, 2026) follows the standard company setting.
+        self.env['account.fiscal.year'].create({
+            'name': 'FY 2025 (short)',
+            'date_from': '2025-05-01',
+            'date_to': '2025-12-31',
+            'company_id': self.env.company.id,
+        })
+
+        asset = self.create_asset(
+            value=10000,
+            periodicity='monthly',
+            periods=60,
+            method='degressive',
+            method_progress_factor=0.35,
+            acquisition_date='2025-12-01',
+            prorata_computation_type='constant_periods',
+        )
+        asset.compute_depreciation_board()
+
+        moves = asset.depreciation_move_ids.sorted(lambda mv: (mv.date, mv.id))
+        self.assertEqual(len(moves), 60)
+        self.assertTrue({'2026-01-31', '2026-02-28', '2026-03-31', '2026-04-30'}.issubset({move.date.strftime('%Y-%m-%d') for move in moves}))
+        for move in moves:
+            self.assertGreater(move.depreciation_value, 0)
+        # Verify degressive behavior: first entry amount > last entry amount
+        self.assertGreater(moves[0].depreciation_value, moves[-1].depreciation_value)

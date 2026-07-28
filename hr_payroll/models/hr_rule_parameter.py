@@ -1,11 +1,15 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from copy import deepcopy
+
 from odoo.tools.safe_eval import safe_eval
 
 from odoo import api, fields, models, _
 from odoo.tools import ormcache
 from odoo.tools.misc import format_date
 from odoo.exceptions import UserError
+
+_PARAMETER_NOT_FOUND = object()
 
 
 class HrRuleParameterValue(models.Model):
@@ -68,10 +72,19 @@ class HrRuleParameter(models.Model):
     )
 
     @api.model
-    @ormcache('code', 'date', 'tuple(self.env.context.get("allowed_company_ids", []))')
     def _get_parameter_from_code(self, code, date=None, raise_if_not_found=True):
         if not date:
             date = fields.Date.today()
+        parameter_value = self._get_cached_parameter_from_code(code, date)
+        if parameter_value is not _PARAMETER_NOT_FOUND:
+            return deepcopy(parameter_value)
+        if raise_if_not_found:
+            raise UserError(_('No rule parameter with code "%(code)s" was found for %(date)s', code=code, date=date))
+        return None
+
+    @api.model
+    @ormcache('code', 'date', 'tuple(self.env.context.get("allowed_company_ids", []))')
+    def _get_cached_parameter_from_code(self, code, date):
         # This should be quite fast as it uses a limit and fields are indexed
         # moreover the method is cached
         rule_parameter = self.env['hr.rule.parameter.value'].search([
@@ -79,10 +92,7 @@ class HrRuleParameter(models.Model):
             ('date_from', '<=', date)], limit=1)
         if rule_parameter:
             return safe_eval(rule_parameter.parameter_value)
-        if raise_if_not_found:
-            raise UserError(_('No rule parameter with code "%(code)s" was found for %(date)s', code=code, date=date))
-        else:
-            return None
+        return _PARAMETER_NOT_FOUND
 
     @api.depends('parameter_version_ids')
     def _compute_current_value(self):

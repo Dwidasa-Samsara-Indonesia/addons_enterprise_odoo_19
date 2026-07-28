@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models, _
+from datetime import date
+
+from odoo import fields, models, _
 from odoo.tools import groupby, SQL
 from odoo.exceptions import UserError
 from markupsafe import Markup
@@ -30,6 +32,23 @@ class L10n_BePartnerVatHandler(models.AbstractModel):
 
     def _custom_options_initializer(self, report, options, previous_options):
         super()._custom_options_initializer(report, options, previous_options=previous_options)
+
+        period_type = options.get('date', {}).get('period_type')
+        if period_type in ('year', 'fiscalyear'):
+            # The Belgian Partner VAT Listing always covers a civil year (01/01 - 12/31),
+            civil_year = fields.Date.from_string(options['date']['date_from']).year
+            options['date'].update(report._get_dates_period(
+                date(civil_year, 1, 1),
+                date(civil_year, 12, 31),
+                options['date']['mode'],
+                period_type='year',
+            ))
+
+            for header_row in options.get('column_headers', []):
+                for header in header_row:
+                    if header.get('name'):
+                        header['name'] = str(civil_year)
+
         operations_tags_expr = [
             'l10n_be.tax_report_line_00_tag', 'l10n_be.tax_report_line_01_tag', 'l10n_be.tax_report_line_02_tag',
             'l10n_be.tax_report_line_03_tag', 'l10n_be.tax_report_line_45_tag', 'l10n_be.tax_report_line_49_tag',
@@ -249,12 +268,20 @@ class L10n_BePartnerVatHandler(models.AbstractModel):
         be_format = r'BE%'
         query = SQL(
             """
-            SELECT res_partner.id, res_partner.vat
-            FROM %(turnover_from)s
-            WHERE %(turnover_where)s
-            AND res_partner.vat ILIKE %(be_format)s
-            GROUP BY res_partner.id, res_partner.vat
-            HAVING SUM(account_move_line.credit - account_move_line.debit) > 250
+            WITH partner_turnover AS (
+                SELECT
+                    res_partner.id,
+                    res_partner.vat,
+                    -- Include different partners with the same vat number with a turnover of more than 250.
+                    SUM(account_move_line.credit - account_move_line.debit) OVER (PARTITION BY res_partner.vat) AS vat_total_turnover
+               FROM %(turnover_from)s
+              WHERE %(turnover_where)s
+                AND res_partner.vat ILIKE %(be_format)s
+            )
+            SELECT id, vat
+              FROM partner_turnover
+             WHERE vat_total_turnover > 250
+          GROUP BY id, vat
 
             UNION
 
@@ -310,6 +337,7 @@ class L10n_BePartnerVatHandler(models.AbstractModel):
                 SELECT res_partner.id as id, res_partner.country_id as country_id, res_partner.vat as vat
                 FROM %(turnover_from)s
                 WHERE %(turnover_where)s
+                AND COALESCE(res_partner.vat, '') != '/'
                 GROUP BY res_partner.id
                 HAVING SUM(account_move_line.credit - account_move_line.debit) > 250
 
@@ -318,6 +346,7 @@ class L10n_BePartnerVatHandler(models.AbstractModel):
                 SELECT res_partner.id as id, res_partner.country_id as country_id, res_partner.vat as vat
                 FROM %(refund_base_from)s
                 WHERE %(refund_base_where)s
+                AND COALESCE(res_partner.vat, '') != '/'
                 GROUP BY res_partner.id
                 HAVING SUM(account_move_line.balance) > 0
 
@@ -326,6 +355,7 @@ class L10n_BePartnerVatHandler(models.AbstractModel):
                 SELECT res_partner.id as id, res_partner.country_id as country_id, res_partner.vat as vat
                 FROM %(vat_amounts_from)s
                 WHERE %(vat_amounts_where)s
+                AND COALESCE(res_partner.vat, '') != '/'
                 GROUP BY res_partner.id
                 HAVING SUM(account_move_line.debit) > 0
             ) as partner_ids
@@ -544,9 +574,6 @@ class L10n_BePartnerVatHandler(models.AbstractModel):
             if addr_partner.country_id:
                 country = addr_partner.country_id.code
 
-        # Turnover and Farmer tags are not included
-        options['date']['date_from'] = options['date']['date_from'][0:4] + '-01-01'
-        options['date']['date_to'] = options['date']['date_to'][0:4] + '-12-31'
         # Set export_mode to 'file' to bypass load_more_limit and get all partners
         options['export_mode'] = 'file'
         lines = report._get_lines(options)

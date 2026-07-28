@@ -450,6 +450,7 @@ class TestSaleCommissionUser(TestSaleCommissionCommon):
             'commission_amount': 2500,
             'user_ids': [Command.create({
                 'user_id': self.commission_user_1.id,
+                'date_from': datetime.date(2024, 1, 1),
             })],
         })
         commission_full_year.action_approve()
@@ -506,6 +507,44 @@ class TestSaleCommissionUser(TestSaleCommissionCommon):
         self.commission_plan_user.date_from = datetime.date(year=2024, month=1, day=3)
         for user in self.commission_plan_user.user_ids:
             self.assertEqual(user.date_from, self.commission_plan_user.date_from)
+
+    @freeze_time('2026-01-01')
+    def test_plan_other_overlap(self):
+        """Test overlap for other_plans based on salesperson assignment dates"""
+        self.env['sale.commission.plan'].search([]).unlink()
+        # Plan covering 2025-2026, but salesperson assigned only in 2025
+        plan_2025_assignment = self.env['sale.commission.plan'].create({
+            'name': "Plan 2025 assignment",
+            'company_id': self.env.company.id,
+            'date_from': datetime.date(2025, 1, 1),
+            'date_to': datetime.date(2026, 12, 31),
+            'periodicity': 'month',
+            'type': 'target',
+            'user_type': 'person',
+            'commission_amount': 2500,
+            'user_ids': [Command.create({
+                'user_id': self.commission_user_1.id,
+                'date_from': datetime.date(2025, 1, 1),
+                'date_to': datetime.date(2025, 12, 31),
+            })],
+        })
+        self.assertFalse(plan_2025_assignment.user_ids.other_plans)
+
+        # Plan where salesperson is assigned in 2026
+        plan_2026_assignment = self.env['sale.commission.plan'].create({
+            'name': "Plan 2026 assignment",
+            'company_id': self.env.company.id,
+            'date_from': datetime.date(2026, 1, 1),
+            'date_to': datetime.date(2026, 12, 30),
+            'periodicity': 'month',
+            'type': 'target',
+            'user_type': 'person',
+            'commission_amount': 2500,
+            'user_ids': [Command.create({
+                'user_id': self.commission_user_1.id,
+            })],
+        })
+        self.assertNotEqual(plan_2026_assignment.user_ids.other_plans, plan_2025_assignment)
 
     @freeze_time('2024-02-02')
     def test_commission_target_constraint(self):

@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <field name="asset_id" invisible="1"/>
-                <field name="asset_ids" invisible="1"/>
-                <field name="count_asset" invisible="1"/>
-                <field name="draft_asset_exists" invisible="1"/>
+                <field name="asset_id" groups="account.group_account_readonly,account.group_account_invoice" invisible="1"/>
+                <field name="asset_ids" groups="account.group_account_readonly,account.group_account_invoice" invisible="1"/>
+                <field name="count_asset" groups="account.group_account_readonly,account.group_account_invoice" invisible="1"/>
+                <field name="draft_asset_exists" groups="account.group_account_readonly,account.group_account_invoice" invisible="1"/>
                 <button name="open_asset_view"
                     groups="account.group_account_invoice,account.group_account_readonly"
                     invisible="not asset_id"

@@ -1058,6 +1058,11 @@ class KnowledgeArticle(models.Model):
 
     @api.autovacuum
     def _gc_trashed_articles(self):
+        return self.with_context(active_test=False).search(
+            self._get_gc_trashed_articles_domain(), limit=100
+        ).unlink()
+
+    def _get_gc_trashed_articles_domain(self):
         limit_days = self.env["ir.config_parameter"].sudo().get_param(
             "knowledge.knowledge_article_trash_limit_days"
         )
@@ -1066,8 +1071,10 @@ class KnowledgeArticle(models.Model):
         except ValueError:
             limit_days = self.DEFAULT_ARTICLE_TRASH_LIMIT_DAYS
         timeout_ago = datetime.utcnow() - timedelta(days=limit_days)
-        domain = [("write_date", "<", timeout_ago), ("to_delete", "=", True)]
-        return self.with_context(active_test=False).search(domain, limit=100).unlink()
+        return [
+            ("write_date", "<", timeout_ago),
+            ("to_delete", "=", True),
+        ]
 
     def action_archive(self):
         self._action_archive_articles()

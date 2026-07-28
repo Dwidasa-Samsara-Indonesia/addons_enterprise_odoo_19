@@ -16,6 +16,7 @@ Key Features
 * FBM: Delivery information is fetched from Lazada, track and synchronize the stock level to Lazada.
 """,
     'category': 'Sales/Sales',
+    'version': '1.1',
     'application': True,
     'depends': ['sale_management', 'stock_delivery'],
     'data': [

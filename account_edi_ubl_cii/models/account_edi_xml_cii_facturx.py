@@ -121,6 +121,7 @@ class AccountEdiXmlCii(models.AbstractModel):
             'type_code': '380' if invoice.move_type == 'out_invoice' else '381',
             'issue_date_time': invoice.invoice_date,
             'included_note': html2plaintext(invoice.narration) if invoice.narration else "",
+            'included_note_list': [],
         }
 
     def _export_invoice_vals(self, invoice):
@@ -407,7 +408,7 @@ class AccountEdiXmlCii(models.AbstractModel):
         if move_type_code.text == '381':
             return 'refund', 1
         if move_type_code.text == '380':
-            amount_node = tree.find('.//{*}SpecifiedTradeSettlementHeaderMonetarySummation/{*}TaxBasisTotalAmount')
+            amount_node = tree.find('.//{*}SpecifiedTradeSettlementHeaderMonetarySummation/{*}GrandTotalAmount')
             if amount_node is not None and float(amount_node.text) < 0:
                 return 'refund', -1
             return 'invoice', 1

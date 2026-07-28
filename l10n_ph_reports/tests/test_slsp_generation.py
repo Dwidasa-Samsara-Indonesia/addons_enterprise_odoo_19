@@ -155,3 +155,38 @@ class TestSLSPGeneration(TestAccountReportsCommon, TestPhCommon):
         line_b = partner_lines[self.partner_b.id]
         self.assertEqual(line_b['name'], 'Test Partner Company')  # check partner_name
         self.assertEqual(line_b['columns'][1]['name'], 'Test Partner Company')  # check register_name
+
+    def test_group_tax_child_tag_in_base_line_query(self):
+        """Group tax base lines must be found under child tax tags via account_tax_filiation_rel."""
+        ChartTemplate = self.env["account.chart.template"].with_company(
+            self.company_data["company"],
+        )
+        tax_fwvat_ds = ChartTemplate.ref(
+            "l10n_ph_tax_purchase_12_fwvat_ds",
+        )
+        invoice = self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": self.partner_a.id,
+            "invoice_date": "2023-06-15",
+            "invoice_line_ids": [
+                Command.create({
+                    "name": "Test line",
+                    "quantity": 1.0,
+                    "price_unit": 1000.0,
+                    "tax_ids": [Command.set(tax_fwvat_ds.ids)],
+                }),
+            ],
+        })
+        invoice.action_post()
+
+        report = self.env.ref("l10n_ph_reports.slp_report")
+        options = self._generate_options(report, "2023-01-01", "2023-12-31")
+        report_handler = self.env["l10n_ph.slp.report.handler"]
+
+        base_lines = report_handler._get_base_line_details(report, options)
+        tags_found = {line["tag_name"] for line in base_lines}
+        self.assertIn(
+            "45A",
+            tags_found,
+            "Group tax base line must be found under child tag 45A",
+        )

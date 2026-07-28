@@ -14,8 +14,8 @@ registry.category("web_tour.tours").add('account_reports_hide_0_lines', {
             run: "click",
         },
         {
-            content: 'test if the Unallocated Earnings line is present (but value is different from 0 and so should be there after the hide_0_lines',
-            trigger: '.line_name:contains("Unallocated Earnings")',
+            content: 'test if the Earnings line is present (but value is different from 0 and so should be there after the hide_0_lines',
+            trigger: '.line_name:contains("Earnings")',
             run: "click",
         },
         {
@@ -29,8 +29,8 @@ registry.category("web_tour.tours").add('account_reports_hide_0_lines', {
             run: 'click',
         },
         {
-            content: 'test if the Unallocated Earnings line is still present',
-            trigger: '.line_name:contains("Unallocated Earnings")',
+            content: 'test if the Earnings line is still present',
+            trigger: '.line_name:contains("Earnings")',
             run: "click",
         },
         {

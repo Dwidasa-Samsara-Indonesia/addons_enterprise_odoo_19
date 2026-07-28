@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-01-13 21:59+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-07-04 10:04+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "delivery_ups_rest/pl/>\n"
@@ -17,9 +17,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_bill_my_account
@@ -79,6 +79,17 @@ msgstr "Stwórz konto na"
 #: model_terms:ir.ui.view,arch_db:delivery_ups_rest.view_delivery_carrier_form
 msgid "Create an app"
 msgstr "Stwórz aplikację"
+
+#. module: delivery_ups_rest
+#. odoo-python
+#: code:addons/delivery_ups_rest/models/ups_request.py:0
+msgid ""
+"Detected a problem when validating delivery %(delivery_name)s. Invoicing "
+"address of the commercial invoice has been defaulted to %(ship_to_partner)s "
+"instead of %(sold_to_partner)s to avoid the following error from UPS: \"The "
+"Sold To party's country code must be the same as the Ship To party's country "
+"code with the exception of Canada and satellite countries.\""
+msgstr ""
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__display_name
@@ -213,7 +224,7 @@ msgstr "PDF"
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_package_dimension_unit
 msgid "Package Size Unit"
-msgstr "Rozmiar opakowania Jednostka"
+msgstr "Jednostka rozmiaru opakowania"
 
 #. module: delivery_ups_rest
 #: model_terms:ir.ui.view,arch_db:delivery_ups_rest.view_delivery_carrier_form
@@ -292,7 +303,7 @@ msgstr "Dostawa w sobotę"
 #. module: delivery_ups_rest
 #: model_terms:ir.ui.view,arch_db:delivery_ups_rest.view_delivery_carrier_form
 msgid "Save and Accept terms and your app is created!"
-msgstr "Zapisz i zaakceptuj warunki i Twoja aplikacja zostanie utworzona!"
+msgstr "Zapisz i zaakceptuj warunki a Twoja aplikacja zostanie utworzona!"
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields.selection,name:delivery_ups_rest.selection__delivery_carrier__ups_duty_payment__sender
@@ -376,7 +387,7 @@ msgid ""
 msgstr ""
 "Nie można obliczyć szacunkowej ceny wysyłki, ponieważ brakuje wagi dla "
 "następujących produktów:\n"
-" %s"
+"%s"
 
 #. module: delivery_ups_rest
 #. odoo-python
@@ -446,12 +457,12 @@ msgstr "Numer konta UPS"
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_client_id
 msgid "UPS Client ID"
-msgstr "Client ID UPS"
+msgstr "ID klienta UPS"
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_client_secret
 msgid "UPS Client Secret"
-msgstr "Client Secret UPS"
+msgstr "Hasło klienta UPS"
 
 #. module: delivery_ups_rest
 #: model_terms:ir.ui.view,arch_db:delivery_ups_rest.view_delivery_carrier_form
@@ -548,13 +559,13 @@ msgstr ""
 #: code:addons/delivery_ups_rest/models/payment_provider.py:0
 msgid "UPS provider is configured to use only Collect on Delivery."
 msgstr ""
-"Dostawca UPS jest skonfigurowany, tak aby używał tylko płatności za "
+"Dostawca UPS jest skonfigurowany, aby korzystać jedynie z płatności za "
 "pobraniem."
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_duty_payment
 msgid "Ups Duty Payment"
-msgstr "Ups płatność cła"
+msgstr "Płatność cła UPS"
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_package_weight_unit

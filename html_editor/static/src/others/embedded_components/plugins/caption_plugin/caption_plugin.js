@@ -39,7 +39,7 @@ export class CaptionPlugin extends Plugin {
                 description: _t("Add/remove a caption"),
                 groupId: "image_description",
                 commandId: "toggleImageCaption",
-                text: "Caption",
+                text: _t("Caption"),
                 isActive: () => this.hasImageCaption(this.dependencies.image.getTargetedImage()),
             },
         ],
@@ -55,7 +55,7 @@ export class CaptionPlugin extends Plugin {
             (node) => ["FIGURE", "FIGCAPTION"].includes(node.nodeName), // avoid merge
         ],
         image_name_predicates: [this.getImageName.bind(this)],
-        link_compatible_selection_predicates: [this.isLinkAllowedOnSelection.bind(this)],
+        link_compatible_selection_predicates: this.isLinkAllowedOnSelection.bind(this),
         // Consider a <figure> element as empty if it only contains a
         // <figcaption> element (e.g. when its image has just been
         // removed).
@@ -248,7 +248,7 @@ export class CaptionPlugin extends Plugin {
 
     isLinkAllowedOnSelection() {
         const figure = findInSelection(
-            this.dependencies.selection.getEditableSelection(),
+            this.dependencies.selection.getSelectionData().deepEditableSelection,
             "figure"
         );
         if (

@@ -29,9 +29,11 @@ class SaleCommissionPlanUser(models.Model):
     def _date_constraint(self):
         for user in self:
             if user.date_to and user.date_from and user.date_to < user.date_from:
-                raise exceptions.UserError(_("From must be before To"))
+                raise exceptions.UserError(_("The assignment start date must be before the end date"))
             if user.date_from and user.plan_id.date_from and user.date_from < user.plan_id.date_from:
-                raise exceptions.UserError(_("User period cannot start before the plan."))
+                raise exceptions.UserError(_("The sales person's assignment must be within the commission plan period."))
+            if user.date_from and user.plan_id.date_to and user.date_from > user.plan_id.date_to:
+                raise exceptions.UserError(_("User period cannot start after the plan."))
             if user.date_to and user.plan_id.date_to and user.date_to > user.plan_id.date_to:
                 raise exceptions.UserError(_("User period cannot end after the plan."))
 
@@ -52,9 +54,13 @@ class SaleCommissionPlanUser(models.Model):
             pu_date_to = pu.date_to or pu.plan_id.date_to
             other_plans_ids = []
             for plan in (plan_ids - pu.plan_id._origin - pu.plan_id):
-                if not pu.user_id in plan.user_ids.user_id:
+                if pu.user_id not in plan.user_ids.user_id:
                     continue
-                if plan.date_to < pu_date_from or plan.date_from > pu_date_to:
+                # get employee-specific dates for this plan
+                user_line = plan.user_ids.filtered(lambda u: u.user_id == pu.user_id)
+                plan_date_from = user_line.date_from or plan.date_from
+                plan_date_to = user_line.date_to or plan.date_to
+                if plan_date_to < pu_date_from or plan_date_from > pu_date_to:
                     # no overlap
                     continue
                 other_plans_ids.append(plan.id)

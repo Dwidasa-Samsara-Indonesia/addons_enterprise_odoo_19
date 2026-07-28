@@ -168,3 +168,63 @@ class TestFollowupReport(TestAccountReportsCommon):
             ],
             options
         )
+
+    @freeze_time('2025-12-01')
+    def test_followup_report_single_foreign_currency(self):
+        """
+        Test that the followup report displays the total amount in currency
+        when all invoices from a partner share the same foreign currency.
+        """
+        partner_c = self.env['res.partner'].create({
+            'name': 'partner_c',
+        })
+
+        options = self._generate_options(self.report, None, '2026-12-31')
+        options['ignore_totals_below_sections'] = True
+
+        invoice_vals = {
+            'move_type': 'out_invoice',
+            'invoice_date': '2026-01-01',
+            'partner_id': partner_c.id,
+            'invoice_line_ids': [Command.create({
+                'quantity': 1,
+                'price_unit': 200,
+                'tax_ids': [],
+            })]
+        }
+
+        # Two unpaid invoices in foreign currency.
+        self.env['account.move'].create({**invoice_vals, 'currency_id': self.other_currency.id}).action_post()
+        self.env['account.move'].create({**invoice_vals, 'currency_id': self.other_currency.id}).action_post()
+
+        # The amount currency total should be displayed.
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                              Amount        Amount Currency
+            [   0,                                   3,           4],
+            [
+                ('partner_a',                    100.0,          ''),
+                ('partner_b',                   -200.0,          ''),
+                ('partner_c',                    200.0,       400.0),
+                ('Total',                        100.0,          ''),
+            ],
+            options,
+            currency_map={4: {'currency': self.other_currency}},
+        )
+
+        # Third unpaid invoice using the company currency.
+        self.env['account.move'].create({**invoice_vals, 'invoice_date': '2025-12-31'}).action_post()
+
+        # The amount currency total should no longer be displayed.
+        self.assertLinesValues(
+            self.report._get_lines(options),
+            #   Name                               Amount      Amount Currency
+            [   0,                                   3,         4],
+            [
+                ('partner_a',                     100.0,       ''),
+                ('partner_b',                    -200.0,       ''),
+                ('partner_c',                     400.0,       ''),
+                ('Total',                         300.0,       ''),
+            ],
+            options,
+        )

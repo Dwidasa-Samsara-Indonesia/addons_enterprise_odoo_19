@@ -8,6 +8,7 @@ from odoo.tests import tagged
 class TestArEdiWsfex(TestArEdiCommon):
 
     @classmethod
+    @TestArEdiCommon.setup_afip_ws('wsfex')
     def setUpClass(cls):
         super().setUpClass()
         cls.subfolder = "wsfex"

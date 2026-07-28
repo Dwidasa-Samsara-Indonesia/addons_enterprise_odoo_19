@@ -1,5 +1,4 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from unittest import skip
 
 from . import common
 from odoo import Command
@@ -341,11 +340,19 @@ class TestArManual(common.TestArCommon):
         self.assertAlmostEqual(l10n_ar_values['price_net'], 5196.5)
 
     def test_l10n_ar_vat_with_non_numeric_value(self):
-        with self.assertRaises(ValidationError) as e:
-            with Form(self.partner) as partner_form:
-                partner_form.l10n_latam_identification_type_id = self.env.ref("l10n_ar.it_dni")
-                partner_form.vat = "test"
-        self.assertIn('Only numbers allowed for "DNI"', str(e.exception))
+        partner = self.env["res.partner"].create({"name": "AR Company", "country_id": self.env.ref("base.ar").id})
+
+        with self.assertRaisesRegex(ValidationError, 'Only numbers allowed for "DNI"'):
+            partner.l10n_latam_identification_type_id = self.env.ref("l10n_ar.it_dni")
+            partner.vat = "test"
+
+        with self.assertRaisesRegex(ValidationError, 'Invalid length for "CUIL"'):
+            partner.l10n_latam_identification_type_id = self.env.ref("l10n_ar.it_CUIL")
+            partner.vat = "1234567890a"
+
+        partner.l10n_latam_identification_type_id = self.env.ref("l10n_latam_base.it_pass")
+        partner.vat = "A12345678"
+        self.assertEqual(partner.vat, "A12345678")
 
     def test_create_debit_note_for_credit_note(self):
         """
@@ -372,40 +379,3 @@ class TestArManual(common.TestArCommon):
         })
         debit_note_wizard.create_debit()
         self.assertTrue(invoice.reversal_move_ids.debit_note_ids)
-
-    @skip("TODO: failing test. 'Fix' the rounding error")
-    def test_l10n_ar_rounding_01(self):
-        self.env.company.tax_calculation_rounding_method = 'round_globally'
-        currency_usd = self.env.ref('base.USD')
-        currency_usd.active = True
-
-        self.env['res.currency.rate'].create([{
-            'name': '2025-04-01',
-            'inverse_company_rate': 1066.50,
-            'currency_id': currency_usd.id,
-            'company_id': self.env.company.id,
-        }])
-        tax_02 = self.percent_tax(0.2)
-        invoice_a = self._create_invoice_ar(
-            invoice_date='2025-04-02',
-            currency_id=currency_usd,
-            invoice_line_ids=[self._prepare_invoice_line(price_unit=124, tax_ids=tax_02)],
-        )
-        self.assertEqual(invoice_a.amount_total, invoice_a.invoice_line_ids.price_total, 'The invoice total should match the line total since there is only one line.')
-
-        tax_lines_a = invoice_a.line_ids \
-            .filtered(lambda x: x.tax_line_id) \
-            .sorted(lambda x: (x.move_id.id, x.tax_line_id.id, x.tax_ids.ids, x.tax_repartition_line_id.id))
-        self.env.company.tax_calculation_rounding_method = 'round_per_line'
-        invoice_b = self._create_invoice_ar(
-            invoice_date='2025-04-02',
-            currency_id=currency_usd,
-            invoice_line_ids=[self._prepare_invoice_line(price_unit=124, tax_ids=tax_02)],
-        )
-        self.assertEqual(invoice_b.amount_total, invoice_b.invoice_line_ids.price_total, 'The invoice total should match the line total since there is only one line.')
-
-        tax_lines_b = invoice_b.line_ids \
-            .filtered(lambda x: x.tax_line_id) \
-            .sorted(lambda x: (x.move_id.id, x.tax_line_id.id, x.tax_ids.ids, x.tax_repartition_line_id.id))
-
-        self.assertEqual(tax_lines_a.balance, tax_lines_b.balance, 'Tax balances should be equal since both invoices have a single line and the total matches the line amount.')

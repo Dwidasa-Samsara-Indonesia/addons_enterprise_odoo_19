@@ -185,7 +185,12 @@ class SocialStreamPost(models.Model):
         }
         if "from" not in comment:
             comment["from"] = {"name": _("Unknown")}
+
         if comment.get('attachment', {}).get('type') == 'sticker':
             # stickers are just image
             comment['attachment']['type'] = 'photo'
+        elif comment.get('attachment', {}).get('type') == 'animated_image_share':
+            # GIF from the Facebook "GIF button"
+            comment['attachment']['type'] = 'animated_image_video'
+
         return comment

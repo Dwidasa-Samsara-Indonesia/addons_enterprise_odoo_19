@@ -591,8 +591,8 @@ class CAMT:
     _get_partner_name = partial(_generic_get,
         xpath=('.//ns:RltdPties/ns:Ultmt{placeholder}/ns:Nm/text()'
             ' | .//ns:RltdPties/ns:Ultmt{placeholder}/ns:Pty/ns:Nm/text()'
-            ' | .//ns:RltdPties/ns:{placeholder}/ns:Nm/text()'
-            ' | .//ns:RltdPties/ns:{placeholder}/ns:Pty/ns:Nm/text()'
+            ' | .//ns:RltdPties/ns:{placeholder}[not(../ns:Ultmt{placeholder})]/ns:Nm/text()'
+            ' | .//ns:RltdPties/ns:{placeholder}[not(../ns:Ultmt{placeholder})]/ns:Pty/ns:Nm/text()'
             ))
 
     _get_account_number = partial(_generic_get,

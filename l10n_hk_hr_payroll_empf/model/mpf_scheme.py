@@ -53,15 +53,15 @@ class l10n_hkMpfScheme(models.Model):
             else:
                 scheme.display_name = scheme.name
 
-    @api.constrains('registration_number')
+    @api.constrains('registration_number', 'employer_account_number')
     def _contraints_single_default(self):
         result = self._read_group(
             domain=[],
-            groupby=['registration_number'],
+            groupby=['registration_number', 'employer_account_number'],
             aggregates=['id:recordset'],
             having=[('__count', '>', 1)],
         )
         if result:
             raise ValidationError(
-                self.env._("You cannot have multiple MPF Scheme with a same Registration Number.")
+                self.env._("You cannot have multiple MPF Scheme with the same Registration Number and Employer Account Number.")
             )

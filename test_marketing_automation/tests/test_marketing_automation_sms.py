@@ -199,8 +199,7 @@ class TestMarketingAutomationSms(TestMACommon):
                 },
                 'records': (test_records_1_ko - self.test_records_failure_wrong - self.test_records_failure_dupe),
                 'status': 'canceled',
-                # TDE checkme
-                'trace_failure_type': 'mail_email_missing',
+                'trace_failure_type': 'sms_number_missing',
                 'trace_status': 'cancel',
             }],
             act1,

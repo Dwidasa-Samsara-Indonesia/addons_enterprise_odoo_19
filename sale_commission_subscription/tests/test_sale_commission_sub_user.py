@@ -599,3 +599,39 @@ class TestSaleSubCommissionUser(TestSaleSubscriptionCommissionCommon):
             self.assertEqual(len(achievements), 4, 'We should have 4 ahcievements: creation, 2 transfer and one contraction')
             self.assertEqual(sum(achievements.mapped('achieved')), 83.33, '80 - 80 + 100 - 16.87')
             self.assertEqual(sum(commissions.mapped('commission')), 83.33, "Commission = achieved in this case")
+
+    def test_sub_commission_no_currency_rate(self):
+        """Test that commissions work correctly when res_currency_rate table is empty."""
+        self.env['res.currency.rate'].sudo().search([]).unlink()
+
+        with freeze_time("2024-02-03"):
+            sub = self.env['sale.order'].create({
+                'name': 'TestSubscription',
+                'is_subscription': True,
+                'plan_id': self.plan_month.id,
+                'note': "original subscription description",
+                'partner_id': self.user_portal.partner_id.id,
+                'sale_order_template_id': self.subscription_tmpl.id,
+                'user_id': self.commission_user_1.id
+            })
+            sub._onchange_sale_order_template_id()
+            sub.order_line.price_unit = 50
+            self.commission_plan_sub.achievement_ids = self.env['sale.commission.plan.achievement'].create([{
+                'type': 'mrr',
+                'rate': 0.1,
+                'plan_id': self.commission_plan_sub.id,
+                'recurring_plan_id': sub.plan_id.id,
+            }])
+            self.flush_tracking()
+            sub.action_confirm()
+            self.flush_tracking()
+            self.commission_plan_sub.action_approve()
+            sub._create_recurring_invoice()
+            self.flush_tracking()
+            self.env.flush_all()
+            self.env.invalidate_all()
+            self.env['sale.commission.achievement.report']._pre_achievement_operation()
+            achievements = self.env['sale.commission.achievement.report'].search([('plan_id', '=', self.commission_plan_sub.id)])
+            commissions = self.env['sale.commission.report'].search([('plan_id', '=', self.commission_plan_sub.id)])
+            self.assertEqual(sum(achievements.mapped('achieved')), 10, 'Regular invoice, 10 percent of 100')
+            self.assertEqual(sum(commissions.mapped('commission')), 10, 'Regular invoice, 10 percent of 100')

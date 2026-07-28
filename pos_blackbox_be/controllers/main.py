@@ -82,6 +82,24 @@ class BlackboxPosSelfController(PosSelfOrderController):
 
         return bool(order.blackbox_signature) or pos_config._send_order_to_blackbox(order)
 
+    @http.route('/pos_blackbox_be/get_signed_order', auth='public', type='jsonrpc', website=True)
+    def pos_blackbox_get_signed_order(self, access_token, order_access_token, order_id):
+        pos_config = self._verify_pos_config(access_token)
+        order = pos_config.current_session_id.order_ids.browse(order_id)
+        if not order or not consteq(order_access_token, order.access_token):
+            return False
+        if not order.blackbox_signature:
+            return False
+        return {
+            'blackbox_signature': order.blackbox_signature,
+            'blackbox_date': order.blackbox_date,
+            'blackbox_time': order.blackbox_time,
+            'blackbox_ticket_counters': order.blackbox_ticket_counters,
+            'blackbox_unique_fdm_production_number': order.blackbox_unique_fdm_production_number,
+            'blackbox_vsc_identification_number': order.blackbox_vsc_identification_number,
+            'plu_hash': order.plu_hash,
+        }
+
     @http.route('/pos_self_blackbox/confirmation', methods=['POST'], auth='public', type='jsonrpc')
     def pos_self_blackbox_confirmation(self):
         def get_log_fields(order, data):
@@ -143,7 +161,8 @@ class BlackboxPosSelfController(PosSelfOrderController):
                 else:
                     order.session_id.write({'users_clocked_ids': [(3, order.user_id.id)]})
                 order.config_id._notify("BLACKBOX_CLOCK", data)
-            order.config_id._notify("BLACKBOX_CONFIRMATION", data)
+            if order.source == "kiosk":
+                order.config_id._notify("BLACKBOX_CONFIRMATION", data)
             order.create_log(get_log_fields(order, data))
 
     @http.route('/pos_self_blackbox/clock', auth='public', type='jsonrpc', website=True)

@@ -13,10 +13,10 @@ class HrVersion(models.Model):
     def _check_acerta_code(self):
         problematic_versions = self.env['hr.version']
         for version in self:
-            if version.acerta_code and len(version.acerta_code) != 20:
-                if len(version.acerta_code) > 20:
+            if version.acerta_code and len(version.acerta_code) != 17:
+                if len(version.acerta_code) > 17:
                     problematic_versions |= version
-                version.acerta_code = version.acerta_code.zfill(20)
+                version.acerta_code = version.acerta_code.zfill(17)
 
         if problematic_versions:
             raise ValueError(self.env._(

@@ -11,4 +11,6 @@ class StockMove(models.Model):
         super()._compute_reference()
         for record in self:
             if record.sale_line_id and record.sale_line_id.order_id.amazon_channel == 'fba':
-                record.reference = _('Amazon move: %s', record.reference)
+                record.reference = _(
+                    "Amazon move: %s", record.reference or record.sale_line_id.order_id.name,
+                )

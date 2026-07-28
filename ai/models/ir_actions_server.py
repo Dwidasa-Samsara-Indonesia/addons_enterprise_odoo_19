@@ -229,7 +229,7 @@ class IrActionsServer(models.Model):
         if self.state == 'next_activity':
             user = (
                 self.activity_user_id if self.activity_user_type == 'specific'
-                else record[self.activity_user_field_name]
+                else record.mapped(self.activity_user_field_name)
             )
             return _('Activity created for %(user)s.', user=user.display_name)
 
@@ -258,7 +258,7 @@ class IrActionsServer(models.Model):
         self.ensure_one()
         # We only check if the AI action can be executed,
         # then, we will skip all check on tools
-        self._can_execute_action_on_records(record)
+        self.sudo(record.env.su)._can_execute_action_on_records(record)
 
         action_prompt, context_fields = self._ai_prepare_prompt_values(record)
         date = datetime.now(pytz.utc).astimezone().replace(second=0, microsecond=0).isoformat()

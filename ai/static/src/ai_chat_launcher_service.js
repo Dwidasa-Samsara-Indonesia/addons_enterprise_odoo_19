@@ -114,7 +114,8 @@ export const aiChatLauncherService = {
                 thread.ai_prompt_buttons = prompts;
                 thread.aiSpecialActions = aiSpecialActions;
                 thread.aiChatSource = aiChatSourceId;
-                thread.openChatWindow({ focus: true });
+                thread.open({ focus: true });
+                thread.openChatWindow();
             },
             /**
              * Converts record data to JSON, so we can pass them to the AI record's context

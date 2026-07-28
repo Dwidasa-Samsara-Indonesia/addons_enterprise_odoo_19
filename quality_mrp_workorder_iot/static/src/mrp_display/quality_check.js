@@ -19,8 +19,8 @@ patch(QualityCheck.prototype, {
         );
     },
     async iotUpdateMeasurement(data) {
-        if (!data.value) {
-            return this.notifyFailure();
+        if (data.value === undefined || data.value === null) {
+            return this._notifyFailure();
         }
         await this.props.record.update({ measure: data.value });
         super.clicked();

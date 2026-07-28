@@ -4,7 +4,6 @@ from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
 from freezegun import freeze_time
-from unittest import skip
 
 from odoo.fields import Command, Date, Datetime
 from odoo.tests import Form, tagged
@@ -140,7 +139,6 @@ class TestRentalWizard(TestRentalCommon):
 
         self.assertEqual(self.product_id._get_unavailable_lots(from_date, to_date), lot1 + lot3)
 
-    @skip('Temporary to fast merge new valuation')
     def test_rental_product_flow(self):
 
         self.assertEqual(
@@ -189,7 +187,7 @@ class TestRentalWizard(TestRentalCommon):
 
         """ In company stock valuation """
         self.assertEqual(
-            self.product_id.quantity_svl,
+            self.product_id._with_valuation_context().qty_available,
             4
         )
 
@@ -235,7 +233,7 @@ class TestRentalWizard(TestRentalCommon):
 
         """ In company stock valuation """
         self.assertEqual(
-            self.product_id.quantity_svl,
+            self.product_id._with_valuation_context().qty_available,
             4
         )
 

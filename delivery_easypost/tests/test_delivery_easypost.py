@@ -3,6 +3,7 @@
 
 import logging
 
+from odoo import Command
 from odoo.addons.delivery_easypost.tests.common import EasypostTestCommon
 from odoo.exceptions import UserError
 from odoo.tests import tagged, Form
@@ -212,3 +213,43 @@ class TestMockedDeliveryEasypost(TestDeliveryEasypost):
     def test_easypost_sends_correct_delivery_type_for_amazon(self):
         with self.patch_easypost_requests():
             super().test_easypost_sends_correct_delivery_type_for_amazon()
+
+    def test_easypost_retrieve_currency_from_pricelist(self):
+        '''
+        Ensure the currency sent to easypost is correctly taken from the SO's pricelist instead of
+        the package (which defaults to the company's).
+        '''
+        def check_requested_currency(endpoint, data):
+            # The currency can only be right for the delivery call. The rating call doesn't have a
+            # picking to retrieve the currency through.
+            if endpoint == 'orders' and 'OUT' in data.get('order[shipments][0][options][print_custom_1]', ''):
+                self.assertEqual(data['order[from_address][country]'], 'BE')
+                self.assertEqual(data['order[shipments][0][customs_info][customs_items][0][currency]'], 'USD')
+
+        pricelist_usd = self.env['product.pricelist'].with_company(self.be_company).create({
+            'name': 'Pricelist USD',
+            'currency_id': self.currency_usd.id,
+        })
+        so = self.env['sale.order'].with_company(self.be_company).create({
+            'partner_id': self.jackson.id,
+            'pricelist_id': pricelist_usd.id,
+            'order_line': [Command.create({
+                'product_id': self.miniServer.id,
+                'product_uom_qty': 1.0,
+                'price_unit': 20,
+            })]
+        })
+        delivery_wizard = Form(self.env['choose.delivery.carrier'].with_context({
+            'default_order_id': so.id,
+            'default_carrier_id': self.easypost_fedex_carrier.id
+        }))
+
+        with self.patch_easypost_requests(check_requested_currency):
+            choose_delivery_carrier = delivery_wizard.save()
+            choose_delivery_carrier.update_price()
+
+            self.assertGreater(choose_delivery_carrier.delivery_price, 0.00, "Could't get rate for this order from easypost fedex")
+            choose_delivery_carrier.button_confirm()
+            so.action_confirm()
+            picking = so.picking_ids
+            picking._action_done()

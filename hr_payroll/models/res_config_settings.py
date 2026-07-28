@@ -13,6 +13,32 @@ class ResConfigSettings(models.TransientModel):
     module_hr_payroll_account_iso20022 = fields.Boolean(string='Payroll with SEPA payment')
     ytd_reset_day = fields.Integer(related="company_id.ytd_reset_day", readonly=False)
     ytd_reset_month = fields.Selection(related="company_id.ytd_reset_month", readonly=False)
+    payslip_generate_and_send_trigger = fields.Selection(
+        [
+            ('on_confirmed', 'When Confirmed'),
+            ('on_paid', 'When Paid'),
+            ('never', 'Manually'),
+        ],
+        string='Payslips Generate and Send Trigger',
+        compute='_compute_payslip_generate_and_send_trigger',
+        inverse='_inverse_payslip_generate_and_send_trigger',
+    )
+
+    def _compute_payslip_generate_and_send_trigger(self):
+        """ Read the send trigger from ir.config_parameter, default to on_confirmed. """
+        # ir.config_parameter is global, so all settings records see the same value.
+        value = self.env['ir.config_parameter'].sudo().get_param(
+            'hr_payroll.payslip_generate_and_send_trigger', default='on_confirmed'
+        )
+        for record in self:
+            record.payslip_generate_and_send_trigger = value
+
+    def _inverse_payslip_generate_and_send_trigger(self):
+        """ Persist the send trigger to ir.config_parameter. """
+        self.env['ir.config_parameter'].sudo().set_param(
+            'hr_payroll.payslip_generate_and_send_trigger',
+            self.payslip_generate_and_send_trigger or 'on_confirmed',
+        )
 
     @api.model_create_multi
     def create(self, vals_list):

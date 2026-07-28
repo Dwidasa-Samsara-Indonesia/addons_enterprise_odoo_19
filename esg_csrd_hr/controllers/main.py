@@ -621,7 +621,8 @@ class EsgCsrdHrReportController(EsgCsrdReportController):
         base_year_start_date = 0
         base_year_end_date = 0
         base_version_ids = False
-        if esg_report.base_year:
+        has_base_year = esg_report._has_valid_base_year()
+        if has_base_year:
             base_year_date = esg_report.company_id.sudo().compute_fiscalyear_dates(date(esg_report.base_year, 1, 1))
             base_year_start_date = base_year_date['date_from']
             base_year_end_date = base_year_date['date_to']
@@ -862,7 +863,7 @@ class EsgCsrdHrReportController(EsgCsrdReportController):
         # Base Year
         base_total_non_employees_count = 0
         base_non_employees_version_ids = False
-        if esg_report.base_year:
+        if has_base_year:
             base_non_employees_version_ids = self._get_valid_employee_version_ids(base_year_start_date, base_year_end_date, is_employee_type=False)
             base_total_non_employees_count = len(base_non_employees_version_ids)
             template_variables['{{ total_non_employee_base }}'] = str(base_total_non_employees_count)
@@ -963,8 +964,8 @@ class EsgCsrdHrReportController(EsgCsrdReportController):
         base_year_start_date = 0
         base_year_end_date = 0
         base_version_ids = False
-        has_base_year = bool(esg_report.base_year)
-        if esg_report.base_year:
+        has_base_year = esg_report._has_valid_base_year()
+        if has_base_year:
             base_year_date = esg_report.company_id.sudo().compute_fiscalyear_dates(date(esg_report.base_year, 1, 1))
             base_year_start_date = base_year_date['date_from']
             base_year_end_date = base_year_date['date_to']
@@ -1082,7 +1083,7 @@ class EsgCsrdHrReportController(EsgCsrdReportController):
         # Base Year
         base_total_non_employees_count = 0
         base_non_employees_version_ids = False
-        if esg_report.base_year:
+        if has_base_year:
             base_non_employees_version_ids = self._get_valid_employee_version_ids(base_year_start_date, base_year_end_date, is_employee_type=False)
             base_total_non_employees_count = len(base_non_employees_version_ids)
             html_template_variables['{{ total_non_employee_base }}'] = str(base_total_non_employees_count)

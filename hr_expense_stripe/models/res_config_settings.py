@@ -14,6 +14,7 @@ class ResConfigSettings(models.TransientModel):
     )
     stripe_account_issuing_tos_accepted = fields.Boolean(related="company_id.stripe_account_issuing_tos_accepted", readonly=False)
     stripe_company_currency_id = fields.Many2one(related='company_id.stripe_currency_id')
+    is_stripe_issuing_supported = fields.Boolean(related='company_id.is_stripe_issuing_supported')
 
     @api.model
     def open_expense_stripe_issuing_terms(self, params):

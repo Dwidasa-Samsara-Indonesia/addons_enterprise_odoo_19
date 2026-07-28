@@ -85,10 +85,13 @@ class ProjectTimesheetForecastReportAnalysis(models.Model):
                 WHERE NOT EXISTS (
                     SELECT 1
                     FROM resource_calendar_leaves RL
-                    WHERE RL.calendar_id = R.calendar_id
+                    WHERE (RL.calendar_id = R.calendar_id OR RL.calendar_id IS NULL)
                       AND (RL.resource_id = R.id OR RL.resource_id IS NULL)
+                      AND (RL.company_id = F.company_id OR RL.company_id IS NULL)
                       AND NOT (F.end_datetime::date < RL.date_from::date OR F.start_datetime::date > RL.date_to::date)
-                      AND g.day::date BETWEEN RL.date_from::date AND RL.date_to::date
+                      AND g.day::date BETWEEN
+                      (RL.date_from AT TIME ZONE 'UTC' AT TIME ZONE COALESCE(R.tz, 'UTC'))::date AND
+                      (RL.date_to AT TIME ZONE 'UTC' AT TIME ZONE COALESCE(R.tz, 'UTC'))::date
                 )
             ) AS d
         """

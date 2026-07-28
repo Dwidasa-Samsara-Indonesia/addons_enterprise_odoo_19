@@ -1,6 +1,6 @@
 import datetime
 
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup
@@ -8,7 +8,7 @@ from markupsafe import Markup
 from odoo import Command, fields
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import Form, freeze_time, tagged
-from odoo.tools import mute_logger
+from odoo.tools import mute_logger, format_date
 
 from odoo.addons.account_accountant.tests.test_signature import TestInvoiceSignature
 from odoo.addons.mail.tests.common import MockEmail
@@ -773,6 +773,29 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
                     'qty_delivered': 3,
         })],})
 
+        # Test constraint works when product is added through catalog.
+        # the base _update_order_line_info calls request.update_context() which
+        # requires an active HTTP request. We mock it so the validation logic can be tested.
+        sub3 = self.subscription.copy()
+        sub3.order_line.unlink()
+        sub3.order_line = [Command.create({
+            'name': self.product_tmpl_5.name,
+            'product_id': self.product_tmpl_5.product_variant_id.id,
+            'product_uom_qty': 1,
+        })]
+        sub3.plan_id = False
+        sub3.action_confirm()
+        with patch('odoo.addons.sale.models.sale_order.request', new=MagicMock()):
+            with self.assertRaisesRegex(UserError, 'Please add a recurring plan on the subscription or remove the recurring product.'):
+                sub3._update_order_line_info(self.product.id, 1)
+
+        # Test adding recurring product in draft SO through catalog should NOT raise.
+        sub4 = self.subscription.copy()
+        sub4.order_line.unlink()
+        sub4.plan_id = False
+        with patch('odoo.addons.sale.models.sale_order.request', new=MagicMock()):
+            sub4._update_order_line_info(self.product.id, 1)
+
     def test_next_invoice_date(self):
         with freeze_time("2022-01-20"):
             subscription = self.env['sale.order'].create({
@@ -1289,6 +1312,27 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
         so.action_confirm()
         self.assertEqual(so.order_line.discount, 20,
              "Discounts should not be reset on confirmation.")
+
+    def test_recurring_plan_discount_without_pricelist(self):
+        """ A percentage discount set directly on the recurring plan (a subscription
+        pricing rule without a pricelist) must not make the price computation recurse
+        on itself when looking up its base price. """
+        rule = self.env['product.pricelist.item'].create({
+            'product_tmpl_id': self.product_tmpl_2.id,
+            'plan_id': self.plan_month.id,
+            'pricelist_id': False,
+            'compute_price': 'percentage',
+            'percent_price': 10.0,
+        })
+        price = rule._compute_price(
+            product=self.product2,
+            quantity=1.0,
+            date=fields.Datetime.now(),
+            uom=self.product2.uom_id,
+            currency=self.env.company.currency_id,
+            plan_id=self.plan_month.id,
+        )
+        self.assertEqual(price, 18.0)  # list_price 20 - 10%
 
     def test_paused_resume_logs(self):
         self.flush_tracking()
@@ -1832,6 +1876,27 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
                 self.env['sale.order']._cron_recurring_send_payment_reminder()
                 # it should close the subscription
                 self.assertEqual(self.subscription.subscription_state, '6_churn')
+
+    def test_cron_recurring_send_payment_reminder_duplicate(self):
+        """
+        The copy of a subscription should not have its last_reminder_date set in order to permit the
+        delivery of payment reminder for the duplicate subscription.
+        """
+        with freeze_time("2026-04-21"):
+            self.subscription.require_payment = True
+            self.subscription.action_confirm()
+
+        with self.mock_mail_gateway():
+            with freeze_time("2026-04-28"):
+                self.env['sale.order']._cron_recurring_send_payment_reminder()
+                self.assertEqual(len(self._new_mails), 1)
+                self.assertEqual(self.subscription.last_reminder_date, fields.Date.today())
+                subscription_copy = self.subscription.copy()
+                self.assertFalse(subscription_copy.last_reminder_date)
+                subscription_copy.action_confirm()
+                self.env['sale.order']._cron_recurring_send_payment_reminder()
+                self.assertEqual(len(self._new_mails), 2)
+                self.assertEqual(subscription_copy.last_reminder_date, fields.Date.today())
 
     def test_cron_recurring_send_payment_reminder_failure(self):
         with freeze_time("2024-05-01"):
@@ -3236,3 +3301,64 @@ class TestSubscription(TestSubscriptionCommon, MockEmail):
         self.assertEqual(new_user_2, company_partner.user_id, "Salesperson should be updated on the company partner after second change")
         self.assertEqual(new_user_2, contact_1.user_id, "Salesperson should be propagated to child contact 1 after second change")
         self.assertEqual(new_user_2, contact_2.user_id, "Salesperson should be propagated to child contact 2 after second change")
+
+    def test_payment_reminder_template_loaded_manually(self):
+        """Test that the payment reminder email template is correctly rendered when loaded manually from the mail composer."""
+
+        self.subscription.write({
+            'partner_id': self.partner.id,
+            'next_invoice_date': fields.Date.from_string('2022-06-20'),
+            'client_order_ref': 'SUB-TEST-001',
+        })
+        self.subscription.action_confirm()
+
+        reminder_template = self.env.ref('sale_subscription.email_payment_reminder')
+
+        composer = self.env['mail.compose.message'].with_context({
+            'default_model': 'sale.order',
+            'default_res_ids': self.subscription.ids,
+            'default_template_id': reminder_template.id,
+            'default_composition_mode': 'comment',
+        }).create({})
+
+        expected_date_close = format_date(self.env, self.subscription._get_subscription_close_date())
+
+        self.assertIn(
+            self.subscription.client_order_ref,
+            composer.body,
+            'The payment reminder email should contain the subscription code.',
+        )
+        self.assertIn(
+            expected_date_close,
+            composer.body,
+            'The payment reminder email should contain the correct closing date.',
+        )
+
+    def test_cron_payment_reminder_renders_code_and_close_date(self):
+        """Test that the payment reminder email template is correctly rendered when sent automatically."""
+        self.subscription.write({
+            'partner_id': self.partner.id,
+            'require_payment': True,
+            'start_date': fields.Date.from_string('2024-04-01'),
+            'next_invoice_date': fields.Date.from_string('2024-05-01'),
+            'client_order_ref': 'SUB-TEST-001',
+        })
+        self.subscription.action_confirm()
+
+        with self.mock_mail_gateway():
+            with freeze_time('2024-05-01'):
+                self.env['sale.order']._cron_recurring_send_payment_reminder()
+
+                mail = self._new_mails[0]
+                expected_close_date = format_date(self.env, self.subscription._get_subscription_close_date())
+
+                self.assertIn(
+                    self.subscription.client_order_ref,
+                    mail.body_html,
+                    'The payment reminder email should contain the subscription code.',
+                )
+                self.assertIn(
+                    expected_close_date,
+                    mail.body_html,
+                    'The payment reminder email should contain the correct closing date.',
+                )

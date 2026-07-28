@@ -5,13 +5,13 @@
 # Translators:
 # Jumshud Sultanov <cumshud@gmail.com>, 2023
 # erpgo translator <jumshud@erpgo.az>, 2023
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:44+0000\n"
-"PO-Revision-Date: 2025-11-15 11:30+0000\n"
+"POT-Creation-Date: 2026-07-10 17:45+0000\n"
+"PO-Revision-Date: 2026-06-13 10:43+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Azerbaijani <https://translate.odoo.com/projects/odoo-19/"
 "account_accountant/az/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_accountant
 #. odoo-python
@@ -330,6 +330,13 @@ msgid ""
 msgstr ""
 
 #. module: account_accountant
+#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
+msgid ""
+"All entries created by Invoicing before that date will be ignored in "
+"Accounting."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_autocomplete_ids
 msgid "All reconciliation models"
 msgstr "Bütün üzləşdirmə modelləri"
@@ -463,6 +470,7 @@ msgstr "Avtomatik Üzləşdirilən Girişlər"
 
 #. module: account_accountant
 #. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_kanban.xml:0
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/search_dialog/search_dialog_list.xml:0
 msgid "Balance:"
 msgstr "Balans:"
@@ -1170,8 +1178,18 @@ msgid "Has Abnormal Deferred Dates"
 msgstr ""
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_attachments
+msgid "Has Attachments"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_move_line__has_deferred_moves
 msgid "Has Deferred Moves"
+msgstr ""
+
+#. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__has_invalid_analytics
+msgid "Has Invalid Analytics"
 msgstr ""
 
 #. module: account_accountant
@@ -1285,6 +1303,11 @@ msgid "Invoice Date"
 msgstr "Hesab-faktura Tarixi"
 
 #. module: account_accountant
+#: model:res.groups,name:account_accountant.group_account_basic
+msgid "Invoicing & Banks"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_res_company__invoicing_switch_threshold
 #: model:ir.model.fields,field_description:account_accountant.field_res_config_settings__invoicing_switch_threshold
 msgid "Invoicing Switch Threshold"
@@ -1368,8 +1391,9 @@ msgstr ""
 
 #. module: account_accountant
 #: model:ir.actions.act_window,name:account_accountant.action_move_line_posted_unreconciled
+#, fuzzy
 msgid "Journal Items to reconcile"
-msgstr ""
+msgstr "Üzləşməli olan Jurnal Sətirləri"
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -1656,8 +1680,9 @@ msgstr "Əlavənin Yerini Dəyişmək"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__move_line_ids
+#, fuzzy
 msgid "Move lines to reconcile"
-msgstr ""
+msgstr "Üzləşməli sətirlər"
 
 #. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_fiscal_year__name
@@ -1992,6 +2017,11 @@ msgid "Reconciled"
 msgstr "Üzləşdirildi"
 
 #. module: account_accountant
+#: model:ir.model.fields,field_description:account_accountant.field_account_bank_statement_line__reconciled_lines_name
+msgid "Reconciled Lines Name"
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields,field_description:account_accountant.field_account_reconcile_wizard__reco_model_id
 msgid "Reconciliation model"
 msgstr ""
@@ -2050,8 +2080,9 @@ msgstr ""
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_change_lock_date
+#, fuzzy
 msgid "Revoke"
-msgstr ""
+msgstr "Ləğv edin"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_reconcile_model_line
@@ -2242,8 +2273,9 @@ msgstr ""
 #. module: account_accountant
 #. odoo-javascript
 #: code:addons/account_accountant/static/src/components/bank_reconciliation/button_list/button_list.xml:0
+#, fuzzy
 msgid "Suggestions"
-msgstr ""
+msgstr "Təkliflər"
 
 #. module: account_accountant
 #: model:ir.model,name:account_accountant.model_account_tax
@@ -2297,13 +2329,6 @@ msgstr ""
 #: code:addons/account_accountant/models/account_fiscal_year.py:0
 msgid "The ending date must not be prior to the starting date."
 msgstr "Bitiş tarixi başlama tarixindən əvvəl olmamalıdır."
-
-#. module: account_accountant
-#: model_terms:ir.ui.view,arch_db:account_accountant.res_config_settings_view_form
-msgid ""
-"The invoices before this date will not be taken into account as accounting "
-"entries"
-msgstr ""
 
 #. module: account_accountant
 #: model:ir.model.fields,help:account_accountant.field_account_bank_statement_line__deferred_original_move_ids
@@ -2480,6 +2505,12 @@ msgstr "%s-ə köçürmə"
 #: model:ir.actions.server,name:account_accountant.auto_reconcile_bank_statement_line_ir_actions_server
 msgid "Try to reconcile automatically your statement lines"
 msgstr "Bəyannamə sətirlərini avtomatik üzləşdirməyə cəhd edin"
+
+#. module: account_accountant
+#. odoo-javascript
+#: code:addons/account_accountant/static/src/components/bank_reconciliation/statement_line/statement_line.xml:0
+msgid "Undo reconciliation"
+msgstr ""
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.view_account_move_line_reconcile_search
@@ -2666,6 +2697,11 @@ msgid "You need to select who the exception applies to."
 msgstr ""
 
 #. module: account_accountant
+#: model:res.groups,comment:account_accountant.group_account_basic
+msgid "adds the accounting dashboard, bank management and follow-up reports."
+msgstr ""
+
+#. module: account_accountant
 #: model:ir.model.fields.selection,name:account_accountant.selection__account_change_lock_date__exception_duration__1h
 msgid "for 1 hour"
 msgstr ""
@@ -2720,8 +2756,9 @@ msgstr ""
 
 #. module: account_accountant
 #: model_terms:ir.ui.view,arch_db:account_accountant.account_journal_dashboard_kanban_view
+#, fuzzy
 msgid "to reconcile"
-msgstr ""
+msgstr "üzləşməli"
 
 #~ msgid "Models"
 #~ msgstr "Modellər"

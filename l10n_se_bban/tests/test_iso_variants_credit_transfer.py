@@ -12,6 +12,9 @@ class TestSwedishIsoBBANCreditTransfer(TestSwedishIsoCreditTransfer):
     def setUpClass(cls):
         super().setUpClass()
         cls.swedish_partner_bank.bank_id = cls.swedish_bank
+        cls.company.company_registry = '555555-5555'
+        cls.company.partner_id.name = 'Creditor'
+        cls.swedish_partner.city = 'Swedish City'
 
     @freeze_time('2024-03-04')
     def test_bankgiro(self):
@@ -116,15 +119,15 @@ class TestSwedishIsoBBANCreditTransfer(TestSwedishIsoCreditTransfer):
             'name': 'Swedbank Customer',
             'country_id': self.env.ref('base.se').id,
         }])
-        self.env['res.partner.bank'].create([{
+        nordea_partner_bank, swedbank_partner_bank = self.env['res.partner.bank'].create([{
             'acc_number': '654321-9',
             'allow_out_payment': True,
-            'partner_id': nordea_partner.id,
+            'partner_id': self.company.partner_id.id,
             'bank_id': nordea.id,
         }, {
             'acc_number': '96602675632',
             'allow_out_payment': True,
-            'partner_id': swedbank_partner.id,
+            'partner_id': self.company.partner_id.id,
             'bank_id': swedbank.id,
         }])
         nordea_journal, swedbank_journal = self.env['account.journal'].create([{
@@ -132,13 +135,15 @@ class TestSwedishIsoBBANCreditTransfer(TestSwedishIsoCreditTransfer):
             'code': 'BK-NORD',
             'type': 'bank',
             'sepa_pain_version': 'pain.001.001.03',
-            'bank_account_id': self.company_data['default_journal_bank'].bank_account_id.id,
+            'company_id': self.company.id,
+            'bank_account_id': nordea_partner_bank.id,
         }, {
             'name': 'Swedbank Journal',
             'code': 'BK-SWED',
             'type': 'bank',
             'sepa_pain_version': 'pain.001.001.03',
-            'bank_account_id': self.company_data['default_journal_bank'].bank_account_id.id,
+            'company_id': self.company.id,
+            'bank_account_id': swedbank_partner_bank.id,
         }])
         nordea_payment, swedbank_payment = self.env['account.payment'].create([{
             'journal_id': nordea_journal.id,
@@ -147,6 +152,7 @@ class TestSwedishIsoBBANCreditTransfer(TestSwedishIsoCreditTransfer):
             'date': '2024-03-04',
             'amount': 500,
             'partner_id': nordea_partner.id,
+            'partner_bank_id': nordea_partner_bank.id,
             'partner_type': 'supplier',
             'memo': '123',
         }, {
@@ -156,6 +162,7 @@ class TestSwedishIsoBBANCreditTransfer(TestSwedishIsoCreditTransfer):
             'date': '2024-03-04',
             'amount': 500,
             'partner_id': swedbank_partner.id,
+            'partner_bank_id': swedbank_partner_bank.id,
             'partner_type': 'supplier',
             'memo': '456',
         }])
@@ -194,3 +201,12 @@ class TestSwedishIsoBBANCreditTransfer(TestSwedishIsoCreditTransfer):
         self.assertEqual(self.swedish_partner_bank.acc_type, 'bban_se')
         self.swedish_partner_bank.acc_number = '99603406872188'
         self.assertEqual(self.swedish_partner_bank.acc_type, 'bban_se')
+
+    @freeze_time('2024-03-04')
+    def test_swedish_iso_pain_09_xml(self):
+        batch = self.generate_iso20022_batch_payment(self.swedish_partner)
+        sct_doc = self.get_sct_doc_from_batch(batch)
+        xml_file_path = file_path('l10n_se_bban/tests/data/pain.001.001.09.se.xml')
+        expected_tree = etree.parse(xml_file_path)
+
+        self.assertXmlTreeEqual(sct_doc, expected_tree.getroot())

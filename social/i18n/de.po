@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-04-04 10:46+0000\n"
+"POT-Creation-Date: 2026-07-10 17:44+0000\n"
+"PO-Revision-Date: 2026-07-13 09:13+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/social/"
 "de/>\n"
@@ -23,12 +23,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: social
 #: model:ir.model.fields,field_description:social.field_social_media__accounts_count
 msgid "# Accounts"
-msgstr "# Konten"
+msgstr "Anzahl Konten"
 
 #. module: social
 #. odoo-python
@@ -40,13 +40,13 @@ msgstr "%(media_name)s (max. %(max_chars)s Zeichen)"
 #. odoo-javascript
 #: code:addons/social/static/src/xml/social_templates.xml:0
 msgid ", you must first link a social media."
-msgstr ", müssen Sie zunächst eine Social-Media-Plattform verknüpfen."
+msgstr "müssen Sie zunächst eine Social-Media-Plattform verknüpfen."
 
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_http_error_view
 msgid "<b>An error occurred while trying to link your account</b>"
 msgstr ""
-"<b>Beim Versuch Ihr Konto zu verknüpfen, ist ein Fehler aufgetreten</b>"
+"<b>Beim Versuch, Ihr Konto zu verknüpfen, ist ein Fehler aufgetreten</b>"
 
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_post_view_kanban
@@ -63,7 +63,7 @@ msgstr ""
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_post_view_form
 msgid "<i class=\"fa fa-globe ms-1\" title=\"See the post\"/>"
-msgstr "<i class=\"fa fa-globe ms-1\" title=\"See the post\"/>"
+msgstr "<i class=\"fa fa-globe ms-1\" title=\"Beitrag anzeigen\"/>"
 
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_http_error_view
@@ -77,7 +77,7 @@ msgid ""
 "strong>"
 msgstr ""
 "<strong>Herzlichen Glückwunsch! Kommen Sie in ein paar Minuten wieder, um "
-"Ihre Statistiken zu überprüfen.</strong>"
+"Ihre Statistiken einzusehen.</strong>"
 
 #. module: social
 #: model:ir.model.fields,field_description:social.field_social_media__message_needaction
@@ -214,19 +214,19 @@ msgstr "Name des Autors"
 #. module: social
 #: model:ir.model.fields,help:social.field_social_stream_post__author_link
 msgid "Author link to the external social.media (ex: link to the X Account)."
-msgstr "Autor-Link zu externen social.media (bsp.: Link zu einem X-Konto)"
+msgstr "Autor-Link zu externen social.media (bsp.: Link zu einem X-Konto)."
 
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_post_template_view_form
 msgid "Before posting, links will be converted to be trackable."
 msgstr ""
-"Links werden vor der Veröffentlichung so umgewandelt, dass sie verfolgbar "
-"sind."
+"Links werden vor der Veröffentlichung so umgewandelt, dass sie "
+"nachverfolgbar sind."
 
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_stream_post_view_search
 msgid "By Stream"
-msgstr "Durch Stream"
+msgstr "Nach Stream"
 
 #. module: social
 #: model:ir.model.fields,field_description:social.field_social_media__csrf_token
@@ -293,6 +293,12 @@ msgstr "Klicks"
 #: model_terms:ir.ui.view,arch_db:social.social_post_view_kanban
 msgid "Clicks:"
 msgstr "Klicks:"
+
+#. module: social
+#. odoo-javascript
+#: code:addons/social/static/src/xml/social_templates.xml:0
+msgid "Comment GIF"
+msgstr "GIF kommentieren"
 
 #. module: social
 #. odoo-javascript
@@ -505,7 +511,8 @@ msgid ""
 "Due to length restrictions, the following posts cannot be posted:\n"
 " %s"
 msgstr ""
-"Wegen Längenbeschränkungen können folgende Beiträge nicht gepostet werden: %s"
+"Wegen Längenbeschränkungen können folgende Beiträge nicht gepostet werden:\n"
+"%s"
 
 #. module: social
 #. odoo-javascript
@@ -882,7 +889,7 @@ msgstr "Link des Live-Beitrags auf dem Zielmedium."
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_post_template_view_form
 msgid "Link social accounts"
-msgstr "Social-Media-Konten verbinden"
+msgstr "Verbinden Sie Social-Media-Konten,"
 
 #. module: social
 #: model:ir.model.fields,help:social.field_social_account__stats_link
@@ -1756,7 +1763,7 @@ msgstr "Titel"
 #. odoo-javascript
 #: code:addons/social/static/src/xml/social_templates.xml:0
 msgid "To add a stream"
-msgstr "Um einen Stream hinzuzufügen"
+msgstr "Um einen Stream hinzuzufügen,"
 
 #. module: social
 #: model:ir.model.fields,field_description:social.field_social_stream__stream_type_id
@@ -1955,7 +1962,7 @@ msgstr "einen Stream von einem existierenden Konto hinzu"
 #. module: social
 #: model_terms:ir.ui.view,arch_db:social.social_post_template_view_form
 msgid "before posting."
-msgstr ", bevor Sie posten."
+msgstr "bevor Sie Beiträge veröffentlichen."
 
 #. module: social
 #. odoo-javascript

@@ -82,6 +82,45 @@ class TestPoSSettleDueHttpCommon(TestPointOfSaleHttpCommon, TestPoSCommon):
         self.main_pos_config.current_session_id.action_pos_session_closing_control()
         self.assertEqual(self.partner_c.total_due, 195)
 
+    def test_settle_open_invoice_child_contact(self):
+        """Test settling an invoice for a child contact via its parent (commercial partner)."""
+        partner_parent = self.env["res.partner"].create({
+            "name": "D Company",
+            "is_company": True,
+        })
+        partner_child = self.env["res.partner"].create({
+            "name": "D Contact",
+            "parent_id": partner_parent.id,
+        })
+        self.assertEqual(partner_child.commercial_partner_id, partner_parent)
+
+        invoice = self.env['account.move'].create({
+            'partner_id': partner_child.id,
+            'move_type': 'out_invoice',
+            'invoice_line_ids': [(0, 0, {'name': 'test', 'price_unit': 100})],
+        })
+        invoice.action_post()
+        self.assertEqual(partner_parent.total_due, 100)
+
+        self.customer_account_payment_method = self.env['pos.payment.method'].create({
+            'name': 'Customer Account',
+            'split_transactions': True,
+        })
+        self.main_pos_config.write({
+            'payment_method_ids': [(4, self.customer_account_payment_method.id, 0)],
+        })
+        self.main_pos_config.settle_invoice_product_id = self.env.ref(
+            "pos_settle_due.product_product_settle_invoice"
+        )
+        self.main_pos_config.open_ui()
+        self.start_tour(
+            "/pos/ui?config_id=%d" % self.main_pos_config.id,
+            'pos_settle_open_invoice_child_contact',
+            login="accountman",
+        )
+        self.main_pos_config.current_session_id.action_pos_session_closing_control()
+        self.assertEqual(partner_parent.total_due, 0)
+
     def test_settle_open_invoice_with_credit_note(self):
         """Ensure POS settles net amount of invoice minus credit note via 'Settle invoices'."""
         self.partner_c = self.env["res.partner"].create({"name": "C Partner"})

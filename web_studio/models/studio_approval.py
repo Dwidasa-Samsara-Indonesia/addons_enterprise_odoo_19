@@ -1003,7 +1003,7 @@ class StudioApprovalRule(models.Model):
         applicable_rule_ids = list()
         for rule in rules_data:
             rule_domain = rule.get('domain') and literal_eval(rule['domain'])
-            if not rule_domain or record.filtered_domain(rule_domain):
+            if record.sudo().filtered_domain(rule_domain):
                 # the record matches the domain of the rule
                 # or the rule has no domain set on it
                 applicable_rule_ids.append(rule['id'])

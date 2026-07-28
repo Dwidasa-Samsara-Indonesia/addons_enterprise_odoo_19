@@ -103,8 +103,10 @@ class L10nRoTrialBalance5ColumnReportHandler(models.AbstractModel):
             credit = max(-balance, 0.0) or 0.0
             line['columns'][end_balance_debit_index]['no_format'] = debit
             line['columns'][end_balance_credit_index]['no_format'] = credit
-            total_debit += debit
-            total_credit += credit
+            markup, res_model, _res_id = report._parse_line_id(line['id'])[-1]
+            if res_model == 'account.account' or markup == 'undistributed_profits_losses':
+                total_debit += debit
+                total_credit += credit
 
         lines[-1]['columns'][end_balance_debit_index]['no_format'] = self.env.company.currency_id.round(total_debit)
         lines[-1]['columns'][end_balance_credit_index]['no_format'] = self.env.company.currency_id.round(total_credit)

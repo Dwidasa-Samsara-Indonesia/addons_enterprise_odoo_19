@@ -1,7 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+from collections import defaultdict
 
-from odoo import fields, models, _
+from odoo import _, fields, models
 from odoo.exceptions import UserError
+from odoo.fields import Domain
 
 
 class ResPartner(models.Model):
@@ -13,20 +15,21 @@ class ResPartner(models.Model):
         'res_partner_id', 'helpdesk_sla_id', string='SLA Policies',
         help="SLA Policies that will automatically apply to the tickets submitted by this customer.")
 
-    def _compute_ticket_count(self):
+    def _count_tickets_by_partner_id(self, extra_domain=[]):
         all_partners_subquery = self.with_context(active_test=False)._search([('id', 'child_of', self.ids)])
-
-        # group tickets by partner, and account for each partner in self
-        groups = self.env['helpdesk.ticket']._read_group(
-            [('partner_id', 'in', all_partners_subquery)],
-            groupby=['partner_id'], aggregates=['__count'],
-        )
-        self.ticket_count = 0
+        domain = Domain.AND([[('partner_id', 'in', all_partners_subquery)], extra_domain])
+        groups = self.env['helpdesk.ticket']._read_group(domain, groupby=['partner_id'], aggregates=['__count'])
+        count_by_partner_id = defaultdict(int)
         for partner, count in groups:
             while partner:
-                if partner in self:
-                    partner.ticket_count += count
+                count_by_partner_id[partner.id] += count
                 partner = partner.with_context(prefetch_fields=False).parent_id
+        return count_by_partner_id
+
+    def _compute_ticket_count(self):
+        count_by_partner_id = self._count_tickets_by_partner_id()
+        for partner in self:
+            partner.ticket_count = count_by_partner_id.get(partner.id, 0)
 
     def action_open_helpdesk_ticket(self):
         self.ensure_one()

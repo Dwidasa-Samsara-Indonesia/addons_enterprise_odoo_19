@@ -53,9 +53,6 @@ def get_lazada_aggregated_status(statuses):
     unique_statuses = list(set(statuses))
     if len(unique_statuses) == 1:
         return unique_statuses[0]
-    if len(unique_statuses) == 2 and 'canceled' in unique_statuses:
-        unique_statuses.remove('canceled')
-        return unique_statuses[0]
     return 'manual'
 
 

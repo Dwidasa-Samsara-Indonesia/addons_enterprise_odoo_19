@@ -9,15 +9,15 @@
 # Sanne Kristensen <sanne@vkdata.dk>, 2022
 # Martin Trigaux, 2022
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0beta+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:45+0000\n"
-"PO-Revision-Date: 2025-11-16 17:47+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 15:52+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "helpdesk_stock/da/>\n"
 "Language: da\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: helpdesk_stock
 #. odoo-python
@@ -65,7 +65,7 @@ msgstr ""
 #. module: helpdesk_stock
 #: model:ir.model,website_form_label:helpdesk_stock.model_helpdesk_ticket
 msgid "Create a Ticket"
-msgstr "Opret en supportbillet"
+msgstr "Opret en supportsag"
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking__partner_id
@@ -102,23 +102,23 @@ msgstr "Levering til returnering"
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking__display_name
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking_line__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,help:helpdesk_stock.field_helpdesk_ticket__tracking
 msgid "Ensure the traceability of a storable product in your warehouse."
-msgstr "Forsikre sporbarheden af opbevarings produkter i dit lager."
+msgstr "Sikr sporbarhed af de lagerførte produkter på dit lager."
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_helpdesk_ticket__has_partner_picking
 msgid "Has Partner Picking"
-msgstr ""
+msgstr "Har partnerplukning"
 
 #. module: helpdesk_stock
 #: model:ir.model,name:helpdesk_stock.model_helpdesk_ticket
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_picking__ticket_id
 msgid "Helpdesk Ticket"
-msgstr "Helpdesk sag"
+msgstr "Kundeservicesag"
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_helpdesk_sla_report_analysis__id
@@ -133,7 +133,7 @@ msgstr "ID"
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_helpdesk_ticket__lot_id
 msgid "Lot/Serial Number"
-msgstr "Lot/serienummer"
+msgstr "Parti-/serienummer"
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,help:helpdesk_stock.field_stock_picking__ticket_visibility
@@ -190,6 +190,8 @@ msgid ""
 "Product this ticket is about. If selected, only the sales orders, deliveries "
 "and invoices including this product will be visible."
 msgstr ""
+"Produktet, som denne sag vedrører. Hvis denne mulighed er valgt, vil "
+"leveringer og fakturaer – herunder dette produkt – være synlige."
 
 #. module: helpdesk_stock
 #: model_terms:ir.ui.view,arch_db:helpdesk_stock.helpdesk_ticket_view_form_inherit_stock_user
@@ -199,7 +201,7 @@ msgstr "Erstat"
 #. module: helpdesk_stock
 #: model_terms:ir.ui.view,arch_db:helpdesk_stock.helpdesk_ticket_view_form_inherit_stock_user
 msgid "Return"
-msgstr "Returner"
+msgstr "Returnér"
 
 #. module: helpdesk_stock
 #. odoo-python
@@ -216,7 +218,7 @@ msgstr "Antal returneringsordrer"
 #. module: helpdesk_stock
 #: model:ir.model,name:helpdesk_stock.model_stock_return_picking
 msgid "Return Picking"
-msgstr "Retur plukning"
+msgstr "Returplukning"
 
 #. module: helpdesk_stock
 #: model:ir.model,name:helpdesk_stock.model_stock_return_picking_line
@@ -231,7 +233,7 @@ msgstr "Returneringer"
 #. module: helpdesk_stock
 #: model:ir.model,name:helpdesk_stock.model_helpdesk_sla_report_analysis
 msgid "SLA Status Analysis"
-msgstr "SLA statusanalyse"
+msgstr "Statusanalyse af serviceleveranceaftale"
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking__sale_order_id
@@ -241,12 +243,12 @@ msgstr "Salgsordre"
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking__suitable_picking_ids
 msgid "Suitable Picking"
-msgstr "Passende Pluk"
+msgstr "Egnet plukning"
 
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking__suitable_sale_order_ids
 msgid "Suitable Sale Order"
-msgstr ""
+msgstr "Egnet salgsordre"
 
 #. module: helpdesk_stock
 #. odoo-python
@@ -257,7 +259,7 @@ msgstr ""
 #. module: helpdesk_stock
 #: model:ir.model.fields,field_description:helpdesk_stock.field_stock_return_picking__ticket_id
 msgid "Ticket"
-msgstr "Billet"
+msgstr "Sag"
 
 #. module: helpdesk_stock
 #: model:ir.model,name:helpdesk_stock.model_helpdesk_ticket_report_analysis

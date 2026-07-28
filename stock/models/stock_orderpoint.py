@@ -697,7 +697,7 @@ class StockWarehouseOrderpoint(models.Model):
             'date_order': dates_info['date_order'],
             'date_deadline': date or False,
             'warehouse_id': self.warehouse_id,
-            'orderpoint_id': self,
+            'orderpoint_id': self.trigger == 'auto' and self,
         }
         reference = self.env.context.get('origins')
         if reference:
@@ -771,7 +771,7 @@ class StockWarehouseOrderpoint(models.Model):
                         ('res_model_id', '=', self.env.ref('product.model_product_template').id),
                         ('note', 'like', error_msg)], limit=1)
                     if not existing_activity:
-                        orderpoint.product_id.product_tmpl_id.sudo().activity_schedule(
+                        orderpoint.product_id.product_tmpl_id.with_user(SUPERUSER_ID).activity_schedule(
                             'mail.mail_activity_data_warning',
                             note=error_msg,
                             user_id=orderpoint.product_id.responsible_id.id or SUPERUSER_ID,
@@ -801,7 +801,7 @@ class StockWarehouseOrderpoint(models.Model):
 
     def _get_multiple_rounded_qty(self, qty_to_order):
         replenishment_multiple = self.replenishment_uom_id or self._get_replenishment_multiple_alternative(qty_to_order)
-        if replenishment_multiple and replenishment_multiple != self.product_id.uom_id:
+        if replenishment_multiple:
             # Replace the UP by DOWN if we don't want to order more quantity than product_max_qty
             qty_to_order = self.product_id.uom_id._compute_quantity(qty_to_order, replenishment_multiple)
             qty_to_order = fields.Float.round(qty_to_order, precision_digits=0, rounding_method="UP")

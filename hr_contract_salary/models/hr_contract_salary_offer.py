@@ -1,7 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import uuid
 
-from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, SUPERUSER_ID, _
 from odoo.addons.hr_contract_salary.utils.hr_version import requires_hr_version_context
 from werkzeug.urls import url_encode
@@ -43,7 +42,7 @@ class HrContractSalaryOffer(models.Model):
     )
     currency_id = fields.Many2one(related='company_id.currency_id')
     contract_template_id = fields.Many2one(
-        'hr.version', compute="_compute_contract_template_id", store=True,
+        'hr.version', compute="_compute_contract_template_id", store=True, readonly=False,
         domain="['|', ('employee_id', '=', False), ('id', '=', employee_version_id)]", tracking=True)
     sign_template_id = fields.Many2one(
         'sign.template', compute='_compute_sign_template_id', readonly=False, store=True, string="PDF Sign Template",
@@ -92,7 +91,7 @@ class HrContractSalaryOffer(models.Model):
         compute_sudo=True,
         export_string_translation=False
     )
-    contract_type_id = fields.Many2one(related='employee_job_id.contract_type_id', string='Contract Type', readonly=True, store=False)
+    contract_type_id = fields.Many2one(related='contract_template_id.contract_type_id', string='Contract Type', readonly=True, store=False)
     has_sign_template = fields.Boolean(compute="_compute_has_sign_template")
     is_contract_amendment = fields.Boolean(compute="_compute_is_contract_amendment")
     future_version_date = fields.Date(compute='_compute_future_version_date')
@@ -110,31 +109,17 @@ class HrContractSalaryOffer(models.Model):
     def _get_version(self):
         self.ensure_one()
 
-        # Offer for an employee
-        if self.employee_id:
-            contract_template = self.contract_template_id
-            if contract_template:
-                if not contract_template.employee_id:
-                    contract_template.write({
-                        'employee_id': self.employee_id,
-                        'date_version': fields.Date.today() + relativedelta(months=1),
-                        'contract_date_start': False
-                    })
-                return contract_template
-            else:
-                return self.employee_version_id
+        employee = self.employee_id or self.env['hr.employee'].with_user(SUPERUSER_ID).sudo().create({
+                'name': self.applicant_id.partner_name if self.applicant_id else 'Simulation Employee',
+                'private_phone': self.applicant_id.partner_phone if self.applicant_id else False,
+                'private_email': self.applicant_id.email_from if self.applicant_id else False,
+                'active': False,
+                'country_id': self.company_id.country_id.id,
+                'private_country_id': self.company_id.country_id.id,
+                'certificate': False,  # To force encoding it
+                'company_id': self.company_id.id,
+            })
 
-        # Offer for an applicant, create an employee
-        employee = self.env['hr.employee'].with_user(SUPERUSER_ID).sudo().create({
-            'name': self.applicant_id.partner_name if self.applicant_id else 'Simulation Employee',
-            'private_phone': self.applicant_id.partner_phone if self.applicant_id else False,
-            'private_email': self.applicant_id.email_from if self.applicant_id else False,
-            'active': False,
-            'country_id': self.company_id.country_id.id,
-            'private_country_id': self.company_id.country_id.id,
-            'certificate': False,  # To force encoding it
-            'company_id': self.company_id.id,
-        })
         if self.contract_template_id:
             employee.version_id.write(
                 self.env['hr.version'].get_values_from_contract_template(self.contract_template_id)
@@ -240,11 +225,11 @@ class HrContractSalaryOffer(models.Model):
                 contract_start_date = offer.contract_start_date or fields.Date.today().replace(day=1)
                 offer.employee_version_id = offer.employee_id._get_version(contract_start_date)
 
-    @api.depends('employee_version_id')
+    @api.depends('employee_id')
     def _compute_contract_template_id(self):
         for offer in self:
-            if not offer.contract_template_id:
-                offer.contract_template_id = offer.employee_version_id
+            if not offer.applicant_id:
+                offer.contract_template_id = offer.employee_id.version_id
 
     @api.depends('contract_template_id')
     def _compute_offer_values_from_template(self):
@@ -411,9 +396,9 @@ class HrContractSalaryOffer(models.Model):
     def action_view_version(self):
         self.ensure_one()
         version = (
-            self.env['hr.version'].with_context(active_test=False).search([('originated_offer_id', '=', self.id)], limit=1)
+            self.env['hr.version'].with_context(active_test=False).search([('originated_offer_id', '=', self.id)], order="active desc, id desc", limit=1)
             or self.employee_version_id
-            or self.env['hr.version'].with_context(active_test=False).search([('applicant_id', '=', self.applicant_id.id)], limit=1)
+            or self.env['hr.version'].with_context(active_test=False).search([('applicant_id', '=', self.applicant_id.id)], order="active desc, id desc", limit=1)
         )
         if self.state == 'half_signed':
             action = self.env.ref('hr_contract_salary.action_view_partially_signed_contract_statbutton')._get_action_dict()

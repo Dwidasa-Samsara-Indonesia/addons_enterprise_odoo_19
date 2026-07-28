@@ -434,3 +434,53 @@ class TestL10nClEdiStock(TestL10nClEdiStockCommon):
 
         self.assertIsNotNone(qty, "QtyItem tag should exist in XML")
         self.assertEqual(qty.text, "8.000000")
+
+    def test_l10n_cl_delivery_guide_kit_component_uom(self):
+        # A kit component in kg must be priced from its own product, not by
+        # converting its qty into the kit's Units UoM
+        kg = self.env.ref('uom.product_uom_kgm')
+        kit_product = self.env['product.product'].create({
+            'name': 'A kit',
+            'type': 'consu',
+            'uom_id': self.env.ref('uom.product_uom_unit').id,
+            'list_price': 500.0,
+        })
+        kit_component = self.env['product.product'].create({
+            'name': 'A component of the kit',
+            'type': 'consu',
+            'uom_id': kg.id,
+            'list_price': 100.0,
+        })
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.chilean_partner_a.id,
+            'order_line': [Command.create({
+                'product_id': kit_product.id,
+                'product_uom_qty': 1.0,
+                'price_unit': 700.0,
+            })],
+        })
+        # component move linked to the kit's sale line, as a kit BoM would produce
+        picking = self.env['stock.picking'].create({
+            'partner_id': self.chilean_partner_a.id,
+            'picking_type_id': self.warehouse.out_type_id.id,
+            'location_id': self.stock_location,
+            'location_dest_id': self.customer_location,
+            'move_ids': [Command.create({
+                'product_id': kit_component.id,
+                'product_uom': kit_component.uom_id.id,
+                'product_uom_qty': 0.6,
+                'quantity': 0.6,
+                'sale_line_id': sale_order.order_line.id,
+                'location_id': self.stock_location,
+                'location_dest_id': self.customer_location,
+            })],
+        })
+        component_move = picking.move_ids
+        self.assertEqual(picking.sale_id, sale_order)
+        self.assertEqual(self.chilean_partner_a.l10n_cl_delivery_guide_price, 'sale_order')
+
+        _totals, _retentions, line_amounts = picking._l10n_cl_get_tax_amounts()
+        amounts = line_amounts[component_move]
+        # 0.6 kg at the component's own price of 100/kg = 60, not the kit price scaled by the kg factor
+        self.assertEqual(amounts['price_unit'], self.env.company.currency_id.round(100.0))
+        self.assertEqual(amounts['total_amount'], self.env.company.currency_id.round(60.0))

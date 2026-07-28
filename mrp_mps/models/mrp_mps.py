@@ -716,7 +716,7 @@ class MrpProductionSchedule(models.Model):
                     break
                 forecast.write({'forecast_qty': 0})
             if quantity_to_add < 0:
-                new_qty = float_round(new_qty, precision_rounding=self.product_uom_id.rounding)
+                new_qty = float_round(quantity_to_add, precision_rounding=self.product_uom_id.rounding)
                 first_forecast.write({'forecast_qty': new_qty})
         return True
 
@@ -860,8 +860,9 @@ class MrpProductionSchedule(models.Model):
         rtype: float
         """
         optimal_qty = self.forecast_target_qty - after_forecast_qty
-        if self.bom_id.enable_batch_size:
-            batch_size = self.bom_id.product_uom_id._compute_quantity(self.bom_id.batch_size, self.product_uom_id)
+        bom_id = self.bom_id or self.product_id.bom_ids and self.product_id.bom_ids[0]
+        if bom_id and bom_id.enable_batch_size:
+            batch_size = bom_id.product_uom_id._compute_quantity(bom_id.batch_size, self.product_uom_id)
             optimal_qty = float_round(optimal_qty / batch_size, precision_digits=0, rounding_method='UP') * batch_size
 
         if optimal_qty <= 0:

@@ -2,14 +2,14 @@
 # This file contains the translation of the following modules:
 # * l10n_de_pos_cert
 #
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # "Larissa Manderfeld (lman)" <lman@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~16.1+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 19:05+0000\n"
-"PO-Revision-Date: 2026-01-02 11:38+0000\n"
+"POT-Creation-Date: 2026-07-03 18:06+0000\n"
+"PO-Revision-Date: 2026-07-06 13:22+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_de_pos_cert/de/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_de_pos_cert
 #: model_terms:ir.ui.view,arch_db:l10n_de_pos_cert.l10n_de_pos_dsfinvk_export_view_form
@@ -54,22 +54,6 @@ msgstr "Alle Kassensysteme"
 
 #. module: l10n_de_pos_cert
 #. odoo-javascript
-#: code:addons/l10n_de_pos_cert/static/src/app/screens/payment_screen/payment_screen.js:0
-msgid ""
-"An unknown error has occurred! Please contact Odoo for more information."
-msgstr ""
-"Es ist ein unbekannter Fehler aufgetreten! Bitte kontaktieren Sie Odoo für "
-"weitere Informationen."
-
-#. module: l10n_de_pos_cert
-#. odoo-javascript
-#: code:addons/l10n_de_pos_cert/static/src/app/utils/order_payment_validation.js:0
-msgid "An unknown error has occurred! Please, contact Odoo."
-msgstr ""
-"Es ist ein unbekannter Fehler aufgetreten! Bitte kontaktieren Sie Odoo."
-
-#. module: l10n_de_pos_cert
-#. odoo-javascript
 #: code:addons/l10n_de_pos_cert/static/src/app/services/pos_store.js:0
 msgid ""
 "An unknown error has occurred! Try to validate this order or cancel it "
@@ -78,6 +62,12 @@ msgstr ""
 "Es ist ein unbekannter Fehler aufgetreten! Versuchen Sie, diesen Auftrag zu "
 "validieren, oder stornieren Sie ihn wieder. Bitte kontaktieren Sie Odoo für "
 "weitere Informationen."
+
+#. module: l10n_de_pos_cert
+#. odoo-javascript
+#: code:addons/l10n_de_pos_cert/static/src/app/services/pos_store.js:0
+msgid "Auth request failed"
+msgstr "Authentifizierungsanfrage fehlgeschlagen"
 
 #. module: l10n_de_pos_cert
 #. odoo-javascript
@@ -94,12 +84,6 @@ msgstr "Anfang"
 #: model:ir.model.fields.selection,name:l10n_de_pos_cert.selection__l10n_de_pos_dsfinvk_export__state__cancelled
 msgid "Cancelled"
 msgstr "Storniert"
-
-#. module: l10n_de_pos_cert
-#. odoo-javascript
-#: code:addons/l10n_de_pos_cert/static/src/app/screens/payment_screen/payment_screen.js:0
-msgid "Cannot sync the orders with Fiskaly!"
-msgstr "Die Aufträge können nicht mit Fiskaly synchronisiert werden!"
 
 #. module: l10n_de_pos_cert
 #. odoo-javascript
@@ -138,12 +122,13 @@ msgstr "Seriennummer des Zertifikats"
 #. odoo-javascript
 #: code:addons/l10n_de_pos_cert/static/src/app/services/pos_store.js:0
 msgid ""
-"Check the internet connection then try to validate or cancel the order. Do "
-"not delete your browsing, cookies and cache data in the meantime!"
+"Check the internet connection then try to validate(sync) or cancel the "
+"order. Do not delete your browsing, cookies and cache data in the meantime!"
 msgstr ""
-"Überprüfen Sie Ihre Internetverbindung und versuchen Sie dann, den Auftrag "
-"zu validieren oder zu stornieren. Löschen Sie in der Zwischenzeit nicht "
-"Ihren Browserverlauf, Cookies und Cache-Daten!"
+"Überprüfen Sie Ihre Internetverbindung und versuchen Sie anschließend, den "
+"Auftrag bzw. die Bestellung zu bestätigen (synchronisieren) oder zu "
+"stornieren. Löschen Sie in der Zwischenzeit bitte nicht Ihren "
+"Browserverlauf, Ihre Cookies und Ihren Cache."
 
 #. module: l10n_de_pos_cert
 #: model:ir.model.fields,field_description:l10n_de_pos_cert.field_pos_config__l10n_de_fiskaly_client_id
@@ -378,12 +363,6 @@ msgstr "Ungültige oder fehlende Kundendaten"
 
 #. module: l10n_de_pos_cert
 #. odoo-javascript
-#: code:addons/l10n_de_pos_cert/static/src/app/screens/partner_list.js:0
-msgid "Invalid/Missing field(s) data"
-msgstr "Ungültige/fehlende Felddaten"
-
-#. module: l10n_de_pos_cert
-#. odoo-javascript
 #: code:addons/l10n_de_pos_cert/static/src/app/services/pos_store.js:0
 msgid ""
 "It seems that your Fiskaly API key and/or secret are incorrect. Update them "
@@ -395,12 +374,12 @@ msgstr ""
 #. module: l10n_de_pos_cert
 #: model:ir.model.fields,field_description:l10n_de_pos_cert.field_res_company__l10n_de_vat_export_data
 msgid "L10N De Vat Export Data"
-msgstr "L10N De: USt.-Daten exportieren"
+msgstr "USt.-Exportdaten"
 
 #. module: l10n_de_pos_cert
 #: model:ir.model.fields,field_description:l10n_de_pos_cert.field_account_tax__l10n_de_vat_definition_export_identifier
 msgid "L10n DE Vat Definition Export ID"
-msgstr "L10n DE: Export-ID der USt.-Definition"
+msgstr "Export-ID der USt.-Definition"
 
 #. module: l10n_de_pos_cert
 #: model:ir.model.fields,field_description:l10n_de_pos_cert.field_l10n_de_pos_dsfinvk_export__write_uid
@@ -449,22 +428,6 @@ msgstr "Auszahlung"
 #: model:ir.model.fields.selection,name:l10n_de_pos_cert.selection__l10n_de_pos_dsfinvk_export__state__pending
 msgid "Pending"
 msgstr "Ausstehend"
-
-#. module: l10n_de_pos_cert
-#. odoo-javascript
-#: code:addons/l10n_de_pos_cert/static/src/app/screens/partner_list.js:0
-msgid ""
-"Please make sure the selected customer has the following required details "
-"filled in before proceeding:\n"
-"- Street Address\n"
-"- Zip Code\n"
-"You can update these in the customer’s profile."
-msgstr ""
-"Stellen Sie sicher, dass die folgenden erforderlichen Angaben für den "
-"ausgewählten Kunden ausgefüllt sind, bevor Sie fortfahren:\n"
-"- Straße\n"
-"- Postleitzahl\n"
-"Sie können diese Angaben im Kundenprofil aktualisieren."
 
 #. module: l10n_de_pos_cert
 #: model:ir.model.fields,field_description:l10n_de_pos_cert.field_l10n_de_pos_dsfinvk_export__config_id
@@ -793,6 +756,12 @@ msgstr "Unbekannter Fehler"
 
 #. module: l10n_de_pos_cert
 #. odoo-javascript
+#: code:addons/l10n_de_pos_cert/static/src/app/services/pos_store.js:0
+msgid "VAT definitions request failed"
+msgstr "Anfrage nach USt.-Definitionen fehlgeschlagen"
+
+#. module: l10n_de_pos_cert
+#. odoo-javascript
 #: code:addons/l10n_de_pos_cert/static/src/app/components/popups/cash_move_popup.js:0
 msgid "Wage Payment"
 msgstr "Lohnzahlung"
@@ -866,6 +835,43 @@ msgid "Your %s is incorrect. Update it in your PoS settings"
 msgstr ""
 "%s ist nicht korrekt. Ändern Sie dies in den Einstellungen Ihres "
 "Kassensystems."
+
+#~ msgid "Invalid/Missing field(s) data"
+#~ msgstr "Ungültige/fehlende Felddaten"
+
+#~ msgid ""
+#~ "Please make sure the selected customer has the following required details "
+#~ "filled in before proceeding:\n"
+#~ "- Street Address\n"
+#~ "- Zip Code\n"
+#~ "You can update these in the customer’s profile."
+#~ msgstr ""
+#~ "Stellen Sie sicher, dass die folgenden erforderlichen Angaben für den "
+#~ "ausgewählten Kunden ausgefüllt sind, bevor Sie fortfahren:\n"
+#~ "- Straße\n"
+#~ "- Postleitzahl\n"
+#~ "Sie können diese Angaben im Kundenprofil aktualisieren."
+
+#~ msgid ""
+#~ "An unknown error has occurred! Please contact Odoo for more information."
+#~ msgstr ""
+#~ "Es ist ein unbekannter Fehler aufgetreten! Bitte kontaktieren Sie Odoo "
+#~ "für weitere Informationen."
+
+#~ msgid "An unknown error has occurred! Please, contact Odoo."
+#~ msgstr ""
+#~ "Es ist ein unbekannter Fehler aufgetreten! Bitte kontaktieren Sie Odoo."
+
+#~ msgid "Cannot sync the orders with Fiskaly!"
+#~ msgstr "Die Aufträge können nicht mit Fiskaly synchronisiert werden!"
+
+#~ msgid ""
+#~ "Check the internet connection then try to validate or cancel the order. "
+#~ "Do not delete your browsing, cookies and cache data in the meantime!"
+#~ msgstr ""
+#~ "Überprüfen Sie Ihre Internetverbindung und versuchen Sie dann, den "
+#~ "Auftrag zu validieren oder zu stornieren. Löschen Sie in der Zwischenzeit "
+#~ "nicht Ihren Browserverlauf, Cookies und Cache-Daten!"
 
 #~ msgid "This receipt is invalid because of TSS issue."
 #~ msgstr "Dieser Beleg ist aufgrund eines TSE-Problems ungültig."

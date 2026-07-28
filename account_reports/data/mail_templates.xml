@@ -86,4 +86,26 @@
         <field name="lang">{{ object.lang }}</field>
         <field name="auto_delete" eval="False"/>
     </record>
+
+    <record id="email_template_tax_return_deadline" model="mail.template">
+        <field name="name">Tax Return Deadline</field>
+        <field name="model_id" ref="account_reports.model_account_return"/>
+        <field name="subject">Reminder: Upcoming {{ object.name }} Deadline - Action Required</field>
+        <field name="partner_to" >{{ ctx.get('partner') and ctx['partner'].id }}</field>
+        <field name="use_default_to" eval="False"/>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px;">
+                    Hi <span t-out="ctx.get('partner') and ctx['partner'].name"/>,<br/><br/>
+                    The deadline to submit <strong t-out="object.name"/> is <strong t-out="object.date_deadline"/>.<br/>
+                    To avoid any potential fine, please ensure all remaining documents are sent over as soon as possible.<br/>
+                    If you've already submitted everything but still received this email, it's likely the tax return hasn't been marked as submitted in Odoo.<br/>
+                    Should you have any question or need assistance, feel free to get in touch.<br/><br/>
+                    Best regards,<br/>
+                </p>
+            </div>
+        </field>
+        <field name="lang">{{ ctx.get('partner') and ctx['partner'].lang }}</field>
+        <field name="auto_delete" eval="False"/>
+    </record>
 </odoo>

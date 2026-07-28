@@ -11,11 +11,11 @@
                     <setting string="Expense Card" company_dependent="True" id="expense_cards_stripe_issuing"
                              help="Create prepaid virtual and physical cards for both one-time and recurring expenses, integrated into Odoo through Stripe Issuing.">
                         <field name="module_hr_expense_stripe" widget="upgrade_boolean"/>
-                        <div class="mt8" invisible="module_hr_expense_stripe and stripe_company_currency_id">
+                        <div class="mt8" invisible="is_stripe_issuing_supported">
                                 <i class="fa fa-warning ms-1 text-warning"/>
                                 <span class='text-warning'> Stripe issuing is not yet supported for your localization.</span>
                         </div>
-                        <div invisible="not (module_hr_expense_stripe and stripe_company_currency_id)" name="expenses_stripe_issuing_container">
+                        <div invisible="not (module_hr_expense_stripe and is_stripe_issuing_supported)" name="expenses_stripe_issuing_container">
                             <group>
                                 <field name="stripe_journal_id" string="Journal" help="Journal where stripe transactions are recorded"
                                        context="{

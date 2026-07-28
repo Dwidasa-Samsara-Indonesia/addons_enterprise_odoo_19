@@ -79,7 +79,8 @@ class Sign(http.Controller):
         frame_values = {}
         sr_values = http.request.env['sign.request.item.value'].sudo().search([('sign_request_id', '=', sign_request.id), '|', ('sign_request_item_id', '=', current_request_item.id), ('sign_request_item_id.state', '=', 'completed')])
         for value in sr_values:
-            item_values[value.sign_item_id.id] = value.value
+            # Convert False to an empty string to avoid omitting the data-value attribute.
+            item_values[value.sign_item_id.id] = '' if value.value is False else value.value
             frame_values[value.sign_item_id.id] = value.frame_value
 
         if sign_request.state != 'shared':
@@ -253,14 +254,14 @@ class Sign(http.Controller):
         Returns:
             http.Response: Response containing the document data or a ZIP file, or a 404 response if not found.
         """
+        template_documents_ids = sign_request.template_document_ids
         if sign_document_id:
-            document_id = request.env['sign.document'].sudo().browse(sign_document_id)
+            document_id = template_documents_ids.filtered(lambda d: d.id == sign_document_id)
             if not document_id:
                 return request.not_found()
             attachment_data = document_id.attachment_id.datas
             return self._create_document_response(sign_request, attachment_data, document_name=document_id.name)
 
-        template_documents_ids = sign_request.template_document_ids
         if len(template_documents_ids) == 1:
             attachment_data = template_documents_ids[0].attachment_id.datas
             return self._create_document_response(sign_request, attachment_data, document_name=template_documents_ids[0].name)
@@ -342,13 +343,7 @@ class Sign(http.Controller):
             subject = subject[:-4]
         if not doc_name.endswith('.pdf'):
             doc_name += '.pdf'
-        download_name = f'{subject}/{doc_name}'
-        counter = 1
-        while download_name in existing_document_names:
-            name, ext = download_name.rsplit('.', 1)
-            download_name = f'{name} ({counter}).{ext}'
-            counter += 1
-        existing_document_names.add(download_name)
+        download_name = f'{subject}_{sign_request.id}/{doc_name}'
         return download_name
 
     def _create_document_response(self, sign_request, attachment_data, document_name=None):

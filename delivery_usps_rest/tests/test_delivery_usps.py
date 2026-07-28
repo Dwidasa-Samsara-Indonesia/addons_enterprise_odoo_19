@@ -23,7 +23,15 @@ class TestDeliveryUSPS(TransactionCase):
             'weight': 0.01,
         })
 
-        self.your_company = self.env.ref('base.main_partner')
+        self.env.company.partner_id.write({
+            'country_id': self.env.ref('base.us').id,
+            'state_id': self.env.ref('base.state_us_5').id,
+            'city': 'Los Angelos',
+            'street': 'My street',
+            'phone': '1234567890',
+            'zip': '90067',
+        })
+
         self.agrolait = self.env['res.partner'].create({
             'name': 'Agrolait',
             'phone': '(603)-996-3829',
@@ -216,7 +224,8 @@ def _mock_request_call():
                         "startDate": "2024-01-21",
                         "endDate": "",
                         "mailClass": "PRIORITY_MAIL",
-                        "zone": "01"
+                        "zone": "01",
+                        "rateIndicator": "SP",  # SP - Single Piece
                     }
                 ]
             },
@@ -234,7 +243,8 @@ def _mock_request_call():
                         "startDate": "2024-01-21",
                         "endDate": "",
                         "mailClass": "PRIORITY_MAIL_EXPRESS",
-                        "zone": "01"
+                        "zone": "01",
+                        "rateIndicator": "E7",  # E7 - Priority Mail Express Legal Flat Rate Envelope Sunday / Holiday
                     }
                 ]
             },
@@ -252,7 +262,8 @@ def _mock_request_call():
                         "startDate": "2024-01-21",
                         "endDate": "",
                         "mailClass": "USPS_GROUND_ADVANTAGE",
-                        "zone": "01"
+                        "zone": "01",
+                        "rateIndicator": "SP",  # SP - Single Piece
                     }
                 ]
             },
@@ -270,7 +281,8 @@ def _mock_request_call():
                         "startDate": "2024-01-21",
                         "endDate": "",
                         "mailClass": "USPS_GROUND_ADVANTAGE",
-                        "zone": "00"
+                        "zone": "00",
+                        "rateIndicator": "LC",  # LC - USPS Connect Local Single Piece
                     }
                 ]
             }
@@ -291,7 +303,8 @@ def _mock_request_call():
                         "SKU": "IGXX0XXXXB03005",
                         "price": 91.44,
                         "weight": 0.03,
-                        "description": "Global Express Guaranteed Nonmachinable ISC Single-piece"
+                        "description": "Global Express Guaranteed Nonmachinable ISC Single-piece",
+                        "rateIndicator": "SP",  # SP - Single piece
                     }
                 ],
                 "totalBasePrice": 91.44
@@ -309,7 +322,8 @@ def _mock_request_call():
                         "SKU": "IGXX0XXXXB03005",
                         "price": 91.44,
                         "weight": 0.03,
-                        "description": "Global Express Guaranteed Nonmachinable ISC Single-piece"
+                        "description": "Global Express Guaranteed Nonmachinable ISC Single-piece",
+                        "rateIndicator": "EP",  # EP - ECOMPRO Single Piece
                     }
                 ],
                 "totalBasePrice": 91.44
@@ -327,7 +341,8 @@ def _mock_request_call():
                         "SKU": "IPXX0XXXXB04010",
                         "price": 61.8,
                         "weight": 0.03,
-                        "description": "Priority Mail International Nonmachinable ISC Single-piece"
+                        "description": "Priority Mail International Nonmachinable ISC Single-piece",
+                        "rateIndicator": "SP",  # SP - Single piece
                     }
                 ],
                 "totalBasePrice": 61.8
@@ -405,7 +420,7 @@ JVBERi0xLjQKJaqrrK0KMSAwIG9iago8PAovUHJvZHVjZXIgKEFwYWNoZSBGT1AgVmVyc2lvbiBTVk46
         yield
 
 
-@tagged('-standard', 'external')
+@tagged('standard', '-external')
 class TestMockedDeliveryUSPS(TestDeliveryUSPS):
 
     def test_01_usps_basic_us_domestic_flow(self):

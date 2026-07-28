@@ -3,15 +3,15 @@
 # * mrp_workorder_plm
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Kira Petersen François (peti)" <peti@odoo.com>, 2025.
+# "Kira Petersen François (peti)" <peti@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.2+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2025-11-17 03:36+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-07-10 17:49+0000\n"
+"PO-Revision-Date: 2026-06-23 16:14+0000\n"
+"Last-Translator: \"Kira Petersen François (peti)\" <peti@odoo.com>\n"
 "Language-Team: Danish <https://translate.odoo.com/projects/odoo-19/"
 "mrp_workorder_plm/da/>\n"
 "Language: da\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: mrp_workorder_plm
 #. odoo-python
@@ -33,7 +33,7 @@ msgstr ""
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,help:mrp_workorder_plm.field_mrp_eco_routing_change__test_type
 msgid "Defines the type of the quality control point."
-msgstr "Definere typen af kvantitets kontrol pointet."
+msgstr "Angiver typen af kvalitetskontrolpunkt."
 
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_mrp_eco__display_name
@@ -43,7 +43,7 @@ msgstr "Definere typen af kvantitets kontrol pointet."
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_quality_check__display_name
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_quality_point__display_name
 msgid "Display Name"
-msgstr "Vis navn"
+msgstr "Visningsnavn"
 
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_mrp_eco__routing_change_ids_on_operation
@@ -58,7 +58,7 @@ msgstr "Ændring i grøn ruteplanlægning – Kvalitetspoint"
 #. module: mrp_workorder_plm
 #: model:ir.model,name:mrp_workorder_plm.model_mrp_eco_routing_change
 msgid "Eco Routing changes"
-msgstr "Eco rute ændringer"
+msgstr "Ændringer i ændringsordrerute"
 
 #. module: mrp_workorder_plm
 #: model:ir.model,name:mrp_workorder_plm.model_mrp_eco
@@ -121,12 +121,12 @@ msgstr "Kvalitetskontrol"
 #. module: mrp_workorder_plm
 #: model:ir.model,name:mrp_workorder_plm.model_quality_point
 msgid "Quality Control Point"
-msgstr "Kvalitetskontrol punkt"
+msgstr "Kvalitetskontrolpunkt"
 
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_mrp_eco_routing_change__quality_point_id
 msgid "Quality Point"
-msgstr "Kvalitets punkt"
+msgstr "Kvalitetspunkt"
 
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_mrp_eco_routing_change__step
@@ -136,9 +136,31 @@ msgstr "Trin"
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_mrp_eco_routing_change__test_type
 msgid "Step Type"
-msgstr "Trin type"
+msgstr "Trintype"
 
 #. module: mrp_workorder_plm
 #: model:ir.model.fields,field_description:mrp_workorder_plm.field_mrp_eco_routing_change__title
 msgid "Title"
 msgstr "Titel"
+
+#. module: mrp_workorder_plm
+#. odoo-python
+#: code:addons/mrp_workorder_plm/models/mrp_workorder.py:0
+msgid ""
+"Unable to add the proposed step to the corresponding Engineering Change "
+"Order (ECO) for this work order (WO) because multiple operations were "
+"matched with the WO. Please differentiate the operations by name, work "
+"center, or product variant. Please let your manager know if you need "
+"additional assistance for your proposed change."
+msgstr ""
+
+#. module: mrp_workorder_plm
+#. odoo-python
+#: code:addons/mrp_workorder_plm/models/mrp_workorder.py:0
+msgid ""
+"Unable to add the proposed step to the corresponding Engineering Change "
+"Order (ECO) for this work order because no corresponding operation could not "
+"be found in the ECO's Bill of Materials (BoM). This can happen if the BoM "
+"was modified after the manufacturing order was created. Please let your "
+"manager know if you need additional assistance for your proposed change."
+msgstr ""

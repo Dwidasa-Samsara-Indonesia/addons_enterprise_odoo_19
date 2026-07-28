@@ -102,3 +102,95 @@ class TestPaymentInLieuOfNotice(TestL10NHkHrPayrollAccountCommon):
         }
         self.assertEqual(len(payslip.worked_days_line_ids), 0)
         self._validate_payslip(payslip, result)
+
+    def test_short_employment(self):
+        """ Test the payment in lieu of notice for a short employment. """
+        # For one month of employment, if given one month of payment in lieu of notice, we should see exactly one month of wage.
+        self.contract.write({
+            'date_version': date(2026, 7, 1),
+            'contract_date_start': date(2026, 7, 1),
+            'contract_date_end': date(2026, 8, 1),
+            'wage': 10000,
+            'l10n_hk_internet': 0.0,
+        })
+        payslip = self._generate_payslip(date(2026, 7, 1), date(2026, 7, 31))
+        payslip.action_payslip_done()
+        payslip.action_payslip_paid()
+        pil_payslip = self._generate_payslip(
+            date(2026, 8, 1), date(2026, 8, 31),
+            struct_id=self.env.ref('l10n_hk_hr_payroll.hr_payroll_structure_cap57_payment_in_lieu_of_notice').id,
+        )
+        self._validate_payslip(pil_payslip, {
+            'PAYMENT_IN_LIEU_OF_NOTICE': 10000.00,
+            'NET': 10000.00,
+        })
+
+    def test_short_employment_with_unpaid_leave(self):
+        """ Test payment in lieu of notice for < 1 year employment WITH unpaid leave. """
+        self.contract.write({
+            'date_version': date(2026, 5, 1),
+            'contract_date_start': date(2026, 5, 1),
+            'contract_date_end': date(2026, 8, 1),
+            'wage': 10000,
+            'l10n_hk_internet': 0.0,
+        })
+
+        # Create 5 days of unpaid leave in June
+        self._generate_leave(
+            datetime(2026, 6, 14),
+            datetime(2026, 6, 18),
+            self.env.ref('hr_holidays.l10n_hk_leave_type_unpaid_leave'),
+        )
+
+        # Generate May, June, July payslips
+        for dt in rrule(MONTHLY, dtstart=datetime(2026, 5, 1), until=datetime(2026, 7, 1)):
+            payslip = self._generate_payslip(dt.date(), dt.date() + relativedelta(day=31))
+            payslip.action_payslip_done()
+            payslip.action_payslip_paid()
+
+        pil_payslip = self._generate_payslip(
+            date(2026, 8, 1), date(2026, 8, 31),
+            struct_id=self.env.ref('l10n_hk_hr_payroll.hr_payroll_structure_cap57_payment_in_lieu_of_notice').id,
+        )
+        self._validate_payslip(pil_payslip, {
+            'PAYMENT_IN_LIEU_OF_NOTICE': 9987.23,
+            'NET': 9987.23,
+        })
+
+    def test_custom_average_monthly_wage(self):
+        for dt in rrule(MONTHLY, dtstart=datetime(2022, 1, 1), until=datetime(2023, 4, 1)):
+            payslip = self._generate_payslip(dt.date(), dt.date() + relativedelta(day=31))
+            payslip.action_payslip_done()
+            payslip.action_payslip_paid()
+
+        payslip = self._generate_payslip(
+            date(2023, 4, 1), date(2023, 4, 30),
+            struct_id=self.env.ref('l10n_hk_hr_payroll.hr_payroll_structure_cap57_payment_in_lieu_of_notice').id,
+            input_line_ids=[(0, 0, {'input_type_id': self.env.ref('l10n_hk_hr_payroll.input_custom_average_monthly_salary').id, 'amount': 50000})],
+        )
+        self._validate_payslip(payslip, {
+            'PAYMENT_IN_LIEU_OF_NOTICE': 50000.0,
+            'NET': 50000.0,
+        })
+
+    def test_short_employment_mid_month(self):
+        """ Test a short employment starting in the middle of two months """
+        self.contract.write({
+            'date_version': date(2026, 6, 15),
+            'contract_date_start': date(2026, 6, 15),
+            'contract_date_end': date(2026, 8, 1),
+            'wage': 10000,
+            'l10n_hk_internet': 0.0,
+        })
+        payslips = self._generate_payslip(date(2026, 6, 1), date(2026, 6, 30))
+        payslips |= self._generate_payslip(date(2026, 7, 1), date(2026, 7, 31))
+        payslips.action_payslip_done()
+        payslips.action_payslip_paid()
+        pil_payslip = self._generate_payslip(
+            date(2026, 8, 1), date(2026, 8, 31),
+            struct_id=self.env.ref('l10n_hk_hr_payroll.hr_payroll_structure_cap57_payment_in_lieu_of_notice').id,
+        )
+        self._validate_payslip(pil_payslip, {
+            'PAYMENT_IN_LIEU_OF_NOTICE': 9835.97,
+            'NET': 9835.97,
+        })

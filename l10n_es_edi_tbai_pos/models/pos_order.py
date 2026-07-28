@@ -104,7 +104,10 @@ class PosOrder(models.Model):
         if len(set(mapped_tbai_req)) > 1:
             raise UserError(self.env._("You cannot mix orders that require TicketBAI with those that don't."))
         if mapped_tbai_req[0]:
-            vals['l10n_es_tbai_refund_reason'] = self.l10n_es_tbai_refund_reason
+            refund_reasons = set(self.mapped('l10n_es_tbai_refund_reason'))
+            if len(refund_reasons) > 1:
+                raise UserError(self.env._("You cannot consolidate orders with different TicketBAI refund reasons."))
+            vals['l10n_es_tbai_refund_reason'] = refund_reasons.pop()
 
         return vals
 
@@ -151,9 +154,15 @@ class PosOrder(models.Model):
         # Return the error message if the xml document was not accepted
         return edi_document.response_message
 
+    def _l10n_es_tbai_get_document_name(self):
+        self.ensure_one()
+        if not self.refunded_order_id:
+            return self.name
+        return self._get_order_name_from_pos_reference()
+
     def _l10n_es_tbai_create_edi_document(self, cancel=False):
         return self.sudo().env['l10n_es_edi_tbai.document'].create({
-            'name': self.name,
+            'name': self._l10n_es_tbai_get_document_name(),
             'company_id': self.company_id.id,
             'is_cancel': False,
             'date': self.date_order,
@@ -173,6 +182,8 @@ class PosOrder(models.Model):
 
         for base_line in base_lines:
             sign = base_line['is_refund'] and -1 or 1
+            if base_line['price_unit'] < 0:  # Only happens with discount lines
+                sign *= -1
             base_line['gross_price_unit'] = sign * base_line['gross_price_unit']
             base_line['discount_amount'] = sign * base_line['discount_amount']
             base_line['price_total'] = sign * base_line['price_total']

@@ -107,15 +107,25 @@ class AccountJournal(models.Model):
                     'datas': coda_b64,
                 })
                 statement_ids = []
-                for currency, account_number, stmt_vals in self._parse_bank_statement_file(coda_attachment.raw):
-                    journal = next((
-                        journal
-                        for journal in acc_journal_map.get(sanitize_account_number(account_number), [])
+
+                for currency, account_number, *data in self._parse_bank_statement_file(coda_attachment.raw):
+                    if self._fields.get('extension_number'):  # Only on stable because hard to extend code in new module.
+                        extension_number, stmt_vals = data
+                    else:
+                        extension_number = None
+                        stmt_vals = data[-1]
+                    journals = [
+                        journal for
+                        journal in acc_journal_map.get(sanitize_account_number(account_number), [])
                         if (
                             (journal.currency_id and journal.currency_id.name == currency)
                             or not journal.currency_id
                         )
-                    ), False)
+                    ]
+                    if len(journals) > 1 and extension_number:
+                        journal = next((j for j in journals if j.extension_number == extension_number), False)
+                    else:
+                        journal = journals[0] if journals else None
                     if journal:
                         journal.bank_statements_source = "l10n_be_codaclean"
                     else:

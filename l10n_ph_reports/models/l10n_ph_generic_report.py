@@ -79,6 +79,17 @@ class L10n_PhGenericReportHandler(models.AbstractModel):
                 condition=SQL("account_move_line.id = tax_rel.account_move_line_id"),
             )
             table_join_conditions.append(SQL("account_tax.id = tax_rel.account_tax_id"))
+            # For group taxes, base lines store the parent tax in tax_rel; match children as well so
+            # child tax tags (e.g. 45A on FWVAT VAT component) can be picked by the report.
+            table_join_conditions.append(SQL(
+                """
+                account_tax.id IN (
+                    SELECT tax_filiation.child_tax
+                    FROM account_tax_filiation_rel tax_filiation
+                    WHERE tax_filiation.parent_tax = tax_rel.account_tax_id
+                )
+                """
+            ))
         if with_tax_lines:
             table_join_conditions.append(SQL("account_tax.id = account_move_line.tax_line_id"))
         query.add_join(

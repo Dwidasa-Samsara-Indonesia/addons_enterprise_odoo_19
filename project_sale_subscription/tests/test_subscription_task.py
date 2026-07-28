@@ -5,6 +5,7 @@ from datetime import datetime
 
 from odoo import fields, Command
 from odoo.tests import new_test_user, tagged
+from odoo.exceptions import UserError
 from odoo.addons.sale_subscription.tests.common_sale_subscription import TestSubscriptionCommon
 
 
@@ -348,3 +349,31 @@ class TestSubscriptionTask(TestSubscriptionCommon):
             datetime(2023, 1, 1, 0, 0, 0),
             "The task deadline should be 2023-01-01 00:00:00."
         )
+
+    def test_recurring_product_requires_subscription(self):
+        """
+        Adding a recurring service product on a non-subscription
+        sale order must raise a UserError.
+        """
+        # Create a regular (non-subscription) sale order
+        order = self.env['sale.order'].create({
+            'partner_id': self.partner.id,
+            'is_subscription': False,
+        })
+
+        # Confirm the order to match real user scenario
+        order.action_confirm()
+
+        # Adding a recurring product without a plan must fail
+        with self.assertRaisesRegex(
+            UserError,
+            "Please add a recurring plan on the subscription or remove the recurring product.",
+        ):
+            order.write({
+                'order_line': [(
+                    0, 0,
+                    {
+                        'product_id': self.product_recurrence.product_variant_id.id,
+                    }
+                )],
+            })

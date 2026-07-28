@@ -60,17 +60,17 @@ class TestLazadaMultiCompany(common.TestLazadaCommon):
         """
 
         def find_matching_product_mock(
-            _self, product_code_, _default_xmlid, default_name_, default_type_, **_kwargs
+            _self, internal_reference, default_xmlid, default_name, default_type, **_kwargs
         ):
             """Return a product created on-the-fly with the product code as internal reference."""
-            product_ = self.env['product.product'].create({
-                'name': default_name_,
-                'type': default_type_,
-                'list_price': 0.0,
-                'sale_ok': True,
-                'purchase_ok': False,
-                'is_storable': True,
-                'default_code': product_code_,
+            product_ = self.env["product.product"].create({
+                "name": default_name,
+                "type": default_type,
+                "list_price": 0.0,
+                "sale_ok": True,
+                "purchase_ok": False,
+                "is_storable": True,
+                "default_code": internal_reference,
             })
             product_.product_tmpl_id.taxes_id = self.parent_tax
             return product_

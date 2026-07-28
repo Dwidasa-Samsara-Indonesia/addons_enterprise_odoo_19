@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-28 09:49+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
+"PO-Revision-Date: 2026-06-26 06:20+0000\n"
 "Last-Translator: Oakarmin Iron <oakarminiron@gmail.com>\n"
 "Language-Team: Burmese <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/my/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -462,7 +462,7 @@ msgstr ""
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
+msgid "Asset disposed. %(message)s"
 msgstr ""
 
 #. module: account_asset
@@ -479,7 +479,13 @@ msgstr ""
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr ""
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
 msgstr ""
 
 #. module: account_asset
@@ -718,7 +724,7 @@ msgstr "ဖန်တီးသူ"
 #: model:ir.model.fields,field_description:account_asset.field_account_asset_group__create_date
 #: model:ir.model.fields,field_description:account_asset.field_asset_modify__create_date
 msgid "Created on"
-msgstr "တည်ဆောက်သည့်အချိန်"
+msgstr "ဖန်တီးသည့်အချိန်"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_bank_statement_line__asset_depreciated_value
@@ -1946,7 +1952,7 @@ msgstr ""
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.asset_group_form_view
 msgid "Visible to all"
-msgstr ""
+msgstr "အားလုံးမြင်နိုင်သည်"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__warning_count_assets

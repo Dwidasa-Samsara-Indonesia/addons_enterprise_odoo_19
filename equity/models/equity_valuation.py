@@ -9,6 +9,14 @@ class EquityValuation(models.Model):
     _name = 'equity.valuation'
     _inherit = ['mail.thread']
     _description = "Valuation"
+    _check_company_auto = True
+
+    company_id = fields.Many2one(
+        'res.company',
+        related='partner_id.company_id',
+        string="Visible to",
+        help="Company to which this record is visible",
+    )
 
     event = fields.Selection(selection=[('audit', "Audit"), ('transaction', "Transaction")], default='transaction', required=True)
     date = fields.Date(default=fields.Date.context_today, required=True)

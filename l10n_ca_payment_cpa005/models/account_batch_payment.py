@@ -122,7 +122,7 @@ class AccountBatchPayment(models.Model):
             f"0{payment.date.strftime('%y%j')}"  # 06 38-43 6 Numeric Date Funds to be Available
             f"{payment.partner_bank_id.l10n_ca_financial_institution_number:0>9}"  # 07 44-52 9 Numeric Institutional Identification No.
             f"{payment.partner_bank_id.acc_number:12.12}"  # 08 53-64 12 Alphanumeric Payee Account No.
-            f"{0:022d}"  # 09 65-86 22 Numeric Item Trace No. (RBC says to zero-fill)
+            f"{payment.id:022d}"  # 09 65-86 22 Numeric Item Trace No.
             f"{0:03d}"  # 10 87-89 3 Numeric Stored Transaction Type (RBC says to zero-fill)
             f"{journal.company_id.l10n_ca_cpa005_short_name:15.15}"  # 11 90-104 15 Alphanumeric Originator's Short Name
             f"{payment.partner_id.name:30.30}"  # 12 105-134 30 Alphanumeric Payee Name

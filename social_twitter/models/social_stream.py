@@ -159,6 +159,7 @@ class SocialStream(models.Model):
                 'author_name': user_info.get('name'),
                 'published_date': created_date,
                 'twitter_likes_count': public_metrics.get('like_count'),
+                'twitter_comments_count': public_metrics.get('reply_count'),
                 'twitter_retweet_count': public_metrics.get('retweet_count'),
                 'twitter_tweet_id': twitter_tweet_id,
                 'twitter_conversation_id': tweet.get('conversation_id'),

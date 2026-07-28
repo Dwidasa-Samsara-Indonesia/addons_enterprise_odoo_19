@@ -11,21 +11,22 @@
 # Martin Trigaux, 2022
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Nusara Boonma <nuboo@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 18:45+0000\n"
-"PO-Revision-Date: 2025-11-08 19:44+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
-"Language-Team: Thai <https://translate.odoo.com/projects/odoo-19/helpdesk/th/"
-">\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
+"PO-Revision-Date: 2026-06-18 08:03+0000\n"
+"Last-Translator: Nusara Boonma <nuboo@odoo.com>\n"
+"Language-Team: Thai <https://translate.odoo.com/projects/odoo-19/helpdesk/"
+"th/>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket__answered_customer_message_count
@@ -120,7 +121,7 @@ msgid ""
 "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/Sir'\">Madam/"
 "Sir</t>,<br/><br/>\n"
 "        We would like to inform you that we have closed your ticket "
-"(reference <t t-out=\"object.id or ''\">15</t>). \n"
+"(reference <t t-out=\"object.ticket_ref or ''\">15</t>).\n"
 "        We trust that the services provided have met your expectations and "
 "that you have found a satisfactory resolution to your issue.<br/><br/>\n"
 "        However, if you have any further questions or comments, please do "
@@ -135,23 +136,6 @@ msgid ""
 "    </div>\n"
 "        "
 msgstr ""
-"<div>\n"
-"        เรียน<t t-out=\"object.sudo().partner_id.name or 'Madam/"
-"Sir'\">ลูกค้าที่เคารพ</t><br/><br/>\n"
-"        เราขอแจ้งให้คุณทราบว่าเราได้ทำการปิดทิกเก็ตของคุณแล้ว (เลขอ้างอิง <t t-"
-"out=\"object.id or ''\">15</t>) \n"
-"        เราเชื่อว่าบริการที่มอบให้นั้นตรงตามความคาดหมายของคุณ "
-"และคุณได้พบวิธีแก้ไขปัญหาที่น่าพึงพอใจแล้ว<br/><br/>\n"
-"        อย่างไรก็ตาม หากคุณมีคำถามหรือความคิดเห็นเพิ่มเติม "
-"โปรดตอบกลับอีเมลนี้เพื่อทำการเปิดทิกเก็ตของคุณอีกครั้ง \n"
-"        ทีมงานของเราพร้อมให้ความช่วยเหลือคุณเสมอ "
-"และเรายินดีที่จะช่วยเหลือคุณหากมีข้อกังวลเพิ่มเติม<br/><br/>\n"
-"        ขอขอบคุณที่เลือกบริการของเราและความร่วมมือของคุณตลอดกระบวนการนี้ "
-"เราให้ความสำคัญกับธุรกิจของคุณอย่างแท้จริงและขอบคุณที่ให้โอกาสเราได้บริการคุณ<br/><br/>\n"
-"        ขอขอบพระคุณอย่างสูง<br/><br/>\n"
-"        ทีม<t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t>\n"
-"    </div>\n"
-"        "
 
 #. module: helpdesk
 #: model:mail.template,body_html:helpdesk.rating_ticket_request_email_template
@@ -1812,7 +1796,7 @@ msgstr "ศูนย์ช่วยเหลือ"
 #: model:res.groups.privilege,name:helpdesk.res_groups_privilege_helpdesk
 #: model_terms:ir.ui.view,arch_db:helpdesk.digest_digest_view_form
 msgid "Helpdesk"
-msgstr "ดูแลช่วยเหลือ"
+msgstr "Helpdesk"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_team_dashboard_action_main
@@ -3536,8 +3520,10 @@ msgstr "ปิดทิกเก็ต"
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.solved_ticket_request_email_template
-msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
-msgstr "ปิดทิกเก็ตแล้ว - อ้างอิง {{ object.id if object.id else 15 }}"
+msgid ""
+"Ticket Closed - Reference {{ object.ticket_ref if object.ticket_ref else "
+"15 }}"
+msgstr ""
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla__ticket_count
@@ -4126,6 +4112,49 @@ msgstr "{{ object.name }}"
 #: code:addons/helpdesk/models/helpdesk_ticket.py:0
 msgid "👤 Unassigned"
 msgstr "👤 ยังไม่ได้มอบหมาย"
+
+#~ msgid ""
+#~ "<div>\n"
+#~ "        Dear <t t-out=\"object.sudo().partner_id.name or 'Madam/"
+#~ "Sir'\">Madam/Sir</t>,<br/><br/>\n"
+#~ "        We would like to inform you that we have closed your ticket "
+#~ "(reference <t t-out=\"object.id or ''\">15</t>). \n"
+#~ "        We trust that the services provided have met your expectations "
+#~ "and that you have found a satisfactory resolution to your issue.<br/><br/"
+#~ ">\n"
+#~ "        However, if you have any further questions or comments, please do "
+#~ "not hesitate to reply to this email to re-open your ticket. \n"
+#~ "        Our team is always here to help you and we will be happy to "
+#~ "assist you with any further concerns you may have.<br/><br/>\n"
+#~ "        Thank you for choosing our services and for your cooperation "
+#~ "throughout this process. We truly value your business and appreciate the "
+#~ "opportunity to serve you.<br/><br/>\n"
+#~ "        Kind regards,<br/><br/>\n"
+#~ "        <t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t> "
+#~ "Team.\n"
+#~ "    </div>\n"
+#~ "        "
+#~ msgstr ""
+#~ "<div>\n"
+#~ "        เรียน<t t-out=\"object.sudo().partner_id.name or 'Madam/"
+#~ "Sir'\">ลูกค้าที่เคารพ</t><br/><br/>\n"
+#~ "        เราขอแจ้งให้คุณทราบว่าเราได้ทำการปิดทิกเก็ตของคุณแล้ว (เลขอ้างอิง <t t-"
+#~ "out=\"object.id or ''\">15</t>) \n"
+#~ "        เราเชื่อว่าบริการที่มอบให้นั้นตรงตามความคาดหมายของคุณ "
+#~ "และคุณได้พบวิธีแก้ไขปัญหาที่น่าพึงพอใจแล้ว<br/><br/>\n"
+#~ "        อย่างไรก็ตาม หากคุณมีคำถามหรือความคิดเห็นเพิ่มเติม "
+#~ "โปรดตอบกลับอีเมลนี้เพื่อทำการเปิดทิกเก็ตของคุณอีกครั้ง \n"
+#~ "        ทีมงานของเราพร้อมให้ความช่วยเหลือคุณเสมอ "
+#~ "และเรายินดีที่จะช่วยเหลือคุณหากมีข้อกังวลเพิ่มเติม<br/><br/>\n"
+#~ "        ขอขอบคุณที่เลือกบริการของเราและความร่วมมือของคุณตลอดกระบวนการนี้ "
+#~ "เราให้ความสำคัญกับธุรกิจของคุณอย่างแท้จริงและขอบคุณที่ให้โอกาสเราได้บริการคุณ<br/><br/>\n"
+#~ "        ขอขอบพระคุณอย่างสูง<br/><br/>\n"
+#~ "        ทีม<t t-out=\"object.team_id.name or 'Helpdesk'\">Helpdesk</t>\n"
+#~ "    </div>\n"
+#~ "        "
+
+#~ msgid "Ticket Closed - Reference {{ object.id if object.id else 15 }}"
+#~ msgstr "ปิดทิกเก็ตแล้ว - อ้างอิง {{ object.id if object.id else 15 }}"
 
 #~ msgid ""
 #~ "<div>\n"

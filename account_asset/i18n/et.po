@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
+"POT-Creation-Date: 2026-06-19 17:41+0000\n"
 "PO-Revision-Date: 2025-11-16 13:29+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Estonian <https://translate.odoo.com/projects/odoo-19/"
@@ -490,8 +490,8 @@ msgstr "Vara on loodud ostuarvelt: %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset disposed. %s"
-msgstr "Vara amortiseerunud. %s"
+msgid "Asset disposed. %(message)s"
+msgstr ""
 
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_asset_movement_and_accounting_treatment
@@ -507,8 +507,14 @@ msgstr "Vara on peatatud. %s"
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
-msgid "Asset sold. %s"
-msgstr "Vara müüdud. %s"
+msgid "Asset sold. %(message)s See %(invoice_links)s"
+msgstr ""
+
+#. module: account_asset
+#. odoo-python
+#: code:addons/account_asset/models/account_asset.py:0
+msgid "Asset sold: %s"
+msgstr ""
 
 #. module: account_asset
 #. odoo-python
@@ -2352,6 +2358,12 @@ msgstr ""
 #: code:addons/account_asset/wizard/asset_modify.py:0
 msgid "sell"
 msgstr ""
+
+#~ msgid "Asset disposed. %s"
+#~ msgstr "Vara amortiseerunud. %s"
+
+#~ msgid "Asset sold. %s"
+#~ msgstr "Vara müüdud. %s"
 
 #~ msgid " (%s of %s)"
 #~ msgstr " (%s %sst)"

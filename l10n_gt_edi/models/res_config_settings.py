@@ -13,4 +13,4 @@ class ResConfigSettings(models.TransientModel):
     @api.depends('company_id')
     def _compute_l10n_gt_edi_is_root_company(self):
         for setting in self:
-            setting.l10n_gt_edi_is_root_company = not setting.company_id.parent_id
+            setting.l10n_gt_edi_is_root_company = setting.company_id.vat or not setting.company_id.parent_id

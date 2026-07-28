@@ -103,14 +103,16 @@ class L10n_SeEcSalesReportHandler(models.AbstractModel):
                 ''
             ],
         ]
-        currency = self.env.company.currency_id
         report = self.env['account.report'].browse(options['report_id'])
 
         for data_line in report._get_lines(options)[:-1]:  # [:-1] to skip total line
             columns = []
             for column in data_line['columns']:
-                if not (isinstance(column.get('no_format'), (int, float)) and currency.is_zero(column.get('no_format', 0))):
-                    columns.append(column.get('no_format', ''))
+                if isinstance(column.get('no_format'), str):
+                    columns.append(column['no_format'] or '')
+                elif isinstance(column.get('no_format'), (int, float)):
+                    value = round(column['no_format'] or 0)
+                    columns.append(value if value else '')
                 else:
                     columns.append('')
             lines.append(columns)

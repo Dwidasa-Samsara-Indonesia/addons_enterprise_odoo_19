@@ -7,7 +7,7 @@ import random
 
 from odoo import api, Command, models, fields, _
 from odoo.fields import Domain
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_round, SQL
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round, SQL
 from odoo.exceptions import ValidationError
 
 
@@ -534,9 +534,11 @@ class QualityCheck(models.Model):
                     dest_location = failure_location_id or move_line.location_dest_id.id
                     if failed_qty == move_line.quantity:
                         move_line.location_dest_id = dest_location
-                        if move_line.quantity == move.quantity:
+                        is_failed_line_entire_move_qty = float_compare(move_line.quantity, move.quantity, precision_rounding=move.product_uom.rounding) == 0
+                        is_move_demand_fully_failed = float_compare(move.product_uom_qty, move_line.quantity, precision_rounding=move.product_uom.rounding) <= 0
+                        if is_failed_line_entire_move_qty and is_move_demand_fully_failed:
                             move.location_dest_id = dest_location
-                        else:
+                        elif not is_failed_line_entire_move_qty:
                             move.with_context(do_not_unreserve=True).product_uom_qty -= failed_qty
                             move.copy({
                                 'location_dest_id': dest_location,
